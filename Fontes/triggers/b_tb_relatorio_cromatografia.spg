@@ -1,0 +1,59 @@
+/**
+   Prepara valores inseridos na tabela
+
+	@author    Ricardo Gonçalves
+	@date      12/03/2012 23:57:54
+	@trigger   tb_relatorio_cromatografia B IUD
+
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+CREATE OR REPLACE FUNCTION b_tb_relatorio_cromatografia()
+  RETURNS trigger AS
+$$
+BEGIN
+   if tg_op <> 'DELETE' then
+      if new.hidrogenio is not null then
+         new.hidrogenio := replace(new.hidrogenio, '.0000', '');
+      end if;
+
+      if new.oxigenio is not null then
+         new.oxigenio := replace(new.oxigenio, '.0000', '');
+      end if;
+
+      if new.nitrogenio is not null then
+         new.nitrogenio := replace(new.nitrogenio, '.0000', '');
+      end if;
+
+      if new.metano is not null then
+         new.metano := replace(new.metano, '.0000', '');
+      end if;
+
+      if new.monoxido is not null then
+         new.monoxido := replace(new.monoxido, '.0000', '');
+      end if;
+
+      if new.dioxido is not null then
+         new.dioxido := replace(new.dioxido, '.0000', '');
+      end if;
+
+      if new.etileno is not null then
+         new.etileno := replace(new.etileno, '.0000', '');
+      end if;
+
+      if new.etano is not null then
+         new.etano := replace(new.etano, '.0000', '');
+      end if;
+
+      if new.acetileno is not null then
+         new.acetileno := replace(new.acetileno, '.0000', '');
+      end if;
+
+      return new;
+   else
+      return old;
+   end if;
+END;
+$$
+  LANGUAGE 'plpgsql' VOLATILE;

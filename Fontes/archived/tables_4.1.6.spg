@@ -1,0 +1,96 @@
+/**
+   Script da versão 4.1.6
+
+   @author    Ricardo Gonçalves
+   @date      05/04/2016 11:32:57
+   @trigger
+
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+set session authorization lorencini;
+
+create table labsoltipo (
+   descri descri_ not null,
+   recno serial not null);
+
+alter table labsoltipo
+   add constraint pk_labsoltipo primary key (recno),
+   add constraint uk_labsoltipo_1 unique(descri);
+
+create table labsol (
+   recno serial not null,
+	tipo integer not null,
+	codigo integer,
+	lotefor varchar(40),
+	validade date,
+	qtd qtd_ not null,
+	saldo qtd_ not null);
+
+alter table labsol
+	add constraint pk_labsol primary key(recno),
+	add constraint fk_labsol_1 foreign key(tipo)
+		references labsoltipo(recno)
+		on update cascade on delete restrict,
+	add constraint ck_labsol_1 check(saldo between 0 and qtd),
+	add constraint ck_labsol_2 check(qtd > 0);
+
+create table labens_soltipo(
+   labens_recno integer not null,
+   labsoltipo_recno integer not null,
+   recno serial not null);
+
+alter table labens_soltipo
+   add constraint pk_labens_soltipo primary key(labens_recno, labsoltipo_recno),
+   add constraint fk_labens_soltipo_1 foreign key(labens_recno)
+		references labens(recno)
+		on update cascade on delete cascade,
+   add constraint fk_labens_soltipo_2 foreign key(labsoltipo_recno)
+		references labsoltipo(recno)
+		on update cascade on delete cascade;
+
+create table labamostras_res_ativos (
+	relato_recno integer not null,
+	ensaio_recno integer not null,
+	amostra_recno integer not null,
+	ativo integer not null,
+	username varchar(20) not null,
+	recno serial not null);
+
+alter table labamostras_res_ativos
+	add constraint pk_labamostras_res_ativos primary key(relato_recno, ensaio_recno, amostra_recno, ativo),
+	add constraint fk_labamostras_res_ativos_1 foreign key(relato_recno, ensaio_recno, amostra_recno)
+		references labamostras_res(relato_recno, ensaio_recno, amostra_recno)
+		on update cascade on delete cascade,
+	add constraint fk_labamostras_res_ativos_2 foreign key(ativo)
+		references ativos(id)
+		on update cascade on delete restrict,
+	add constraint fk_labamostras_res_ativos_3 foreign key(username)
+		references sys_users(username)
+		on update cascade on delete restrict,
+	add constraint uk_labamostras_res_ativos_1 unique(recno);
+
+
+create table labamostras_res_sol (
+	relato_recno integer not null,
+	ensaio_recno integer not null,
+	amostra_recno integer not null,
+	solucao integer not null,
+	qtd qtd_ not null,
+	username varchar(20) not null,
+	recno serial not null);
+
+alter table labamostras_res_sol
+	add constraint pk_labamostras_res_sol primary key(relato_recno, ensaio_recno, amostra_recno, solucao),
+	add constraint fk_labamostras_res_sol_1 foreign key(relato_recno, ensaio_recno, amostra_recno)
+		references labamostras_res(relato_recno, ensaio_recno, amostra_recno)
+		on update cascade on delete cascade,
+	add constraint fk_labamostras_res_sol_2 foreign key(solucao)
+		references labsol(recno)
+		on update cascade on delete restrict,
+	add constraint fk_labamostras_res_sol_3 foreign key(username)
+		references sys_users(username)
+		on update cascade on delete restrict,
+	add constraint uk_labamostras_res_sol_1 unique(recno),
+	add constraint ck_labamostras_res_sol_1 check(qtd > 0);

@@ -1,0 +1,91 @@
+/**
+   Processa inserção de itens no processo de amostras
+
+	@author    Ricardo Gonçalves
+	@date      12/10/2010 19:51:13
+	@trigger   labprocxequip B IUD
+
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+   
+   15/12/2010 11:38:14  v2    Ricardo Gonçalves.
+      [-] Verifica cadastro de equipamentos por clientes somente se o código do equipamento for informado.
+
+   20/12/2010 10:33:19  v3    Ricardo Gonçalves.
+      [+] Inclusão da data de validade do comodato.
+*/
+CREATE OR REPLACE FUNCTION b_labprocxequip()
+  RETURNS trigger AS
+$$
+Declare
+   r        record;
+   rrow     record;
+   iproc    integer;
+   vean39   comodato.ean39%type;
+BEGIN
+   if tg_op <> 'DELETE' then
+      iproc := new.labproc_recno;
+   else
+      iproc := old.labproc_recno;
+   end if;
+
+   select situacao, codigo, pedido, frascos, seringas
+     into rrow
+     from labproc
+    where recno = iproc;
+
+   if tg_op = 'INSERT' and rrow.situacao > 1 then
+      raise '[[Não é possível emitir etiquetas para a remessa % porque passou da etapa de processamento.]]', iproc;
+   end if;
+
+   vean39 := null;
+
+   if tg_op <> 'DELETE' then
+      if tg_op = 'INSERT' then
+         -- Recupera a quantidade de etiquetas geradas para a remessa
+         select coalesce(sum(sys_iif(tipo = 1, 1, 0)), 0) as frascos,
+                coalesce(sum(sys_iif(tipo = 2, 1, 0)), 0) as seringas
+           into r
+           from labprocxequip
+          where labproc_recno = iproc;
+
+          -- Valida Inserção / Atualização para frasco
+         if new.tipo = 1 then
+            if rrow.frascos - r.frascos <= 0 then
+               raise '[[A quantidade de frascos necessária para remessa % já foi distribuída!]]', iproc;
+            end if;
+         end if;
+
+         -- Valida Inserção / Atualização para seringa
+         if new.tipo = 2 then
+            if rrow.seringas - r.seringas <= 0 then
+               raise '[[A quantidade de seringas necessária para remessa % já foi distribuída!]]', iproc;
+            end if;
+         end if;
+
+         -- Definição da data de validade da esterilização
+         select dias_coleta + current_date
+           into new.validade
+           from estados e
+                join tbclientes c
+                  on c.estado = e.uf
+                 and c.codigo = rrow.codigo;
+
+         -- Obtem o próximo código de comodato
+         new.amostra := nextval('labamostras_recno_seq'::regclass);
+
+         -- Gera o registro do comodato
+         insert into labamostras 
+            (recno,       codigo,      validade,     origem,                      origem_recno, pedido)
+         values          
+            (new.amostra, rrow.codigo, new.validade, sys_origem('labprocxequip'), new.recno,    rrow.pedido);
+      end if;
+
+      return new;
+   else
+      return old;
+   end if;
+END;
+$$
+  LANGUAGE 'plpgsql' VOLATILE;

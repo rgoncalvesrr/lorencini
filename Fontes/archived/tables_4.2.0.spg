@@ -1,0 +1,145 @@
+/*
+   Alerações na versão
+
+   *  Registro de Despesas
+      + Criação da tela para registros de despesas. Qualquer usuário pode fazer lançamentos de despesas contra clientes.
+
+   *  Ficha Financeira
+      + Registro do usuário que fez o lançamento na ficha financeira do cliente.
+      + Registro do usuário que fez a útima alteração do lançamento na ficha financeira do cliente.
+
+   *  Controle de vidrarias
+      - Remoção do controle de fretes anterior a integração com o webservice dos correios
+
+   *  Correios
+      - Sistema permite o ajuste dos valores de frete
+*/
+set session authorization lorencini;
+
+create table fin_caixadesp(
+   recno serial not null,
+   codigo integer not null,
+   emissao timestamp default(localtimestamp) not null,
+   data date not null,
+   docto varchar(20),
+   historico text not null,
+   valor numeric(15, 2) default(0) not null,
+   status integer default(1) not null,
+   user_i varchar(20) not null,
+   user_aprov varchar(20));
+
+alter table fin_caixadesp
+   add constraint pk_fin_caixadesp primary key(recno),
+   add constraint fk_fin_caixadesp_1
+      foreign key(codigo) references tbclientes(codigo)
+      on update cascade on delete restrict,
+   add constraint fk_fin_caixadesp_2
+      foreign key(user_i) references sys_users(username)
+      on update cascade on delete restrict,
+   add constraint fk_fin_caixadesp_3
+      foreign key(user_aprov) references sys_users(username)
+      on update cascade on delete restrict,
+   add constraint ck_fin_caixadesp_1 check(valor > 0),
+   add constraint ck_fin_caixadesp_2 check(status = 1 or status = 2 and user_aprov is not null),
+   add constraint ck_fin_caixadesp_3 check(status in (1, 2));
+
+create index idx_fin_caixadesp_1 on fin_caixadesp(codigo);
+
+alter table fin_caixa disable trigger all;
+
+alter table fin_caixa
+   add user_i varchar(20) default(sys_user()),
+   add user_u varchar(20),
+   add constraint fk_fin_caixa_6
+      foreign key(user_i) references sys_users(username)
+      on update cascade on delete restrict,
+   add constraint fk_fin_caixa_7
+      foreign key(user_u) references sys_users(username)
+      on update cascade on delete restrict;
+
+update fin_caixa
+   set user_i = 'DAGOBERTO'
+ where user_i is null;
+
+alter table fin_caixa alter user_i set not null;
+
+alter table fin_caixa enable trigger all;
+
+alter table pedido drop frete cascade;
+alter table labproc drop cobrado cascade;
+
+insert into sys_tables
+   (tabela, descri)
+values
+   ('fin_caixadesp', 'Registro manual de despesas para clientes');
+   
+alter table correio
+   drop vinculado,
+   add rastreio varchar(30),
+   add correiovalor numeric(15, 2) default (0) not null,
+   add correiopeso numeric(18,4) default (0) not null,
+   add correiolido timestamp,
+   add status integer default(1) not null,
+   add constraint ck_correio_10 check(correiopeso >= 0),
+   add constraint ck_correio_11 check(correiovalor >= 0);
+
+delete
+  from correio
+ where recno in (
+       select c.recno
+         from correio c
+        where not exists (
+              select 1
+                from labproc l
+               where l.correio = c.recno));
+
+update correio co
+   set status = 3
+  from fin_caixa cx
+ where cx._recno = co.recno
+   and cx._tabela = 192;
+   
+update correio
+   set status = 2
+ where recno in (  
+select co.recno 
+  from correio co
+       left join fin_caixa cx
+         on cx._recno = co.recno
+        and cx._tabela = 192   
+  where cx.recno is null);   
+
+update correio
+   set correiovalor = valorc, correiopeso = peso, correiolido = localtimestamp
+ where status = 3;
+
+update correio
+   set volumes = 1
+ where volumes <= 0;
+
+ -- ================================================================================================
+ -- Gatilhos da Versão
+
+CREATE TRIGGER a_correio
+  AFTER INSERT OR UPDATE OR DELETE
+  ON correio
+  FOR EACH ROW
+  EXECUTE PROCEDURE a_correio();
+  
+CREATE TRIGGER b_correio
+  BEFORE INSERT OR UPDATE OR DELETE
+  ON correio
+  FOR EACH ROW
+  EXECUTE PROCEDURE b_correio();
+
+CREATE TRIGGER a_fin_caixadesp
+  AFTER INSERT OR UPDATE OR DELETE
+  ON fin_caixadesp
+  FOR EACH ROW
+  EXECUTE PROCEDURE a_fin_caixadesp();
+
+CREATE TRIGGER b_fin_caixadesp
+  BEFORE INSERT OR UPDATE OR DELETE
+  ON fin_caixadesp
+  FOR EACH ROW
+  EXECUTE PROCEDURE b_fin_caixadesp();

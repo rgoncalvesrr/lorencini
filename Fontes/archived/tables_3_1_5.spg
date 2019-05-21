@@ -1,0 +1,65 @@
+/**
+   Script da versão 3.1.5
+
+   @author    Ricardo Gonçalves
+   @date      09/02/2011 15:33:52
+   @trigger
+
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+set session authorization lorencini;
+
+create table labdiag(
+   recno serial not null,
+   diag text not null,
+   dias integer default 180 not null);
+
+alter table labdiag add constraint pk_labdiag primary key(recno);
+alter table labdiag add constraint ck_labdiag check(dias >= 0);
+
+create table labdiagrel (
+   labdiag_recno integer not null,
+   labrel_recno integer not null,
+   recno serial not null);
+
+alter table labdiagrel add constraint pk_labdiagrel primary key(labdiag_recno, labrel_recno);
+alter table labdiagrel add constraint fk_labdiag_recno
+   foreign key(labdiag_recno) references labdiag(recno)
+   on update cascade;
+
+alter table labdiagrel add constraint fk_labrel_recno
+   foreign key(labrel_recno) references labrel(recno)
+   on update cascade;
+
+alter table labdiagrel add constraint uk_labdiagrel unique(recno);
+
+alter table tb_relatorio_fisico_quimico add proxima date;
+alter table tb_relatorio_fisico_quimico add labdiag_recno integer;
+alter table tb_relatorio_fisico_quimico add constraint fk_tb_relatorio_fisico_quimico_2
+   foreign key(labdiag_recno) references labdiag(recno)
+   on update cascade;
+
+alter table tb_relatorio_cromatografia add proxima date;
+alter table tb_relatorio_cromatografia add labdiag_recno integer;
+alter table tb_relatorio_cromatografia add constraint tb_relatorio_cromatografia_2
+   foreign key(labdiag_recno) references labdiag(recno)
+   on update cascade;
+
+
+alter table labdiag add descri varchar(60) not null;
+alter table labdiag add constraint uk_labdiag unique(descri);
+
+insert into sys_errors (constraint_, descri, solucao) values ('uk_labdiag', 'Descrição para diagnóstico já cadastrada.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('pk_labdiag', 'Diagnóstico já cadastrado.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_labdiag', 'Quantidade de dias para próximo diagnóstico não deve ser negativa.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('pk_labdiagrel', 'Diagnóstico já associado ao tipo de laudo.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_labdiag_recno', 'Diagnóstico não pode ser excluído porque está relacionado a um tipo de laudo.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_labrel_recno', 'Diagnóstico já cadastrado.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('uk_labdiagrel', 'Recno já cadastrado.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_tb_relatorio_fisico_quimico_2', 'Diagnóstico não pode ser excluído porque é referenciado por laudo físico-químico.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('tb_relatorio_cromatografia_2', 'Diagnóstico não pode ser excluído porque é referenciado por laudo cromatográfico.', '');
+
+insert into labdiag(descri, diag)
+SELECT descricao, parecer FROM TB_PARECER_CROMATOGRAFICO;

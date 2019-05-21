@@ -1,0 +1,11 @@
+alter table fin_pagar
+   add valor_parc numeric(12, 2) default 0 not null,
+   add constraint ck_fin_pagar_valor_parc check (valor_parc >= 0);
+
+insert into sys_errors (constraint_, descri, solucao) values ('ck_fin_pagar_valor_parc', 'Valor da parcela a pagar não pode ser negativo.', '');
+
+alter table fin_receber
+   add valor_parc numeric(12, 2) default 0 not null,
+   add constraint ck_fin_receber_valor_parc check (valor_parc >= 0);
+
+insert into sys_errors (constraint_, descri, solucao) values ('ck_fin_receber_valor_parc', 'Valor da parcela a receber não pode ser negativo.', '');

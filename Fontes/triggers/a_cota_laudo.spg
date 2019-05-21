@@ -1,0 +1,39 @@
+/**
+   Atualizando preço do serviço
+
+	@author    Ricardo Gonçalves
+	@date      11/12/2017 17:45:04
+	@trigger
+
+	Histórico
+	-------------------------------------------------------------------------------------------------------------------
+ */
+Create or Replace Function a_cota_laudo()
+Returns trigger As
+$$
+Begin
+   -- Tenta colocar preço específico do cliente
+   update cota_serv cs
+      set unitario = x.valor
+     from tbclientesprecos x, cota co
+    where co.recno = cs.cotacao
+      and x.cliente = co.cliente
+      and x.relato_recno = new.relato_recno
+      and cs.servico = new.servico
+      and cs.cotacao = new.cotacao;      
+      
+   -- tenta atualizar com valor do ensaio
+   if not FOUND then
+      update cota_serv cs
+         set unitario = x.valor
+        from labrel x
+       where x.codserv = cs.servico
+         and x.recno = new.relato_recno
+         and cs.servico = new.servico
+         and cs.cotacao = new.cotacao;            
+   end if;
+
+   return null;
+End
+$$
+language plpgsql;

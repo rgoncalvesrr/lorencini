@@ -1,0 +1,510 @@
+/**
+   Script da versão 3.1.2
+
+   @author    Ricardo Gonçalves
+   @date      29/11/2010 19:47:29
+   @trigger
+
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+set session authorization lorencini;
+
+create table sys_forms_rpt(
+   form varchar(60) not null,
+   report integer not null,
+   ordem integer default 10 not null,
+   recno serial not null
+);
+
+alter table sys_forms_rpt
+   add constraint pk_sys_forms_rpt primary key (form, report);
+alter table sys_forms_rpt
+   add constraint fk_sys_forms_rpt_form foreign key (form)
+   references sys_forms(form) on update cascade on delete cascade;
+alter table sys_forms_rpt
+   add constraint fk_sys_forms_rpt_prt foreign key (report)
+   references sys_reports(report) on update cascade on delete cascade;
+alter table sys_forms_rpt
+   add constraint uk_sys_forms_rpt unique (recno);
+
+ALTER TABLE comodato
+   ALTER COLUMN remessa DROP DEFAULT;
+ALTER TABLE comodato
+   ALTER COLUMN remessa DROP NOT NULL;
+
+ALTER TABLE comodato DROP CONSTRAINT ck_comodato_retorno;
+ALTER TABLE comodato DROP CONSTRAINT ck_comodato_situacao;
+
+ALTER TABLE comodato rename remessa to rem_dh;
+ALTER TABLE comodato rename retorno to ret_dh;
+
+alter table comodato
+   add emi_dh timestamp default localtimestamp not null,
+   add emi_usr varchar(20) not null,
+   add imp_dh timestamp,
+   add imp_usr varchar(20),
+   add rem_usr varchar(20),
+   add rem_tr text,
+   add ret_usr varchar(20),
+   add ret_tr text,
+   add canc_dh timestamp,
+   add canc_usr varchar(20),
+   add canc_mot text,
+   add validade date not null,
+   add origem integer not null,
+   add origem_recno integer not null;
+
+alter table comodato
+   add constraint fk_comodato_origem foreign key(origem)
+   references sys_tables(recno) on update cascade;
+
+alter table comodato add constraint fk_comodato_imp_usr
+   foreign key(imp_usr) references sys_users(username)
+   on update cascade;
+alter table comodato add constraint fk_comodato_emi_usr
+   foreign key(emi_usr) references sys_users(username)
+   on update cascade;
+alter table comodato add constraint fk_comodato_rem_usr
+   foreign key(rem_usr) references sys_users(username)
+   on update cascade;
+alter table comodato add constraint fk_comodato_ret_usr
+   foreign key(ret_usr) references sys_users(username)
+   on update cascade;
+alter table comodato add constraint fk_comodato_canc_usr
+   foreign key(canc_usr) references sys_users(username)
+   on update cascade;
+
+ALTER TABLE comodato add constraint ck_comodato_situacao check (situacao = 1 or situacao = 2 and (ret_dh is not null or canc_dh is not null));
+alter table comodato add constraint ck_comodato_imp_dh check (imp_dh >= emi_dh);
+alter table comodato add constraint ck_comodato_imp_usr check (imp_dh is null and imp_usr is null or imp_dh is not null and imp_usr is not null);
+alter table comodato add constraint ck_comodato_rem_dh check (rem_dh >= imp_dh);
+alter table comodato add constraint ck_comodato_rem_usr check (
+   (rem_dh is null and rem_usr is null and rem_tr is null) or
+   (rem_dh is not null and rem_usr is not null and rem_tr is not null));
+alter table comodato add constraint ck_comodato_ret_dh check (ret_dh >= rem_dh);
+
+alter table comodato add constraint ck_comodato_ret_usr check (
+   (ret_dh is null and ret_usr is null and ret_tr is null) or
+   (ret_dh is not null and ret_usr is not null and ret_tr is not null));
+
+alter table comodato add constraint ck_comodato_canc_dh check (canc_dh >= emi_dh);
+alter table comodato add constraint ck_comodato_canc_usr check (
+   (canc_dh is null and canc_usr is null and canc_mot is null) or
+   (canc_dh is not null and canc_usr is not null and canc_mot is not null));
+
+alter table comodato add constraint ck_comodato_validade check (validade >= rem_dh);
+
+delete from sys_errors where constraint_ = 'ck_comodato_situacao';
+
+insert into sys_errors (constraint_, descri, solucao) values ('fk_comodato_imp_usr', 'Usuário não pode ser excluído porque é referenciado pela tabela comodato.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_comodato_emi_usr', 'Usuário não pode ser excluído porque é referenciado pela tabela comodato.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_comodato_rem_usr', 'Usuário não pode ser excluído porque é referenciado pela tabela comodato.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_comodato_ret_usr', 'Usuário não pode ser excluído porque é referenciado pela tabela comodato.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_comodato_canc_usr', 'Usuário não pode ser excluído porque é referenciado pela tabela comodato.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_comodato_situacao', 'Situação do como deve ser 1 - Ativo / 2 - Baixado. Para situação 2 a data de retorno ou cancelamento deve estar preenchida.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_comodato_imp_dh', 'Data de impressão não pode ser anterior a data de emissão.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_comodato_imp_usr', 'O nome de usuário deve ser preenchido junto com a data de impressão.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_comodato_rem_dh', 'Data de remessa não pode ser anterior a data de impressão.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_comodato_rem_usr', 'O nome de usuário remetente e transportador devem ser preenchidos junto com a data de remessa.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_comodato_ret_dh', 'Data de retorno não pode ser anterior a data de remessa.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_comodato_canc_usr', 'O nome de usuário deve ser preenchido junto com a data de cancelamento.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_comodato_ret_usr', 'O nome de usuário recebedor e transportador devem ser preenchidos junto com a data de retorno.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_comodato_canc_dh', 'Data de cancelamento não pode ser anterior a data de emissão.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_comodato_validade', 'Validade do comodato não pode ser anterior a data de remessa da mercadoria.', '');
+
+insert into sys_tables (tabela, descri) values ('comodato', 'Itens em comodato');
+insert into sys_tables (tabela, descri) values ('labprocxequip', 'Itens de processo laboratorial');
+
+alter table labprocxequip
+   add validade date not null,
+   add dataprog date;
+
+create table estados (
+  uf varchar(2) not null,
+  nome varchar(35) not null,
+  dias_coleta integer default (30) not null,
+  recno serial not null);
+
+alter table estados add constraint pk_estados
+   primary key(uf);
+alter table estados add constraint uk_estados_nome
+   unique(nome);
+alter table estados add constraint uk_estados_recno
+   unique(recno);
+
+insert into estados (uf, nome) values ('AC','Acre');
+insert into estados (uf, nome) values ('AL','Alagoas');
+insert into estados (uf, nome) values ('AM','Amazonas');
+insert into estados (uf, nome) values ('AP','Amapá');
+insert into estados (uf, nome) values ('BA','Bahia');
+insert into estados (uf, nome) values ('CE','Ceará');
+insert into estados (uf, nome) values ('DF','Brasília');
+insert into estados (uf, nome) values ('ES','Espírito Santo');
+insert into estados (uf, nome) values ('GO','Goiás');
+insert into estados (uf, nome) values ('MA','Maranhão');
+insert into estados (uf, nome) values ('MG','Minas Gerais');
+insert into estados (uf, nome) values ('MS','Mato Grosso do Sul');
+insert into estados (uf, nome) values ('MT','Mato Grosso');
+insert into estados (uf, nome) values ('PA','Pará');
+insert into estados (uf, nome) values ('PB','Paraíba');
+insert into estados (uf, nome) values ('PE','Pernambuco');
+insert into estados (uf, nome) values ('PI','Piauí');
+insert into estados (uf, nome) values ('PR','Paraná');
+insert into estados (uf, nome) values ('RJ','Rio de Janeiro');
+insert into estados (uf, nome) values ('RN','Rio Grande do Norte');
+insert into estados (uf, nome) values ('RO','Rondônia');
+insert into estados (uf, nome) values ('RR','Roraima');
+insert into estados (uf, nome) values ('RS','Rio Grande do Sul');
+insert into estados (uf, nome) values ('SC','Santa Catarina');
+insert into estados (uf, nome) values ('SE','Sergipe');
+insert into estados (uf, nome) values ('SP','São Paulo');
+insert into estados (uf, nome) values ('TO','Tocantins');
+
+update estados
+   set dias_coleta = 80
+ where uf in ('AM', 'AP', 'AC', 'RO', 'PA', 'RR');
+
+update estados
+   set dias_coleta = 60
+ where uf in ('MA', 'PE', 'PI', 'PB', 'AL', 'SE', 'RN', 'BA', 'CE');
+
+update estados
+   set dias_coleta = 20
+ where uf = 'SP';
+ 
+DROP TRIGGER a_tbclientes ON tbclientes;
+DROP TRIGGER b_tbclientes ON tbclientes;
+
+update tbclientes
+   set estado = upper(trim(estado));
+
+update tbclientes
+   set estado = null
+ where estado not in(
+      select uf
+        from estados);
+
+update tbclientes
+   set fat_esta = null
+ where fat_esta not in(
+      select uf
+        from estados);
+
+update tbclientes
+   set ent_esta = null
+ where ent_esta not in(
+      select uf
+        from estados);
+
+update tbclientes
+   set cobra_esta = null
+ where cobra_esta not in(
+      select uf
+        from estados);
+
+CREATE TRIGGER b_tbclientes
+  BEFORE INSERT OR UPDATE OR DELETE
+  ON tbclientes
+  FOR EACH ROW
+  EXECUTE PROCEDURE b_tbclientes();
+
+CREATE TRIGGER a_tbclientes
+  AFTER INSERT OR UPDATE OR DELETE
+  ON tbclientes
+  FOR EACH ROW
+  EXECUTE PROCEDURE a_tbclientes();
+
+alter table tbclientes add constraint fk_tbclientes_estado
+  foreign key(estado) references estados(uf)
+  on update cascade;
+
+alter table tbclientes add constraint fk_tbclientes_fat_esta
+  foreign key(fat_esta) references estados(uf)
+  on update cascade;
+  
+alter table tbclientes add constraint fk_tbclientes_ent_esta
+  foreign key(ent_esta) references estados(uf)
+  on update cascade;
+
+alter table tbclientes add constraint fk_tbclientes_cobra_esta
+  foreign key(cobra_esta) references estados(uf)
+  on update cascade;
+
+alter table tbclientes
+  alter estado type varchar(2),
+  alter fat_esta type varchar(2),
+  alter ent_esta type varchar(2),
+  alter cobra_esta type varchar(2);
+  
+DROP VIEW vequip cascade;
+
+CREATE OR REPLACE VIEW vequip AS
+ SELECT e.recno, cast(e.fabricante || ' - ' || fa.nome as varchar) AS fabricante, e.serie,
+        cast(e.tipo || ' - ' || t.sigla || ' ' || t.descri as varchar) as tipo,
+        e.descri, e.potencia, e.potencia_a, e.potencia_b, e.fases, e.lote,
+        e.imped, e.imped_a, e.imped_b, e.tensao, e.tensao_a, e.tensao_b, e.corr,
+        e.corr_a, e.corr_b,
+        e.ano, cast(e.isolante || ' - ' || i.nome as varchar) AS isolante,
+        e.volume, e.drenos
+   FROM labequip e
+        join labequip_tipo t
+          on t.tipo = e.tipo
+        LEFT JOIN labfabri fa
+          ON fa.recno = e.fabricante
+        LEFT JOIN labisolante i
+          ON i.recno = e.isolante;
+          
+CREATE OR REPLACE VIEW vequipxcli as
+   select ec.codigo, ec.subest, ec.status, ec.equip,
+          ec.tag, e.serie, e.potencia, e.potencia_a, e.potencia_b, e.tensao, e.tensao_a, e.tensao_b,
+          e.imped, e.imped_a, e.imped_b, e.corr, e.corr_a, e.corr_b, e.fases, e.fabricante, e.lote,
+          e.ano, e.descri, e.tipo, e.isolante, e.volume,
+          e.drenos,
+          vse.reg_nome, vse.sigla, vse.nome
+     from labequipxcli ec
+          join vequip e
+            on e.recno = ec.equip
+          left join vsubest vse
+            on vse.recno = ec.subest;
+
+create table labport (
+   recno serial not null,
+   emissao timestamp default localtimestamp not null,
+   operac integer not null,
+   tipo integer default 4 not null,
+   tipo_outros varchar(30),
+   empresa varchar(100) not null,
+   cnpj varchar(14) not null,
+   portador varchar(60) not null,
+   cpf varchar(11) not null,
+   obs text,
+   labproc_recno integer,
+   codigo integer not null,
+   nf integer not null,
+   nf_serie integer not null,
+   nf_emissao date not null,
+   nf_valor numeric(12, 2) default 0 not null,
+   status integer default 1 not null);
+
+alter table labport add constraint pk_labport primary key(recno);
+alter table labport add constraint fk_labport
+   foreign key(labproc_recno) references labproc(recno)
+   on update cascade on delete cascade;
+alter table labport add constraint fk_labport_codigo
+   foreign key(codigo) references tbclientes(codigo)
+   on update cascade;
+alter table labport add constraint ck_labport_tipo check(tipo between 1 and 5);
+alter table labport add constraint ck_labport_tipo5 check(tipo <> 5 or tipo = 5 and tipo_outros is not null);
+alter table labport add constraint ck_labport_cnpj check(sys_cnpj_check(cnpj) = 0);
+alter table labport add constraint ck_labport_cpf check(sys_cpf_check(cpf) = 0);
+alter table labport add constraint ck_labport_operac check(operac in (1,2));
+alter table labport add constraint ck_labport_status check(status in (1,2));
+alter table labport add constraint ck_labport_nf_valor check(nf_valor > 0);
+alter table labport add constraint uk_labport_nf unique(codigo, nf, nf_serie, operac);
+
+create index idx_labproc_recno on labport(labproc_recno);
+create index idx_codigo on labproc(codigo);
+create index idx_comodato_recno on labprocxequip(comodato_recno);
+
+insert into sys_errors (constraint_, descri, solucao) values ('pk_labport', 'Portador já cadastrado.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_labport', 'Portador deve estar associado a um processo válido.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_labport_tipo', 'O tipo de portador deve estar entre 1 e 5.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_labport_tipo5', 'Para o tipo de portador "5 - Outros" é necessário especificar.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_labport_cnpj', 'C.N.P.J. da empresa do portador não é válido.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_labport_cpf', 'C.P.F. do portador não é válido.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_labport_operac', 'Tipo de operação para registro de portador deve ser 1 - Remessa ou 2 - Retorno', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_labport_status', 'Estado para registro de portador deve ser 1 - Em Digitação ou 2 - Encerrado', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_labport_nf_valor', 'Valor da Nota Fiscal deve ser maior que zero.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('uk_labport_nf', 'Nota fiscal já registrada no sistema.', '');
+
+create or replace view vport_emp as
+   select empresa, cnpj, tipo
+     from labport
+    group by empresa, cnpj, tipo
+    order by 1;
+
+create or replace view vport_port as
+   select portador, cpf, tipo
+     from labport
+    group by portador, cpf, tipo
+    order by 1;
+
+create table sys_log (
+   recno serial not null,
+   data timestamp default localtimestamp not null,
+   descri varchar(100) not null,
+   historico text,
+   username varchar(20) not null,
+   tipo integer not null,
+   rotacionar boolean default false,
+   origem integer,
+   origem_recno integer);
+
+alter table sys_log add constraint pk_sys_log primary key(recno);
+alter table sys_log add constraint fk_sys_log_username
+   foreign key(username) references sys_users(username)
+   on update cascade;
+alter table sys_log add constraint fk_sys_log_origem
+   foreign key(origem) references sys_tables(recno)
+   on update cascade on delete cascade;
+alter table sys_log add constraint ck_sys_log_tipo check(tipo between 1 and 4);
+
+insert into sys_errors (constraint_, descri, solucao) values ('pk_sys_log', 'Log duplicado! Verifique.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_sys_log_username', 'Registro de log deve estar associado a um usuário válido.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_sys_log_origem', 'Registro de log deve estar associado a uma tabela de origem.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_sys_log_tipo', 'O tipo de log deve ser: 1 - Criação / 2 - Alteração / 3 - Exclusão / 4 - Outros.', '');
+
+create index idx_sys_log_username on sys_log(username);
+create index idx_sys_log_origem on sys_log(origem);
+create index idx_sys_log_username_tipo on sys_log(username, tipo);
+create index idx_sys_log_data_tipo on sys_log(data, tipo);
+
+
+create table labret (
+   recno serial not null,
+   labport_recno integer not null,
+   comodato_recno integer not null,
+   status integer not null,
+   expirado boolean default false not null);
+
+alter table labret add constraint pk_labret primary key (recno);
+alter table labret add constraint uk_labret unique (comodato_recno);
+alter table labret add constraint fk_labret_labport_recno
+   foreign key(labport_recno) references labport(recno)
+   on update cascade on delete cascade;
+alter table labret add constraint fk_labret_comodato_recno
+   foreign key(comodato_recno) references comodato(recno)
+   on update cascade;
+alter table labret add constraint ck_labret_status check(status between 1 and 3);
+
+create index idx_labret_labport_recno on labret(labport_recno);
+create index idx_labret_comodato_recno on labret(comodato_recno);
+
+insert into sys_errors (constraint_, descri, solucao) values ('pk_labret', 'Retorno duplicado! Verifique.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_labret_labport_recno', 'Retorno deve estar associado a um portador.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_labret_comodato_recno', 'Retorno deve estar associado a um comodato.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_labret_status', 'O estado do retorno deve ser: 1 - Conforme / 2 - Não Conforme / 3 - Vazio.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('uk_labret', 'Frasco ou seringa já foi entregue por outro portador.', '');
+
+create or replace view vcomodatoxproc as
+select c.*, e.labproc_recno
+  from comodato c
+       join labprocxequip e
+         on e.comodato_recno = c.recno
+        and e.codigo = c.codigo;
+
+drop table sys_grants cascade;
+drop table sys_modules cascade;
+drop table sys_formmod cascade;
+drop table sys_usermod cascade;
+
+create table sys_grants (
+   grant_ varchar(30) not null,
+   descri varchar(60) not null,
+   form varchar(60),
+   recno serial not null);
+
+alter table sys_grants add constraint pk_sys_grants primary key(grant_);
+alter table sys_grants add constraint fk_sys_grants_form
+   foreign key (form) references sys_forms(form)
+   on update cascade on delete cascade;
+
+insert into sys_grants (grant_, form, descri)
+select lower(form), form, descri
+  from sys_forms;
+
+create table sys_roles (
+   recno serial not null,
+   descri varchar(60) not null);
+
+alter table sys_roles add constraint pk_sys_roles primary key(recno);
+alter table sys_roles add constraint uk_sys_roles unique(descri);
+
+insert into sys_roles (descri) values ('Administrador');
+
+create table sys_role_grant (
+   grant_ varchar(30) not null,
+   role integer not null,
+   recno serial not null);
+
+alter table sys_role_grant add constraint pk_sys_role_grant
+   primary key (grant_, role);
+alter table sys_role_grant add constraint fk_sys_role_grant_grant_
+   foreign key(grant_) references sys_grants(grant_)
+   on update cascade on delete cascade;
+alter table sys_role_grant add constraint fk_sys_role_grant_role
+   foreign key(role) references sys_roles(recno)
+   on update cascade on delete cascade;
+
+insert into sys_role_grant (role, grant_)
+select b.recno, a.grant_
+  from sys_grants a, sys_roles b;
+
+alter table sys_users add role integer;
+update sys_users set role = 1;
+alter table sys_users alter role set not null;
+
+alter table tb_entrada_amostra add comodato_recno integer;
+alter table tb_entrada_amostra add status integer default 1 not null;
+alter table tb_entrada_amostra add constraint fk_tb_entrada_amostra3
+   foreign key(comodato_recno) references comodato(recno)
+   on update cascade;
+alter table tb_entrada_amostra add constraint ck_tb_entrada_amostra check(status between 1 and 3);
+
+create index idx_comodato on tb_entrada_amostra(comodato_recno);
+
+create or replace function GetNumero(in in_numero varchar)
+returns varchar
+as
+$$
+Declare
+   i      integer;
+   outres varchar;
+   c      varchar;
+Begin
+  outres := '';
+  for i in 1..length(in_numero) loop
+      c := substring(in_numero, i, 1);
+      if c = '/' then
+         return outres;
+      elsif c between '0' and '9' or c = ',' or c = '.' then
+         outres := outres || c;
+      end if;
+  end loop;
+
+   return outres;
+End;
+$$
+language plpgsql;
+
+DROP TRIGGER b_tb_entrada_amostra ON tb_entrada_amostra;
+update tb_entrada_amostra
+   set potencia = GetNumero(potencia)
+ where potencia is not null;
+update tb_entrada_amostra set status = 3;
+CREATE TRIGGER b_tb_entrada_amostra
+  BEFORE INSERT OR UPDATE OR DELETE
+  ON tb_entrada_amostra
+  FOR EACH ROW
+  EXECUTE PROCEDURE b_tb_entrada_amostra();
+
+insert into sys_errors (constraint_, descri, solucao) values ('fk_tb_entrada_amostra3', 'Código da amostra não pode ser localizado no controle de etiquetas.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('uk_tb_entrada_amostra', 'Código de etiqueta já registrado em outras amostra.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_tb_entrada_amostra', 'O estado da amostra deve ser: 1 - Digitação / 2 - Execução / 3 - Encerrado.', '');
+
+CREATE SEQUENCE tb_entrada_amostra_numeroid_seq
+   INCREMENT 1;
+ALTER TABLE tb_entrada_amostra_numeroid_seq OWNER TO lorencini;
+
+ALTER TABLE tb_entrada_amostra
+   ALTER COLUMN numeroid SET DEFAULT nextval(('public.tb_entrada_amostra_numeroid_seq'::text)::regclass);
+
+select setval('public.tb_entrada_amostra_numeroid_seq', max(numeroid)+1, true)
+  from tb_entrada_amostra;
+
+create index idx_tb_entrada_amostra_cli on tb_entrada_amostra(clienteid);
+
+alter table crm_apont drop seringa;
+alter table fsc_apont drop frasco;

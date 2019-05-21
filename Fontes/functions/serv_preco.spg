@@ -1,0 +1,51 @@
+/**
+   Retorna o valor do preço informado
+
+	@author  Ricardo Gonçalves
+	@date    15/06/2018  
+	@trigger	
+   
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso   
+*/
+create or replace function serv_preco(
+   in in_cliente integer,
+   in in_servico integer)
+returns numeric(18, 4) as
+$$
+declare
+   preco numeric(18, 4);
+begin   
+   select valor
+     into preco
+     from tbclientesprecos 
+    where cliente = in_cliente
+      and servico = in_servico;   
+      
+   if not Found then
+      -- Busca o último pedido autorizado do cliente
+      select ps.unitario 
+        into preco
+        from pedido p
+             join pedido_serv ps
+               on ps.pedido = p.recno
+              and ps.codserv = in_servico
+       where p.codigo = in_cliente
+         and p.emitido is not null
+       order by criado desc
+       limit 1;
+       
+      -- Busca o preço padrão
+      if not FOUND then
+         select valor
+           into preco
+           from servicos
+          where codserv = in_servico; 
+      end if;
+   end if;   
+   
+   return coalesce(preco, 0);
+end;
+$$
+language plpgsql;   

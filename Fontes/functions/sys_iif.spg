@@ -1,0 +1,88 @@
+/*============================================================================
+  Empresa..: MultCont Informática
+  Descrição: Retorna valor padrão
+  Autor....: Ricardo Gonçalves
+  Data.....: 17/09/2007 19:57:58
+
+  Parametro       Descrição
+  ---------------------------------------------------------------------------
+  out_res        | 0 - Falha / 1 - Sucesso
+  ============================================================================*/
+Create or Replace Function sys_iif(in cond boolean, in btrue integer, in bfalse integer)
+Returns integer
+As
+$$
+Declare
+   res   integer;
+Begin
+   res:= bfalse;
+
+   if cond then
+      res:= btrue;
+   end if;                          
+   
+   return res;
+End;
+$$ LANGUAGE plpgsql;
+
+/*============================================================================
+  Empresa..: MultCont Informática
+  Descrição: Retorna valor padrão
+  Autor....: Ricardo Gonçalves
+  Data.....: 17/09/2007 19:57:58
+
+  Parametro       Descrição
+  ---------------------------------------------------------------------------
+  out_res        | 0 - Falha / 1 - Sucesso
+  ============================================================================*/
+Create or Replace Function sys_iif(in cond boolean, in btrue numeric, in bfalse numeric)
+Returns numeric
+As
+$$
+Begin
+   if cond then
+      return btrue;
+   end if;
+
+   return bfalse;
+End;
+$$ LANGUAGE plpgsql;
+
+Create or Replace Function sys_iif(in cond boolean, in btrue varchar, in bfalse varchar)
+Returns varchar
+As
+$$
+Begin
+   if cond then
+      return btrue;
+   end if;
+
+   return bfalse;
+End;
+$$ LANGUAGE plpgsql;
+
+Create or Replace Function sys_iif(in cond boolean, in btrue date, in bfalse date)
+Returns date
+As
+$$
+Begin
+   if cond then
+      return btrue;
+   end if;
+
+   return bfalse;
+End;
+$$ LANGUAGE plpgsql;
+
+Create or Replace Function sys_iif(in cond boolean, in btrue timestamp, in bfalse timestamp)
+Returns timestamp
+As
+$$
+Begin
+   if cond then
+      return btrue;
+   end if;
+
+   return bfalse;
+End;
+$$ LANGUAGE plpgsql;

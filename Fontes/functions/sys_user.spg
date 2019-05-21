@@ -1,0 +1,26 @@
+/**
+   Retorno o usuário logado no sistema pela sessão atual
+
+	@author    Ricardo Gonçalves
+	@date      09/03/2011 17:47:35
+	@trigger
+
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+CREATE OR REPLACE FUNCTION sys_user()
+  RETURNS varchar AS
+$$
+Declare
+   ouser    sys_users.username%type;
+BEGIN
+   select username
+     into ouser
+     from sys_session
+    where session = sys_session();
+
+   return ouser;
+END;
+$$
+  LANGUAGE 'plpgsql' VOLATILE;

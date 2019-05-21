@@ -1,0 +1,143 @@
+/*
+   Alerações na versão
+
+   Refrência: 6/6/2017
+
+   * biblioteca
+      - Criação de tabela para vinculo com orçamento e cotação para montagem do orçamento
+
+*/
+set session AUTHORIZATION lorencini;
+
+alter table cota
+   add aprovacao text,
+   add contato_fin integer,
+   add contato_tec integer;
+
+alter table tbclientes_contatos
+	add situacao integer default (1) not null;
+
+update tbclientes_contatos
+   set celular = sys_limpa_campo(celular, true),
+       telefone = sys_limpa_campo(telefone, true);
+
+update tbclientes_contatos
+   set situacao = 0
+ where nome ilike '%não utilizar%';
+
+set session authorization postgres;
+alter table cota disable trigger all;
+update cota
+   set contato_fin = contato, contato_tec = contato;
+
+alter table cota
+   alter contato_fin set not null,
+   alter contato_tec set not null;
+
+create index idx_cota_5 on cota(markup);
+create index idx_cota_6 on cota(cliente, contato);
+create index idx_cota_7 on cota(cliente, contato_fin);
+create index idx_cota_8 on cota(cliente, contato_tec);
+create index idx_cota_9 on cota(correio);
+
+alter table cota enable trigger all;
+
+alter table pedido
+   add contato_fin integer,
+   add contato_tec integer,
+  add constraint fk_pedido_4
+     foreign key(codigo,contato_fin) references tbclientes_contatos(cliente,item)
+     on update cascade on delete restrict,
+  add constraint fk_pedido_5
+     foreign key(codigo,contato_tec) references tbclientes_contatos(cliente,item)
+     on update cascade on delete restrict,
+   disable trigger all;
+update pedido
+   set contato_fin = contato, contato_tec = contato;
+alter table pedido enable trigger all;
+
+alter table pedido
+   alter contato_fin set not null,
+   alter contato_tec set not null,
+   alter contato set not null;
+
+set session authorization lorencini;
+alter table cota
+  alter contato_fin set not null,
+  alter contato_tec set not null,
+  add constraint fkcota_7
+     foreign key(cliente,contato_fin) references tbclientes_contatos(cliente,item)
+     on update cascade on delete restrict,
+  add constraint fkcota_8
+     foreign key(cliente,contato_tec) references tbclientes_contatos(cliente,item)
+     on update cascade on delete restrict;
+     
+alter table tb_orcamentos disable trigger all;
+alter table tb_orcamentos
+	add contato_nome varchar(100),
+   drop status,
+	drop tipo;
+update tb_orcamentos set contato_nome = contato;
+set session authorization lorencini;
+alter table tb_orcamentos
+	drop contato,
+	add contato integer,
+	add contato_fin integer,
+	add contato_tec integer,
+	add constraint fk_tb_orcamentos_5 foreign key(idcliente, contato)
+		references tbclientes_contatos(cliente, item)
+		on update cascade on delete restrict,
+	add constraint fk_tb_orcamentos_6 foreign key(idcliente, contato_fin)
+		references tbclientes_contatos(cliente, item)
+		on update cascade on delete restrict,
+	add constraint fk_tb_orcamentos_7 foreign key(idcliente, contato_tec)
+		references tbclientes_contatos(cliente, item)
+		on update cascade on delete restrict;
+
+create index idx_tb_orcamentos_3 on tb_orcamentos(idcliente, contato);
+create index idx_tb_orcamentos_4 on tb_orcamentos(idcliente, contato_fin);
+create index idx_tb_orcamentos_5 on tb_orcamentos(idcliente, contato_tec);
+create index idx_tb_orcamentos_6 on tb_orcamentos(pedido);
+create index idx_tb_orcamentos_7 on tb_orcamentos(cotacao);
+create index idx_tb_orcamentos_8 on tb_orcamentos(grupo);
+create index idx_tb_orcamentos_9 on tb_orcamentos(nf_mat);
+create index idx_tb_orcamentos_10 on tb_orcamentos(nf_srv);
+create index idx_tb_orcamentos_11 on tb_orcamentos(origem);
+create index idx_tb_orcamentos_12 on tb_orcamentos(idcliente, pedcontato);
+create index idx_tb_orcamentos_13 on tb_orcamentos(pedusername);
+create index idx_tb_orcamentos_14 on tb_orcamentos(item);
+
+update tb_orcamentos o
+   set contato = c.item, contato_fin = c.item, contato_tec = c.item
+  from tbclientes_contatos c
+ where o.contato_nome = c.nome
+   and o.idcliente = c.cliente;
+
+update tb_orcamentos o
+   set contato = c.item, contato_fin = c.item, contato_tec = c.item
+  from (select cliente, max(item) item
+          from tbclientes_contatos
+         group by cliente) c
+ where o.idcliente = c.cliente
+   and o.contato is null;
+
+delete from tb_orcamentos where contato is null;
+
+alter table tb_orcamentos
+	alter contato set not null,
+	alter contato_fin set not null,
+	alter contato_tec set not null,
+   drop contato_nome;
+
+alter table labamostras_rel 
+	add revisao integer,
+	add constraint fk_labamostras_rel_1 foreign key(amostra_recno, revisao)
+		references labamostras_rel(amostra_recno, relato_recno)
+		on update cascade on delete cascade;
+   
+set session authorization postgres;
+alter table tb_orcamentos enable trigger all;
+
+-- ==============================================================================================
+-- Gatilhos
+-- ==============================================================================================

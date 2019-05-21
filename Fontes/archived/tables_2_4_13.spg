@@ -1,0 +1,25 @@
+/**
+   Atualização para versão 2.4.13
+
+	@author    Ricardo Gonçalves
+	@date      22/02/2010 09:21:18
+	@trigger
+
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+set session authorization lorencini;
+
+alter table nf
+   drop parcelar,
+   add pqtd integer default 0 not null,
+   add pdias integer default 1 not null,
+   add constraint ck_nf_pqtd check (pqtd >= 0),
+   add constraint ck_nf_pdias check (pdias >= 1);
+
+insert into sys_errors (constraint_, descri, solucao) values ('ck_nf_pqtd', 'Quantidade de parcelas não pode ser negativa.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_nf_pdias', 'O intervalo de dias entre as parcelas deve ser maior ou igual a 1.', '');
+
+alter table tb_orcamentos
+   add motivo text;

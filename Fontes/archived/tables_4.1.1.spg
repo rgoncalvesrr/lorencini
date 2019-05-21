@@ -1,0 +1,38 @@
+/**
+   Script da versão 4.1.1
+
+   @author    Ricardo Gonçalves
+   @date      06/03/2016 14:03:08
+   @trigger
+
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+set session authorization lorencini;
+
+alter table pedido_servicos
+   add amostra integer;
+
+alter table pedido_servicos
+	add constraint fk_pedido_servicos_3 foreign key(amostra) references labret(recno)
+		on update cascade on delete cascade;
+
+insert into sys_errors (constraint_, descri, solucao) values ('fk_pedido_servicos_3', 'Amostra informada não foi localizada no sistema.', '');
+
+create or replace view vamostras_ped as
+select a.recno, a.labport_recno, a.comodato_recno, p.recno pedido, b.tipo
+  from labret a
+       join pedido p
+         on p.labport_recno = a.labport_recno
+       join labprocxequip b
+         on b.comodato_recno = a.comodato_recno
+ where a.status = 1;
+
+ alter table labamostras add pedido integer;
+
+ alter table labamostras
+   add constraint fk_labamostras_1 foreign key (pedido) references pedido(recno)
+      on update cascade on delete cascade;
+
+insert into sys_errors (constraint_, descri, solucao) values ('fk_labamostras_1', 'Pedido informado não foi localizado no sistema.', '');

@@ -1,0 +1,1321 @@
+create table call_status (
+   status serial not null primary key,
+   descri descri_ not null unique,
+   recno serial not null unique
+);
+
+grant all on table call_status to group lorencini;
+grant all on table call_status_recno_seq to group lorencini;
+
+insert into call_status (descri) values ('Aberto');
+insert into call_status (descri) values ('Em Andamento');
+insert into call_status (descri) values ('Encerrado');
+
+create table call_chamados(
+   codigo integer not null,
+   chamado serial not null,
+   data timestamp default current_timestamp not null,
+   assunto varchar(120) not null,
+   status integer default 1 not null,
+   username varchar(20) not null,
+   recno serial not null unique,
+   constraint pk_call_chamados primary key(codigo,chamado),
+   constraint fk_call_chamados foreign key(codigo) references tbclientes(codigo)
+      on update cascade on delete no action,
+   constraint fk_call_chamados_1 foreign key(username) references sys_users(username)
+      on update cascade on delete no action,
+   constraint fk_call_chamados_2 foreign key(status) references call_status(status)
+      on update cascade on delete no action
+);
+
+grant all on table call_chamados to group lorencini;
+grant all on table call_chamados_recno_seq to group lorencini;
+grant all on table call_chamados_chamado_seq to group lorencini;
+
+create table call_atividade (
+   codigo integer not null,
+   chamado integer not null,
+   ctrl serial not null,
+   data timestamp default current_timestamp not null,
+   username username_ not null,
+   descri text not null,
+   recno serial not null unique,
+   constraint pk_call_atividade primary key(codigo,chamado,ctrl),
+   constraint fk_call_atividade foreign key(codigo,chamado) references call_chamados(codigo,chamado)
+      on update cascade on delete cascade,
+   constraint fk_call_atividade_1 foreign key(username) references sys_users(username)
+      on update cascade on delete no action
+);
+
+grant all on table call_atividade to group lorencini;
+grant all on table call_atividade_recno_seq to group lorencini;
+grant all on table call_atividade_ctrl_seq to group lorencini;
+
+create table call_retornos (
+   codigo integer not null,
+   chamado integer not null,
+   ctrl_src integer not null,
+   vigencia timestamp not null,
+   exibir boolean default true not null,
+   ctrl integer,
+   contato integer,
+   recno serial not null unique,
+   constraint pk_call_retornos primary key(codigo, chamado, ctrl_src, vigencia),
+   constraint fk_call_retornos foreign key(codigo, chamado, ctrl_src) references call_atividade(codigo, chamado, ctrl)
+      on update cascade on delete cascade,
+   constraint fk_call_retornos1 foreign key(codigo, chamado, ctrl) references call_atividade(codigo, chamado, ctrl)
+      on update cascade on delete cascade,
+   constraint fk_call_retornos2 foreign key(codigo, contato) references tbclientes_contatos(cliente, item)
+      on update cascade on delete restrict
+);
+
+grant all on table call_retornos to group lorencini;
+grant all on table call_retornos_recno_seq to group lorencini;
+
+-- Agenda de compromissos
+create table sys_agenda (
+   data date not null default current_date,
+   hini time not null default current_time,
+   hfin time,
+   assunto varchar(100) not null,
+   descricao text not null,
+   prioridade integer default 2 not null,
+   status integer default 1,
+   recno serial not null,
+   owner_ username_ not null,
+   public_ boolean default true,
+   orig_tabela varchar(100),
+   orig_recno integer,
+   constraint pk_sys_agenda primary key(recno),
+   constraint fk_sys_agenda foreign key(owner_) references sys_users(username)
+      on update cascade on delete restrict,
+   constraint ck_sys_agenda check (prioridade between 1 and 3),
+   constraint ck_sys_agenda_1 check (status in (1,2)));
+
+grant all on table sys_agenda to group lorencini;
+grant all on table sys_agenda_recno_seq to group lorencini;
+
+-- Usuário envolvidos - Conteúdo gerado pelo sistema com base na tabela "sys_agenda_para"
+create table sys_agenda_ativ (
+   recno_agenda integer not null,
+   username username_ not null,
+   visualizado boolean default false,
+   data timestamp default current_timestamp,
+   recno serial not null,
+   constraint pk_sys_agenda_ativ primary key (recno_agenda, username),
+   constraint fk_sys_agenda_ativ foreign key (recno_agenda) references sys_agenda(recno)
+      on update cascade on delete cascade,
+   constraint fk_sys_agenda_ativ_1 foreign key (username) references sys_users(username)
+      on update cascade on delete cascade
+);
+
+grant all on table sys_agenda_ativ to group lorencini;
+grant all on table sys_agenda_ativ_recno_seq to group lorencini;
+
+-- Usuários envolvidos selecionados pelo usuário dono do compromisso
+create table sys_agenda_para (
+   recno_agenda integer not null,
+   username username_ not null,
+   data timestamp default current_timestamp not null,
+   recno serial not null,
+   constraint pk_sys_agenda_para primary key (recno_agenda, username),
+   constraint fk_sys_agenda_para foreign key (recno_agenda) references sys_agenda(recno)
+      on update cascade on delete cascade,
+   constraint fk_sys_agenda_para_1 foreign key (username) references sys_users(username)
+      on update cascade on delete cascade
+);
+
+grant all on table sys_agenda_para to group lorencini;
+grant all on table sys_agenda_para_recno_seq to group lorencini;
+
+-- Cadastro de departamentos
+create table deptos (
+   depto serial not null,
+   descri descri_ not null,
+   qtdativos qtd_,
+   recno serial not null,
+   constraint pk_deptos primary key(depto)
+);
+
+grant all on table deptos to group lorencini;
+grant all on table deptos_recno_seq to group lorencini;
+grant all on table deptos_depto_seq to group lorencini;
+
+-- Cadastro de tipo de ativo fixo
+create table ativos_tipo (
+   tipo serial not null,
+   descri descri_ not null,
+   qtd qtd_,
+   recno serial not null,
+   constraint pk_ativos_tipo primary key(tipo)
+);
+
+grant all on table ativos_tipo to group lorencini;
+grant all on table ativos_tipo_recno_seq to group lorencini;
+grant all on table ativos_tipo_tipo_seq to group lorencini;
+
+-- Cadastro de ativos fixo
+create table ativos (
+   id serial not null,
+   descri text not null,
+   tipo integer,
+   depto integer,
+   status integer default 1,
+   baixa timestamp,
+   motivo text,
+   comodato boolean default false,
+   vlcompra moeda_,
+   vlvenda moeda_,
+   recno serial not null,
+   constraint pk_ativos primary key(id),
+   constraint ck_ativos check (vlcompra >= 0 and vlvenda >= 0),
+   constraint ck_ativos_a check (status = 1 and baixa is null or status = 2 and baixa is not null),
+   constraint ck_ativos_b check (baixa is null and motivo is null or baixa is not null and motivo is not null),
+   constraint fk_ativos foreign key(tipo) references ativos_tipo(tipo)
+      on update cascade on delete  set null,
+   constraint fk_ativos_a foreign key(depto) references deptos(depto)
+      on update cascade on delete set null
+);
+
+grant all on table ativos to group lorencini;
+grant all on table ativos_id_seq to group lorencini;
+grant all on table ativos_recno_seq to group lorencini;
+
+-- Tabela de tensoes de transormadores
+-- Tipo:
+-- 1 - transformadores_potencia
+-- 2 - transformadores_instrumentos
+-- 3 - tb_transformadores_dijuntores
+create table transf_tensao (
+   tipo integer default 1 not null,
+   classe varchar(2) not null,
+   tensao_minima numeric(18, 4) default 0 not null,
+   tensao_maxima numeric(18, 4) default 0 not null,
+   recno serial not null,
+   constraint pk_transf_tensao primary key(recno)
+);
+
+grant all on table transf_tensao to group lorencini;
+grant all on table transf_tensao_recno_seq to group lorencini;
+
+insert into transf_tensao (tipo, classe, tensao_minima, tensao_maxima )
+select 1::int4, classe, tensao_minima, tensao_maxima
+  from tb_transformadores_potencia
+union all
+select 2::int4, classe, tensao_minima, tensao_maxima
+  from tb_transformadores_instrumentos
+union all
+select 3::int4, classe, tensao_minima, tensao_maxima
+  from tb_transformadores_dijuntores;
+
+-- ==========================================================================================================
+-- VERSAO 1.2.0 26/11/2007
+-- ==========================================================================================================
+
+-- Registra saídas de ativos fixo em comodato
+create table comodato (
+   contrato serial not null,
+   codigo integer not null, -- cliente
+   emissao timestamp default localtimestamp not null,
+   baixa  timestamp,
+   responsavel varchar(60),
+   razao varchar(70) not null,
+   ender varchar(100) not null,
+   bairro varchar(60),
+   cidade varchar(60),
+   uf varchar(02) not null,
+   cnpj varchar(14) not null,
+   ie varchar(25),
+   cep varchar(09),
+   nf integer,
+   status integer default 1 not null, -- 1 - Ativo / 2 - Baixado
+   recno serial not null
+);
+
+alter table comodato add constraint pk_comodato primary key(contrato);
+alter table comodato add constraint fk_comodato foreign key(codigo)
+   references tbclientes(codigo) on update cascade on delete restrict;
+
+grant all on table comodato to group lorencini;
+grant all on table comodato_recno_seq to group lorencini;
+grant all on table comodato_contrato_seq to group lorencini;
+
+-- Itens do contrato
+create table comodato_ativo (
+   contrato integer not null,
+   id integer not null,
+   recno serial not null
+);
+
+alter table comodato_ativo add constraint pk_comodato_ativo primary key(contrato, id);
+alter table comodato_ativo add constraint fk_comodato_ativo foreign key(contrato)
+   references comodato(contrato) on update cascade on delete cascade;
+alter table comodato_ativo add constraint fk_comodato_ativo_a foreign key(id)
+   references ativos(id) on update cascade on delete restrict;
+
+grant all on table comodato_ativo to group lorencini;
+grant all on table comodato_ativo_recno_seq to group lorencini;
+
+
+-- Tabela de códigos de erro
+create table sys_errors (
+   constraint_ varchar not null,
+   descri text not null,
+   solucao text,
+   recno serial not null
+);
+
+alter table sys_errors add constraint pk_sys_errors primary key(constraint_);
+grant all on table sys_errors to group lorencini;
+grant all on table sys_errors_recno_seq to group lorencini;
+
+insert into sys_errors (constraint_, descri, solucao) values ('pk_sys_errors', 'Mensagem de erro para já cadastrada.', 'Altere a mensagem atual.');
+insert into sys_errors (constraint_, descri, solucao) values ('pk_comodato', 'Contrato duplicado.', 'Contrato serial, contate o administrador.');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_comodato', 'Código de cliente inválido.', 'Informa um código de cliente que esteja cadastrado.');
+insert into sys_errors (constraint_, descri, solucao) values ('uk_tbclientes', 'Apelido já cadastrado.', 'Altere o apelido ou utilize o cliente já cadastrado.');
+insert into sys_errors (constraint_, descri, solucao) values ('pk_ativos', 'Ativo fixo já cadastrado', 'Código serial, contate o administrador.');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_ativos', 'Valor de compra ou venda está negativos', 'Altere os valores de compras e/ou venda');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_ativos_a', 'O conteúdo do campo "Status" não é compatível com o conteúdo do campo "Baixa"', 'Verificar conteúdo dos campos.');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_ativos_b', 'Ativos baixados deve ter o motivo da baixa informado.', 'Preencher o motivo da baixa.');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_ativos', 'Tipo de ativo fixo não localizado.', 'Preencher cadastro de tipos de ativo fixo.');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_ativos_a', 'Departamento não localizado.', 'Preencher cadastro de departamentos.');
+insert into sys_errors (constraint_, descri, solucao) values ('pk_comodato_ativo', 'Ativo fixo já consta no contrato.', 'Cancelar a edição.');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_comodato_ativo', 'Deve-se informar um contrato de comodato para inclusão do ativo fixo.', 'Cancelar a edição.');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_comodato_ativo_a', 'Ativo fixo não pode ser exclído pois é referenciado em um ou mais contratos de comodato.', 'Não é possível excluir.');
+
+----------------------------
+-- 03/12/2007
+----------------------------
+-- Retorna instruções para adicionar campos de log nas tabelas
+select 'alter table '||tablename||' add session varchar(60);'
+  from pg_tables
+ where schemaname = 'public'
+ order by tablename;
+
+alter table ativos add session varchar(60);
+alter table ativos_tipo add session varchar(60);
+alter table cad_cfop add session varchar(60);
+alter table cad_servicos add session varchar(60);
+alter table call_atividade add session varchar(60);
+alter table call_chamados add session varchar(60);
+alter table call_retornos add session varchar(60);
+alter table call_status add session varchar(60);
+alter table comodato add session varchar(60);
+alter table comodato_ativo add session varchar(60);
+alter table configuracoes add session varchar(60);
+alter table configuracoes_art add session varchar(60);
+alter table configuracoes_indices add session varchar(60);
+alter table crm_apont add session varchar(60);
+alter table deptos add session varchar(60);
+alter table fis_apont add session varchar(60);
+alter table fluxo_caixa add session varchar(60);
+alter table fornecedores add session varchar(60);
+alter table fornecedores_contatos add session varchar(60);
+alter table fornecedores_produtos add session varchar(60);
+alter table fsc_apont add session varchar(60);
+alter table grupo_produto add session varchar(60);
+alter table grupo_produto_subgrupo add session varchar(60);
+alter table job add session varchar(60);
+alter table job_cabo_mt add session varchar(60);
+alter table job_cabo_mt_parte2 add session varchar(60);
+alter table job_cabo_mt_parte3 add session varchar(60);
+alter table job_chave_sec add session varchar(60);
+alter table job_chave_sec_parte2 add session varchar(60);
+alter table job_disjuntor_bt add session varchar(60);
+alter table job_disjuntor_bt_parte2 add session varchar(60);
+alter table job_disjuntor_mt add session varchar(60);
+alter table job_disjuntor_mt_parte2 add session varchar(60);
+alter table job_para_raio_mt add session varchar(60);
+alter table job_para_raio_mt_parte2 add session varchar(60);
+alter table job_termografia add session varchar(60);
+alter table job_termografia_imagens add session varchar(60);
+alter table job_termografia_parte2 add session varchar(60);
+alter table job_termografia_parte3 add session varchar(60);
+alter table job_termografia_roteiro add session varchar(60);
+alter table job_transf_corrente_mt add session varchar(60);
+alter table job_transf_corrente_mt_parte2 add session varchar(60);
+alter table job_transf_potencia_bt add session varchar(60);
+alter table job_transf_potencia_bt_parte2 add session varchar(60);
+alter table job_transf_potencia_mt add session varchar(60);
+alter table job_transf_potencia_mt_parte2 add session varchar(60);
+alter table job_transf_potencia_mt_parte3 add session varchar(60);
+alter table job_transf_potencia_mt_parte4 add session varchar(60);
+alter table job_transf_potencia_mt_parte5 add session varchar(60);
+alter table job_transf_potencia_mt_parte6 add session varchar(60);
+alter table job_transf_potencial_at add session varchar(60);
+alter table job_transf_potencial_at_parte2 add session varchar(60);
+alter table job_transf_potencial_bt add session varchar(60);
+alter table job_transf_potencial_bt_parte2 add session varchar(60);
+alter table job_transf_potencial_mt add session varchar(60);
+alter table job_transf_potencial_mt_parte2 add session varchar(60);
+alter table lr_tables add session varchar(60);
+alter table nota_fiscal add session varchar(60);
+alter table nota_fiscal_produtos add session varchar(60);
+alter table nota_fiscal_servicos add session varchar(60);
+alter table nota_fiscal_vencimentos add session varchar(60);
+alter table nota_produtos_temporario add session varchar(60);
+alter table nota_servicos_temporario add session varchar(60);
+alter table nota_vencimentos_temporario add session varchar(60);
+alter table pagamentos add session varchar(60);
+alter table pagamentos_baixados add session varchar(60);
+alter table pagamentos_baixados_titulos add session varchar(60);
+alter table pagamentos_vencimentos add session varchar(60);
+alter table param_calculo_acidez add session varchar(60);
+alter table plano_contas_contas add session varchar(60);
+alter table plano_contas_grupo add session varchar(60);
+alter table plano_contas_sub_grupo add session varchar(60);
+alter table produtos add session varchar(60);
+alter table produtos_unidades add session varchar(60);
+alter table recebimentos add session varchar(60);
+alter table recebimentos_vencimentos add session varchar(60);
+alter table report_balanco_financeiro add session varchar(60);
+alter table report_fluxo_caixa add session varchar(60);
+alter table retorno_mao_obra add session varchar(60);
+alter table retorno_materiais add session varchar(60);
+alter table retorno_materiais_incluidos add session varchar(60);
+alter table rpt_comissao_vendedores add session varchar(60);
+alter table rpt_entrada_amostra_analitico add session varchar(60);
+alter table rpt_faturamento_servicos add session varchar(60);
+alter table rpt_os add session varchar(60);
+alter table rptapontamentofolha add session varchar(60);
+alter table sub_grupo_produtos add session varchar(60);
+alter table sys_agenda add session varchar(60);
+alter table sys_agenda_ativ add session varchar(60);
+alter table sys_agenda_para add session varchar(60);
+alter table sys_errors add session varchar(60);
+alter table sys_formmod add session varchar(60);
+alter table sys_forms add session varchar(60);
+alter table sys_grants add session varchar(60);
+alter table sys_groups add session varchar(60);
+alter table sys_menu add session varchar(60);
+alter table sys_modules add session varchar(60);
+alter table sys_msg add session varchar(60);
+alter table sys_usermod add session varchar(60);
+alter table sys_users add session varchar(60);
+alter table tb_agenda add session varchar(60);
+alter table tb_compra_cotacao add session varchar(60);
+alter table tb_compra_cotacao_fornecedores add session varchar(60);
+alter table tb_compra_cotacao_produtos add session varchar(60);
+alter table tb_condicao_pagamento add session varchar(60);
+alter table tb_entrada_amostra add session varchar(60);
+alter table tb_entrada_amostra_comutador add session varchar(60);
+alter table tb_equip_locacao add session varchar(60);
+alter table tb_fisico_quimico add session varchar(60);
+alter table tb_fisico_quimico_acao add session varchar(60);
+alter table tb_funcoes add session varchar(60);
+alter table tb_funcoes_outros add session varchar(60);
+alter table tb_orcamentos add session varchar(60);
+alter table tb_orcamentos_faturamento add session varchar(60);
+alter table tb_orcamentos_historico_status add session varchar(60);
+alter table tb_orcamentos_lucratividade add session varchar(60);
+alter table tb_orcamentos_lucratividade_combustivel add session varchar(60);
+alter table tb_orcamentos_lucratividade_detalhes add session varchar(60);
+alter table tb_orcamentos_lucratividade_hotel add session varchar(60);
+alter table tb_orcamentos_lucratividade_lorencini add session varchar(60);
+alter table tb_orcamentos_lucratividade_maoobra add session varchar(60);
+alter table tb_orcamentos_lucratividade_materiais add session varchar(60);
+alter table tb_orcamentos_lucratividade_mobra add session varchar(60);
+alter table tb_orcamentos_lucratividade_pedagio add session varchar(60);
+alter table tb_orcamentos_lucratividade_refeicao add session varchar(60);
+alter table tb_orcamentos_lucratividade_veiculos add session varchar(60);
+alter table tb_orcamentos_pedido_compra_materiais add session varchar(60);
+alter table tb_orcamentos_pedido_compra_vencimentos add session varchar(60);
+alter table tb_orcamentos_servicos add session varchar(60);
+alter table tb_parecer_cromatografico add session varchar(60);
+alter table tb_relatorio_cromatografia add session varchar(60);
+alter table tb_relatorio_cromatografia_hist add session varchar(60);
+alter table tb_relatorio_fisico_quimico add session varchar(60);
+alter table tb_vendedores add session varchar(60);
+alter table tbapontamento add session varchar(60);
+alter table tbclientes add session varchar(60);
+alter table tbclientes_contatos add session varchar(60);
+alter table tbfuncionarios add session varchar(60);
+alter table tbmenugeral add session varchar(60);
+alter table tbmenupersonalizado add session varchar(60);
+alter table tbusuarios add session varchar(60);
+alter table transf_tensao add session varchar(60);
+
+-- ==========================================================================================================
+-- VERSAO 1.2.1 12/12/2007
+-- ==========================================================================================================
+insert into sys_errors (constraint_, descri, solucao) values ('pk_crm_apont', 'Apontamento cromatográfico já cadastrado.', 'Altere o apontamento existente.');
+
+-- ==========================================================================================================
+-- VERSAO 1.2.2 19/12/2007
+-- ==========================================================================================================
+update tbclientes_contatos set nome = substr(nome, 1, 60);
+alter table tbclientes_contatos alter nome type varchar(60);
+alter table tbclientes_contatos alter funcao type varchar(54);
+alter table tbclientes add contato varchar(60);
+alter table tbclientes add contato_tel varchar(25);
+alter table tbclientes add contato_cel varchar(25);
+alter table tbclientes add contato_mail varchar(25);
+alter table tbclientes add contato_func varchar(54);
+insert into sys_errors (constraint_, descri, solucao) values ('fk_tb_entrada_amostra', 'Cliente não pode ser excluído porque possui orçamentos vinculados.', 'Exclua orçamentos anter de apagar cadastro do cliente.');
+
+-- ==========================================================================================================
+-- VERSAO 1.2.3 03/01/2008
+-- ==========================================================================================================
+alter table tbclientes add contato_nextel varchar(25);
+alter table tbclientes add contato_nextelcel varchar(25);
+alter table tbclientes_contatos add contato_nextel varchar(25);
+alter table tbclientes_contatos add contato_nextelcel varchar(25);
+
+-- ==========================================================================================================
+-- VERSAO 1.2.7 30/01/2008
+-- ==========================================================================================================
+create table call_orca (
+   codigo integer not null,
+   chamado integer not null,
+   os integer not null,
+   recno serial not null
+);
+
+alter table call_orca add constraint pk_call_orca primary key(codigo,chamado,os);
+alter table call_orca add constraint fk_call_orca foreign key(codigo,chamado)
+   references call_chamados(codigo,chamado) on update cascade on delete restrict;
+alter table call_orca add constraint fk_call_orca_1 foreign key(codigo,os)
+   references tb_orcamentos(idcliente,os) on update cascade on delete restrict;
+
+grant all on table call_orca to group lorencini;
+grant all on table call_orca_recno_seq to group lorencini;
+
+create table sys_mark (
+   session varchar(60) not null,
+   table_ varchar(100) not null,
+   recno integer not null,
+   mark boolean default false not null);
+
+alter table sys_mark add constraint pk_sys_mark primary key(session,table_,recno);
+alter table sys_mark add constraint fk_sys_mark foreign key(session)
+   references sys_session(session) on update cascade on delete cascade;
+
+grant all on table sys_mark to group lorencini;
+
+-- ==========================================================================================================
+-- VERSAO 1.2.8 29/02/2008
+-- ==========================================================================================================
+update tb_vendedores
+   set cpf = trim(replace(replace(cpf, '.', ''),'-','')),
+       rg = trim(replace(replace(rg, '.', ''),' ','')),
+       cnpj = trim(replace(replace(replace(cnpj, '.', ''),'/',''), '-', '')),
+       cep = trim(replace(replace(cep, '.', ''),'-',''));
+alter table tb_vendedores alter cpf type varchar(11);
+alter table tb_vendedores alter rg type varchar(16);
+alter table tb_vendedores alter cnpj type varchar(14);
+alter table tb_vendedores alter cep type varchar(9);
+
+alter table tb_vendedores add username varchar(20);
+alter table tb_vendedores add ativo boolean default true not null;
+
+alter table tb_vendedores add constraint fk_tb_vendedores foreign key (username)
+   references sys_users(username) on delete restrict on update cascade;
+
+insert into sys_errors (constraint_, descri, solucao) values ('fk_tb_vendedores', 'Usuário não pode ser excluído pois está vinculado ao cadastro de vendedores.', '');
+
+-- ==========================================================================================================
+-- VERSAO 2.0
+-- ==========================================================================================================
+set session authorization lorencini;
+
+create table unidades (
+   un varchar(03) not null,
+   descri varchar(100) not null,
+   recno serial not null
+);
+
+alter table unidades add constraint pk_unidades primary key(un);
+alter table unidades add constraint uk_unidades unique(descri);
+alter table unidades add constraint uk_unidades_recno unique(recno);
+
+insert into sys_errors (constraint_, descri, solucao) values ('pk_unidades', 'Unidade de medida já cadastrada', '');
+insert into sys_errors (constraint_, descri, solucao) values ('uk_unidades', 'Já existe um unidade de medida cadastrada com essa descrição', '');
+
+insert into unidades (un, descri) values ('MT', 'Metro');
+insert into unidades (un, descri) values ('KG', 'Kilo');
+insert into unidades (un, descri) values ('PÇ', 'Peça');
+insert into unidades (un, descri) values ('GL', 'Galão');
+insert into unidades (un, descri) values ('LT', 'Litro');
+insert into unidades (un, descri) values ('M2', 'Metro quadrado');
+insert into unidades (un, descri) values ('M3', 'Metro cúbico');
+insert into unidades (un, descri) values ('MM2', 'Milímetro quadrado');
+insert into unidades (un, descri) values ('PT', 'Pote');
+insert into unidades (un, descri) values ('CX', 'Caixa');
+
+-- Acerta cadastro de produtos
+update produtos set estoquetipo = 'MM2' where estoquetipo = 'MM²';
+update produtos set estoquetipo = 'M2' where estoquetipo = 'M²';
+update produtos set estoquetipo = 'M3' where estoquetipo = 'M³';
+
+-- Cria chave estrangeira no cadastro de produtos
+alter table produtos add constraint fk_produtos_unidade foreign key(estoquetipo)
+   references unidades (un) on update cascade on delete restrict;
+alter table produtos add constraint fk_produtos_grupo foreign key(grupo)
+   references grupo_produto (codigo) on update cascade on delete set null;
+alter table produtos add constraint fk_produtos_subgrupo foreign key(grupo,id_subgrupo)
+   references grupo_produto_subgrupo (id_grupo,id_codigo) on update cascade on delete set null;
+
+insert into sys_errors (constraint_, descri, solucao) values ('fk_produtos_unidade', 'Unidade de medida não pode ser excluida porque é referenciada pelo cadastro de produtos', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_produtos_grupo', 'Grupo informado não localizado no cadastro de grupos', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_produtos_subgrupo', 'Subgrupo de produtos informado não localizado no cadastro de subgrupos', '');
+
+alter table grupo_produto_subgrupo add constraint fk_grupo_produto_subgrupo foreign key(id_grupo)
+   references grupo_produto (codigo) on update cascade on delete cascade;
+
+insert into sys_errors (constraint_, descri, solucao) values ('fk_grupo_produto_subgrupo', 'Grupo informado não foi localizado no cadastro de grupos', 'Cadastra grupo no cadastro de grupos');
+
+ ALTER TABLE tb_orcamentos DROP CONSTRAINT pk_tb_orcamentos cascade;
+ ALTER TABLE tb_orcamentos add CONSTRAINT pk_tb_orcamentos primary key(os);
+ ALTER TABLE tb_orcamentos DROP CONSTRAINT tb_orcamentos_os_key cascade;
+ ALTER TABLE tb_orcamentos
+  ADD CONSTRAINT tb_orcamentos_clie_os UNIQUE(os, idcliente);
+
+-- Altera nome da tabela
+alter table tb_orcamentos_lucratividade_materiais rename to orca_mat;
+
+-- adiciona chave primária
+ alter table orca_mat add os integer;
+
+-- atualiza chave primária
+ update orca_mat
+    set os = a.os
+   from tb_orcamentos a
+  where a.idos = orca_mat.idos;
+
+-- remove itens sem referencia
+delete from orca_mat where os is null;
+
+-- exclui chave primária atual
+alter table orca_mat drop idos;
+
+-- cria chave primária e estrangeira
+alter table orca_mat add constraint pk_orca_mat primary key (os, item);
+alter table orca_mat add constraint fk_orca_mat foreign key (os)
+   references tb_orcamentos (os) on update cascade on delete cascade;
+
+insert into sys_errors (constraint_, descri, solucao) values ('pk_orca_mat', 'Produto já incluído na OS', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_orca_mat', 'Os inválida para material informado.', '');
+
+-- Acerto da coluna de quantidade
+alter table orca_mat add qtd numeric(18,4) default 0 not null;
+
+update orca_mat
+   set qtde = '0.25'
+ where qtde like '%/%';
+update orca_mat
+   set qtde = replace(replace(qtde, '.', ''), ',', '.');
+update orca_mat
+   set qtde = 0
+ where trim(qtde) = '';
+update orca_mat
+   set qtd = coalesce(qtde::numeric(18,4),0);
+
+alter table orca_mat drop qtde;
+alter table orca_mat add codigo integer;
+
+alter table orca_mat add constraint fk_orca_mat_prod foreign key (codigo)
+   references produtos(codigo) on update cascade on delete restrict;
+
+insert into sys_errors (constraint_, descri, solucao) values ('fk_orca_mat_prod', 'Produto não localizado no cadastro de produtos.', '');
+
+alter table orca_mat add exptot boolean default false not null;
+
+update orca_mat
+   set exptot = true
+ where exportartotal is not null;
+
+alter table orca_mat drop exportartotal;
+alter table orca_mat drop exportarcf;
+alter table orca_mat drop cf;
+
+alter table tb_orcamentos add status_ integer default 0 not null;
+alter table tb_orcamentos add type_ integer default 0 not null;
+
+update tb_orcamentos
+   set status_ = case status
+                when 'EM ESTUDO' then 0
+                when 'PENDENTE' then 1
+                when 'APROVADO' then 2
+                when 'EXECUTADO' then 3
+                when 'FATURADO' then 4
+                when 'PERDIDO' then 5
+                when 'CONTRATO' then 6
+           end;
+
+update tb_orcamentos
+   set type_ = case tipo
+                when 'LABORATÓRIO COLETA TERCEIRO' then 1
+                when 'LABORATÓRIO COLETA LORENCINI' then 2
+               else
+		          0
+           end;
+
+-- =========================================================================================================
+create table servicos_grupo
+(  recno serial not null,
+   descri varchar(80) not null
+);
+
+alter table servicos_grupo add constraint pk_servicos_grupo primary key(recno);
+alter table servicos_grupo add constraint uk_servicos_grupo_descri unique(descri);
+
+-- =========================================================================================================
+create table servicos
+(  codserv serial not null,
+   descri varchar(80) not null,
+   un varchar(02) not null,
+   valor numeric(12,2) default 0 not null,
+   tipo integer not null default 1,
+   grupo integer not null,
+   recno serial not null
+);
+
+alter table servicos add constraint pk_servicos primary key(codserv);
+alter table servicos add constraint uk_servicos_descri unique(descri);
+alter table servicos add constraint uk_servicos_recno unique(recno);
+alter table servicos add constraint fk_servicos_un foreign key(un)
+   references unidades(un) on delete restrict on update cascade;
+alter table servicos add constraint fk_servicos_grupo foreign key(grupo)
+   references servicos_grupo(recno) on delete restrict on update cascade;
+
+-- =========================================================================================================
+create table servicos_det
+(  codserv integer not null,
+   recno serial not null,
+   descri varchar(250) not null
+);
+
+alter table servicos_det add constraint pk_servicos_det primary key(codserv, recno);
+alter table servicos_det add constraint uk_servicos_det_descri unique(descri);
+alter table servicos_det add constraint uk_servicos_det_recno unique(recno);
+alter table servicos_det add constraint fk_servicos_det_codserv foreign key(codserv)
+   references servicos(codserv) on delete cascade on update cascade;
+
+-- =========================================================================================================
+create table atividades
+(  codativ integer not null,
+   descri varchar(60) not null,
+   iss numeric(5,2) default 0 not null,
+   recno serial not null
+);
+
+alter table atividades add constraint pk_atividades primary key(codativ);
+alter table atividades add constraint uk_atividades_descri unique(descri);
+alter table atividades add constraint uk_atividades_recno unique(recno);
+
+-- =========================================================================================================
+create table textos_os
+(  item integer not null,
+   descri text not null,
+   codativ integer not null,
+   recno serial not null
+);
+
+alter table textos_os add constraint pk_textos_os primary key(item);
+alter table textos_os add constraint uk_textos_os_recno unique(recno);
+alter table textos_os add constraint fk_textos_os_codativ foreign key(codativ)
+   references atividades(codativ) on update cascade on delete restrict;
+
+-- =========================================================================================================
+create table servicos_os
+(  os integer not null,
+   codserv integer not null,
+   item integer,
+   qtd numeric(15,4) default 0 not null,
+   un varchar(2) not null,
+   valor numeric(12, 2) default 0 not null,
+   prnos boolean default true not null,
+   recno serial not null
+);
+
+alter table servicos_os add constraint pk_servicos_os primary key(codserv,os);
+alter table servicos_os add constraint uk_servicos_os_recno unique(recno);
+alter table servicos_os add constraint fk_servicos_os_un foreign key(un)
+   references unidades(un) on delete restrict on update cascade;
+alter table servicos_os add constraint fk_servicos_os_os foreign key(os)
+   references tb_orcamentos(os) on delete cascade on update cascade;
+alter table servicos_os add constraint fk_servicos_os_codserv foreign key(codserv)
+   references servicos(codserv) on delete restrict on update cascade;
+alter table servicos_os add constraint fk_servicos_os_item foreign key(item)
+   references textos_os(item) on delete restrict on update cascade;
+
+-- =========================================================================================================
+create table servicos_det_os
+(  os integer not null,
+   codserv integer not null,
+   recno_serv integer not null,
+   recno serial not null
+);
+
+alter table servicos_det_os add constraint pk_servicos_det_os primary key(recno);
+alter table servicos_det_os add constraint uk_servicos_det_os unique(os, codserv, recno_serv);
+alter table servicos_det_os add constraint fk_servicos_det_os foreign key(os,codserv)
+   references servicos_os(os,codserv) on delete cascade on update cascade;
+alter table servicos_det_os add constraint fk_servicos_det_os_codserv foreign key(codserv, recno_serv)
+   references servicos_det(codserv, recno) on delete restrict on update cascade;
+
+insert into sys_errors (constraint_, descri, solucao) values ('pk_servicos_grupo', 'Grupo já cadastrado.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('uk_servicos_grupo_descri', 'Grupo já cadastrado.', '');
+
+insert into sys_errors (constraint_, descri, solucao) values ('pk_servicos', 'Serviço já cadastrado.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('uk_servicos_descri', 'Serviço já cadastrado.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('uk_servicos_recno', 'Recno duplicado.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_servicos_un', 'Unidade de medida referenciada pelo cadastro de serviços.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_servicos_grupo foreign', 'Categoria referenciada pelo cadastro de serviços.', '');
+
+insert into sys_errors (constraint_, descri, solucao) values ('pk_servicos_det', 'Detalhamento para o serviço já cadastrado.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('uk_servicos_det_descri', 'Detalhamento para o serviço já cadastrado.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('uk_servicos_det_recno', 'Recno duplicado.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_servicos_det_codserv', 'Código do serviço não localizado na tabela de serviços', '');
+
+insert into sys_errors (constraint_, descri, solucao) values ('pk_servicos_os', 'Serviço já incluído na OS', '');
+insert into sys_errors (constraint_, descri, solucao) values ('uk_servicos_os_recno', 'Recno duplicado.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_servicos_os_un', 'Unidade de medida referenciada pelo cadastro de serviços', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_servicos_os_codserv', 'Serviço referenciado por OS não pode ser excluído', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_servicos_os_os', 'Serviço deve pertencer a OS.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_servicos_os_item', 'A atividade não pode ser excluída porque é referenciada por OS.', '');
+
+insert into sys_errors (constraint_, descri, solucao) values ('pk_servicos_det_os', 'Desdobramento do serviço já cadastrado.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('uk_servicos_det_os', 'Desdobramento do serviço já cadastrado.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_servicos_det_os', 'Desdobramento do serviço dever pertencer a uma OS.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_servicos_det_os_codserv', 'Desdobramento do serviço não pode ser apagado pois é referenciado por uma ou mais OS.', '');
+
+insert into sys_errors (constraint_, descri, solucao) values ('pk_atividades', 'Atividade municipal já cadastrada.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('uk_atividades_descri', 'Já existe uma atividade cadastrada com essa descrição.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('uk_atividades_recno', 'Conteúdo do campo recno duplicado.', '');
+
+insert into sys_errors (constraint_, descri, solucao) values ('pk_textos_os', 'Texto de atividade já cadastrado.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('uk_textos_os_recno', 'Conteúdo do campo recno duplicado.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_textos_os_codativ', 'Código de atividade referenciado por um mais textos de atidades. Não pode ser excluído', '');
+
+-- =========================================================================================================
+alter table tb_orcamentos add vlmat numeric(12,2) default 0 not null;      -- valor dos materiais com markup
+alter table tb_orcamentos add vlsrvfixo numeric(12,2) default 0 not null;  -- valor dos serviços fixos
+alter table tb_orcamentos add vlsrvvar numeric(12,2) default 0 not null;   -- valor dos serviços com markup
+alter table tb_orcamentos add vlcssl_mat numeric(12,2) default 0 not null; -- valor da contribuição social sobre materiais
+alter table tb_orcamentos add vlirpj_mat numeric(12,2) default 0 not null; -- valor do IRPJ sobre materiais
+alter table tb_orcamentos add vlicms numeric(12,2) default 0 not null;     -- valor do ICMS
+alter table tb_orcamentos add vlipi numeric(12,2) default 0 not null;      -- valor do IPI
+alter table tb_orcamentos add bdi_mat numeric(5,2) default 0 not null;     -- DBI sobre materiais
+alter table tb_orcamentos add com_mat numeric(5,2) default 0 not null;     -- % comissão sobre materiais
+alter table tb_orcamentos add vlcom_mat numeric(12,2) default 0 not null;     -- comissão sobre materiais
+alter table tb_orcamentos add vlcssl_srv numeric(12,2) default 0 not null; -- valor da contribuição social sobre serviços
+alter table tb_orcamentos add vlirpj_srv numeric(12,2) default 0 not null; -- valor do IRPJ sobre serviços
+alter table tb_orcamentos add bdi_srv numeric(5,2) default 0 not null;     -- DBI sobre serviços
+alter table tb_orcamentos add com_srv numeric(5,2) default 0 not null;     -- % comissão sobre serviços
+alter table tb_orcamentos add vlcom_srv numeric(12,2) default 0 not null;     -- comissão sobre serviços
+alter table tb_orcamentos add vliss numeric(12,2) default 0 not null;      -- valor do ISS
+alter table tb_orcamentos add vlpis numeric(12,2) default 0 not null;      -- valor do PIS
+alter table tb_orcamentos add vlcofins numeric(12,2) default 0 not null;   -- valor da COFINS
+alter table tb_orcamentos add vlirrf numeric(12,2) default 0 not null;     -- valor do ISS
+alter table tb_orcamentos add ci numeric(5,2) default 0 not null;          -- % custo interno
+alter table tb_orcamentos add vlmobra numeric(12,2) default 0 not null;    -- Valor da mão-de-obra
+alter table tb_orcamentos add vlart numeric(12,2) default 0 not null;      -- valor do ISS
+alter table tb_orcamentos add vltotnf numeric(12,2) default 0 not null;      -- valor do ISS
+alter table tb_orcamentos add resumo text; -- Texto da Lucratividade
+
+create table indices
+(  vigencia date default current_date not null,
+   iss numeric(5,2) default 0 not null,
+   pis numeric(5,2) default 0 not null,
+   cofins numeric(5,2) default 0 not null,
+   irpj_mat numeric(5,2) default 0 not null,
+   cssl_mat numeric(5,2) default 0 not null,
+   cssl_srv numeric(5,2) default 0 not null,
+   irpj_srv numeric(5,2) default 0 not null,
+   irpf numeric(5,2) default 0 not null,
+   ci numeric(5,2) default 0 not null,
+   com_srv numeric(5,2) default 0 not null,
+   com_mat numeric(5,2) default 0 not null,
+   recno serial not null
+);
+
+alter table indices add constraint pk_indices primary key(vigencia);
+alter table indices add constraint uk_indices_recno unique(recno);
+
+insert into sys_errors (constraint_, descri, solucao) values ('pk_indices', 'Já existe uma tabela da índices para vigência informada.', '');
+
+update tb_orcamentos
+   set recno = recno;
+
+/* -- CRIAR TRIGGERS
+
+   b_serviscos_os
+   b_tb_orcamentos
+
+*/
+
+CREATE SEQUENCE tb_vendedores_idvendedor_seq
+INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+  START 16
+  CACHE 1;
+
+ALTER TABLE tb_vendedores ALTER COLUMN idvendedor SET DEFAULT nextval(('public.tb_vendedores_idvendedor_seq'::text)::regclass);
+
+
+alter table tb_orcamentos_lucratividade_lorencini add os integer;
+alter table tb_orcamentos_lucratividade_lorencini add func integer;
+
+update tb_orcamentos_lucratividade_lorencini
+   set os = a.os
+  from tb_orcamentos a
+ where a.idos = tb_orcamentos_lucratividade_lorencini.idos;
+
+update tb_orcamentos_lucratividade_lorencini
+   set func = a.id
+  from tb_funcoes a
+ where upper(a.descricao) = upper(tb_orcamentos_lucratividade_lorencini.funcao);
+
+delete
+  from tb_orcamentos_lucratividade_lorencini
+ where os is null or func is null;
+
+delete
+  from tb_orcamentos_lucratividade_lorencini
+ where recno in (
+select a.recno
+  from tb_orcamentos_lucratividade_lorencini a
+       join (select os, func, min(recno) as recno
+               from tb_orcamentos_lucratividade_lorencini
+              group by os, func
+             having count(*) > 1) b
+         on b.os = a.os
+        and b.func = a.func
+        and b.recno <> a.recno);
+
+update tb_orcamentos_lucratividade_lorencini
+   set qtde = 1
+ where qtde <= 0;
+
+ALTER TABLE tb_orcamentos_lucratividade_lorencini DROP CONSTRAINT pk_tb_orcamentos_lucratividade_lorencini;
+alter table tb_orcamentos_lucratividade_lorencini add constraint pk_tb_orcamentos_lucratividade_lorencini
+   primary key (os,func);
+alter table tb_orcamentos_lucratividade_lorencini add constraint fk_tb_orcamentos_lucratividade_lorencini_os
+   foreign key (os) references tb_orcamentos(os) on update cascade on delete cascade;
+alter table tb_orcamentos_lucratividade_lorencini add constraint fk_tb_orcamentos_lucratividade_lorencini_func
+   foreign key (func) references tb_funcoes(id) on update cascade on delete restrict;
+alter table tb_orcamentos_lucratividade_lorencini add constraint ck_tb_orcamentos_lucratividade_lorencini_qtde
+   check (qtde > 0);
+
+alter table tb_orcamentos_lucratividade_lorencini alter os set not null;
+alter table tb_orcamentos_lucratividade_lorencini alter func set not null;
+alter table tb_orcamentos_lucratividade_lorencini alter qtde set default 1;
+alter table tb_orcamentos_lucratividade_lorencini alter item drop not null;
+alter table tb_orcamentos_lucratividade_lorencini alter idos drop not null;
+
+insert into sys_errors (constraint_, descri, solucao) values ('pk_tb_orcamentos_lucratividade_lorencini', 'Mão-de-obra já cadastrada no orçamento.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_tb_orcamentos_lucratividade_lorencini_os', 'Mão-de-obra deve estar relacionada a uma OS.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_tb_orcamentos_lucratividade_lorencini_func', 'Função não pode ser excluída pois é referenciada pelo orçamento', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_tb_orcamentos_lucratividade_lorencini_qtde', 'Quantidade deve ser maior que zero', '');
+
+alter table tb_funcoes add vlr_total_adic_noturno numeric(18, 4) default 0 not null;
+
+CREATE SEQUENCE tb_funcoes_id_seq
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+  START 23
+  CACHE 1;
+
+ALTER TABLE tb_funcoes ALTER COLUMN id SET DEFAULT nextval(('public.tb_funcoes_id_seq'::text)::regclass);
+
+
+-- Registro do faturamento
+create table fatu_os (
+   os integer not null,
+   nf integer not null,
+   emissao date not null,
+   valor numeric(12, 2) default 0 not null,
+   recno serial not null
+);
+
+alter table fatu_os add constraint pk_fatu_os primary key(os, nf);
+alter table fatu_os add constraint uk_fatu_os_recno unique(recno);
+alter table fatu_os add constraint fk_fatu_os foreign key(os)
+   references tb_orcamentos(os) on delete cascade on update cascade;
+
+insert into sys_errors (constraint_, descri, solucao) values ('pk_fatu_os', 'Nota fiscal já relacionada na OS.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('uk_fatu_os_recno', 'Registro duplicado.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_fatu_os', 'OS não localizada pela tabela de faturamento', '');
+
+-- preenche tabela de faturamento
+insert into fatu_os (os, nf, emissao, valor)
+select b.os, a.nota_numero, coalesce(a.nota_emissao, b.data), a.nota_valor
+  from tb_orcamentos_faturamento a
+       join tb_orcamentos b
+         on b.idos = a.idos;
+
+-- ==========================================================================================================
+-- VERSAO 2.1 - 23/06/2008
+-- ==========================================================================================================
+set session authorization lorencini;
+
+alter table tb_orcamentos add item integer;      -- código de atividade
+alter table tb_orcamentos add constraint fk_tb_orcmanto2 foreign key(item)
+   references textos_os(item) on update cascade on delete restrict;
+insert into sys_errors (constraint_, descri, solucao) values ('fk_tb_orcmanto2', 'Atividade não pode ser excluída pois é referenciada por uma ou mais OS.', '');
+
+alter table servicos_os drop item;
+
+
+-- Antes de processar o comando abaixo aplicar a procedure "b_tb_orcamentos.spg"
+
+
+-- Atualizando código de vendedores dos orçamentos
+update tb_orcamentos
+   set idvendedor = a.id_vendedor
+  from (
+select b.id_vendedor, a.recno
+  from tb_orcamentos a
+       join tbclientes b
+         on b.codigo = a.idcliente
+ where idvendedor is null) a
+ where a.recno = tb_orcamentos.recno;
+
+-- ==========================================================================================================
+-- VERSAO 2.1.2 - 26/06/2008
+-- ==========================================================================================================
+set session authorization lorencini;
+
+alter table tb_orcamentos add descto_srv numeric(5,2) default 0 not null;  -- percentual de desconto sobre materiais
+alter table tb_orcamentos add descto_mat numeric(5,2) default 0 not null;  -- percentual de desconto sobre serviços
+alter table tb_orcamentos add vldescto_srv numeric(12,2) default 0 not null;  -- valor descontado sobre materiais
+alter table tb_orcamentos add vldescto_mat numeric(12,2) default 0 not null;  -- valor descontado sobre serviços
+
+alter table tb_orcamentos add calc_art integer default 0 not null;  -- indicação de cálculo da ART
+
+-- ==========================================================================================================
+-- VERSAO 2.1.3 - 11/07/2008
+-- ==========================================================================================================
+set session authorization lorencini;
+
+ALTER TABLE servicos_det_os DROP CONSTRAINT fk_servicos_det_os;
+
+select recno
+delete
+  from servicos_det_os
+ where recno not in (
+select a.recno
+  from servicos_det_os a
+       join servicos_os b
+         on b.os = a.os
+        and b.codserv = a.codserv);
+
+alter table servicos_det_os add constraint fk_servicos_det_os foreign key(os,codserv)
+   references servicos_os(os,codserv) on delete cascade on update cascade;
+
+delete
+  from servicos_det_os
+ where recno in (
+       select a.recno
+         from servicos_det_os a
+              join servicos_det b
+                on b.codserv = a.codserv
+               and b.recno = a.recno_serv
+               and coalesce(b.descri, '') = '');
+
+delete
+  from servicos_det
+ where coalesce(descri, '') = '';
+
+ delete
+  from servicos_det_os
+ where recno in (
+select a.recno
+  from servicos_det_os a
+       join (select a.codserv, a.descri, a.recno
+               from servicos_det a
+                    join (select codserv, descri, min(recno) as recno
+                            from servicos_det
+                           group by codserv, descri
+                          having count(*) > 1) b
+                      on b.codserv = a.codserv
+                     and b.recno <> a.recno
+                     and b.descri = a.descri) b
+         on b.codserv = a.codserv
+        and b.recno = a.recno_serv);
+        
+
+delete
+  from servicos_det
+ where recno in ( 
+select a.recno
+               from servicos_det a
+                    join (select codserv, descri, min(recno) as recno
+                            from servicos_det
+                           group by codserv, descri
+                          having count(*) > 1) b
+                      on b.codserv = a.codserv
+                     and b.recno <> a.recno
+                     and b.descri = a.descri);
+
+-- ==========================================================================================================
+-- VERSAO 2.1.4 - 29/07/2008
+-- ==========================================================================================================
+set session authorization lorencini;
+
+alter table servicos_os add vl_venda numeric(12, 2) default 0 not null;
+alter table servicos_os add prnsecserv boolean default true;
+alter table orca_mat add vl_venda numeric(12, 2) default 0 not null;
+alter table tb_orcamentos_lucratividade_lorencini add vl_venda numeric(12, 2) default 0 not null;
+alter table servicos add prnsecserv boolean default true;
+
+create table sys_flag (
+   session varchar(60) not null,
+   table_ varchar(100) not null,
+   recno integer not null);
+
+alter table sys_flag add constraint pk_sys_flag primary key(session,table_,recno);
+alter table sys_flag add constraint fk_sys_flag foreign key(session)
+   references sys_session(session) on update cascade on delete cascade;
+
+DROP FUNCTION a_serviscos_os() cascade;
+-- aplicar as rotinas:
+-- Criar rotinas sys_flag()
+-- a_tb_orcamentos_lucratividade_lorencini
+-- a_tb_orcamentos
+-- a_servicos_os
+-- ta_servicos_os
+-- a_orca_mat
+
+
+/**
+ *	Versão 2.1.5
+ * Reestruturação do CallCenter
+ */
+
+set session authorization lorencini;
+
+DROP TABLE tb_orcamentos_lucratividade_detalhes;
+ALTER TABLE tb_orcamentos DROP CONSTRAINT fk_tb_orcamentos;
+
+/** criação da tabela */
+create table callcenter
+(	id serial not null,
+	codigo integer not null,
+	data timestamp default localtimestamp not null,
+	username varchar(20) not null,
+	contato integer,
+	descri text,
+	os integer,
+	recno serial not null
+);
+
+alter table callcenter add constraint pk_callcenter primary key(id);
+alter table callcenter add constraint fk_callcenter_codigo
+	foreign key(codigo) references tbclientes(codigo)
+	on update cascade on delete cascade;
+alter table callcenter add constraint fk_callcenter_username
+	foreign key(username) references sys_users(username)
+	on update cascade on delete restrict;
+alter table callcenter add constraint fk_callcenter_contato
+	foreign key(codigo, contato) references tbclientes_contatos(cliente, item)
+	on update cascade on delete set null;
+alter table callcenter add constraint fk_callcenter_os
+	foreign key(os, codigo) references tb_orcamentos(os, idcliente)
+	on update cascade on delete set null;
+alter table callcenter add constraint uk_callcenter unique(recno);
+
+/** Índices */
+create index idxcallcenter_codigo on callcenter(codigo,data);
+create index idxcallcenter_os on callcenter(codigo,os);
+
+/** criação das mensagens de erro */
+insert into sys_errors (constraint_, descri, solucao) values ('pk_callcenter', 'Chamado já cadastrado.', 'Contate o programador. Campo serial.');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_callcenter_codigo', 'Cliente informadado não localizado no cadastro.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_callcenter_username', 'Usuário não pode ser excluído.', 'Desabilite o usuário.');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_callcenter_contato', 'Contato não localizado para o cliente informado.', 'Cadastre o contato');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_callcenter_os', 'Orçamento inválido para o cliente informado', '');
+insert into sys_errors (constraint_, descri, solucao) values ('uk_callcenter', 'Recno duplicado.', 'Contate o programador. Campo serial.');
+
+/** populando nova tabela */
+insert into callcenter (codigo, data, username, contato, descri, os)
+select a.codigo, a.data, a.username, a.contato, a.descri, b.os
+  from call_atividade a
+       left join call_orca b
+         on b.codigo = a.codigo
+        and b.chamado = a.chamado
+ order by a.codigo, a.data;
+
+ insert into sys_errors (constraint_, descri, solucao) values ('pk_produtos', 'Material já cadastrado.', 'Altere o código e tente gravar novamente.');
+ 
+ 
+ /**
+ *	Versão 2.1.6
+ * Tela de aprovação de pedido
+ */
+
+set session authorization lorencini;
+
+alter table tb_orcamentos
+   add pedidocliente varchar(15),
+   add pedtipo integer default 1 not null,
+   add peddtaprov timestamp default localtimestamp,
+   add pedvlaprov numeric(12, 2) default 0 not null,
+   add pedobs text,
+   add pedusername varchar(20),
+   add pedcontato integer,
+   add pedintegracao boolean default false not null,
+   add pedart boolean default false not null,
+   add upd_markup boolean default false not null;
+
+alter table tb_orcamentos
+   add constraint fk_tb_orcamentos_pedusername foreign key (pedusername)
+         references sys_users(username) on update cascade on delete set null,
+   add constraint fk_tb_orcamentos_pedcontato foreign key (idcliente, pedcontato)
+         references tbclientes_contatos(cliente, item) on update cascade on delete set null;
+         
+-- aplicar as rotinas
+-- a_orca_mat
+-- a_servicos_os
+-- a_tb_orcamentos_lucratividade_lorencini
+-- b_produtos
+-- tb_produtos
+
+DROP TRIGGER ta_tb_orcamentos ON tb_orcamentos;
+DROP TRIGGER tb_tb_orcamentos ON tb_orcamentos;
+
+update tb_orcamentos
+   set peddtaprov = data, pedvlaprov = vltotnf,
+       pedobs = 'Pedido gerado automaticamente pelo sistema.'
+ where status_ in (2,3,5,6);
+
+CREATE TRIGGER ta_tb_orcamentos
+  AFTER INSERT OR UPDATE OR DELETE
+  ON tb_orcamentos
+  FOR EACH ROW
+  EXECUTE PROCEDURE a_tb_orcamentos();
+
+CREATE TRIGGER tb_tb_orcamentos
+  BEFORE INSERT OR UPDATE OR DELETE
+  ON tb_orcamentos
+  FOR EACH ROW
+  EXECUTE PROCEDURE b_tb_orcamentos();
+
+-- Revisão dos códigos de produto
+----------------------------------
+update produtos
+   set codigo = recno + 1000;
+update produtos
+   set codigo = recno;
+
+/**
+*	Versão 2.2.2
+*
+*/
+set session authorization lorencini;
+
+alter table fatu_os
+   add dtvenc date,
+   add dtreci date,
+   add dtbaixa date,
+   add vlicms numeric(12, 2) default 0 not null,
+   add vliss numeric(12, 2) default 0 not null,
+   add vlirpj numeric(12, 2) default 0 not null,
+   add vlipi numeric(12, 2) default 0 not null,
+   add vlcssl numeric(12, 2) default 0 not null,
+   add vlirpf numeric(12, 2) default 0 not null,
+   add vlpis numeric(12, 2) default 0 not null,
+   add vlcofins numeric(12, 2) default 0 not null,
+   add vlcom numeric(12, 2) default 0 not null,
+   add constraint ck_fatu_os_vlicms check (vlicms >= 0),
+   add constraint ck_fatu_os_vliss check (vliss >= 0),
+   add constraint ck_fatu_os_vlirpj check (vlirpj >= 0),
+   add constraint ck_fatu_os_vlipi check (vlipi >= 0),
+   add constraint ck_fatu_os_vlcssl check (vlcssl >= 0),
+   add constraint ck_fatu_os_vlirpf check (vlirpf >= 0),
+   add constraint ck_fatu_os_pis check (vlpis >= 0),
+   add constraint ck_fatu_os_cofins check (vlcofins >= 0),
+   add constraint ck_fatu_os_vlcom check (vlcom >= 0);
+
+insert into sys_errors (constraint_, descri, solucao) values ('ck_fatu_os_vlicms', 'Valor não deve ser negativo.', 'Insira valores maiores ou iguais a zero.');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_fatu_os_vliss', 'Valor não deve ser negativo.', 'Insira valores maiores ou iguais a zero.');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_fatu_os_vlirpj', 'Valor não deve ser negativo.', 'Insira valores maiores ou iguais a zero.');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_fatu_os_vlipi', 'Valor não deve ser negativo.', 'Insira valores maiores ou iguais a zero.');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_fatu_os_vlcssl', 'Valor não deve ser negativo.', 'Insira valores maiores ou iguais a zero.');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_fatu_os_vlirpf', 'Valor não deve ser negativo.', 'Insira valores maiores ou iguais a zero.');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_fatu_os_vlcom', 'Valor não deve ser negativo.', 'Insira valores maiores ou iguais a zero.');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_fatu_os_pis', 'Valor não deve ser negativo.', 'Insira valores maiores ou iguais a zero.');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_fatu_os_cofins', 'Valor não deve ser negativo.', 'Insira valores maiores ou iguais a zero.');
+
+/* Estrutura de relatórios */
+create table sys_reports (
+   file varchar(255) not null,
+   descri varchar(60) not null,
+   recno serial not null
+);
+
+alter table sys_reports
+   add constraint pk_sys_reports primary key(file),
+   add constraint uk_sys_reports_descri unique(descri),
+   add constraint uk_sys_reports_recno unique(recno);
+
+insert into sys_errors (constraint_, descri, solucao) values ('pk_sys_reports', 'Relatório já existe.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('uk_sys_reports_descri', 'Já existe um relatório com essa descrição.', 'Altere a descrição.');
+insert into sys_errors (constraint_, descri, solucao) values ('uk_sys_reports_recno', 'Recno não pode ser duplicado.', 'Contate o administrador da rede.');
+
+
+/*
+   Versão 2.3.3
+*/
+set session authorization lorencini;
+
+alter table fatu_os
+   add constraint ck_fatu_os_dtbaixa check (dtbaixa >= emissao),
+   add constraint ck_fatu_os_dtvenc check (dtvenc >= emissao);
+
+insert into sys_errors (constraint_, descri, solucao) values ('ck_fatu_os_dtbaixa', 'Baixa do título não pode ser anterior a emissão.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_fatu_os_dtvenc', 'Vencimento do título não pode ser anterior a emissão.', '');
+
+/*
+  Versão 2.3.4
+*/
+
+set session authorization lorencini;
+
+alter table sys_users alter password type varchar(32);
+
+update sys_users
+   set password = md5('123');
+
+drop table sys_reports cascade;
+
+/* Estrutura de relatórios */
+create table sys_reports (
+   report serial not null,
+   descri varchar(60) not null,
+   form varchar(60),
+   recno serial not null
+);
+
+alter table sys_reports
+   add constraint pk_sys_reports primary key(report),
+   add constraint uk_sys_reports_descri unique(descri),
+   add constraint uk_sys_reports_recno unique(recno),
+   add constraint fk_sys_reports_form foreign key(form)
+       references sys_forms(form) on update cascade on delete restrict;
+
+insert into sys_errors (constraint_, descri, solucao) values ('fk_sys_reports_form', 'Formulário de parâmetros não localizado.', 'Cadastre o formulário');
+
+create index sys_reports_idx on sys_reports(form);
+
+DROP TRIGGER a_fatu_os ON fatu_os;
+--DROP TRIGGER b_fatu_os ON fatu_os;
+
+update fatu_os
+   set dtbaixa = emissao + 22, dtvenc = emissao + 21
+ where emissao < '2008-11-01';
+
+/*CREATE TRIGGER b_fatu_os
+  BEFORE INSERT OR UPDATE OR DELETE
+  ON fatu_os
+  FOR EACH ROW
+  EXECUTE PROCEDURE b_fatu_os();*/
+
+CREATE TRIGGER a_fatu_os
+  AFTER INSERT OR UPDATE OR DELETE
+  ON fatu_os
+  FOR EACH ROW
+  EXECUTE PROCEDURE a_fatu_os();

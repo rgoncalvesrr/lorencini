@@ -1,0 +1,39 @@
+/**
+   Processamento da mão de obra do pedido
+
+	@author    Ricardo Gonçalves
+	@date      23/06/2018
+	@trigger   pedido_mo A IUD
+
+	Histórico
+	-------------------------------------------------------------------------------------------------------------------
+ */
+Create or Replace Function a_pedido_mo()
+Returns trigger As
+$$
+Declare
+   ipedido  pedido.recno%type;
+   imarkup  pedido.markup%type;
+Begin
+   if tg_op <> 'DELETE' then
+      ipedido := new.pedido;
+   else
+      ipedido := old.pedido;
+   end if;
+
+   if not sys_flag('pedido', ipedido) then
+      perform sys_flag_mark('pedido', ipedido);
+      -- Atualizando markup para pedidos em digitação
+      imarkup := calcula_markup(sys_origem('pedido'), ipedido); 
+      update pedido
+         set markup = imarkup
+       where recno = ipedido
+         and status = 10;  
+
+      perform sys_flag_del('pedido', ipedido);
+   end if;
+
+   return null;
+End
+$$
+language plpgsql;

@@ -1,0 +1,25 @@
+alter table tb_orcamentos add pedvlaprovmat numeric(12,2) default 0 not null;
+
+select * from fin_pagar where baixa is not null
+
+select * from sys_session  
+
+insert into sys_session (session, username, login) values (sys_session(), 'RICARDO', localtimestamp)
+
+update fin_pagar set valor_baixado = valor where baixa is not null
+
+
+select a.nf as "Nota Fiscal", a.emissao as "Emissão", a.os as "OS", a.valor as "Valor"
+  from fatu_os a
+       join (select nf
+               from fatu_os
+               group by nf
+              having count(nf) > 1) b
+         on b.nf = a.nf
+where a.emissao between '2009-01-01' and '2009-04-17'
+ order by a.nf, a.emissao, os
+alter table fatu_os add nfmat integer;
+alter table fatu_os drop constraint pk_fatu_os;
+alter table fatu_os add constraint pk_fatu_os primary key (os,recno);
+alter table fatu_os add constraint uk_fatu_os_nf unique (nf);
+alter table fatu_os add constraint uk_fatu_os_nfmat unique (nfmat);

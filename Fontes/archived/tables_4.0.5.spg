@@ -1,0 +1,27 @@
+/**
+   Script da versão 4.0.5
+
+   @author    Ricardo Gonçalves
+   @date      11/10/2011 11:12:54
+   @trigger
+
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+set session authorization lorencini;
+
+alter table labens
+   add dec integer default 4 not null,
+   add arred integer default 1 not null,
+   add sezerotxt varchar(10);
+
+alter table labens add constraint ck_labens_dec check (dec between 0 and 4);
+alter table labens add constraint ck_labens_arred check (arred between 1 and 3);
+
+CREATE OR REPLACE VIEW vensaios AS
+ SELECT e.recno, e.nome, e.unidade_recno, u.descri AS unidade, e.metodo_recno, m.descri AS metodo, e.descri,
+        e.dec, e.arred, e.sezerotxt
+   FROM labens e
+   LEFT JOIN labunidades u ON u.recno = e.unidade_recno
+   LEFT JOIN labmetodos m ON m.recno = e.metodo_recno;

@@ -1,0 +1,1 @@
+insert into sys_tables (tabela, descri) values ('fin_pagar_bxs', 'Contas a Pagar - Parcelas');

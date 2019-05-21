@@ -1,0 +1,288 @@
+set session authorization lorencini;
+
+ALTER TABLE public.labamostras_rel DROP CONSTRAINT fk_labamostras_rel_1;
+ALTER TABLE public.labamostras_rel DROP CONSTRAINT pk_labamostras_rel;
+ALTER TABLE public.labamostras_rel DROP CONSTRAINT uk_labamostras_rel_recno cascade;
+ALTER TABLE public.labamostras_res DROP CONSTRAINT pk_labamostras_res cascade;
+
+alter table labamostras_rel 
+   add constraint pk_labamostras_rel primary key(recno),
+   add constraint uk_labamostras_rel_1 unique(amostra_recno, relato_recno, revisao),
+   add constraint fk_labamostras_rel_1 foreign key(revisao) references labamostras_rel(recno)
+      on update cascade on delete restrict;
+      
+alter table labamostras_res add laudo integer;
+alter table labamostras_res disable trigger all;
+update labamostras_res a
+   set laudo = b.recno
+  from labamostras_rel b
+ where b.amostra_Recno = a.amostra_recno
+   and b.relato_recno = a.relato_recno;
+   
+delete 
+  from labamostras_res
+ where recno in (
+       select a.recno
+         from labamostras_res a
+        where not exists( 
+             select 1
+               from labamostras_rel b
+              where b.amostra_Recno = a.amostra_recno
+                and b.relato_recno = a.relato_recno));   
+
+alter table labamostras_res 
+   alter laudo set not null,
+   add constraint pk_labamostras_res primary key(laudo, relato_recno, ensaio_recno),
+   add constraint fk_labamostras_res_1 foreign key(laudo) references labamostras_rel(recno) 
+      on update cascade on delete cascade;
+      
+ALTER TABLE public.labamostras_res_ativos DROP CONSTRAINT pk_labamostras_res_ativos;
+
+alter table labamostras_res_ativos add laudo integer;
+alter table labamostras_res_ativos disable trigger all;
+update labamostras_res_ativos a
+   set laudo = b.laudo
+  from labamostras_res b
+ where b.amostra_recno = a.amostra_recno
+   and b.relato_recno = a.relato_recno
+   and b.ensaio_recno = a.ensaio_recno;
+   
+delete 
+  from labamostras_res_ativos
+ where recno in (
+       select a.recno
+         from labamostras_res_ativos a
+        where not exists( 
+             select 1
+               from labamostras_res b
+              where b.amostra_Recno = a.amostra_recno
+                and b.relato_recno = a.relato_recno
+                and b.ensaio_recno = a.ensaio_recno));      
+   
+alter table labamostras_res_ativos
+   alter laudo set not null,
+   add constraint pk_labamostras_res_ativos primary key(laudo, relato_recno, ensaio_recno, ativo),
+   add constraint fk_labamostras_res_ativos_1 foreign key(laudo, relato_recno, ensaio_recno) 
+      references labamostras_res(laudo, relato_recno, ensaio_recno) 
+      on update cascade on delete cascade,
+   enable trigger all;   
+   
+ALTER TABLE public.labamostras_res_sol DROP CONSTRAINT pk_labamostras_res_sol;   
+
+alter table labamostras_res_sol add laudo integer;
+alter table labamostras_res_sol disable trigger all;
+update labamostras_res_sol a
+   set laudo = b.laudo
+  from labamostras_res b
+ where b.amostra_recno = a.amostra_recno
+   and b.relato_recno = a.relato_recno
+   and b.ensaio_recno = a.ensaio_recno;
+
+delete 
+  from labamostras_res_sol
+ where recno in (
+       select a.recno
+         from labamostras_res_sol a
+        where not exists( 
+             select 1
+               from labamostras_res b
+              where b.amostra_Recno = a.amostra_recno
+                and b.relato_recno = a.relato_recno
+                and b.ensaio_recno = a.ensaio_recno));   
+
+alter table labamostras_res_sol
+   alter laudo set not null,
+   add constraint pk_labamostras_res_sol primary key(laudo, relato_recno, ensaio_recno, solucao),
+   add constraint fk_labamostras_res_sol_1 foreign key(laudo, relato_recno, ensaio_recno) 
+      references labamostras_res(laudo, relato_recno, ensaio_recno) 
+      on update cascade on delete cascade,
+   enable trigger all;      
+   
+ALTER TABLE public.labamostras_res_var DROP CONSTRAINT pk_labamostras_res_var;
+alter table labamostras_res_var add laudo integer;
+alter table labamostras_res_var disable trigger all;
+update labamostras_res_var a
+   set laudo = b.laudo
+  from labamostras_res b
+ where b.amostra_recno = a.amostra_recno
+   and b.relato_recno = a.relato_recno
+   and b.ensaio_recno = a.ensaio_recno;
+
+delete 
+  from labamostras_res_var
+ where recno in (
+       select a.recno
+         from labamostras_res_var a
+        where not exists( 
+             select 1
+               from labamostras_res b
+              where b.amostra_Recno = a.amostra_recno
+                and b.relato_recno = a.relato_recno
+                and b.ensaio_recno = a.ensaio_recno));   
+
+alter table labamostras_res_var
+   alter laudo set not null,
+   add constraint pk_labamostras_res_var primary key(laudo, relato_recno, ensaio_recno, proc, param),
+   add constraint fk_labamostras_res_var_1 foreign key(laudo, relato_recno, ensaio_recno) 
+      references labamostras_res(laudo, relato_recno, ensaio_recno) 
+      on update cascade on delete cascade,
+   enable trigger all; 
+   
+ALTER TABLE public.labamostras_hres DROP CONSTRAINT pk_labamostras_hres;
+alter table labamostras_hres add laudo integer, add laudo_dep integer;
+alter table labamostras_hres disable trigger all;
+update labamostras_hres a
+   set laudo = b.laudo
+  from labamostras_res b
+ where b.amostra_recno = a.amostra_recno
+   and b.relato_recno = a.relato_recno
+   and b.ensaio_recno = a.ensaio_recno;
+   
+update labamostras_hres a
+   set laudo_dep = b.laudo
+  from labamostras_res b
+ where b.amostra_recno = a.amostra_dep
+   and b.relato_recno = a.relato_recno
+   and b.ensaio_recno = a.ensaio_recno;   
+
+delete 
+  from labamostras_hres
+ where recno in (
+       select a.recno
+         from labamostras_hres a
+        where not exists( 
+             select 1
+               from labamostras_res b
+              where b.amostra_Recno = a.amostra_recno
+                and b.relato_recno = a.relato_recno
+                and b.ensaio_recno = a.ensaio_recno));  
+                
+delete 
+  from labamostras_hres
+ where recno in (
+       select a.recno
+         from labamostras_hres a
+        where not exists( 
+             select 1
+               from labamostras_res b
+              where b.amostra_Recno = a.amostra_dep
+                and b.relato_recno = a.relato_recno
+                and b.ensaio_recno = a.ensaio_recno));                                  
+
+alter table labamostras_hres
+   alter laudo set not null,
+   alter laudo_dep set not null,
+   add constraint pk_labamostras_hres primary key(relato_recno, ensaio_recno, laudo, laudo_dep),
+   add constraint fk_labamostras_hres_1 foreign key(laudo, relato_recno, ensaio_recno) 
+      references labamostras_res(laudo, relato_recno, ensaio_recno) 
+      on update cascade on delete cascade,
+   add constraint fk_labamostras_hres_2 foreign key(laudo_dep, relato_recno, ensaio_recno) 
+      references labamostras_res(laudo, relato_recno, ensaio_recno) 
+      on update cascade on delete cascade,      
+   enable trigger all;    
+   
+alter table labamostras_res drop amostra_recno;
+alter table labamostras_res_ativos drop amostra_recno;
+alter table labamostras_res_sol drop amostra_recno;
+alter table labamostras_res_var drop amostra_recno;
+alter table labamostras_hres
+   drop amostra_recno,
+   drop amostra_dep;
+   
+alter table labamostras_res enable trigger all;
+
+create or replace view vcotacomodato as 
+   select r.cotacao, e.comodato_recno
+     from cota c
+	  join labproc r
+            on r.cotacao = c.recno
+	  join labprocxequip e
+	    on e.labproc_recno = r.recno
+       
+alter table pedido_amostras_serv
+   add valor numeric(12, 2) default(0) not null,
+   add relato_recno integer;
+   
+alter table pedido_amostras_serv disable trigger all;
+
+update pedido_amostras_serv a
+   set valor = b.unitario, relato_recno = b.labrel_recno
+  from pedido_servicos b
+ where b.pedido =  a.pedido
+   and b.codserv = a.codserv;
+   
+delete from pedido_amostras_serv where relato_recno is null;
+
+alter table pedido_amostras_serv enable trigger all;   
+
+ALTER TABLE public.pedido_amostras_serv DROP CONSTRAINT pk_pedido_amostras_serv;
+ALTER TABLE public.pedido_amostras_serv
+  ADD CONSTRAINT pk_pedido_amostras_serv PRIMARY KEY(pedido, comodato_recno, relato_recno),
+  drop codserv,
+  add constraint fk_pedido_amostras_serv_2 foreign key(relato_recno)
+   references labrel(recno) on update cascade on delete restrict;
+drop table pedido_servicos;   
+DROP FUNCTION public.a_pedido_servicos();
+DROP FUNCTION public.b_pedido_servicos();
+DROP FUNCTION public.a_pedido_amostras_serv() cascade;
+
+CREATE TRIGGER b_pedido_amostras_serv
+  BEFORE INSERT OR UPDATE OR DELETE
+  ON public.pedido_amostras_serv
+  FOR EACH ROW
+  EXECUTE PROCEDURE public.b_pedido_amostras_serv();
+
+--drop table cota_laudo;
+create table cota_laudo (
+   cotacao integer not null,
+   servico integer not null,
+   relato_recno integer not null,
+   recno serial not null);
+   
+alter table cota_laudo
+   add constraint pk_cota_laudo primary key(cotacao, servico, relato_recno),
+   add constraint fk_cota_laudo_1 
+      foreign key(cotacao,servico) references cota_serv(cotacao,servico)
+      on update cascade on delete cascade,
+   add constraint fk_cota_laudo_2
+      foreign key(relato_recno) references labrel(recno)
+      on update cascade on delete restrict,
+   add constraint uk_cota_laudo_1 unique(recno);      
+      
+create index idx_cota_laudo_1 on cota_laudo(cotacao, servico);
+create index idx_cota_laudo_2 on cota_laudo(relato_recno);
+
+create index idx_labrel_1 on labrel(codserv);
+
+alter table labrel
+   add valor moeda_ not null;
+   
+create table tbclientesprecos (
+   cliente integer not null,
+   relato_recno integer not null,
+   valor moeda_ not null,
+   recno serial not null,
+   constraint pk_tbclientesprecos primary key (cliente,relato_recno),
+   constraint fk_tbclientesprecos_1 
+      foreign key(cliente) references tbclientes(codigo)
+      on update cascade on delete cascade,
+   constraint fk_tbclientesprecos_2 
+      foreign key(relato_recno) references labrel(recno)
+      on update cascade on delete restrict,
+   constraint ck_tbclientesprecos_1 check(valor > 0),
+   constraint uk_tbclientesprecos_1 unique(recno));
+   
+create index idx_tbclientesprecos_1 on tbclientesprecos(cliente);   
+create index idx_tbclientesprecos_2 on tbclientesprecos(relato_recno); 
+
+update labrel r
+     set valor = s.valor
+   from servicos s  
+  where s.codserv = r.codserv;
+  
+CREATE TRIGGER a_cota_laudo
+  AFTER INSERT OR UPDATE OR DELETE
+  ON public.cota_laudo
+  FOR EACH ROW
+  EXECUTE PROCEDURE public.a_cota_laudo();
+  

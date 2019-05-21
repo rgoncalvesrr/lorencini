@@ -1,0 +1,239 @@
+/**
+   Processamento da tabela de registro do comodato
+
+   @author    Ricardo Gonçalves
+   @date      28/02/2016 14:13:36
+   @trigger   pedido B IUD
+
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+
+   23/06/2018  Ricardo Gonçalves
+      [*] Ajuste no processamento dos status do pedido.
+            10.Em Digitação / 20.Aprovação de Crédito / 30.Aguardando Autorização / 40.Em Remessa /
+            50.Aguardando Amostras / 60.Executando / 70.Executado / 99.Cancelado
+            
+   07/11/2018  Ricardo Gonçalves
+      [+] Checagem dos serviços quando tiver indicado no pedido serviços de laboratório. Se não houver, ao menos 1 serviço 
+            com controle de vidraria e consumo, o sistema não deixará o pedido avançar para o estado inválido.
+
+   12/04/2019  Ricardo Gonçalves
+      [+] Verificação de remessa em curso antes do cancelamento do pedido
+*/
+CREATE OR REPLACE FUNCTION b_pedido()
+  RETURNS trigger AS
+$$
+Declare
+   r        record;
+   rx       record;   
+   msg      text;   
+   CRLF     text;   
+BEGIN
+   CRLF := chr(13) || chr(10);
+
+   if tg_op <> 'DELETE' then
+      if tg_op = 'INSERT' then
+         new.criado := localtimestamp;
+         new.status := 10; -- força estado de digitação
+         new.frete := coalesce(new.frete, 0);
+      end if;
+
+      if not new.remessa then
+         new.frete := 0;
+         new.frascos := 0;
+         new.seringas := 0;
+         new.correio := null;
+      end if;
+      
+      new.contato_fin := coalesce(new.contato_fin, new.contato);
+      new.contato_tec := coalesce(new.contato_tec, new.contato);
+      new.cliente := coalesce(new.cliente, new.codigo);
+
+      if tg_op = 'UPDATE' then
+         if new.status = 10 and old.status = 10 then
+            return new;
+         end if;
+
+         -- Liberação do pedido
+         if old.status = 10 and new.status = 20 then
+            msg := '';
+            if new.markup is null then
+               msg := msg || CRLF || '- Markup não aprovado.';
+            end if;
+
+            -- Verificando se o pedido pode entrar em faze de autorização
+            if new.contato is null then
+               msg := msg || CRLF || '- Não há contato preenchido.';
+            end if;
+
+            -- Verificando se o pedido pode entrar em faze de autorização
+            if new.contato_fin is null then
+               msg := msg || CRLF || '- Não há contato financeiro preenchido.';
+            end if;
+
+            -- Verificando se o pedido pode entrar em faze de autorização
+            if new.contato_tec is null then
+               msg := msg || CRLF || '- Não há contato técnico preenchido.';
+            end if;
+
+            select email
+              into r
+              from tbclientes_contatos
+             where cliente = new.codigo
+               and item = new.contato;
+
+            if r.email is null then
+               msg := msg || CRLF || '- E-mail do contato não está preenchido.';
+            end if;
+
+            select email, contato_mail, id_vendedor
+              into r
+              from tbclientes
+             where codigo = new.codigo;
+
+            if r.email is null and r.contato_mail is null then
+               msg := msg || CRLF || '- E-mail no cadastro do cliente não está preenchido.';
+            end if;
+
+            if r.id_vendedor is null then
+               msg := msg || CRLF || '- Vendedor no cadastro do cliente não está preenchido.';
+            end if;
+
+            -- Validando informações de remessa
+            if new.remessa then
+               if new.frascos + new.seringas = 0 then
+                  msg := msg || CRLF || '- Há indicação de remessa mas a quantidade de frascos e/ou seringas está zerada.';               
+               end if;
+
+               if new.envio < 3 then
+                  if new.frete = 0 then
+                     msg := msg || CRLF || '- Tipo de envio exige valor de frete.';
+                  end if;
+
+                  if new.envio = 1 and new.correio is null then
+                     msg := msg || CRLF || '- Materiais enviados via correios exigem cálculo de SEDEX.';
+                  end if;
+               else
+                  new.frete := 0;
+                  new.correio := null;
+               end if;
+
+            end if;
+
+            if msg <> '' then
+               raise '[[O pedido % não pode ser liberado porque apresenta as inconsistências:%]]', new.recno, msg;
+            end if;
+         -- Aprovação do pedido
+         elsif old.status = 20 and new.status = 30 then
+            msg := fin_ckbloqueio(new.codigo);
+            -- Caso haja pendência financeira, mantem o pedido no estado 20 - Aprovando Crédito
+            if msg <> '' then            
+               raise '[[Crédito reprovado: %]]', msg;
+            end if;
+         elsif old.status = 30 and new.status = 40 then
+            if not new.remessa then
+               raise '[[O pedido % não tem remessa.]]', new.recno;
+            end if;
+         elsif old.status = 30 and new.status = 50 then
+            if not new.laboratorio then
+               raise '[[O pedido % não tem serviços de análise.]]', new.recno;
+            end if;
+
+            if new.remessa and not exists(
+               select 1
+                 from labproc
+                where pedido = new.recno
+                  and situacao = 4)
+            then
+               raise '[[O pedido % não pode aguardar amostras porque a remessa não foi completada.]]', new.recno;
+            end if;
+
+            -- Verifica se há algum serviço que possibilite a análise
+            if not exists(
+               select 1 
+                 from pedido_serv ps
+                      join servicos s
+                        on s.codserv = ps.codserv
+                       and s.vidraria > 0
+                       and s.consumo > 0
+                where ps.pedido = new.recno)
+            then
+               raise '[[O pedido % não pode aguardar amostras porque os serviços não tem vidraria e consumo.]]', new.recno;
+            end if;
+         elsif old.status in (30, 50) and new.status = 60 then -- validando a entrada do pedido em produção
+            -- Verificando se o email de autorização foi enviado com sucesso
+            if old.status = 30 then
+               if exists(
+                  select 1
+                  from sys_email
+                  where table_ = sys_origem('pedido')
+                     and recno_ = new.recno
+                     and status = 2)
+               then
+                  new.autorizado := localtimestamp;
+               else
+                  raise '[[O pedido % não pode entrar em produção porque o e-mail com pedido não foi enviado para o cliente!]]', new.recno;
+               end if;
+            end if;
+
+            if old.status = 30 and new.remessa then
+               raise '[[O pedido % não pode entrar em produção porque não há registro de remessa.', new.recno;
+            end if;
+
+            -- Validando a associação das amostras com o pedido
+            if old.status = 50 then
+               msg := '';
+
+               for r in (
+                  select a.codserv, b.descri, a.qtd, a.amostras
+                    from pedido_serv a
+                         join servicos b
+                           on b.codserv = a.codserv
+                         join servicos_grupo c
+                           on c.recno = b.grupo
+                          and c.laboratorio
+                   where a.pedido = new.recno
+                     and a.qtd <> a.amostras)
+               loop
+                  msg := msg || CRLF || format('O serviço %s - %s exige %s amostras e foram associadas somente %s amostras',
+                     r.codserv, r.descri, to_char(r.qtd, 'FM99999990'), to_char(r.qtd, 'FM99999990'));
+               end loop;
+
+               if msg <> '' then
+                  msg := 'O pedido não pode entrar em produção porque:' || CRLF || msg;
+
+                  raise '[[%s]]', msg;
+               end if;
+            end if;
+
+         -- Cancelamento do pedido, verificação de remessa em processo
+         elsif old.status in (20, 30, 40) and new.status = 99 then
+            if exists(
+               select 1
+                 from labproc
+                where pedido = new.recno
+                  and situacao between 1 and 6)
+            then
+               raise '[[O pedido % não pode ser cancelado porque a remessa já foi iniciada!]]', new.recno;
+            end if;
+         else
+            if new.status = 70 and old.status <> 60 then
+               raise '[[O pedido % executou uma sequência inválida de alteração de status.', new.recno;
+            end if;
+         end if;
+      end if;
+
+      return new;
+   end if;
+
+   if old.status > 10 then
+      raise '[[O pedido % não pode ser excluído porque passou da fase de digitação!]]', old.recno;
+   end if;
+
+   perform sys_flag_mark('pedido', old.recno);
+   
+   return old;
+END;
+$$
+LANGUAGE 'plpgsql' VOLATILE;

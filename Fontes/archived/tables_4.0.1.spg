@@ -1,0 +1,33 @@
+/**
+   Script da versão 4.0.2
+
+   @author    Ricardo Gonçalves
+   @date      04/10/2011 11:59:07
+   @trigger
+
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+set session authorization lorencini;
+
+create table tbcli_grupos (
+   recno serial not null,
+   descri varchar(60) not null);
+
+alter table tbcli_grupos add constraint pk_tbcli_grupos primary key(recno);
+alter table tbcli_grupos add constraint uk_tbcli_grupos_descri unique(descri);
+
+create table tbclixgrupos (
+   codigo integer not null,
+   tbcli_grupos_recno integer not null,
+   recno serial not null);
+
+alter table tbclixgrupos add constraint pk_tbclixgrupos primary key(codigo, tbcli_grupos_recno);
+alter table tbclixgrupos add constraint fk_tbclixgrupos_codigo
+   foreign key(codigo) references tbclientes(codigo)
+   on update cascade on delete cascade;
+alter table tbclixgrupos add constraint fk_tbclixgrupos_tbcli_grupos_recno
+   foreign key(tbcli_grupos_recno) references tbcli_grupos(recno)
+   on update cascade on delete cascade;
+alter table tbclixgrupos add constraint uk_tbclixgrupos_recno unique(recno);

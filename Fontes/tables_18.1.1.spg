@@ -1,0 +1,875 @@
+set session authorization lorencini;
+
+ALTER TABLE public.labamostras_rel DROP CONSTRAINT fk_labamostras_rel_1;
+ALTER TABLE public.labamostras_rel DROP CONSTRAINT pk_labamostras_rel;
+ALTER TABLE public.labamostras_rel DROP CONSTRAINT uk_labamostras_rel_recno cascade;
+ALTER TABLE public.labamostras_res DROP CONSTRAINT pk_labamostras_res cascade;
+
+alter table labamostras_rel 
+   alter relato_recno drop not null,
+   add constraint pk_labamostras_rel primary key(recno),
+   add constraint uk_labamostras_rel_1 unique(amostra_recno, relato_recno, revisao),
+   add constraint fk_labamostras_rel_1 foreign key(revisao) references labamostras_rel(recno)
+      on update cascade on delete restrict;
+      
+create index idx_labamostras_rel_9 on labamostras_rel(recno) where revisao is null;
+      
+alter table labamostras_res add laudo integer;
+alter table labamostras_res disable trigger all;
+update labamostras_res a
+   set laudo = b.recno
+  from labamostras_rel b
+ where b.amostra_Recno = a.amostra_recno
+   and b.relato_recno = a.relato_recno;
+   
+delete 
+  from labamostras_res
+ where recno in (
+       select a.recno
+         from labamostras_res a
+        where not exists( 
+             select 1
+               from labamostras_rel b
+              where b.amostra_Recno = a.amostra_recno
+                and b.relato_recno = a.relato_recno));   
+
+alter table labamostras_res 
+   alter laudo set not null,
+   add constraint pk_labamostras_res primary key(laudo, relato_recno, ensaio_recno),
+   add constraint fk_labamostras_res_1 foreign key(laudo) references labamostras_rel(recno) 
+      on update cascade on delete cascade;
+      
+ALTER TABLE public.labamostras_res_ativos DROP CONSTRAINT pk_labamostras_res_ativos;
+
+alter table labamostras_res_ativos add laudo integer;
+alter table labamostras_res_ativos disable trigger all;
+update labamostras_res_ativos a
+   set laudo = b.laudo
+  from labamostras_res b
+ where b.amostra_recno = a.amostra_recno
+   and b.relato_recno = a.relato_recno
+   and b.ensaio_recno = a.ensaio_recno;
+   
+delete 
+  from labamostras_res_ativos
+ where recno in (
+       select a.recno
+         from labamostras_res_ativos a
+        where not exists( 
+             select 1
+               from labamostras_res b
+              where b.amostra_Recno = a.amostra_recno
+                and b.relato_recno = a.relato_recno
+                and b.ensaio_recno = a.ensaio_recno));      
+   
+alter table labamostras_res_ativos
+   alter laudo set not null,
+   add constraint pk_labamostras_res_ativos primary key(laudo, relato_recno, ensaio_recno, ativo),
+   add constraint fk_labamostras_res_ativos_1 foreign key(laudo, relato_recno, ensaio_recno) 
+      references labamostras_res(laudo, relato_recno, ensaio_recno) 
+      on update cascade on delete cascade,
+   enable trigger all;   
+   
+ALTER TABLE public.labamostras_res_sol DROP CONSTRAINT pk_labamostras_res_sol;   
+
+alter table labamostras_res_sol add laudo integer;
+alter table labamostras_res_sol disable trigger all;
+update labamostras_res_sol a
+   set laudo = b.laudo
+  from labamostras_res b
+ where b.amostra_recno = a.amostra_recno
+   and b.relato_recno = a.relato_recno
+   and b.ensaio_recno = a.ensaio_recno;
+
+delete 
+  from labamostras_res_sol
+ where recno in (
+       select a.recno
+         from labamostras_res_sol a
+        where not exists( 
+             select 1
+               from labamostras_res b
+              where b.amostra_Recno = a.amostra_recno
+                and b.relato_recno = a.relato_recno
+                and b.ensaio_recno = a.ensaio_recno));   
+
+alter table labamostras_res_sol
+   alter laudo set not null,
+   add constraint pk_labamostras_res_sol primary key(laudo, relato_recno, ensaio_recno, solucao),
+   add constraint fk_labamostras_res_sol_1 foreign key(laudo, relato_recno, ensaio_recno) 
+      references labamostras_res(laudo, relato_recno, ensaio_recno) 
+      on update cascade on delete cascade,
+   enable trigger all;      
+   
+ALTER TABLE public.labamostras_res_var DROP CONSTRAINT pk_labamostras_res_var;
+alter table labamostras_res_var add laudo integer;
+alter table labamostras_res_var disable trigger all;
+update labamostras_res_var a
+   set laudo = b.laudo
+  from labamostras_res b
+ where b.amostra_recno = a.amostra_recno
+   and b.relato_recno = a.relato_recno
+   and b.ensaio_recno = a.ensaio_recno;
+
+delete 
+  from labamostras_res_var
+ where recno in (
+       select a.recno
+         from labamostras_res_var a
+        where not exists( 
+             select 1
+               from labamostras_res b
+              where b.amostra_Recno = a.amostra_recno
+                and b.relato_recno = a.relato_recno
+                and b.ensaio_recno = a.ensaio_recno));   
+
+alter table labamostras_res_var
+   alter laudo set not null,
+   add constraint pk_labamostras_res_var primary key(laudo, relato_recno, ensaio_recno, proc, param),
+   add constraint fk_labamostras_res_var_1 foreign key(laudo, relato_recno, ensaio_recno) 
+      references labamostras_res(laudo, relato_recno, ensaio_recno) 
+      on update cascade on delete cascade,
+   enable trigger all; 
+   
+ALTER TABLE public.labamostras_hres DROP CONSTRAINT pk_labamostras_hres;
+alter table labamostras_hres add laudo integer, add laudo_dep integer;
+alter table labamostras_hres disable trigger all;
+update labamostras_hres a
+   set laudo = b.laudo
+  from labamostras_res b
+ where b.amostra_recno = a.amostra_recno
+   and b.relato_recno = a.relato_recno
+   and b.ensaio_recno = a.ensaio_recno;
+   
+update labamostras_hres a
+   set laudo_dep = b.laudo
+  from labamostras_res b
+ where b.amostra_recno = a.amostra_dep
+   and b.relato_recno = a.relato_recno
+   and b.ensaio_recno = a.ensaio_recno;   
+
+delete 
+  from labamostras_hres
+ where recno in (
+       select a.recno
+         from labamostras_hres a
+        where not exists( 
+             select 1
+               from labamostras_res b
+              where b.amostra_Recno = a.amostra_recno
+                and b.relato_recno = a.relato_recno
+                and b.ensaio_recno = a.ensaio_recno));  
+                
+delete 
+  from labamostras_hres
+ where recno in (
+       select a.recno
+         from labamostras_hres a
+        where not exists( 
+             select 1
+               from labamostras_res b
+              where b.amostra_Recno = a.amostra_dep
+                and b.relato_recno = a.relato_recno
+                and b.ensaio_recno = a.ensaio_recno));                                  
+
+alter table labamostras_hres
+   alter laudo set not null,
+   alter laudo_dep set not null,
+   add constraint pk_labamostras_hres primary key(relato_recno, ensaio_recno, laudo, laudo_dep),
+   add constraint fk_labamostras_hres_1 foreign key(laudo, relato_recno, ensaio_recno) 
+      references labamostras_res(laudo, relato_recno, ensaio_recno) 
+      on update cascade on delete cascade,
+   add constraint fk_labamostras_hres_2 foreign key(laudo_dep, relato_recno, ensaio_recno) 
+      references labamostras_res(laudo, relato_recno, ensaio_recno) 
+      on update cascade on delete cascade,      
+   enable trigger all;    
+   
+create index  idx_labamostras_hres_1 on labamostras_hres(laudo, relato_recno, ensaio_recno);
+create index  idx_labamostras_hres_2 on labamostras_hres(laudo_dep, relato_recno, ensaio_recno);
+   
+alter table labamostras_res drop amostra_recno;
+alter table labamostras_res_ativos drop amostra_recno;
+alter table labamostras_res_sol drop amostra_recno;
+alter table labamostras_res_var drop amostra_recno;
+alter table labamostras_hres
+   drop amostra_recno,
+   drop amostra_dep;
+   
+alter table labamostras_res enable trigger all;
+
+create or replace view vcotacomodato as 
+   select r.cotacao, e.comodato_recno
+     from cota c
+    join labproc r
+            on r.cotacao = c.recno
+    join labprocxequip e
+      on e.labproc_recno = r.recno;
+       
+alter table pedido
+   drop nf,
+   drop nf_serie,
+   drop nf_emissao,
+   drop nf_valor,
+   drop frete,
+   drop labport_recno cascade,
+   drop despesas,
+   drop servicos,
+   drop total,
+   add markup integer,
+   add grupo integer,
+   add correio integer,   
+   add frete moeda_ not null,
+   add frascos integer,
+   add seringas integer,
+   add envio integer default 2 not null,
+   add coleta integer default 0 not null, -- cliente
+   add constraint fk_pedido_6 foreign key(markup)
+      references markup(recno) on update cascade on delete restrict,
+   add constraint fk_pedido_7 foreign key (grupo)
+      REFERENCES orca_grupo (recno)
+      ON UPDATE CASCADE ON DELETE RESTRICT,
+   add constraint fk_pedido_8 foreign key(correio)
+      references correio(recno) on update cascade on delete restrict;
+       
+alter table pedido_servicos rename to pedido_serv;
+
+ALTER TABLE pedido_serv rename total to vtotal;
+
+delete 
+  from pedido_serv 
+ where recno in (
+    select a.recno
+      from pedido_serv a
+     where not exists(
+        select 1
+          from pedido b
+         where b.recno = a.pedido));
+         
+alter table pedido_serv disable trigger all;
+update pedido_serv 
+   set qtd = 1 
+ where qtd = 0;
+alter table pedido_serv enable trigger all;
+       
+ALTER TABLE pedido_serv
+   DROP CONSTRAINT pk_pedido_servicos cascade,
+   DROP CONSTRAINT fk_pedido_servicos_2,
+   DROP CONSTRAINT fk_pedido_servicos_3,
+   DROP CONSTRAINT fk_pedido_servicos_4,
+   add amostras integer default 0 not null, -- aguardando
+   ADD CONSTRAINT pk_pedido_serv PRIMARY KEY(pedido, codserv),
+   ADD CONSTRAINT fk_pedido_serv_1 FOREIGN KEY (pedido)
+      REFERENCES pedido (recno)
+      ON UPDATE CASCADE ON DELETE CASCADE,
+   ADD CONSTRAINT fk_pedido_serv_2 FOREIGN KEY (codserv)
+      REFERENCES servicos (codserv) 
+      ON UPDATE CASCADE ON DELETE RESTRICT,
+   drop amostra,
+   drop labrel_recno,
+   add vvenda moeda_ not null,   
+   ADD CONSTRAINT ukpedido_serv_1 UNIQUE(recno),
+   ADD CONSTRAINT ckpedido_serv_1 CHECK (qtd > 0),
+   ADD CONSTRAINT ckpedido_serv_2 CHECK (unitario > 0),
+   ADD CONSTRAINT ckpedido_serv_3 CHECK (vtotal >= 0),
+   ADD CONSTRAINT ckpedido_serv_4 CHECK (vvenda >= 0);
+
+create index idx_pedido_serv_1 on pedido_serv(pedido);
+create index idx_pedido_serv_2 on pedido_serv(codserv);
+      
+alter table comodato
+  add qtd qtd_ not null,
+  add consumido qtd_ not null,
+  add descartado qtd_ not null,
+  add saldo qtd_ not null,
+  add constraint ck_comodato_1 check (saldo = qtd - consumido - descartado),
+  add constraint ck_comodato_2 check (qtd >= 0),
+  add constraint ck_comodato_3 check (consumido >= 0),
+  add constraint ck_comodato_4 check (descartado >= 0);
+
+create index idx_comodato_1 on comodato(codigo);
+create index idx_comodato_2 on comodato(codigo) where (qtd > 0);
+create index idx_comodato_3 on comodato(codigo) where (saldo > 0);
+
+alter table servicos
+  add consumo qtd_ not null,
+  add vidraria integer default 0 not null;
+
+alter table labret 
+   add qtd qtd_ not null,   
+   add constraint ck_labret_1 check (qtd >= 0);
+       
+alter table labrel 
+   add inmetro boolean default(false) not null,
+   add acreditacao date;
+   
+update labrel 
+   set inmetro = true, acreditacao = '2017-06-30'   
+ where recno in (4, 20);       
+
+alter table tbclientes
+   add logo bytea;
+   
+create table tbclientes_finais(
+   codigo integer not null,
+   cliente integer not null,
+   logo bytea,
+   recno serial not null);
+   
+alter table tbclientes_finais
+   add constraint pk_tbclientes_finais primary key(codigo, cliente),
+   add constraint fk_tbclientes_finais_1 foreign key(codigo)
+      references tbclientes(codigo) on update cascade on delete cascade,
+   add constraint fk_tbclientes_finais_2 foreign key(cliente)
+      references tbclientes(codigo) on update cascade on delete cascade,
+   add constraint uk_tbclientes_finais_1 unique(recno);
+   
+insert into tbclientes_finais (codigo, cliente, logo)
+select codigo, codigo, logo
+  from tbclientes;
+  
+alter table labamostras
+   add cliente integer,   
+   drop labport_recno cascade,
+   add constraint fk_labamostras_2 
+      foreign key(codigo, cliente) references tbclientes_finais(codigo, cliente)
+      on update cascade on delete restrict;
+      
+alter table labamostras disable trigger all;
+update labamostras set cliente = codigo;
+alter table labamostras enable trigger all;
+
+alter table labamostras
+   alter cliente set not null;
+
+create table tbclientesprecos (
+   cliente integer not null,
+   servico integer not null,
+   valor moeda_ not null,
+   recno serial not null);
+
+alter table tbclientesprecos
+   add constraint pk_tbclientesprecos primary key(cliente, servico),
+   add constraint fk_tbclientesprecos_1 foreign key(cliente)
+      references tbclientes(codigo) 
+      on update cascade on delete cascade,
+   add constraint fk_tbclientesprecos_2 foreign key(servico)
+      references servicos(codserv) 
+      on update cascade on delete restrict,
+   add constraint ck_tbclientesprecos_1 check(valor > 0),
+   add constraint uk_tbclientesprecos_1 unique(recno);
+
+create index idx_tbclientesprecos_1 on tbclientesprecos(cliente);
+create index idx_tbclientesprecos_2 on tbclientesprecos(servico);
+   
+update labcrit set cor = 'clGreen';
+alter table labcrit
+   alter cor set default 'clGreen',
+   alter cor set not null;
+
+update labrel set titulo = regexp_replace(titulo, 'Relatório', 'Laudo');
+
+create table labenscomp (
+   ensaio_recno integer not null,
+   ensaio_comp integer not null,
+   recno serial not null,
+   constraint pk_labenscomp primary key(ensaio_recno, ensaio_comp),
+   constraint fk_labenscomp_1 foreign key(ensaio_recno)
+      references labens(recno) on update cascade on delete cascade,
+   constraint fk_labenscomp_2 foreign key(ensaio_comp)
+      references labens(recno) on update cascade on delete restrict,
+   constraint uk_labenscomp_3 unique(recno));
+   
+alter table labens 
+   add somenteleitura boolean default false;
+
+-- Preenchimento de total de gases combustíveis
+insert into labens 
+   (nome, unidade_recno, metodo_recno, descri, somenteleitura)
+values
+   ('Total de Gases Combustíveis', 9, 16, 'Total de Gases Combustíveis', true);
+
+-- Componentes do total de gases combustíveis
+insert into labenscomp (ensaio_recno, ensaio_comp) values (107, 9);
+insert into labenscomp (ensaio_recno, ensaio_comp) values (107, 10);
+insert into labenscomp (ensaio_recno, ensaio_comp) values (107, 11);
+insert into labenscomp (ensaio_recno, ensaio_comp) values (107, 12);
+insert into labenscomp (ensaio_recno, ensaio_comp) values (107, 13);
+insert into labenscomp (ensaio_recno, ensaio_comp) values (107, 14);   
+
+-- Amarração do ensaio rescem criado ao laudo 3 - Cromatografia
+insert into labrel_ens (relato_recno, ensaio_recno, ordem) values (3, 107, 16);
+
+-- Ajuste na ordem dos ensaios da cromatografia
+update labrel_ens set ordem = 10 where relato_recno = 3 and ensaio_recno = 10;
+update labrel_ens set ordem = 20 where relato_recno = 3 and ensaio_recno = 9;
+update labrel_ens set ordem = 30 where relato_recno = 3 and ensaio_recno = 11;
+update labrel_ens set ordem = 40 where relato_recno = 3 and ensaio_recno = 12;
+update labrel_ens set ordem = 50 where relato_recno = 3 and ensaio_recno = 13;
+update labrel_ens set ordem = 60 where relato_recno = 3 and ensaio_recno = 14;
+update labrel_ens set ordem = 70 where relato_recno = 3 and ensaio_recno = 107;
+update labrel_ens set ordem = 80 where relato_recno = 3 and ensaio_recno = 15;
+update labrel_ens set ordem = 90 where relato_recno = 3 and ensaio_recno = 16;
+update labrel_ens set ordem = 100 where relato_recno = 3 and ensaio_recno = 17;
+
+-- Inserindo o ensaio totalizado nos laudos cromatográficos já assinados
+alter table labamostras_res disable trigger all;
+
+insert into labamostras_res
+   (laudo, relato_recno, ensaio_recno)
+select l.laudo, 3, 107 
+  from labamostras_res l
+ where l.relato_recno = 3
+   and not exists( 
+       select 1
+         from (select laudo 
+                 from labamostras_res r
+                where relato_recno = 3
+                  and ensaio_recno = 107
+                 group by laudo) a
+        where a.laudo = l.laudo)
+  group by l.laudo;  
+
+-- Totalizando ensaios agrupadores
+update labamostras_res re
+   set valord = s.valord, valor = s.valor
+  from (select x.laudo, x.ensaio_recno, sum(re.valord) valord, sum(re.valor) valor
+          from labamostras_res re
+               join (select a.laudo, c.ensaio_recno, d.ensaio_comp
+                       from labamostras_res a
+                            join labenscomp c
+                              on c.ensaio_comp = a.ensaio_recno
+                            join labenscomp d
+                              on d.ensaio_recno = c.ensaio_recno
+                            join (select recno 
+                                    from labamostras_res 
+                                   where ensaio_recno = 9) b
+                              on a.recno = b.recno) x
+                 on re.laudo = x.laudo
+                and re.ensaio_recno = x.ensaio_comp
+         group by x.laudo, x.ensaio_recno) s
+ where s.laudo = re.laudo
+   and s.ensaio_recno = re.ensaio_recno;   
+  
+alter table labamostras_res enable trigger all;
+
+-- Atualizando visão de ensaios
+CREATE OR REPLACE VIEW public.vensaios AS 
+ select e.recno, e.nome, e.unidade_recno, u.descri unidade, e.metodo_recno, m.descri metodo,
+        e.descri, e."dec", e.arred, e.sezerotxt, e.somenteleitura
+   from labens e
+        left join labunidades u 
+          on u.recno = e.unidade_recno
+        left join labmetodos m 
+          on m.recno = e.metodo_recno;
+          
+create table pedido_mat(
+   pedido integer not null,
+   material integer not null,
+   qtd qtd_ not null,
+   unitario moeda_ not null,
+   picms percent_ not null,
+   vtotal moeda_ not null,
+   vvenda moeda_ not null,
+   recno serial not null,
+   constraint pk_pedido_mat primary key(pedido, material),
+   constraint fk_pedido_mat_1 foreign key(pedido) references pedido(recno)
+        on update cascade on delete cascade,
+   constraint fk_pedido_mat_2 foreign key(material) references produtos(codigo)
+        on update cascade on delete restrict,
+   constraint uk_pedido_mat_1 unique(recno),
+   constraint ck_pedido_mat_1 check(qtd >= 0),
+   constraint ck_pedido_mat_2 check(unitario >= 0),
+   constraint ck_pedido_mat_3 check(vtotal >= 0));
+
+create index idx_pedido_mat_1 on pedido_mat(pedido);
+create index idx_pedido_mat_2 on pedido_mat(material);          
+
+alter table produtos 
+   add unidade varchar(2),
+   drop constraint fk_produtos_unidade,
+   add constraint fk_produtos_1 FOREIGN KEY (unidade)
+      REFERENCES unidades (un) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE RESTRICT;
+
+update produtos set unidade = estoquetipo;
+update produtos set unidade = 'UN' where unidade is null;
+
+alter table produtos 
+   alter unidade set not null,
+   drop estoquetipo;
+      
+
+-- Segurança
+drop table if exists sys_groups;
+
+create table sys_rlusers(
+   username varchar(60) not null,
+   role integer not null,
+   enabled boolean default true not null,
+   recno serial not null,
+   constraint pk_sys_rlusers primary key(username, role),
+   constraint fk_sys_rlusers_1 foreign key(username)
+      references sys_users(username) on update cascade on delete cascade,
+   constraint fk_sys_rlusers_2 foreign key(role)
+      references sys_roles(recno) on update cascade on delete cascade,
+   constraint uk_sys_rlusers unique(recno));
+   
+create index idx_sys_rlusers_1 on sys_rlusers(username);
+create index idx_sys_rlusers_2 on sys_rlusers(role);
+
+truncate table sys_session cascade;
+alter table sys_session
+   add role integer not null,
+   add chpass boolean default false,
+   add heartbeat timestamp not null,
+   DROP CONSTRAINT fk_sys_session,
+   add constraint fk_sys_session_1 foreign key(username, role)
+      references sys_rlusers(username, role)
+      on update cascade on delete cascade;
+      
+create index idx_sys_session_1 on sys_session(username, role);
+   
+insert into sys_rlusers(username, role)
+select username, role
+  from sys_users 
+ where active; 
+ 
+DROP TRIGGER a_sys_grants ON public.sys_role_grant; 
+ 
+CREATE TRIGGER a_sys_grants
+  AFTER INSERT
+  ON public.sys_grants
+  FOR EACH ROW
+  EXECUTE PROCEDURE public.a_sys_grants(); 
+  
+insert into sys_role_grant  (grant_, "role")
+select grant_, 1 
+  from sys_grants 
+ order by 1;
+  
+alter table sys_roles
+   add sys_ boolean default false not null;
+   
+update sys_roles
+   set sys_ = true
+ where recno = 1;
+  
+alter table sys_users 
+   drop admin, 
+   drop type_,
+   drop system_;
+
+Insert into sys_roles (descri) values ('Usuários comuns');
+
+update sys_rlusers 
+   set role = 2 
+ where username not in ('RICARDO', 'DAGOBERTO');
+  
+update sys_users 
+   set role = 2 
+ where username not in ('RICARDO', 'DAGOBERTO');
+  
+create table sys_group (
+   recno serial not null,
+   descri varchar(60) not null,
+   constraint pk_sys_group primary key(recno),
+   constraint uk_sys_group_1 unique (descri));
+
+create table sys_grants_group (
+   group_ integer not null,
+   grant_ varchar(30) not null,   
+   recno serial not null,
+   constraint pk_sys_grants_group primary key(group_, grant_),
+   constraint fk_sys_grants_group_1 foreign key(group_)
+        references sys_group(recno) on update cascade on delete restrict,
+   constraint fk_sys_grants_group_2 foreign key(grant_)
+        references sys_grants(grant_) on update cascade on delete cascade,
+   constraint uk_sys_grants_group_1 unique (recno));
+
+update sys_grants set descri = trim(descri);
+  
+CREATE TABLE pedido_serv_det (
+   pedido integer NOT NULL,
+   codserv integer NOT NULL,
+   detalhe integer NOT NULL,
+   recno serial not null,
+   CONSTRAINT pkpedido_serv_det PRIMARY KEY (pedido, codserv, detalhe),
+   CONSTRAINT fkpedido_serv_det_1 FOREIGN KEY (pedido, codserv)
+      REFERENCES pedido_serv (pedido, codserv)
+      ON UPDATE CASCADE ON DELETE CASCADE,
+   CONSTRAINT fkpedido_serv_det_2 FOREIGN KEY (codserv, detalhe)
+      REFERENCES servicos_det (codserv, recno)
+      ON UPDATE CASCADE ON DELETE RESTRICT,
+   CONSTRAINT ukpedido_serv_det_1 UNIQUE (recno));
+
+CREATE INDEX idx_pedido_serv_det_1 ON pedido_serv_det(pedido, codserv);
+CREATE INDEX idx_pedido_serv_det_2 ON pedido_serv_det(codserv, detalhe);
+
+CREATE TABLE pedido_mo
+(
+  pedido integer NOT NULL,
+  funcao integer NOT NULL,
+  qtd integer NOT NULL DEFAULT 1,
+  uteis_dias integer NOT NULL DEFAULT 0,
+  uteis_hrs_dias qtd_,
+  uteis_vl_hrs qtd_,
+  sabado_dias integer NOT NULL DEFAULT 0,
+  sabado_hrs_dias qtd_,
+  sabado_vl_hrs qtd_,
+  domingo_dias integer NOT NULL DEFAULT 0,
+  domingo_hrs_dias qtd_,
+  domingo_vl_hrs qtd_,
+  adic_not_dias integer NOT NULL DEFAULT 0,
+  adic_not_hrs_dias qtd_,
+  adic_not_vl_hrs qtd_,
+  total moeda_,
+  vvenda moeda_,
+  percentual percent_,
+  recno serial NOT NULL,
+  unitario moeda_ NOT NULL,
+  CONSTRAINT pk_pedido_mo PRIMARY KEY (pedido, funcao),
+  CONSTRAINT fk_pedido_mo_1 FOREIGN KEY (pedido)
+      REFERENCES pedido (recno) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE CASCADE,
+  CONSTRAINT fk_pedido_mo_2 FOREIGN KEY (funcao)
+      REFERENCES tb_funcoes (id) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE RESTRICT,
+  CONSTRAINT uk_pedido_mo_1 UNIQUE (recno),
+  CONSTRAINT ck_pedido_mo_1 CHECK (qtd >= 0),  
+  CONSTRAINT ck_pedido_mo_2 CHECK (uteis_dias >= 0),
+  CONSTRAINT ck_pedido_mo_3 CHECK (uteis_hrs_dias::numeric >= 0::numeric),
+  CONSTRAINT ck_pedido_mo_4 CHECK (uteis_vl_hrs::numeric >= 0::numeric),
+  CONSTRAINT ck_pedido_mo_5 CHECK (sabado_dias >= 0),
+  CONSTRAINT ck_pedido_mo_6 CHECK (sabado_hrs_dias::numeric >= 0::numeric),
+  CONSTRAINT ck_pedido_mo_7 CHECK (sabado_vl_hrs::numeric >= 0::numeric),
+  CONSTRAINT ck_pedido_mo_8 CHECK (domingo_dias >= 0),
+  CONSTRAINT ck_pedido_mo_9 CHECK (domingo_hrs_dias::numeric >= 0::numeric),
+  CONSTRAINT ck_pedido_mo_10 CHECK (domingo_vl_hrs::numeric >= 0::numeric),
+  CONSTRAINT ck_pedido_mo_11 CHECK (adic_not_dias >= 0),
+  CONSTRAINT ck_pedido_mo_12 CHECK (adic_not_hrs_dias::numeric >= 0::numeric),
+  CONSTRAINT ck_pedido_mo_13 CHECK (adic_not_vl_hrs::numeric >= 0::numeric),
+  CONSTRAINT ck_pedido_mo_14 CHECK (total::numeric >= 0::numeric),
+  CONSTRAINT ck_pedido_mo_15 CHECK (vvenda::numeric >= 0::numeric),
+  CONSTRAINT ck_pedido_mo_16 CHECK (percentual::numeric >= 0::numeric));
+
+CREATE INDEX idx_pedido_mo_1 ON pedido_mo(pedido);
+CREATE INDEX idx_pedido_mo_2 ON pedido_mo(funcao);
+
+alter table pedido disable trigger all;
+update pedido set grupo = 1;
+alter table pedido enable trigger all;
+
+alter table pedido 
+   alter grupo set not null,
+   drop constraint ck_pedido_6;
+
+-- Atualização do Status do pedido de venda
+alter table pedido disable trigger all;
+update pedido set status = 10 where status = 1;
+update pedido set status = 20 where status = 2;
+update pedido set status = 30 where status = 3;
+update pedido set status = 60 where status = 4;
+update pedido set status = 70 where status = 5;
+alter table pedido enable trigger all;
+
+alter sequence pedido_servicos_recno_seq rename to pedido_serv_recno_seq;
+
+alter table pedido_amostras_serv
+   add consumo numeric(18, 5) default 0 not null;
+
+CREATE OR REPLACE VIEW vdoc_cab AS
+ SELECT 198 AS origem,
+    cota.recno,
+    cota.recno doc,
+    cota.cliente,
+    cota.emissao,
+    cota.markup,
+    cota.descricao,
+    cota.contato,
+    cota.grupo
+   FROM cota
+UNION ALL
+ SELECT 9 AS origem,
+    tb_orcamentos.recno,
+    tb_orcamentos.os doc,
+    tb_orcamentos.idcliente cliente,
+    tb_orcamentos.data emissao,
+    tb_orcamentos.markup,
+    tb_orcamentos.descricao,
+    tb_orcamentos.contato,
+    tb_orcamentos.grupo
+   FROM tb_orcamentos
+UNION ALL
+ SELECT 187 AS origem,
+    pedido.recno,
+    pedido.recno doc,
+    pedido.codigo cliente,
+    pedido.emitido emissao,
+    pedido.markup,
+    pedido.obs descricao,
+    pedido.contato,
+    pedido.grupo
+   FROM pedido;   
+
+DROP VIEW public.vdoc_mat;
+
+CREATE OR REPLACE VIEW public.vdoc_mat AS
+ SELECT 198 AS origem,
+    cota_mat.cotacao AS doc,
+    cota_mat.material,
+    cota_mat.qtd,
+    cota_mat.unidade::character varying(3) AS unidade,
+    cota_mat.vvenda AS unitario,
+    (cota_mat.qtd::numeric * cota_mat.vvenda::numeric)::numeric(12,2) AS total,
+    cota_mat.recno
+   FROM cota_mat
+UNION ALL
+ SELECT 9 AS origem,
+    orca_mat.os AS doc,
+    orca_mat.item AS material,
+    orca_mat.qtd,
+    orca_mat.un::character varying(3) AS unidade,
+    orca_mat.unitario,
+    orca_mat.qtd * orca_mat.vl_venda AS total,
+    orca_mat.recno
+   FROM orca_mat
+union all
+SELECT 187 AS origem,
+    pedido_mat.pedido doc,
+    pedido_mat.material,
+    pedido_mat.qtd,
+    p.unidade::varchar(3) unidade,
+    pedido_mat.vvenda unitario,
+    pedido_mat.vtotal total,
+    pedido_mat.recno
+   FROM pedido_mat 
+        join produtos p
+		  on p.codigo = pedido_mat.material;   
+
+DROP VIEW public.vdoc_mo;
+
+CREATE OR REPLACE VIEW public.vdoc_mo AS
+ SELECT 198 AS origem,
+    cota_mo.cotacao doc,
+    cota_mo.funcao,
+    cota_mo.qtd,
+    cota_mo.vvenda
+   FROM cota_mo
+UNION ALL
+ SELECT 9 AS origem,
+    tb_orcamentos_lucratividade_lorencini.os doc,
+    tb_orcamentos_lucratividade_lorencini.func funcao,
+    tb_orcamentos_lucratividade_lorencini.qtde qtd,
+    tb_orcamentos_lucratividade_lorencini.vl_venda vvenda
+   FROM tb_orcamentos_lucratividade_lorencini
+UNION ALL
+  SELECT 187 AS origem,
+    pedido_mo.pedido doc,
+    pedido_mo.funcao,
+    pedido_mo.qtd,
+    pedido_mo.vvenda
+   FROM pedido_mo;
+
+DROP VIEW public.vdoc_serv;
+
+CREATE OR REPLACE VIEW public.vdoc_serv AS
+ SELECT 198 AS origem,
+    cota_serv.cotacao AS doc,
+    cota_serv.servico,
+    cota_serv.qtd,
+    cota_serv.unidade,
+    cota_serv.vvenda AS unitario,
+    cota_serv.vtotal,
+    false AS prnos,
+    cota_serv.recno
+   FROM cota_serv
+UNION ALL
+ SELECT 9 AS origem,
+    servicos_os.os AS doc,
+    servicos_os.codserv AS servico,
+    servicos_os.qtd,
+    servicos_os.un AS unidade,
+    servicos_os.vl_venda AS unitario,
+    (servicos_os.qtd * servicos_os.vl_venda)::numeric(12,2) AS vtotal,
+    servicos_os.prnos,
+    servicos_os.recno
+   FROM servicos_os
+UNION ALL   
+ SELECT 187 AS origem,
+    pedido_serv.pedido doc,
+    pedido_serv.codserv servico,
+    pedido_serv.qtd,
+    s.un unidade,
+    pedido_serv.vvenda unitario,
+    pedido_serv.vtotal,
+    false prnos,
+    pedido_serv.recno
+   FROM pedido_serv
+        join servicos s
+		    on s.codserv = pedido_serv.codserv;
+
+DROP VIEW public.vdoc_servdet;
+
+CREATE OR REPLACE VIEW public.vdoc_servdet AS
+ SELECT 198 AS origem,
+    cota_servdet.cotacao AS doc,
+    cota_servdet.servico,
+    cota_servdet.detalhe,
+    cota_servdet.recno
+   FROM cota_servdet
+UNION ALL
+ SELECT 9 AS origem,
+    servicos_det_os.os AS doc,
+    servicos_det_os.codserv AS servico,
+    servicos_det_os.recno_serv AS detalhe,
+    servicos_det_os.recno
+   FROM servicos_det_os
+UNION ALL   
+  SELECT 187 AS origem,
+    pedido_serv_det.pedido doc,
+    pedido_serv_det.codserv servico,
+    pedido_serv_det.detalhe,
+    pedido_serv_det.recno
+   FROM pedido_serv_det;          
+
+create index idx_servicos_1 on servicos(codserv) where (vidraria = 1);
+create index idx_servicos_2 on servicos(codserv) where (vidraria = 2);
+create index idx_servicos_3 on servicos(codserv) where (vidraria > 0);  
+
+
+----- G A T I L H O S ----------------------
+CREATE TRIGGER a_pedido_serv
+   AFTER INSERT OR UPDATE OR DELETE
+   ON pedido_serv
+   FOR EACH ROW
+   EXECUTE PROCEDURE a_pedido_serv();
+  
+CREATE TRIGGER b_pedido_mo
+   BEFORE INSERT OR UPDATE OR DELETE
+   ON pedido_mo
+   FOR EACH ROW
+   EXECUTE PROCEDURE b_pedido_mo();
+  
+CREATE TRIGGER b_pedido_mat
+   BEFORE INSERT OR UPDATE OR DELETE
+   ON pedido_mat
+   FOR EACH ROW
+   EXECUTE PROCEDURE b_pedido_mat();  
+ 
+CREATE TRIGGER b_pedido_serv
+   BEFORE INSERT OR UPDATE OR DELETE
+   ON pedido_serv
+   FOR EACH ROW
+   EXECUTE PROCEDURE b_pedido_serv();
+
+CREATE TRIGGER a_pedido_mo
+   AFTER INSERT OR UPDATE OR DELETE
+   ON pedido_mo
+   FOR EACH ROW
+   EXECUTE PROCEDURE a_pedido_mo();
+  
+CREATE TRIGGER a_pedido_mat
+   AFTER INSERT OR UPDATE OR DELETE
+   ON pedido_mat
+   FOR EACH ROW
+   EXECUTE PROCEDURE a_pedido_mat();  

@@ -1,0 +1,27 @@
+/**
+   Processamento da cotação
+
+	@author    Ricardo Gonçalves
+	@date      22/12/2016 16:48:09
+	@trigger
+
+	Histórico
+	-------------------------------------------------------------------------------------------------------------------
+ */
+Create or Replace Function a_cota_serv()
+Returns trigger As
+$$
+Begin
+   if tg_op = 'INSERT' then
+      insert into cota_servdet
+         (cotacao,     servico,     detalhe)
+      select
+          new.cotacao, new.servico, recno
+        from servicos_det
+       where codserv = new.servico;
+   end if;
+
+   return null;
+End
+$$
+language plpgsql;

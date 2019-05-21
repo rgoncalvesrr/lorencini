@@ -1,0 +1,53 @@
+/*
+   2.3.6.2
+
+*/
+
+alter table indices
+   add regime integer default 1 not null,
+   add aliq_mat numeric(5,2) default 0 not null,
+   add inss_mat numeric(5,2) default 0 not null,
+   add icms numeric(5,2) default 0 not null,
+   add aliq_srv numeric(5,2) default 0 not null,
+   add pis_srv numeric(5,2) default 0 not null,
+   add cofins_srv numeric(5,2) default 0 not null,
+   add inss_srv numeric(5,2) default 0 not null,
+   add constraint ck_indices_aliq_mat check (aliq_mat >= 0),
+   add constraint ck_indices_aliq_srv check (aliq_srv >= 0),
+   add constraint ck_indices_pis_srv check (pis_srv >= 0),
+   add constraint ck_indices_cofins_srv check (cofins_srv >= 0),
+   add constraint ck_indices_inss_srv check (inss_srv >= 0),
+   add constraint ck_indices_inss_mat check (inss_mat >= 0),
+   add constraint ck_indices_icms check (icms >= 0);
+
+insert into sys_errors (constraint_, descri, solucao) values ('ck_indices_aliq_mat', 'Aliquota total de impostos para produtos não pode ser negativa.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_indices_aliq_srv', 'Aliquota total de impostos para serviços não pode ser negativa.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_indices_pis_srv', 'Aliquota PIS para serviços não pode ser negativa.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_indices_cofins_srv', 'Aliquota Cofins para serviços não pode ser negativa.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_indices_inss_srv', 'Aliquota INSS para serviços não pode ser negativa.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_indices_inss_mat', 'Aliquota INSS para materiais não pode ser negativa.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_indices_icms_mat', 'Aliquota ICMS não pode ser negativa.', '');
+
+alter table fatu_os add natureza integer;
+alter table fatu_os add constraint fk_fatu_os_natureza foreign key (natureza)
+   references fin_naturezas(natureza) on update cascade;
+
+insert into sys_errors (constraint_, descri, solucao) values ('fk_fatu_os_natureza', 'Natureza referencia pelo faturamento não pode ser excluída.', '');
+
+
+alter table tb_orcamentos
+   add vlpis_srv numeric(12,2) default 0 not null,
+   add vlcofins_srv numeric(12,2) default 0 not null,
+   add vlinss_srv numeric(12,2) default 0 not null,
+   add vlinss_mat numeric(12,2) default 0 not null,
+   add constraint ck_tb_orcamentos_vlpis_srv check (vlpis_srv >= 0),
+   add constraint ck_tb_orcamentos_vlcofins_srv check (vlcofins_srv >= 0),
+   add constraint ck_tb_orcamentos_vlinss_srv check (vlinss_srv >= 0),
+   add constraint ck_tb_orcamentos_vlinss_mat check (vlinss_mat >= 0);
+
+insert into sys_errors (constraint_, descri, solucao) values ('ck_tb_orcamentos_vlpis_srv', 'Valor do PIS para serviços não pode ser negativo.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_tb_orcamentos_vlcofins_srv', 'Valor do Cofins para serviços não pode ser negativo.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_tb_orcamentos_vlinss_srv', 'Valor do INSS para serviços não pode ser negativo.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_tb_orcamentos_vlinss_mat', 'Valor do INSS para materiais não pode ser negativo.', '');
+
+

@@ -1,0 +1,27 @@
+/**
+   Verifica uma permissão para sessão corrente
+
+   @author    Ricardo Gonçalves
+   @date      13/01/2011 01:13:07
+   @trigger
+
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+CREATE OR REPLACE FUNCTION sys_chpass()
+  RETURNS boolean AS
+$$
+Declare
+   csession varchar;   
+BEGIN
+   csession := sys_session();
+   
+   return exists(
+      select 1
+        from sys_session          
+       where session = csession
+         and chpass);
+END;
+$$
+  LANGUAGE 'plpgsql' VOLATILE;

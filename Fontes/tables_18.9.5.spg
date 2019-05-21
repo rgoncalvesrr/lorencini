@@ -1,0 +1,42 @@
+set session authorization lorencini;
+
+alter table pedido
+   add remessa boolean default false not null,
+   add laboratorio boolean default false not null; 
+
+alter table servicos_grupo
+   add laboratorio boolean default false not null;
+
+update servicos_grupo set laboratorio = recno = 1;
+
+alter table sys_emailatach drop attach;
+
+update sys_users set password = md5('m4n4g3r.@') where username = 'MANAGER';
+
+insert into sys_rlusers (username, role, enabled) values ('MANAGER', 1, true);
+
+ALTER TABLE pedido_serv ADD CONSTRAINT ckpedido_serv_5 CHECK (qtd >= amostras);
+
+alter table pedido disable trigger all; 
+update pedido p
+   set laboratorio = true
+  from (select a.pedido
+		  from pedido_serv a
+		       join servicos b
+		         on b.codserv = a.codserv
+		       join servicos_grupo c
+		         on c.recno = b.grupo
+		        and c.laboratorio
+		   group by a.pedido) x
+ where x.pedido = p.recno; 		   
+alter table pedido enable trigger all;
+
+-- Aplicar instruções a seguir
+create index idx_pedido_1 on pedido(codigo);
+create index idx_pedido_2 on pedido(codigo, contato);
+create index idx_pedido_3 on pedido(codigo, contato_fin);
+create index idx_pedido_4 on pedido(codigo, contato_tec);
+create index idx_pedido_5 on pedido(markup);
+create index idx_pedido_6 on pedido(grupo);
+create index idx_pedido_7 on pedido(correio);
+create index idx_pedido_8 on pedido(codigo) where (emitido is not null);

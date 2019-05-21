@@ -1,0 +1,208 @@
+/**
+   Script da versão 3.1.1
+
+	@author    Ricardo Gonçalves
+	@date
+	@trigger
+
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+set session authorization lorencini;
+
+create table labfamilia (
+   recno serial not null,
+   descri varchar(60) not null);
+
+alter table labfamilia add constraint pk_labfamilia primary key (recno);
+alter table labfamilia add constraint uk_labfamilia_descri unique (descri);
+
+insert into sys_errors (constraint_, descri, solucao) values ('pk_labfamilia', 'Família de equipamentos já cadastrada.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('uk_labfamilia_descri', 'Já existe uma família cadastrada com a mesma descrição.', '');
+
+
+-- Equipamentos
+-------------------------------------------------------------------------------------------------------------------------
+drop table if exists labequip cascade;
+
+create table labequip (
+   recno serial not null,
+   fabricante integer not null,
+   familia integer,
+   serie varchar(30),
+   tipo integer not null,
+   descri varchar(60),
+   potencia numeric(18, 4) default 0 not null,
+   potencia_a numeric(18, 4) default 0 not null,
+   potencia_b numeric(18, 4) default 0 not null,
+   fases integer,
+   lote varchar(15),
+   imped numeric(18, 4) default 0 not null,
+   imped_a numeric(18, 4) default 0 not null,
+   imped_b numeric(18, 4) default 0 not null,
+   tensao numeric(18, 4) default 0 not null,
+   tensao_a numeric(18, 4) default 0 not null,
+   tensao_b numeric(18, 4) default 0 not null,
+   corr numeric(18, 4) default 0 not null,
+   corr_a numeric(18, 4) default 0 not null,
+   corr_b numeric(18, 4) default 0 not null,
+   ano integer,
+   isolante integer,
+   volume integer,
+   drenos varchar(5));
+
+alter table labequip add constraint pk_labequip primary key (recno);
+alter table labequip add constraint uk_labequip_fdt unique (fabricante,serie,tipo);
+alter table labequip add constraint ck_labequip_potencia check (potencia >= 0);
+alter table labequip add constraint ck_labequip_potencia_a check (potencia_a >= 0);
+alter table labequip add constraint ck_labequip_potencia_b check (potencia_b >= 0);
+alter table labequip add constraint ck_labequip_fases check (fases >= 0);
+alter table labequip add constraint ck_labequip_imped check (imped >= 0);
+alter table labequip add constraint ck_labequip_imped_a check (imped_a >= 0);
+alter table labequip add constraint ck_labequip_imped_b check (imped_b >= 0);
+alter table labequip add constraint ck_labequip_tensao check (tensao >= 0);
+alter table labequip add constraint ck_labequip_tensao_a check (tensao_a >= 0);
+alter table labequip add constraint ck_labequip_tensao_b check (tensao_b >= 0);
+alter table labequip add constraint ck_labequip_corr check (corr >= 0);
+alter table labequip add constraint ck_labequip_corr_a check (corr_a >= 0);
+alter table labequip add constraint ck_labequip_corr_b check (corr_b >= 0);
+alter table labequip add constraint ck_labequip_ano check (ano >= 0);
+alter table labequip add constraint ck_labequip_volume check (volume >= 0);
+alter table labequip add constraint fk_labequip_familia foreign key(familia)
+   references labfamilia(recno) on update cascade on delete set null;
+alter table labequip add constraint fk_labequip_fab foreign key(fabricante)
+      references labfabri(recno) on update cascade;
+alter table labequip add constraint fk_labequip_iso foreign key(isolante)
+      references labfabri(recno) on update cascade;
+
+alter table labequip add constraint ck_labequip_potencia_ check (potencia = potencia_a or potencia = potencia_b);
+alter table labequip add constraint ck_labequip_imped_ check (imped = imped_a or imped = imped_b);
+alter table labequip add constraint ck_labequip_tensao_ check (tensao = tensao_a or tensao = tensao_b);
+alter table labequip add constraint ck_labequip_corr_ check (corr = corr_a or corr = corr_b);
+
+alter table labamostras add constraint fk_labamostras_equip_recno
+   foreign key (equip_recno) references labequip(recno)
+   on update cascade;
+
+ alter table labequipxcli
+   add constraint fk_labequipxcli_equip foreign key(equip)
+      references labequip(recno) on update cascade;
+
+insert into sys_errors (constraint_, descri, solucao) values ('ck_labequip_imped', 'A impedância não pode ser negativa.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_labequip_imped_a', 'A impedância primária não pode ser negativa.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_labequip_imped_b', 'A impedância secundária não pode ser negativa.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_labequip_corr', 'A corrente não pode ser negativa.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_labequip_corr_a', 'A corrente primária não pode ser negativa.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_labequip_corr_b', 'A corrente secundária não pode ser negativa.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_labequip_tensao', 'A tensão não pode ser negativa.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_labequip_tensao_a', 'A tensão primária não pode ser negativa.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_labequip_tensao_b', 'A tensão secundária não pode ser negativa.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_labequip_potencia_a', 'A potência primária não pode ser negativa.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_labequip_potencia_b', 'A potência secundária não pode ser negativa.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_labequip_imped_', 'A impedância deve ser igual a impedância primária ou secundária.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_labequip_tensao_', 'A tensão deve ser igual a tensão primária ou secundária.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_labequip_corr_', 'A corrente deve ser igual a corrente primária ou secundária.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_labequip_potencia_', 'A potência deve ser igual a potência primária ou secundária.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_labequip_familia', 'Família de equipamentos não localizada.', '');
+
+drop table if exists labequip_tipo cascade;
+
+create table labequip_tipo (
+   tipo integer not null,
+   descri varchar(60) not null,
+   sigla varchar(3) not null,
+   recno serial not null
+);
+
+alter table labequip_tipo add constraint pk_labequip_tipo primary key(tipo);
+alter table labequip_tipo add constraint uk_labequip_tipo_descri unique(descri);
+alter table labequip_tipo add constraint uk_labequip_tipo_sigla unique(sigla);
+alter table labequip_tipo add constraint uk_labequip_tipo_recno unique(recno);
+
+insert into labequip_tipo (tipo, descri, sigla) values (1, 'Transformador de Potencia', 'TPA');
+insert into labequip_tipo (tipo, descri, sigla) values (2, 'Transformador de Potencial', 'TPL');
+insert into labequip_tipo (tipo, descri, sigla) values (3, 'Disjuntor', 'DIS');
+insert into labequip_tipo (tipo, descri, sigla) values (4, 'Comutador', 'COM');
+insert into labequip_tipo (tipo, descri, sigla) values (5, 'Regulador', 'REG');
+
+alter table labequip add constraint fk_labequip
+   foreign key (tipo) references labequip_tipo(tipo)
+   on update cascade;
+
+insert into sys_errors (constraint_, descri, solucao) values ('fk_labequip', 'Tipo de equipamento inválido.', '');
+
+create table labtensaoxtipo (
+  tipo integer not null,
+  classe varchar(1) not null,
+  recno serial not null
+);
+
+alter table labtensaoxtipo add constraint pk_labtensaoxtipo primary key (tipo, classe);
+alter table labtensaoxtipo add constraint fk_labtensaoxtipo_tipo
+   foreign key (tipo) references labequip_tipo (tipo)
+   on update cascade;
+alter table labtensaoxtipo add constraint fk_labtensaoxtipo_classe
+   foreign key (classe) references labtensao (classe)
+   on update cascade;
+alter table labtensaoxtipo add constraint uk_labtensaoxtipo_recno unique(recno);
+
+insert into sys_errors (constraint_, descri, solucao) values ('pk_labtensaoxtipo', 'Classe de tensão já relacionada ao tipo de equipamento.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_labtensaoxtipo_tipo', 'Tipo de equipamento não pode ser excluído porque é referenciado pelo cadastro de classes de tensão.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_labtensaoxtipo_classe', 'Classe de tensão não pode ser excluída porque é referenciada pelo cadastro de tipos de equipamento.', '');
+
+insert into labtensaoxtipo (tipo, classe) values (1, '0');
+insert into labtensaoxtipo (tipo, classe) values (1, 'A');
+insert into labtensaoxtipo (tipo, classe) values (1, 'B');
+insert into labtensaoxtipo (tipo, classe) values (1, 'C');
+
+insert into labtensaoxtipo (tipo, classe) values (5, '0');
+insert into labtensaoxtipo (tipo, classe) values (5, 'A');
+insert into labtensaoxtipo (tipo, classe) values (5, 'B');
+insert into labtensaoxtipo (tipo, classe) values (5, 'C');
+
+alter table comodato add ean39 varchar(50);
+alter table labequipxcli alter tag type varchar(50);
+alter table labprocxequip add tipo integer default 1 not null;
+
+insert into labfabri (recno, nome) values (9999, 'Não Informado');
+
+
+alter table tb_entrada_amostra add labequip_recno integer;
+alter table tb_entrada_amostra add constraint fk_tb_entrada_amostra2
+   foreign key(labequip_recno) references labequip(recno)
+   on update cascade;
+
+CREATE OR REPLACE VIEW vequip AS
+ SELECT e.recno, cast(e.fabricante || ' - ' || fa.nome as varchar) AS fabricante, e.serie,
+        cast(e.tipo || ' - ' || t.sigla || ' ' || t.descri as varchar) as tipo,
+        e.descri, e.potencia, e.fases, e.lote, e.imped, e.tensao, e.corr,
+        e.ano, cast(e.isolante || ' - ' || i.nome as varchar) AS isolante,
+        e.volume, e.drenos
+   FROM labequip e
+        join labequip_tipo t
+          on t.tipo = e.tipo
+        LEFT JOIN labfabri fa
+          ON fa.recno = e.fabricante
+        LEFT JOIN labisolante i
+          ON i.recno = e.isolante;
+
+create or replace view vsubest as
+   select s.recno, s.sigla, s.nome, s.regional,
+          r.nome as reg_nome, r.codigo
+     from labsubest s
+          join labregionais r
+            on r.recno = s.regional;
+
+CREATE OR REPLACE VIEW vequipxcli as
+   select ec.codigo, ec.subest, ec.status, ec.equip,
+          ec.tag, e.serie, e.potencia, e.tensao,
+          e.imped, e.corr, e.fases, e.fabricante, e.lote,
+          e.ano, e.descri, e.tipo, e.isolante, e.volume,
+          e.drenos,
+          vse.reg_nome, vse.sigla, vse.nome
+     from labequipxcli ec
+          join vequip e
+            on e.recno = ec.equip
+          left join vsubest vse
+            on vse.recno = ec.subest;

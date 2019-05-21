@@ -1,0 +1,15 @@
+set session authorization lorencini;
+alter table pedido
+   add cliente integer,
+   add destinatario varchar(120),
+   add obs_remessa text,
+   add constraint fk_pedido_9 foreign key(codigo, cliente)
+      references tbclientes_finais(codigo, cliente) on update cascade on delete restrict;
+      
+alter table pedido disable trigger all;
+update pedido set cliente = codigo;
+alter table pedido alter cliente set not null;
+alter table pedido enable trigger all;
+
+alter table labproc
+   add obs text;

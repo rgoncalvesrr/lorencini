@@ -1,0 +1,559 @@
+/**
+   Criação das tabelas do laboratório versão 3.1.0
+
+	@author    Ricardo Gonçalves
+	@date      29/04/2010 11:38:45
+	@trigger
+
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+set session authorization lorencini;
+
+drop table if exists labtensao cascade;
+-- ==================================
+create table labtensao (
+   classe varchar(1) not null,
+   min numeric(18, 4) default 0 not null,
+   max numeric(18, 4) default 0 not null,
+   recno serial not null );
+
+alter table labtensao add constraint pk_labtensao primary key (classe);
+alter table labtensao add constraint ck_labtensao_min check (min >= 0);
+alter table labtensao add constraint ck_labtensao_max check (max >= min);
+alter table labtensao add constraint uk_labtensao_recno unique(recno);
+
+-- ==================================
+drop table if exists labtipo cascade;
+create table labtipo (
+   recno serial not null,
+   descri varchar(60) not null);
+
+alter table labtipo add constraint pk_labtipo primary key (recno);
+alter table labtipo add constraint uk_labtipo_descri unique(descri);
+
+-- ==================================
+drop table if exists labunidades cascade;
+create table labunidades (
+   recno serial not null,
+   descri varchar(30) not null);
+
+alter table labunidades add constraint pk_labunidades primary key (recno);
+alter table labunidades add constraint uk_labunidades_descri unique(descri);
+
+-- ==================================
+drop table if exists labmetodos cascade;
+create table labmetodos (
+   recno serial not null,
+   descri varchar(30) not null);
+
+alter table labmetodos add constraint pk_labmetodos primary key (recno);
+alter table labmetodos add constraint uk_labmetodos_descri unique(descri);
+
+-- ==================================
+drop table if exists labens cascade;
+create table labens (
+   recno serial not null,
+   nome varchar(60) not null,
+   unidade_recno integer,
+   metodo_recno integer,
+   descri text);
+
+alter table labens add constraint pk_labens primary key (recno);
+alter table labens add constraint uk_labens_nome unique(nome, metodo_recno);
+alter table labens add constraint fk_labens_unidade_recno
+   foreign key (unidade_recno) references labunidades(recno)
+   on update cascade;
+alter table labens add constraint fk_labens_metodo_recno
+   foreign key (metodo_recno) references labmetodos(recno)
+   on update cascade;
+
+-- ==================================
+drop table if exists labrefs cascade;
+create table labrefs (
+   classe varchar(1) not null,
+   ensaio_recno integer not null,
+   tpamostra_recno integer not null,
+   valor numeric(18, 4) default 0 not null,
+   recno serial not null);
+
+alter table labrefs add constraint pk_labrefs primary key (classe, ensaio_recno, tpamostra_recno);
+alter table labrefs add constraint fk_labrefs_classe
+   foreign key (classe) references labtensao(classe)
+   on update cascade;
+alter table labrefs add constraint fk_labrefs_ensaio_recno
+   foreign key (ensaio_recno) references labens(recno)
+   on update cascade on delete cascade;
+alter table labrefs add constraint fk_labrefs_tpamostra_recno
+   foreign key (tpamostra_recno) references labtipo(recno)
+   on update cascade;
+alter table labrefs add constraint uk_labtrefs_recno unique(recno);
+
+-- ==================================
+drop table if exists labrel cascade;
+create table labrel (
+   recno serial not null,
+   descri varchar(30) not null,
+   ativo boolean default true not null);
+
+alter table labrel add constraint pk_labrel primary key (recno);
+alter table labrel add constraint uk_labrel_descri unique(descri);
+
+-- ==================================
+drop table if exists labrel_ens cascade;
+create table labrel_ens (
+   relato_recno serial not null,
+   ensaio_recno serial not null,
+   recno serial not null);
+
+alter table labrel_ens add constraint pk_labrel_ens primary key (relato_recno, ensaio_recno);
+alter table labrel_ens add constraint uk_labrel_ens_recno unique(recno);
+alter table labrel_ens add constraint fk_labrel_ens_relato_recno
+   foreign key (relato_recno) references labrel(recno)
+   on update cascade on delete cascade;
+alter table labrel_ens add constraint fk_labrel_ens_ensaio_recno
+   foreign key (ensaio_recno) references labens(recno)
+   on update cascade;
+
+-- ==================================
+alter table labequip add classe varchar(1);
+alter table labequip add constraint fk_labequip_classe
+   foreign key (classe) references labtensao(classe)
+   on update cascade;
+
+DROP TABLE if exists comodato_ativo cascade;
+DROP TABLE if exists comodato cascade;
+
+create table comodato (
+   recno serial not null,
+   codigo integer not null,
+   ativos_id integer,
+   situacao integer default 1,
+   remessa timestamp default localtimestamp not null,
+   retorno timestamp);
+
+alter table comodato add constraint pk_comodato primary key (recno);
+alter table comodato add constraint fk_comodato_codigo
+   foreign key (codigo) references tbclientes (codigo)
+   on update cascade;
+alter table comodato add constraint fk_comodato_ativos_id
+   foreign key (ativos_id) references ativos(id)
+   on update cascade;
+alter table comodato add constraint ck_comodato_situacao check (situacao between 1 and 2);
+alter table comodato add constraint ck_comodato_retorno check (retorno >= remessa);
+
+-- ==================================
+drop table if exists labproc cascade;
+create table labproc (
+   recno serial not null,
+   descri varchar(60) not null,
+   criacao timestamp default localtimestamp not null,
+   emissao timestamp,
+   remessa timestamp,
+   retorno timestamp,
+   situacao integer default 1 not null,
+   os integer,
+   codigo integer);
+
+alter table labproc add constraint pk_labproc primary key (recno);
+alter table labproc add constraint fk_labproc_os
+   foreign key (os) references tb_orcamentos(os)
+   on update cascade;
+alter table labproc add constraint fk_labproc_codigo
+   foreign key (codigo) references tbclientes(codigo)
+   on update cascade;
+alter table labproc add constraint ck_labproc_emissao check (emissao >= criacao);
+alter table labproc add constraint ck_labproc_remessa check (remessa >= emissao);
+alter table labproc add constraint ck_labproc_retorno check (retorno >= remessa);
+alter table labproc add constraint ck_labproc_situacao check (situacao between 1 and 4);
+
+-- ==================================
+drop table if exists labprocxequip cascade;
+create table labprocxequip (
+   recno serial not null,
+   codigo integer not null,
+   labproc_recno integer not null,
+   equip_recno integer,
+   comodato_recno integer);
+
+alter table labprocxequip add constraint pk_labprocxequip primary key (recno);
+alter table labprocxequip add constraint fk_labprocxequip_codigoequip
+   foreign key (codigo, equip_recno) references labequipxcli (codigo, equip)
+   on update cascade;
+alter table labprocxequip add constraint fk_labprocxequip_labproc_recno
+   foreign key (labproc_recno) references labproc(recno)
+   on update cascade on delete cascade;
+alter table labprocxequip add constraint fk_labprocxequip_comodato_recno
+   foreign key (comodato_recno) references comodato(recno)
+   on update cascade;
+alter table labprocxequip add constraint fk_labprocxequip_codigo
+   foreign key (codigo) references tbclientes(codigo)
+   on update cascade;
+
+-- ==================================
+drop table if exists labamostras cascade;
+
+create table labamostras (
+   recno serial not null,
+   codigo integer not null,
+   equip_recno integer not null,
+   classe varchar(1),
+   tpamostra_recno integer,
+   labprocxequip_recno integer,
+   os integer,
+   entrada timestamp default localtimestamp,
+   coleta date not null,
+   coletor varchar(60),
+   tamb integer,
+   toleo integer
+);
+
+alter table labamostras add constraint pk_labamostras primary key (recno);
+alter table labamostras add constraint fk_labamostras_codigo
+   foreign key (codigo) references tbclientes(codigo)
+   on update cascade;
+alter table labamostras add constraint fk_labamostras_equip_recno
+   foreign key (equip_recno) references labequip(recno)
+   on update cascade;
+alter table labamostras add constraint fk_labamostras_classe
+   foreign key (classe) references labtensao(classe)
+   on update cascade;
+alter table labamostras add constraint fk_labamostras_tpamostra_recno
+   foreign key (tpamostra_recno) references labtipo(recno)
+   on update cascade;
+alter table labamostras add constraint fk_labamostras_labprocxequip_recno
+   foreign key (labprocxequip_recno) references labprocxequip(recno)
+   on update cascade;
+alter table labamostras add constraint fk_labamostras_os
+   foreign key (os) references tb_orcamentos(os)
+   on update cascade;
+
+-- ==================================
+drop table if exists labamostras_rel cascade;
+create table labamostras_rel (
+   amostra_recno integer not null,
+   relato_recno integer not null,
+   diagnostico text,
+   recomendacao text,
+   obs text,
+   recno serial not null
+);
+
+alter table labamostras_rel add constraint pk_labamostras_rel primary key (amostra_recno, relato_recno);
+alter table labamostras_rel add constraint fk_labamostras_rel_amostra_recno
+   foreign key (amostra_recno) references labamostras(recno)
+   on update cascade on delete cascade;
+alter table labamostras_rel add constraint fk_labamostras_rel_relato_recno
+   foreign key (relato_recno) references labrel(recno)
+   on update cascade;
+alter table labamostras_rel add constraint uk_labamostras_rel_recno unique(recno);
+
+-- ==================================
+drop table if exists labamostras_res cascade;
+create table labamostras_res (
+   amostra_recno integer not null,
+   relato_recno integer not null,
+   ensaio_recno integer not null,
+   valor numeric(18, 4) default 0 not null,
+   recno serial not null
+);
+
+alter table labamostras_res add constraint pk_labamostras_res primary key (amostra_recno, relato_recno, ensaio_recno);
+alter table labamostras_res add constraint fk_labamostras_res_rel
+   foreign key (amostra_recno, relato_recno) references labamostras_rel(amostra_recno, relato_recno)
+   on update cascade on delete cascade;
+alter table labamostras_res add constraint fk_labamostras_res_ensaio_recno
+   foreign key (relato_recno, ensaio_recno) references labrel_ens(relato_recno, ensaio_recno)
+   on update cascade;
+alter table labamostras_res add constraint uk_labamostras_res_recno unique(recno);
+
+-- Visão de ensaios
+create or replace view ensaios as
+select e.recno, e.nome, e.unidade_recno, u.descri as unidade,
+       e.metodo_recno, m.descri as metodo, e.descri
+  from labens e
+       left join labunidades u
+         on u.recno = e.unidade_recno
+       left join labmetodos m
+         on m.recno = e.metodo_recno;
+
+insert into sys_errors (constraint_, descri, solucao) values ('pk_labprocxequip', 'Item já incluso no processo já registrado', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_labprocxequip_codigo', 'Cadastro do cliente não localizado.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_labprocxequip_codigoequip', 'Equipamento não localizado no cadastro do cliente.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_labprocxequip_labproc_recno', 'Não é possível criar itens sem processo.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_labprocxequip_comodato_recno', 'Comodato não pode ser excluido porque é referenciado por um processo de coleta', '');
+
+insert into sys_errors (constraint_, descri, solucao) values ('pk_labproc', 'Processo já registrado', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_labproc_os', 'OS não pode ser excluída porque é referenciada por um processo laboratorial.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_labproc_emissao', 'Data de emissão não pode ser anterior a data de criação do processo.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_labproc_remessa', 'Data de remessa não pode ser anterior a data de emissão do processo.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_labproc_retorno', 'Data de retorno não pode ser anterior a data de remessa do processo.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_labproc_situacao', 'A situação do processo deve estar entre 1 - Digitação e 4 - Encerrado', '');
+
+delete from sys_errors where constraint_ like '%comodato%';
+insert into sys_errors (constraint_, descri, solucao) values ('pk_comodato', 'Comodato já registrado', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_comodato_codigo', 'Cliente não pode ser excluído porque possuí comodatos em aberto', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_comodato_ativos_id', 'Ativo não pode ser excluído porque é referenciado pela tabela de comodatos', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_comodato_situacao', 'Situação do comodato deve ser 1 - Em Aberto / 2 - Baixado', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_comodato_retorno', 'Data de retorno do comodato não pode ser inferior a data de remessa', '');
+
+insert into sys_errors (constraint_, descri, solucao) values ('pk_labamostras_res', 'Resultado já incluso no relatório.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_labamostras_res_rel', 'Resultados devem estar associados a relatórios.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_labamostras_res_ensaio_recno', 'Ensaio não pode excluído porque é referenciado por um ou mais resultados.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('uk_labamostras_res_recno', 'Recno duplicado.', '');
+
+insert into sys_errors (constraint_, descri, solucao) values ('pk_labamostras_rel', 'Relatório já cadastrado na amostra.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_labamostras_rel_amostra_recno', 'Não é possível criar relatórios sem amostras.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_labamostras_rel_relato_recno', 'Relatório inválido.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('uk_labamostras_rel_recno', 'Recno duplicado.', '');
+
+insert into sys_errors (constraint_, descri, solucao) values ('pk_labamostras', 'Amostra já cadastrada.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_labamostras_os', 'OS não pode ser excluída porque é referenciada por uma entrada de amostra.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_labamostras_codigo', 'Cliente não pode ser excluido porque tem amostras registradas.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_labamostras_equip_recno', 'Equipamento não pode ser excluído porque tem amostras registradas.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_labamostras_classe', 'Classe de tensão não pode ser excluída porque tem amostras registradas.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_labamostras_tpamostra_recno', 'Tipo de amostra não pode ser excluído porque tem amostras registradas.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_labamostras_labprocxequip_recno', 'Processo informado na entrada de amostra não pode ser localizado.', '');
+
+insert into sys_errors (constraint_, descri, solucao) values ('fk_labequip_classe', 'Classe de tensão não pode ser excluída porque é referenciada por um ou mais equipamentos.', '');
+
+insert into sys_errors (constraint_, descri, solucao) values ('pk_labrel_ens', 'Ensaio já cadastrado no relatório.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('uk_labrel_ens_recno', 'Recno duplicado.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_labrel_ens_relato_recno', 'Relatório não localizado na tabela de relatórios.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_labrel_ens_ensaio_recno', 'Ensaio não pode ser excluído porque é referenciado por um ou mais relatórios.', '');
+
+insert into sys_errors (constraint_, descri, solucao) values ('pk_labrel', 'Relatório já cadastrado.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('uk_labrel_descri', 'Descrição do relatório duplicada.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('uk_labrel_recno', 'Recno duplicado.', '');
+
+insert into sys_errors (constraint_, descri, solucao) values ('pk_labrefs', 'Ensaio já cadastrado para classe de tensão e tipo de amostra.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('uk_labtrefs_recno', 'Recno duplicado.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_labrefs_classe', 'Classe de tensão não pode ser excluida porque é referenciada por um ensaio.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_labrefs_tpamostra_recno', 'Tipo de amostra não pode ser excluida porque é referenciada por um ensaio.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_labrefs_ensaio_recno', 'Ensaio não localizado na tabela de ensaios.', '');
+
+insert into sys_errors (constraint_, descri, solucao) values ('pk_labtensao', 'Classe de tensão já cadastrada.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_labtensao_min', 'Tensão mínima não pode ser negativa.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_labtensao_max', 'Tensão máxima deve ser maior ou igual a tensão mínima.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('uk_labtensao_recno', 'Registro não se duplica.', '');
+
+insert into sys_errors (constraint_, descri, solucao) values ('pk_labtipo', 'Tipo de amostra já cadastrada.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('uk_labtipo_descri', 'Descrição do tipo de amostra duplicada.', '');
+
+insert into sys_errors (constraint_, descri, solucao) values ('pk_labunidades', 'Unidade já cadastrada.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('uk_labunidades_descri', 'Descrição da unidade duplicada.', '');
+
+insert into sys_errors (constraint_, descri, solucao) values ('pk_labmetodos', 'Método já cadastrado.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('uk_labmetodos_descri', 'Descrição do método duplicada.', '');
+
+insert into sys_errors (constraint_, descri, solucao) values ('pk_labens', 'Ensaio já cadastrado.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('uk_labens_nome', 'Nome do ensaio duplicado.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_labens_unidade_recno', 'Unidade de medida não pode ser excluida porque é referenciada por um ensaio.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_labens_metodo_recno', 'Método não pode ser excluido porque é referenciado por um ensaio.', '');
+
+-- ====================================================================================================
+-- Rotinas de preenchimento das tabelas do laboratório
+-- =====================================================================================================
+
+-- Classes de tensão
+insert into labtensao (classe, min, max)
+select classe, tensao_minima, tensao_maxima
+  from transf_tensao
+ order by 1;
+
+-- Unidades de medida
+insert into labunidades (descri) values ('%');
+insert into labunidades (descri) values ('°C');
+insert into labunidades (descri) values ('kV');
+insert into labunidades (descri) values ('mg/kg');
+insert into labunidades (descri) values ('mg KOH/g');
+insert into labunidades (descri) values ('mN/m');
+insert into labunidades (descri) values ('monômeros');
+insert into labunidades (descri) values ('Partículas/mL');
+insert into labunidades (descri) values ('ppm');
+insert into labunidades (descri) values ('µm');
+
+-- Métodos
+insert into labmetodos (descri) values ('NBR-10505');
+insert into labmetodos (descri) values ('NBR-10710');
+insert into labmetodos (descri) values ('NBR-11341');
+insert into labmetodos (descri) values ('NBR-12133');
+insert into labmetodos (descri) values ('NBR-12134');
+insert into labmetodos (descri) values ('NBR-13882');
+insert into labmetodos (descri) values ('NBR-13882 Parte A');
+insert into labmetodos (descri) values ('NBR-14248');
+insert into labmetodos (descri) values ('NBR-14483');
+insert into labmetodos (descri) values ('NBR-14725');
+insert into labmetodos (descri) values ('NBR-15349');
+insert into labmetodos (descri) values ('NBR-6234');
+insert into labmetodos (descri) values ('NBR-7070 / NBR-7274');
+insert into labmetodos (descri) values ('NBR-7148');
+insert into labmetodos (descri) values ('NBR-IEC-60156');
+insert into labmetodos (descri) values ('NBR-IEC 60450/2009');
+insert into labmetodos (descri) values ('Projeto PR 10.1-028');
+insert into labmetodos (descri) values ('Projeto PR 10.1-029');
+insert into labmetodos (descri) values ('NBR-6869');
+
+-- Ensaios
+insert into labens (nome, unidade_recno, metodo_recno) values ('Teor de Tolutriazol (TTA)', 4, 17);
+insert into labens (nome, unidade_recno, metodo_recno) values ('Teor de Dibenzil Dissulfeto (DBDS)', 4, 18);
+insert into labens (nome, unidade_recno, metodo_recno) values ('Enxofre Corrosivo', null, 1);
+insert into labens (nome, unidade_recno, metodo_recno) values ('5-hidroximetil-2-furfural (5HMF)', 4, 11);
+insert into labens (nome, unidade_recno, metodo_recno) values ('2-furfurilalcool (2FOL)', 4, 11);
+insert into labens (nome, unidade_recno, metodo_recno) values ('2-furfural (2FAL)', 4, 11);
+insert into labens (nome, unidade_recno, metodo_recno) values ('2-acetilfurano (2ACF)', 4, 11);
+insert into labens (nome, unidade_recno, metodo_recno) values ('5-metil-2-furfural (5MEF)', 4, 11);
+insert into labens (nome, unidade_recno, metodo_recno) values ('Monóxido de carbono - CO', 9, 13);
+insert into labens (nome, unidade_recno, metodo_recno) values ('Hidrogênio - H2', 9, 13);
+insert into labens (nome, unidade_recno, metodo_recno) values ('Metano - CH4', 9, 13);
+insert into labens (nome, unidade_recno, metodo_recno) values ('Etileno - C2H4', 9, 13);
+insert into labens (nome, unidade_recno, metodo_recno) values ('Etano - C2H6', 9, 13);
+insert into labens (nome, unidade_recno, metodo_recno) values ('Acetileno - C2H2', 9, 13);
+insert into labens (nome, unidade_recno, metodo_recno) values ('Oxigênio - O2', 9, 13);
+insert into labens (nome, unidade_recno, metodo_recno) values ('Nitrogênio - N2', 9, 13);
+insert into labens (nome, unidade_recno, metodo_recno) values ('Dióxido de Carbono - CO2', 9, 13);
+insert into labens (nome, unidade_recno, metodo_recno) values ('Cor', null, 9);
+insert into labens (nome, unidade_recno, metodo_recno) values ('Densidade a 20/4 ºC', null, 14);
+insert into labens (nome, unidade_recno, metodo_recno) values ('Fator de Potência a 100 ºC', 1, 4);
+insert into labens (nome, unidade_recno, metodo_recno) values ('Indice de Neutralização', 5, 8);
+insert into labens (nome, unidade_recno, metodo_recno) values ('Rigidez Dielétrica', 3, 15);
+insert into labens (nome, unidade_recno, metodo_recno) values ('Tensão Interfacial, a 25 ºC', 6, 12);
+insert into labens (nome, unidade_recno, metodo_recno) values ('Teor de Água', 9, 2);
+insert into labens (nome, unidade_recno, metodo_recno) values ('Teor de PCB', 4, 7);
+insert into labens (nome, unidade_recno, metodo_recno) values ('Ponto de Fulgor', 2, 3);
+insert into labens (nome, unidade_recno, metodo_recno) values ('Contagem de Partículas', 8, 10);
+insert into labens (nome, unidade_recno, metodo_recno) values ('Maior Partícula', 10, 10);
+insert into labens (nome, unidade_recno, metodo_recno) values ('Teor de PCB (cromatográfico)', 4, 6);
+insert into labens (nome, unidade_recno, metodo_recno) values ('C Aromático', 1, null);
+insert into labens (nome, unidade_recno, metodo_recno) values ('C Naftênico', 1, null);
+insert into labens (nome, unidade_recno, metodo_recno) values ('C Parafínico', 1, null);
+insert into labens (nome, unidade_recno, metodo_recno) values ('Grau de Polimerização', 7, 16);
+insert into labens (nome, unidade_recno, metodo_recno) values ('Rigidez Dielétrica', 3, 19);
+
+-- Relatórios
+insert into labrel (descri) values ('Enxofre Corrosivo');
+insert into labrel (descri) values ('Cromatografia Líquida');
+insert into labrel (descri) values ('Cromatografia Gasosa');
+insert into labrel (descri) values ('Cromatografia Gasosa - PCB');
+insert into labrel (descri) values ('Físico-químico');
+insert into labrel (descri) values ('Contagem de Partículas');
+insert into labrel (descri) values ('Ponto de Fugor');
+insert into labrel (descri) values ('Composição Carbônica');
+insert into labrel (descri) values ('Grau de Polimerização');
+
+-- Relatórios x Ensaios
+-----------------------------------------------------------
+-- Enxofre
+insert into labrel_ens (relato_recno, ensaio_recno)
+  select 1, recno
+    from labens
+   where recno < 4;
+
+-- Cromatografia líquida (furfural)
+insert into labrel_ens (relato_recno, ensaio_recno)
+  select 2, recno
+    from labens
+   where recno between 4 and 8;
+
+-- Cromatografia gasosa
+insert into labrel_ens (relato_recno, ensaio_recno)
+  select 3, recno
+    from labens
+   where recno between 9 and 17;
+
+-- Cromatografia gasosa - PCB
+insert into labrel_ens (relato_recno, ensaio_recno) values (4, 30);
+
+-- Físico-químico
+insert into labrel_ens (relato_recno, ensaio_recno)
+  select 5, recno
+    from labens
+   where recno between 18 and 25;
+
+-- Contagem de partículas
+insert into labrel_ens (relato_recno, ensaio_recno)
+  select 6, recno
+    from labens
+   where recno between 27 and 28;
+
+-- Ponto de Fugor
+insert into labrel_ens (relato_recno, ensaio_recno) values (7, 26);
+
+-- Composição carbônica
+insert into labrel_ens (relato_recno, ensaio_recno)
+  select 8, recno
+    from labens
+   where recno between 31 and 33;
+
+-- Polimerização
+insert into labrel_ens (relato_recno, ensaio_recno) values (9, 34);
+
+---- ====================================================================================
+
+-- Tipos de Amostra
+insert into labtipo (descri) values ('Padrão');
+insert into labtipo (descri) values ('Transformador Novo');
+insert into labtipo (descri) values ('Silicone');
+insert into labtipo (descri) values ('Silicone Novo');
+insert into labtipo (descri) values ('Tambor Tratado');
+insert into labtipo (descri) values ('Tambor Não Tratado');
+insert into labtipo (descri) values ('Tanque Tratado');
+insert into labtipo (descri) values ('Tanque Não Tratado');
+
+-- Normalização da tabela de parâmetros fisico-químicos
+create or replace function preenche_fq()
+returns void
+as
+$$
+declare
+   rrow					record;
+   i     				integer;
+   itpamostra_recno	labrefs.tpamostra_recno%type;
+   vvalor				labrefs.valor%type;
+begin
+   for rrow in (
+	  SELECT distinct classe, parametro, transformadornovo,
+            silicone, tambortratado, tamborntratado, siliconenovo, tanquetratado,
+            tanquentratado,
+            case when caracteristica = 'TEOR DE AGUA' then 24
+                 when caracteristica = 'RIGIDEZ DIELETRICA NBR' then 34
+                 when caracteristica = 'RIGIDEZ DIELETRICA' then 22
+                 when caracteristica = 'TENSAO INTERFACIAL' then 23
+                 when caracteristica = 'FATOR DE POTENCIA' then 20
+                 when caracteristica = 'TEOR DE PCB' then 25
+                 when caracteristica = 'ACIDEZ' then 21
+            end as ensaio
+       FROM tb_fisico_quimico)
+   loop
+      for i in 1..8 Loop
+         if i = 1 then
+			   vvalor := rrow.parametro;
+         elsif i = 2 then
+			   vvalor := rrow.transformadornovo;
+         elsif i = 3 then
+			   vvalor := rrow.silicone;
+         elsif i = 4 then
+			   vvalor := rrow.tambortratado;
+         elsif i = 5 then
+			   vvalor := rrow.tamborntratado;
+         elsif i = 6 then
+			   vvalor := rrow.siliconenovo;
+         elsif i = 7 then
+			   vvalor := rrow.tanquetratado;
+         elsif i = 8 then
+			   vvalor := rrow.tanquentratado;
+			end if;
+
+			if vvalor is not null then
+				insert into labrefs (classe, ensaio_recno, tpamostra_recno, valor)
+						values        (rrow.classe, rrow.ensaio,  i, vvalor);
+			end if;
+		end loop;
+   end loop;
+end;
+$$
+language plpgsql;
+
+select preenche_fq();
+

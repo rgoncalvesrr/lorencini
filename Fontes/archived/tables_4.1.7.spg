@@ -1,0 +1,15 @@
+/**
+   Script da versão 4.1.7
+
+   @author    Ricardo Gonçalves
+   @date      20/05/2016 01:18:40
+   @trigger
+
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+set session authorization lorencini;
+
+alter table labamostras_rel
+   add apontado timestamp;
