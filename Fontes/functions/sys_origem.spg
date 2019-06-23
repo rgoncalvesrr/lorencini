@@ -22,7 +22,7 @@ Begin
     where tabela = lower(aTabela);
 
    if not FOUND then
-      raise exception '[[Tabela "%" não localizada. Verifique.]]', aTabela;
+      raise '[[Tabela "%" não localizada. Verifique.]]', aTabela;
    end if;
 
    Return out_res;

@@ -452,31 +452,68 @@ alter table pedido_serv
 create index idx_pedido_serv_3 on pedido_serv(pedido) where lote_aprov is null;
 
 alter table pedido_mo
-  add lote_aprov integer,
-  add constraint fkpedido_mo_3 foreign key(lote_aprov)
-    references cota_aprov(recno) on update cascade on delete set null;
+   add lote_aprov integer,
+   add constraint fkpedido_mo_3 foreign key(lote_aprov)
+      references cota_aprov(recno) on update cascade on delete set null;
 
 create index idx_pedido_mo_3 on pedido_mo(pedido) where lote_aprov is null;
 
--- ==================================================================================================================
---
--- GATILHOS
---
--- ==================================================================================================================
-CREATE TRIGGER b_pedido_amostras
-   BEFORE INSERT OR UPDATE OR DELETE
-   ON pedido_amostras
-   FOR EACH ROW
-   EXECUTE PROCEDURE b_pedido_amostras();
+alter table sys_forms 
+   add modification timestamp default clock_timestamp() not null,
+   add remove boolean default false,
+   drop excluir;
 
-CREATE TRIGGER b_labamostras_hist
-   BEFORE INSERT OR UPDATE OR DELETE
-   ON labamostras_hist
-   FOR EACH ROW
-   EXECUTE PROCEDURE b_labamostras_hist();
+alter table sys_forms_rpt 
+   add modification timestamp default clock_timestamp() not null,
+   add remove boolean default false;
 
-CREATE TRIGGER a_cota_aprov
-   AFTER INSERT OR UPDATE OR DELETE
-   ON cota_aprov
+alter table sys_reports 
+   add modification timestamp default clock_timestamp() not null,
+   add remove boolean default false;
+
+alter table sys_menu 
+   add modification timestamp default clock_timestamp() not null,
+   add remove boolean default false;
+
+alter table sys_tables
+   add modification timestamp default clock_timestamp() not null,
+   add remove boolean default false;
+
+alter table sys_fn 
+   add stmt text,
+   add remove boolean default false,
+   add modification timestamp default clock_timestamp() not null,
+   add status integer default 1 not null,
+   add checksum varchar(32);
+
+alter table tb_entrada_amostra drop comodato_recno;
+drop table comodato;
+
+-- -- ==================================================================================================================
+-- --
+-- -- GATILHOS
+-- --
+-- -- ==================================================================================================================
+-- CREATE TRIGGER b_pedido_amostras
+--    BEFORE INSERT OR UPDATE OR DELETE
+--    ON pedido_amostras
+--    FOR EACH ROW
+--    EXECUTE PROCEDURE b_pedido_amostras();
+
+-- CREATE TRIGGER b_labamostras_hist
+--    BEFORE INSERT OR UPDATE OR DELETE
+--    ON labamostras_hist
+--    FOR EACH ROW
+--    EXECUTE PROCEDURE b_labamostras_hist();
+
+-- CREATE TRIGGER a_cota_aprov
+--    AFTER INSERT OR UPDATE OR DELETE
+--    ON cota_aprov
+--    FOR EACH ROW
+--    EXECUTE PROCEDURE a_cota_aprov();
+
+CREATE TRIGGER b_sys_fn
+   BEFORE INSERT OR UPDATE OR DELETE
+   ON sys_fn
    FOR EACH ROW
-   EXECUTE PROCEDURE a_cota_aprov();
+   EXECUTE PROCEDURE b_sys_fn();

@@ -1,0 +1,69 @@
+/**
+   Prepara informações para tabela de log
+
+   @author  Ricardo Gonçalves
+   @date    11/06/2019
+   @trigger sys_fn B IUD
+
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+CREATE OR REPLACE FUNCTION b_sys_fn()
+  RETURNS trigger AS
+$$
+Declare
+   tablename   varchar;
+   event       varchar;
+BEGIN
+   if tg_op = 'DELETE' then
+      return old;
+   end if;
+
+   new.checksum := md5(new.stmt);
+
+   if tg_op = 'UPDATE' then
+      if new.checksum <> old.checksum then
+         new.modification := clock_timestamp();
+      end if;
+   end if;
+
+   -- Gatilho
+   if new.tipo = 2 then
+      if new.table_recno is null then
+         tablename := substr(new.fn, 3, length(new.fn) - 2);
+
+         select recno
+           into new.table_recno
+           from sys_tables
+          where tabela = tablename; 
+         
+         -- Registra tabela caso não exista
+         if not FOUND then
+            new.table_recno := nextval('sys_tables_recno_seq'::regclass);
+
+            insert into sys_tables(
+               recno,           tabela,    descri)
+            values (
+               new.table_recno, tablename, tablename);
+         end if;
+
+         if new.table_recno is null then
+            new.status := 1; -- desenvolvimento
+         else
+            event := substr(new.fn, 1, 1);
+            
+            if event = 'b' then
+               new.evento := 1;
+            end if;
+
+            if event = 'a' then
+               new.evento := 2;
+            end if;
+         end if;
+      end if;
+   end if;
+
+   return new;
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;

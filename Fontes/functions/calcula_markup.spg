@@ -7,24 +7,6 @@
   Histórico
   ---------------------------------------------------------------------------------------------------------------------
    Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
-
-   20/12/2016  Jurandy da Silva Costa
-      [*] Versão inicial criada a partir da trigger do before da tabela tb_orçamentos escrita por Ricardo Gonçalves.
-
-   04/01/2017  Ricardo
-      [*] Remoção da palavra chave "Returns" da assinatura do método.
-
-   24/02/2017  Ricardo
-      [*] O processamento do markup passa a atualizar o valor unitário de venda dos serviços/materiais/mo da cotação/OS
-
-   08/03/2017  Ricardo
-      [*] Inclusão do tratamento de fretes para cotação
-
-   15/06/2018 Ricardo
-      [*] Inclusão do tratamento do pedido de venda
-
-   29/04/2018 Ricardo
-      [*] Inclusão das despesas a cobrar
 */
 Create or Replace Function calcula_markup(
    in in_tabela integer,
