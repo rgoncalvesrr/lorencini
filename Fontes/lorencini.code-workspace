@@ -1,0 +1,15 @@
+{
+   "folders": [{
+      "path": "."
+   }],
+   "settings": {
+      "files.defaultLanguage": "oracle",
+      "files.encoding": "iso88591",
+      "files.associations": {
+         "*.spg": "oracle"
+      },
+      "editor.tabSize": 3,
+      "editor.detectIndentation": false,
+      "editor.insertSpaces": true
+   }
+}

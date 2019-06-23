@@ -1,0 +1,14 @@
+.git
+.svn
+*.jpg
+*.png
+*.exe
+*.dll
+*.msd
+*.cfg
+*.pdf
+*.psd
+*.bmp
+temp
+bin*
+data
