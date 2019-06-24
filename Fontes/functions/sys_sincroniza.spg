@@ -72,7 +72,15 @@ begin
        order by acao)
    loop
       stmt := sys_parse(r.stmt);
-      execute stmt;      
+      begin
+         execute stmt;      
+         error := array_append(error, format('[INFO] Aplicação da rotina %s.', r.fn));
+      exception
+         when syntax_error_or_access_rule_violation then
+            get stacked diagnostics error_msg = MESSAGE_TEXT;
+            error := array_append(error, format('[ERRO] Aplicação da rotina %s. Mensagem: %s', r.fn, error_msg));
+            continue;
+      end;
 
       if r.acao = 2 then
          insert into public.sys_fn(
@@ -111,10 +119,11 @@ begin
          stmt := sys_parse(r.stmt);
          begin
             execute stmt;
+            error := array_append(error, format('[INFO] Aplicação da rotina %s.', r.fn));
          exception
             when syntax_error_or_access_rule_violation then
                get stacked diagnostics error_msg = MESSAGE_TEXT;
-               error := array_append(error, format('Aplicação da rotina %s. Erro: %s', r.fn, error_msg));
+               error := array_append(error, format('[ERRO] Aplicação da rotina %s. Mensagem: %s', r.fn, error_msg));
                continue;
          end;
       end if;
@@ -150,10 +159,11 @@ begin
       stmt := format('create trigger %s %s %s on %s for each row execute procedure %s();', r.fn, event, action, r.tabela, r.fn);
       begin
          execute stmt;
+         error := array_append(error, format('[INFO] Criação do gatilho %s na tabela %s.', r.fn, r.tabela));
       exception
          when syntax_error_or_access_rule_violation then
             get stacked diagnostics error_msg = MESSAGE_TEXT;
-            error := array_append(error, format('Criação do gatilho %s na tabela %s. Erro: %s', r.fn, r.tabela, error_msg));
+            error := array_append(error, format('[ERRO] Criação do gatilho %s na tabela %s. Mensagem: %s', r.fn, r.tabela, error_msg));
             continue;
       end;
    end loop;

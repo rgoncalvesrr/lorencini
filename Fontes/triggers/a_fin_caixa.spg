@@ -12,7 +12,7 @@ Create or Replace Function a_fin_caixa()
 Returns trigger As
 $$
 Declare
-   vdespesas   pedido.despesas%type;
+   vdespesas   numeric(12, 2);
    bProcPedido boolean;
    bProcOs     boolean;   
 Begin
