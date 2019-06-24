@@ -18,9 +18,9 @@ Declare
    r           record;
    ipedido     pedido_serv.recno%type;
    icodserv    pedido_serv.codserv%type;
-   iamostra   comodato.recno%type;
+   iamostra    labamostras.recno%type;
    iamostras   pedido_serv.amostras%type;   
-   nconumido   comodato.consumido%type;
+   nconumido   pedido_amostras.consumo%type;
 BEGIN   
    if tg_op <> 'DELETE' then      
       ipedido  := new.pedido;

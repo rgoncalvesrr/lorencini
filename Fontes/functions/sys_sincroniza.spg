@@ -290,8 +290,8 @@ begin
       and b.modification > a.modification;
 
    insert into public.sys_menu (
-      modification, descri, level, parent, form, order_, report, remove)
-   select a.modification, a.descri, a.level, a.parent, a.form, a.order_, a.report, false
+      id, modification, descri, level, parent, form, order_, report, remove)
+   select a.id, a.modification, a.descri, a.level, a.parent, a.form, a.order_, a.report, false
      from sync.sys_menu a
     where not exists(
        select 1

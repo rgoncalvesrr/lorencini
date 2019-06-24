@@ -31,7 +31,7 @@ CREATE OR REPLACE FUNCTION a_labport()
 $$
 Declare
    icount      integer;
-   trem_tr     comodato.rem_tr%type;
+   -- trem_tr     comodato.rem_tr%type;
    voperac     varchar;
    tdescricao  tb_orcamentos.descricao%type;
    ios         tb_orcamentos.os%type;
@@ -46,10 +46,10 @@ BEGIN
       end if;
 
       -- Atualiza lista de comodatos
-      trem_tr := coalesce('Processo laboratorial nº ' || new.labproc_recno || '.', '') || 'Operação de ' || voperac || ' nº ' ||
-         new.recno || ' emitida em ' || to_char(new.emissao, 'DD/MM/YYYY HH24:MI:SS') || chr(13)|| chr(10);
-      trem_tr := trem_tr || chr(13)|| chr(10) || 'Portador Empresa: ' || new.cnpj || ' - ' || new.empresa;
-      trem_tr := trem_tr || chr(13)|| chr(10) || 'Portador Agente.: ' || new.cpf || ' - ' || new.portador;
+      -- trem_tr := coalesce('Processo laboratorial nº ' || new.labproc_recno || '.', '') || 'Operação de ' || voperac || ' nº ' ||
+      --    new.recno || ' emitida em ' || to_char(new.emissao, 'DD/MM/YYYY HH24:MI:SS') || chr(13)|| chr(10);
+      -- trem_tr := trem_tr || chr(13)|| chr(10) || 'Portador Empresa: ' || new.cnpj || ' - ' || new.empresa;
+      -- trem_tr := trem_tr || chr(13)|| chr(10) || 'Portador Agente.: ' || new.cpf || ' - ' || new.portador;
 
       -- Processando remessa
       if new.operac = 1 then

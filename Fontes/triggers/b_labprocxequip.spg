@@ -22,7 +22,6 @@ Declare
    r        record;
    rrow     record;
    iproc    integer;
-   vean39   comodato.ean39%type;
 BEGIN
    if tg_op <> 'DELETE' then
       iproc := new.labproc_recno;
@@ -38,8 +37,6 @@ BEGIN
    if tg_op = 'INSERT' and rrow.situacao > 1 then
       raise '[[Não é possível emitir etiquetas para a remessa % porque passou da etapa de processamento.]]', iproc;
    end if;
-
-   vean39 := null;
 
    if tg_op <> 'DELETE' then
       if tg_op = 'INSERT' then
