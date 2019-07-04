@@ -145,7 +145,7 @@ begin
             action := action || ' or ';
          end if;
 
-         action := 'update';
+         action := action || 'update';
       end if;
 
       if (r.del) then
@@ -153,7 +153,7 @@ begin
             action := action || ' or ';
          end if;
 
-         action := 'delete';
+         action := action || 'delete';
       end if;
 
       stmt := format('create trigger %s %s %s on %s for each row execute procedure %s();', r.fn, event, action, r.tabela, r.fn);

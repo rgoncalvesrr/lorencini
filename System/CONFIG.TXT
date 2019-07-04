@@ -6,6 +6,14 @@ Password=postgres.
 Protocol=postgresql-8
 Port=5432
 
+[Localhost_homologacao]
+HostName=127.0.0.1
+Database=lorencini_h
+User_Name=postgres
+Password=postgres.
+Protocol=postgresql-8
+Port=5432
+
 [Conceitho]
 HostName=192.168.0.3
 Database=lorencini
@@ -32,7 +40,7 @@ Protocol=postgresql-8
 Port=5432
 
 [LastConn]
-Section=Localhost_desenvolvimento
+Section=Localhost_homologacao
 
 [Monitor]
 Cycle=10
