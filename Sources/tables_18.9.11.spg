@@ -112,6 +112,8 @@ update pedido_amostras a
   from labamostras b
  where b.comodato_recno = a.comodato_recno; 
 
+delete from pedido_amostras where amostra is null;
+
 alter table pedido_amostras enable trigger all;
 
 ALTER TABLE public.pedido_amostras 

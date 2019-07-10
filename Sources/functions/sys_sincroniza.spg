@@ -286,8 +286,7 @@ begin
       set modification = b.modification, descri = b.descri, level = b.level, parent = b.parent, form = b.form, order_ = b.order_, 
           report = b.report 
      from sync.sys_menu b
-    where b.id = a.id      
-      and b.modification > a.modification;
+    where b.id = a.id;
 
    insert into public.sys_menu (
       id, modification, descri, level, parent, form, order_, report, remove)
