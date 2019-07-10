@@ -1,0 +1,39 @@
+/**
+   Vincula lançamentos em aberto com o pedido informado
+
+	@author    Ricardo Gonçalves
+	@date      06/09/2016 09:51:22
+	@trigger
+
+	@param in_codigo código do cliente
+	@param in_os código da cobrança para vinculação das despesas
+
+	@return quantidade de despesas vinculadas a cobrança
+
+   Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+CREATE OR REPLACE FUNCTION fin_caixaVincularOs(
+   in in_codigo integer,
+   in in_os integer )
+RETURNS integer AS
+$$
+Declare
+   irows integer;
+BEGIN
+   update fin_caixa
+      set os = in_os, cobrar = false
+    where codigo = in_codigo
+      and titulo is null
+      and pedido is null
+      and os is null
+      and data <= current_date
+      and cobrar;
+
+   GET DIAGNOSTICS irows = ROW_COUNT;
+
+   return irows;
+END;
+$$
+  LANGUAGE 'plpgsql' VOLATILE;

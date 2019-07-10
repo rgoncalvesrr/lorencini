@@ -1,0 +1,31 @@
+/**
+   Retorna o código para tabela passada como parâmetro
+
+	@author    Ricardo Gonçalves
+	@date      02/03/2009 14:15:51
+	@trigger
+
+	Histórico
+	-------------------------------------------------------------------------------------------------------------------
+ */
+Create or Replace Function sys_origem(
+   in aTabela varchar(100))
+Returns integer
+As
+$$
+Declare
+   out_res  integer;
+Begin
+   select recno
+     into out_res
+     from sys_tables
+    where tabela = lower(aTabela);
+
+   if not FOUND then
+      raise '[[Tabela "%" não localizada. Verifique.]]', aTabela;
+   end if;
+
+   Return out_res;
+End;
+$$
+language plpgsql;

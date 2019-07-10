@@ -1,0 +1,46 @@
+/**
+   Notifica algumas origens do sucesso ou falha no envio do e-mail
+
+   @author    Ricardo Gonçalves
+   @date      03/03/2016 01:25:53
+   @trigger   sys_email A IUD
+
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+   
+*/
+CREATE OR REPLACE FUNCTION a_sys_email()
+  RETURNS trigger AS
+$$
+Declare
+   r     record;
+   msg   text;
+BEGIN
+   if tg_op = 'UPDATE' then
+      -- Liberação do envio da mensagem
+      if new.status = 1 and old.status < 1 then
+         msg := '';
+         for r in (
+            select cast(to_name ||' <' || to_ || '>' as varchar)  to_
+              from sys_emailto
+             where email = new.recno)
+         loop
+            if msg <> '' then
+               msg := msg || ', ';
+            end if;
+            msg := msg || r.to_;
+
+         end loop;
+
+         if msg <> '' then
+            msg := 'Pedido de autorização enviado para: ' || msg;
+            perform log('Solicitação de autorização.', msg, 4, new.table_, new.recno_);
+         end if;
+      end if;
+   end if;
+
+   return null;
+END;
+$$
+  LANGUAGE 'plpgsql' VOLATILE;

@@ -1,0 +1,78 @@
+/**
+   Script da versão 3.2.1
+
+   @author    Ricardo Gonçalves
+   @date      27/07/2011 00:50:22
+   @trigger
+
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+set session authorization lorencini;
+
+-- Criticidades
+create or replace view vlaudocrit as
+select cr.relato_recno, c.descri, c.recno
+  from labcrit_rel cr
+       join labcrit c
+         on c.recno = labcrit_recno;
+
+-- Diagnósticos
+create or replace view vlaudodiags as
+select dr.relato_recno, d.descri, d.diag, d.dias, d.recno
+  from labdiagrel dr
+       join labdiag d
+         on d.recno = dr.labdiag_recno;
+
+-- Recomendações
+create table labrec (
+   recno serial not null,
+   descri varchar(60) not null,
+   recomenda text not null);
+   
+alter table labrec add
+   constraint pk_labrec primary key (recno);
+
+create table labdiagrec (
+   labdiag_recno integer not null,
+   labrec_recno integer not null,
+   recno serial not null);
+
+alter table labdiagrec add
+   constraint pk_labdiagrec primary key (labdiag_recno, labrec_recno);
+
+alter table labdiagrec add
+   constraint fk_labdiagrec_diag 
+        foreign key (labdiag_recno)
+        references labdiag(recno)
+        on update cascade on delete cascade;
+
+alter table labdiagrec add
+   constraint fk_labdiagrec_rec
+        foreign key (labrec_recno)
+        references labrec(recno)
+        on update cascade on delete cascade;
+
+alter table labdiagrec add
+   constraint uk_labdiagrec_recno unique(recno);
+   
+create or replace view vlaudorec as
+select drr.relato_recno, dr.labdiag_recno, r.descri, r.recomenda, r.recno
+  from labdiagrec dr
+       join labrec r
+         on r.recno = dr.labrec_recno
+       join labdiagrel drr
+         on drr.labdiag_recno = dr.labdiag_recno;
+         
+alter table labamostras_rel add labrec_recno integer;
+
+alter table labamostras_rel add constraint fk_labamostras_rel_rec
+  foreign key(labdiag_recno, labrec_recno) references labdiagrec(labdiag_recno, labrec_recno)
+  on update cascade;
+
+alter table labamostras_rel add idcodigo integer;
+
+alter table labamostras_rel add constraint fk_labamostras_rel_idcodigo
+  foreign key(idcodigo) references tbfuncionarios(idcodigo)
+  on update cascade;

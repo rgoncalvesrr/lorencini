@@ -1,0 +1,301 @@
+create or replace function sys_sincroniza()
+returns text as
+$$
+declare
+   result   text;
+begin   
+   perform sys_sincroniza_tables();
+   result := sys_sincroniza_fn();
+   perform sys_sincroniza_forms();
+   perform sys_sincroniza_reports();
+   perform sys_sincroniza_forms_rpt();
+   perform sys_sincroniza_menu();
+
+   if coalesce(result, '') = '' then
+      result := 'Sincronização realizada com sucesso.';
+   end if;
+
+   return result;
+end;
+$$
+language 'plpgsql';
+
+create or replace function sys_sincroniza_preserv(
+   in in_table_name varchar,
+   in in_where varchar)
+returns void as
+$$
+declare
+   cmd   varchar;
+begin
+   cmd = format(
+      'update public.%s a '||
+         'set remove = false '||
+        'from sync.%s b '||
+       'where %s; ', in_table_name, in_table_name, in_where);
+   execute cmd;
+end;
+$$
+language 'plpgsql';
+
+create or replace function sys_sincroniza_fn()
+returns text as
+$$
+declare
+   r           record;
+   stmt        text;
+   event       varchar;
+   action      varchar;
+   error       text[];
+   error_msg   text;
+begin   
+   update sys_fn 
+      set remove = true 
+    where status = 2;    
+
+   perform sys_sincroniza_preserv('sys_fn', 'a.fn = b.fn');
+
+   -- Aplicando rotinas antes de atualizar catalago de tabelas
+   for r in (
+      select 1 acao, a.fn, a.descri, a.tipo, a.table_recno, a.evento, a.ins, a.upd, a.del, a.modification, a.status, a.stmt, a.checksum
+        from sync.sys_fn a
+             join public.sys_fn b
+               on b.fn = a.fn
+              and b.checksum <> a.checksum 
+      union
+      select 2 acao, a.fn, a.descri, a.tipo, a.table_recno, a.evento, a.ins, a.upd, a.del, a.modification, a.status, a.stmt, a.checksum
+        from sync.sys_fn a
+       where not exists(  
+             select 1
+               from public.sys_fn b
+              where b.fn = a.fn)
+       order by acao)
+   loop
+      stmt := sys_parse(r.stmt);
+      begin
+         execute stmt;      
+         error := array_append(error, format('[INFO] Aplicação da rotina %s.', r.fn));
+      exception
+         when syntax_error_or_access_rule_violation then
+            get stacked diagnostics error_msg = MESSAGE_TEXT;
+            error := array_append(error, format('[ERRO] Aplicação da rotina %s. Mensagem: %s', r.fn, error_msg));
+            continue;
+      end;
+
+      if r.acao = 2 then
+         insert into public.sys_fn(
+            fn,   descri,   tipo,   table_recno,   evento,   ins,   upd,   del,   modification,   status,   stmt,   checksum)
+         values (
+            r.fn, r.descri, r.tipo, r.table_recno, r.evento, r.ins, r.upd, r.del, r.modification, r.status, r.stmt, r.checksum);         
+      end if;      
+
+      if r.acao = 1 then
+         update public.sys_fn a
+            set descri = r.descri, tipo = r.tipo, table_recno = r.table_recno,   evento = r.evento, ins =  r.ins,
+                upd = r.upd,     del = r.del,   modification = r.modification, status = r.status, stmt = r.stmt,    
+                checksum = r.checksum 
+          where fn = r.fn;
+      end if;
+   end loop;
+
+   for r in (
+      select a.fn, a.evento, a.ins, a.upd, a.del, c.tabela, a.stmt
+        from sys_fn a
+             join sys_tables c
+               on c.recno = a.table_recno
+       where a.tipo = 2 
+         and a.status = 2
+         and not exists(
+             select 1
+               from pg_catalog.pg_trigger b
+              where b.tgname = a.fn))
+   loop
+      -- Aplica rotina antes de criar gatilho
+      if not exists(
+         select 1
+           from pg_catalog.pg_proc
+          where proname = r.fn)
+      then
+         stmt := sys_parse(r.stmt);
+         begin
+            execute stmt;
+            error := array_append(error, format('[INFO] Aplicação da rotina %s.', r.fn));
+         exception
+            when syntax_error_or_access_rule_violation then
+               get stacked diagnostics error_msg = MESSAGE_TEXT;
+               error := array_append(error, format('[ERRO] Aplicação da rotina %s. Mensagem: %s', r.fn, error_msg));
+               continue;
+         end;
+      end if;
+
+      event := 'before';
+
+      if (r.evento = 2) then
+         event := 'after';
+      end if;
+
+      action := '';
+
+      if (r.ins) then
+         action := 'insert';
+      end if;
+
+      if (r.upd) then
+         if action <> '' then
+            action := action || ' or ';
+         end if;
+
+         action := action || 'update';
+      end if;
+
+      if (r.del) then
+         if action <> '' then
+            action := action || ' or ';
+         end if;
+
+         action := action || 'delete';
+      end if;
+
+      stmt := format('create trigger %s %s %s on %s for each row execute procedure %s();', r.fn, event, action, r.tabela, r.fn);
+      begin
+         execute stmt;
+         error := array_append(error, format('[INFO] Criação do gatilho %s na tabela %s.', r.fn, r.tabela));
+      exception
+         when syntax_error_or_access_rule_violation then
+            get stacked diagnostics error_msg = MESSAGE_TEXT;
+            error := array_append(error, format('[ERRO] Criação do gatilho %s na tabela %s. Mensagem: %s', r.fn, r.tabela, error_msg));
+            continue;
+      end;
+   end loop;
+
+   return array_to_string(error, chr(10));
+end;
+$$
+language 'plpgsql';
+
+create or replace function sys_sincroniza_tables()
+returns void as
+$$
+begin
+   update public.sys_tables set remove = true;   
+   perform sys_sincroniza_preserv('sys_tables', 'a.recno = b.recno');
+
+   update public.sys_tables a
+      set modification = b.modification
+     from sync.sys_tables b
+    where b.recno = a.recno
+      and b.modification > a.modification;
+
+   insert into public.sys_tables (
+      recno, tabela, descri, modification, remove)
+   select a.recno, a.tabela, a.descri, a.modification, false
+     from sync.sys_tables a
+    where not exists(
+       select 1
+         from public.sys_tables b
+        where b.recno = a.recno);
+end;
+$$
+language 'plpgsql';
+
+create or replace function sys_sincroniza_forms()
+returns void as
+$$
+begin
+   update sys_forms set remove = true;
+   perform sys_sincroniza_preserv('sys_forms', 'a.form = b.form');
+
+   update public.sys_forms a
+      set modification = b.modification, descri = b.descri
+     from sync.sys_forms b
+    where b.form = a.form
+      and b.modification > a.modification;
+
+   insert into public.sys_forms (
+      form, descri, modification, remove)
+   select a.form, a.descri, a.modification, false
+     from sync.sys_forms a
+    where not exists(
+       select 1
+         from public.sys_forms b
+        where b.form = a.form);
+end;
+$$
+language 'plpgsql';
+
+create or replace function sys_sincroniza_reports()
+returns void as
+$$
+begin
+   update sys_reports set remove = true;
+   perform sys_sincroniza_preserv('sys_reports', 'a.report = b.report');
+
+   update public.sys_reports a
+      set modification = b.modification, descri = b.descri, form = a.form 
+     from sync.sys_reports b
+    where b.report = a.report
+      and b.modification > a.modification;
+
+   insert into public.sys_reports (
+      report, form, descri, modification, remove)
+   select a.report, a.form, a.descri, a.modification, false
+     from sync.sys_reports a
+    where not exists(
+       select 1
+         from public.sys_reports b
+        where b.report = a.report);
+end;
+$$
+language 'plpgsql';
+
+create or replace function sys_sincroniza_forms_rpt()
+returns void as
+$$
+begin
+   update sys_forms_rpt set remove = true;
+   perform sys_sincroniza_preserv('sys_forms_rpt', 'a.form = b.form and a.report = b.report');
+
+   update public.sys_forms_rpt a
+      set modification = b.modification, label = b.label, ordem = a.ordem
+     from sync.sys_forms_rpt b
+    where b.form = a.form
+      and b.report = a.report
+      and b.modification > a.modification;
+
+   insert into public.sys_forms_rpt (
+      report, form, label, modification, remove)
+   select a.report, a.form, a.label, a.modification, false
+     from sync.sys_forms_rpt a
+    where not exists(
+       select 1
+         from public.sys_forms_rpt b
+        where b.form = a.form
+          and b.report = a.report);
+end;
+$$
+language 'plpgsql';
+
+create or replace function sys_sincroniza_menu()
+returns void as
+$$
+begin
+   update sys_menu set remove = true;
+   perform sys_sincroniza_preserv('sys_menu', 'a.id = b.id');
+
+   update public.sys_menu a
+      set modification = b.modification, descri = b.descri, level = b.level, parent = b.parent, form = b.form, order_ = b.order_, 
+          report = b.report 
+     from sync.sys_menu b
+    where b.id = a.id;
+
+   insert into public.sys_menu (
+      id, modification, descri, level, parent, form, order_, report, remove)
+   select a.id, a.modification, a.descri, a.level, a.parent, a.form, a.order_, a.report, false
+     from sync.sys_menu a
+    where not exists(
+       select 1
+         from public.sys_menu b
+        where b.id = a.id);
+end;
+$$
+language 'plpgsql';

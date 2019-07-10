@@ -1,0 +1,82 @@
+set session AUTHORIZATION lorencini;
+
+alter table tb_orcamentos disable trigger all;
+update tb_orcamentos 
+   set status_ = 10 + status_ 
+ where status_ in (0, -1, 1, 5);
+
+alter table tb_orcamentos
+  drop pedtipo,
+  drop pedusername,
+  drop peddtaprov, 
+  drop pedvlaprov,
+  drop pedvlaprovmat, 
+  drop pedintegracao,
+  drop pedcontato cascade,
+  drop pedart,
+  drop pedobs;
+  
+update tb_orcamentos 
+   set status_ = 1
+ where status_ = 2;
+ 
+alter table tb_orcamentos enable trigger all; 
+
+CREATE OR REPLACE VIEW public.vdoc_cab AS 
+ SELECT 198 AS origem,
+    cota.recno,
+    cota.recno AS doc,
+    cota.cliente,
+    cota.emissao,
+    cota.markup,
+    cota.descricao,
+    cota.contato,
+    cota.grupo
+   FROM cota
+UNION ALL
+ SELECT 9 AS origem,
+    tb_orcamentos.recno,
+    tb_orcamentos.os AS doc,
+    tb_orcamentos.idcliente AS cliente,
+    tb_orcamentos.data AS emissao,
+    tb_orcamentos.markup,
+    tb_orcamentos.descricao,
+    tb_orcamentos.contato AS contato,
+    tb_orcamentos.grupo
+   FROM tb_orcamentos;
+
+create or replace view vos as 
+   select o.os, o.idos, o.data, o.ano, o.idcliente, o.idvendedor, o.descricao,
+          o.telefone, o.status_, o.type_, o.pedidocliente, o.grupo,
+          o.contato, o.contato_fin, o.contato_tec,
+          m.vlsrvfixo, m.vlsrvvar, m.vlmobra, m.vldespe, 
+          (m.vlsrvfixo+m.vlsrvvar+m.vlmobra+m.vldespe) vlsrv, m.vlmat,
+          o.nf_srv, o.vlnfsrv, o.nf_mat, o.vlnfmat, o.recno       
+     from tb_orcamentos o
+          left join markup m
+            on m.recno = o.markup;
+            
+create table objects (
+   recno serial not null,
+   imported timestamp,
+   name varchar(60) not null,
+   descri text not null,
+   keys text,
+   type_ varchar(5) not null,
+   size integer default(0) not null,
+   object bytea not null,
+   tscontent tsvector);
+   
+alter table objects
+   add constraint pk_objects primary key(recno),
+   add constraint ck_objects_1 check(size > 0);
+
+alter table sys_forms_rpt 
+    add label varchar(150);
+
+update sys_forms_rpt fr
+   set label = r.descri
+  from sys_reports r
+ where r.report = fr.report;
+
+alter table sys_forms_rpt alter label set not null;   

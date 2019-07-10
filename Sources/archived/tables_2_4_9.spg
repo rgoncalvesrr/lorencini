@@ -1,0 +1,52 @@
+/**
+   Atualização para versão 2.4.9
+
+	@author    Ricardo Gonçalves
+	@date
+	@trigger
+
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+
+create table orca_grupo (
+   recno serial not null,
+   descri varchar(60) not null
+);
+
+alter table orca_grupo add constraint pk_orca_grupo primary key(recno);
+alter table orca_grupo add constraint uk_orca_grupo_descri unique(descri);
+
+insert into sys_errors (constraint_, descri, solucao) values ('pk_orca_grupo', 'Grupo de orçamentos já cadastrado.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('uk_orca_grupo_descri', 'Descrição de grupo duplicada.', '');
+
+insert into orca_grupo (descri) values ('Laboratório');
+insert into orca_grupo (descri) values ('Engenharia de Campo');
+insert into orca_grupo (descri) values ('Não Classificado');
+
+alter table tb_orcamentos
+   add grupo integer,
+   add constraint fk_tb_orcamentos_grupo foreign key(grupo)
+      references orca_grupo(recno) on update cascade on delete restrict;
+
+insert into sys_errors (constraint_, descri, solucao) values ('fk_tb_orcamentos_grupo', 'Grupo informado no orçamento não cadastrado.', '');
+
+DROP TRIGGER ta_tb_orcamentos ON tb_orcamentos;
+DROP TRIGGER tb_tb_orcamentos ON tb_orcamentos;
+
+update tb_orcamentos set grupo = 3;
+
+CREATE TRIGGER tb_tb_orcamentos
+  BEFORE INSERT OR UPDATE OR DELETE
+  ON tb_orcamentos
+  FOR EACH ROW
+  EXECUTE PROCEDURE b_tb_orcamentos();
+
+CREATE TRIGGER ta_tb_orcamentos
+  AFTER INSERT OR UPDATE OR DELETE
+  ON tb_orcamentos
+  FOR EACH ROW
+  EXECUTE PROCEDURE a_tb_orcamentos();
+  
+alter table tb_orcamentos alter grupo set not null;

@@ -1,0 +1,93 @@
+/**
+   Registra título a receber no caixa do cliente
+
+	@author    Ricardo Gonçalves
+	@date      08/08/2016 15:30:43
+	@trigger
+
+	@param     in_titulo código do título a receber que será processado
+
+	Histórico
+	-------------------------------------------------------------------------------------------------------------------
+ */
+Create or Replace Function fin_caixaReceber(
+   in in_titulo integer)
+Returns void As
+$$
+Declare
+   r           record;
+   itabela     integer;
+   bproc       boolean;
+   vHistorico  fin_caixa.historico%type;
+   irecno      fin_caixa.recno%type;
+   fvalorcx    fin_caixa.valor%type;
+Begin
+   itabela := sys_origem('fin_receber');
+
+   -- tenta recuperar informações do título
+   select a.docto, a.emissao, a.vencimento_real, a.valor, a.juros, a.multa, a.descto,
+          a.id_cli codigo, a.baixa, a.valor_baixado, a.historico, a.recno_nf, a.parcelas
+     into r
+     from fin_receber a
+    where a.recno = in_titulo;
+
+   if not Found then
+      return;
+   end if;
+
+   -- Obtem o valor das despesas já lançados no caixa. Este valor deve ser subtraído do valor da nota
+   -- porque já está lançado no caixa
+   select sum(c.valor)
+     into fvalorcx
+     from fin_caixa c
+          join nf_itens ni
+            on ni.os = c.os
+           and ni.recno_nf = r.recno_nf;
+
+   fvalorcx := cast(coalesce(fvalorcx, 0) / r.parcelas as numeric(15, 2));
+   fvalorcx := r.valor + fvalorcx;
+
+   insert into fin_caixa
+      (codigo,     data,      docto,     historico,     valor,          _tabela,
+       _recno,     titulo,    cobrar, emissao)
+   values
+      (r.codigo,   r.vencimento_real, r.docto, r.historico, -1 * fvalorcx, sys_origem('fin_receber'),
+       in_titulo,  in_titulo, false, r.vencimento_real);
+
+   if r.baixa is not null then
+      if r.juros > 0 then
+         vHistorico := 'Juros por pagamento em atraso.';
+         insert into fin_caixa
+           (codigo, emissao, data, docto, historico, valor, _tabela, _recno, titulo, cobrar)
+         values
+           (r.codigo, r.emissao, r.baixa, r.docto, vhistorico, -1 * r.juros, itabela, in_titulo, in_titulo, false);
+      end if;
+
+      if r.multa > 0 then
+         vhistorico := 'Multa por pagamento em atraso.';
+         insert into fin_caixa
+           (codigo, emissao, data, docto, historico, valor, _tabela, _recno, titulo, cobrar)
+         values
+           (r.codigo, r.emissao, r.baixa, 'Título '||in_titulo, vhistorico, -1 * r.multa, itabela, in_titulo, in_titulo, false);
+      end if;
+
+      if r.descto > 0 then
+         vhistorico := 'Desconto / Retenção de imposto';
+         insert into fin_caixa
+           (codigo, emissao, data, docto, historico, valor, _tabela, _recno, titulo, cobrar)
+         values
+           (r.codigo, r.emissao, r.baixa, 'Título '||in_titulo, vhistorico, r.descto, itabela, in_titulo, in_titulo, false);
+      end if;
+
+      if sys_iif(r.valor_baixado > 0, r.valor_baixado, r.valor) > 0 then
+         insert into fin_caixa
+           (codigo, emissao, data, docto, historico, valor, _tabela, _recno, titulo, cobrar)
+         values
+           (r.codigo, r.emissao, r.baixa, 'Título '||in_titulo, 'Baixa de título ', sys_iif(r.valor_baixado > 0, r.valor_baixado, r.valor), itabela, in_titulo, in_titulo, false);
+      end if;
+   end if;
+
+   perform sys_flag_del(itabela::varchar, in_titulo);
+End;
+$$
+language plpgsql;

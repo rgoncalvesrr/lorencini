@@ -1,0 +1,14 @@
+/**
+   Atualização para versão 2.4.12
+
+	@author    Ricardo Gonçalves
+	@date      18/01/2010 11:12:09
+	@trigger
+
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+set session authorization lorencini;
+
+alter table nf add parcelar boolean default false not null;

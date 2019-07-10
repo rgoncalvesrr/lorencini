@@ -1,0 +1,30 @@
+/**
+   Registra despesa no caixa do cliente
+
+   @author    Ricardo Gonçalves
+   @date      08/09/2016 16:38:23
+   @trigger   fin_caixadesp B IUD
+
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+CREATE OR REPLACE FUNCTION b_fin_caixadesp()
+  RETURNS trigger AS
+$$
+BEGIN
+   if tg_op = 'DELETE' then
+      return old;
+   end if;
+   
+   new.user_i := coalesce(new.user_i, sys_user());
+
+   -- Aprovação do lançamento
+   if new.status = 2 then
+      new.user_aprov := coalesce(new.user_aprov, sys_user());
+   end if;
+
+   return new;
+END;
+$$
+  LANGUAGE 'plpgsql' VOLATILE;

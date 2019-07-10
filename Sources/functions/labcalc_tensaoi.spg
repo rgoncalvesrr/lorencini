@@ -1,0 +1,25 @@
+/**
+   Cálculo da tensão interfacial
+
+	@author    Ricardo Gonçalves
+	@date      17/05/2011 14:22:06
+	@trigger
+
+	@param in_recno Conteúdo do campo "recno" da tabela labamostras_res
+
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+CREATE OR REPLACE FUNCTION labcalc_tensaoi(
+   in in_recno integer)
+  RETURNS void AS
+$$
+BEGIN
+   -- Atualiza ensaio
+   update labamostras_res
+      set valor = coalesce((0.725 + (0.0004036 * valord / (1 - labcalc_param(in_recno, 'densidade')) + 0.01284) ^ 0.5) * valord * 1.07, 0)
+    where recno = in_recno;
+END;
+$$
+  LANGUAGE 'plpgsql' VOLATILE;

@@ -1,0 +1,282 @@
+/**
+   Script da versão 4.1
+
+   @author    Ricardo Gonçalves
+   @date      26/11/2015 17:18:17
+   @trigger
+
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+set session authorization lorencini;
+
+alter table labproc
+   add atualizacao timestamp,
+   add frascos integer default 1,
+   add seringas integer default 1,
+   add volumes integer,
+   add coleta integer default 0 not null,
+   alter descri drop not null,
+   add frete numeric(12, 2) default 0 not null,
+   add cobrado boolean default false not null,
+   add pedido integer;
+
+alter table labprocxequip
+   add volume integer;
+
+create table labvol (
+   labproc_recno integer not null,
+   volume integer not null default 1,
+   criacao timestamp default localtimestamp,
+   username varchar(25) not null,
+   rastreio varchar(30),
+   frascos integer default 0 not null,
+   seringas integer default 0 not null,
+   img1 bytea,
+   img2 bytea,
+   img3 bytea,
+   img4 bytea,
+   img5 bytea,
+   status integer default 0 not null,
+   imp_dh timestamp,
+   exp_dh timestamp,
+   recno serial not null);
+
+alter table labvol
+   add constraint pk_labvol primary key(labproc_recno, volume),
+   add constraint fk_labvol_labprocrecno
+      foreign key(labproc_recno) references labproc(recno)
+      on update cascade on delete cascade,
+   add constraint fk_labvol_username
+      foreign key(username) references sys_users(username)
+      on update cascade on delete restrict;
+
+alter table labprocxequip
+   add constraint fk_labprocxequip_volume
+      foreign key(labproc_recno, volume) references labvol(labproc_recno, volume)
+      on update cascade on delete set null;
+
+insert into sys_errors (constraint_, descri, solucao) values ('pk_labvol', 'Volume já registrado na remessa.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_labvol_labprocrecno', 'Código da remessa no cadastro de volume não foi informado.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_labprocxequip_volume', 'Não foi possível associar vidraia ao volume. Código do volume não pertence a remessa.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_labvol_username', 'Usuário não pode ser excluído porque é referencia por um ou mais volumes.', '');
+
+ALTER TABLE labproc DROP CONSTRAINT ck_labproc_situacao;
+
+ALTER TABLE labproc
+  ADD CONSTRAINT ck_labproc_situacao CHECK (situacao >= 0 AND situacao <= 6);
+
+
+alter table labproc disable trigger all;
+update labproc a
+   set frascos = b.frascos, seringas = b.seringas
+  from (select b.recno, sum(sys_iif(a.tipo = 1, 1, 0)) as frascos, sum(sys_iif(a.tipo = 2, 1, 0)) as seringas
+          from labprocxequip a
+	       join labproc b
+		 on b.recno = a.labproc_recno
+	 group by b.recno) b
+where b.recno = a.recno;
+alter table labproc enable trigger all;
+
+update labproc set situacao = 6 where situacao = 4;
+update labproc set situacao = 5 where situacao = 3;
+update labproc set situacao = 0 where situacao = 1;
+
+insert into labvol (labproc_recno, volume, username)
+             select recno, 1, 'RICARDO'
+               from labproc
+              where situacao > 2
+              order by recno;
+alter table labprocxequip disable trigger all;
+update labprocxequip a
+   set volume = b.volume
+  from labvol b
+ where b.labproc_recno = a.labproc_recno;
+alter table labprocxequip enable trigger all;
+
+alter table labproc disable trigger all;
+update labproc
+   set volumes = 1
+where situacao > 2;
+alter table labproc enable trigger all;
+
+create index idx_labprocxequip_vol on labprocxequip(labproc_recno, volume);
+
+drop table if exists sys_cfg cascade;
+drop table if exists sys_cfgusr cascade;
+
+create table sys_cfg (
+	pname varchar(100) not null,
+	pvalue text,
+	ptype varchar(1) default 'V' not null,
+	descri text,
+	recno serial not null);
+
+create table sys_cfgusr(
+	pname varchar(100) not null,
+	username varchar(20) not null,
+	pvalue text not null,
+	recno serial not null);
+
+alter table sys_cfg add constraint pksys_cfg primary key(pname);
+alter table sys_cfgusr add constraint pksys_cfgusr primary key(pname, username);
+alter table sys_cfgusr add constraint fksys_cfgusr_1
+	foreign key(pname) references sys_cfg(pname)
+	on update cascade on delete cascade;
+alter table sys_cfgusr add constraint fksys_cfgusr_2
+	foreign key(username) references sys_users(username)
+	on update cascade on delete restrict;
+
+select sys_param_w('fluent_host', 'localhost');
+select sys_param_w('fluent_port', 5432);
+select sys_param_w('fluent_dbname', '0024_lorencini');
+select sys_param_w('fluent_user', 'postgres');
+select sys_param_w('fluent_password', 'postgres.');
+select sys_param_w('fluent_cknfe', true);
+select sys_param_w('prn_etiquetas', '\\HLXJ9P1\tlp2844');
+select sys_param_w('prn_volumes', '\\HLXJ9P1\tlp2844');
+select sys_param_w('smtp_enabled', true);
+select sys_param_w('smtp_server', 'smtp.terra.com.br');
+select sys_param_w('smtp_port', 587);
+select sys_param_w('smtp_user', 'sistema@lorencinibrasil.com.br');
+select sys_param_w('smtp_pass', 'Lore.info9671');
+
+create table pedido (
+   recno serial not null,
+   labport_recno integer,
+   codigo integer not null,
+   contato integer,
+   criado timestamp default localtimestamp not null,
+   emitido timestamp,
+   autorizado timestamp,
+   aprovado integer default 3 not null,
+   frete numeric(12,2) default 0 not null,
+   servicos numeric(12,2) default 0 not null,
+   total numeric(12,2) default 0 not null,
+   status integer default 1 not null,
+   obs text,
+   solicitante varchar(60),
+   solicitante_dep varchar(60),
+   condicaopg varchar(15),
+   pedido_cliente varchar(15));
+
+create table pedido_servicos (
+   pedido integer not null,
+   codserv integer not null,
+   qtd integer not null,
+   unitario numeric(12,2) default 0 not null,
+   total numeric(12,2) default 0 not null,
+   obs text,
+   recno serial not null);
+
+alter table pedido
+   add constraint pk_pedido primary key (recno),
+   add constraint fk_pedido_1 foreign key (labport_recno) references labport(recno)
+      on update cascade on delete restrict,
+   add constraint fk_pedido_2 foreign key (codigo) references tbclientes(codigo)
+      on update cascade on delete restrict,
+   add constraint fk_pedido_3 foreign key (codigo,contato) references tbclientes_contatos(cliente,item)
+      on update cascade on delete set null,
+   add constraint ck_pedido_1 check (criado <= emitido),
+   add constraint ck_pedido_2 check (emitido <= autorizado),
+   add constraint ck_pedido_3 check (frete >= 0),
+   add constraint ck_pedido_4 check (servicos >= 0),
+   add constraint ck_pedido_5 check (status < 4 and total >= 0 or status = 4 and total > 0),
+   add constraint ck_pedido_6 check (status between 1 and 4),
+   add constraint ck_pedido_7 check (status = 1 or solicitante is not null);
+
+alter table pedido_servicos
+   add constraint pk_pedido_servicos primary key (pedido, codserv),
+   add constraint fk_pedido_servicos_1 foreign key (pedido) references pedido(recno)
+      on update cascade on delete cascade,
+   add constraint fk_pedido_servicos_2 foreign key (codserv) references servicos(codserv)
+      on update cascade on delete restrict,
+   add constraint ck_pedido_servicos_1 check (qtd > 0),
+   add constraint ck_pedido_servicos_2 check (unitario > 0),
+   add constraint ck_pedido_servicos_3 check (total > 0);
+
+
+insert into sys_errors (constraint_, descri, solucao) values ('pk_pedido', 'Pedido já casdastrado.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_pedido_1', 'Portador não pode ser excluído porque está associado a um pedido.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_pedido_2', 'Cliente não pode ser excluído porque está associado a um pedido.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_pedido_3', 'Contato informado é inválido.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_pedido_1', 'A data de emissão do pedido deve ser posterior a data de criação.', 'Altere a data de emissão');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_pedido_2', 'A data de autorização do pedido deve ser posterior a data de emissão.', 'Altere a data de autorização');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_pedido_3', 'Valor do frete não deve ser negativo.', 'Corrija o valor do frete.');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_pedido_4', 'Valor dos serviços não deve ser negativo.', 'Corrija o valor dos serviços.');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_pedido_5', 'Valor total do pedido não deve ser negativo.', 'Corrija o valor total do pedido.');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_pedido_6', 'Status do pedido deve estar entre 1.Digitação e 4.Encerrado.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_pedido_7', 'Para que o pedido avance para etapa de autorização é necessário informar um solicitante.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('pk_pedido_servicos', 'Serviço já incluído no pedido.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_pedido_servicos_1', 'Código do pedido informado no item é inválido.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_pedido_servicos_2', 'Serviço não pode ser excluído porque está associado a um ou mais pedidos.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_pedido_servicos_1', 'Quantidade deve ser maior que zero.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_pedido_servicos_2', 'Valor unitário deve ser maior que zero.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_pedido_servicos_3', 'Valor total do item deve ser maior que zero.', '');
+
+
+alter table labproc
+   add constraint fk_laproc_1 foreign key(pedido) references pedido(recno)
+      on update cascade on delete restrict deferrable initially deferred;
+
+insert into sys_errors (constraint_, descri, solucao) values ('fk_laproc_1', 'Pedido não pode ser excluído porque está associado a uma remessa.', '');
+
+alter table servicos_grupo add pedidos boolean default false not null;
+update servicos_grupo set pedidos = true where recno = 1;
+
+create or replace view servicos_ped as
+   select s.codserv, s.descri, s.un, s.valor
+     from servicos s
+          join servicos_grupo g
+            on g.recno = s.grupo
+           and g.pedidos;
+
+create table sys_email (
+  status integer not null default 0,
+  from_ varchar(100) not null,
+  from_name varchar(60) not null,
+  contenttype varchar(35) not null default 'text/html',
+  charset_ varchar(20) not null default 'iso-8859-1',
+  entry_ timestamp not null default timestamp,
+  send_ timestamp,
+  subject text not null,
+  message text not null,
+  schedule timestamp,
+  group_ integer,
+  id varchar(38),
+  table_ varchar(100),
+  recno_ integer,
+  recno serial not null);
+
+alter table sys_email
+   add constraint pk_sys_email primary key (recno),
+   add constraint ck_sys_email_1 check (from_::text ~ '^[a-zA-Z0-9][a-zA-Z0-9\._-]+@([a-zA-Z0-9\._-]+\.)[a-zA-Z0-9]{2}'::text),
+   add constraint ck_sys_email_2 check (status >= 0 AND status <= 3),
+   add constraint ck_sys_email_4 check (send_ >= entry_);
+
+create table sys_emailto (
+  email integer not null,
+  to_ varchar(100),
+  to_name varchar(60),
+  type_ integer not null default 1,
+  recno serial not null);
+
+alter table sys_emailto
+   add constraint pk_sys_emailto primary key (recno),
+   add constraint fk_sys_emailto_1 foreign key (email) references sys_email (recno)
+      on update cascade on delete cascade,
+   add constraint ck_sys_emailto_1 check (to_::text ~ '^[a-za-z0-9][a-za-z0-9\._-]+@([a-za-z0-9\._-]+\.)[a-za-z0-9]{2}'::text),
+   add constraint ck_sys_emailto_2 check (type_ = any (array[1, 2, 3]));
+
+create table sys_emailatach(
+  email integer not null,
+  contenttype varchar(35) not null default 'multipart/mixed',
+  attach_name text not null,
+  attach text not null,
+  recno serial not null);
+
+alter table sys_emailatach
+  add constraint pk_sys_emailatach primary key (recno),
+  add constraint fk_sys_emailatach_1 foreign key (email) references sys_email (recno)
+      on update cascade on delete cascade;

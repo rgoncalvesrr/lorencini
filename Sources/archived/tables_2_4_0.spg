@@ -1,0 +1,20 @@
+set session authorization lorencini;
+
+create table orca_origem (
+   recno serial not null,
+   descri varchar(60) not null
+);
+
+alter table orca_origem add constraint pk_orca_origem primary key(recno);
+alter table orca_origem add constraint uk_orca_origem_descri unique(descri);
+
+alter table tb_orcamentos add origem integer;
+
+alter table tb_orcamentos add constraint fk_tb_orcamentos_origem
+   foreign key(origem) references orca_origem(recno)
+   on update cascade on delete set null;
+
+
+insert into sys_errors (constraint_, descri, solucao) values ('pk_orca_origem', 'Origem já cadastrada.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('uk_orca_origem_descri', 'Descrição para origem já cadastrada.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_tb_orcamentos_origem', 'Origem não localizada na tabela de origens.', '');

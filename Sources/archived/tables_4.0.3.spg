@@ -1,0 +1,14 @@
+/**
+   Script da versão 4.0.2
+
+   @author    Ricardo Gonçalves
+   @date      11/10/2011 11:12:54
+   @trigger
+
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+set session authorization lorencini;
+
+alter table labrel_ens add ordem integer default 10 not null;

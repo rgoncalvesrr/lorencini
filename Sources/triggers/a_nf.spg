@@ -1,0 +1,189 @@
+/**
+   Alimenta histórico
+
+	@author    Ricardo Gonçalves
+	@date      30/05/2009 16:10:05
+	@trigger   nf AIUD
+
+	Histórico
+	----------------------------------------------------------------------------
+	22/02/2010 09:46:20 v1.1  Ricardo Gonçalves;
+	  [+] Inclusão de suporte a parcelamento do título.
+*/
+Create or Replace Function a_nf()
+Returns Trigger
+as
+$$
+Declare
+   rNF_Itens   record;
+   iTipo       nf_serie.tipo%type;
+   vobs        fin_receber.obs%type;
+   fvalor      nf.valor%type;
+   ipqtd       nf.pqtd%type;
+   dvencto     date;
+   vsernf      varchar;
+   rOrc        record;
+   ititulo     integer;
+   i           integer;
+Begin
+   if tg_op = 'DELETE' then
+      return old;
+   else
+      if tg_op = 'INSERT' then
+         insert into nf_historico (recno_nf, historico)
+              values              (new.recno, 'Criação da Nota Fiscal');
+      end if;
+
+      if tg_op = 'UPDATE' then
+         -- Estorna movimentos de faturamento
+         if (new.status = 1 and old.status <> 1) or (new.status = 3) then
+            -- Exclui título do contas a receber
+            delete
+              from fin_receber
+             where recno_nf = new.recno;
+
+            -- Exclui as comissões
+            delete
+              from comissoes
+             where recno_nf = new.recno;
+
+            vobs := '';
+
+            -- Marca todas OS's do orçamento para estorno
+            for rOrc in (
+               select a.*
+                 from tb_orcamentos a
+                      join nf_itens b
+                        on b.os = a.os
+                       and b.recno_nf = new.recno)
+            Loop
+               perform sys_flag_mark('tb_orcamentos', rOrc.recno);
+
+               if vobs <> '' then
+                  vobs := vobs || ', ';
+               end if;
+
+               vobs := vobs || rOrc.idos;
+            End Loop;
+
+            if vobs <> '' then
+               vobs := 'OS(s) com status alterado para Execução/Pendente: ' || vobs;
+
+               insert into nf_historico (recno_nf, historico)
+                    values              (new.recno, substring(vobs, 1, 150));
+            end if;
+
+            -- Atualiza os orçamentos envolvidos com o número da NF gerada
+            for rNF_Itens in (
+               select itm.os, orc.recno
+                 from nf_itens itm
+                      join tb_orcamentos orc
+                        on orc.os = itm.os
+                where itm.recno_nf = new.recno)
+            Loop
+               perform sys_flag_mark('tb_orcamentos', rNF_Itens.recno);
+
+               if iTipo = 1 then
+                  update tb_orcamentos
+                     set nf_mat = null, status_ = sys_iif(nf_srv is null, 3, 1)
+                   where os = rNF_Itens.os;
+               else
+                  update tb_orcamentos
+                     set nf_srv = null, status_ = sys_iif(nf_mat is null, 3, 1)
+                   where os = rNF_Itens.os;
+               end if;
+
+               perform sys_flag_del('tb_orcamentos', rNF_Itens.recno);
+            End Loop;
+
+            insert into nf_historico (recno_nf, historico)
+                 values              (new.recno, 'Título do contas a receber apagado. Troca de status Faturado para Digitação.');
+         end if;
+
+         -- Exclui as OS da nota caso o código do cliente ou série seja trocado
+         if coalesce(new.codigo, -1) <> old.codigo or coalesce(new.serie, -1) <> old.serie then
+            delete
+              from nf_itens
+             where recno_nf = old.recno;
+         end if;
+
+         -- Faturamento
+         if new.status = 2 and old.status = 1 then
+            if new.valor <= 0 then
+               raise '[[ATENÇÃO. A nf % da série % não pode ser faturada porque está com valor zerado.]]', new.nf, new.serie;
+            end if;
+
+            -- Recupera o tipo da série
+            select tipo
+              into iTipo
+              from nf_serie
+             where serie = new.serie;
+
+            vobs := '';
+
+            -- Atualiza os orçamentos envolvidos com o número da NF gerada
+            for rNF_Itens in (
+               select a.os, b.idos, a.vlsrv, a.vlmat
+                 from nf_itens a
+                      join tb_orcamentos b
+                        on b.os = a.os
+                where a.recno_nf = new.recno)
+            Loop
+               if iTipo = 1 then
+                  update tb_orcamentos
+                     set nf_mat = new.recno, vlnfmat = rNF_Itens.vlmat
+                   where os = rNF_Itens.os;
+               else
+                  update tb_orcamentos
+                     set nf_srv = new.recno, vlnfsrv = rNF_Itens.vlsrv
+                   where os = rNF_Itens.os;
+               end if;
+
+               if vobs <> '' then
+                  vobs := vobs || ', ';
+               end if;
+
+               vobs := vobs || rNF_Itens.idos;
+            End Loop;
+
+            if vobs <> '' then
+               vobs := 'OS: ' || vobs;
+            end if;
+
+            ipqtd := sys_iif(new.pqtd = 0, 1, new.pqtd);
+            vsernf := lpad(new.serie::varchar, 3, '0') || ' ' || lpad(new.nf::varchar, 5, '0');
+            fvalor := cast(new.valor / ipqtd as numeric(15, 2));
+
+            dvencto := new.vencto;
+
+            -- Gera os títulos
+            for i in 1..ipqtd loop
+               ititulo := nextval('fin_receber_recno_seq'::regclass);
+
+               -- Gera o título a receber
+               INSERT INTO fin_receber(
+                  natureza, id_cli, docto, emissao, vencimento, vencimento_real, valor,
+                  obs, recno_nf, recno, historico, parcela, parcelas)
+               VALUES (
+                  new.natureza, new.codigo, vsernf, new.emissao, dvencto, dvencto, fvalor,
+                  vobs || ' Parcela '||i||'/'||ipqtd, new.recno, ititulo, new.historico, i, ipqtd);
+
+               -- Gera as fichas de comissão
+--                INSERT INTO comissoes (idvendedor,  titulo,  os,   recno_nf,  vencimento, valor,   vlcom)
+--                               select b.idvendedor, ititulo, a.os, new.recno, dvencto, cast(a.valor / ipqtd as numeric(12, 2)),
+--                                      cast(a.vlcom / ipqtd as numeric(12, 2))
+--                                 from nf_itens a
+--                                      join tb_orcamentos b
+--                                        on b.os = a.os
+--                                where recno_nf = new.recno;
+
+               dvencto := new.vencto + new.pdias * i;
+            end loop;
+         end if;
+      end if;
+
+      return new;
+   end if;
+End;
+$$
+language plpgsql;

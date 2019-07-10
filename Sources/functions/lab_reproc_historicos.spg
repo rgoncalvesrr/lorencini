@@ -1,0 +1,124 @@
+/**
+   Reprocessa históricos
+
+	@author    Ricardo Gonçalves
+	@date      25/01/2012 14:27:59
+	@trigger
+
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+CREATE OR REPLACE FUNCTION reprocessa()
+  RETURNS void AS
+$$
+Declare
+   r  record;
+   rh record;
+   icol     integer;
+   iensaio  labamostras_res.ensaio_recno%type;
+BEGIN
+   truncate table labamostras_hres cascade;
+   
+   -- Obtem laudos que terão seus históricos processados
+   for r in (
+      select rel.relato_recno, rel.emissao, a.equip_recno, rel.recno
+        from labamostras_rel rel
+             join labamostras a
+               on a.recno = rel.amostra
+       where rel.status = 3                
+       order by rel.emissao)
+   loop
+      -- perform sys_flag_mark('labamostras_rel', r.recno);
+      iensaio := -1;
+      
+      -- Gera histórico para amostra atual
+      for rh in (
+         select e.relato_recno, e.ensaio_recno, rel.recno, rel.emissao, e.valor
+           from labamostras_rel rel
+                join labamostras a
+                  on a.recno = rel.amostra
+                 and a.equip_recno = r.equip_recno
+                join labamostras_res e
+                  on e.laudo = rel.recno
+                 and e.relato_recno = rel.relato_recno
+          where rel.recno <> r.recno
+            and rel.relato_recno = r.relato_recno
+            and rel.status = 3
+            and rel.assinatura is not null
+            and rel.emissao < r.emissao
+          order by e.ensaio_recno, rel.emissao desc)
+      Loop
+         -- Insere na lista de histórico da amostra
+         insert into labamostras_hres (relato_recno, ensaio_recno, laudo, laudo_dep)
+              values                  (rh.relato_recno, rh.ensaio_recno, r.recno, rh.recno);
+
+         if rh.ensaio_recno <> iensaio then
+            iensaio := rh.ensaio_recno;
+            icol := 1;
+         end if;
+
+         if icol = 1 then
+            update labamostras_rel
+               set d1 = rh.emissao
+             where recno = r.recno;
+            
+            update labamostras_res
+               set v1 = rh.valor
+             where laudo = r.recno
+               and relato_recno = r.relato_recno
+               and ensaio_recno = rh.ensaio_recno;
+         elsif icol = 2 then
+            update labamostras_rel
+               set d2 = rh.emissao
+             where recno = r.recno;
+            update labamostras_res
+               set v2 = rh.valor
+             where laudo = r.recno
+               and relato_recno = r.relato_recno
+               and ensaio_recno = rh.ensaio_recno;
+         elsif icol = 3 then
+            update labamostras_rel
+               set d3 = rh.emissao
+             where recno = r.recno;
+            update labamostras_res
+               set v3 = rh.valor
+             where laudo = r.recno
+               and relato_recno = r.relato_recno
+               and ensaio_recno = rh.ensaio_recno;
+         elsif icol = 4 then
+            update labamostras_rel
+               set d4 = rh.emissao
+             where recno = r.recno;
+            update labamostras_res
+               set v4 = rh.valor
+             where laudo = r.recno
+               and relato_recno = r.relato_recno
+               and ensaio_recno = rh.ensaio_recno;
+         elsif icol = 5 then
+            update labamostras_rel
+               set d5 = rh.emissao
+             where recno = r.recno;
+            update labamostras_res
+               set v5 = rh.valor
+             where laudo = r.recno
+               and relato_recno = r.relato_recno
+               and ensaio_recno = rh.ensaio_recno;
+         elsif icol = 6 then
+            update labamostras_rel
+               set d6 = rh.emissao
+             where recno = r.recno;
+            update labamostras_res
+               set v6 = rh.valor
+             where laudo = r.recno
+               and relato_recno = r.relato_recno
+               and ensaio_recno = rh.ensaio_recno;
+         end if;
+
+         icol := icol + 1;
+      End Loop;
+      -- perform sys_flag_del('labamostras_rel', r.recno);
+   end loop;
+END;
+$$
+  LANGUAGE 'plpgsql' VOLATILE;

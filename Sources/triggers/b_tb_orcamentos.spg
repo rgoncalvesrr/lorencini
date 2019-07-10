@@ -1,0 +1,187 @@
+/**
+   Processamento realizados antes da gravação do orçamento
+
+	@author    Ricardo Gonçalves
+	@date      17/09/2007 20:01:21
+	@trigger   B IUD tb_orcamentos
+
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+
+   08/09/2011 18:33:16  v2    Ricardo Gonçalves.
+      [*] Preenche o campo new.os somente se o campo estiver nulo.
+
+   11/10/2011 11:08:46  v3    Ricardo Gonçalves.
+      [*] Preenche o campo new.origem somente se o campo estiver nulo.
+
+   26/07/2016 10:27:34  v4    Ricardo Gonçalves.
+      [+] Verificação de pendência financeira impede criação de orçamentos.
+*/
+Create or Replace Function b_tb_orcamentos()
+Returns trigger
+As $$
+Declare
+   xCur              refCursor;
+   rIdx              indices%rowtype;
+
+   fvalor            servicos_os.valor%type;
+   fbase             servicos_os.valor%type;
+   itipo             servicos.tipo%type;
+   ficms             orca_mat.icms_compra%type;
+   fart_ate          configuracoes_art.art_ate%type;
+
+   fvltotimpmat      numeric(12, 2); -- total de impostos
+   fvltotimpsrv      numeric(12, 2); -- total de impostos
+   fvlbdimat         numeric(12, 2); -- rendimento
+   fvlcimat          numeric(12, 2); -- rendimento
+   fvlbdisrv         numeric(12, 2); -- rendimento
+   fvlcisrv          numeric(12, 2); -- rendimento
+   fsaldo            numeric(12, 2); -- total de impostos
+   fabdi             numeric(12, 2); -- aliquota de BDI
+   fvlrendmat        numeric(12, 2); -- rendimento sobre materiais
+   fvlrendsrv        numeric(12, 2); -- rendimento sobre serviços
+   fvlcustomat       numeric(12, 2); -- custo do materiais
+   fvlcustosrv       numeric(12, 2); -- custo do serviços
+
+   vmsg              varchar;
+   bFaturMat         boolean;
+   bFaturSrv         boolean;
+Begin
+   if tg_op = 'INSERT' then
+      -- Verificação de pendência financeira
+      vmsg := fin_ckbloqueio(new.idcliente);
+
+      if vmsg <> '' then
+         raise '[[ERRO ao criar orçamento. %]]', vmsg;
+      end if;
+
+      new.status_ := coalesce(new.status_ , 1);
+
+      if new.os is null then
+         select coalesce(max(os), 0) + 1
+           into new.os
+           from tb_orcamentos;
+      end if;
+
+      --new.os:= nextval('public.tb_orcamentos_os_seq'::text);
+      new.idos:= to_char(new.data, 'YYMM') || msk_001(new.os);
+      new.ano:= to_char(new.data, 'YYYY')::integer;
+
+      -- Preenche o código do vendedor para este orçamento
+      select id_vendedor
+        into new.idvendedor
+        from tbclientes
+       where codigo = new.idcliente;
+
+      -- Preenche origem caso esteja nula
+      if new.origem is null then
+         select origem
+           into new.origem
+           from tb_orcamentos
+          where idcliente = new.idcliente
+            and os <> new.os
+          order by os desc
+          limit 1;
+      end if;
+
+   end if;
+
+   if tg_op <> 'DELETE' then
+      if new.upd_markup then
+         -- Totaliza as despesas
+         select sum(valor)
+           into new.vlsrvdesp
+           from fin_caixa
+          where codigo = new.idcliente
+            and os = new.os;
+
+         new.vlsrvdesp := coalesce(new.vlsrvdesp * -1, 0);
+
+         new.upd_markup := false;
+         new.markup := calcula_markup(sys_origem('tb_orcamentos'), new.recno);
+      end if;
+
+      -- Processa alteração de status
+      if new.status_ = 4 then
+         vmsg := 'Faturamento deve ser feito através da tela de faturamento. ';
+      elsif new.status_ = 6 then
+         vmsg := 'Cancelamento deve ser feito através da tela de cancelamento. ';
+      end if;
+
+      if tg_op = 'UPDATE' then
+         -- Impede que etapas sejam retrocedidas
+         if new.status_ < old.status_ then
+            if (new.status_ = 2 and old.status_ = 3) then
+               perform sys_flag_mark('tb_orcamentos', new.recno);
+            elsif not sys_flag('tb_orcamentos', new.recno) then
+               raise '[[Não é possível retroceder etapas no processo orçamentário.]]';
+            end if;
+         end if;
+
+         -- Checa se o orçamento pode entrar em execução
+         if new.status_ = 2 and not exists(
+               select 1
+                 from orca_mat
+                where os = new.os
+               union
+               select 1
+                 from servicos_os
+                where os = new.os
+               union
+               select 1
+                 from tb_orcamentos_lucratividade_lorencini
+                where os = new.os)
+         then
+            if not sys_flag('tb_orcamentos', new.recno) then
+               raise '[[A OS % não pode ser colocada em execução porque não possui itens (Serviços / Materiais / MO).]]', new.idos;
+            end if;
+         end if;
+
+         if new.status_ <> old.status_ and new.status_ in (4,6) then
+            -- Checa se o orçamento pode ser aprovado
+            if not sys_flag('tb_orcamentos', new.recno) and (new.status_ <> 1) then
+               raise '[[Erro ao gravar orçamento %. %]]', new.idos, vmsg;
+            end if;
+
+            -- Valida o processo de cancelamento
+            if new.status_ = 6 then
+               if new.motivo is null then
+                  raise '[[A OS % não pode ser cancelada porque o motivo não foi informado.]]', new.idos;
+               end if;
+
+               if old.status_ not in (1, 2, 3) then                  
+                  raise '[[Somente OS nos estados "Aprovada", "Executando" ou "Finalizada" pode ser cancelada.]]';
+               end if;
+            end if;
+
+            -- Valida processamento de faturamento
+            if not sys_flag('tb_orcamentos', new.recno) and new.status_ = 4 and old.status_ <> 3 then
+               raise '[[Erro ao gravar orçamento %. Somente OS finalizadas podem ser faturadas.]]', new.idos;
+            end if;
+
+            -- Apaga o flag que permite a aprovação do orçamento
+            perform sys_flag_del('tb_orcamentos', new.recno);
+         end if;
+
+         -- Fatura OS
+         if (new.nf_mat is not null and new.nf_mat <> coalesce(old.nf_mat, -1)) or
+            (new.nf_srv is not null and new.nf_srv <> coalesce(old.nf_srv, -1))
+         then
+            bFaturMat := (new.vlnfmat > 0 and new.nf_mat is not null) or
+                         (new.vlnfmat = 0 and new.nf_mat is null);
+            bFaturSrv := (new.vlnfsrv > 0 and new.nf_srv is not null) or
+                         (new.vlnfsrv = 0 and new.nf_srv is null);
+
+            if (bFaturMat and bFaturSrv) then
+               new.status_ := 4;            
+            end if;            
+         end if;
+      end if;
+
+      return new;
+   else
+      return old;
+   end if;
+End;
+$$ language plpgsql;

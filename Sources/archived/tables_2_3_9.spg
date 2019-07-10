@@ -1,0 +1,123 @@
+set session authorization lorencini;
+
+create table nf_serie (
+   serie serial not null,
+   nf_atual integer not null default 1,
+   tipo integer default 1 not null,
+   recno serial not null
+);
+
+alter table nf_serie add constraint pk_nf_serie primary key(serie);
+alter table nf_serie add constraint uk_recno unique(recno);
+
+create table nf (
+   recno serial not null,
+   nf integer not null,
+   serie integer not null,
+   natureza integer not null,
+   codigo integer not null,
+   emissao date not null,
+   valor numeric(12,2) default 0 not null,
+   vencto date not null,
+   vlicms numeric(12, 2) default 0 not null,
+   vlipi numeric(12, 2) default 0 not null,
+   vlirpj numeric(12, 2) default 0 not null,
+   vlcofins numeric(12, 2) default 0 not null,
+   vlinss numeric(12, 2) default 0 not null,
+   vlcssl numeric(12, 2) default 0 not null,
+   vlpis numeric(12, 2) default 0 not null,
+   vlcom numeric(12, 2) default 0 not null,
+   vliss numeric(12, 2) default 0 not null,
+   status integer not null default 1
+);
+
+alter table nf add constraint pk_nf primary key(recno);
+alter table nf add constraint uk_nf_nf_serie unique(nf,serie);
+alter table nf add constraint fk_nf_serie foreign key(serie)
+   references nf_serie(serie) on update cascade;
+alter table nf add constraint fk_nf_natureza foreign key(natureza)
+   references fin_naturezas(natureza) on update cascade;
+alter table nf add constraint fk_nf_codigo foreign key(codigo)
+   references tbclientes(codigo) on update cascade;
+alter table nf add constraint ck_nf_valor check (valor >=0);
+alter table nf add constraint ck_nf_vlicms check (vlicms >=0);
+alter table nf add constraint ck_nf_vlipi check (vlipi >=0);
+alter table nf add constraint ck_nf_vlirpj check (vlirpj >=0);
+alter table nf add constraint ck_nf_vlcofins check (vlcofins >=0);
+alter table nf add constraint ck_nf_vlinss check (vlinss >=0);
+alter table nf add constraint ck_nf_vlcssl check (vlcssl >=0);
+alter table nf add constraint ck_nf_vlpis check (vlpis >=0);
+alter table nf add constraint ck_nf_vlcom check (vlcom >=0);
+alter table nf add constraint ck_nf_vliss check (vliss >=0);
+
+create table nf_historico
+(  recno_nf integer not null,
+   recno serial not null,
+   datahora timestamp default localtimestamp not null,
+   username varchar(20) not null,
+   historico varchar(150) not null
+);
+
+alter table nf_historico add constraint pk_nf_historico primary key(recno_nf, recno);
+alter table nf_historico add constraint fk_nf_historico_recno_nf foreign key(recno_nf)
+   references nf(recno) on update cascade on delete cascade;
+alter table nf_historico add constraint fk_nf_historico_username foreign key(username)
+   references sys_users(username) on update cascade;
+
+
+create table nf_itens(
+   recno_nf integer not null,
+   os integer not null,
+   valor numeric(12,2) default 0 not null,
+   recno serial not null
+);
+
+alter table nf_itens add constraint pk_nf_itens primary key(recno_nf,os);
+alter table nf_itens add constraint fk_nf_itens_recno_nf foreign key(recno_nf)
+   references nf(recno) on update cascade on delete cascade;
+alter table nf_itens add constraint fk_nf_itens_os foreign key(os)
+   references tb_orcamentos(os) on update cascade;
+alter table nf_itens add constraint uk_nf_itens_recno unique (recno);
+alter table nf_itens add constraint ck_nf_itens_valor check (valor > 0);
+
+alter table fin_receber add recno_nf integer;
+alter table fin_receber add constraint fk_fin_receber_recno_nf foreign key(recno_nf)
+   references nf(recno) on update cascade;
+
+alter table tb_orcamentos add nf_mat integer;
+alter table tb_orcamentos add nf_srv integer;
+alter table tb_orcamentos add constraint fk_tb_orcamentos_nf_mat foreign key (nf_mat)
+   references nf(recno) on update cascade on delete set null;
+alter table tb_orcamentos add constraint fk_tb_orcamentos_nf_srv foreign key (nf_srv)
+   references nf(recno) on update cascade on delete set null;
+alter table tb_orcamentos add constraint ck_tb_orcamentos_nf_mat check (nf_mat is null or nf_srv is null or nf_srv <> nf_mat);
+
+
+insert into sys_errors (constraint_, descri, solucao) values ('pk_nf_serie', 'Série já cadastrada.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('uk_recno', 'Registro duplicado.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('pk_nf', 'Nota fiscal já cadastrada.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('uk_nf_nf_serie', 'Nota fiscal já cadastrada.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_nf_serie', 'Série não cadastrada.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_nf_natureza', 'Natureza não pode ser excluída pois é referenciada por NF de saída.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_nf_valor', 'Valor da NF não pode ser negativo', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_nf_vlicms', 'Valor do ICMS não pode ser negativo', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_nf_vlipi', 'Valor do IPI não pode ser negativo', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_nf_vlirpj', 'Valor do IRPJ não pode ser negativo', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_nf_vlcofins', 'Valor da COFINS não pode ser negativo', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_nf_vlinss', 'Valor do INSS não pode ser negativo', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_nf_vlcssl', 'Valor da CSSL não pode ser negativo', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_nf_vlpis', 'Valor do PIS não pode ser negativo', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_nf_vlcom', 'Valor da comissão não pode ser negativo', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_nf_vliss', 'Valor do ISS não pode ser negativo', '');
+insert into sys_errors (constraint_, descri, solucao) values ('pk_nf_historico', 'Histórico duplicado.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_nf_historico_recno_nf', 'Nota fiscal não localizada.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_nf_historico_username', 'Usuário referenciado pelo histórico da NF de saída não pode ser excluído', '');
+insert into sys_errors (constraint_, descri, solucao) values ('pk_nf_itens', 'Ordem de serviço já inserida na NF', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_nf_itens_recno_nf', 'NF de saída não localizada.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_nf_itens_os', 'OS referenciada pelos itens da NF de saída não pode ser excluída.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('uk_nf_itens_recno', 'Recno duplicado', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_nf_itens_valor', 'Valor faturado da OS deve ser maior que zero.', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_fin_receber_recno_nf', 'Nota fiscal refenciada por título a receber não pode ser excluída', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_tb_orcamentos_nf_mat', 'Nota fiscal de materiais informada no orçamento não localizada', '');
+insert into sys_errors (constraint_, descri, solucao) values ('fk_tb_orcamentos_nf_srv', 'Nota fiscal de serviços informada no orçamento não localizada', '');
+insert into sys_errors (constraint_, descri, solucao) values ('ck_tb_orcamentos_nf_mat_nf_srv', 'Notas fiscais de serviços e materiais informadas no orçcamento deve ser diferentes.', '');

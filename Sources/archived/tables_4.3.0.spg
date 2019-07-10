@@ -1,0 +1,338 @@
+/*
+   Alerações na versão
+
+   Refrência: 1/11/2016
+
+   * Pedido
+      - Criação do campo autorizacao para quardar a autorização
+
+   * Cotação
+      -
+*/
+set session authorization lorencini;
+
+-- ==============================================================================================
+-- Nova tabela para cálculo do Markup
+-- ==============================================================================================
+
+CREATE TABLE public.markup
+(
+  _tabela integer NOT NULL,
+  _recno integer NOT NULL,
+  bdi_mat numeric(5,2) NOT NULL DEFAULT 0,
+  vlmat numeric(12,2) NOT NULL DEFAULT 0,
+  vliqui_mat numeric(12,2) NOT NULL DEFAULT 0,
+  vlcssl_mat numeric(12,2) NOT NULL DEFAULT 0,
+  vlirpj_mat numeric(12,2) NOT NULL DEFAULT 0,
+  vlpis_mat numeric(12,2) NOT NULL DEFAULT 0,
+  vlcofins_mat numeric(12,2) NOT NULL DEFAULT 0,
+  vlicms numeric(12,2) NOT NULL DEFAULT 0,
+  vlcom_mat numeric(12,2) NOT NULL DEFAULT 0,
+  vlinss_mat numeric(12,2) NOT NULL DEFAULT 0,
+  bdi_srv numeric(5,2) NOT NULL DEFAULT 0,
+  vlmobra numeric(12,2) NOT NULL DEFAULT 0,
+  vldespe numeric(12,2) NOT NULL DEFAULT 0,
+  vliqui_srv numeric(12,2) NOT NULL DEFAULT 0,
+  vlcssl_srv numeric(12,2) NOT NULL DEFAULT 0,
+  vlirpj_srv numeric(12,2) NOT NULL DEFAULT 0,
+  vlpis_srv numeric(12,2) NOT NULL DEFAULT 0,
+  vlcofins_srv numeric(12,2) NOT NULL DEFAULT 0,
+  vlsrvvar numeric(12,2) NOT NULL DEFAULT 0,
+  vlsrvfixo numeric(12,2) NOT NULL DEFAULT 0,
+  vliss numeric(12,2) NOT NULL DEFAULT 0,
+  vlcom_srv numeric(12,2) NOT NULL DEFAULT 0,
+  vlinss_srv numeric(12,2) NOT NULL DEFAULT 0,
+  vimpos_mat numeric(12,2) NOT NULL DEFAULT 0,
+  vimpos_srv numeric(12,2) NOT NULL DEFAULT 0,
+  vimpos_fix numeric(12,2) NOT NULL DEFAULT 0,
+  recno serial NOT NULL,
+  CONSTRAINT pk_markup PRIMARY KEY (_tabela, _recno),
+  CONSTRAINT uk_markup UNIQUE (recno),
+  CONSTRAINT ck_markup_bdi_mat CHECK (bdi_mat >= 0::numeric),
+  CONSTRAINT ck_markup_vlmat CHECK (vlmat >= 0::numeric),
+  CONSTRAINT ck_markup_vliqui_mat CHECK (vliqui_mat >= 0::numeric),
+  CONSTRAINT ck_markup_vlcssl_mat CHECK (vlcssl_mat >= 0::numeric),
+  CONSTRAINT ck_markup_vlirpj_mat CHECK (vlirpj_mat >= 0::numeric),
+  CONSTRAINT ck_markup_vlpis_mat CHECK (vlpis_mat >= 0::numeric),
+  CONSTRAINT ck_markup_vlcofins_mat CHECK (vlcofins_mat >= 0::numeric),
+  CONSTRAINT ck_markup_vlicms CHECK (vlicms >= 0::numeric),
+  CONSTRAINT ck_markup_vlcom_mat CHECK (vlcom_mat >= 0::numeric),
+  CONSTRAINT ck_markup_vlinss_mat CHECK (vlinss_mat >= 0::numeric),
+  CONSTRAINT ck_markup_bdi_srv CHECK (bdi_srv >= 0::numeric),
+  CONSTRAINT ck_markup_vlmobra CHECK (vlmobra >= 0::numeric),
+  CONSTRAINT ck_markup_vldespe CHECK (vldespe >= 0::numeric),
+  CONSTRAINT ck_markup_vliqui_srv CHECK (vliqui_srv >= 0::numeric),
+  CONSTRAINT ck_markup_vlcssl_srv CHECK (vlcssl_srv >= 0::numeric),
+  CONSTRAINT ck_markup_vlirpj_srv CHECK (vlirpj_srv >= 0::numeric),
+  CONSTRAINT ck_markup_vlpis_srv CHECK (vlpis_srv >= 0::numeric),
+  CONSTRAINT ck_markup_vlcofins_srv CHECK (vlcofins_srv >= 0::numeric),
+  CONSTRAINT ck_markup_vlsrvvar CHECK (vlsrvvar >= 0::numeric),
+  CONSTRAINT ck_markup_vlsrvfixo CHECK (vlsrvfixo >= 0::numeric),
+  CONSTRAINT ck_markup_vliss CHECK (vliss >= 0::numeric),
+  CONSTRAINT ck_markup_vlcom_srv CHECK (vlcom_srv >= 0::numeric),
+  CONSTRAINT ck_markup_vlinss_srv CHECK (vlinss_srv >= 0::numeric),
+  CONSTRAINT ck_markup_vimpos_mat CHECK (vimpos_mat >= 0::numeric),
+  CONSTRAINT ck_markup_vimpos_srv CHECK (vimpos_srv >= 0::numeric),
+  CONSTRAINT ck_markup_vimpos_fix CHECK (vimpos_srv >= 0::numeric)
+)
+WITH (
+  OIDS=TRUE
+);
+ALTER TABLE public.markup
+  OWNER TO lorencini;
+
+CREATE DOMAIN percent_
+   AS numeric(6,2)
+   DEFAULT 0
+   NOT NULL
+   CHECK (VALUE between 0 and 100);
+
+create table cota (
+   recno serial not null,
+   cliente integer not null,
+   vendedor integer,
+   grupo integer,
+   status integer default(1) not null,
+   emissao timestamp default(localtimestamp) not null,
+   validade date,
+   markup integer
+);
+
+alter table cota
+   add constraint pkcota primary key(recno),
+   add constraint fkcota_1 foreign key(cliente)
+      references tbclientes(codigo)
+      on update cascade on delete restrict,
+   add constraint fkcota_2 foreign key(vendedor)
+      references tb_vendedores(idvendedor)
+      on update cascade on delete restrict,
+   add constraint fkcota_3 foreign key(grupo)
+      references orca_grupo(recno)
+      on update cascade on delete restrict,
+   add constraint fkcota_4 foreign key(markup)
+      references markup(recno)
+      on update cascade on delete restrict,
+   add constraint ckcota_5 check(emissao <= validade);
+
+create index idx_cota_1 on cota(cliente);
+create index idx_cota_2 on cota(vendedor);
+create index idx_cota_3 on cota(grupo);
+
+create table cota_mat (
+   cotacao integer not null,
+   material integer not null,
+   qtd qtd_ not null,
+   unidade varchar(2) not null,
+   unitario moeda_ default(0) not null,
+   picms percent_ not null,
+   vtotal moeda_,
+   vvenda moeda_,
+   recno serial not null
+);
+
+alter table cota_mat
+   add constraint pkcota_mat primary key(cotacao,material),
+   add constraint fkcota_mat_1 foreign key(cotacao)
+      references cota(recno)
+      on update cascade on delete cascade,
+   add constraint fkcota_mat_2 foreign key(material)
+      references produtos(codigo)
+      on update cascade on delete restrict,
+   add constraint fkcota_mat_3 foreign key(unidade)
+      references unidades(un)
+      on update cascade on delete restrict,
+   add constraint ckcota_mat_1 check(qtd > 0),
+   add constraint ckcota_mat_2 check(unitario > 0),
+   add constraint ckcota_mat_3 check(vtotal >= 0),
+   add constraint ckcota_mat_4 check(vvenda >= 0),
+   add constraint ckcota_mat_5 check(picms >= 0),
+   add constraint ukcota_mat_3 unique(recno);
+
+create index idx_cota_mat_1 on cota_mat(cotacao);
+create index idx_cota_mat_2 on cota_mat(material);
+create index idx_cota_mat_3 on cota_mat(unidade);
+
+create table cota_serv (
+   cotacao integer not null,
+   servico integer not null,
+   qtd qtd_,
+   unidade varchar(2) not null,
+   unitario moeda_,
+   vtotal moeda_,
+   vvenda moeda_,
+   recno serial not null
+);
+
+alter table cota_serv
+   add constraint pkcota_serv primary key(cotacao,servico),
+   add constraint fkcota_serv_1 foreign key(cotacao)
+      references cota(recno)
+      on update cascade on delete cascade,
+   add constraint fkcota_serv_2 foreign key(servico)
+      references servicos(codserv)
+      on update cascade on delete restrict,
+   add constraint fkcota_serv_3 foreign key(unidade)
+      references unidades(un)
+      on update cascade on delete restrict,
+   add constraint ckcota_serv_1 check(qtd > 0),
+   add constraint ckcota_serv_2 check(unitario > 0),
+   add constraint ckcota_serv_3 check(vtotal >= 0),
+   add constraint ckcota_serv_4 check(vvenda >= 0),
+   add constraint ukcota_serv_3 unique(recno);
+
+create index idx_cota_serv_1 on cota_serv(cotacao);
+create index idx_cota_serv_2 on cota_serv(servico);
+create index idx_cota_serv_3 on cota_serv(unidade);
+
+create table cota_servdet (
+   cotacao integer not null,
+   servico integer not null,
+   detalhe integer not null,
+   recno serial not null
+);
+
+alter table cota_servdet
+   add constraint pkcota_servdet primary key(cotacao,servico,detalhe),
+   add constraint fkcota_servdet_1 foreign key(cotacao,servico)
+      references cota_serv(cotacao,servico)
+      on update cascade on delete cascade,
+   add constraint fkcota_servdet_2 foreign key(servico,detalhe)
+      references servicos_det(codserv, recno)
+      on update cascade on delete restrict,
+   add constraint ukcota_servet_1 unique(recno);
+
+create index idx_cota_servdet_1 on cota_servdet(cotacao, servico);
+create index idx_cota_servdet_2 on cota_servdet(servico, detalhe);
+
+create table cota_mo (
+   cotacao integer not null,
+   funcao integer not null,
+   qtd integer default(1) not null,
+   uteis_dias integer default(0) not null,
+   uteis_hrs_dias qtd_,
+   uteis_vl_hrs qtd_,
+   sabado_dias integer default(0) not null,
+   sabado_hrs_dias qtd_,
+   sabado_vl_hrs qtd_,
+   domingo_dias integer default(0) not null,
+   domingo_hrs_dias qtd_,
+   domingo_vl_hrs qtd_,
+   adic_not_dias integer default(0) not null,
+   adic_not_hrs_dias qtd_,
+   adic_not_vl_hrs qtd_,
+   total moeda_,
+   vvenda moeda_,
+   percentual percent_,
+   recno serial not null
+);
+alter table cota_mo
+   add constraint pk_cota_mo primary key(cotacao,funcao),
+   add constraint fk_cota_mo_1 foreign key(cotacao)
+      references cota(recno)
+      on update cascade on delete cascade,
+   add constraint fk_cota_mo_2 foreign key(funcao)
+      references tb_funcoes(id)
+      on update cascade on delete restrict,
+   add constraint ck_cota_mo_1 check(qtd >= 0),
+   add constraint ck_cota_mo_2 check(uteis_dias >= 0),
+   add constraint ck_cota_mo_3 check(uteis_hrs_dias >= 0),
+   add constraint ck_cota_mo_4 check(uteis_vl_hrs >= 0),
+   add constraint ck_cota_mo_5 check(sabado_dias >= 0),
+   add constraint ck_cota_mo_6 check(sabado_hrs_dias >= 0),
+   add constraint ck_cota_mo_7 check(sabado_vl_hrs >= 0),
+   add constraint ck_cota_mo_8 check(domingo_dias >= 0),
+   add constraint ck_cota_mo_9 check(domingo_hrs_dias >= 0),
+   add constraint ck_cota_mo_10 check(domingo_vl_hrs >= 0),
+   add constraint ck_cota_mo_11 check(adic_not_dias >= 0),
+   add constraint ck_cota_mo_12 check(adic_not_hrs_dias >= 0),
+   add constraint ck_cota_mo_13 check(adic_not_vl_hrs >= 0),
+   add constraint ck_cota_mo_14 check(total >= 0),
+   add constraint ck_cota_mo_15 check(vvenda >= 0),
+   add constraint ck_cota_mo_16 check(percentual >= 0),
+   add constraint uk_cota_mo_1 unique(recno);
+
+create index idx_cota_mo_1 on cota_mo(cotacao);
+create index idx_cota_mo_2 on cota_mo(funcao);
+
+alter table orca_grupo
+    add reqsrv boolean default false not null,
+    add reqmat boolean default false not null,
+    add reqmo boolean default false not null,
+    add atividade integer,
+    add mat_bdi percent_,
+    add mat_comissao percent_,
+    add serv_bdi percent_,
+    add serv_comissao percent_,
+    add validade integer default(15) not null,
+    add constraint fk_orca_grupo_1
+		foreign key (atividade)
+		references textos_os(item)
+		on update cascade on delete restrict;
+
+alter table tb_funcoes
+   add ativo boolean default(true) not null;
+
+update tb_funcoes
+   set ativo = false
+ where descricao ~ '^FORA';
+
+create or replace view vatividades as
+select a.codativ, a.descri, t.item, t.descri ativdescri, a.iss
+  from atividades a
+       join textos_os t
+         on t.codativ = a.codativ;
+
+create index idx_textos_os_1 on textos_os(codativ);
+
+DROP FUNCTION public.a_fin_caixa() cascade;
+alter table fin_caixa
+	add tipo integer default(10) not null,	
+   add cobrar boolean default(true) not null,   
+   add recno_pai integer,
+   add constraint fk_fin_caixa_8
+      foreign key(recno_pai) references fin_caixa(recno)
+      on update cascade on delete cascade;
+      
+alter table fin_caixa disable trigger all;
+update fin_caixa 
+   set cobrar = false;
+update fin_caixa 
+   set cobrar = true
+ where titulo is null 
+   and pedido is null
+   and os is null;
+alter table fin_caixa enable trigger all;
+
+-- ==============================================================================================
+-- Gatilhos
+-- ==============================================================================================
+
+CREATE TRIGGER b_cota_mo
+  BEFORE INSERT OR UPDATE OR DELETE
+  ON cota_mo
+  FOR EACH ROW
+  EXECUTE PROCEDURE b_cota_mo();
+
+CREATE TRIGGER b_cota
+  BEFORE INSERT OR UPDATE OR DELETE
+  ON cota
+  FOR EACH ROW
+  EXECUTE PROCEDURE b_cota();
+
+CREATE TRIGGER b_cota_mat
+  BEFORE INSERT OR UPDATE OR DELETE
+  ON cota_mat
+  FOR EACH ROW
+  EXECUTE PROCEDURE b_cota_mat();
+
+CREATE TRIGGER b_cota_serv
+  BEFORE INSERT OR UPDATE OR DELETE
+  ON cota_serv
+  FOR EACH ROW
+  EXECUTE PROCEDURE b_cota_serv();
+
+CREATE TRIGGER a_cota_serv
+  AFTER INSERT OR UPDATE OR DELETE
+  ON cota_serv
+  FOR EACH ROW
+  EXECUTE PROCEDURE a_cota_serv();
