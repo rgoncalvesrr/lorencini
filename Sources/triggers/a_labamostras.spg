@@ -68,7 +68,7 @@ BEGIN
                   and c.recno <> new.recno)
             then
                update labproc lp
-                  set situacao = 4, retorno = localtimestamp
+                  set situacao = 6, retorno = localtimestamp
                  from labprocxequip le
                 where le.labproc_recno = lp.recno
                   and le.amostra = new.recno;

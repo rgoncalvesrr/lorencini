@@ -51,7 +51,7 @@ BEGIN
       and amostra = iamostra
       and codserv = icodserv; 
 
-   update comodato
+   update labamostras
       set consumido = nconumido
     where recno = iamostra;
 
