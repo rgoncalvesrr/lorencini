@@ -36,8 +36,6 @@ BEGIN
    end if;
 
    if tg_op = 'INSERT' then
-      new.cliente := coalesce(new.cliente, new.codigo);
-
       -- preenche origem da amostra
       if new.origem is null then
          new.origem := sys_origem('labamostras');

@@ -23,8 +23,8 @@ Protocol=postgresql-8
 Port=5432
 
 [Localhost_producao]
-HostName=192.168.56.1
-Database=lorencini_atu
+HostName=localhost
+Database=lorencini_p
 User_Name=postgres
 Password=postgres.
 Protocol=postgresql-8

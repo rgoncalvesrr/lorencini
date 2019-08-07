@@ -29,7 +29,7 @@ BEGIN
    if batu then
       select consumo
         into new.consumo
-        from servico
+        from servicos
        where codserv = new.codserv; 
    end if;
 
@@ -41,11 +41,11 @@ BEGIN
    -- Verificando se amostra pertence ao cliente do pedido
    if not exists(
       select 1
-        from comodato
-       where recno = new.comodato_recno
+        from labamostras
+       where recno = new.amostra
          and codigo = icodigo)
    then
-      raise '[[A amostra % não pertence ao cliente %]]', new.comodato_recno, icodigo;
+      raise '[[A amostra % não pertence ao cliente %]]', new.amostra, icodigo;
    end if;
 
    return new;

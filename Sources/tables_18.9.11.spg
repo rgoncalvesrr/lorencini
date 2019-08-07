@@ -8,30 +8,16 @@ ALTER TABLE pedido_amostras
 
 alter table labamostras 
    rename coletor to amostrador;
-   
+
 alter table labamostras    
    alter estado set default(10),
-   add ean39 varchar(50),
-   add emi_dh timestamp without time zone NOT NULL DEFAULT ('now'::text)::timestamp without time zone,
-   add emi_usr character varying(20),  
-   add rem_dh timestamp without time zone,
-   add ret_dh timestamp without time zone,    
-   add imp_dh timestamp without time zone,
-   add imp_usr varchar(20),
-   add rem_usr varchar(20),
-   add rem_tr text,
-   add ret_usr varchar(20),
-   add ret_tr text,
-   add canc_dh timestamp without time zone,
-   add canc_usr varchar(20),
-   add canc_mot text,
+   add ean39 varchar(50),   
    add validade date,
    add origem_recno integer,
-   add qtd qtd_ NOT NULL,
-   add consumido qtd_ NOT NULL,
-   add descartado qtd_ NOT NULL,
-   add saldo qtd_ NOT NULL,  
-   add situacao integer DEFAULT 1,     
+   add qtd qtd_ default(0) NOT NULL,
+   add consumido qtd_ default(0) NOT NULL,
+   add descartado qtd_ default(0) NOT NULL,
+   add saldo qtd_ default(0) NOT NULL,          
    add CONSTRAINT fk_labamostras_3 FOREIGN KEY (origem)
       REFERENCES public.sys_tables (recno) MATCH SIMPLE
       ON UPDATE CASCADE ON DELETE NO ACTION,   
@@ -39,23 +25,18 @@ alter table labamostras
    add CONSTRAINT ck_labamostras_2 CHECK (qtd::numeric >= 0::numeric),
    add CONSTRAINT ck_labamostras_3 CHECK (consumido::numeric >= 0::numeric),
    add CONSTRAINT ck_labamostras_4 CHECK (descartado::numeric >= 0::numeric);
-
-alter table labamostras disable trigger all;  
+   
+alter table labamostras disable trigger all;
 
 update labamostras a
-   set ean39 = b.ean39, emi_dh = b.emi_dh, emi_usr = b.emi_usr, rem_dh = b.rem_dh, ret_dh = b.ret_dh,
-       imp_dh = b.imp_dh, imp_usr = b.imp_usr, rem_usr = b.rem_usr, rem_tr = b.rem_tr, ret_usr = b.ret_usr,
-       ret_tr = b.ret_tr, canc_dh = b.canc_dh, canc_usr = b.canc_dh, canc_mot = b.canc_mot, validade = b.validade,
-       origem_recno = b.origem_recno, qtd = b.qtd, consumido = b.consumido, descartado = b.descartado, saldo = b.saldo,
-       situacao = a.situacao
+   set ean39 = b.ean39, validade = b.validade, origem_recno = b.origem_recno, qtd = b.qtd, consumido = b.consumido, 
+       descartado = b.descartado, saldo = b.saldo
   from comodato b
  where b.recno = a.comodato_recno;
-
+ 
 alter table labamostras enable trigger all;
 
-alter table labamostras
-  alter emi_dh set not null,
-  alter emi_usr set not null,
+alter table labamostras  
   alter origem_recno set not null;
 
 ALTER TABLE public.pedido_amostras
@@ -64,11 +45,11 @@ ALTER TABLE public.pedido_amostras
 alter table pedido_amostras
    add amostra integer,
    add constraint fk_pedido_amostras_1 
-	   foreign key (pedido,codserv) references pedido_serv(pedido,codserv)
-   	on update cascade on delete cascade,
+     foreign key (pedido,codserv) references pedido_serv(pedido,codserv)
+    on update cascade on delete cascade,
    add constraint fk_pedido_amostras_2
-   	foreign key (amostra) references labamostras(recno)
-   	on update cascade on delete restrict;
+    foreign key (amostra) references labamostras(recno)
+    on update cascade on delete restrict;
 
 create index idx_labamostras_1 on labamostras(codigo);
 create index idx_labamostras_2 on labamostras(codigo) where (saldo > 0);
@@ -76,24 +57,23 @@ create index idx_labamostras_3 on labamostras(codigo) where (consumido > 0);
 create index idx_labamostras_4 on labamostras(codigo) where (descartado > 0);
 create index idx_labamostras_5 on labamostras(pedido);
 create index idx_labamostras_6 on labamostras(codigo, cliente);
-create index idx_labamostras_7 on labamostras(canc_usr);
-create index idx_labamostras_8 on labamostras(emi_usr);
-create index idx_labamostras_9 on labamostras(imp_usr);
-create index idx_labamostras_10 on labamostras(origem);
-create index idx_labamostras_11 on labamostras(rem_usr);
-create index idx_labamostras_12 on labamostras(ret_usr);
-create index idx_labamostras_13 on labamostras(equip_recno);
-create index idx_labamostras_14 on labamostras(revisor);
-create index idx_labamostras_15 on labamostras(tpamostra_recno);
+create index idx_labamostras_7 on labamostras(origem);
+create index idx_labamostras_8 on labamostras(equip_recno);
+create index idx_labamostras_9 on labamostras(revisor);
+create index idx_labamostras_10 on labamostras(tpamostra_recno);
 
 alter table labamostras disable trigger all;
 
 insert into labamostras
-  (codigo, cliente, rem_dh, rem_usr, rem_tr, ret_dh, ret_usr, ret_tr, emi_dh, emi_usr, imp_dh, imp_usr, 
-   canc_dh, canc_usr, canc_mot, validade, origem, origem_recno, qtd, consumido, descartado, saldo, comodato_recno, situacao)
-select a.codigo, a.codigo, a.rem_dh, a.rem_usr, a.rem_tr, a.ret_dh, a.ret_usr, a.ret_tr, a.emi_dh, a.emi_usr, a.imp_dh, a.imp_usr, 
-   a.canc_dh, a.canc_usr, a.canc_mot, a.validade, a.origem, a.origem_recno, a.qtd, a.consumido, a.descartado, a.saldo,
-   a.recno, a.situacao
+  (codigo, cliente, validade, origem, origem_recno, qtd, consumido, descartado, saldo, comodato_recno, estado)
+select a.codigo, a.codigo, a.validade, a.origem, a.origem_recno, a.qtd, a.consumido, a.descartado, a.saldo, a.recno,
+       case
+         when a.ret_dh is not null then 40
+         when a.rem_dh is not null then 30
+         when a.imp_dh is not null then 20
+       else
+         10
+       end
   from comodato a
        left join labamostras b
          on b.comodato_recno = a.recno
@@ -105,6 +85,60 @@ update labamostras set estado = 40 where estado = 1; -- Recebida (antiga digitaç
 
 alter table labamostras enable trigger all;
 
+create table labamostras_hist(   
+   amostra integer not null,
+   estado integer not null,   
+   ocorrencia timestamp default localtimestamp,
+   historico text,
+   username varchar(20) not null,
+   recno serial not null,
+   constraint pk_labamostras_hist primary key(amostra, estado),
+   constraint fk_labamostras_hist_1 foreign key(amostra)
+      references labamostras(recno)
+      on update cascade on delete cascade,
+   constraint fk_labamostras_hist_2 foreign key(username)
+      references sys_users(username)
+      on update cascade on delete restrict   
+);
+
+create index idx_labamostras_hist_1 on labamostras_hist(username);
+
+insert into labamostras_hist
+   (amostra, estado, ocorrencia, historico, username)
+select a.recno, 20, b.imp_dh, 'Impressão etiqueta', b.imp_usr 
+  from labamostras a
+       join comodato b
+         on b.recno = a.comodato_recno
+        and b.imp_dh is not null;
+
+insert into labamostras_hist
+   (amostra, estado, ocorrencia, historico, username)
+select a.recno, 30, b.rem_dh, coalesce(b.rem_tr, 'Etiqueta da amostra enviada'), b.rem_usr 
+  from labamostras a
+       join comodato b
+         on b.recno = a.comodato_recno
+        and b.rem_dh is not null; 
+
+insert into labamostras_hist
+   (amostra, estado, ocorrencia, historico, username)
+select a.recno, 40, b.ret_dh, coalesce(b.ret_tr, 'Etiqueta da amostra enviada'), b.ret_usr 
+  from labamostras a
+       join comodato b
+         on b.recno = a.comodato_recno
+        and b.ret_dh is not null; 
+
+insert into labamostras_hist
+   (amostra, estado, ocorrencia, historico, username)
+select recno, 50, entrada, 'Recebimento da amostra', revisor
+  from labamostras
+ where estado in (50, 60); 
+
+insert into labamostras_hist
+   (amostra, estado, historico, username)
+select recno, 60, 'Saldo total utilizado', revisor
+  from labamostras
+ where estado = 60; 
+ 
 alter table pedido_amostras disable trigger all;
 
 update pedido_amostras a
@@ -129,7 +163,7 @@ update labret a
    set amostra = b.recno
   from labamostras b
  where b.comodato_recno = a.comodato_recno;
-
+ 
 alter table labret 
   alter amostra set not null,
   drop comodato_recno,
@@ -152,14 +186,14 @@ create index idx_labprocxequip_1 on labprocxequip(amostra);
 update labprocxequip a
    set amostra = b.recno
   from labamostras b
- where b.comodato_recno = a.comodato_recno; 
-
-
+ where b.comodato_recno = a.comodato_recno;
+ 
 alter table cota
    add remessa boolean default(false),
    add laboratorio boolean default(false);
 
 alter table cota disable trigger all;
+
 update cota set remessa = true where (frascos > 0 or seringas > 0);
 update cota a
    set laboratorio = true
@@ -196,55 +230,7 @@ update labequipxcli a
    and a.codigo = b.codigo
    and a.equip = b.equip_recno
    and a.subest is null;
-
-create table labamostras_hist(   
-   amostra integer not null,
-   estado integer not null,   
-   ocorrencia timestamp default localtimestamp,
-   historico text,
-   username varchar(20) not null,
-   recno serial not null,
-   constraint pk_labamostras_hist primary key(amostra, estado),
-   constraint fk_labamostras_hist_1 foreign key(amostra)
-      references labamostras(recno)
-      on update cascade on delete cascade,
-   constraint fk_labamostras_hist_2 foreign key(username)
-      references sys_users(username)
-      on update cascade on delete restrict   
-);
-
-create index idx_labamostras_hist_1 on labamostras_hist(username);
-
-insert into labamostras_hist
-   (amostra, estado, ocorrencia, historico, username)
-select recno, 20, imp_dh, 'Impressão etiqueta', imp_usr 
-  from labamostras
- where imp_dh is not null;
- 
-insert into labamostras_hist
-   (amostra, estado, ocorrencia, historico, username)
-select recno, 30, rem_dh, coalesce(rem_tr, 'Etiqueta da amostra enviada'), rem_usr 
-  from labamostras
- where rem_dh is not null; 
-
-insert into labamostras_hist
-   (amostra, estado, ocorrencia, historico, username)
-select recno, 40, ret_dh, coalesce(ret_tr, 'Etiqueta da amostra enviada'), ret_usr 
-  from labamostras
- where ret_dh is not null; 
-
-insert into labamostras_hist
-   (amostra, estado, ocorrencia, historico, username)
-select recno, 50, entrada, 'Recebimento da amostra', revisor
-  from labamostras
- where estado in (50, 60); 
-
-insert into labamostras_hist
-   (amostra, estado, historico, username)
-select recno, 60, 'Saldo total utilizado', revisor
-  from labamostras
- where estado = 60; 
-
+   
 alter table labamostras_rel rename amostra_recno to amostra;
 alter table tb_entrada_amostra rename amostra_recno to amostra;
 ALTER TABLE public.labamostras_rel DROP CONSTRAINT fk_labamostras_rel_amostra_recno;
@@ -259,7 +245,7 @@ alter table labamostras_rel
       references tbclientes(codigo),
    add constraint fk_labamostras_rel_3 foreign key(pedido)
       references pedido(recno) on update cascade on delete restrict,
-	add constraint fk_labamostras_rel_4 foreign key(amostra)
+  add constraint fk_labamostras_rel_4 foreign key(amostra)
       references labamostras(recno) on update cascade on delete restrict,
    add constraint fk_labamostras_rel_5 foreign key(pedido, codserv, amostra)
       references pedido_amostras(pedido, codserv, amostra) on update cascade on delete restrict,
@@ -288,26 +274,13 @@ alter table labamostras
    drop os,
    drop osc,   
    drop contato,
-   drop revisor,
-   drop emi_dh,
-   drop emi_usr,
-   drop imp_dh,
-   drop imp_usr,
-   drop rem_dh,
-   drop rem_usr,
-   drop rem_tr,
-   drop ret_dh,
-   drop ret_usr,
-   drop ret_tr,
-   drop canc_dh,
-   drop canc_usr,
-   drop canc_mot,
+   drop revisor,   
    drop cliente cascade;
-
+   
 alter table labprocxequip
-	drop codigo cascade,
-	drop equip_recno cascade;
-
+  drop codigo cascade,
+  drop equip_recno cascade;
+  
 alter table pedido_amostras
    drop comodato_recno cascade;   
 
@@ -315,13 +288,13 @@ create or replace view vcomodatoxproc as
 select c.*, e.labproc_recno
   from labamostras c
        join labprocxequip e
-         on e.amostra = c.recno;   
-
+         on e.amostra = c.recno;
+         
 ALTER TABLE public.labport DROP CONSTRAINT ck_labport_cnpj;
 
 ALTER TABLE public.labport
     ADD CONSTRAINT ck_labport_cnpj CHECK (sys_cnpj_check(cnpj) = 0 or sys_cpf_check(cpf) = 0);
-
+       
 drop table job_disjuntor_mt_parte2 cascade;
 drop table job_chave_sec_parte2 cascade;
 drop table job_chave_sec cascade;
@@ -462,8 +435,7 @@ create index idx_pedido_mo_3 on pedido_mo(pedido) where lote_aprov is null;
 
 alter table sys_forms 
    add modification timestamp default clock_timestamp() not null,
-   add remove boolean default false,
-   drop excluir;
+   add remove boolean default false;
 
 alter table sys_forms_rpt 
    add modification timestamp default clock_timestamp() not null,
@@ -491,31 +463,12 @@ alter table sys_fn
 alter table tb_entrada_amostra drop comodato_recno;
 drop table comodato;
 
--- -- ==================================================================================================================
--- --
--- -- GATILHOS
--- --
--- -- ==================================================================================================================
--- CREATE TRIGGER b_pedido_amostras
---    BEFORE INSERT OR UPDATE OR DELETE
---    ON pedido_amostras
---    FOR EACH ROW
---    EXECUTE PROCEDURE b_pedido_amostras();
-
--- CREATE TRIGGER b_labamostras_hist
---    BEFORE INSERT OR UPDATE OR DELETE
---    ON labamostras_hist
---    FOR EACH ROW
---    EXECUTE PROCEDURE b_labamostras_hist();
-
--- CREATE TRIGGER a_cota_aprov
---    AFTER INSERT OR UPDATE OR DELETE
---    ON cota_aprov
---    FOR EACH ROW
---    EXECUTE PROCEDURE a_cota_aprov();
+drop function a_pedido_amostras_serv() cascade;
 
 CREATE TRIGGER b_sys_fn
    BEFORE INSERT OR UPDATE OR DELETE
    ON sys_fn
    FOR EACH ROW
    EXECUTE PROCEDURE b_sys_fn();
+   
+select sys_sincroniza();
