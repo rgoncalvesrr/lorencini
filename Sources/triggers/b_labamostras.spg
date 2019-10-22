@@ -33,17 +33,24 @@ BEGIN
 
    if tg_op <> 'DELETE' then
       new.saldo := new.qtd - new.consumido - new.descartado;
+      new.comodato := coalesce(new.comodato, new.recno);
    end if;
 
    if tg_op = 'INSERT' then
       -- preenche origem da amostra
       if new.origem is null then
          new.origem := sys_origem('labamostras');
-         new.origem_recno := new.recno;
+         new.origem_recno := new.recno;                  
       end if;
+
+      new.estado_entrada := current_date;
    end if;
 
    if tg_op = 'UPDATE' then
+      if new.estado <> old.estado then
+         new.estado_entrada := current_date;
+      end if;
+
       -- Validação da análise. Passagem Recebida -> Disponível
       if old.estado = 40 and new.estado = 50 then
          -- Verifica se o tipo e tensão estão preenchidas
@@ -125,11 +132,11 @@ BEGIN
       end if;
       
       -- Retorna todos os laudos relacionados a amostra ao estado de revisão
-      if new.estado = 1 and old.estado > 1 then
-         update labamostras_rel
-            set status = 1
-          where amostra = new.recno;
-      end if;
+      -- if new.estado = 1 and old.estado > 1 then
+      --    update labamostras_rel
+      --       set status = 1
+      --     where amostra = new.recno;
+      -- end if;
    end if;
 
    if tg_op <> 'DELETE' then
