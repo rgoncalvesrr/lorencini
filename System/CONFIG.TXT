@@ -23,7 +23,7 @@ Protocol=postgresql-8
 Port=5432
 
 [Localhost_producao]
-HostName=localhost
+HostName=127.0.0.1
 Database=lorencini_p
 User_Name=postgres
 Password=postgres.
@@ -40,7 +40,7 @@ Protocol=postgresql-8
 Port=5432
 
 [LastConn]
-Section=Localhost_desenvolvimento
+Section=Localhost_producao
 
 [Monitor]
 Cycle=10
