@@ -1,5 +1,9 @@
 {
-   "folders": [],
+   "folders": [
+      {
+         "path": "Workspace"
+      }
+   ],
    "settings": {
       "files.defaultLanguage": "oracle",
       "files.encoding": "iso88591",
