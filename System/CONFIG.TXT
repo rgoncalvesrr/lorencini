@@ -40,7 +40,7 @@ Protocol=postgresql-8
 Port=5432
 
 [LastConn]
-Section=Localhost_producao
+Section=Localhost_desenvolvimento
 
 [Monitor]
 Cycle=10
@@ -52,4 +52,4 @@ PanelCols=1
 AlphaBlend=0
 
 [Service]
-DBConnection=Localhost
+DBConnection=Localhost_desenvolvimento
