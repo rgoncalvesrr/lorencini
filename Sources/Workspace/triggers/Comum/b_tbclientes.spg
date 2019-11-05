@@ -40,9 +40,9 @@ Begin
 
          -- Valida o CNPJ
          perform sys_cnpj(new.cnpj);
-
+         
          -- Verifica se o CNPJ já foi cadastrado
-         if exists(
+         if tg_op = 'INSERT' and exists(
             select 1
               from tbclientes
              where cnpj = new.cnpj
@@ -67,7 +67,7 @@ Begin
          perform sys_cpf(new.cpf);
 
          -- Verifica se o CPF já foi cadastrado
-         if exists(
+         if tg_op = 'INSERT' and exists(
             select 1
               from tbclientes
              where cpf = new.cpf

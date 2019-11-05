@@ -43,7 +43,7 @@ BEGIN
             new.labinst_recno := rinst.inst_id;
          end if;
 
-         if ra.status <> 1 then
+         if ra.status > 1 then
             raise '[[O laudo % não pode sofrer atualização da lista de ensaios porque está encerrado.]]', new.laudo;
          end if;
       else
@@ -54,7 +54,7 @@ BEGIN
       end if;
 
       -- Impede alterações após assinatura
-      if ra.status <> 1 and ra.assinatura is not null and not sys_flag('labamostras_rel', ra.recno) then
+      if ra.status > 1 and ra.assinatura is not null and not sys_flag('labamostras_rel', ra.recno) then
          raise '[[O laudo % não pode sofrer alterações porque já foi assinado.]]', new.laudo;
       end if;
 
