@@ -6,9 +6,9 @@ Returns trigger
 AS
 $$
 Declare
-   fcom_mat    tb_orcamentos.com_mat%type;
-   fcom_srv    tb_orcamentos.com_mat%type;
-   fcomissao   tb_orcamentos.com_mat%type;
+   -- fcom_mat    tb_orcamentos.com_mat%type;
+   -- fcom_srv    tb_orcamentos.com_mat%type;
+   -- fcomissao   tb_orcamentos.com_mat%type;
    fparcelas   int2;
 Begin
    if tg_op <> 'DELETE' then
@@ -22,30 +22,30 @@ Begin
       new.vlcofins := coalesce(new.vlcofins ,0);
       new.vlcom := coalesce(new.vlcom ,0);
 
-      if new.valor > 0 then
-         -- Obtendo os percentuais de comissão
-         select com_mat, com_srv
-           into fcom_mat, fcom_srv
-           from tb_orcamentos
-          where os = new.os;
+      -- if new.valor > 0 then
+      --    -- Obtendo os percentuais de comissão
+      --    select com_mat, com_srv
+      --      into fcom_mat, fcom_srv
+      --      from tb_orcamentos
+      --     where os = new.os;
 
-         fparcelas := 0;
-         if fcom_mat > 0 then
-            fparcelas := 1;
-         end if;
+      --    fparcelas := 0;
+      --    if fcom_mat > 0 then
+      --       fparcelas := 1;
+      --    end if;
 
-         if fcom_srv > 0 then
-            fparcelas := fparcelas + 1;
-         end if;
+      --    if fcom_srv > 0 then
+      --       fparcelas := fparcelas + 1;
+      --    end if;
 
-         fcomissao := 0;
-         if fparcelas > 0 then
-            fcomissao := (fcom_mat + fcom_srv) / fparcelas;
-         end if;
+      --    fcomissao := 0;
+      --    if fparcelas > 0 then
+      --       fcomissao := (fcom_mat + fcom_srv) / fparcelas;
+      --    end if;
 
-         -- Calculando o valor da comissão
-         new.vlcom := new.valor * fcomissao / 100;
-      end if;
+      --    -- Calculando o valor da comissão
+      --    new.vlcom := new.valor * fcomissao / 100;
+      -- end if;
 
       return new;
    else

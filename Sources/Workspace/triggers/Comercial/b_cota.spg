@@ -94,25 +94,22 @@ Begin
             lf := '';
             erros := '';
             -- Verificando a seleção de laudos para os serviços
-            for r in (
-               select x.cotacao, x.servico, s.descri
-                 from (select cs.cotacao, cs.servico
-                         from cota_serv cs
-                              join labrel rl
-                                on rl.codserv = cs.servico       
-                        where cs.cotacao = new.recno
-                        group by cs.cotacao, cs.servico) x
-                      left join cota_laudo cl
-                        on cl.cotacao = x.cotacao
-                       and cl.servico = x.servico
-                      join servicos s
-                        on x.servico = s.codserv
-                where cl.relato_recno is null)
-            loop
-               erros := erros || lf || 
-                  format('O serviço "%s - %s" requer seleção do tipo de laudo que será executado!', r.servico, r.descri);
-               lf := chr(13) || chr(10);
-            end loop;
+            -- for r in (
+            --    select x.cotacao, x.servico, s.descri
+            --      from (select cs.cotacao, cs.servico
+            --              from cota_serv cs
+            --                   join labrel rl
+            --                     on rl.codserv = cs.servico       
+            --             where cs.cotacao = new.recno
+            --             group by cs.cotacao, cs.servico) x                      
+            --           join servicos s
+            --             on x.servico = s.codserv
+            --     where cl.relato_recno is null)
+            -- loop
+            --    erros := erros || lf || 
+            --       format('O serviço "%s - %s" requer seleção do tipo de laudo que será executado!', r.servico, r.descri);
+            --    lf := chr(13) || chr(10);
+            -- end loop;
 
             
             -- Validando informações de remessa
