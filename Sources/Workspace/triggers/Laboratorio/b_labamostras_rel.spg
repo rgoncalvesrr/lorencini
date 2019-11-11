@@ -75,6 +75,15 @@ BEGIN
          new.codserv := rh.codserv;
       else
          if old.status = 0 and new.status = 1 then -- Digitação para encerrado
+            if not exists(
+               select 1
+                 from labamostras_hist
+                where amostra = new.amostra
+                  and estado = 50)
+            then
+               raise '[[O laudo % não pode receber apontamento de resultados porque a amostras % não foi revisada]]', new.recno, new.amostra;
+            end if;
+
             return new;
          elsif old.status = 1 and new.status = 2 then -- Digitação para encerrado
             if not exists(
@@ -114,7 +123,7 @@ BEGIN
                raise '[[Para assinar um laudo é necessário que o código do engenheiro seja informado.]]';
             end if;
 
-            new.emissao := localtimestamp;
+            new.emissao := localtimestamp;            
             iensaio := -1;
 
             -- Gera histórico para amostra atual
@@ -197,8 +206,7 @@ BEGIN
 
             new.assinatura := vass_p1 || vass_p2 || vass_p3 || vass_p4;
          elsif old.status = 4 then
-            raise '[[O laudo % não pode sofrer alterações porque está cancelado.]]',
-               new.recno;
+            raise '[[O laudo % não pode sofrer alterações porque está cancelado.]]', new.recno;
          elsif old.status in (2, 3) and (new.status < old.status) then
             new.assinatura := null;
             new.emissao := null;
@@ -214,8 +222,7 @@ BEGIN
             end if;
          else
             if old.status <> new.status and not sys_flag('labamostras_rel', new.recno) then
-               raise '[[As alterações do laudo % devem respeitar as etapas.]]',
-                  new.recno;
+               raise '[[As alterações do laudo % devem respeitar as etapas.]]', new.recno;
             end if;
          end if;
       end if;

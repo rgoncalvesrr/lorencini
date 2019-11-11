@@ -15,8 +15,10 @@ as
 $$
 BEGIN
 	if not sys_flag(in_table_, in_recno) then
-		insert into sys_flag( session, table_, recno )
-		     values         (sys_session(), in_table_, in_recno);
+		insert into sys_flag
+         (session,       table_,    recno)
+		values         
+         (sys_session(), in_table_, in_recno);
 	end if;
 END;
 $$

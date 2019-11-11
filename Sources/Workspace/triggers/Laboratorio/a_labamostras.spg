@@ -46,10 +46,14 @@ BEGIN
 
          -- Registrando mudança de estado na amostra
          if lRegHist then            
-            insert into labamostras_hist 
-               (amostra,   estado)
-            values
-               (new.recno, new.estado);
+            begin
+               insert into labamostras_hist 
+                  (amostra,   estado)
+               values
+                  (new.recno, new.estado);
+            exception
+               when unique_violation then
+            end;
          end if;
 
          -- Marca processo como retornado e atualiza a data de baixa caso todos os comadatos tenham sido retornados
