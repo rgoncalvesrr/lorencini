@@ -101,9 +101,10 @@ BEGIN
       end if;
 
       return new;
-   else
+   else      
       -- verifica a integridade do resultado apontado
-      if exists(
+      if not sys_flag('labamostras_res', old.recno) and 
+         exists(
          select 1
            from labamostras_rel
           where recno = old.laudo

@@ -74,6 +74,31 @@ BEGIN
 
          new.codserv := rh.codserv;
       else
+         -- Alteração do tipo de laudo, remove ensaios inválidos
+         if new.relato_recno <> old.relato_recno then
+            perform sys_flag_mark('labamostras_res', recno)
+               from labamostras_res res
+              where res.laudo = new.recno
+                and not exists(
+                    select 1
+                      from labrel_ens er
+                     where er.relato_recno = new.relato_recno
+                       and er.ensaio_recno = res.ensaio_recno);
+
+            delete 
+              from labamostras_res
+             where recno in ( 
+                   select res.recno 
+                     from labamostras_res res
+                    where res.laudo = new.recno
+                      and not exists(
+                          select 1
+                            from labrel_ens er
+                           where er.relato_recno = new.relato_recno
+                             and er.ensaio_recno = res.ensaio_recno));
+         end if;
+
+
          if old.status = 0 and new.status = 1 then -- Digitação para encerrado
             if not exists(
                select 1
