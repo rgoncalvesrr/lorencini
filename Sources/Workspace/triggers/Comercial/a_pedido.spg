@@ -16,6 +16,8 @@ CREATE OR REPLACE FUNCTION a_pedido()
   RETURNS trigger AS
 $$
 Declare
+   _O_STATUS_FINALIZADO constant integer := 3;
+
    r              record;
    icoleta        integer;
    itable_        integer;
@@ -175,6 +177,10 @@ BEGIN
             end loop;
          end if;
       elsif old.status = 60 and new.status = 70 then -- Executado
+         update tb_orcamentos
+            set status_ = _O_STATUS_FINALIZADO
+          where pedido = new.recno
+            and status_ < _O_STATUS_FINALIZADO;
       elsif old.status in (20, 30, 40) and new.status = 99 then -- cancelamento
          update labproc
             set situacao = 7

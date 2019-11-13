@@ -57,7 +57,7 @@ Begin
                         on b.os = a.os
                        and b.recno_nf = new.recno)
             Loop
-               perform sys_flag_mark('tb_orcamentos', rOrc.recno);
+               perform sys_flag_mark('tb_orcamentos', rOrc.recno);               
 
                if vobs <> '' then
                   vobs := vobs || ', ';
@@ -82,8 +82,7 @@ Begin
                 where itm.recno_nf = new.recno)
             Loop
                perform sys_flag_mark('tb_orcamentos', rNF_Itens.recno);
-
-               if iTipo = 1 then
+               if iTipo = 1 then                  
                   update tb_orcamentos
                      set nf_mat = null, status_ = sys_iif(nf_srv is null, 3, 1)
                    where os = rNF_Itens.os;
@@ -123,12 +122,13 @@ Begin
 
             -- Atualiza os orçamentos envolvidos com o número da NF gerada
             for rNF_Itens in (
-               select a.os, b.idos, a.vlsrv, a.vlmat
+               select a.os, b.idos, a.vlsrv, a.vlmat, b.recno
                  from nf_itens a
                       join tb_orcamentos b
                         on b.os = a.os
                 where a.recno_nf = new.recno)
             Loop
+               perform sys_flag_mark('tb_orcamentos', rNF_Itens.recno);
                if iTipo = 1 then
                   update tb_orcamentos
                      set nf_mat = new.recno, vlnfmat = rNF_Itens.vlmat
@@ -138,6 +138,7 @@ Begin
                      set nf_srv = new.recno, vlnfsrv = rNF_Itens.vlsrv
                    where os = rNF_Itens.os;
                end if;
+               perform sys_flag_del('tb_orcamentos', rNF_Itens.recno);
 
                if vobs <> '' then
                   vobs := vobs || ', ';

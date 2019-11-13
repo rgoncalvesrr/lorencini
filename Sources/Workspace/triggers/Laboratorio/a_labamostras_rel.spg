@@ -48,21 +48,20 @@ BEGIN
 
          -- Processa encerramento do laudo
          elsif new.status in (3,4) and old.status < 3 then
-            -- Se não existir nenhum laudo em aberto para amostra, encerra a amostra
-            if not exists(
-               select 1
-                 from labamostras_rel
-                where amostra = new.amostra
-                  and status < 3
-                  and recno <> new.recno)
-            then
-               update labamostras
-                  set estado = 3
-                where recno = new.amostra;
-            end if;
-
             -- Gera resultado na estrutura antiga
             if new.status = 3 then
+               -- Caso não haja laudos em aberto para pedido, marca como executado
+               if not exists(
+                  select 1
+                    from labamostras_rel 
+                   where pedido = new.pedido
+                     and status <> 3)
+               then
+                  update pedido
+                     set status = 70
+                   where recno = new.pedido; 
+               end if;
+
                -- Gera informações para o reader
                perform labamostras_rel_reader(new.recno);
             end if;
