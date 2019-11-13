@@ -98,7 +98,6 @@ BEGIN
                              and er.ensaio_recno = res.ensaio_recno));
          end if;
 
-
          if old.status = 0 and new.status = 1 then -- Digitação para encerrado
             if not exists(
                select 1
