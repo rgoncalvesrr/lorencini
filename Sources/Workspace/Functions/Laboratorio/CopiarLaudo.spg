@@ -10,12 +10,12 @@
 	Histórico
 	-------------------------------------------------------------------------------------------------------------------
  */
-Create or Replace Function CopiarLaudo(
+Create or Replace Function copiar_laudo(
    in in_recno integer)
 Returns integer As
 $$
 Begin
-
+   
 
    
 End;
