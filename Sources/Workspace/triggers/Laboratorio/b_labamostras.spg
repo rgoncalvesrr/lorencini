@@ -26,6 +26,20 @@ CREATE OR REPLACE FUNCTION b_labamostras()
   RETURNS trigger AS
 $$
 Declare
+   _EGERADA       constant integer := 10;
+   _EIMPRESSA     constant integer := 20;
+   _EENVIADA      constant integer := 30;
+   _ERECEBIDA     constant integer := 40;
+   _EDISPONIVEL   constant integer := 50;
+   _EUTILIZADA    constant integer := 60;
+   _ECANCELADA    constant integer := 70;
+
+   _ST_LAUDO_DIGIT   constant integer := 0;
+   _ST_LAUDO_APONT   constant integer := 1;
+   _ST_LAUDO_ENCER   constant integer := 2;
+   _ST_LAUDO_ASSIN   constant integer := 3;
+   _ST_LAUDO_CANCE   constant integer := 4;
+
    rrow        record;
    vusername   sys_users.username%type;
 BEGIN
@@ -52,8 +66,18 @@ BEGIN
          new.estado_data := current_date;
       end if;
 
-      -- Validação da análise. Passagem Recebida -> Disponível
-      if old.estado = 40 and new.estado = 50 then
+      -- Tratamento da revisão de laudos
+      if old.estado in (_EDISPONIVEL, _EUTILIZADA) and  
+         (new.tpamostra_recno <> old.tpamostra_recno or new.toleo <> old.toleo or new.tensao <> old.tensao or 
+          new.coleta <> old.coleta or new.equip_recno <> old.equip_recno)  then
+
+         update labamostras_rel
+            set status = _ST_LAUDO_DIGIT
+          where amostra = new.recno;  
+      end if;
+
+      -- Validação da amostra
+      if new.estado in (_EDISPONIVEL, _EUTILIZADA) then
          -- Verifica se o tipo e tensão estão preenchidas
          if new.tpamostra_recno is null then
             raise '[[A amostra % não pode ser gravada porque o tipo não está definido.]]', new.recno;
@@ -114,22 +138,6 @@ BEGIN
          if coalesce(new.tensao, 0) = 0 then
             raise '[[A amostra % não pode ser gravada porque a tensão não foi informada.]]', new.recno;
          end if;
-
-         -- -- verifica o laudo pode entrar em execução
-         -- if exists(
-         --    select 1
-         --      from labamostras a
-         --     where not exists (
-         --           select 1
-         --             from labamostras_rel r
-         --            where r.amostra = a.recno)
-         --       and a.pedido = new.pedido
-         --       and a.recno <> new.recno)
-         -- then
-         --    raise '[[Existem amostras do pedido % sem revisão. Não é possível iniciar produção antes de revisar o pedido.]]', new.pedido;
-         -- end if;
-
-         -- Revisor
       end if;
       
       -- Retorna todos os laudos relacionados a amostra ao estado de revisão
