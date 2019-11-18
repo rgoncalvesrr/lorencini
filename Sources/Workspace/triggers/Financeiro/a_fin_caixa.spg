@@ -71,9 +71,9 @@ Begin
           where pedido = new.pedido;
 
          -- Atualizando despesas
-         update pedido p
-            set despesas = vdespesas, status = 1
-          where recno = new.pedido;
+         -- update pedido p
+         --    set despesas = vdespesas, status = 1
+         --  where recno = new.pedido;
       end if;
 
       if bProcOs and new.os is not null then

@@ -26,7 +26,7 @@ Declare
 BEGIN
    if tg_op <> 'DELETE' then
       -- Obtem informações do laudo
-      select criacao, status, assinatura, recno
+      select criacao, status, assinatura
         into ra
         from labamostras_rel
        where recno = new.laudo;
@@ -43,7 +43,7 @@ BEGIN
             new.labinst_recno := rinst.inst_id;
          end if;
 
-         if ra.status <> 1 then
+         if ra.status > 1 then
             raise '[[O laudo % não pode sofrer atualização da lista de ensaios porque está encerrado.]]', new.laudo;
          end if;
       else
@@ -54,7 +54,7 @@ BEGIN
       end if;
 
       -- Impede alterações após assinatura
-      if ra.status <> 1 and ra.assinatura is not null and not sys_flag('labamostras_rel', ra.recno) then
+      if ra.status > 1 and ra.assinatura is not null and not sys_flag('labamostras_rel', new.laudo) then
          raise '[[O laudo % não pode sofrer alterações porque já foi assinado.]]', new.laudo;
       end if;
 
@@ -101,8 +101,16 @@ BEGIN
       end if;
 
       return new;
-   else
-      if not sys_flag('labamostras_rel', old.recno) then
+   else      
+      -- verifica a integridade do resultado apontado
+      if not sys_flag('labamostras_res', old.recno) and 
+         exists(
+         select 1
+           from labamostras_rel
+          where recno = old.laudo
+            and relato_recno = old.relato_recno) and 
+         not sys_flag('labamostras_rel', old.recno) 
+      then
          raise '[[Não é possível excluir ensaios relacionados ao laudo %.]]', old.recno;
       end if;
 

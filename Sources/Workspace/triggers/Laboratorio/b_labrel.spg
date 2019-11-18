@@ -25,11 +25,6 @@ BEGIN
       else
          -- Verifica se o laudo pode estar ativo
          if new.ativo and new.ativo <> old.ativo then
-            -- Verifica se há um código de serviço associado ao laudo
-            if new.codserv is null then
-               raise exception '[[O tipo de laudo % não pode ser ativado porque não há serviço associado a ele.]]', new.recno;
-            end if;
-
             -- Checa a existência de ensaios
             if not exists(
                select 1

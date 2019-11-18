@@ -20,7 +20,7 @@ Database=lorencini
 User_Name=postgres
 Password=postgres.
 Protocol=postgresql-8
-Port=5432
+Port=5412
 
 [Localhost_producao]
 HostName=127.0.0.1

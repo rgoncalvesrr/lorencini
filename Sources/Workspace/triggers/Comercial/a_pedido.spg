@@ -16,6 +16,8 @@ CREATE OR REPLACE FUNCTION a_pedido()
   RETURNS trigger AS
 $$
 Declare
+   _O_STATUS_FINALIZADO constant integer := 3;
+
    r              record;
    icoleta        integer;
    itable_        integer;
@@ -169,12 +171,16 @@ BEGIN
 
                -- Insere laudo em estado de digitação
                insert into labamostras_rel 
-                  (amostra,  codserv,   relato_recno,  pedido,    os,  cliente,    destinatario,      status)
+                  (amostra,  codserv,   relato_recno,  pedido,    os,  cliente,    destinatario,       status)
                values
                   (r.amostra, r.codserv, irelato_recno, new.recno, ios, new.cliente, new.destinatario, 0);
             end loop;
          end if;
       elsif old.status = 60 and new.status = 70 then -- Executado
+         update tb_orcamentos
+            set status_ = _O_STATUS_FINALIZADO
+          where pedido = new.recno
+            and status_ < _O_STATUS_FINALIZADO;
       elsif old.status in (20, 30, 40) and new.status = 99 then -- cancelamento
          update labproc
             set situacao = 7
