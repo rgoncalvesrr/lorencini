@@ -165,6 +165,7 @@ BEGIN
                   and rel.status = 3
                   and rel.assinatura is not null
                   and rel.emissao < new.emissao
+                  and rel.revisao is null
                 order by e.ensaio_recno, rel.emissao desc)
             Loop
                -- Insere na lista de histórico da amostra
@@ -231,15 +232,22 @@ BEGIN
             new.assinatura := vass_p1 || vass_p2 || vass_p3 || vass_p4;
          elsif old.status = 4 then
             raise '[[O laudo % não pode sofrer alterações porque está cancelado.]]', new.recno;
-         elsif old.status in (2, 3) and (new.status < old.status) then
-            new.assinatura := null;
-            new.emissao := null;
-            new.d1 := null;
-            new.d2 := null;
-            new.d3 := null;
-            new.d4 := null;
-            new.d5 := null;
-            new.d6 := null;
+         elsif old.status in (2, 3) and (new.status < old.status) then         
+            -- Gerando revisão do laudo
+            if old.status = 3 then
+               insert into labamostras_rel 
+                  (amostra, relato_recno, codserv, pedido, os, status)
+               values
+                  (old.amostra, old.relato_recno, old.codserv, old.pedido, old.os, 0)
+               returning recno into new.revisao;
+
+               insert into labamostras_res
+                  (relato_recno, ensaio_recno, valord, labinst_recno, labinstcert_recno, ref_tipo, ref_valor, proc)
+               select 
+                   new.revisao,  ensaio_recno, valord, labinst_recno, labinstcert_recno, ref_tipo, ref_valor, proc
+                 from labamostras_res 
+                where relato_recno = old.recno;
+            end if;
 
             if old.status = 2 then
                new.apontado := null;

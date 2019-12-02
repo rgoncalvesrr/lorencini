@@ -38,17 +38,17 @@ BEGIN
          perform sys_flag_mark('tb_orcamentos', recno)
             from tb_orcamentos
           where idcliente = new.codigo
-            and status_ = 1;
+            and status = 1;
 
          update tb_orcamentos
             set idvendedor = new.id_vendedor
           where idcliente = new.codigo
-            and status_ = 1;
+            and status = 1;
 
          perform sys_flag_del('tb_orcamentos', recno)
             from tb_orcamentos
           where idcliente = new.codigo
-            and status_ = 1;
+            and status = 1;
       end if;
    end if;
 

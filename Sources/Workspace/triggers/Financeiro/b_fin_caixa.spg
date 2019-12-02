@@ -9,8 +9,7 @@
 	-------------------------------------------------------------------------------------------------------------------
  */
 Create or Replace Function b_fin_caixa()
-Returns trigger As
-$$
+Returns trigger As $$
 Begin
    -- Checa se o movimento pode ser alterado
    if tg_op = 'INSERT' then
@@ -19,6 +18,8 @@ Begin
          new._tabela := sys_origem('fin_caixa');
          new._recno := new.recno;
       end if;
+
+      new.cobrar := coalesce(new.cobrar, true);
    end if;
 
    if tg_op = 'DELETE' then
@@ -33,11 +34,7 @@ Begin
    if tg_op = 'UPDATE' then
       new.user_u := sys_user();
    end if;
-
-   if tg_op <> 'DELETE' then
-      new.cobrar := new.pedido is null;
-   end if;
-
+   
    return new;
 End;
 $$

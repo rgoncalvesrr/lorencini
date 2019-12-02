@@ -1,0 +1,30 @@
+/**
+   Aprovar item informado da cotação
+
+	@author    Ricardo Gonçalves
+	@date      26/11/2019
+	@trigger
+
+	@param in_recno código da cotação
+	#param in_motivo código do motivo de cancelamento
+
+	Histórico
+	-------------------------------------------------------------------------------------------------------------------
+ */
+Create or Replace Function aprovar_cotacao(
+   in in_tabela varchar,
+   in in_lote integer,
+   in in_recno_item integer)
+Returns void As
+$$
+declare
+   stmt  text;
+begin
+   stmt := format('update %s set lote_aprov = %s where recno = %s', in_tabela, in_lote, in_recno_item);
+
+   perform sys_flag_mark(in_tabela, in_recno_item);
+   execute stmt;
+   perform sys_flag_del(in_tabela, in_recno_item);
+end;
+$$
+language plpgsql;
