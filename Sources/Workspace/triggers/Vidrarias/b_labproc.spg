@@ -16,6 +16,14 @@ CREATE OR REPLACE FUNCTION b_labproc()
   RETURNS trigger AS
 $$
 Declare
+   AGUARDANDO  constant integer := 0;
+   REMESSA     constant integer := 1;
+   VOLUME      constant integer := 2;
+   DESPACHO    constant integer := 3;
+   EXPEDICAO   constant integer := 4;
+   RASTREIO    constant integer := 5;
+
+   
    r           record;
    vfrascos    varchar;
    vseringas   varchar;
@@ -38,7 +46,7 @@ BEGIN
 
       if tg_op = 'INSERT' then
          -- Solicitação de remessa aguardando ação
-         new.situacao := 0;
+         new.situacao := AGUARDANDO;
          new.atualizacao := localtimestamp;
          new.emissao := localtimestamp;
 
@@ -50,7 +58,7 @@ BEGIN
          end if;
       else
          -- Não permite mudanças de quantidade de frascos e seringas quando o sistema passa da etapa de solicitação
-         if new.situacao != 0 and old.situacao != 0 then
+         if new.situacao <> AGUARDANDO and old.situacao <> AGUARDANDO then
             if new.frascos != old.frascos or new.seringas != old.seringas then
                raise '[[Não é permitido alterar a quantidade de frascos e/ou seringas após o início da preperação da remessa %]]', new.recno;
             end if;
@@ -58,7 +66,7 @@ BEGIN
 
          if new.situacao <> old.situacao then
             -- Verificando se foram geradas todas as etiquetas para os frascos e seringas
-            if new.situacao = 2 then
+            if new.situacao = VOLUME then
                select sum(sys_iif(tipo = 1, 1, 0)) as frascos, sum(sys_iif(tipo = 2, 1, 0)) as seringas
                  into r
                  from labprocxequip
@@ -86,7 +94,7 @@ BEGIN
             end if;
 
             -- Verificando se todas as etiquetas para os frascos e seringas estão associadas a um volume
-            if new.situacao = 3 then
+            if new.situacao = DESPACHO then
                if exists(
                   select 1
                     from labprocxequip
@@ -98,7 +106,7 @@ BEGIN
             end if;
 
             -- Verifica se a remessa pode entrar em estado de rastreio
-            if new.situacao = 5 then
+            if new.situacao = RASTREIO then
                if exists(
                   select 1
                     from labvol
@@ -125,7 +133,7 @@ BEGIN
 
       return new;
    else
-      if old.situacao > 0 then
+      if old.situacao > AGUARDANDO then
          raise '[[O processo de remessa de vidraria nº % não pode ser excluído porque passou da digitação]]', old.recno;
       end if;
 

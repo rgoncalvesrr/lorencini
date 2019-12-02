@@ -1,0 +1,62 @@
+/**
+   Processamento das despesas do orca
+
+	@author    Ricardo Gonçalves
+	@date      26/11/2019
+	@trigger   orca_desp A IUD
+
+	Histórico
+	-------------------------------------------------------------------------------------------------------------------
+ */
+Create or Replace Function a_orca_desp()
+Returns trigger As
+$$
+Declare
+   ios         tb_orcamentos.os%type;
+   irecno_orca tb_orcamentos.recno%type;
+   imarkup     tb_orcamentos.markup%type;
+   irecno      orca_desp.recno%type;
+   idespesa    orca_desp.despesa%type;   
+Begin
+   if tg_op <> 'DELETE' then      
+      ios := new.os;
+      irecno := new.recno;
+      idespesa := new.despesa;
+   else
+      ios := old.os;
+      irecno := old.recno;
+      idespesa := old.despesa;
+   end if;
+
+   select recno
+     into irecno_orca
+     from tb_orcamentos
+    where os = ios;
+
+   -- Indica se a despesa deve ser cobrada
+   if tg_op in ('INSERT', 'DELETE') then
+      perform sys_flag_mark('fin_caixa', idespesa);
+      
+      update fin_caixa
+         set os = sys_iif(tg_op = 'DELETE', null, ios)
+       where recno = idespesa;  
+
+      perform sys_flag_del('fin_caixa', idespesa);
+   end if;
+
+   if not sys_flag('orca_desp', irecno) then
+      perform sys_flag_mark('tb_orcamentos', irecno_orca);
+      -- Atualizando markup para orcas em digitação
+      imarkup := calcula_markup(sys_origem('tb_orcamentos'), irecno_orca); 
+
+      update tb_orcamentos
+         set markup = imarkup
+       where recno = irecno_orca;
+
+      perform sys_flag_del('tb_orcamentos', irecno_orca);
+   end if;
+
+   return null;
+End
+$$
+language plpgsql;

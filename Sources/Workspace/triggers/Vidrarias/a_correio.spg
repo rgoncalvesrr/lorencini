@@ -13,6 +13,8 @@ CREATE OR REPLACE FUNCTION a_correio()
   RETURNS trigger AS
 $$
 Declare
+   _REMEMSSA   constant integer := 1;
+
    thistorico  fin_caixa.historico%type;
    fvalor      fin_caixa.valor%type;
    r           record;
@@ -24,7 +26,7 @@ BEGIN
            from labproc p
                 left join labport lp
                   on lp.labproc_recno = p.recno
-                 and lp.operac = 1
+                 and lp.operac = _REMEMSSA
           where correio = new.recno;
 
          thistorico := 'Frete referente ao envio de ';
@@ -52,8 +54,8 @@ BEGIN
 
          if r.nf is not null then
             thistorico := thistorico || chr(13) || chr(10);
-            thistorico := thistorico || 'Remessa ' || to_char(r.recno, 'FM99990') ||
-               '. NF: ' || to_char(r.nf, 'FM999999990') || ' Série: ' || to_char(r.nf_serie, 'FM990');
+            thistorico := thistorico || format('Remessa %s. NF: %s Série: %s', to_char(r.recno, 'FM99990'), 
+               to_char(r.nf, 'FM999999990'), to_char(r.nf_serie, 'FM990'));
          end if;
 
          if old.status = 3 then

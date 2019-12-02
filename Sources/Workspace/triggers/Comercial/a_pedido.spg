@@ -87,9 +87,9 @@ BEGIN
 
          irecno := nextval(('tb_orcamentos_recno_seq'::text)::regclass);
 
-         -- Registra a OS como aprovada status_ = 1
+         -- Registra a OS como aprovada status = 1
          insert into tb_orcamentos (
-            data,            idcliente,       descricao,   os,              status_,
+            data,            idcliente,       descricao,   os,              status,
             type_,           grupo,           item,        pedido,          contato,
             contato_fin,     contato_tec,     recno,       pedidocliente)
          Values (
@@ -178,9 +178,9 @@ BEGIN
          end if;
       elsif old.status = 60 and new.status = 70 then -- Executado
          update tb_orcamentos
-            set status_ = _O_STATUS_FINALIZADO
+            set status = _O_STATUS_FINALIZADO
           where pedido = new.recno
-            and status_ < _O_STATUS_FINALIZADO;
+            and status < _O_STATUS_FINALIZADO;
       elsif old.status in (20, 30, 40) and new.status = 99 then -- cancelamento
          update labproc
             set situacao = 7

@@ -56,7 +56,7 @@ Begin
          raise '[[ERRO ao criar orçamento. %]]', vmsg;
       end if;
 
-      new.status_ := coalesce(new.status_ , 1);
+      new.status := coalesce(new.status , 1);
 
       if new.os is null then
          select coalesce(max(os), 0) + 1
@@ -88,31 +88,17 @@ Begin
    end if;
 
    if tg_op <> 'DELETE' then
-      if new.upd_markup then
-         -- Totaliza as despesas
-         select sum(valor)
-           into new.vlsrvdesp
-           from fin_caixa
-          where codigo = new.idcliente
-            and os = new.os;
-
-         new.vlsrvdesp := coalesce(new.vlsrvdesp * -1, 0);
-
-         new.upd_markup := false;
-         new.markup := calcula_markup(sys_origem('tb_orcamentos'), new.recno);
-      end if;
-
       -- Processa alteração de status
-      if new.status_ = 4 then
+      if new.status = 4 then
          vmsg := 'Faturamento deve ser feito através da tela de faturamento. ';
-      elsif new.status_ = 6 then
+      elsif new.status = 6 then
          vmsg := 'Cancelamento deve ser feito através da tela de cancelamento. ';
       end if;
 
       if tg_op = 'UPDATE' then
          -- Impede que etapas sejam retrocedidas
-         if new.status_ < old.status_ then
-            if (new.status_ = 2 and old.status_ = 3) then
+         if new.status < old.status then
+            if (new.status = 2 and old.status = 3) then
                perform sys_flag_mark('tb_orcamentos', new.recno);
             elsif not sys_flag('tb_orcamentos', new.recno) then
                raise '[[Não é possível retroceder etapas no processo orçamentário.]]';
@@ -120,7 +106,7 @@ Begin
          end if;
 
          -- Checa se o orçamento pode entrar em execução
-         if new.status_ = 2 and not exists(
+         if new.status = 2 and not exists(
                select 1
                  from orca_mat
                 where os = new.os
@@ -138,25 +124,25 @@ Begin
             end if;
          end if;
 
-         if new.status_ <> old.status_ and new.status_ in (4,6) then
+         if new.status <> old.status and new.status in (4,6) then
             -- Checa se o orçamento pode ser aprovado
-            if not sys_flag('tb_orcamentos', new.recno) and (new.status_ <> 1) then
+            if not sys_flag('tb_orcamentos', new.recno) and (new.status <> 1) then
                raise '[[Erro ao gravar orçamento %. %]]', new.idos, vmsg;
             end if;
 
             -- Valida o processo de cancelamento
-            if new.status_ = 6 then
+            if new.status = 6 then
                if new.motivo is null then
                   raise '[[A OS % não pode ser cancelada porque o motivo não foi informado.]]', new.idos;
                end if;
 
-               if old.status_ not in (1, 2, 3) then                  
+               if old.status not in (1, 2, 3) then                  
                   raise '[[Somente OS nos estados "Aprovada", "Executando" ou "Finalizada" pode ser cancelada.]]';
                end if;
             end if;
 
             -- Valida processamento de faturamento
-            if not sys_flag('tb_orcamentos', new.recno) and new.status_ = 4 and old.status_ <> 3 then
+            if not sys_flag('tb_orcamentos', new.recno) and new.status = 4 and old.status <> 3 then
                raise '[[Erro ao gravar orçamento %. Somente OS finalizadas podem ser faturadas.]]', new.idos;
             end if;
 
@@ -174,7 +160,7 @@ Begin
                          (new.vlnfsrv = 0 and new.nf_srv is null);
 
             if (bFaturMat and bFaturSrv) then
-               new.status_ := 4;            
+               new.status := 4;            
             end if;            
          end if;
       end if;

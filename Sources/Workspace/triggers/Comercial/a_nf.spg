@@ -84,11 +84,11 @@ Begin
                perform sys_flag_mark('tb_orcamentos', rNF_Itens.recno);
                if iTipo = 1 then                  
                   update tb_orcamentos
-                     set nf_mat = null, status_ = sys_iif(nf_srv is null, 3, 1)
+                     set nf_mat = null, status = sys_iif(nf_srv is null, 3, 1)
                    where os = rNF_Itens.os;
                else
                   update tb_orcamentos
-                     set nf_srv = null, status_ = sys_iif(nf_mat is null, 3, 1)
+                     set nf_srv = null, status = sys_iif(nf_mat is null, 3, 1)
                    where os = rNF_Itens.os;
                end if;
 

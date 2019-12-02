@@ -16,24 +16,57 @@
 */
 CREATE OR REPLACE FUNCTION fin_caixaVincularOs(
    in in_codigo integer,
-   in in_os integer )
+   in in_os integer,
+   in in_data date)
 RETURNS integer AS
 $$
 Declare
    irows integer;
 BEGIN
-   update fin_caixa
-      set os = in_os, cobrar = false
-    where codigo = in_codigo
-      and titulo is null
-      and pedido is null
-      and os is null
-      and data <= current_date
-      and cobrar;
+   -- Obtem a lista de despesas do pedido
+   insert into orca_desp (os, despesa)   
+   select in_os, pd.despesa
+     from pedido_desp pd
+          join tb_orcamentos o
+            on o.pedido = pd.pedido
+           and o.os = in_os
+    where not exists (
+ 	       select 1
+ 	         from orca_desp od
+ 	        where od.os = in_os
+ 	          and od.despesa = pd.despesa);
+
+   -- Obtem despesas não associadas em etapas anteriores
+   insert into orca_desp (os, despesa)
+   select in_os, f.recno 
+     from fin_caixa f
+    where f.codigo = in_codigo
+      and f.data <= in_data      
+      and f.valor < 0    
+      and f.cobrar
+      and f.titulo is null
+      and f.pedido is null
+      and f.os is null
+      and not exists(
+          select 1
+            from orca_desp d
+           where d.despesa = f.recno
+             and d.os = in_os);
 
    GET DIAGNOSTICS irows = ROW_COUNT;
 
    return irows;
 END;
+$$
+  LANGUAGE 'plpgsql' VOLATILE;
+
+CREATE OR REPLACE FUNCTION fin_caixaVincularOs(
+   in in_codigo integer,
+   in in_os integer )
+RETURNS integer AS
+$$
+begin
+   return fin_caixaVincularOs(in_codigo, in_os, current_date);
+end;
 $$
   LANGUAGE 'plpgsql' VOLATILE;

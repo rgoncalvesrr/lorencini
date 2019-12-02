@@ -51,13 +51,21 @@ Begin
 
    if in_tabela = sys_origem('tb_orcamentos') then
       select a.data emissao, b.mat_bdi vlbdi_mat, mat_comissao comis_mat, b.serv_comissao comis_srv,
-             b.serv_bdi vlbdi_srv, a.grupo cod_grupo, a.os numero_orc, cast(a.vlsrvdesp as numeric(15, 2)) valor_despe,
+             b.serv_bdi vlbdi_srv, a.grupo cod_grupo, a.os numero_orc, cast(a.frete as numeric(15, 2)) valor_despe,
              a.idcliente cliente
         into rCab
         from tb_orcamentos a
              join orca_grupo b
                on a.grupo = b.recno
        where a.recno = in_recno;
+
+      -- Atualizar valor da com despesas em cobrança
+      select coalesce(sum(f.valor), 0)
+        into fvldesp
+        from fin_caixa f
+             join orca_desp d
+               on d.os = rCab.numero_orc
+              and d.despesa = f.recno;
    elsif in_tabela = sys_origem('cota') then
       select cast(a.emissao as date) emissao, b.mat_bdi vlbdi_mat, mat_comissao comis_mat, b.serv_comissao comis_srv,
              b.serv_bdi vlbdi_srv, a.grupo cod_grupo, a.recno numero_orc, cast(a.frete as numeric(15, 2)) valor_despe,
@@ -69,12 +77,12 @@ Begin
        where a.recno = in_recno;
 
       -- Atualizar valor da com despesas em cobrança
-      select sum(valor)      
+      select coalesce(sum(f.valor), 0)
         into fvldesp
-        from fin_caixa
-       where codigo = rCab.cliente
-         and cobrar;
-
+        from fin_caixa f
+             join cota_desp d
+               on d.cotacao = in_recno
+              and d.despesa = f.recno;
    elsif in_tabela = sys_origem('pedido') then
       select cast(coalesce(a.emitido, a.criado) as date) emissao, b.mat_bdi vlbdi_mat, mat_comissao comis_mat, b.serv_comissao comis_srv,
              b.serv_bdi vlbdi_srv, a.grupo cod_grupo, a.recno numero_orc, cast(a.frete as numeric(15, 2)) valor_despe,
@@ -86,10 +94,12 @@ Begin
        where a.recno = in_recno;
       
       -- Despesas financeiras do pedido 
-      select sum(valor)      
+      select coalesce(sum(f.valor), 0)
         into fvldesp
-        from fin_caixa
-       where pedido = in_recno;
+        from fin_caixa f
+             join pedido_desp d
+               on d.pedido = in_recno
+              and d.despesa = f.recno;
    end if;
 
    -- Valor das despesas financeiras
@@ -400,15 +410,15 @@ Begin
       where _tabela = in_tabela
         and _recno = in_recno;
      -- Inclui ou altera um registro na tabela de Markup
-     if out_recno is null then
-         out_recno := nextval(('markup_recno_seq'::text)::regclass);
+     if out_recno is null then         
          insert into markup( _tabela, _recno, bdi_mat, vliqui_mat, vlmat, vlcssl_mat, vlirpj_mat, vlpis_mat, vlcofins_mat, vlicms,
                              vlcom_mat, vlinss_mat, bdi_srv, vliqui_srv, vlmobra, vlcssl_srv, vlirpj_srv, vlpis_srv, vlcofins_srv,
-                             vlsrvvar, vlsrvfixo, vliss, vlcom_srv, vlinss_srv, vimpos_mat, vimpos_srv, vimpos_fix, vldespe, recno )
+                             vlsrvvar, vlsrvfixo, vliss, vlcom_srv, vlinss_srv, vimpos_mat, vimpos_srv, vimpos_fix, vldespe)
                      values( in_tabela, in_recno, rCab.vlbdi_mat, fliqui_mat, fvalor_mat, fvcsll_mat, fvirpj_mat, fvlpis_mat,
                              fvlfin_mat, fvalor_icm, fcomis_mat, fvinss_mat, rCab.vlbdi_srv, fliqui_srv, fvlr_mobra, fvcsll_srv,
                              fvirpj_srv, fvlpis_srv, fvlfin_srv, fvlvar_srv, fvlfix_srv, fvalor_iss, fcomis_srv,
-                             fvinss_srv, fimpos_mat, fimpos_srv, fimpos_fix, rCab.valor_despe, out_recno );
+                             fvinss_srv, fimpos_mat, fimpos_srv, fimpos_fix, rCab.valor_despe)
+         returning recno into out_recno;
      else
          update markup
             set bdi_mat    = rCab.vlbdi_mat, bdi_srv  = rCab.vlbdi_srv, vliqui_mat = fliqui_mat,

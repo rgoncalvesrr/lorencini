@@ -13,15 +13,18 @@ Returns trigger As
 $$
 Declare
    ipedido  pedido.recno%type;
+   irecno   pedido_desp.recno%type;
    imarkup  pedido.markup%type;
 Begin
    if tg_op <> 'DELETE' then
       ipedido := new.pedido;
+      irecno := new.recno;
    else
       ipedido := old.pedido;
+      irecno := old.recno;
    end if;
 
-   if not sys_flag('pedido', ipedido) then
+   if not sys_flag('pedido_mo', irecno) then
       perform sys_flag_mark('pedido', ipedido);
       -- Atualizando markup para pedidos em digitação
       imarkup := calcula_markup(sys_origem('pedido'), ipedido); 
