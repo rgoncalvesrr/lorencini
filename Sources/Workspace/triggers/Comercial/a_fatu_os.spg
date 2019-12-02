@@ -12,12 +12,12 @@
  */
 
 Create or Replace Function a_fatu_os()
-Returns trigger
-As $$
+Returns trigger As 
+$$
 Declare
-   orc            tb_orcamentos%rowtype;
-   istatus_       tb_orcamentos.status_%type;
-   ffaturado      vos.vlsrv%type;
+   orc         tb_orcamentos%rowtype;
+   istatus     tb_orcamentos.status%type;
+   ffaturado   vos.vlsrv%type;
 Begin
    -- Processa faturamento
    if tg_op <> 'DELETE' then
@@ -26,7 +26,7 @@ Begin
         into orc
         from vos
        where os = new.os
-         and status_ = 3;
+         and status = 3;
 
       if orc is null then
          raise '[[Somente orçamentos Finalizados podem ser faturados.]]';
@@ -44,26 +44,26 @@ Begin
          raise '[[O valor aprovado da OS é % e o total faturado é %. Não é possível faturar um valor maior que o valor aprovado para OS.]]', orc.pedvlaprov, ffaturado;
       end if;
 
-      if orc.status_ <> 4 then
+      if orc.status <> 4 then
          -- Gravando faturamento - Pendente
          if ffaturado < orc.vlsrv + orc.vlmat then
-            istatus_ := 1;
+            istatus := 1;
          end if;
 
          -- Gravando faturamento - Faturado
          if ffaturado = (orc.vlsrv + orc.vlmat) then
-            istatus_ = 4;
+            istatus = 4;
          end if;
 
          -- Marcação de faturamento
          perform sys_flag_mark('tb_orcamentos', orc.recno);
 
          update tb_orcamentos
-            set status_ = istatus_
+            set status = istatus
           where os = new.os;
 
          -- Gera título a receber
-         if istatus_ = 4 then
+         if istatus = 4 then
             if new.natureza is null then
                raise  '[[Para faturar é necessário informar a natureza financeira.]]';
             end if;

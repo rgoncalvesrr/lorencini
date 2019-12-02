@@ -21,6 +21,9 @@ Begin
          sys_origem('cota'), new.recno);
 
       perform log('Criação da cotação', 1, sys_origem('cota'), new.recno);
+
+      -- Vincular despesas a cotação
+      perform fin_caixaVincularCotacao(new.cliente, new.recno);
    elsif tg_op = 'UPDATE' then
       if new.status <> old.status then
          case

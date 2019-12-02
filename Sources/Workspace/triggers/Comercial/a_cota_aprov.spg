@@ -28,7 +28,7 @@ Begin
                  and c.item = a.contato 
           where a.recno = new.cotacao;
 
-         if r.status != 4 then
+         if r.status != 4 then            
             raise '[[Não foi possível aprovar a cotação % porque não está em estudo!]]', new.cotacao;
          end if;
 
@@ -36,15 +36,14 @@ Begin
             raise '[[Não foi possível aprovar a cotação % porque está expirada!]]', new.cotacao;
          end if;
 
-         ipedido := nextval('pedido_recno_seq'::regclass);
-
-         -- Registra a OS como aprovada status_ = 1
+         -- Registra a OS como aprovada status = 1
          insert into pedido (
-            recno,   codigo,  grupo, pedido_cliente, contato, contato_fin, contato_tec,
+            codigo,  grupo, pedido_cliente, contato, contato_fin, contato_tec,
             frete,   frascos, seringas, remessa, laboratorio, lote_aprov, solicitante)
          Values (
-            ipedido, r.cliente, r.grupo,  new.pedido_cliente, r.contato, r.contato_fin, r.contato_tec,
-            new.frete,   new.frascos, new.seringas, r.remessa, r.laboratorio, new.recno, r.nome);
+            r.cliente, r.grupo,  new.pedido_cliente, r.contato, r.contato_fin, r.contato_tec,
+            new.frete, new.frascos, new.seringas, r.remessa, r.laboratorio, new.recno, r.nome)
+         returning recno into ipedido;
 
          -- Inserindo materiais
          insert into pedido_mat(
@@ -77,8 +76,9 @@ Begin
           where lote_aprov = new.recno;
 
          -- Despesas do pedido
-         update fin_caixa
-            set pedido = ipedido, cobrar = false
+         insert into pedido_desp (pedido, despesa)
+         select ipedido, despesa
+           from cota_desp
           where lote_aprov = new.recno;  
 
          update cota

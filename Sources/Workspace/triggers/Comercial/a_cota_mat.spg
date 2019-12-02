@@ -1,30 +1,21 @@
 /**
-   Processamento da cotação
+   Processamento do material na cotação
 
 	@author    Ricardo Gonçalves
-	@date      22/12/2016 16:48:09
+	@date      25/11/2019
 	@trigger
 
 	Histórico
 	-------------------------------------------------------------------------------------------------------------------
  */
-Create or Replace Function a_cota_serv()
+Create or Replace Function a_cota_mat()
 Returns trigger As
 $$
-declare
+Declare   
    icotacao cota.recno%type;
    irecno   cota_mat.recno%type;
    imarkup  cota.markup%type;
 Begin
-   if tg_op = 'INSERT' then
-      insert into cota_servdet
-         (cotacao,     servico,     detalhe)
-      select
-          new.cotacao, new.servico, recno
-        from servicos_det
-       where codserv = new.servico;
-   end if;
-
    if tg_op <> 'DELETE' then
       icotacao := new.cotacao;
       irecno := new.recno;
@@ -33,7 +24,7 @@ Begin
       irecno := old.recno;
    end if;
 
-   if not sys_flag('cota_serv', irecno) then
+   if not sys_flag('cota_mat', irecno) then
       perform sys_flag_mark('cota', icotacao);
       -- Atualizando markup para cotacaos em digitação
       imarkup := calcula_markup(sys_origem('cota'), icotacao); 
@@ -45,7 +36,7 @@ Begin
       perform sys_flag_del('cota', icotacao);
    end if;
 
-   return null;
+   return null;   
 End
 $$
 language plpgsql;

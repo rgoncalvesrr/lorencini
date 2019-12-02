@@ -12,7 +12,7 @@
  *				sysflag para in_table_ e in_recno informados
  */
 Create or Replace Function sys_flag_del(
-	in in_table_ varchar(100),
+	in in_table_ varchar,
 	in in_recno integer )
 Returns Boolean
 as

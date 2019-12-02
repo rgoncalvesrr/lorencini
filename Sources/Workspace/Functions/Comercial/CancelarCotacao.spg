@@ -45,7 +45,7 @@ Begin
       end if;
    else -- Verificando ordem de serviço
       update tb_orcamentos
-         set status_ = 6  -- cancelamento da ordem de serviços
+         set status = 6  -- cancelamento da ordem de serviços
        where cotacao = in_recno;
    end if;
 

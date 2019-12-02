@@ -50,13 +50,13 @@ Begin
            from tbclientes
           where codigo = new.codigo;
 
-         select sum(m.vlmat), sum(m.vlsrvfixo+m.vlsrvvar+m.vlmobra+m.vldespe)
+         select sum(m.vlmat), sum(m.vlsrvfixo + m.vlsrvvar + m.vlmobra + m.vldespe)
            into fvlnfmat, fvlnfsrv
            from tb_orcamentos o
                 join markup m
                   on m.recno = o.markup
           where idcliente = new.codigo
-            and status_ = 3;
+            and status = 3;
             
          if not found then
             raise '[[ Cliente % não possui orçamento a faturar.]]', vnome_chave;
