@@ -1,0 +1,21 @@
+/**
+   Calcula markup do pedido informado
+
+  @author    Ricardo Gonçalves
+  @date      02/12/2019
+
+  @param in_pedido número do pedido que será atualizado
+
+  Histórico
+  ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+Create or Replace Function calcula_markup_pedido(
+   in in_pedido integer)
+Returns integer As
+$$
+begin
+   return calcula_markup(sys_origem('pedido'), in_pedido);    
+end
+$$
+language plpgsql;

@@ -36,10 +36,6 @@ Begin
    end if;
 
    if not sys_flag('pedido_serv', irecno) then
-      perform sys_flag_mark('pedido', ipedido);
-      -- Atualizando markup para pedidos em digitação
-      imarkup := calcula_markup(sys_origem('pedido'), ipedido); 
-
       llaboratorio := exists(
          select 1
            from pedido_serv ps
@@ -50,8 +46,10 @@ Begin
                  and sg.laboratorio 
           where ps.pedido = ipedido);
 
+      perform sys_flag_mark('pedido', ipedido);
+
       update pedido
-         set markup = imarkup, laboratorio = llaboratorio
+         set laboratorio = llaboratorio, markup = calcula_markup_pedido(ipedido)
        where recno = ipedido
          and status = 10;  
 
