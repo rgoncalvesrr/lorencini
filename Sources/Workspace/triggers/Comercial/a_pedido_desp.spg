@@ -15,7 +15,6 @@ Declare
    ipedido  pedido.recno%type;
    irecno   pedido_desp.recno%type;
    idespesa pedido_desp.despesa%type;
-   imarkup  pedido.markup%type;
 Begin
    if tg_op <> 'DELETE' then
       ipedido := new.pedido;
@@ -38,17 +37,8 @@ Begin
       perform sys_flag_del('fin_caixa', idespesa);
    end if;
 
-   if not sys_flag('pedido_desp', irecno) then
-      perform sys_flag_mark('pedido', ipedido);
-      -- Atualizando markup para pedidos em digitação
-      imarkup := calcula_markup(sys_origem('pedido'), ipedido); 
-
-      update pedido
-         set markup = imarkup
-       where recno = ipedido
-         and status = 10;  
-
-      perform sys_flag_del('pedido', ipedido);
+   if not sys_flag('pedido_desp', irecno) then   
+      perform atualiza_markup_pedido(ipedido);      
    end if;
 
    return null;

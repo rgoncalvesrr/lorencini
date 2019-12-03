@@ -21,19 +21,20 @@ begin
                on b.session = sys_session()
               and b.recno = a.recno;
 
-   execute 'set session authorization lorencini';
-
    fetch xcur into r;
 
    while FOUND loop
       stmt := sys_parse(r.stmt);
       begin         
-         execute stmt;               
+         execute 'set session authorization lorencini';
+         execute stmt;
+         execute 'set session authorization "' || olduser || '"';         
          error := array_append(error, format('[INFO] Aplicação da rotina %s.', r.fn));
       exception
          when syntax_error_or_access_rule_violation then
             get stacked diagnostics error_msg = MESSAGE_TEXT;
             error := array_append(error, format('[ERRO] Aplicação da rotina %s. Mensagem: %s', r.fn, error_msg));
+            execute 'set session authorization "' || olduser || '"';
             continue;
       end;
 
@@ -62,12 +63,15 @@ begin
       then
          stmt := sys_parse(r.stmt);
          begin
+            execute 'set session authorization lorencini';
             execute stmt;
+            execute 'set session authorization "' || olduser || '"';
             error := array_append(error, format('[INFO] Aplicação da rotina %s.', r.fn));
          exception
             when syntax_error_or_access_rule_violation then
                get stacked diagnostics error_msg = MESSAGE_TEXT;
                error := array_append(error, format('[ERRO] Aplicação da rotina %s. Mensagem: %s', r.fn, error_msg));
+               execute 'set session authorization "' || olduser || '"';
                continue;
          end;
       end if;
@@ -102,12 +106,15 @@ begin
 
       stmt := format('create trigger %s %s %s on %s for each row execute procedure %s();', r.fn, event, action, r.tabela, r.fn);
       begin
+         execute 'set session authorization lorencini';
          execute stmt;
+         execute 'set session authorization "' || olduser || '"';
          error := array_append(error, format('[INFO] Criação do gatilho %s na tabela %s.', r.fn, r.tabela));
       exception
          when syntax_error_or_access_rule_violation then
             get stacked diagnostics error_msg = MESSAGE_TEXT;
             error := array_append(error, format('[ERRO] Criação do gatilho %s na tabela %s. Mensagem: %s', r.fn, r.tabela, error_msg));
+            execute 'set session authorization "' || olduser || '"';
             continue;
       end;
    end loop;

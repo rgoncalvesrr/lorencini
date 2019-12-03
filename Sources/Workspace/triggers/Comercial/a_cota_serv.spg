@@ -14,7 +14,6 @@ $$
 declare
    icotacao cota.recno%type;
    irecno   cota_mat.recno%type;
-   imarkup  cota.markup%type;
 Begin
    if tg_op = 'INSERT' then
       insert into cota_servdet
@@ -34,15 +33,7 @@ Begin
    end if;
 
    if not sys_flag('cota_serv', irecno) then
-      perform sys_flag_mark('cota', icotacao);
-      -- Atualizando markup para cotacaos em digitação
-      imarkup := calcula_markup(sys_origem('cota'), icotacao); 
-      update cota
-         set markup = imarkup
-       where recno = icotacao
-         and status <= 4;  
-
-      perform sys_flag_del('cota', icotacao);
+      perform atualiza_markup_cotacao(icotacao);
    end if;
 
    return null;

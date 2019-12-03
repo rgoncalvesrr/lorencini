@@ -1,0 +1,29 @@
+/**
+   Calcula markup para cotação informada
+
+  @author    Ricardo Gonçalves
+  @date      02/12/2019
+
+  @param in_cotacao número da cotação que será atualizada
+
+  Histórico
+  ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+Create or Replace Function calcula_markup_os(
+   in in_os integer)
+Returns integer As
+$$
+declare
+   irecno   tb_orcamentos.recno%type;
+begin
+   select recno
+     into irecno
+     from tb_orcamentos
+    where os = in_os;
+
+   -- Atualizando markup para cotacaos em digitação
+   return calcula_markup(sys_origem('cota'), irecno); 
+end
+$$
+language plpgsql;

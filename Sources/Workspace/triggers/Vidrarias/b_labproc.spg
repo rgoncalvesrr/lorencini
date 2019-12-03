@@ -97,9 +97,9 @@ BEGIN
             if new.situacao = DESPACHO then
                if exists(
                   select 1
-                    from labprocxequip
-                   where labproc_recno = new.recno
-                     and volume is null)
+                    from labprocxequip pe
+                   where pe.labproc_recno = new.recno
+                     and pe.volume is null)
                then
                   raise '[[Não é possível processar despacho para remessa % porque existem etiquetas sem volume!]]', new.recno;
                end if;

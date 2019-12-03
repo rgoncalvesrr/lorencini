@@ -9,14 +9,11 @@
   out_res        | 0 - Falha / 1 - Sucesso
   ============================================================================*/
 Create or Replace Function a_tb_orcamentos_lucratividade_lorencini()
-Returns trigger
-As
+Returns trigger As
 $$
 Declare
    ios   	   tb_orcamentos.os%type;
    irecno      tb_orcamentos.recno%type;
-   irecno_orca tb_orcamentos.recno%type;
-   imarkup     tb_orcamentos.markup%type;
 Begin
    -- Recupera o código da OS
    if tg_op <> 'DELETE' then
@@ -27,21 +24,8 @@ Begin
       irecno := old.recno;
    end if;
 
-   select recno
-     into irecno_orca
-     from tb_orcamentos
-    where os = ios;
-
    if not sys_flag('tb_orcamentos_lucratividade_lorencini', irecno) then
-      perform sys_flag_mark('tb_orcamentos', irecno_orca);
-      -- Atualizando markup para orcas em digitação
-      imarkup := calcula_markup(sys_origem('tb_orcamentos'), irecno_orca); 
-
-      update tb_orcamentos
-         set markup = imarkup
-       where recno = irecno_orca;
-
-      perform sys_flag_del('tb_orcamentos', irecno_orca);
+      perform atualiza_markup_os(ios);
    end if;
 
    return null;
