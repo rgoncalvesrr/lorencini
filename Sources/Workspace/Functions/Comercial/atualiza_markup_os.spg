@@ -26,7 +26,7 @@ begin
    
    -- Atualizando markup para orcas em digitação
    update tb_orcamentos
-      set markup = calcula_markup_os(in_os);
+      set markup = calcula_markup_os(in_os)
     where recno = irecno;
 
    perform sys_flag_del('tb_orcamentos', irecno);

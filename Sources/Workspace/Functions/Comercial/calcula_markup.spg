@@ -67,7 +67,7 @@ Begin
                on d.os = rCab.numero_orc
               and d.despesa = f.recno;
    elsif in_tabela = sys_origem('cota') then
-      select cast(a.emissao as date) emissao, b.mat_bdi vlbdi_mat, mat_comissao comis_mat, b.serv_comissao comis_srv,
+      select cast(coalesce(a.emissao, current_date) as date) emissao, b.mat_bdi vlbdi_mat, mat_comissao comis_mat, b.serv_comissao comis_srv,
              b.serv_bdi vlbdi_srv, a.grupo cod_grupo, a.recno numero_orc, cast(a.frete as numeric(15, 2)) valor_despe,
              a.cliente
         into rCab
@@ -84,7 +84,7 @@ Begin
                on d.cotacao = in_recno
               and d.despesa = f.recno;
    elsif in_tabela = sys_origem('pedido') then
-      select cast(coalesce(a.emitido, a.criado) as date) emissao, b.mat_bdi vlbdi_mat, mat_comissao comis_mat, b.serv_comissao comis_srv,
+      select cast(coalesce(a.emitido, current_date) as date) emissao, b.mat_bdi vlbdi_mat, mat_comissao comis_mat, b.serv_comissao comis_srv,
              b.serv_bdi vlbdi_srv, a.grupo cod_grupo, a.recno numero_orc, cast(a.frete as numeric(15, 2)) valor_despe,
              a.codigo cliente
         into rCab
@@ -92,7 +92,7 @@ Begin
              join orca_grupo b
                on a.grupo = b.recno
        where a.recno = in_recno;
-      
+
       -- Despesas financeiras do pedido 
       select coalesce(sum(f.valor), 0)
         into fvldesp

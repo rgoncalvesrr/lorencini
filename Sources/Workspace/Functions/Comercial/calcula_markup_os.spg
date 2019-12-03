@@ -21,9 +21,9 @@ begin
      into irecno
      from tb_orcamentos
     where os = in_os;
-
+      
    -- Atualizando markup para cotacaos em digitação
-   return calcula_markup(sys_origem('cota'), irecno); 
+   return calcula_markup(sys_origem('tb_orcamentos'), irecno); 
 end
 $$
 language plpgsql;
