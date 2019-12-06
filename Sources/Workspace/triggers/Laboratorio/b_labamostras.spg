@@ -139,13 +139,6 @@ BEGIN
             raise '[[A amostra % não pode ser gravada porque a tensão não foi informada.]]', new.recno;
          end if;
       end if;
-      
-      -- Retorna todos os laudos relacionados a amostra ao estado de revisão
-      -- if new.estado = 1 and old.estado > 1 then
-      --    update labamostras_rel
-      --       set status = 1
-      --     where amostra = new.recno;
-      -- end if;
    end if;
 
    if tg_op <> 'DELETE' then
