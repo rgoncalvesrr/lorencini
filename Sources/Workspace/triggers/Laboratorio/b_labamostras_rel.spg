@@ -232,7 +232,7 @@ BEGIN
             new.assinatura := vass_p1 || vass_p2 || vass_p3 || vass_p4;
          elsif old.status = 4 then
             raise '[[O laudo % não pode sofrer alterações porque está cancelado.]]', new.recno;
-         elsif old.status in (2, 3) and (new.status < old.status) then         
+         elsif (new.status < old.status) then                     
             -- Gerando revisão do laudo
             if old.status = 3 then
                insert into labamostras_rel 
@@ -241,18 +241,23 @@ BEGIN
                   (old.amostra, old.relato_recno, old.codserv, old.pedido, old.os, 0)
                returning recno into new.revisao;
 
-               insert into labamostras_res
-                  (relato_recno, ensaio_recno, valord, labinst_recno, labinstcert_recno, ref_tipo, ref_valor, proc)
-               select 
-                   new.revisao,  ensaio_recno, valord, labinst_recno, labinstcert_recno, ref_tipo, ref_valor, proc
-                 from labamostras_res 
-                where relato_recno = old.recno;
+               update labamostras_res d
+                  set valord = o.valord, labinst_recno = o.labinst_recno, labinstcert_recno = o.labinstcert_recno, 
+                      ref_tipo = o.ref_tipo, ref_valor = o.ref_valor, proc = o.proc
+                 from labamostras_res o
+                where o.relato_recno = d.relato_recno
+                  and o.ensaio_recno = d.ensaio_recno
+                  and o.laudo = old.recno
+                  and d.laudo = new.revisao;
+
+               -- Laudo cancelado
+               new.status := 4;
             end if;
 
             if old.status = 2 then
                new.apontado := null;
             end if;
-         else
+         else            
             if old.status <> new.status and not sys_flag('labamostras_rel', new.recno) then
                raise '[[As alterações do laudo % devem respeitar as etapas.]]', new.recno;
             end if;
