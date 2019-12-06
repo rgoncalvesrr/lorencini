@@ -49,6 +49,8 @@ declare
    error       text[];
    error_msg   text;
 begin   
+   alter table sys_fn disable trigger a_sys_fn;
+
    update sys_fn 
       set remove = true 
     where status = 2;    
@@ -167,6 +169,8 @@ begin
             continue;
       end;
    end loop;
+   
+   alter table sys_fn enable trigger a_sys_fn;
 
    return array_to_string(error, chr(10));
 end;
