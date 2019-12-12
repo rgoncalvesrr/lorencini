@@ -69,7 +69,8 @@ BEGIN
       -- Tratamento da revisão de laudos
       if old.estado in (_EDISPONIVEL, _EUTILIZADA) and  
          (new.tpamostra_recno <> old.tpamostra_recno or new.toleo <> old.toleo or new.tensao <> old.tensao or 
-          new.coleta <> old.coleta or new.equip_recno <> old.equip_recno)  then
+          new.coleta <> old.coleta or new.equip_recno <> old.equip_recno or new.destinatario <> old.destinatario or
+          new.local <> old.local or new.tamb <> old.tamb or new.cliente <> old.cliente or new.codigo <> old.codigo) then
 
          update labamostras_rel
             set status = _ST_LAUDO_DIGIT
