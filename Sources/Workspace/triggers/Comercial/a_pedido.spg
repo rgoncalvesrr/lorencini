@@ -180,7 +180,16 @@ BEGIN
          update tb_orcamentos
             set status = _O_STATUS_FINALIZADO
           where pedido = new.recno
-            and status < _O_STATUS_FINALIZADO;
+            and status < _O_STATUS_FINALIZADO;            
+         if new.lote_aprov is not null then
+            -- Executando cotação
+            update cota c
+               set status = 6
+              from cota_aprov ca
+             where ca.cotacao = c.recno
+               and ca.recno = new.lote_aprov
+               and c.status < 6;
+         end if;
       elsif old.status in (20, 30, 40) and new.status = 99 then -- cancelamento
          update labproc
             set situacao = 7
