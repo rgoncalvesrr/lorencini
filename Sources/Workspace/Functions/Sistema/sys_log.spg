@@ -23,7 +23,7 @@
 
 */
 CREATE OR REPLACE FUNCTION log(
-   in vlog varchar(100),
+   in vlog varchar,
    in thist text,
    in itable integer,
    in itable_recno integer,
@@ -44,7 +44,7 @@ END;
 $$ LANGUAGE 'plpgsql' VOLATILE;
 
 CREATE OR REPLACE FUNCTION log(
-   in vlog varchar(100),
+   in vlog varchar,
    in thist text,
    in itipo integer)
   RETURNS void AS
@@ -55,7 +55,7 @@ END;
 $$ LANGUAGE 'plpgsql' VOLATILE;
 
 CREATE OR REPLACE FUNCTION log(
-   in vlog varchar(100),
+   in vlog varchar,
    in thist text)
   RETURNS void AS
 $$
@@ -65,7 +65,7 @@ END;
 $$ LANGUAGE 'plpgsql' VOLATILE;
 
 CREATE OR REPLACE FUNCTION log(
-   in vlog varchar(100))
+   in vlog varchar)
   RETURNS void AS
 $$
 BEGIN
@@ -74,7 +74,7 @@ END;
 $$ LANGUAGE 'plpgsql' VOLATILE;
 
 CREATE OR REPLACE FUNCTION log(
-   in vlog varchar(100),
+   in vlog varchar,
    in itipo integer)
   RETURNS void AS
 $$
@@ -84,7 +84,7 @@ END;
 $$ LANGUAGE 'plpgsql' VOLATILE;
 
 CREATE OR REPLACE FUNCTION log(
-   in vlog varchar(100),
+   in vlog varchar,
    in thist text,
    in itipo integer,
    in itable integer,
@@ -97,7 +97,7 @@ END;
 $$ LANGUAGE 'plpgsql' VOLATILE;
 
 CREATE OR REPLACE FUNCTION log(
-   in vlog varchar(100),
+   in vlog varchar,
    in itipo integer,
    in itable integer,
    in itable_recno integer)
