@@ -70,7 +70,7 @@ Begin
             uteis_dias,   uteis_hrs_dias,   uteis_vl_hrs,   sabado_dias,   sabado_hrs_dias,   sabado_vl_hrs,
             domingo_dias, domingo_hrs_dias, domingo_vl_hrs, adic_not_dias, adic_not_hrs_dias, adic_not_vl_hrs,
             total,        new.recno
-           from public.cota_mo
+           from cota_mo
           where lote_aprov = new.recno;
 
          -- Despesas do pedido
