@@ -9,18 +9,17 @@
   				sysflag para in_table_ e in_recno informados
 */
 Create or Replace Function sys_flag(
-	in in_table_ varchar(100),
-	in in_recno integer )
-Returns Boolean
-as
+	in in_table_ varchar,
+	in in_recno integer)
+Returns Boolean as
 $$
-BEGIN
-	return Exists(
+begin
+	return exists(
 		select 1                     
 		  from sys_flag
 	    where session = sys_session()
 	      and table_ = in_table_
 	      and recno = in_recno);
-END;
+end;
 $$
 language plpgsql;
