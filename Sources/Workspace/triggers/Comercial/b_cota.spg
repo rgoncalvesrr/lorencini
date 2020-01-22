@@ -62,6 +62,7 @@ Begin
       -- Coloca a cotação em digitação novamente
       if new.status = old.status and old.status < _SAUTORIZADA then
          new.status := _SDIGITACAO;
+         new.indice := null;
       end if;
 
       -- Validação de mudanças
@@ -126,6 +127,15 @@ Begin
             if erros <> '' then
                erros := format('[[A cotação %s não foi aprovada porquê:', new.recno) || lf || lf || erros || ']]';
                raise '[[%]]', erros;
+            end if;
+
+            if new.indice is null then
+               select recno
+                 into new.indice
+                 from indices
+                where vigencia <= new.emissao
+                order by vigencia desc
+                limit 1;
             end if;
 
             new.markup := calcula_markup(sys_origem('cota'), new.recno);

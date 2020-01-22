@@ -20,7 +20,7 @@ Begin
       -- Geração do pedido
       if new.status = 1 and old.status = 0 then
          select a.cliente, a.coleta, a.status, a.markup,  a.validade, a.grupo, a.contato, a.contato_fin,
-                a.contato_tec, a.remessa, a.laboratorio, c.nome, a.envio, a.correio
+                a.contato_tec, a.remessa, a.laboratorio, c.nome, a.envio, a.correio, a.indice, a.condicaopg
            into r
            from cota a
                 join tbclientes_contatos c
@@ -39,10 +39,11 @@ Begin
          -- Registra a OS como aprovada status = 1
          insert into pedido (
             codigo, grupo, pedido_cliente, contato, contato_fin, contato_tec, frete,   frascos, seringas, remessa, 
-            laboratorio, lote_aprov, solicitante, envio, correio, coleta)
+            laboratorio, lote_aprov, solicitante, envio, correio, coleta, indice, condicaopg)
          Values (
             r.cliente, r.grupo,  new.pedido_cliente, r.contato, r.contato_fin, r.contato_tec, new.frete, new.frascos, 
-            new.seringas, r.remessa, r.laboratorio, new.recno, r.nome, r.envio, r.correio, r.coleta)
+            new.seringas, r.remessa, r.laboratorio, new.recno, r.nome, r.envio, r.correio, r.coleta, r.indice, 
+            r.condicaopg)
          returning recno into ipedido;
 
          -- Inserindo materiais

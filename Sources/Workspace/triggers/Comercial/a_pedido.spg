@@ -89,13 +89,15 @@ BEGIN
 
          -- Registra a OS como aprovada status = 1
          insert into tb_orcamentos (
-            data,            idcliente,       descricao,   os,              status,
-            type_,           grupo,           item,        pedido,          contato,
-            contato_fin,     contato_tec,     recno,       pedidocliente)
+            data,            idcliente,       descricao,   os,                 status,
+            type_,           grupo,           item,        pedido,             contato,
+            contato_fin,     contato_tec,     recno,       pedidocliente,      indice,
+            condicaopg)
          Values (
-            current_date,    new.codigo,      tdescricao,  ios,             sys_iif(new.laboratorio, 1, 3),
-            0,               new.grupo,       98,          new.recno,       new.contato,
-            new.contato_fin, new.contato_tec, irecno,      new.pedido_cliente);
+            current_date,    new.codigo,      tdescricao,  ios,                sys_iif(new.laboratorio, 2, 3),
+            0,               new.grupo,       98,          new.recno,          new.contato,
+            new.contato_fin, new.contato_tec, irecno,      new.pedido_cliente, new.indice,
+            new.condicaopg);
 
          -- Inserindo materiais
          insert into orca_mat
@@ -180,7 +182,8 @@ BEGIN
          update tb_orcamentos
             set status = _O_STATUS_FINALIZADO
           where pedido = new.recno
-            and status < _O_STATUS_FINALIZADO;            
+            and status < _O_STATUS_FINALIZADO;
+
          if new.lote_aprov is not null then
             -- Executando cotação
             update cota c
