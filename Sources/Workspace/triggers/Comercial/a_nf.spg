@@ -11,8 +11,7 @@
 	  [+] Inclusão de suporte a parcelamento do título.
 */
 Create or Replace Function a_nf()
-Returns Trigger
-as
+Returns Trigger as
 $$
 Declare
    rNF_Itens   record;
@@ -67,7 +66,7 @@ Begin
             End Loop;
 
             if vobs <> '' then
-               vobs := 'OS(s) com status alterado para Execução/Pendente: ' || vobs;
+               vobs := 'OS(s) com status alterado para Finalizado: ' || vobs;
 
                insert into nf_historico (recno_nf, historico)
                     values              (new.recno, substring(vobs, 1, 150));

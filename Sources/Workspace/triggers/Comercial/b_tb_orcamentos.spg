@@ -85,6 +85,14 @@ Begin
           limit 1;
       end if;
 
+      if new.indice is null then
+         select recno
+           into new.indice
+           from indices
+          where vigencia <= new.data
+          order by vigencia desc
+          limit 1;
+      end if;
    end if;
 
    if tg_op <> 'DELETE' then

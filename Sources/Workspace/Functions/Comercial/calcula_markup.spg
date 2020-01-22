@@ -52,7 +52,7 @@ Begin
    if in_tabela = sys_origem('tb_orcamentos') then
       select a.data emissao, b.mat_bdi vlbdi_mat, mat_comissao comis_mat, b.serv_comissao comis_srv,
              b.serv_bdi vlbdi_srv, a.grupo cod_grupo, a.os numero_orc, cast(a.frete as numeric(15, 2)) valor_despe,
-             a.idcliente cliente
+             a.idcliente cliente, a.indice
         into rCab
         from tb_orcamentos a
              join orca_grupo b
@@ -69,7 +69,7 @@ Begin
    elsif in_tabela = sys_origem('cota') then
       select cast(coalesce(a.emissao, current_date) as date) emissao, b.mat_bdi vlbdi_mat, mat_comissao comis_mat, b.serv_comissao comis_srv,
              b.serv_bdi vlbdi_srv, a.grupo cod_grupo, a.recno numero_orc, cast(a.frete as numeric(15, 2)) valor_despe,
-             a.cliente
+             a.cliente, a.indice
         into rCab
         from cota a
              join orca_grupo b
@@ -86,7 +86,7 @@ Begin
    elsif in_tabela = sys_origem('pedido') then
       select cast(coalesce(a.emitido, current_date) as date) emissao, b.mat_bdi vlbdi_mat, mat_comissao comis_mat, b.serv_comissao comis_srv,
              b.serv_bdi vlbdi_srv, a.grupo cod_grupo, a.recno numero_orc, cast(a.frete as numeric(15, 2)) valor_despe,
-             a.codigo cliente
+             a.codigo cliente, a.indice
         into rCab
         from pedido a
              join orca_grupo b
@@ -105,17 +105,28 @@ Begin
    -- Valor das despesas financeiras
    fvldesp := coalesce(fvldesp * -1, 0);
 
+   if rCab.indice is null then
+      select recno
+        into rCab.indice
+        from indices
+       where vigencia <= rCab.emissao
+       order by vigencia desc
+       limit 1;
+   end if;
+
+   if rCab.indice is null then
+      raise '[[Para o cálculo do Markup é necessário que a tabela de índices contenha pelo menos um registro.]]';
+   end if;
+
    -- Obtem as aliquotas com base na data de emissão
    select regime, iss, icms, aliq_mat, pis, cofins, irpj_mat, cssl_mat, inss_mat,
           aliq_srv, pis_srv, cofins_srv, irpj_srv, cssl_srv, inss_srv
      into rIdx
      from indices
-    where vigencia <= rCab.emissao
-    order by vigencia desc
-    limit 1;
+    where recno = rCab.indice;
 
    if not FOUND then
-      raise '[[Para o cálculo do Markup é necessário que a tabela de índices contenha pelo menos um registro.]]';
+      raise '[[Índice % não localizado na rotina de cálculo de markup.]]', rCab.indice;
    end if;
 
    -- Recupera aliquota de ISS do orçamento
