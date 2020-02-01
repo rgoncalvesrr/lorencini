@@ -1,0 +1,35 @@
+/**
+   Atualiza markup para cotação informada
+
+  @author    Ricardo Gonçalves
+  @date      02/12/2019
+
+  @param in_cotacao número da cotação que será atualizada
+
+  Histórico
+  ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+Create or Replace Function atualiza_markup_os(
+   in in_os integer)
+Returns void As
+$$
+declare
+   irecno   tb_orcamentos.recno%type;
+begin
+   select recno
+     into irecno
+     from tb_orcamentos
+    where os = in_os;
+
+   perform sys_flag_mark('tb_orcamentos', irecno);
+   
+   -- Atualizando markup para orcas em digitação
+   update tb_orcamentos
+      set markup = calcula_markup_os(in_os)
+    where recno = irecno;
+
+   perform sys_flag_del('tb_orcamentos', irecno);
+end
+$$
+language plpgsql;

@@ -1,0 +1,21 @@
+/*============================================================================
+  Empresa..: MultCont Informática
+  Descrição: Máscara para números inteiros
+  Autor....: Ricardo Gonçalves
+  Data.....: 21/04/2008 14:27:50
+
+  Parametro       Descrição
+  ---------------------------------------------------------------------------
+  in_integer      Inteiro
+  saída           número formatado
+  ============================================================================*/
+Create or Replace Function msk_001
+(  in_integer integer)
+Returns varchar
+As
+$$
+Begin
+   return trim(to_char(coalesce(in_integer, 0), '999999999990'));
+End
+$$
+language plpgsql;

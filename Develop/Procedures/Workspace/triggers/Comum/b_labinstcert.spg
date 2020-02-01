@@ -1,0 +1,27 @@
+/**
+   Preenche e valida informações de certificado.
+
+	@author    Ricardo Gonçalves
+	@date      09/03/2011 17:43:21
+	@trigger   labinst_cert B IUD
+
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+CREATE OR REPLACE FUNCTION b_labinstcert()
+  RETURNS trigger AS
+$$
+BEGIN
+   if tg_op <> 'DELETE' then
+      if tg_op = 'INSERT' then
+         new.username := sys_user();
+      end if;
+
+      return new;
+   else
+      return old;
+   end if;
+END;
+$$
+  LANGUAGE 'plpgsql' VOLATILE;

@@ -1,0 +1,61 @@
+/**
+   Processamento da cotação
+
+	@author    Ricardo Gonçalves
+	@date      19/12/2016 17:45:04
+	@trigger
+
+	Histórico
+	-------------------------------------------------------------------------------------------------------------------
+ */
+Create or Replace Function a_cota()
+Returns trigger As
+$$
+Declare
+   newStatus   varchar;
+   oldStatus   varchar;
+Begin
+   if tg_op = 'INSERT' then
+      perform cpDocParaDoc(
+         sys_origem('orca_grupo'), new.grupo,
+         sys_origem('cota'), new.recno);
+
+      perform log('Criação da cotação', 1, sys_origem('cota'), new.recno);
+
+      -- Vincular despesas a cotação
+      perform fin_caixaVincularCotacao(new.cliente, new.recno);
+   elsif tg_op = 'UPDATE' then
+      if new.status <> old.status then
+         case
+            when new.status = 1 then newStatus := 'Digitação';
+            when new.status = 2 then newStatus := 'Aguardando Aprovação';
+            when new.status = 3 then newStatus := 'Aprovada';
+            when new.status = 4 then newStatus := 'Em Estudo';
+            when new.status = 5 then newStatus := 'Autorizada';
+            when new.status = 6 then newStatus := 'Executada';
+            when new.status = 7 then newStatus := 'Expirada';
+            when new.status = 8 then newStatus := 'Cancelada';
+         end case;
+
+         case
+            when old.status = 1 then oldStatus := 'Digitação';
+            when old.status = 2 then oldStatus := 'Aguardando Aprovação';
+            when old.status = 3 then oldStatus := 'Aprovada';
+            when old.status = 4 then oldStatus := 'Em Estudo';
+            when old.status = 5 then oldStatus := 'Autorizada';
+            when old.status = 6 then oldStatus := 'Executada';
+            when old.status = 7 then oldStatus := 'Expirada';
+            when old.status = 8 then oldStatus := 'Cancelada';
+         end case;
+
+         perform log('Mudança de status', format('A cotação mudou saiu do status "%s" para "%s"',oldStatus, newStatus),
+            2, sys_origem('cota'), new.recno);
+      end if;
+   else
+      perform log('Exclusão da cotação', 3, sys_origem('cota'), old.recno);
+   end if;
+
+   return null;
+End
+$$
+language plpgsql;

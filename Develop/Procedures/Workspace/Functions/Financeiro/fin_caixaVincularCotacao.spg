@@ -1,0 +1,60 @@
+/**
+   Vincula lançamentos em aberto com a cotação informada
+
+	@author    Ricardo Gonçalves
+	@date      22/11/2019
+	@trigger
+
+	@param in_codigo código do cliente
+	@param in_cotacao código da cotação para vinculação das despesas
+
+	@return quantidade de despesas vinculadas a cotação
+
+   Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+CREATE OR REPLACE FUNCTION fin_caixaVincularCotacao(
+   in in_codigo integer,
+   in in_cotacao integer,
+   in in_data date)
+RETURNS integer AS
+$$
+Declare
+   irows integer;
+BEGIN
+   -- Inserindo despesas em aberto na cotação
+   insert into cota_desp 
+      (cotacao, despesa)
+   select in_cotacao, f.recno 
+     from fin_caixa f
+    where f.codigo = in_codigo
+      and f.data <= in_data
+      and f.cobrar      
+      and f.valor < 0
+      and f.titulo is null
+      and f.pedido is null      
+      and f.os is null
+      and not exists(
+          select 1
+            from cota_desp d
+           where d.despesa = f.recno
+             and d.cotacao = in_cotacao);
+
+   GET DIAGNOSTICS irows = ROW_COUNT;
+
+   return irows;
+END;
+$$
+  LANGUAGE 'plpgsql' VOLATILE;
+
+CREATE OR REPLACE FUNCTION fin_caixaVincularCotacao(
+   in in_codigo integer,
+   in in_cotacao integer)
+RETURNS integer AS
+$$
+BEGIN
+   return fin_caixaVincularCotacao(in_codigo, in_cotacao, current_date);
+END;
+$$
+  LANGUAGE 'plpgsql' VOLATILE;

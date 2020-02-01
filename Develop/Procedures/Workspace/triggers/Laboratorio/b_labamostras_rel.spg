@@ -1,0 +1,275 @@
+/**
+   Valida o processamento dos laudos
+
+	@author    Ricardo Gonçalves
+	@date      06/04/2011 21:56:54
+	@trigger   labamostras_rel B IUD
+
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+   15/08/2011 19:01:13  v2    Ricardo Gonçalves.
+      [+] Geração da assinatura digital.
+
+   08/09/2011 22:44:33  v3    Ricardo Gonçalves.
+      [+] Preenchimento do código de serviços.
+
+   04/10/2011 16:12:26  v4    Ricardo Gonçalves.
+      [+] Checagem de preenchimento das referências no encerramento do relatório.
+   
+   08/12/2011 19:29:36  v5    Ricardo Gonçalves.
+      [*] Tratamento do retrocesso de etapa do laudo.
+   
+   25/01/2012 14:25:02  v6    Ricardo Gonçalves.
+      [-] Os históricos de ensaios não estavam sendo gerados corretamente por conta da ordenação do conteúdo base dos
+         históricos.
+   20/05/2016 01:21:03  v7    Ricardo Gonçalves.
+      [+] Registro da data de apontamento dos resultados dos ensaios.
+*/
+CREATE OR REPLACE FUNCTION b_labamostras_rel()
+  RETURNS trigger AS
+$$
+Declare
+   re       record;
+   r        record;
+   rh       record;
+   icol     integer;
+   iensaio  labamostras_res.ensaio_recno%type;
+
+   -- Variáveis que guardam a assinatura digital
+   vass_p1  varchar(32);
+   vass_p2  varchar(32);
+   vass_p3  varchar(32);
+   vass_p4  varchar(32);
+   mErro    text;
+BEGIN
+   if tg_op <> 'DELETE' then
+      select equip_recno
+        into r
+        from labamostras
+       where recno = new.amostra;
+
+      if new.baixado then
+         raise '[[O laudo % não pode sofrer alterações porque baixado pelo cliente via internet.]]', new.recno;
+      end if;
+      
+      -- Trata inserção
+      if tg_op = 'INSERT' then
+         new.status := 0;
+         new.criacao := localtimestamp;
+
+         -- Obtem informações do laudo
+         select codserv, descri, ativo
+           into rh
+           from labrel
+          where recno = new.relato_recno;
+
+         if not rh.ativo then
+            raise '[[O tipo de laudo % - % não está ativo. Verifique!]]', new.relato_recno, rh.descri;
+         end if;
+
+         if rh.codserv is null then
+            raise '[[O tipo de laudo % - % não possui serviço associado para cobrança. Verifique!]]', new.relato_recno, rh.descri;
+         end if;
+
+         new.codserv := rh.codserv;
+      else
+         -- Alteração do tipo de laudo, remove ensaios inválidos
+         if new.relato_recno <> old.relato_recno then
+            perform sys_flag_mark('labamostras_res', recno)
+               from labamostras_res res
+              where res.laudo = new.recno
+                and not exists(
+                    select 1
+                      from labrel_ens er
+                     where er.relato_recno = new.relato_recno
+                       and er.ensaio_recno = res.ensaio_recno);
+
+            delete 
+              from labamostras_res
+             where recno in ( 
+                   select res.recno 
+                     from labamostras_res res
+                    where res.laudo = new.recno
+                      and not exists(
+                          select 1
+                            from labrel_ens er
+                           where er.relato_recno = new.relato_recno
+                             and er.ensaio_recno = res.ensaio_recno));
+         end if;
+
+         if old.status = 0 and new.status = 1 then -- Digitação para encerrado
+            if not exists(
+               select 1
+                 from labamostras_hist
+                where amostra = new.amostra
+                  and estado = 50)
+            then
+               raise '[[O laudo % não pode receber apontamento de resultados porque a amostras % não foi revisada]]', new.recno, new.amostra;
+            end if;
+
+            return new;
+         elsif old.status = 1 and new.status = 2 then -- Digitação para encerrado
+            if not exists(
+               select 1
+                 from labamostras_res
+                where laudo = new.recno
+                  and relato_recno = new.relato_recno)
+            then
+               raise '[[O laudo não pode ser encerrado porque não há ensaios para o laudo]]';
+            end if;
+            
+            mErro := '';
+
+            -- Checa se a referências dos ensaios estão corretas
+            for re in (
+               select e.recno, e.nome
+                 from labamostras_res rens
+                      join labens e
+                        on e.recno = rens.ensaio_recno
+                       and e.reftipo <> 1
+                where rens.laudo = new.recno
+                 and rens.relato_recno = new.relato_recno
+                 and coalesce(rens.ref_valor, 0) = 0)
+            Loop
+               mErro := mErro || re.recno || ' - ' || re.nome || '. ' || chr(13) || chr(10);
+            End Loop;
+
+            -- Verifica se há referências sem preenchimento
+            if mErro <> '' then
+               raise '[[Os ensaios abaixo estão sem referência. %]]', mErro;
+            end if;
+
+            new.apontado := localtimestamp;
+         elsif old.status = 2 and new.status = 3 then -- Assinatura do Laudo
+            -- Verifica o codigo
+            if new.idcodigo is null then
+               raise '[[Para assinar um laudo é necessário que o código do engenheiro seja informado.]]';
+            end if;
+
+            new.emissao := localtimestamp;            
+            iensaio := -1;
+
+            -- Gera histórico para amostra atual
+            for rh in (
+               select e.relato_recno, e.ensaio_recno, rel.emissao, e.valor, rel.recno
+                 from labamostras_rel rel
+                      join labamostras a
+                        on a.recno = rel.amostra
+                       and a.equip_recno = r.equip_recno
+                      join labamostras_res e
+                        on e.laudo = rel.recno
+                       and e.relato_recno = rel.relato_recno
+                where rel.recno <> new.recno
+                  and rel.relato_recno = new.relato_recno
+                  and rel.status = 3
+                  and rel.assinatura is not null
+                  and rel.emissao < new.emissao
+                  and rel.revisao is null
+                order by e.ensaio_recno, rel.emissao desc)
+            Loop
+               -- Insere na lista de histórico da amostra
+               insert into labamostras_hres (relato_recno, ensaio_recno, laudo, laudo_dep)
+                    values                  (rh.relato_recno, rh.ensaio_recno, new.recno, rh.recno);
+
+               if rh.ensaio_recno <> iensaio then
+                  iensaio := rh.ensaio_recno;
+                  icol := 1;
+               end if;
+
+               if icol = 1 then
+                  new.d1 := rh.emissao;
+                  update labamostras_res
+                     set v1 = rh.valor
+                   where laudo = new.recno
+                     and relato_recno = new.relato_recno
+                     and ensaio_recno = rh.ensaio_recno;
+               elsif icol = 2 then
+                  new.d2 := rh.emissao;
+                  update labamostras_res
+                     set v2 = rh.valor
+                   where laudo = new.recno
+                     and relato_recno = new.relato_recno
+                     and ensaio_recno = rh.ensaio_recno;
+               elsif icol = 3 then
+                  new.d3 := rh.emissao;
+                  update labamostras_res
+                     set v3 = rh.valor
+                   where laudo = new.recno
+                     and relato_recno = new.relato_recno
+                     and ensaio_recno = rh.ensaio_recno;
+               elsif icol = 4 then
+                  new.d4 := rh.emissao;
+                  update labamostras_res
+                     set v4 = rh.valor
+                   where laudo = new.recno
+                     and relato_recno = new.relato_recno
+                     and ensaio_recno = rh.ensaio_recno;
+               elsif icol = 5 then
+                  new.d5 := rh.emissao;
+                  update labamostras_res
+                     set v5 = rh.valor
+                   where laudo = new.recno
+                     and relato_recno = new.relato_recno
+                     and ensaio_recno = rh.ensaio_recno;
+               elsif icol = 6 then
+                  new.d6 := rh.emissao;
+                  update labamostras_res
+                     set v6 = rh.valor
+                   where laudo = new.recno
+                     and relato_recno = new.relato_recno
+                     and ensaio_recno = rh.ensaio_recno;
+               end if;
+
+               icol := icol + 1;
+            End Loop;
+
+            vass_p1 := md5(trim(to_char(new.idcodigo, '000')));
+            vass_p2 := md5(to_char(new.emissao, 'DDMMYYYYHH24MISS'));
+            vass_p3 := md5(to_char(new.criacao, 'DDMMYYYYHH24MISS'));
+            vass_p4 := md5(new.diagnostico);
+
+            new.assinatura := vass_p1 || vass_p2 || vass_p3 || vass_p4;
+         elsif old.status = 4 then
+            raise '[[O laudo % não pode sofrer alterações porque está cancelado.]]', new.recno;
+         elsif (new.status < old.status) then                     
+            -- Gerando revisão do laudo
+            if old.status = 3 then
+               insert into labamostras_rel 
+                  (amostra, relato_recno, codserv, pedido, os, status)
+               values
+                  (old.amostra, old.relato_recno, old.codserv, old.pedido, old.os, 0)
+               returning recno into new.revisao;
+
+               update labamostras_res d
+                  set valord = o.valord, labinst_recno = o.labinst_recno, labinstcert_recno = o.labinstcert_recno, 
+                      ref_tipo = o.ref_tipo, ref_valor = o.ref_valor, proc = o.proc
+                 from labamostras_res o
+                where o.relato_recno = d.relato_recno
+                  and o.ensaio_recno = d.ensaio_recno
+                  and o.laudo = old.recno
+                  and d.laudo = new.revisao;
+
+               -- Laudo cancelado
+               new.status := 4;
+            end if;
+
+            if old.status = 2 then
+               new.apontado := null;
+            end if;
+         else            
+            if old.status <> new.status and not sys_flag('labamostras_rel', new.recno) then
+               raise '[[As alterações do laudo % devem respeitar as etapas.]]', new.recno;
+            end if;
+         end if;
+      end if;
+
+      return new;
+   else
+      perform sys_flag_mark('labamostras_rel', old.recno);
+
+      return old;
+   end if;
+END;
+$$
+  LANGUAGE 'plpgsql' VOLATILE;

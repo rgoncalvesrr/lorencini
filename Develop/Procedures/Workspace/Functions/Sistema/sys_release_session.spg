@@ -1,0 +1,27 @@
+/**
+   Libera a sessão ativa do sistema
+
+	@author    Ricardo Gonçalves
+	@date      20/07/2017 21:34
+	@trigger	
+   
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso   
+*/
+create or replace function sys_release_session()
+returns void as
+$$
+declare
+   csessao  varchar;
+begin   
+   csessao := sys_session();
+   
+   delete
+     from sys_session
+    where session = csessao;
+      
+   execute format('set session authorization "postgres"');
+end;
+$$
+language plpgsql;   

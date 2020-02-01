@@ -1,0 +1,25 @@
+/**
+	Marca o registro passado como parâmetro para uso em outra rotina
+  	@author 	Ricardo Gonçalves
+  	@date 	06/08/2008 11:58:45
+  	@param 	in_table_ nome da tabela que contém o registro
+  				marcado
+	@param	in_recno registro da tabela marcado
+  	@return 	nenhum
+*/
+Create or Replace Function sys_flag_mark(
+	in in_table_ varchar,
+	in in_recno integer )
+Returns void
+as
+$$
+BEGIN
+	if not sys_flag(in_table_, in_recno) then
+		insert into sys_flag
+         (session,       table_,    recno)
+		values         
+         (sys_session(), in_table_, in_recno);
+	end if;
+END;
+$$
+language plpgsql;

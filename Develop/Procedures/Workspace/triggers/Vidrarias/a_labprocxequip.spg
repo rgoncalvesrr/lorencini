@@ -1,0 +1,53 @@
+/**
+   Processa inserção de itens no processo de amostras
+
+	@author    Ricardo Gonçalves
+	@date      12/10/2010 19:18:23
+	@trigger   labprocxequip A IUD
+
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+CREATE OR REPLACE FUNCTION a_labprocxequip()
+  RETURNS trigger AS
+$$
+BEGIN
+   if tg_op <> 'DELETE' then
+      if tg_op = 'INSERT' then
+         -- Alterando situação para em separação
+         update labproc
+            set situacao = 1
+          where recno = new.labproc_recno;
+      else
+         if coalesce(new.volume, -1) != coalesce(old.volume, -1) then
+            -- verifica se é um processo de exclusão do volume
+            if not sys_flag('labprocxequip', new.labproc_recno) then
+               update labvol a
+                  set frascos = b.frascos, seringas = b.seringas
+                 from (select a.labproc_recno, a.volume,
+                    	         coalesce(sum(sys_iif(a.tipo = 1, 1, 0)), 0) as frascos,
+                     	      coalesce(sum(sys_iif(a.tipo = 2, 1, 0)), 0) as seringas
+                     	 from labprocxequip a
+                      	where a.labproc_recno = new.labproc_recno
+                      	  and a.volume in (new.volume, old.volume)
+                     	group by a.labproc_recno, a.volume) b
+                where b.labproc_recno = a.labproc_recno
+                  and b.volume = a.volume;
+
+               if not found then
+                  update labvol a
+                     set frascos = 0, seringas = 0
+                   where labproc_recno = new.labproc_recno
+                     and volume = old.volume;
+               end if;
+            end if;
+         end if;
+      end if;
+      return new;
+   else
+      return old;
+   end if;
+END;
+$$
+LANGUAGE 'plpgsql' VOLATILE;

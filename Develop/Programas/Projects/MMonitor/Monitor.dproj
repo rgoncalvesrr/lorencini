@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{a850dcfe-362a-47de-ae96-296c36d9505f}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
+    <DCC_DependencyCheckOutputName>..\..\..\Binarios\Bin\Monitor.exe</DCC_DependencyCheckOutputName>
+    <MainSource>Monitor.dpr</MainSource>
+    <DCC_UsePackage>LMDP;BaseCore</DCC_UsePackage>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Version>7.0</Version>
+    <DCC_DebugInformation>False</DCC_DebugInformation>
+    <DCC_LocalDebugSymbols>False</DCC_LocalDebugSymbols>
+    <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
+    <DCC_Define>RELEASE;PORTUGUESE</DCC_Define>
+    <DCC_ExeOutput>..\..\..\Binarios\Bin</DCC_ExeOutput>
+    <DCC_DcuOutput>..\..\Saida\dcu\Release\Monitor</DCC_DcuOutput>
+    <DCC_ObjOutput>..\..\Saida\dcu\Release\Monitor</DCC_ObjOutput>
+    <DCC_HppOutput>..\..\Saida\dcu\Release\Monitor</DCC_HppOutput>
+    <DCC_DcpOutput>..\..\Saida\DCP\Release</DCC_DcpOutput>
+    <DCC_UnitSearchPath>..\..\Saida\DCP\Release</DCC_UnitSearchPath>
+    <DCC_ResourcePath>..\..\Saida\DCP\Release</DCC_ResourcePath>
+    <DCC_ObjPath>..\..\Saida\DCP\Release</DCC_ObjPath>
+    <DCC_IncludePath>..\..\Saida\DCP\Release</DCC_IncludePath>
+    <DCC_AssertionsAtRuntime>False</DCC_AssertionsAtRuntime>
+    <DCC_Hints>False</DCC_Hints>
+    <DCC_Warnings>False</DCC_Warnings>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <Version>7.0</Version>
+    <DCC_Define>DEBUG;PORTUGUESE</DCC_Define>
+    <DCC_ExeOutput>..\..\..\Binarios\BinDev</DCC_ExeOutput>
+    <DCC_DcuOutput>..\..\Saida\DCU\Debug\Monitor</DCC_DcuOutput>
+    <DCC_ObjOutput>..\..\Saida\DCU\Debug\Monitor</DCC_ObjOutput>
+    <DCC_HppOutput>..\..\Saida\DCU\Debug\Monitor</DCC_HppOutput>
+    <DCC_BplOutput>..\..\..\Binarios\Debug</DCC_BplOutput>
+    <DCC_DcpOutput>..\..\Saida\DCP\Debug</DCC_DcpOutput>
+    <DCC_UnitSearchPath>..\..\Saida\DCP\Debug</DCC_UnitSearchPath>
+    <DCC_ResourcePath>..\..\Saida\DCP\Debug</DCC_ResourcePath>
+    <DCC_ObjPath>..\..\Saida\DCP\Debug</DCC_ObjPath>
+    <DCC_IncludePath>..\..\Saida\DCP\Debug</DCC_IncludePath>
+    <DCC_Hints>False</DCC_Hints>
+  </PropertyGroup>
+  <ProjectExtensions>
+    <Borland.Personality>Delphi.Personality</Borland.Personality>
+    <Borland.ProjectType />
+    <BorlandProject>
+<BorlandProject><Delphi.Personality><Parameters><Parameters Name="UseLauncher">False</Parameters><Parameters Name="LoadAllSymbols">True</Parameters><Parameters Name="LoadUnspecifiedSymbols">False</Parameters></Parameters><VersionInfo><VersionInfo Name="IncludeVerInfo">True</VersionInfo><VersionInfo Name="AutoIncBuild">True</VersionInfo><VersionInfo Name="MajorVer">18</VersionInfo><VersionInfo Name="MinorVer">9</VersionInfo><VersionInfo Name="Release">7</VersionInfo><VersionInfo Name="Build">53</VersionInfo><VersionInfo Name="Debug">False</VersionInfo><VersionInfo Name="PreRelease">False</VersionInfo><VersionInfo Name="Special">False</VersionInfo><VersionInfo Name="Private">False</VersionInfo><VersionInfo Name="DLL">False</VersionInfo><VersionInfo Name="Locale">1046</VersionInfo><VersionInfo Name="CodePage">1252</VersionInfo></VersionInfo><VersionInfoKeys><VersionInfoKeys Name="CompanyName">Lorencini Brasil</VersionInfoKeys><VersionInfoKeys Name="FileDescription"></VersionInfoKeys><VersionInfoKeys Name="FileVersion">18.9.7.53</VersionInfoKeys><VersionInfoKeys Name="InternalName"></VersionInfoKeys><VersionInfoKeys Name="LegalCopyright"></VersionInfoKeys><VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys><VersionInfoKeys Name="OriginalFilename"></VersionInfoKeys><VersionInfoKeys Name="ProductName">Manager Monitor</VersionInfoKeys><VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys><VersionInfoKeys Name="Comments"></VersionInfoKeys></VersionInfoKeys><Source><Source Name="MainSource">Monitor.dpr</Source></Source></Delphi.Personality></BorlandProject></BorlandProject>
+  </ProjectExtensions>
+  <Import Project="$(MSBuildBinPath)\Borland.Delphi.Targets" />
+  <ItemGroup>
+    <DelphiCompile Include="Monitor.dpr">
+      <MainSource>MainSource</MainSource>
+    </DelphiCompile>
+    <DCCReference Include="..\..\Fontes\Comum\uFrameData.pas">
+      <Form>FrameData</Form>
+      <DesignClass>TFrame</DesignClass>
+    </DCCReference>
+    <DCCReference Include="..\..\Fontes\Comum\uHelpers.pas" />
+    <DCCReference Include="..\..\Fontes\Comum\uIConnection.pas">
+      <Form>IConnection</Form>
+    </DCCReference>
+    <DCCReference Include="..\..\Fontes\Comum\uIForm.pas">
+      <Form>IForm</Form>
+    </DCCReference>
+    <DCCReference Include="..\..\Fontes\Comum\uIUtils.pas" />
+    <DCCReference Include="..\..\Fontes\Comum\uIWizard.pas">
+      <Form>IWizard</Form>
+    </DCCReference>
+    <DCCReference Include="..\..\Fontes\Comum\uResources.pas">
+      <Form>Resources</Form>
+      <DesignClass>TDataModule</DesignClass>
+    </DCCReference>
+    <DCCReference Include="..\..\Fontes\Manager\Class\uDBLog.pas" />
+    <DCCReference Include="..\..\Fontes\manager\infra\uDM.pas">
+      <Form>DM</Form>
+      <DesignClass>TDataModule</DesignClass>
+    </DCCReference>
+    <DCCReference Include="..\..\Fontes\MMonitor\Remessa.pas" />
+    <DCCReference Include="..\..\Fontes\MMonitor\uFPainel.pas">
+      <Form>FPainel</Form>
+    </DCCReference>
+    <DCCReference Include="..\..\Fontes\MMonitor\uMain.pas">
+      <Form>Main</Form>
+    </DCCReference>
+    <DCCReference Include="..\..\Fontes\Pacotes\CCore\CCore.pas" />
+    <DCCReference Include="..\..\Fontes\Pacotes\CCore\CMsg.pas" />
+  </ItemGroup>
+</Project>

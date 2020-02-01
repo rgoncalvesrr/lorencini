@@ -1,0 +1,132 @@
+/**
+   Gera ou atualiza histórico para ser lido pelo reader
+
+	@author    Ricardo Gonçalves
+	@date      07/03/2012 21:20:29
+	@trigger
+
+	@param irel recno do relatório que deverá ser processado
+
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+CREATE OR REPLACE FUNCTION labamostras_rel_reader(
+   in irel integer)
+  RETURNS void AS
+$$
+Declare
+   r           record;
+   vtabela     labens.tabela%type;
+   vfields     text;
+   vvalues     text;
+   inumeroid   integer;
+BEGIN
+   vtabela := '';
+
+   for r in (
+      select l.recno, l.amostra, l.diagnostico, l.recomendacao, l.obs, l.emissao,
+             lc.descri as crit, a.codigo, a.equip_recno, h.ocorrencia entrada, sys_iif(cl.cnpj = '04824941000109', 'Próprio', 'Terceiro') as origem,
+             'Óleo Isolante' as fluido, re.ensaio_recno, re.valord, re.valor, re.tabela, re.coluna, l.pcoleta,
+             sys_iif(re.tabela = 'tb_relatorio_fisico_quimico', 'Fisico-Quimico', 'Cromatografia') as ensaio, o.idos,
+             a.coleta, a.toleo, a.tamb, a.umidade, a.tag, lc.codigo as criticidade
+        from labamostras_rel l
+             join labamostras a
+               on a.recno = l.amostra
+             left join labamostras_hist h
+               on h.amostra = l.amostra
+              and h.estado = 40 
+             left join tb_orcamentos o
+               on o.os = l.os
+             left join labcrit lc
+               on lc.recno = l.labcrit_recno
+             join tbclientes cl
+               on cl.codigo = a.codigo
+             join labamostras_res re
+               on re.laudo = l.recno
+              and re.relato_recno = l. relato_recno
+              and re.tabela is not null
+       where l.recno = irel
+       order by re.tabela, re.coluna)
+   loop
+      -- Gera amostra e/ou laudo
+      if vtabela <> r.tabela then
+         -- Só verifica a amostra quando o relatório
+         select numeroid
+           into inumeroid
+           from tb_entrada_amostra
+          where amostra = r.amostra;
+
+         if not found then
+            inumeroid := nextval(('public.tb_entrada_amostra_numeroid_seq'::text)::regclass);
+
+            INSERT INTO tb_entrada_amostra(
+               data,      origem,         fluido,           ensaio,
+               clienteid, labequip_recno, amostra,
+               numeroid,  amostragem,     os,               temp_amb,
+               temp_oleo, umidade_rel_ar, tag)
+            values(
+               r.emissao, r.origem,       r.fluido,         r.ensaio,
+               r.codigo,  r.equip_recno,  r.amostra,
+               inumeroid, r.coleta,       r.idos,           r.tamb,
+               r.toleo,   r.umidade,      r.tag);
+         else
+            update tb_entrada_amostra
+               set data = r.emissao, origem = r.origem, fluido = r.fluido, ensaio = r.ensaio,
+                   clienteid = r.codigo, labequip_recno = r.equip_recno, 
+                   amostra = r.amostra, amostragem = r.coleta, os = r.idos,
+                   temp_amb = r.tamb, temp_oleo = r.toleo, umidade_rel_ar = r.umidade, tag = r.tag
+             where numeroid = inumeroid;
+         end if;
+
+         -- Gera relatório físico-químico
+         if r.tabela = 'tb_relatorio_fisico_quimico' then
+            vfields := 'delete from '||r.tabela||' where numeroamostra = '||inumeroid||
+               ' and numerorelatorio = ''' || r.recno || ''';';
+
+            vfields := vfields ||'INSERT INTO tb_relatorio_fisico_quimico( '||
+               'numeroamostra, ensaio, numerorelatorio, datarelatorio, '||
+               'parecer, recomendacao, disponivel, ideng, proxima, criticidade ';
+
+            vvalues := '('||inumeroid||','''||to_char(r.entrada, 'yyyy-mm-dd')||''','||r.recno||','''||
+               to_char(r.emissao,'yyyy-mm-dd')||''','||coalesce(''''||r.diagnostico||'''', 'null')||', '||
+               coalesce(''''||r.recomendacao||'''', 'null')||
+               ', 1, 41, '''||to_char(r.pcoleta, 'yyyy-mm-dd')||''', '||r.criticidade;
+         end if;
+
+         -- Gera relatório cromatográfico
+         if r.tabela = 'tb_relatorio_cromatografia' then
+            vfields := 'delete from '||r.tabela||' where amostra = '||inumeroid||
+               ' and relatorio = ''' || r.recno || ''';';
+
+            vfields := vfields ||'INSERT INTO tb_relatorio_cromatografia('||
+               'amostra, dt_ensaio, relatorio, dt_relatorio, diagnostico, recomendacao, '||
+               'disponivel, ideng, proxima, criticidade ';
+
+            vvalues := '('||inumeroid||','''||to_char(r.entrada, 'yyyy-mm-dd')||''','||r.recno||','''||
+               to_char(r.emissao,'yyyy-mm-dd')||''','||coalesce(''''||r.diagnostico||'''', 'null')||', '||
+               coalesce(''''||r.recomendacao||'''', 'null')||
+               ', 1, 41, '''||to_char(r.pcoleta, 'yyyy-mm-dd')||''', '||r.criticidade;
+         end if;
+
+         vtabela := r.tabela;
+      end if;
+
+      vfields := vfields||','||r.coluna;
+      vvalues := vvalues||','||r.valor::varchar;
+
+      if r.coluna = 'tensaointerfacial' then
+         vfields := vfields||',tensao_lida';
+         vvalues := vvalues||','||r.valord::varchar;
+      end if;
+   end loop;
+
+   vfields := vfields||') ';
+   vvalues := vvalues||');';
+
+   if vfields is not null and vvalues is not null then
+      execute vfields || ' values ' || vvalues;
+   end if;
+END;
+$$
+  LANGUAGE 'plpgsql' VOLATILE;

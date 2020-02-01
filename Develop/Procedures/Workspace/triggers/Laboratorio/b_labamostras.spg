@@ -1,0 +1,152 @@
+/**
+   Pré-processamento do registro da amostra
+
+   @author    Ricardo Gonçalves
+   @date      02/12/2010 13:26:55
+   @trigger   labamostras B IUD
+
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+
+   05/05/2011 17:51:34  v2    Ricardo Gonçalves.
+      [+] Registro do revisor da amostra.
+
+   23/09/2011 13:39:09  v3    Ricardo Gonçalves.
+      [+] Inclusão da checagem da registro
+
+   28/09/2011 16:49:39  v4    Ricardo Gonçalves.
+      [-] Remoção do preenchimento do código final (destinatário do laudo)
+   
+   22/11/2011 14:05:12  v5    Ricardo Gonçalves.
+      [-] Quando o campo de temperatura do óleo estava nulo a checagem de conteúdo contra 0 estava falhando. Foi adicionada
+         chamada a função coalesce.   
+*/
+CREATE OR REPLACE FUNCTION b_labamostras()
+  RETURNS trigger AS
+$$
+Declare
+   _EGERADA       constant integer := 10;
+   _EIMPRESSA     constant integer := 20;
+   _EENVIADA      constant integer := 30;
+   _ERECEBIDA     constant integer := 40;
+   _EDISPONIVEL   constant integer := 50;
+   _EUTILIZADA    constant integer := 60;
+   _ECANCELADA    constant integer := 70;
+
+   _ST_LAUDO_DIGIT   constant integer := 0;
+   _ST_LAUDO_APONT   constant integer := 1;
+   _ST_LAUDO_ENCER   constant integer := 2;
+   _ST_LAUDO_ASSIN   constant integer := 3;
+   _ST_LAUDO_CANCE   constant integer := 4;
+
+   rrow        record;
+   vusername   sys_users.username%type;
+BEGIN
+   vusername := sys_user();
+
+   if tg_op <> 'DELETE' then
+      new.saldo := new.qtd - new.consumido - new.descartado;
+      new.comodato := coalesce(new.comodato, new.recno);
+   end if;
+
+   if tg_op = 'INSERT' then
+      -- preenche origem da amostra
+      if new.origem is null then
+         new.origem := sys_origem('labamostras');
+         new.origem_recno := new.recno;                  
+      end if;
+
+      new.estado_data := current_date;
+      new.cliente := coalesce(new.cliente, new.codigo);
+   end if;
+
+   if tg_op = 'UPDATE' then
+      if new.estado <> old.estado then
+         new.estado_data := current_date;
+      end if;
+
+      -- Tratamento da revisão de laudos
+      if old.estado in (_EDISPONIVEL, _EUTILIZADA) and  
+         (new.tpamostra_recno <> old.tpamostra_recno or new.toleo <> old.toleo or new.tensao <> old.tensao or 
+          new.coleta <> old.coleta or new.equip_recno <> old.equip_recno or new.destinatario <> old.destinatario or
+          new.local <> old.local or new.tamb <> old.tamb or new.cliente <> old.cliente or new.codigo <> old.codigo) then
+
+         update labamostras_rel
+            set status = _ST_LAUDO_DIGIT
+          where amostra = new.recno;  
+      end if;
+
+      -- Validação da amostra
+      if new.estado in (_EDISPONIVEL, _EUTILIZADA) then
+         -- Verifica se o tipo e tensão estão preenchidas
+         if new.tpamostra_recno is null then
+            raise '[[A amostra % não pode ser gravada porque o tipo não está definido.]]', new.recno;
+         end if;
+
+         -- Verifica a data de coleta
+         if new.coleta is null then
+            raise '[[A amostra % deve ter a data de coleta preenchida.]]', new.recno;
+         end if;
+
+         -- Valida a temperatura do óleo no ponto de coleta
+         if coalesce(new.toleo, 0) <= 0 then
+            raise '[[A amostra % deve ter temperatura no ponto de coleta maior que zero.]]', new.recno;
+         end if;
+
+         -- Validação e preenchimento da classe de tensão
+         if exists(
+            select 1
+              from labtipo
+             where recno = new.tpamostra_recno
+               and inf_te)
+         then
+            -- Recupera as informações do tipo de equipamento e tensão
+            if new.equip_recno is null then
+               raise '[[O tipo associado a amostra % exige que o equipamento seja informado.]]', new.recno;
+            end if;
+
+            -- Preenche tensão com informação cadastral
+            select tensao
+              into new.tensao
+              from labequip
+             where recno = new.equip_recno;
+
+            -- Associa equipamento ao cliente
+            if not exists(
+               select 1
+                 from labequipxcli
+                where codigo = new.codigo
+                  and equip = new.equip_recno)
+            then
+               -- Cria associação
+               insert into labequipxcli(
+                  codigo, equip, subest, tag, local)
+               values (
+                  new.codigo, new.equip_recno, new.labsubest_recno, new.tag, new.local);
+            else
+               -- Atualiza informações
+               update labequipxcli
+                  set tag = new.tag, local = new.local
+                where codigo = new.codigo
+                  and equip = new.equip_recno;
+            end if;
+         else
+            new.equip_recno := null;
+         end if;
+
+         -- Verifica o preenchimento da tensão
+         if coalesce(new.tensao, 0) = 0 then
+            raise '[[A amostra % não pode ser gravada porque a tensão não foi informada.]]', new.recno;
+         end if;
+      end if;
+   end if;
+
+   if tg_op <> 'DELETE' then
+      return new;
+   else
+      return old;
+   end if;
+END;
+$$
+  LANGUAGE 'plpgsql' VOLATILE;

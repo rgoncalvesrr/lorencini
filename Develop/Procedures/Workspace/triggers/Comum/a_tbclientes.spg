@@ -1,0 +1,62 @@
+/**
+   Cadastra contato principal automaticamente
+
+	@author    Ricardo Gonçalves
+	@date      19/12/2007 11:43:38
+	@trigger   tbclientes A IUD
+
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+Create or Replace Function a_tbclientes()
+Returns trigger
+As
+$$
+BEGIN
+   if tg_op = 'INSERT' then
+      -- Cadastra contato principal
+      if new.contato is not null then
+         insert into tbclientes_contatos
+                    (cliente,         nome,             funcao,             telefone,
+                     celular,         email,            contato_nextel,     contato_nextelcel)
+              values
+                    (new.codigo,      new.contato,      new.contato_func,   new.contato_tel,
+                     new.contato_cel, new.contato_mail, new.contato_nextel, new.contato_nextelcel);
+      end if;
+      
+      -- Cadastra o patrocinador (cliente) como cliente final dos laudos
+      insert into tbclientes_finais
+         (codigo,     cliente, logo)
+      values
+         (new.codigo, new.codigo,   new.logo);
+   end if;
+
+   if tg_op = 'UPDATE' then
+      -- Atualiza os orçamentos em estudo
+      if new.id_vendedor <> old.id_vendedor or old.id_vendedor is null then
+         perform sys_flag_mark('tb_orcamentos', recno)
+            from tb_orcamentos
+          where idcliente = new.codigo
+            and status = 1;
+
+         update tb_orcamentos
+            set idvendedor = new.id_vendedor
+          where idcliente = new.codigo
+            and status = 1;
+
+         perform sys_flag_del('tb_orcamentos', recno)
+            from tb_orcamentos
+          where idcliente = new.codigo
+            and status = 1;
+      end if;
+   end if;
+
+	IF TG_OP = 'DELETE' THEN
+		RETURN old;
+	ELSE
+		RETURN new;
+	END IF;
+END
+$$
+language 'plpgsql';
