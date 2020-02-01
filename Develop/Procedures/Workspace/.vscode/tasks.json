@@ -6,7 +6,7 @@
       {
          "label": "fluent",
          "type": "process",
-         "command": "D:\\Projetos\\Lorencini\\Application\\Bin\\Parser.exe",
+         "command": "D:\\Projetos\\Lorencini\\_Release\\Parser.exe",
          "args": [
             "-h", "127.0.0.1", "-p", "5432", "-U", "postgres", "-P", "postgres.", "-db", "lorencini", "-f", "${file}"
             // "-h", "lorencini.net.br", "-p", "54321", "-U", "postgres", "-P", "C0nc31th0.", "-db", "lorencini", "-f", "${file}"
