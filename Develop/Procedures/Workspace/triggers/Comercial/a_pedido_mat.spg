@@ -1,0 +1,33 @@
+/**
+   Processamento do material do pedido
+
+	@author    Ricardo Gonçalves
+	@date      23/06/2018
+	@trigger   pedido_mat A IUD
+
+	Histórico
+	-------------------------------------------------------------------------------------------------------------------
+ */
+Create or Replace Function a_pedido_mat()
+Returns trigger As
+$$
+Declare
+   ipedido  pedido.recno%type;
+   irecno   pedido_desp.recno%type;
+Begin
+   if tg_op <> 'DELETE' then
+      ipedido := new.pedido;
+      irecno := new.recno;
+   else
+      ipedido := old.pedido;
+      irecno := old.recno;
+   end if;
+
+   if not sys_flag('pedido_mat', irecno) then
+      perform atualiza_markup_pedido(ipedido);
+   end if;
+
+   return null;
+End
+$$
+language plpgsql;

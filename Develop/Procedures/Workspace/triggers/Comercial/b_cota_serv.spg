@@ -1,0 +1,39 @@
+/**
+   Valida inclusão dos serviço na cotação
+
+	@author    Ricardo Gonçalves
+	@date      22/12/2016 18:32:06
+	@trigger   cota_serv B IUD
+
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+CREATE OR REPLACE FUNCTION b_cota_serv()
+  RETURNS trigger AS
+$$
+BEGIN
+   if tg_op <> 'DELETE' then
+      if tg_op = 'INSERT' then
+         -- Valida inclusão do item
+         if not exists(
+            select 1
+              from cota c
+                   join orca_grupo o
+                     on o.recno = c.grupo
+                    and o.reqsrv
+             where c.recno = new.cotacao)
+         then
+            raise '[[O tipo de cotação % não suporta a inclusão de serviços!]]', new.cotacao;
+         end if;
+      end if;
+
+      new.vtotal := new.qtd * new.vvenda;
+
+      return new;
+   else
+      return old;
+   end if;
+END;
+$$
+  LANGUAGE 'plpgsql' VOLATILE;

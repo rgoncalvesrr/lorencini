@@ -1,0 +1,460 @@
+/**
+   Rotina de cálculo do markup para Orçamentos e Cotações
+
+  @author    Jurandy da Silva Costa
+  @date      20/12/2016 11:00:00
+
+  Histórico
+  ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+Create or Replace Function calcula_markup(
+   in in_tabela integer,
+   in in_recno integer,
+   out out_recno integer)
+As
+$$
+Declare
+   xCur        refCursor;
+   rIdx        record;
+   rCab        record;
+   r           record;
+   fvalor_tmp  numeric(15, 2); -- Valor intermediário
+   fliqui_mat  numeric(15, 2); -- Valor liquido do material
+   fvalor_mat  numeric(15, 2); -- Total do material + Impostos
+   fperce_icm  numeric(15, 2); -- Alíquota do ICMS
+   fvalor_icm  numeric(15, 2); -- Valor do ICMS
+   fvirpj_mat  numeric(15, 2); -- Valor do IRPJ sobre materiais
+   fvcsll_mat  numeric(15, 2); -- Valor do CSLL sobre materiais
+   fvinss_mat  numeric(15, 2); -- Valor do INSS sobre materiais
+   fvlpis_mat  numeric(15, 2); -- Valor do PIS sobre materiais
+   fvlfin_mat  numeric(15, 2); -- Valor do COFINS sobre materiais
+   fcomis_mat  numeric(15, 2); -- Valor da Comissão sobre materiais
+   fliqui_srv  numeric(15, 2); -- Valor liquido do serviço
+   fvlr_mobra  numeric(15, 2); -- Valor da mão de obra
+   fvlvar_srv  numeric(15, 2); -- Valor do serviço variável
+   fvlfix_srv  numeric(15, 2); -- Valor do serviço fixo
+   fvlrnf_srv  numeric(15, 2); -- Valor da nota de serviço
+   fvalor_iss  numeric(15, 2); -- Valor do ISS
+   fvirpj_srv  numeric(15, 2); -- Valor do IRPJ sobre serviços
+   fvcsll_srv  numeric(15, 2); -- Valor do CSLL sobre serviços
+   fvinss_srv  numeric(15, 2); -- Valor do INSS sobre serviços
+   fvlpis_srv  numeric(15, 2); -- Valor do PIS sobre serviços
+   fvlfin_srv  numeric(15, 2); -- Valor do COFINS sobre serviços
+   fcomis_srv  numeric(15, 2); -- Valor da Comissão sobre serviços
+   fimpos_mat  numeric(15, 2); -- Valor total dos impostos sobre material
+   fimpos_srv  numeric(15, 2); -- Valor total dos impostos sobre serviços
+   fimpos_fix  numeric(15, 2); -- Valor dos impostos sobre serviços fixos
+   fvldesp     numeric(15, 2); -- Valor de despesas financeiras em aberto
+Begin
+   fvldesp := 0;
+
+   if in_tabela = sys_origem('tb_orcamentos') then
+      select a.data emissao, b.mat_bdi vlbdi_mat, mat_comissao comis_mat, b.serv_comissao comis_srv,
+             b.serv_bdi vlbdi_srv, a.grupo cod_grupo, a.os numero_orc, cast(a.frete as numeric(15, 2)) valor_despe,
+             a.idcliente cliente, a.indice
+        into rCab
+        from tb_orcamentos a
+             join orca_grupo b
+               on a.grupo = b.recno
+       where a.recno = in_recno;
+
+      -- Atualizar valor da com despesas em cobrança
+      select coalesce(sum(f.valor), 0)
+        into fvldesp
+        from fin_caixa f
+             join orca_desp d
+               on d.os = rCab.numero_orc
+              and d.despesa = f.recno;
+   elsif in_tabela = sys_origem('cota') then
+      select cast(coalesce(a.emissao, current_date) as date) emissao, b.mat_bdi vlbdi_mat, mat_comissao comis_mat, b.serv_comissao comis_srv,
+             b.serv_bdi vlbdi_srv, a.grupo cod_grupo, a.recno numero_orc, cast(a.frete as numeric(15, 2)) valor_despe,
+             a.cliente, a.indice
+        into rCab
+        from cota a
+             join orca_grupo b
+               on a.grupo = b.recno
+       where a.recno = in_recno;
+
+      -- Atualizar valor da com despesas em cobrança
+      select coalesce(sum(f.valor), 0)
+        into fvldesp
+        from fin_caixa f
+             join cota_desp d
+               on d.cotacao = in_recno
+              and d.despesa = f.recno;
+   elsif in_tabela = sys_origem('pedido') then
+      select cast(coalesce(a.emitido, current_date) as date) emissao, b.mat_bdi vlbdi_mat, mat_comissao comis_mat, b.serv_comissao comis_srv,
+             b.serv_bdi vlbdi_srv, a.grupo cod_grupo, a.recno numero_orc, cast(a.frete as numeric(15, 2)) valor_despe,
+             a.codigo cliente, a.indice
+        into rCab
+        from pedido a
+             join orca_grupo b
+               on a.grupo = b.recno
+       where a.recno = in_recno;
+
+      -- Despesas financeiras do pedido 
+      select coalesce(sum(f.valor), 0)
+        into fvldesp
+        from fin_caixa f
+             join pedido_desp d
+               on d.pedido = in_recno
+              and d.despesa = f.recno;
+   end if;
+
+   -- Valor das despesas financeiras
+   fvldesp := coalesce(fvldesp * -1, 0);
+
+   if rCab.indice is null then
+      select recno
+        into rCab.indice
+        from indices
+       where vigencia <= rCab.emissao
+       order by vigencia desc
+       limit 1;
+   end if;
+
+   if rCab.indice is null then
+      raise '[[Para o cálculo do Markup é necessário que a tabela de índices contenha pelo menos um registro.]]';
+   end if;
+
+   -- Obtem as aliquotas com base na data de emissão
+   select regime, iss, icms, aliq_mat, pis, cofins, irpj_mat, cssl_mat, inss_mat,
+          aliq_srv, pis_srv, cofins_srv, irpj_srv, cssl_srv, inss_srv
+     into rIdx
+     from indices
+    where recno = rCab.indice;
+
+   if not FOUND then
+      raise '[[Índice % não localizado na rotina de cálculo de markup.]]', rCab.indice;
+   end if;
+
+   -- Recupera aliquota de ISS do orçamento
+   -- Regime 1 = Lucro Presumido / 2 = Simples Nacional
+   if rIdx.regime <> 2 then
+      select iss
+       into rIdx.iss
+       from vatividades
+      where item = rCab.cod_grupo;
+   end if;
+
+   rIdx.iss   := coalesce(rIdx.iss, 0);
+   fvalor_mat := 0.00; fliqui_mat := 0.00; fvalor_icm := 0.00; fvirpj_mat := 0.00;
+   fvcsll_mat := 0.00; fvinss_mat := 0.00; fvlpis_mat := 0.00; fvlfin_mat := 0.00;
+   fcomis_mat := 0.00; fliqui_srv := 0.00; fvlr_mobra := 0.00; fvlvar_srv := 0.00;
+   fvlfix_srv := 0.00; fvlrnf_srv := 0.00; fvalor_iss := 0.00; fvirpj_srv := 0.00;
+   fvcsll_srv := 0.00; fvinss_srv := 0.00; fvlpis_srv := 0.00; fvlfin_srv := 0.00;
+   fcomis_srv := 0.00; fimpos_mat := 0.00; fimpos_srv := 0.00; fimpos_fix := 0.00;
+
+   -- Soma todas as aliquotas
+   rIdx.aliq_mat := rIdx.icms + rIdx.pis + rIdx.cofins + rIdx.irpj_mat + rIdx.cssl_mat + rIdx.inss_mat + rCab.comis_mat;
+
+   -- Processa markup de materiais -- =========================================================
+   if in_tabela = sys_origem('tb_orcamentos') then
+      Open xCur for
+         select cast(qtd as qtd_) qtd, cast(unitario as numeric(15, 2)) custo, sys_iif(rIdx.regime = 2, rIdx.icms, coalesce(icms_compra, 0)) picms, recno
+           from orca_mat
+          where os = rCab.numero_orc;
+   elsif in_tabela = sys_origem('cota') then
+      Open xCur for
+         select qtd, cast(unitario as numeric(15, 2)) custo, sys_iif(rIdx.regime = 2, rIdx.icms, coalesce(picms, 0)) picms, recno
+           from cota_mat
+          where cotacao = rCab.numero_orc;
+   elsif in_tabela = sys_origem('pedido') then
+      Open xCur for
+         select qtd, cast(unitario as numeric(15, 2)) custo, sys_iif(rIdx.regime = 2, rIdx.icms, coalesce(picms, 0)) picms, recno
+           from pedido_mat
+          where pedido = rCab.numero_orc;
+   end if;
+
+   fetch xCur into r;
+
+   while found loop
+      fvalor_tmp := r.custo;
+
+      fliqui_mat := fliqui_mat + fvalor_tmp * r.qtd;
+      fvalor_tmp := fvalor_tmp * (1 + rCab.vlbdi_mat / 100);
+      fvalor_tmp := fvalor_tmp / ((100 - rIdx.aliq_mat) / 100);
+
+      -- Atualizando o valor de venda
+      if in_tabela = sys_origem('tb_orcamentos') then
+         perform sys_flag_mark('orca_mat', r.recno);
+         update orca_mat
+            set vl_venda = fvalor_tmp
+          where recno = r.recno;
+         perform sys_flag_del('orca_mat', r.recno);
+      elsif in_tabela = sys_origem('cota') then
+         perform sys_flag_mark('cota_mat', r.recno);
+         update cota_mat
+            set vvenda = fvalor_tmp
+          where recno = r.recno;
+         perform sys_flag_del('cota_mat', r.recno);
+      elsif in_tabela = sys_origem('pedido') then
+         perform sys_flag_mark('pedido_mat', r.recno);
+         update pedido_mat
+            set vvenda = fvalor_tmp
+          where recno = r.recno;
+         perform sys_flag_del('pedido_mat', r.recno);
+      end if;
+
+      fvalor_tmp := cast(fvalor_tmp * r.qtd as numeric(12, 2));
+
+      if rIdx.icms > 0 then
+         fvalor_icm := fvalor_icm + (fvalor_tmp * r.picms / 100);
+      end if;
+
+      if fvalor_tmp > 0 then
+         -- Cálculo de IRPJ
+         if rIdx.irpj_mat > 0 then
+            fvirpj_mat := fvirpj_mat + fvalor_tmp * rIdx.irpj_mat / 100;
+         end if;
+
+         -- Cálculo de Contribuição Social
+         if rIdx.cssl_mat > 0 then
+            fvcsll_mat := fvcsll_mat + fvalor_tmp * rIdx.cssl_mat / 100;
+         end if;
+
+         -- Cálculo de INSS
+         if rIdx.inss_mat > 0 then
+            fvinss_mat := fvinss_mat + fvalor_tmp * rIdx.inss_mat / 100;
+         end if;
+
+         -- Cálculo de PIS
+         if rIdx.pis > 0 then
+            fvlpis_mat := fvlpis_mat + fvalor_tmp * rIdx.pis / 100;
+         end if;
+
+         -- Cálculo de Cofins
+         if rIdx.cofins > 0 then
+            fvlfin_mat := fvlfin_mat + fvalor_tmp * rIdx.cofins / 100;
+         end if;
+
+         -- Calcula comissão sobre vendas
+         if rCab.comis_mat > 0 then
+            fcomis_mat := fcomis_mat + fvalor_tmp * rCab.comis_mat / 100;
+         end if;
+      end if;
+
+      fvalor_mat := fvalor_mat + fvalor_tmp;
+
+      fetch xCur into r;
+   end loop;
+
+   close xcur;
+
+   -- Processa markup de mão-de-obra -- =========================================================
+
+   -- Soma todas as aliquotas de serviço
+   rIdx.aliq_srv := rIdx.iss + rIdx.pis_srv + rIdx.cofins_srv + rIdx.irpj_srv + rIdx.cssl_srv + rIdx.inss_srv + rCab.comis_srv;
+
+   if in_tabela = sys_origem('tb_orcamentos') then
+      open xcur for
+         select cast(unitario as moeda_) custo, qtde qtd, recno
+           from tb_orcamentos_lucratividade_lorencini
+          where os = rCab.numero_orc;
+   elsif in_tabela = sys_origem('cota') then
+      open xcur for
+         select unitario custo, qtd, recno
+           from cota_mo
+          where cotacao = rCab.numero_orc;
+   elsif in_tabela = sys_origem('pedido') then
+      open xcur for
+         select unitario custo, qtd, recno
+           from pedido_mo
+          where pedido = rCab.numero_orc;
+   end if;
+
+   fetch xcur into r;
+
+   while found loop
+      fvalor_tmp := r.custo;
+      fliqui_srv := fliqui_srv + fvalor_tmp * r.qtd;
+
+      fvalor_tmp := fvalor_tmp * (1 + rCab.vlbdi_srv / 100);
+      fvalor_tmp := fvalor_tmp / ((100 - rIdx.aliq_srv) / 100);
+
+      if in_tabela = sys_origem('tb_orcamentos') then
+         perform sys_flag_mark('tb_orcamentos_lucratividade_lorencini', r.recno);
+         update tb_orcamentos_lucratividade_lorencini
+            set vl_venda = fvalor_tmp
+          where recno = r.recno;
+         perform sys_flag_del('tb_orcamentos_lucratividade_lorencini', r.recno);
+      elsif in_tabela = sys_origem('cota') then
+         perform sys_flag_mark('cota_mo', r.recno);
+         update cota_mo
+            set vvenda = fvalor_tmp
+          where recno = r.recno;
+         perform sys_flag_del('cota_mo', r.recno);
+      elsif in_tabela = sys_origem('pedido') then
+         perform sys_flag_mark('pedido_mo', r.recno);
+         update pedido_mo
+            set vvenda = fvalor_tmp
+          where recno = r.recno;
+         perform sys_flag_del('pedido_mo', r.recno);
+      end if;
+
+      fvlr_mobra := fvlr_mobra + fvalor_tmp * r.qtd;
+
+      fetch xcur into r;
+   end loop;
+
+   close xcur;
+
+   -- Processa markup de serviços (naturezas) -- =========================================================
+   if in_tabela = sys_origem('tb_orcamentos') then
+      Open xCur for
+         select cast(a.qtd as qtd_) qtd, cast(a.valor as moeda_) custo, b.tipo, a.recno
+           from servicos_os a
+                join servicos b
+                  on b.codserv = a.codserv
+          where os = rCab.numero_orc;
+   elsif in_tabela = sys_origem('cota') then
+      Open xCur for
+         select cast(a.qtd as qtd_) qtd, cast(a.unitario as moeda_) custo, b.tipo, a.recno
+           from cota_serv a
+                join servicos b
+                  on b.codserv = a.servico
+          where a.cotacao = rCab.numero_orc;
+   elsif in_tabela = sys_origem('pedido') then
+      Open xCur for
+         select cast(a.qtd as qtd_) qtd, cast(a.unitario as moeda_) custo, b.tipo, a.recno
+           from pedido_serv a
+                join servicos b
+                  on b.codserv = a.codserv
+          where a.pedido = rCab.numero_orc;
+   end if;
+
+   fetch xCur into r;
+
+   while Found Loop
+      fvalor_tmp := r.custo;
+
+      -- Processamento do markup
+      if r.tipo = 1 then -- custo variável
+         fliqui_srv := fliqui_srv + fvalor_tmp * r.qtd;
+         fvalor_tmp := fvalor_tmp * (1 + rCab.vlbdi_srv / 100);
+         fvalor_tmp := fvalor_tmp / ((100 - rIdx.aliq_srv) / 100);
+         fvlvar_srv := fvlvar_srv + fvalor_tmp * r.qtd;
+      elsif r.tipo = 2 then -- custo fixo
+         fvlfix_srv := fvlfix_srv + fvalor_tmp * r.qtd;
+      else
+         raise '[[Processamento de markup das naturezas falhou. Tipo de natureza % desconhecido]]', itipo_serv;
+      end if;
+
+      if in_tabela = sys_origem('tb_orcamentos') then
+         perform sys_flag_mark('servicos_os', r.recno);
+         update servicos_os
+            set vl_venda = fvalor_tmp
+          where recno = r.recno;
+         perform sys_flag_del('servicos_os', r.recno);
+      elsif in_tabela = sys_origem('cota') then
+         perform sys_flag_mark('cota_serv', r.recno);
+         update cota_serv
+            set vvenda = fvalor_tmp
+          where recno = r.recno;
+         perform sys_flag_del('cota_serv', r.recno);
+      elsif in_tabela = sys_origem('pedido') then
+         perform sys_flag_mark('pedido_serv', r.recno);
+         update pedido_serv
+            set vvenda = fvalor_tmp
+          where recno = r.recno;
+         perform sys_flag_del('pedido_serv', r.recno);
+      end if;
+
+      fetch xCur into r;
+   end loop;
+
+   close xCur;
+
+   rCab.valor_despe := rCab.valor_despe + fvldesp;
+
+   -- Calcula valores dos impostos sobre serviços não processados acima
+   fvlrnf_srv := fvlvar_srv + fvlfix_srv + fvlr_mobra;
+   fvlrnf_srv := coalesce(fvlrnf_srv, 0) + rCab.valor_despe;
+
+   if fvlrnf_srv > 0 then
+      -- Cálculo de IRPJ
+      if rIdx.irpj_srv > 0 then
+         fvirpj_srv := fvlrnf_srv * rIdx.irpj_srv / 100;
+      end if;
+
+      -- Cálculo de Contribuição Social
+      if rIdx.cssl_srv > 0 then
+         fvcsll_srv := fvlrnf_srv * rIdx.cssl_srv / 100;
+      end if;
+
+      -- Cálculo do ISS
+      if rIdx.iss > 0 then
+         fvalor_iss := fvlrnf_srv * rIdx.iss / 100;
+      end if;
+
+      -- Cálculo de INSS
+      if rIdx.inss_srv > 0 then
+         fvinss_srv := fvlrnf_srv * rIdx.inss_srv / 100;
+      end if;
+
+      -- Cálculo de PIS
+      if rIdx.pis_srv > 0 then
+         fvlpis_srv := fvlrnf_srv * rIdx.pis_srv / 100;
+      end if;
+
+      -- Cálculo de Cofins
+      if rIdx.cofins_srv > 0 then
+         fvlfin_srv := fvlrnf_srv * rIdx.cofins_srv / 100;
+      end if;
+   end if;
+
+     -- Calcula comissão sobre serviços
+     if rCab.comis_srv > 0 then
+        fcomis_srv := round(fvlrnf_srv * rCab.comis_srv / 100, 2);
+     end if;
+
+     -- Totaliza impostos
+     fimpos_mat := fvalor_icm + fvirpj_mat + fvcsll_mat + fvlpis_mat + fvlfin_mat + fvinss_mat;
+     fimpos_srv := fvalor_iss + fvirpj_srv + fvcsll_srv + fvlpis_srv + fvlfin_srv + fvinss_srv;
+     fimpos_fix := round((fvlfix_srv + rCab.valor_despe) * rIdx.aliq_srv / 100, 2);
+
+     -- Recupera o recno da tabela de Markup
+     select recno
+       into out_recno
+       from markup
+      where _tabela = in_tabela
+        and _recno = in_recno;
+     -- Inclui ou altera um registro na tabela de Markup
+     if out_recno is null then         
+         insert into markup( _tabela, _recno, bdi_mat, vliqui_mat, vlmat, vlcssl_mat, vlirpj_mat, vlpis_mat, vlcofins_mat, vlicms,
+                             vlcom_mat, vlinss_mat, bdi_srv, vliqui_srv, vlmobra, vlcssl_srv, vlirpj_srv, vlpis_srv, vlcofins_srv,
+                             vlsrvvar, vlsrvfixo, vliss, vlcom_srv, vlinss_srv, vimpos_mat, vimpos_srv, vimpos_fix, vldespe)
+                     values( in_tabela, in_recno, rCab.vlbdi_mat, fliqui_mat, fvalor_mat, fvcsll_mat, fvirpj_mat, fvlpis_mat,
+                             fvlfin_mat, fvalor_icm, fcomis_mat, fvinss_mat, rCab.vlbdi_srv, fliqui_srv, fvlr_mobra, fvcsll_srv,
+                             fvirpj_srv, fvlpis_srv, fvlfin_srv, fvlvar_srv, fvlfix_srv, fvalor_iss, fcomis_srv,
+                             fvinss_srv, fimpos_mat, fimpos_srv, fimpos_fix, rCab.valor_despe)
+         returning recno into out_recno;
+     else
+         update markup
+            set bdi_mat    = rCab.vlbdi_mat, bdi_srv  = rCab.vlbdi_srv, vliqui_mat = fliqui_mat,
+                vlmat      = fvalor_mat, vlcssl_mat   = fvcsll_mat, vlirpj_mat     = fvirpj_mat,
+                vlpis_mat  = fvlpis_mat, vlcofins_mat = fvlfin_mat, vlicms         = fvalor_icm,
+                vlcom_mat  = fcomis_mat, vlinss_mat   = fvinss_mat, vliqui_srv     = fliqui_srv,
+                vlmobra    = fvlr_mobra, vlcssl_srv   = fvcsll_srv, vlirpj_srv     = fvirpj_srv,
+                vlpis_srv  = fvlpis_srv, vlcofins_srv = fvlfin_srv, vlsrvvar       = fvlvar_srv,
+                vlsrvfixo  = fvlfix_srv, vliss        = fvalor_iss, vlcom_srv      = fcomis_srv,
+                vlinss_srv = fvinss_srv, vimpos_mat   = fimpos_mat, vimpos_srv     = fimpos_srv,
+                vimpos_fix = fimpos_fix, vldespe      = rCab.valor_despe
+          where recno = out_recno;
+     end if;
+End;
+$$ language plpgsql;
+
+Create or Replace Function calcula_markup(in in_recno integer)
+returns integer as
+$$
+begin
+   perform calcula_markup(_tabela, _recno)
+     from markup
+    where recno = in_recno;
+
+   return in_recno;
+end;
+$$
+language 'plpgsql';

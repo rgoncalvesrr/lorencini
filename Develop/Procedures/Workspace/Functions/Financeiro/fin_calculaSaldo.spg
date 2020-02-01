@@ -1,0 +1,96 @@
+/**
+   Calcula o saldo bancário a partir de uma determinada data
+
+	@author    Ricardo Gonçalves
+	@date      02/03/2009 16:23:23
+	@trigger
+
+	Histórico
+	-------------------------------------------------------------------------------------------------------------------
+ */
+Create or Replace Function fin_calculaSaldo(
+   in in_cc varchar(25),
+   in in_datainicial date)
+Returns void As
+$$
+Declare
+   xmovto   RefCursor;
+   rsaldos  cc_saldos%rowtype;
+   rmovto   fin_banco%rowtype;
+   bFound   boolean;
+Begin
+   -- Obtem o saldo anterior
+   select *
+     into rsaldos
+     from cc_saldos a
+          join (select max(recno) as recno
+                  from cc_saldos a
+                 where cc = in_cc
+                   and data < in_datainicial) b
+            on b.recno = a.recno;
+
+   rsaldos.data := null;
+   rsaldos.saldo_anterior := coalesce(rsaldos.saldo, 0);
+   rsaldos.entradas := 0;
+   rsaldos.saidas := 0;
+   rsaldos.saldo := 0;
+
+   -- Exclui saldos não utilizados
+   delete
+     from cc_saldos
+     where cc = in_cc
+       and data >= in_datainicial;
+
+   -- Cria cursor para calcular os saldos
+   Open xmovto For
+      select *
+        from fin_banco
+       where cc = in_cc
+         and data >= in_datainicial
+       order by data;
+
+   Fetch xmovto Into rmovto;
+
+   bFound := Found;
+
+   While bFound Loop
+      -- Atribui a data do primeiro movimento
+      if (rsaldos.data is null) then
+         rsaldos.data := rmovto.data;
+      end if;
+
+      -- Acumula entrada
+      if (rmovto.tipo = 'E') then
+         rsaldos.entradas := rsaldos.entradas + rmovto.valor;
+      end if;
+
+       -- Acumula saída
+      if (rmovto.tipo = 'S') then
+         rsaldos.saidas := rsaldos.saidas + rmovto.valor;
+      end if;
+
+      Fetch xmovto Into rmovto;
+      bFound := Found;
+
+      if (rmovto.data <> rsaldos.data or not bFound) then
+         -- Calculando o saldo
+         rsaldos.saldo := rsaldos.saldo_anterior + rsaldos.entradas - rsaldos.saidas;
+
+         -- Atualiza o saldo
+         insert into cc_saldos
+            (cc, data, saldo_anterior, entradas, saidas, saldo)
+         values
+            (in_cc, rsaldos.data, rsaldos.saldo_anterior, rsaldos.entradas, rsaldos.saidas, rsaldos.saldo);
+
+         -- Prepara a varíavel de linha para a próxima data
+         rsaldos.data := rmovto.data;
+         rsaldos.saldo_anterior := rsaldos.saldo;
+         rsaldos.entradas := 0;
+         rsaldos.saidas := 0;
+      end if;
+   end loop;
+
+   close xmovto;
+End;
+$$
+language plpgsql;

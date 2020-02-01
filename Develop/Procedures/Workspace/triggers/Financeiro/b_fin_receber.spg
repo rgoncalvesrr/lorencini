@@ -1,0 +1,49 @@
+/**
+   Valida o conteúdo dos campos do contas a receber
+
+	@author    Ricardo Gonçalves
+	@date      10/03/2009 20:54:33
+	@trigger   fin_receber BIUD
+
+	Histórico
+	-------------------------------------------------------------------------------------------------------------------
+   05/11/2009 11:34:55  v1.1  Ricardo Gonçalves.
+      [*] Preenchimento automático da data de baixa
+
+   10/11/2009 21:24:46  v1.2  Ricardo Gonçalves.
+      [*] Data da baixa passa ser preenchida com a data de vencimento real.
+
+   23/11/2009 13:56:06  v1.3  Ricardo Gonçalves.
+      [*] Remoção do tratamento de parcelas por documento.
+      
+   12/08/2016 11:34:16  v2    Ricardo Gonçalves
+      [+] Inclusão de ratreamento da origem do lançamento
+ */
+Create or Replace Function b_fin_receber()
+Returns trigger
+As
+$$
+Begin
+   if tg_op = 'DELETE' then
+      perform sys_flag_mark(sys_origem('fin_receber')::varchar, old.recno);
+      delete
+        from fin_caixa
+       where _tabela = sys_origem('fin_receber')
+         and _recno = old.recno;
+      perform sys_flag_del(sys_origem('fin_receber')::varchar, old.recno);
+      return old;
+   else
+      -- Totaliza a parcela
+      new.total := new.valor + coalesce(new.juros,0) + coalesce(new.multa,0) - coalesce(new.descto,0);
+      
+      new.valor_baixado := coalesce(new.valor_baixado, 0);
+
+      if ((new.valor_baixado > 0) and (new.baixa is not null) and (new.cc is null)) then
+         raise exception '[[Para que a baixa possa ser processada a conta corrente deve ser informada.]]';
+      end if;
+
+      return new;
+   end if;
+End;
+$$
+language plpgsql;

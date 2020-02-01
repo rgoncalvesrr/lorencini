@@ -1,0 +1,64 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{05f32f9c-a184-4009-a854-d8f3ceaf4d80}</ProjectGuid>
+  </PropertyGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Projects Include="Manager\Manager.dproj" />
+    <Projects Include="MMonitor\MMonitor.dproj" />
+    <Projects Include="Parser\Parser.dproj" />
+    <Projects Include="Server\LService.dproj" />
+  </ItemGroup>
+  <ProjectExtensions>
+    <Borland.Personality>Default.Personality</Borland.Personality>
+    <Borland.ProjectType />
+    <BorlandProject>
+<BorlandProject xmlns=""><Default.Personality></Default.Personality></BorlandProject></BorlandProject>
+  </ProjectExtensions>
+  <Target Name="Parser">
+    <MSBuild Projects="Parser\Parser.dproj" Targets="" />
+  </Target>
+  <Target Name="Parser:Clean">
+    <MSBuild Projects="Parser\Parser.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="Parser:Make">
+    <MSBuild Projects="Parser\Parser.dproj" Targets="Make" />
+  </Target>
+  <Target Name="Manager">
+    <MSBuild Projects="Manager\Manager.dproj" Targets="" />
+  </Target>
+  <Target Name="Manager:Clean">
+    <MSBuild Projects="Manager\Manager.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="Manager:Make">
+    <MSBuild Projects="Manager\Manager.dproj" Targets="Make" />
+  </Target>
+  <Target Name="MMonitor">
+    <MSBuild Projects="MMonitor\MMonitor.dproj" Targets="" />
+  </Target>
+  <Target Name="MMonitor:Clean">
+    <MSBuild Projects="MMonitor\MMonitor.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="MMonitor:Make">
+    <MSBuild Projects="MMonitor\MMonitor.dproj" Targets="Make" />
+  </Target>
+  <Target Name="LService">
+    <MSBuild Projects="Server\LService.dproj" Targets="" />
+  </Target>
+  <Target Name="LService:Clean">
+    <MSBuild Projects="Server\LService.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="LService:Make">
+    <MSBuild Projects="Server\LService.dproj" Targets="Make" />
+  </Target>
+  <Target Name="Build">
+    <CallTarget Targets="Parser;Manager;MMonitor;LService" />
+  </Target>
+  <Target Name="Clean">
+    <CallTarget Targets="Parser:Clean;Manager:Clean;MMonitor:Clean;LService:Clean" />
+  </Target>
+  <Target Name="Make">
+    <CallTarget Targets="Parser:Make;Manager:Make;MMonitor:Make;LService:Make" />
+  </Target>
+  <Import Condition="Exists('$(MSBuildBinPath)\Borland.Group.Targets')" Project="$(MSBuildBinPath)\Borland.Group.Targets" />
+</Project>

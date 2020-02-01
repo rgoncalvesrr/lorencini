@@ -1,0 +1,23 @@
+/**
+   Copia laudo para revisão
+
+	@author    Ricardo Gonçalves
+	@date      14/10/2017
+	@trigger
+
+	@param in_recno código do laudo
+	
+	Histórico
+	-------------------------------------------------------------------------------------------------------------------
+ */
+Create or Replace Function copiar_laudo(
+   in in_recno integer)
+Returns integer As
+$$
+Begin
+   
+
+   
+End;
+$$
+language plpgsql;

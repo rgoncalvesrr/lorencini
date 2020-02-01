@@ -1,0 +1,33 @@
+/**
+   Processamento dos lançamentos bancários
+
+	@author    Ricardo Gonçalves
+	@date      02/03/2009 17:44:30
+	@trigger   fin_banco AIUD
+
+	Histórico
+	-------------------------------------------------------------------------------------------------------------------
+ */
+Create or Replace Function a_fin_banco()
+Returns trigger
+As
+$$
+Declare
+   vcc      cc.cc%type;
+   ddata    fin_banco.data%type;
+Begin
+   if tg_op = 'DELETE' then
+      vcc := old.cc;
+      ddata:= old.data;
+   else
+      vcc := new.cc;
+      ddata:= new.data;
+   end if;
+
+   -- Atualização do saldo bancário
+   perform fin_calculaSaldo(vcc, ddata);
+
+   return null;
+End;
+$$
+language plpgsql;

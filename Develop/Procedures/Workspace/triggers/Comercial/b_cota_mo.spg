@@ -1,0 +1,82 @@
+/**
+   Processamento da mão-de-obra na cotação
+
+	@author    Ricardo Gonçalves
+	@date      10/11/2016 11:17:15
+	@trigger
+
+	Histórico
+	-------------------------------------------------------------------------------------------------------------------
+ */
+Create or Replace Function b_cota_mo()
+Returns trigger As
+$$
+Declare
+   rfunc    tb_funcoes%rowtype;
+Begin
+   if tg_op <> 'DELETE' then
+      new.uteis_vl_hrs := 0;
+      new.sabado_vl_hrs := 0;
+      new.domingo_vl_hrs := 0;
+      new.adic_not_vl_hrs := 0;
+
+      -- Obtem os parâmetros  para cálculo no cadastro da função
+      select *
+        into rfunc
+        from tb_funcoes
+       where id = new.funcao;
+
+      new.uteis_dias := coalesce(new.uteis_dias, 0);
+      new.uteis_hrs_dias := coalesce(new.uteis_hrs_dias, 0);
+      new.uteis_vl_hrs := coalesce(new.uteis_vl_hrs, 0);
+      new.sabado_dias := coalesce(new.sabado_dias, 0);
+      new.sabado_hrs_dias := coalesce(new.sabado_hrs_dias, 0);
+      new.sabado_vl_hrs := coalesce(new.sabado_vl_hrs, 0);
+      new.domingo_dias := coalesce(new.domingo_dias, 0);
+      new.domingo_hrs_dias := coalesce(new.domingo_hrs_dias, 0);
+      new.domingo_vl_hrs := coalesce(new.domingo_vl_hrs, 0);
+      new.adic_not_dias := coalesce(new.adic_not_dias, 0);
+      new.adic_not_hrs_dias := coalesce(new.adic_not_hrs_dias, 0);
+      new.adic_not_vl_hrs := coalesce(new.adic_not_vl_hrs, 0);
+
+      -- Cálculo do valor da hora normal
+      if new.uteis_dias > 0 then
+         new.uteis_vl_hrs := rfunc.vlr_total_hora_normal;
+      end if;
+
+      -- Cálculo do valor da hora extra 50%
+      if new.sabado_dias > 0 then
+         new.sabado_vl_hrs := rfunc.vlr_total_he_50;
+      end if;
+
+      -- Cálculo do valor da hora extra 100%
+      if new.domingo_dias > 0 then
+         new.domingo_vl_hrs := rfunc.vlr_total_he_100;
+      end if;
+
+      -- Cálculo do valor do adicional noturno
+      if new.adic_not_dias > 0 then
+         new.adic_not_vl_hrs := rfunc.vlr_hr_adic_noturno;
+
+         if rfunc.vlr_hr_adic_noturno > 0 then
+            new.adic_not_vl_hrs := new.adic_not_vl_hrs + rfunc.vlr_hr_adic_noturno * rfunc.projecao_adic_noturno / 100;
+         end if;
+      end if;
+
+      -- Total valor da mão-de-obra
+      new.unitario :=  new.uteis_dias * new.uteis_hrs_dias * new.uteis_vl_hrs +
+         new.sabado_dias * new.sabado_hrs_dias * new.sabado_vl_hrs +
+         new.domingo_dias * new.domingo_hrs_dias * new.domingo_vl_hrs +
+         new.adic_not_dias * new.adic_not_hrs_dias * new.adic_not_vl_hrs;
+
+      new.total := new.qtd * new.vvenda;
+   end if;
+   
+   if tg_op != 'DELETE' then
+      return new;
+   else
+      return old;
+   end if;
+End
+$$
+language plpgsql;

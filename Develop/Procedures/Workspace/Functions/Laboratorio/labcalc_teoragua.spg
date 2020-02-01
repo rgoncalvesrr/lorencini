@@ -1,0 +1,37 @@
+/**
+   Calcula teor de água
+
+	@author    Ricardo Gonçalves
+	@date      06/05/2011 16:29:50
+	@trigger
+
+	@param ensaio Conteúdo do campo "recno" da tabela labamostras_res
+
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+CREATE OR REPLACE FUNCTION labcalc_teoragua(
+   in ensaio integer)
+  RETURNS void AS
+$$
+Declare
+   r  record;
+BEGIN
+   -- Obtem os parâmetros do cálculo
+   select a.toleo
+     into r
+     from labamostras_res e
+          join labamostras_rel rel
+            on rel.recno = e.laudo
+          join labamostras a
+            on a.recno = rel.amostra
+    where e.recno = ensaio;
+
+   -- Atualiza ensaio
+   update labamostras_res
+      set valor = coalesce(round(2.24 * 2.71828182845904 ^ (-0.04 * r.toleo) * valord), 0)
+    where recno = ensaio;
+END;
+$$
+  LANGUAGE 'plpgsql' VOLATILE;

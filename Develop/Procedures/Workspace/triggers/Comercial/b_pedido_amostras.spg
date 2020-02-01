@@ -1,0 +1,54 @@
+/**
+   Preenchimento do valor do serviço executado sobre a amostra
+
+   @author    Ricardo Gonçalves
+   @date      20/11/2017
+   @trigger   pedido_amostras B IUD
+
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+CREATE OR REPLACE FUNCTION b_pedido_amostras()
+  RETURNS trigger AS
+$$
+Declare
+   batu     boolean;
+   icodigo  pedido.codigo%type;
+BEGIN
+   if tg_op = 'DELETE' then
+      return old;
+   end if;
+
+   batu := tg_op = 'INSERT';
+
+   if not batu then
+      batu := new.codserv <> old.codserv;
+   end if;
+
+   if batu then
+      select consumo
+        into new.consumo
+        from servicos
+       where codserv = new.codserv; 
+   end if;
+
+   select codigo
+     into icodigo
+     from pedido
+    where recno = new.pedido; 
+
+   -- Verificando se amostra pertence ao cliente do pedido
+   if not exists(
+      select 1
+        from labamostras
+       where recno = new.amostra
+         and codigo = icodigo)
+   then
+      raise '[[A amostra % n�o pertence ao cliente %]]', new.amostra, icodigo;
+   end if;
+
+   return new;
+END;
+$$
+  LANGUAGE 'plpgsql' VOLATILE;

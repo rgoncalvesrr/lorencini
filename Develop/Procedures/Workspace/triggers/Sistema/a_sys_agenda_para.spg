@@ -1,0 +1,56 @@
+/*============================================================================
+  Empresa..: MultCont Informática
+  Descrição: Processa lista de contatos da agenda
+  Autor....: Ricardo Gonçalves
+  Data.....: 22/08/2007 17:56:44
+
+  Parametro       Descrição
+  ---------------------------------------------------------------------------
+  out_res        | 0 - Falha / 1 - Sucesso
+  ============================================================================*/
+create or replace function a_sys_agenda_para()
+returns trigger
+as
+$$
+Declare
+   vowner_     sys_agenda.owner_%type;
+Begin
+
+   if tg_op = 'INSERT' then
+      -- Recupera o nome do proprietário do compromisso
+      select owner_
+        into vowner_
+        from sys_agenda
+       where recno =  new.recno_agenda;
+
+      -- Cria lista de contatos que devem ser notificados do compromisso rescem agendado
+      insert into sys_agenda_ativ (recno_agenda, username)
+         select a.recno_agenda, b.username
+           from sys_agenda_para a
+                join sys_users b
+                  on b.username = a.username
+                 and b.username <> vowner_
+                 and b.type_ = 1
+                left join sys_agenda_ativ c
+                  on c.recno_agenda = a.recno_agenda
+                 and c.username = a.username
+          where a.recno_agenda = new.recno_agenda
+            and c.username is null
+         union
+         select a.recno_agenda, b.username
+           from sys_agenda_para a
+                join sys_groups b
+                  on b.username_grp = a.username
+                 and b.username <> vowner_
+                left join sys_agenda_ativ c
+                  on c.recno_agenda = a.recno_agenda
+                 and c.username = b.username
+          where a.recno_agenda = new.recno_agenda
+            and c.username is null
+          order by 2;
+   end if;
+
+   return null;
+End;
+$$
+language plpgsql;

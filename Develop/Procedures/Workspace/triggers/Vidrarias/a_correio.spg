@@ -1,0 +1,96 @@
+/**
+   Pós processamento de lançamentos de frete (sedex)
+
+	@author    Ricardo Gonçalves
+	@date      30/09/2016 00:58:39
+	@trigger   correio A IUD
+
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+CREATE OR REPLACE FUNCTION a_correio()
+  RETURNS trigger AS
+$$
+Declare
+   _REMEMSSA   constant integer := 1;
+
+   thistorico  fin_caixa.historico%type;
+   fvalor      fin_caixa.valor%type;
+   r           record;
+BEGIN
+   if tg_op = 'UPDATE' then
+      if new.status = 3 and (old.status < 3 or new.correiovalor <> old.correiovalor) then
+         select p.frascos, p.seringas, lp.nf, lp.nf_serie, lp.recno
+           into r
+           from labproc p
+                left join labport lp
+                  on lp.labproc_recno = p.recno
+                 and lp.operac = _REMEMSSA
+          where correio = new.recno;
+
+         thistorico := 'Frete referente ao envio de ';
+         if r.frascos > 0 then
+            thistorico := thistorico || r.frascos || ' frasco';
+
+            if r.frascos > 1 then
+               thistorico := thistorico || 's';
+            end if;
+
+            thistorico := thistorico || ' ';
+
+            if r.seringas > 0 then
+               thistorico := thistorico || 'e ';
+            end if;
+         end if;
+
+         if r.seringas > 0 then
+            thistorico := thistorico || r.seringas || ' seringa';
+
+            if r.seringas > 1 then
+               thistorico := thistorico || 's';
+            end if;
+         end if;
+
+         if r.nf is not null then
+            thistorico := thistorico || chr(13) || chr(10);
+            thistorico := thistorico || format('Remessa %s. NF: %s Série: %s', to_char(r.recno, 'FM99990'), 
+               to_char(r.nf, 'FM999999990'), to_char(r.nf_serie, 'FM990'));
+         end if;
+
+         if old.status = 3 then
+            -- Gerando estorno
+            perform fin_caixaEstornar(sys_origem('correio'), old.recno);
+         end if;
+
+         thistorico := thistorico || chr(13) || chr(10);
+         thistorico := thistorico || 'Código de rastreamento ' || coalesce(new.rastreio, 'não informado');
+
+         -- Gerando débito
+         insert into fin_caixa
+            (codigo, data, docto, historico, valor, _tabela, _recno)
+         values
+            (new.codigo, current_date, 'Sedex ' || new.recno, thistorico,
+             -1 * new.correiovalor, sys_origem('correio'), new.recno);
+      end if;
+
+      if new.status = 4 and old.status <> 4 then
+         -- Gerando estorno
+         perform fin_caixaEstornar(sys_origem('correio'), old.recno);
+      end if;
+   end if;
+
+   if tg_op = 'DELETE' then
+      if old.status = 3 then
+         -- Gerando estorno
+         perform fin_caixaEstornar(sys_origem('correio'), old.recno);
+      end if;
+
+      return old;
+   else
+      return new;
+   end if;
+END;
+$$
+LANGUAGE 'plpgsql';
+
