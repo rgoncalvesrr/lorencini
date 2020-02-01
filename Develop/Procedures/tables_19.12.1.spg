@@ -1,0 +1,5 @@
+set session authorization lorencini;
+
+alter table tb_orcamentos 
+   add frete moeda_ default 0 not null,
+   drop vlsrvdesp; 

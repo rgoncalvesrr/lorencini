@@ -1,0 +1,24 @@
+/**
+   Prepara informações na tabela de produtos
+
+	@author 	Ricardo Gonçalves
+	@date    29/09/2008 17:31:08
+
+	@param
+	@return
+ */
+Create or Replace Function b_produtos()
+Returns Trigger
+As
+$$
+Begin
+   if tg_op = 'DELETE' then
+      return old;
+   else
+      new.codigo := new.recno;
+
+   	Return new;
+   end if;
+End;
+$$
+language plpgsql;

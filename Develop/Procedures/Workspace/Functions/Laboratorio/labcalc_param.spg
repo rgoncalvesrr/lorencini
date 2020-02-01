@@ -1,0 +1,56 @@
+/**
+   Obtem o valor de um parâmetro
+
+	@author    Ricardo Gonçalves
+	@date      17/05/2011 18:22:30
+	@trigger
+	
+	@param  in_ensaio   Recno da tabela labamostras_res ref. ao ensaio para o qual deseja-se obter o valor do parâmetro
+	@param  in_param    Nome do parâmetro
+
+	@return valor de retorno
+
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+CREATE OR REPLACE FUNCTION labcalc_param(
+   in in_ensaio integer,
+   in in_param varchar)
+  RETURNS numeric(18, 4) AS
+$$
+Declare
+   out_res  numeric(18, 4);
+BEGIN
+   -- Verifica se o ensaio foi informado
+   if in_ensaio is null then
+      raise exception '[[Registro do ensio não informado.]]';
+   end if;
+
+   -- Verifica se o parâmetro foi informado
+   if in_param is null then
+      raise exception '[[Parâmetro do ensio não informado.]]';
+   end if;
+
+   -- Recupera o valor digitado
+   select coalesce(er.valor, v.valor, 0)
+     into out_res
+     from labamostras_res e
+          join labamostras_res_var v
+            on v.laudo = e.laudo
+           and v.relato_recno = e.relato_recno
+           and v.ensaio_recno = e.ensaio_recno
+           and v.param = lower(in_param)
+          join labcalcvar c
+            on c.proc = v.proc
+           and c.param = lower(in_param)
+          left join labamostras_res er
+            on er.laudo = e.laudo
+           and er.relato_recno = e.relato_recno
+           and er.ensaio_recno = c.ensaio_recno
+    where e.recno = in_ensaio;
+
+   return coalesce(out_res, 0);
+END;
+$$
+  LANGUAGE 'plpgsql' VOLATILE;

@@ -1,0 +1,84 @@
+/**
+   Rotina para tratamento de dados no registro da amostra
+
+	@author    Ricardo Gonçalves
+	@date      25/10/2010 22:10:52
+	@trigger   tb_entrada_amostra b iud
+
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+
+   26/01/2011 13:51:30  v2    Ricardo Gonçalves.
+      [+] Impede a alteração do código de cliente quando houver uma etiqueta associada.
+*/
+CREATE OR REPLACE FUNCTION b_tb_entrada_amostra()
+  RETURNS trigger AS
+$$
+Declare
+   rrow     record;
+BEGIN
+   if tg_op <> 'DELETE' then
+      if tg_op = 'UPDATE' then
+         if new.status < old.status and not sys_flag('tb_entrada_amostra', new.recno) then
+            raise exception '[[Não é possível retroceder etapas da amostra %.]]', new.numeroid;
+         end if;
+
+         if new.amostra is not null and new.clienteid <> old.clienteid then
+            raise exception '[[Não é possível alterar o cliente da amostra % porque ela está vinculada a uma etiqueta.]]', new.numeroid;
+         end if;
+      end if;
+
+      -- Preenche informações do equipamento
+      if new.labequip_recno is not null then
+         select e.serie, f.nome as fabri, e.tipo, tp.descri as desctipo, ec.tag,
+                se.reg_nome as regional, se.nome as subest, e.potencia,
+                e.tensao, e.ano, e.volume, e.fases
+           into rrow
+           from labequip e
+                left join labfabri f
+                  on f.recno = e.fabricante
+                join labequip_tipo tp
+                  on tp.tipo = e.tipo
+                left join labequipxcli ec
+                  on ec.equip = e.recno
+                 and ec.codigo = new.clienteid
+                left join vsubest se
+                  on se.recno = ec.subest
+          where e.recno = new.labequip_recno;
+
+         if found then
+            -- Preenche informações do equipamento
+            new.numeroserie := rrow.serie;
+            new.fabricante := rrow.fabri;
+
+            if rrow.tipo < 3 then
+               new.equipamento := 'Transformador';
+            else
+               new.equipamento := rrow.desctipo;
+            end if;
+
+            new.identificacao := rrow.tag;
+            new.local := rrow.regional;
+            new.sub_local := rrow.subest;
+            new.unidpot := 'MVA';
+            new.fase := rrow.fases;
+            new.ano := rrow.ano;
+            new.volume := rrow.volume;
+            new.tensao := rrow.tensao;
+            new.potencia := trim(to_char(rrow.potencia, '999990d99'));
+            new.tag := coalesce(new.tag, rrow.tag);
+         end if;
+      end if;
+
+      if tg_op = 'INSERT' and new.amostra is null then
+         raise exception '[[Não é possível registrar uma amostra sem informar sua origem. Verifique se a etiqueta está vigente.]]';
+      end if;
+
+      return new;
+   else
+      return old;
+   end if;
+END;
+$$
+  LANGUAGE 'plpgsql' VOLATILE;

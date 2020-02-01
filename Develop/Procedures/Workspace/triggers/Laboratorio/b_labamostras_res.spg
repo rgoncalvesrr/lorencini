@@ -1,0 +1,121 @@
+/**
+   Prepra dados do ensaio antes da inserção
+
+	@author    Ricardo Gonçalves
+	@date      04/05/2011 11:00:08
+	@trigger   b_labamostras_res B IUD
+
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+   27/05/2011 19:19:51  v2    Ricardo Gonçalves.
+      [+] Protege resultados contra alteração após assinatura do laudo.
+   
+   26/01/2012 02:26:56  v3    Ricardo Gonçalves.
+      [+] Arredondamento do valor corrido do ensaio.
+*/
+CREATE OR REPLACE FUNCTION b_labamostras_res()
+  RETURNS trigger AS
+$$
+Declare
+   xCur        refcursor;
+   r           record;
+   ra          record;
+   rinst       record;
+   fvalor      float;
+BEGIN
+   if tg_op <> 'DELETE' then
+      -- Obtem informações do laudo
+      select criacao, status, assinatura
+        into ra
+        from labamostras_rel
+       where recno = new.laudo;
+
+      if tg_op = 'INSERT' then
+         -- Obtem quantidade de instrumentos que podem ser utilizados para
+         -- realiza o ensaio atual
+         select min(labinst_recno) as inst_id, count(*) as inst_qtd
+           into rinst
+           from labinst_ens
+          where ensaio_recno = new.ensaio_recno;
+
+         if Found and rinst.inst_qtd = 1 then
+            new.labinst_recno := rinst.inst_id;
+         end if;
+
+         if ra.status > 1 then
+            raise '[[O laudo % não pode sofrer atualização da lista de ensaios porque está encerrado.]]', new.laudo;
+         end if;
+      else
+         if ra.assinatura is null then
+            new.username := sys_user();
+            new.registro := localtimestamp;
+         end if;
+      end if;
+
+      -- Impede alterações após assinatura
+      if ra.status > 1 and ra.assinatura is not null and not sys_flag('labamostras_rel', new.laudo) then
+         raise '[[O laudo % não pode sofrer alterações porque já foi assinado.]]', new.laudo;
+      end if;
+
+      -- Seleciona o certificado adequado
+      if new.labinst_recno is not null and ra.assinatura is null then
+         -- Obtem um certificado de aferição
+         select recno
+           into new.labinstcert_recno
+           from labinstcert
+          where labinst_recno = new.labinst_recno
+            and emissao <= ra.criacao
+            and validade <= ra.criacao;
+
+         -- Verifica se algum certificado foi localizado
+         if not FOUND then
+            -- recupera informações do instrumento
+            select descri, serie, modelo
+              into r
+              from labinst
+             where recno = new.labinst_recno;
+
+            perform log(
+               'Impossível localizar certificado',
+               'Não foi possível localizar certificado de aferição para o instrumento ' || new.labinst_recno ||
+               ' - ' || r.descri || coalesce(', série '|| r.serie, '') || coalesce(', modelo '||r.modelo, '')||' na data '||to_char(ra.criacao, 'DD/MM/YYYY'),
+               sys_origem('labamostras_res'), new.recno, false, 1, 2);
+         end if;
+      end if;
+
+      -- Preenche valor corrigido
+      if new.proc is null then
+         new.valor := coalesce(new.valord, 0);
+      end if;
+
+      -- Arredondamento do resultado
+      select dec
+        into r
+        from labens
+       where recno = new.ensaio_recno
+         and arred = 2;
+
+      if Found then
+         new.valor := round(new.valor, r.dec);
+      end if;
+
+      return new;
+   else      
+      -- verifica a integridade do resultado apontado
+      if not sys_flag('labamostras_res', old.recno) and 
+         exists(
+         select 1
+           from labamostras_rel
+          where recno = old.laudo
+            and relato_recno = old.relato_recno) and 
+         not sys_flag('labamostras_rel', old.recno) 
+      then
+         raise '[[Não é possível excluir ensaios relacionados ao laudo %.]]', old.recno;
+      end if;
+
+      return old;
+   end if;
+END;
+$$
+  LANGUAGE 'plpgsql' VOLATILE;

@@ -1,0 +1,73 @@
+set session authorization lorencini;
+
+create table cota_desp (
+	cotacao integer not null,
+	despesa integer not null,
+   lote_aprov integer,
+	recno serial not null,
+	constraint pk_cota_desp primary key(cotacao, despesa),
+	constraint fk_cota_desp_1 foreign key(cotacao) references 
+		cota(recno) on update cascade on delete cascade,
+	constraint fk_cota_desp_2 foreign key(despesa) references 
+		fin_caixa(recno) on update cascade on delete cascade,
+   constraint fk_cota_desp_3 foreign key(lote_aprov) references 
+		cota_aprov(recno) on update cascade on delete set null,
+	constraint uk_cota_desp_1 unique(recno));
+
+create table pedido_desp (
+	pedido integer not null,
+	despesa integer not null,
+	recno serial not null,
+	constraint pk_pedido_desp primary key(pedido, despesa),
+	constraint fk_pedido_desp_1 foreign key(pedido) references 
+		pedido(recno) on update cascade on delete cascade,
+	constraint fk_pedido_desp_2 foreign key(despesa) references 
+		fin_caixa(recno) on update cascade on delete cascade,
+	constraint uk_pedido_desp_1 unique(recno));
+
+create table orca_desp (
+	os integer not null,
+	despesa integer not null,
+	recno serial not null,
+	constraint pk_os_desp primary key(os, despesa),
+	constraint fk_os_desp_1 foreign key(os) references 
+		tb_orcamentos(os) on update cascade on delete cascade,
+	constraint fk_os_desp_2 foreign key(despesa) references 
+		fin_caixa(recno) on update cascade on delete cascade,
+	constraint uk_os_desp_1 unique(recno));   
+
+alter table pedido_desp disable trigger all;
+truncate table pedido_desp;
+insert into pedido_desp (pedido, despesa)
+select p.recno, f.recno
+  from fin_caixa f
+       join pedido p
+         on p.recno = f.pedido
+ where f.valor < 0
+   and f.titulo is null
+   and not exists(
+   	select 1
+   	  from pedido_desp pd
+   	 where pd.pedido = f.pedido
+   	   and pd.despesa = f.recno);
+alter table pedido_desp enable trigger all;
+
+alter table orca_desp disable trigger all;
+truncate table orca_desp;
+insert into orca_desp (os, despesa)
+select f.os, f.recno
+  from fin_caixa f
+       join tb_orcamentos o
+         on o.os = f.os
+ where f.valor < 0
+   and f.titulo is null
+   and not exists(
+   	select 1
+   	  from orca_desp od
+   	 where od.os = f.os
+   	   and od.despesa = f.recno);
+alter table orca_desp enable trigger all;
+
+alter table tb_orcamentos rename status_ to status;
+
+create index idx_fin_caixa_7 on fin_caixa (codigo, data) where (valor < 0 and cobrar and titulo is null and pedido is null and os is null);

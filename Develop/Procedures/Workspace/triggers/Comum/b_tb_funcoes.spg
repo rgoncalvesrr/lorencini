@@ -1,0 +1,56 @@
+/*============================================================================
+  Empresa..: MultCont Informática
+  Descrição: Calcula o valor da hora normal, extra 50%, extra 100%,
+              adicional noturno
+  Autor....: Ricardo Gonçalves
+  Data.....: 09/06/2008 11:12:42
+
+  Parametro       Descrição
+  ---------------------------------------------------------------------------
+  out_res        | 0 - Falha / 1 - Sucesso
+  ============================================================================*/
+Create or Replace Function b_tb_funcoes()
+Returns trigger
+As
+$$
+Begin
+   if tg_op <> 'DELETE' then
+      -- Cálculo do valor da hora normal
+      new.vlr_total_hora_normal := new.vlr_hora_normal + new.vlr_outros_hora_normal;
+
+      if new.projecao_hr_normal > 0 then
+         new.vlr_total_hora_normal := new.vlr_total_hora_normal + new.vlr_hora_normal * new.projecao_hr_normal / 100;
+      end if;
+
+      -- Cálculo do valor da hora extra 50%
+      new.vlr_total_he_50 := new.vlr_he_50 + new.vlr_outros_he_50;
+
+      if new.projecao_he_50 > 0 then
+         new.vlr_total_he_50 := new.vlr_total_he_50 + new.vlr_he_50 * new.projecao_he_50 / 100;
+      end if;
+
+      -- Cálculo do valor da hora extra 100%
+      new.vlr_total_he_100 := new.vlr_he_100 + new.vlr_outros_he_100;
+
+      if new.projecao_he_100 > 0 then
+         new.vlr_total_he_100 := new.vlr_total_he_100 + new.vlr_he_100 * new.projecao_he_100 / 100;
+      end if;
+
+      -- Cálculo do valor do adicional noturno
+      new.vlr_total_adic_noturno := new.vlr_hr_adic_noturno;
+
+      if new.vlr_hr_adic_noturno > 0 then
+         new.vlr_total_adic_noturno := new.vlr_total_adic_noturno + new.vlr_hr_adic_noturno * new.projecao_adic_noturno / 100;
+      end if;
+
+   end if;
+
+
+   if tg_op != 'DELETE' then
+      return new;
+   else
+      return old;
+   end if;
+End
+$$
+language plpgsql;

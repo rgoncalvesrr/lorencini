@@ -1,0 +1,88 @@
+/**
+   Pré processamento da tabela de volumes
+
+   @author    Ricardo Gonçalves
+   @date      20/12/2010 12:36:33
+   @trigger   labvol A IUD
+
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+CREATE OR REPLACE FUNCTION a_labvol()
+  RETURNS trigger AS
+$$
+Declare
+   iremessa  labproc.recno%type;
+   r         record;
+BEGIN
+   if tg_op <> 'DELETE' then
+      if tg_op = 'UPDATE' then
+         -- Encerramento da etapa de montagem do lote
+         if new.imp_dh is not null and old.imp_dh is null then
+            update labproc a
+               set situacao = 3
+              from (select labproc_recno, sum(frascos) as frascos, sum(seringas) as seringas
+                      from labvol
+                     where imp_dh is not null
+                       and labproc_recno = new.labproc_recno
+                     group by labproc_recno) v
+             where v.labproc_recno = a.recno
+               and v.frascos = coalesce(a.frascos, 0)
+               and v.seringas = coalesce(a.seringas, 0);
+         end if;
+
+         -- Muda remessa para aguardando código de rastreamento
+         if new.exp_dh is not null and old.exp_dh is null then
+            if not exists(
+               select 1
+                 from labvol
+                where labproc_recno = new.labproc_recno
+                  and exp_dh is null)
+            then
+               update labproc
+                  set situacao = 5
+                where recno = new.labproc_recno;
+            end if;
+         end if;
+
+         if not exists(
+            select 1
+              from labvol
+             where labproc_recno = new.labproc_recno
+               and rastreio is null)
+         then
+            update labproc
+               set situacao = 6
+             where recno = new.labproc_recno
+               and situacao = 5;
+         end if;
+      end if;
+
+      iremessa := new.labproc_recno;
+   else
+      iremessa := old.labproc_recno;
+   end if;
+
+   update labproc a
+      set volumes = b.volumes
+     from (select labproc_recno, count(*) as volumes
+             from labvol
+            where labproc_recno = iremessa
+            group by labproc_recno) b
+    where a.recno = b.labproc_recno;
+
+   if not Found then
+      update labproc
+         set volumes = null
+       where recno = iremessa;
+   end if;
+
+   if tg_op <> 'DELETE' then
+      return new;
+   else
+      return old;
+   end if;
+END;
+$$
+  LANGUAGE 'plpgsql' VOLATILE;

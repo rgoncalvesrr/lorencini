@@ -1,0 +1,60 @@
+/**
+   Verifica se a conta bancária pode receber movimentação em determinada data
+
+	@author    Ricardo Gonçalves
+	@date      02/03/2009 18:24:10
+	@trigger
+
+	@param     in_cc    conta corrente
+	@param     in_data  data a ser checada
+
+	Histórico
+	-------------------------------------------------------------------------------------------------------------------
+ */
+Create or Replace Function fin_refazCaixa(
+   in in_codigo integer)
+Returns void As
+$$
+Declare
+   itbl     fin_caixa._tabela%type;
+   irecno   fin_caixa.recno%type;
+   r        record;
+Begin
+   perform sys_flag_mark(_tabela::varchar, _recno)
+      from fin_caixa
+     where codigo = in_codigo;
+
+   itbl := sys_origem('fin_caixa');
+
+   -- exclui lançamentos do caixa a exceção lançamentos manuais no caixa
+   delete
+     from fin_caixa
+    where codigo = in_codigo
+      and _tabela = sys_origem('nf');
+
+   -- Processamento do débitos
+   for r in (
+      select coalesce(n.historico, re.historico) historico, cast('NF: ' || to_char(n.nf, 'FM000000000') || to_char(n.serie, 'FM 000') as varchar) documento,
+             re.recno titulo, re.vencimento_real, re.valor, re.parcela, n.recno, re.emissao
+        from fin_receber re
+             join nf n
+              on n.recno = re.recno_nf
+       where re.id_cli = in_codigo
+         and re.valor > 0)
+   loop
+      -- Registrando nota fiscal
+      insert into fin_caixa
+         (codigo, emissao, data, docto, historico, valor, _tabela, _recno, titulo)
+      values
+         (in_codigo, r.emissao, r.vencimento_real, r.documento, r.historico, -1 * r.valor, sys_origem('nf'), r.recno, r.titulo);
+
+      -- processamento de baixas
+      perform fin_caixaReceber(r.titulo);
+   end loop;
+
+   perform sys_flag_del(_tabela::varchar, _recno)
+      from fin_caixa
+     where codigo = in_codigo;
+End;
+$$
+language plpgsql;

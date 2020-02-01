@@ -1,0 +1,57 @@
+/**
+   Cancela cotação informada
+
+	@author    Ricardo Gonçalves
+	@date      16/03/2017 21:38:08
+	@trigger
+
+	@param in_recno código da cotação
+	#param in_motivo código do motivo de cancelamento
+
+	Histórico
+	-------------------------------------------------------------------------------------------------------------------
+ */
+Create or Replace Function CancelarCotacao(
+   in in_recno integer,
+   in in_motivo integer)
+Returns void As
+$$
+Declare
+   r           record;
+   ios         tb_orcamentos.os%type;
+   tdescricao  tb_orcamentos.descricao%type;
+Begin
+   select cliente, frascos,  seringas, envio, correio, status
+     into r
+     from cota
+    where recno = in_recno;
+
+   if r.status not in (4, 5) then
+      raise '[[Não foi possível cancelar a cotação %. Somente cotações com o status "Em Estudo" e "Autorizadas" podem ser canceladas!]]', in_recno;
+   end if;
+   
+   update correio
+      set status = 4
+    where recno = r.correio;  
+
+   if r.seringas is not null or r.frascos is not null then -- Verificando processo de remessa
+      if exists(
+         select 1
+           from labproc
+          where cotacao = in_recno
+            and situacao > 0)
+      then
+         raise '[[A cotação % não pode ser cancalada porque o processo de remessa já foi iniciado!!]]', in_recno;
+      end if;
+   else -- Verificando ordem de serviço
+      update tb_orcamentos
+         set status = 6  -- cancelamento da ordem de serviços
+       where cotacao = in_recno;
+   end if;
+
+   update cota
+      set status = 8, statuscod = in_motivo  
+    where recno = in_recno;
+End;
+$$
+language plpgsql;

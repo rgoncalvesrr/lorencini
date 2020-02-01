@@ -1,0 +1,28 @@
+/*============================================================================
+  Empresa..: MultCont Informática
+  Descrição: Retorna a média entre dois valores
+  Autor....: Ricardo Gonçalves
+  Data.....: 05/11/2008 12:31:02
+
+  Parametro       Descrição
+  ---------------------------------------------------------------------------
+  out_res        | 0 - Falha / 1 - Sucesso
+  ============================================================================*/
+Create or Replace Function sys_avg(
+   in itermo1 numeric,
+   in itermo2 numeric )
+Returns numeric
+as $$
+Declare
+   res   numeric;
+Begin
+
+   res := coalesce(itermo1, 0) + coalesce(itermo2, 0);
+
+   if coalesce(itermo1, 0) > 0 and coalesce(itermo2, 0) > 0 then
+      res := res / 2;
+   end if;
+
+   Return res;
+End;
+$$ language plpgsql;
