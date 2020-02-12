@@ -20,7 +20,10 @@ inherited Amostras: TAmostras
       Width = 1118
       ExplicitWidth = 1118
       inherited tsQuery: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 6
         ExplicitWidth = 1110
+        ExplicitHeight = 75
         object Panel5: TPanel [0]
           Left = 0
           Top = 0
@@ -133,13 +136,14 @@ inherited Amostras: TAmostras
           end
         end
         object Panel8: TPanel [3]
-          Left = 250
+          Left = 325
           Top = 0
           Width = 248
           Height = 75
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 3
+          ExplicitLeft = 250
           object Label18: TLabel
             AlignWithMargins = True
             Left = 3
@@ -179,13 +183,14 @@ inherited Amostras: TAmostras
           end
         end
         object Panel9: TPanel [4]
-          Left = 498
+          Left = 573
           Top = 0
           Width = 100
           Height = 75
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 4
+          ExplicitLeft = 498
           object Label5: TLabel
             AlignWithMargins = True
             Left = 3
@@ -217,13 +222,14 @@ inherited Amostras: TAmostras
           end
         end
         object Panel10: TPanel [5]
-          Left = 598
+          Left = 673
           Top = 0
           Width = 100
           Height = 75
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 5
+          ExplicitLeft = 598
           object Label4: TLabel
             AlignWithMargins = True
             Left = 3
@@ -259,13 +265,14 @@ inherited Amostras: TAmostras
           ExplicitLeft = 1009
         end
         object Panel11: TPanel
-          Left = 698
+          Left = 773
           Top = 0
           Width = 185
           Height = 75
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 7
+          ExplicitLeft = 698
           object Label8: TLabel
             AlignWithMargins = True
             Left = 3
@@ -273,7 +280,7 @@ inherited Amostras: TAmostras
             Width = 179
             Height = 15
             Align = alTop
-            Caption = '01/12/2019 a 31/12/2019'
+            Caption = '01/02/2020 a 29/02/2020'
             ExplicitWidth = 128
           end
           object Label9: TLabel
@@ -310,14 +317,53 @@ inherited Amostras: TAmostras
             end
             inherited CCalendarDiff1: TCCalendarDiff
               Interval = diMonthly
-              Date = 43803.961733773150000000
+              Date = 43864.925146469900000000
               DisplayInterval = Label8
             end
           end
         end
+        object Panel12: TPanel
+          Left = 250
+          Top = 0
+          Width = 75
+          Height = 75
+          Align = alLeft
+          BevelOuter = bvNone
+          TabOrder = 8
+          ExplicitLeft = 310
+          ExplicitTop = 3
+          object Label11: TLabel
+            AlignWithMargins = True
+            Left = 3
+            Top = 3
+            Width = 69
+            Height = 15
+            Align = alTop
+            Caption = 'Remessa'
+            Transparent = True
+            ExplicitWidth = 46
+          end
+          object edRemessa: TJvCalcEdit
+            AlignWithMargins = True
+            Left = 3
+            Top = 24
+            Width = 69
+            Height = 23
+            Align = alTop
+            DecimalPlaces = 0
+            DisplayFormat = ',#'
+            ShowButton = False
+            TabOrder = 0
+            DecimalPlacesAlwaysShown = False
+            OnChange = edAmostraChange
+          end
+        end
       end
       inherited tsFind: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 6
         ExplicitWidth = 1110
+        ExplicitHeight = 75
       end
     end
   end
@@ -335,6 +381,7 @@ inherited Amostras: TAmostras
       inherited TabSheet1: TTabSheet
         Caption = 'Todos'
         ImageIndex = -1
+        ExplicitLeft = 4
         ExplicitTop = 33
         ExplicitWidth = 1114
         ExplicitHeight = 179
@@ -624,7 +671,6 @@ inherited Amostras: TAmostras
               Align = alLeft
               Caption = 'Assinado'
               Layout = tlCenter
-              ExplicitLeft = 246
               ExplicitHeight = 15
             end
             object JvImage3: TJvImage
@@ -775,7 +821,6 @@ inherited Amostras: TAmostras
               Align = alLeft
               Caption = 'Cancelado'
               Layout = tlCenter
-              ExplicitLeft = 338
               ExplicitHeight = 15
             end
             object JvImage5: TJvImage
@@ -896,6 +941,41 @@ inherited Amostras: TAmostras
   inherited ctrlBarTop: TControlBar
     Width = 1122
     ExplicitWidth = 1122
+    inherited ToolBar1: TToolBar
+      inherited ToolButton2: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton5: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton9: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton6: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton1: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton8: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton3: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited tbOrder: TToolButton
+        ExplicitWidth = 76
+      end
+      inherited tbReport: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited tbOpcao: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton10: TToolButton
+        ExplicitWidth = 32
+      end
+    end
   end
   inherited alDef: TActionList
     Left = 352
@@ -952,7 +1032,10 @@ inherited Amostras: TAmostras
       
         '       cf.telefone telefone_cli, cf.cidade cidade_cli, cf.estado' +
         ' estado_cli, cf.email email_cli,'
-      '       a.qtd, a.consumido, a.descartado, a.saldo'
+      
+        '       a.qtd, a.consumido, a.descartado, a.saldo, p.labproc_recn' +
+        'o solicitacao, cast(sys_iif(p.tipo = 2, '#39'Seringa'#39', '#39'Frasco'#39') as ' +
+        'varchar(15)) vidraria'
       '  from labamostras a'
       '       join tbclientes c'
       '         on c.codigo = a.codigo'
@@ -966,7 +1049,9 @@ inherited Amostras: TAmostras
       '         on s.codigo = c.codigo'
       '        and s.recno = a.labsubest_recno'
       '       left join pedido_amostras pa'
-      '         on pa.amostra = a.recno')
+      '         on pa.amostra = a.recno'
+      '       join labprocxequip p'
+      '         on p.amostra = a.recno')
     Sequence = ZSequence1
     SequenceField = 'recno'
     Left = 224
@@ -989,6 +1074,18 @@ inherited Amostras: TAmostras
     object IBrwSrccomodato: TIntegerField
       DisplayLabel = 'Etiqueta'
       FieldName = 'comodato'
+    end
+    object IBrwSrcsolicitacao: TIntegerField
+      DisplayLabel = 'Remessa'
+      FieldName = 'solicitacao'
+      Required = True
+    end
+    object IBrwSrcvidraria: TStringField
+      DisplayLabel = 'Vidraria'
+      DisplayWidth = 10
+      FieldName = 'vidraria'
+      ReadOnly = True
+      Size = 15
     end
     object IBrwSrcentrada: TDateField
       DisplayLabel = 'Data Status'

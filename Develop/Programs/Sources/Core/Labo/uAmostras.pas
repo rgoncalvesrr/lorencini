@@ -147,6 +147,11 @@ type
     IBrwSrcemail_cli: TStringField;
     JvImage5: TJvImage;
     Label10: TLabel;
+    IBrwSrcsolicitacao: TIntegerField;
+    Panel12: TPanel;
+    Label11: TLabel;
+    edRemessa: TJvCalcEdit;
+    IBrwSrcvidraria: TStringField;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure actQueryProcessExecute(Sender: TObject);
@@ -226,6 +231,14 @@ begin
       swhere := swhere + 'a.recno = :amostra ';
     end;
 
+    if edRemessa.Value > 0 then
+    begin
+      if sWhere <> EmptyStr then
+        swhere := swhere + 'and ';
+
+      swhere := swhere + 'p.labproc_recno = :remessa ';
+    end;
+
     if edEtiqueta.Value > 0 then
     begin
       if sWhere <> EmptyStr then
@@ -269,6 +282,9 @@ begin
 
     if Assigned(Params.FindParam('amostra')) then
       ParamByName('amostra').AsInteger := Round(edAmostra.Value);
+
+    if Assigned(Params.FindParam('remessa')) then
+      ParamByName('remessa').AsInteger := Round(edRemessa.Value);
 
     if Assigned(Params.FindParam('etiqueta')) then
       ParamByName('etiqueta').AsInteger := Round(edEtiqueta.Value);
@@ -336,6 +352,8 @@ begin
           50: small_n.GetBitmap(208, fBitMap); // Disponíveis
           60: small_n.GetBitmap(209, fBitMap); // Consumidas
           70: small_n.GetBitmap(204, fBitMap); // Cancelado
+        else
+          small_n.GetBitmap(122, fBitMap); // Inválido
         end;
 
       if Column.Width <> fBitMap.Width + 2 then
@@ -368,6 +386,8 @@ begin
           2: small_n.GetBitmap(205, fBitMap); // Executando
           3: small_n.GetBitmap(208, fBitMap); // Assinado
           4: small_n.GetBitmap(204, fBitMap); // Cancelado
+        else
+          small_n.GetBitmap(122, fBitMap); // Inválido
         end;
 
       if Column.Width <> fBitMap.Width + 2 then

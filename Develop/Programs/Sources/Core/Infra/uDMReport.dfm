@@ -32,7 +32,7 @@ object DMReport: TDMReport
     Top = 24
   end
   object ReportBase: TfrxReport
-    Version = '6.5'
+    Version = '6.3.1'
     DotMatrixReport = False
     EngineOptions.PrintIfEmpty = False
     IniFile = '\Software\Fast Reports'
@@ -44,7 +44,7 @@ object DMReport: TDMReport
     ReportOptions.Author = 'Cartel Inform'#225'tica'
     ReportOptions.CreateDate = 39757.585007557900000000
     ReportOptions.Name = 'Materiais em Poder de Terceiros'
-    ReportOptions.LastChange = 43310.995858877300000000
+    ReportOptions.LastChange = 43872.914085428200000000
     ScriptLanguage = 'PascalScript'
     StoreInDFM = False
     OnReportPrint = 'ReportBaseOnReportPrint'
@@ -1803,47 +1803,30 @@ object DMReport: TDMReport
   end
   object R00013: TZQuery
     Connection = DM.Design
-    SortedFields = 'nome_chave, nf, comodato_recno'
+    SortedFields = 'nome_chave, nf, comodato'
     SQL.Strings = (
-      'select a.codigo, cli.empresa, cli.nome_chave, cli.cnpj, cli.cpf,'
       
-        '       cli.telefone, rem.tipo, rem.validade, a.comodato comodato' +
-        '_recno, '
-      '       p.tipo as tipo_port, p.empresa as rem_empresa, '
-      '       p.cnpj as rem_cnpj, p.portador, p.cpf as rem_cpf,'
-      '       p.nf, p.nf_serie, p.nf_emissao, p.nf_valor,'
-      '       ret.status, '
-      '       ret.tipo_port as ret_tipo, ret.empresa as ret_empresa, '
-      '       ret.cnpj as ret_cnpj, ret.portador as ret_portador, '
+        'select cli.codigo, cli.empresa, cli.nome_chave, cli.cnpj, cli.cp' +
+        'f, cli.telefone, po.nf, po.nf_serie, po.nf_emissao,'
       
-        '       ret.cpf as ret_cpf, ret.nf as ret_nf, ret.nf_serie as ret' +
-        '_serie, '
-      '       ret.nf_emissao as ret_emissao, ret.nf_valor as ret_valor'
-      '  from labprocxequip rem'
-      '       left join ('
-      '            select ret.amostra, ret.status, p.codigo, '
+        '       po.nf_valor, po.tipo tipo_port, po.portador, p.tipo, p.va' +
+        'lidade, a.comodato, a.recno amostra,'
       
-        '                   p.tipo as tipo_port, p.empresa, p.cnpj, p.por' +
-        'tador, '
-      
-        '                   p.cpf, p.nf, p.nf_serie, p.nf_emissao, p.nf_v' +
-        'alor'
-      '              from labret ret                '
-      '                   join labport p'
-      '                     on p.recno = ret.labport_recno'
-      '                    and p.operac = 2'
-      '                    and p.status = 2 ) ret'
-      '             on ret.amostra = rem.amostra'
-      '       join labport p'
-      '         on p.labproc_recno = rem.labproc_recno'
-      '       join labamostras a'
-      '         on a.recno = rem.amostra '
+        '       p.labproc_recno remessa, po.cnpj rem_cnpj, po.empresa rem' +
+        '_empresa'
+      '  from labamostras a'
+      '       join labprocxequip p'
+      '         on p.recno = a.origem_recno'
+      '       join labport po'
+      '         on po.labproc_recno = p.labproc_recno'
       '       join tbclientes cli'
-      '         on cli.codigo = a.codigo  '
-      ' where ret.status is null')
+      '         on cli.codigo = a.codigo'
+      ' where a.estado = 30'
+      '   and a.origem = 11'
+      '')
     Params = <>
     FetchRow = 50
-    IndexFieldNames = 'nome_chave Asc, nf Asc, comodato_recno Asc'
+    IndexFieldNames = 'nome_chave Asc, nf Asc, comodato Asc'
     Left = 32
     Top = 752
     object R00013codigo: TIntegerField
@@ -1870,41 +1853,6 @@ object DMReport: TDMReport
       FieldName = 'telefone'
       Size = 100
     end
-    object R00013tipo: TIntegerField
-      FieldName = 'tipo'
-      Required = True
-    end
-    object R00013validade: TDateField
-      FieldName = 'validade'
-      Required = True
-    end
-    object R00013comodato_recno: TIntegerField
-      FieldName = 'comodato_recno'
-    end
-    object R00013tipo_port: TIntegerField
-      FieldName = 'tipo_port'
-      Required = True
-    end
-    object R00013rem_empresa: TStringField
-      FieldName = 'rem_empresa'
-      Required = True
-      Size = 100
-    end
-    object R00013rem_cnpj: TStringField
-      FieldName = 'rem_cnpj'
-      Required = True
-      Size = 14
-    end
-    object R00013portador: TStringField
-      FieldName = 'portador'
-      Required = True
-      Size = 60
-    end
-    object R00013rem_cpf: TStringField
-      FieldName = 'rem_cpf'
-      Required = True
-      Size = 11
-    end
     object R00013nf: TIntegerField
       FieldName = 'nf'
       Required = True
@@ -1921,49 +1869,44 @@ object DMReport: TDMReport
       FieldName = 'nf_valor'
       Required = True
     end
-    object R00013status: TIntegerField
-      FieldName = 'status'
+    object R00013tipo_port: TIntegerField
+      FieldName = 'tipo_port'
       Required = True
     end
-    object R00013ret_tipo: TIntegerField
-      FieldName = 'ret_tipo'
-      ReadOnly = True
-    end
-    object R00013ret_empresa: TStringField
-      FieldName = 'ret_empresa'
-      Required = True
-      Size = 100
-    end
-    object R00013ret_cnpj: TStringField
-      FieldName = 'ret_cnpj'
-      Required = True
-      Size = 14
-    end
-    object R00013ret_portador: TStringField
-      FieldName = 'ret_portador'
+    object R00013portador: TStringField
+      FieldName = 'portador'
       Required = True
       Size = 60
     end
-    object R00013ret_cpf: TStringField
-      FieldName = 'ret_cpf'
-      Required = True
-      Size = 11
-    end
-    object R00013ret_nf: TIntegerField
-      FieldName = 'ret_nf'
+    object R00013tipo: TIntegerField
+      FieldName = 'tipo'
       Required = True
     end
-    object R00013ret_serie: TIntegerField
-      FieldName = 'ret_serie'
+    object R00013validade: TDateField
+      FieldName = 'validade'
       Required = True
     end
-    object R00013ret_emissao: TDateField
-      FieldName = 'ret_emissao'
+    object R00013comodato: TIntegerField
+      FieldName = 'comodato'
       Required = True
     end
-    object R00013ret_valor: TFloatField
-      FieldName = 'ret_valor'
+    object R00013amostra: TIntegerField
+      FieldName = 'amostra'
       Required = True
+    end
+    object R00013remessa: TIntegerField
+      FieldName = 'remessa'
+      Required = True
+    end
+    object R00013rem_cnpj: TStringField
+      FieldName = 'rem_cnpj'
+      Required = True
+      Size = 14
+    end
+    object R00013rem_empresa: TStringField
+      FieldName = 'rem_empresa'
+      Required = True
+      Size = 100
     end
   end
   object frxR00013: TfrxDBDataset
@@ -1977,28 +1920,19 @@ object DMReport: TDMReport
       'cnpj=cnpj'
       'cpf=cpf'
       'telefone=telefone'
-      'tipo=tipo'
-      'validade=validade'
-      'comodato_recno=comodato_recno'
-      'tipo_port=tipo_port'
-      'rem_empresa=rem_empresa'
-      'rem_cnpj=rem_cnpj'
-      'portador=portador'
-      'rem_cpf=rem_cpf'
       'nf=nf'
       'nf_serie=nf_serie'
       'nf_emissao=nf_emissao'
       'nf_valor=nf_valor'
-      'status=status'
-      'ret_tipo=ret_tipo'
-      'ret_empresa=ret_empresa'
-      'ret_cnpj=ret_cnpj'
-      'ret_portador=ret_portador'
-      'ret_cpf=ret_cpf'
-      'ret_nf=ret_nf'
-      'ret_serie=ret_serie'
-      'ret_emissao=ret_emissao'
-      'ret_valor=ret_valor')
+      'tipo_port=tipo_port'
+      'portador=portador'
+      'tipo=tipo'
+      'validade=validade'
+      'comodato=comodato'
+      'amostra=amostra'
+      'remessa=remessa'
+      'rem_cnpj=rem_cnpj'
+      'rem_empresa=rem_empresa')
     DataSet = R00013
     BCDToCurrency = False
     Left = 96

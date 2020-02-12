@@ -183,7 +183,7 @@ inherited LabProcSaldos: TLabProcSaldos
     SQL.Strings = (
       
         'select cli.codigo,  cli.empresa, cli.nome_chave, cli.cnpj, cli.c' +
-        'pf, com.seringas, com.frascos'
+        'pf, com.seringas, com.frascos, com.seringas + com.frascos total'
       '  from tbclientes cli'
       
         '       join (select a.codigo, sum(sys_iif(p.tipo = 2, 1, 0)) ser' +
@@ -239,13 +239,18 @@ inherited LabProcSaldos: TLabProcSaldos
       FieldName = 'frascos'
       ReadOnly = True
     end
+    object IBrwSrctotal: TLargeintField
+      DisplayLabel = 'Total'
+      FieldName = 'total'
+      ReadOnly = True
+    end
   end
   inherited pmOpcao: TPopupMenu
     Left = 584
     Top = 184
   end
   inherited zIBrwSrc: TZUpdateSQL
-    Left = 200
+    Left = 192
     Top = 184
   end
 end
