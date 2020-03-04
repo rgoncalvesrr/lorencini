@@ -1,0 +1,52 @@
+/**
+   Faz o cadastramento de endereço
+
+	@author    Ricardo Gonçalves
+	@date      22/02/2020 18:11:00
+	@trigger
+
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+create or replace function sys_cep(
+   in in_cep varchar,
+   in in_logradouro varchar,
+   in in_complemento varchar,
+   in in_bairro varchar,
+   in in_localidade varchar,
+   in in_uf varchar,   
+   in in_ibge varchar,
+   in in_origem varchar   
+) returns boolean as
+$$
+begin
+   if trim(in_ibge) <> '' and 
+      not exists(
+      select 1
+        from localidades
+       where localidade = in_ibge)
+   then
+      insert into localidades
+         (localidade, uf,    nome)
+      values           
+         (in_ibge,    in_uf, in_localidade);
+   end if;
+
+   if not exists(
+      select 1
+        from enderecos
+       where cep = in_cep)
+   then
+      insert into enderecos
+         (cep,    logradouro,    bairro,    complemento,    localidade, data,         origem)
+      values
+         (in_cep, in_logradouro, in_bairro, in_complemento, in_ibge,    current_date, in_origem);
+
+      return true;
+   end if;
+
+   return false;   
+end;
+$$
+language plpgsql;

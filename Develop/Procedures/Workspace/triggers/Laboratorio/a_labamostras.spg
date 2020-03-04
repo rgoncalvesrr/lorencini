@@ -55,10 +55,8 @@ BEGIN
          -- Registrando mudança de estado na amostra
          if lRegHist then            
             begin
-               insert into labamostras_hist 
-                  (amostra,   estado)
-               values
-                  (new.recno, new.estado);
+               insert into labamostras_hist (amostra,   estado)
+               values                       (new.recno, new.estado);
             exception
                when unique_violation then
             end;

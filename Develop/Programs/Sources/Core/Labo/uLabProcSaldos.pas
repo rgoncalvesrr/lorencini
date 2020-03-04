@@ -23,6 +23,7 @@ type
     Panel9: TPanel;
     Label8: TLabel;
     edRazao: TEdit;
+    IBrwSrctotal: TLargeintField;
     procedure FormCreate(Sender: TObject);
     procedure ComboBox1Change(Sender: TObject);
     procedure actQueryProcessExecute(Sender: TObject);

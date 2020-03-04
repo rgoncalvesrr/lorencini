@@ -32,8 +32,8 @@ const
   _EXTPROC: string = '.spg';
   _PROC : Integer = 1;
   _TRIGGER : Integer = 2;
-  _SRC_FUNCTION : string = 'Sources\Workspace\Functions\';
-  _SRC_TRIGGER : string = 'Sources\Workspace\Triggers\';
+  _SRC_FUNCTION : string = 'Develop\Procedures\Workspace\Functions\';
+  _SRC_TRIGGER : string = 'Develop\Procedures\Workspace\Triggers\';
 
 { TSYSFNLoader }
 

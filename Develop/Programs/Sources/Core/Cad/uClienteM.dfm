@@ -1,60 +1,60 @@
 inherited ClientesM: TClientesM
   BorderStyle = bsSizeable
   Caption = 'Manuten'#231#227'o do cadastro  do cliente'
-  ClientHeight = 614
-  ClientWidth = 848
+  ClientHeight = 781
+  ClientWidth = 1237
   Constraints.MinWidth = 691
   WindowState = wsMaximized
-  ExplicitWidth = 864
-  ExplicitHeight = 653
+  ExplicitWidth = 1253
+  ExplicitHeight = 820
   PixelsPerInch = 96
   TextHeight = 15
   inherited Panel1: TPanel
     Top = 44
-    Width = 848
-    Height = 570
+    Width = 1237
+    Height = 737
     ExplicitTop = 44
-    ExplicitWidth = 848
-    ExplicitHeight = 570
+    ExplicitWidth = 1237
+    ExplicitHeight = 737
     inherited pnLookup: TPanel
       Width = 754
       ExplicitWidth = 754
     end
     inherited Panel3: TPanel
-      Top = 320
-      Width = 848
+      Top = 487
+      Width = 1237
       Height = 250
       Visible = True
-      ExplicitTop = 320
-      ExplicitWidth = 848
+      ExplicitTop = 487
+      ExplicitWidth = 1237
       ExplicitHeight = 250
       inherited PageControl3: TPageControl
         Top = 47
-        Width = 842
+        Width = 1231
         Height = 200
         ExplicitLeft = 3
         ExplicitTop = 47
-        ExplicitWidth = 842
+        ExplicitWidth = 1231
         ExplicitHeight = 200
         inherited tsDet: TTabSheet
           Caption = 'Clientes Finais'
           ExplicitLeft = 4
           ExplicitTop = 26
-          ExplicitWidth = 834
+          ExplicitWidth = 1223
           ExplicitHeight = 170
           inherited DBGrid1: TDBGrid
-            Width = 834
+            Width = 1223
             Height = 170
-            DataSource = DM.dsClientesFinais
+            DataSource = Clientes.dsClientesFinais
           end
         end
       end
       inherited ControlBar2: TControlBar
-        Width = 842
+        Width = 1231
         Height = 38
         ExplicitLeft = 3
         ExplicitTop = 3
-        ExplicitWidth = 842
+        ExplicitWidth = 1231
         ExplicitHeight = 38
         inherited ToolBar3: TToolBar
           Width = 735
@@ -85,23 +85,23 @@ inherited ClientesM: TClientesM
       end
     end
     inherited PageControl1: TPageControl
-      Width = 842
-      Height = 314
+      Width = 1231
+      Height = 481
       ExplicitLeft = 3
       ExplicitTop = 3
-      ExplicitWidth = 842
-      ExplicitHeight = 314
+      ExplicitWidth = 1231
+      ExplicitHeight = 481
       inherited TabSheet1: TTabSheet
         Caption = 'Informa'#231#245'es Principais'
         ExplicitLeft = 4
         ExplicitTop = 26
-        ExplicitWidth = 834
-        ExplicitHeight = 284
+        ExplicitWidth = 1223
+        ExplicitHeight = 451
         object GroupBox2: TGroupBox
           AlignWithMargins = True
           Left = 3
           Top = 204
-          Width = 828
+          Width = 1217
           Height = 68
           Align = alTop
           Caption = ' Contato Principal '
@@ -133,7 +133,7 @@ inherited ClientesM: TClientesM
               Height = 22
               Align = alClient
               DataField = 'contato'
-              DataSource = DM.dsClientes
+              DataSource = Clientes.DataSource1
               TabOrder = 0
               ExplicitHeight = 23
             end
@@ -165,7 +165,7 @@ inherited ClientesM: TClientesM
               Height = 22
               Align = alClient
               DataField = 'contato_func'
-              DataSource = DM.dsClientes
+              DataSource = Clientes.DataSource1
               TabOrder = 0
               ExplicitHeight = 23
             end
@@ -197,7 +197,7 @@ inherited ClientesM: TClientesM
               Height = 22
               Align = alClient
               DataField = 'contato_tel'
-              DataSource = DM.dsClientes
+              DataSource = Clientes.DataSource1
               TabOrder = 0
               ExplicitHeight = 23
             end
@@ -229,7 +229,7 @@ inherited ClientesM: TClientesM
               Height = 22
               Align = alClient
               DataField = 'contato_cel'
-              DataSource = DM.dsClientes
+              DataSource = Clientes.DataSource1
               TabOrder = 0
               ExplicitHeight = 23
             end
@@ -237,7 +237,7 @@ inherited ClientesM: TClientesM
           object Panel62: TPanel
             Left = 489
             Top = 17
-            Width = 262
+            Width = 651
             Height = 49
             Align = alClient
             BevelOuter = bvNone
@@ -246,7 +246,7 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 256
+              Width = 645
               Height = 15
               Align = alTop
               Caption = 'E-Mail'
@@ -257,18 +257,18 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 24
-              Width = 256
+              Width = 645
               Height = 22
               Align = alClient
               CharCase = ecLowerCase
               DataField = 'contato_mail'
-              DataSource = DM.dsClientes
+              DataSource = Clientes.DataSource1
               TabOrder = 0
               ExplicitHeight = 23
             end
           end
           object Panel63: TPanel
-            Left = 751
+            Left = 1140
             Top = 17
             Width = 75
             Height = 49
@@ -294,7 +294,7 @@ inherited ClientesM: TClientesM
               Height = 22
               Align = alClient
               DataField = 'contato_nextel'
-              DataSource = DM.dsClientes
+              DataSource = Clientes.DataSource1
               TabOrder = 0
               ExplicitHeight = 23
             end
@@ -303,26 +303,26 @@ inherited ClientesM: TClientesM
         object Panel2: TPanel
           Left = 0
           Top = 0
-          Width = 834
+          Width = 1223
           Height = 127
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 0
           inline FrameImage1: TFrameImage
-            Left = 623
+            Left = 1012
             Top = 0
             Width = 211
             Height = 127
             Align = alRight
             TabOrder = 1
-            ExplicitLeft = 623
+            ExplicitLeft = 1012
             ExplicitWidth = 211
             ExplicitHeight = 127
             inherited FrameImage: TJvDBImage
               Width = 211
               Height = 127
               DataField = 'logo'
-              DataSource = DM.dsClientes
+              DataSource = Clientes.DataSource1
               ExplicitWidth = 211
               ExplicitHeight = 127
             end
@@ -330,7 +330,7 @@ inherited ClientesM: TClientesM
           object Panel6: TPanel
             Left = 0
             Top = 0
-            Width = 623
+            Width = 1012
             Height = 127
             Align = alClient
             BevelOuter = bvNone
@@ -338,7 +338,7 @@ inherited ClientesM: TClientesM
             object Panel4: TPanel
               Left = 0
               Top = 50
-              Width = 623
+              Width = 1012
               Height = 75
               Align = alTop
               BevelOuter = bvNone
@@ -347,7 +347,7 @@ inherited ClientesM: TClientesM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 617
+                Width = 1006
                 Height = 69
                 Align = alClient
                 Caption = ' Tipo de Cliente '
@@ -379,7 +379,7 @@ inherited ClientesM: TClientesM
                     Style = csDropDownList
                     Align = alClient
                     DataField = 'tipo'
-                    DataSource = DM.dsClientes
+                    DataSource = Clientes.DataSource1
                     ItemHeight = 15
                     Items.Strings = (
                       'Jur'#237'dico'
@@ -414,7 +414,7 @@ inherited ClientesM: TClientesM
                     Height = 23
                     Align = alClient
                     DataField = 'cnpj'
-                    DataSource = DM.dsClientes
+                    DataSource = Clientes.DataSource1
                     TabOrder = 0
                   end
                 end
@@ -445,7 +445,7 @@ inherited ClientesM: TClientesM
                     Height = 23
                     Align = alClient
                     DataField = 'inscricao'
-                    DataSource = DM.dsClientes
+                    DataSource = Clientes.DataSource1
                     TabOrder = 0
                   end
                 end
@@ -475,14 +475,14 @@ inherited ClientesM: TClientesM
                     Height = 23
                     Align = alClient
                     DataField = 'cpf'
-                    DataSource = DM.dsClientes
+                    DataSource = Clientes.DataSource1
                     TabOrder = 0
                   end
                 end
                 object Panel26: TPanel
                   Left = 481
                   Top = 17
-                  Width = 134
+                  Width = 523
                   Height = 50
                   Align = alClient
                   BevelOuter = bvNone
@@ -491,7 +491,7 @@ inherited ClientesM: TClientesM
                     AlignWithMargins = True
                     Left = 3
                     Top = 3
-                    Width = 128
+                    Width = 517
                     Height = 15
                     Align = alTop
                     Caption = 'RG'
@@ -502,11 +502,11 @@ inherited ClientesM: TClientesM
                     AlignWithMargins = True
                     Left = 3
                     Top = 24
-                    Width = 128
+                    Width = 517
                     Height = 23
                     Align = alClient
                     DataField = 'rg'
-                    DataSource = DM.dsClientes
+                    DataSource = Clientes.DataSource1
                     TabOrder = 0
                   end
                 end
@@ -515,7 +515,7 @@ inherited ClientesM: TClientesM
             object Panel5: TPanel
               Left = 0
               Top = 0
-              Width = 623
+              Width = 1012
               Height = 50
               Align = alTop
               BevelOuter = bvNone
@@ -541,6 +541,7 @@ inherited ClientesM: TClientesM
                   Font.Color = clWindowText
                   Font.Height = -11
                   Font.Name = 'Arial'
+                  Font.Pitch = fpVariable
                   Font.Style = []
                   ParentFont = False
                   ExplicitWidth = 33
@@ -553,7 +554,7 @@ inherited ClientesM: TClientesM
                   Height = 24
                   Align = alClient
                   DataField = 'codigo'
-                  DataSource = DM.dsClientes
+                  DataSource = Clientes.DataSource1
                   Enabled = False
                   TabOrder = 0
                   ExplicitHeight = 23
@@ -562,7 +563,7 @@ inherited ClientesM: TClientesM
               object Panel8: TPanel
                 Left = 68
                 Top = 0
-                Width = 398
+                Width = 787
                 Height = 50
                 Align = alClient
                 BevelOuter = bvNone
@@ -571,7 +572,7 @@ inherited ClientesM: TClientesM
                   AlignWithMargins = True
                   Left = 3
                   Top = 3
-                  Width = 392
+                  Width = 781
                   Height = 14
                   Align = alTop
                   Caption = 'Nome Empresarial'
@@ -579,6 +580,7 @@ inherited ClientesM: TClientesM
                   Font.Color = clWindowText
                   Font.Height = -11
                   Font.Name = 'Arial'
+                  Font.Pitch = fpVariable
                   Font.Style = [fsBold]
                   ParentFont = False
                   ExplicitWidth = 101
@@ -587,18 +589,18 @@ inherited ClientesM: TClientesM
                   AlignWithMargins = True
                   Left = 3
                   Top = 23
-                  Width = 392
+                  Width = 781
                   Height = 24
                   Align = alClient
                   CharCase = ecUpperCase
                   DataField = 'empresa'
-                  DataSource = DM.dsClientes
+                  DataSource = Clientes.DataSource1
                   TabOrder = 0
                   ExplicitHeight = 23
                 end
               end
               object Panel9: TPanel
-                Left = 466
+                Left = 855
                 Top = 0
                 Width = 157
                 Height = 50
@@ -617,6 +619,7 @@ inherited ClientesM: TClientesM
                   Font.Color = clWindowText
                   Font.Height = -11
                   Font.Name = 'Arial'
+                  Font.Pitch = fpVariable
                   Font.Style = [fsBold]
                   ParentFont = False
                   ExplicitWidth = 80
@@ -630,7 +633,7 @@ inherited ClientesM: TClientesM
                   Align = alClient
                   CharCase = ecUpperCase
                   DataField = 'nome_chave'
-                  DataSource = DM.dsClientes
+                  DataSource = Clientes.DataSource1
                   TabOrder = 0
                   ExplicitHeight = 23
                 end
@@ -642,7 +645,7 @@ inherited ClientesM: TClientesM
           AlignWithMargins = True
           Left = 3
           Top = 130
-          Width = 828
+          Width = 1217
           Height = 68
           Align = alTop
           Caption = ' Outras Informa'#231#245'es '
@@ -674,7 +677,7 @@ inherited ClientesM: TClientesM
               Style = csDropDownList
               Align = alClient
               DataField = 'situacao'
-              DataSource = DM.dsClientes
+              DataSource = Clientes.DataSource1
               ItemHeight = 15
               Items.Strings = (
                 'ATIVO'
@@ -686,7 +689,7 @@ inherited ClientesM: TClientesM
           object Panel19: TPanel
             Left = 122
             Top = 17
-            Width = 385
+            Width = 774
             Height = 49
             Align = alClient
             BevelOuter = bvNone
@@ -695,7 +698,7 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 379
+              Width = 768
               Height = 15
               Align = alTop
               Caption = 'Vendedor'
@@ -705,19 +708,19 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 24
-              Width = 379
+              Width = 768
               Height = 23
               Align = alClient
               DataField = 'id_vendedor'
-              DataSource = DM.dsClientes
+              DataSource = Clientes.DataSource1
               KeyField = 'idvendedor'
               ListField = 'nome;cpf'
-              ListSource = DM.dsVendedores
+              ListSource = Clientes.dsVendedores
               TabOrder = 0
             end
           end
           object Panel20: TPanel
-            Left = 507
+            Left = 896
             Top = 17
             Width = 98
             Height = 49
@@ -736,6 +739,7 @@ inherited ClientesM: TClientesM
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Arial'
+              Font.Pitch = fpVariable
               Font.Style = [fsBold]
               ParentFont = False
               ExplicitWidth = 50
@@ -748,7 +752,7 @@ inherited ClientesM: TClientesM
               Height = 23
               Align = alClient
               DataField = 'dtcadastro'
-              DataSource = DM.dsClientes
+              DataSource = Clientes.DataSource1
               ButtonFlat = True
               Enabled = False
               ShowNullDate = False
@@ -756,7 +760,7 @@ inherited ClientesM: TClientesM
             end
           end
           object Panel21: TPanel
-            Left = 605
+            Left = 994
             Top = 17
             Width = 138
             Height = 49
@@ -782,13 +786,13 @@ inherited ClientesM: TClientesM
               Height = 22
               Align = alClient
               DataField = 'tag_caption'
-              DataSource = DM.dsClientes
+              DataSource = Clientes.DataSource1
               TabOrder = 0
               ExplicitHeight = 23
             end
           end
           object Panel57: TPanel
-            Left = 743
+            Left = 1132
             Top = 17
             Width = 83
             Height = 49
@@ -814,7 +818,7 @@ inherited ClientesM: TClientesM
               Height = 22
               Align = alClient
               DataField = 'senha'
-              DataSource = DM.dsClientes
+              DataSource = Clientes.DataSource1
               PasswordChar = '*'
               TabOrder = 0
               ExplicitHeight = 23
@@ -829,7 +833,7 @@ inherited ClientesM: TClientesM
           AlignWithMargins = True
           Left = 3
           Top = 53
-          Width = 828
+          Width = 1217
           Height = 2
           Align = alTop
           Shape = bsTopLine
@@ -840,7 +844,7 @@ inherited ClientesM: TClientesM
         object Panel27: TPanel
           Left = 0
           Top = 0
-          Width = 834
+          Width = 1223
           Height = 50
           Align = alTop
           BevelOuter = bvNone
@@ -866,6 +870,7 @@ inherited ClientesM: TClientesM
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Arial'
+              Font.Pitch = fpVariable
               Font.Style = [fsBold]
               ParentFont = False
               ExplicitWidth = 39
@@ -879,7 +884,7 @@ inherited ClientesM: TClientesM
               TabStop = False
               Align = alClient
               DataField = 'codigo'
-              DataSource = DM.dsClientes
+              DataSource = Clientes.DataSource1
               Enabled = False
               ReadOnly = True
               TabOrder = 0
@@ -889,7 +894,7 @@ inherited ClientesM: TClientesM
           object Panel29: TPanel
             Left = 68
             Top = 0
-            Width = 608
+            Width = 997
             Height = 50
             Align = alClient
             BevelOuter = bvNone
@@ -898,7 +903,7 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 602
+              Width = 991
               Height = 14
               Align = alTop
               Caption = 'Raz'#227'o Social'
@@ -906,6 +911,7 @@ inherited ClientesM: TClientesM
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Arial'
+              Font.Pitch = fpVariable
               Font.Style = [fsBold]
               ParentFont = False
               ExplicitWidth = 67
@@ -914,20 +920,20 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 23
-              Width = 602
+              Width = 991
               Height = 24
               TabStop = False
               Align = alClient
               CharCase = ecUpperCase
               DataField = 'empresa'
-              DataSource = DM.dsClientes
+              DataSource = Clientes.DataSource1
               ReadOnly = True
               TabOrder = 0
               ExplicitHeight = 23
             end
           end
           object Panel30: TPanel
-            Left = 676
+            Left = 1065
             Top = 0
             Width = 158
             Height = 50
@@ -946,6 +952,7 @@ inherited ClientesM: TClientesM
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Arial'
+              Font.Pitch = fpVariable
               Font.Style = [fsBold]
               ParentFont = False
               ExplicitWidth = 42
@@ -960,7 +967,7 @@ inherited ClientesM: TClientesM
               Align = alClient
               CharCase = ecUpperCase
               DataField = 'nome_chave'
-              DataSource = DM.dsClientes
+              DataSource = Clientes.DataSource1
               ReadOnly = True
               TabOrder = 0
               ExplicitHeight = 23
@@ -970,7 +977,7 @@ inherited ClientesM: TClientesM
         object Panel31: TPanel
           Left = 0
           Top = 58
-          Width = 834
+          Width = 1223
           Height = 50
           Align = alTop
           BevelOuter = bvNone
@@ -979,7 +986,7 @@ inherited ClientesM: TClientesM
             AlignWithMargins = True
             Left = 3
             Top = 3
-            Width = 828
+            Width = 1217
             Height = 14
             Align = alTop
             Caption = 'Endere'#231'o'
@@ -988,6 +995,7 @@ inherited ClientesM: TClientesM
             Font.Color = clWindowText
             Font.Height = -11
             Font.Name = 'Arial'
+            Font.Pitch = fpVariable
             Font.Style = [fsBold]
             ParentFont = False
             ExplicitWidth = 52
@@ -996,11 +1004,11 @@ inherited ClientesM: TClientesM
             AlignWithMargins = True
             Left = 3
             Top = 23
-            Width = 828
+            Width = 1217
             Height = 24
             Align = alClient
             DataField = 'endereco'
-            DataSource = DM.dsClientes
+            DataSource = Clientes.DataSource1
             TabOrder = 0
             ExplicitHeight = 23
           end
@@ -1008,7 +1016,7 @@ inherited ClientesM: TClientesM
         object Panel32: TPanel
           Left = 0
           Top = 108
-          Width = 834
+          Width = 1223
           Height = 50
           Align = alTop
           BevelOuter = bvNone
@@ -1040,14 +1048,14 @@ inherited ClientesM: TClientesM
               Height = 23
               Align = alClient
               DataField = 'bairro'
-              DataSource = DM.dsClientes
+              DataSource = Clientes.DataSource1
               TabOrder = 0
             end
           end
           object Panel35: TPanel
             Left = 209
             Top = 0
-            Width = 491
+            Width = 880
             Height = 50
             Align = alClient
             BevelOuter = bvNone
@@ -1056,7 +1064,7 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 485
+              Width = 874
               Height = 15
               Align = alTop
               Caption = 'Cidade'
@@ -1067,16 +1075,16 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 24
-              Width = 485
+              Width = 874
               Height = 23
               Align = alClient
               DataField = 'cidade'
-              DataSource = DM.dsClientes
+              DataSource = Clientes.DataSource1
               TabOrder = 0
             end
           end
           object Panel36: TPanel
-            Left = 700
+            Left = 1089
             Top = 0
             Width = 43
             Height = 50
@@ -1096,6 +1104,7 @@ inherited ClientesM: TClientesM
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Arial'
+              Font.Pitch = fpVariable
               Font.Style = [fsBold]
               ParentFont = False
               ExplicitWidth = 13
@@ -1109,13 +1118,13 @@ inherited ClientesM: TClientesM
               Align = alClient
               CharCase = ecUpperCase
               DataField = 'estado'
-              DataSource = DM.dsClientes
+              DataSource = Clientes.DataSource1
               TabOrder = 0
               ExplicitHeight = 23
             end
           end
           object Panel37: TPanel
-            Left = 743
+            Left = 1132
             Top = 0
             Width = 91
             Height = 50
@@ -1141,7 +1150,7 @@ inherited ClientesM: TClientesM
               Height = 23
               Align = alClient
               DataField = 'cep'
-              DataSource = DM.dsClientes
+              DataSource = Clientes.DataSource1
               TabOrder = 0
             end
           end
@@ -1149,7 +1158,7 @@ inherited ClientesM: TClientesM
         object Panel33: TPanel
           Left = 0
           Top = 158
-          Width = 834
+          Width = 1223
           Height = 50
           Align = alTop
           BevelOuter = bvNone
@@ -1181,14 +1190,14 @@ inherited ClientesM: TClientesM
               Height = 23
               Align = alClient
               DataField = 'email'
-              DataSource = DM.dsClientes
+              DataSource = Clientes.DataSource1
               TabOrder = 0
             end
           end
           object Panel39: TPanel
             Left = 269
             Top = 0
-            Width = 310
+            Width = 699
             Height = 50
             Align = alClient
             BevelOuter = bvNone
@@ -1197,7 +1206,7 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 304
+              Width = 693
               Height = 15
               Align = alTop
               Caption = 'Site'
@@ -1208,17 +1217,17 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 24
-              Width = 304
+              Width = 693
               Height = 23
               Align = alClient
               CharCase = ecLowerCase
               DataField = 'website'
-              DataSource = DM.dsClientes
+              DataSource = Clientes.DataSource1
               TabOrder = 0
             end
           end
           object Panel40: TPanel
-            Left = 579
+            Left = 968
             Top = 0
             Width = 127
             Height = 50
@@ -1244,12 +1253,12 @@ inherited ClientesM: TClientesM
               Height = 23
               Align = alClient
               DataField = 'telefone'
-              DataSource = DM.dsClientes
+              DataSource = Clientes.DataSource1
               TabOrder = 0
             end
           end
           object Panel41: TPanel
-            Left = 706
+            Left = 1095
             Top = 0
             Width = 128
             Height = 50
@@ -1275,7 +1284,7 @@ inherited ClientesM: TClientesM
               Height = 23
               Align = alClient
               DataField = 'fax'
-              DataSource = DM.dsClientes
+              DataSource = Clientes.DataSource1
               TabOrder = 0
             end
           end
@@ -1288,7 +1297,7 @@ inherited ClientesM: TClientesM
           AlignWithMargins = True
           Left = 3
           Top = 53
-          Width = 828
+          Width = 1217
           Height = 2
           Align = alTop
           Shape = bsTopLine
@@ -1300,7 +1309,7 @@ inherited ClientesM: TClientesM
           AlignWithMargins = True
           Left = 3
           Top = 61
-          Width = 828
+          Width = 1217
           Height = 68
           Align = alTop
           Caption = ' Faturamento '
@@ -1308,7 +1317,7 @@ inherited ClientesM: TClientesM
           object Panel42: TPanel
             Left = 2
             Top = 17
-            Width = 336
+            Width = 725
             Height = 49
             Align = alClient
             BevelOuter = bvNone
@@ -1317,7 +1326,7 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 330
+              Width = 719
               Height = 15
               Align = alTop
               Caption = 'Endere'#231'o'
@@ -1328,17 +1337,17 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 24
-              Width = 330
+              Width = 719
               Height = 22
               Align = alClient
               DataField = 'fat_ende'
-              DataSource = DM.dsClientes
+              DataSource = Clientes.DataSource1
               TabOrder = 0
               ExplicitHeight = 23
             end
           end
           object Panel43: TPanel
-            Left = 338
+            Left = 727
             Top = 17
             Width = 188
             Height = 49
@@ -1364,13 +1373,13 @@ inherited ClientesM: TClientesM
               Height = 22
               Align = alClient
               DataField = 'fat_bair'
-              DataSource = DM.dsClientes
+              DataSource = Clientes.DataSource1
               TabOrder = 0
               ExplicitHeight = 23
             end
           end
           object Panel44: TPanel
-            Left = 526
+            Left = 915
             Top = 17
             Width = 187
             Height = 49
@@ -1396,13 +1405,13 @@ inherited ClientesM: TClientesM
               Height = 22
               Align = alClient
               DataField = 'fat_cida'
-              DataSource = DM.dsClientes
+              DataSource = Clientes.DataSource1
               TabOrder = 0
               ExplicitHeight = 23
             end
           end
           object Panel45: TPanel
-            Left = 713
+            Left = 1102
             Top = 17
             Width = 38
             Height = 49
@@ -1429,13 +1438,13 @@ inherited ClientesM: TClientesM
               Align = alClient
               CharCase = ecUpperCase
               DataField = 'fat_esta'
-              DataSource = DM.dsClientes
+              DataSource = Clientes.DataSource1
               TabOrder = 0
               ExplicitHeight = 23
             end
           end
           object Panel46: TPanel
-            Left = 751
+            Left = 1140
             Top = 17
             Width = 75
             Height = 49
@@ -1461,7 +1470,7 @@ inherited ClientesM: TClientesM
               Height = 22
               Align = alClient
               DataField = 'fat_cep'
-              DataSource = DM.dsClientes
+              DataSource = Clientes.DataSource1
               TabOrder = 0
               ExplicitHeight = 23
             end
@@ -1470,7 +1479,7 @@ inherited ClientesM: TClientesM
         object Panel10: TPanel
           Left = 0
           Top = 0
-          Width = 834
+          Width = 1223
           Height = 50
           Align = alTop
           BevelOuter = bvNone
@@ -1496,6 +1505,7 @@ inherited ClientesM: TClientesM
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Arial'
+              Font.Pitch = fpVariable
               Font.Style = [fsBold]
               ParentFont = False
               ExplicitWidth = 39
@@ -1509,7 +1519,7 @@ inherited ClientesM: TClientesM
               TabStop = False
               Align = alClient
               DataField = 'codigo'
-              DataSource = DM.dsClientes
+              DataSource = Clientes.DataSource1
               Enabled = False
               ReadOnly = True
               TabOrder = 0
@@ -1519,7 +1529,7 @@ inherited ClientesM: TClientesM
           object Panel12: TPanel
             Left = 68
             Top = 0
-            Width = 608
+            Width = 997
             Height = 50
             Align = alClient
             BevelOuter = bvNone
@@ -1528,7 +1538,7 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 602
+              Width = 991
               Height = 14
               Align = alTop
               Caption = 'Raz'#227'o Social'
@@ -1536,6 +1546,7 @@ inherited ClientesM: TClientesM
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Arial'
+              Font.Pitch = fpVariable
               Font.Style = [fsBold]
               ParentFont = False
               ExplicitWidth = 67
@@ -1544,20 +1555,20 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 23
-              Width = 602
+              Width = 991
               Height = 24
               TabStop = False
               Align = alClient
               CharCase = ecUpperCase
               DataField = 'empresa'
-              DataSource = DM.dsClientes
+              DataSource = Clientes.DataSource1
               ReadOnly = True
               TabOrder = 0
               ExplicitHeight = 23
             end
           end
           object Panel13: TPanel
-            Left = 676
+            Left = 1065
             Top = 0
             Width = 158
             Height = 50
@@ -1576,6 +1587,7 @@ inherited ClientesM: TClientesM
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Arial'
+              Font.Pitch = fpVariable
               Font.Style = [fsBold]
               ParentFont = False
               ExplicitWidth = 42
@@ -1590,7 +1602,7 @@ inherited ClientesM: TClientesM
               Align = alClient
               CharCase = ecUpperCase
               DataField = 'nome_chave'
-              DataSource = DM.dsClientes
+              DataSource = Clientes.DataSource1
               ReadOnly = True
               TabOrder = 0
               ExplicitHeight = 23
@@ -1601,7 +1613,7 @@ inherited ClientesM: TClientesM
           AlignWithMargins = True
           Left = 3
           Top = 135
-          Width = 828
+          Width = 1217
           Height = 68
           Align = alTop
           Caption = ' Entrega '
@@ -1609,7 +1621,7 @@ inherited ClientesM: TClientesM
           object Panel47: TPanel
             Left = 2
             Top = 17
-            Width = 336
+            Width = 725
             Height = 49
             Align = alClient
             BevelOuter = bvNone
@@ -1618,7 +1630,7 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 330
+              Width = 719
               Height = 15
               Align = alTop
               Caption = 'Endere'#231'o'
@@ -1629,17 +1641,17 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 24
-              Width = 330
+              Width = 719
               Height = 22
               Align = alClient
               DataField = 'ent_ende'
-              DataSource = DM.dsClientes
+              DataSource = Clientes.DataSource1
               TabOrder = 0
               ExplicitHeight = 23
             end
           end
           object Panel48: TPanel
-            Left = 338
+            Left = 727
             Top = 17
             Width = 188
             Height = 49
@@ -1665,13 +1677,13 @@ inherited ClientesM: TClientesM
               Height = 22
               Align = alClient
               DataField = 'ent_bair'
-              DataSource = DM.dsClientes
+              DataSource = Clientes.DataSource1
               TabOrder = 0
               ExplicitHeight = 23
             end
           end
           object Panel49: TPanel
-            Left = 526
+            Left = 915
             Top = 17
             Width = 187
             Height = 49
@@ -1697,13 +1709,13 @@ inherited ClientesM: TClientesM
               Height = 22
               Align = alClient
               DataField = 'ent_cida'
-              DataSource = DM.dsClientes
+              DataSource = Clientes.DataSource1
               TabOrder = 0
               ExplicitHeight = 23
             end
           end
           object Panel50: TPanel
-            Left = 713
+            Left = 1102
             Top = 17
             Width = 38
             Height = 49
@@ -1730,13 +1742,13 @@ inherited ClientesM: TClientesM
               Align = alClient
               CharCase = ecUpperCase
               DataField = 'ent_esta'
-              DataSource = DM.dsClientes
+              DataSource = Clientes.DataSource1
               TabOrder = 0
               ExplicitHeight = 23
             end
           end
           object Panel51: TPanel
-            Left = 751
+            Left = 1140
             Top = 17
             Width = 75
             Height = 49
@@ -1762,7 +1774,7 @@ inherited ClientesM: TClientesM
               Height = 22
               Align = alClient
               DataField = 'ent_cep'
-              DataSource = DM.dsClientes
+              DataSource = Clientes.DataSource1
               TabOrder = 0
               ExplicitHeight = 23
             end
@@ -1772,7 +1784,7 @@ inherited ClientesM: TClientesM
           AlignWithMargins = True
           Left = 3
           Top = 209
-          Width = 828
+          Width = 1217
           Height = 68
           Align = alTop
           Caption = ' Cobran'#231'a '
@@ -1780,7 +1792,7 @@ inherited ClientesM: TClientesM
           object Panel52: TPanel
             Left = 2
             Top = 17
-            Width = 336
+            Width = 725
             Height = 49
             Align = alClient
             BevelOuter = bvNone
@@ -1789,7 +1801,7 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 330
+              Width = 719
               Height = 15
               Align = alTop
               Caption = 'Endere'#231'o'
@@ -1800,17 +1812,17 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 24
-              Width = 330
+              Width = 719
               Height = 22
               Align = alClient
               DataField = 'cobra_ende'
-              DataSource = DM.dsClientes
+              DataSource = Clientes.DataSource1
               TabOrder = 0
               ExplicitHeight = 23
             end
           end
           object Panel53: TPanel
-            Left = 338
+            Left = 727
             Top = 17
             Width = 188
             Height = 49
@@ -1836,13 +1848,13 @@ inherited ClientesM: TClientesM
               Height = 22
               Align = alClient
               DataField = 'cobra_bairro'
-              DataSource = DM.dsClientes
+              DataSource = Clientes.DataSource1
               TabOrder = 0
               ExplicitHeight = 23
             end
           end
           object Panel54: TPanel
-            Left = 526
+            Left = 915
             Top = 17
             Width = 187
             Height = 49
@@ -1868,13 +1880,13 @@ inherited ClientesM: TClientesM
               Height = 22
               Align = alClient
               DataField = 'cobra_cida'
-              DataSource = DM.dsClientes
+              DataSource = Clientes.DataSource1
               TabOrder = 0
               ExplicitHeight = 23
             end
           end
           object Panel55: TPanel
-            Left = 713
+            Left = 1102
             Top = 17
             Width = 38
             Height = 49
@@ -1901,13 +1913,13 @@ inherited ClientesM: TClientesM
               Align = alClient
               CharCase = ecUpperCase
               DataField = 'cobra_esta'
-              DataSource = DM.dsClientes
+              DataSource = Clientes.DataSource1
               TabOrder = 0
               ExplicitHeight = 23
             end
           end
           object Panel56: TPanel
-            Left = 751
+            Left = 1140
             Top = 17
             Width = 75
             Height = 49
@@ -1933,7 +1945,7 @@ inherited ClientesM: TClientesM
               Height = 22
               Align = alClient
               DataField = 'cobra_cep'
-              DataSource = DM.dsClientes
+              DataSource = Clientes.DataSource1
               TabOrder = 0
               ExplicitHeight = 23
             end
@@ -1947,7 +1959,7 @@ inherited ClientesM: TClientesM
           AlignWithMargins = True
           Left = 3
           Top = 53
-          Width = 828
+          Width = 1217
           Height = 2
           Align = alTop
           Shape = bsTopLine
@@ -1959,17 +1971,17 @@ inherited ClientesM: TClientesM
           AlignWithMargins = True
           Left = 3
           Top = 61
-          Width = 828
-          Height = 220
+          Width = 1217
+          Height = 387
           Align = alClient
           DataField = 'observacao'
-          DataSource = DM.dsClientes
+          DataSource = Clientes.DataSource1
           TabOrder = 0
         end
         object Panel14: TPanel
           Left = 0
           Top = 0
-          Width = 834
+          Width = 1223
           Height = 50
           Align = alTop
           BevelOuter = bvNone
@@ -1995,6 +2007,7 @@ inherited ClientesM: TClientesM
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Arial'
+              Font.Pitch = fpVariable
               Font.Style = [fsBold]
               ParentFont = False
               ExplicitWidth = 39
@@ -2008,7 +2021,7 @@ inherited ClientesM: TClientesM
               TabStop = False
               Align = alClient
               DataField = 'codigo'
-              DataSource = DM.dsClientes
+              DataSource = Clientes.DataSource1
               Enabled = False
               ReadOnly = True
               TabOrder = 0
@@ -2018,7 +2031,7 @@ inherited ClientesM: TClientesM
           object Panel16: TPanel
             Left = 68
             Top = 0
-            Width = 608
+            Width = 997
             Height = 50
             Align = alClient
             BevelOuter = bvNone
@@ -2027,7 +2040,7 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 602
+              Width = 991
               Height = 14
               Align = alTop
               Caption = 'Raz'#227'o Social'
@@ -2035,6 +2048,7 @@ inherited ClientesM: TClientesM
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Arial'
+              Font.Pitch = fpVariable
               Font.Style = [fsBold]
               ParentFont = False
               ExplicitWidth = 67
@@ -2043,20 +2057,20 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 23
-              Width = 602
+              Width = 991
               Height = 24
               TabStop = False
               Align = alClient
               CharCase = ecUpperCase
               DataField = 'empresa'
-              DataSource = DM.dsClientes
+              DataSource = Clientes.DataSource1
               ReadOnly = True
               TabOrder = 0
               ExplicitHeight = 23
             end
           end
           object Panel17: TPanel
-            Left = 676
+            Left = 1065
             Top = 0
             Width = 158
             Height = 50
@@ -2075,6 +2089,7 @@ inherited ClientesM: TClientesM
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Arial'
+              Font.Pitch = fpVariable
               Font.Style = [fsBold]
               ParentFont = False
               ExplicitWidth = 42
@@ -2089,7 +2104,7 @@ inherited ClientesM: TClientesM
               Align = alClient
               CharCase = ecUpperCase
               DataField = 'nome_chave'
-              DataSource = DM.dsClientes
+              DataSource = Clientes.DataSource1
               ReadOnly = True
               TabOrder = 0
               ExplicitHeight = 23
@@ -2100,11 +2115,11 @@ inherited ClientesM: TClientesM
     end
   end
   inherited ControlBar1: TControlBar
-    Width = 842
+    Width = 1231
     Height = 38
     ExplicitLeft = 3
     ExplicitTop = 3
-    ExplicitWidth = 842
+    ExplicitWidth = 1231
     ExplicitHeight = 38
     inherited ToolBar1: TToolBar
       Width = 746

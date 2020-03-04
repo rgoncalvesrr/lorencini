@@ -23,7 +23,7 @@ object DM: TDM
     User = 'postgres'
     Password = 'postgres.'
     Protocol = 'postgresql'
-    LibraryLocation = 'D:\Projetos\Lorencini\Application\Lib\libpq.dll'
+    LibraryLocation = 'D:\Projetos\Lorencini\Lib\libpq.dll'
     Left = 88
     Top = 8
   end
@@ -1242,7 +1242,12 @@ object DM: TDM
     UpdateObject = uVendedores
     AfterInsert = qVendedoresAfterInsert
     SQL.Strings = (
-      'select * '
+      
+        'select idvendedor, nome, cpf, rg, cnpj, inscrestadual, cep, ende' +
+        'reco, bairro, cidade, estado,'
+      
+        '       telefone, celular, comissao, ajudacusto, email, senha, us' +
+        'ername, ativo, recno'
       '  from tb_vendedores')
     Params = <>
     IndexFieldNames = 'NOME Asc'
