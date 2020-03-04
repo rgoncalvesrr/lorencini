@@ -5,11 +5,17 @@ inherited Vendedores: TVendedores
   TextHeight = 15
   inherited Panel1: TPanel
     inherited pctlFind: TPageControl
+      inherited tsQuery: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 6
+        ExplicitWidth = 819
+        ExplicitHeight = 75
+      end
       inherited tsFind: TTabSheet
         ExplicitLeft = 4
         ExplicitTop = 6
         ExplicitWidth = 819
-        ExplicitHeight = 65
+        ExplicitHeight = 75
       end
     end
   end
@@ -17,9 +23,50 @@ inherited Vendedores: TVendedores
     inherited PageControl1: TPageControl
       inherited TabSheet1: TTabSheet
         Caption = 'Vendedores'
+        ExplicitLeft = 4
+        ExplicitTop = 26
+        ExplicitWidth = 823
+        ExplicitHeight = 147
         inherited DBGrid1: TDBGrid
           DataSource = DM.dsVendedores
         end
+      end
+    end
+  end
+  inherited ctrlBarTop: TControlBar
+    inherited ToolBar1: TToolBar
+      inherited ToolButton2: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton5: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton9: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton6: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton1: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton8: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton3: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited tbOrder: TToolButton
+        ExplicitWidth = 76
+      end
+      inherited tbReport: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited tbOpcao: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton10: TToolButton
+        ExplicitWidth = 32
       end
     end
   end
@@ -30,7 +77,12 @@ inherited Vendedores: TVendedores
     Connection = DM.Design
     SortedFields = 'NOME'
     SQL.Strings = (
-      'select * '
+      
+        'select idvendedor, nome, cpf, rg, cnpj, inscrestadual, cep, ende' +
+        'reco, bairro, cidade, estado,'
+      
+        '       telefone, celular, comissao, ajudacusto, email, senha, us' +
+        'ername, ativo, recno'
       '  from tb_vendedores')
     IndexFieldNames = 'NOME Asc'
     object IBrwSrcidvendedor: TIntegerField

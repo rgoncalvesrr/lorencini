@@ -9,7 +9,7 @@ object Main: TMain
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
-  Font.Name = 'Arial'
+  Font.Name = 'Segoe UI'
   Font.Style = []
   Menu = MainMenu1
   OldCreateOrder = False
@@ -20,7 +20,7 @@ object Main: TMain
   OnResize = FormResize
   OnShow = FormShow
   PixelsPerInch = 96
-  TextHeight = 14
+  TextHeight = 13
   object StatusBar1: TStatusBar
     Left = 0
     Top = 749
@@ -95,7 +95,7 @@ object Main: TMain
       AutoSize = True
       BorderWidth = 1
       ButtonHeight = 38
-      ButtonWidth = 150
+      ButtonWidth = 153
       Caption = 'ToolBar2'
       DisabledImages = Resources.large_d
       DrawingStyle = dsGradient
@@ -113,19 +113,19 @@ object Main: TMain
         Style = tbsTextButton
       end
       object ToolButton8: TToolButton
-        Left = 120
+        Left = 127
         Top = 0
         Action = actAgenda
         Style = tbsTextButton
       end
       object ToolButton9: TToolButton
-        Left = 205
+        Left = 214
         Top = 0
         Action = actCompromisso
         Style = tbsTextButton
       end
       object ToolButton12: TToolButton
-        Left = 317
+        Left = 331
         Top = 0
         Width = 8
         Caption = 'ToolButton12'
@@ -133,25 +133,25 @@ object Main: TMain
         Style = tbsSeparator
       end
       object ToolButton10: TToolButton
-        Left = 325
+        Left = 339
         Top = 0
         Action = actChangePass
         Style = tbsTextButton
       end
       object ToolButton1: TToolButton
-        Left = 447
+        Left = 461
         Top = 0
         Action = actFichaFinDesp
         Caption = 'Registro de Despesas'
         Style = tbsTextButton
       end
       object ToolButton11: TToolButton
-        Left = 601
+        Left = 618
         Top = 0
         Action = actVersion
       end
       object ToolButton13: TToolButton
-        Left = 641
+        Left = 658
         Top = 0
         Width = 8
         Caption = 'ToolButton13'
@@ -159,7 +159,7 @@ object Main: TMain
         Style = tbsSeparator
       end
       object ToolButton14: TToolButton
-        Left = 649
+        Left = 666
         Top = 0
         Action = actClose
       end

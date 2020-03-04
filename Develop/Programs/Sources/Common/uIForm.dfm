@@ -11,6 +11,7 @@ object IForm: TIForm
   Font.Color = clWindowText
   Font.Height = -12
   Font.Name = 'Segoe UI'
+  Font.Pitch = fpVariable
   Font.Style = []
   KeyPreview = True
   OldCreateOrder = False

@@ -1,13 +1,119 @@
 inherited Indices: TIndices
   Caption = 'Cadastro de '#205'ndices'
+  Constraints.MinWidth = 680
+  ExplicitWidth = 741
+  ExplicitHeight = 335
   PixelsPerInch = 96
-  TextHeight = 14
-  inherited Panel2: TPanel
-    inherited PageControl1: TPageControl
-      inherited TabSheet1: TTabSheet
-        Caption = #205'ndices'
+  TextHeight = 13
+  inherited StatusBar1: TStatusBar
+    ExplicitTop = 269
+    ExplicitWidth = 719
+  end
+  inherited Panel1: TPanel
+    Top = 44
+    ExplicitTop = 39
+    inherited pctlFind: TPageControl
+      ExplicitLeft = 5
+      ExplicitWidth = 715
+      inherited tsQuery: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 6
+        ExplicitWidth = 707
+        ExplicitHeight = 64
+        inherited BitBtn2: TBitBtn
+          Left = 619
+          Top = 10
+          Height = 32
+          ExplicitLeft = 619
+          ExplicitTop = 10
+          ExplicitHeight = 32
+        end
+      end
+      inherited tsFind: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 6
+        ExplicitWidth = 707
+        ExplicitHeight = 64
       end
     end
+  end
+  inherited Panel2: TPanel
+    Top = 118
+    Height = 148
+    ExplicitTop = 113
+    ExplicitHeight = 153
+    inherited PageControl1: TPageControl
+      Height = 142
+      ExplicitWidth = 719
+      ExplicitHeight = 147
+      inherited TabSheet1: TTabSheet
+        Caption = #205'ndices'
+        ExplicitLeft = 4
+        ExplicitTop = 24
+        ExplicitWidth = 711
+        ExplicitHeight = 119
+        inherited DBGrid1: TDBGrid
+          Width = 705
+          Height = 108
+        end
+      end
+    end
+  end
+  inherited ctrlBarTop: TControlBar
+    Height = 38
+    ExplicitWidth = 719
+    ExplicitHeight = 38
+    inherited ToolBar1: TToolBar
+      Width = 706
+      ButtonWidth = 70
+      ExplicitWidth = 706
+      inherited ToolButton2: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton5: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton9: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton6: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton1: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton8: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton3: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited tbOrder: TToolButton
+        ExplicitWidth = 74
+      end
+      inherited tbReport: TToolButton
+        Left = 314
+        ExplicitLeft = 314
+        ExplicitWidth = 32
+      end
+      inherited tbOpcao: TToolButton
+        Left = 346
+        ExplicitLeft = 346
+        ExplicitWidth = 32
+      end
+      inherited ToolButton11: TToolButton
+        Left = 378
+        ExplicitLeft = 378
+      end
+      inherited ToolButton10: TToolButton
+        Left = 386
+        ExplicitLeft = 386
+        ExplicitWidth = 32
+      end
+    end
+  end
+  inherited DataSource1: TDataSource
+    Left = 248
   end
   inherited IBrwSrc: TZQuery
     UpdateObject = updIBRWSrc
@@ -18,6 +124,7 @@ inherited Indices: TIndices
       '       pis_srv, cofins_srv, inss_srv, inss_mat,'
       '       aliq_srv, aliq_mat, regime, icms'
       '  FROM indices')
+    Left = 184
     object IBrwSrcvigencia: TDateField
       DisplayLabel = 'Vig'#234'ncia'
       FieldName = 'vigencia'
@@ -158,6 +265,9 @@ inherited Indices: TIndices
       DisplayFormat = ',0.#0%'
     end
   end
+  inherited zIBrwSrc: TZUpdateSQL
+    Left = 128
+  end
   object updIBRWSrc: TZUpdateSQL
     DeleteSQL.Strings = (
       'DELETE FROM indices'
@@ -202,8 +312,8 @@ inherited Indices: TIndices
       'WHERE'
       '  vigencia = :OLD_vigencia')
     UseSequenceFieldForRefreshSQL = False
-    Left = 176
-    Top = 88
+    Left = 128
+    Top = 64
     ParamData = <
       item
         DataType = ftUnknown

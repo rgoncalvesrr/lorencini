@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uIBrowse, DB, ZAbstractRODataset, ZAbstractDataset, ZDataset, Menus,
   ActnList, Grids, DBGrids, ComCtrls, StdCtrls, Buttons, Mask, ExtCtrls, ToolWin,
-  ZSqlUpdate, iTypes, JvExMask, JvToolEdit, JvBaseEdits;
+  ZSqlUpdate, iTypes, JvExMask, JvToolEdit, JvBaseEdits, ZSequence;
 
 type
   TClientes = class(TIDefBrowse)
@@ -83,6 +83,74 @@ type
     Label7: TLabel;
     edEmpresa: TEdit;
     edRazao: TEdit;
+    qClientesFinais: TZQuery;
+    qClientesFinaiscodigo: TIntegerField;
+    qClientesFinaiscliente: TIntegerField;
+    qClientesFinaisempresa: TStringField;
+    qClientesFinaisnome_chave: TStringField;
+    qClientesFinaiscidade: TStringField;
+    qClientesFinaisestado: TStringField;
+    qClientesFinaistelefone: TStringField;
+    qClientesFinaisemail: TStringField;
+    qClientesFinaiscnpj: TStringField;
+    qClientesFinaiscpf: TStringField;
+    qClientesFinaislogo: TBlobField;
+    qClientesFinaisrecno: TIntegerField;
+    dsClientesFinais: TDataSource;
+    uClientesFinais: TZUpdateSQL;
+    sClientesFinais: TZSequence;
+    ZSequence1: TZSequence;
+    IBrwSrctipo: TIntegerField;
+    IBrwSrccpf: TStringField;
+    IBrwSrcrg: TStringField;
+    IBrwSrcrestricao: TStringField;
+    IBrwSrcrestrmotiv: TMemoField;
+    IBrwSrcrecno: TIntegerField;
+    IBrwSrclogo: TBlobField;
+    dsContatos: TDataSource;
+    qContatos: TZQuery;
+    qContatossituacao: TIntegerField;
+    qContatoscliente: TIntegerField;
+    qContatositem: TIntegerField;
+    qContatosnome: TStringField;
+    qContatosfuncao: TStringField;
+    qContatostelefone: TStringField;
+    qContatoscelular: TStringField;
+    qContatosemail: TStringField;
+    qContatoscontato_nextel: TStringField;
+    qContatoscontato_nextelcel: TStringField;
+    qContatosrecno: TIntegerField;
+    uContatos: TZUpdateSQL;
+    qVendedores: TZQuery;
+    qVendedoresidvendedor: TIntegerField;
+    qVendedoresativo: TBooleanField;
+    qVendedoresnome: TStringField;
+    qVendedorescpf: TStringField;
+    qVendedoresrg: TStringField;
+    qVendedorescep: TStringField;
+    qVendedoresendereco: TStringField;
+    qVendedoresbairro: TStringField;
+    qVendedorescidade: TStringField;
+    qVendedoresestado: TStringField;
+    qVendedorestelefone: TStringField;
+    qVendedorescelular: TStringField;
+    qVendedorescomissao: TFloatField;
+    qVendedoresajudacusto: TFloatField;
+    qVendedoresemail: TStringField;
+    qVendedorescnpj: TStringField;
+    qVendedoresinscrestadual: TStringField;
+    qVendedoresusername: TStringField;
+    qVendedoresNomeUsuario: TStringField;
+    dsVendedores: TDataSource;
+    IBrwSrcnomevendedor: TStringField;
+    qSysUsers: TZQuery;
+    qSysUsersusername: TStringField;
+    qSysUserspassword: TStringField;
+    qSysUsersname: TStringField;
+    qSysUsersactive: TBooleanField;
+    qSysUsersemail: TStringField;
+    qSysUserschangepass: TBooleanField;
+    dsSysUsers: TDataSource;
     procedure FormCreate(Sender: TObject);
     procedure actOrcaExecute(Sender: TObject);
     procedure DBGrid2DrawColumnCell(Sender: TObject; const Rect: TRect;
@@ -95,6 +163,16 @@ type
       State: TGridDrawState);
     procedure cbSituacaoChange(Sender: TObject);
     procedure PageControl1Change(Sender: TObject);
+    procedure IBrwSrcAfterInsert(DataSet: TDataSet);
+    procedure IBrwSrcAfterScroll(DataSet: TDataSet);
+    procedure qClientesFinaisAfterInsert(DataSet: TDataSet);
+    procedure qContatosAfterInsert(DataSet: TDataSet);
+    procedure qContatosBeforePost(DataSet: TDataSet);
+    procedure IBrwSrctipoGetText(Sender: TField; var Text: string; DisplayText: Boolean);
+    procedure IBrwSrctipoSetText(Sender: TField; const Text: string);
+    procedure qVendedoresAfterInsert(DataSet: TDataSet);
+    procedure qContatossituacaoGetText(Sender: TField; var Text: string; DisplayText: Boolean);
+    procedure qContatossituacaoSetText(Sender: TField; const Text: string);
   private
     { Private declarations }
     FSQL : string;
@@ -305,6 +383,48 @@ begin
   OnSort:= OnSortCliente;
 end;
 
+procedure TClientes.IBrwSrcAfterInsert(DataSet: TDataSet);
+begin
+  inherited;
+  IBrwSrcdtcadastro.AsDateTime:= now;
+  IBrwSrcsituacao.AsString := 'ATIVO';
+  IBrwSrctipo.AsInteger := 1;
+end;
+
+procedure TClientes.IBrwSrcAfterScroll(DataSet: TDataSet);
+begin
+  inherited;
+  qContatos.ParamByName('cliente').AsInteger :=
+    IBrwSrccodigo.AsInteger;
+  qClientesFinais.ParamByName('codigo').AsInteger :=
+    IBrwSrccodigo.AsInteger;
+  G.RefreshDataSet(qContatos);
+  G.RefreshDataSet(qClientesFinais);
+end;
+
+procedure TClientes.IBrwSrctipoGetText(Sender: TField; var Text: string; DisplayText: Boolean);
+begin
+  inherited;
+  case Sender.AsInteger of
+    1: Text := 'Jurídico';
+    2: Text := 'Físico';
+    3: Text := 'Estrangeiro';
+  end;
+end;
+
+procedure TClientes.IBrwSrctipoSetText(Sender: TField; const Text: string);
+begin
+  inherited;
+  if Text = EmptyStr then
+    Exit;
+    
+  case Text[1] of
+    'J': Sender.AsInteger := 1;
+    'F': Sender.AsInteger := 2;
+    'E': Sender.AsInteger := 3;
+  end;
+end;
+
 procedure TClientes.OnEdit;
 var
   FormClass: TFormClass;
@@ -366,6 +486,49 @@ begin
 
     Filtered := Filter <> EmptyStr;
   end;
+end;
+
+procedure TClientes.qClientesFinaisAfterInsert(DataSet: TDataSet);
+begin
+  inherited;
+  qClientesFinaiscodigo.AsInteger := IBrwSrccodigo.AsInteger;
+end;
+
+procedure TClientes.qContatosAfterInsert(DataSet: TDataSet);
+begin
+  inherited;
+  qContatossituacao.AsInteger := 1;
+end;
+
+procedure TClientes.qContatosBeforePost(DataSet: TDataSet);
+begin
+  inherited;
+  qContatoscliente.AsInteger:= IBrwSrccodigo.AsInteger;
+end;
+
+procedure TClientes.qContatossituacaoGetText(Sender: TField; var Text: string; DisplayText: Boolean);
+begin
+  inherited;
+  case Sender.AsInteger of
+    0: Text := 'Inativo';
+    1: Text := 'Ativo';
+  end;
+end;
+
+procedure TClientes.qContatossituacaoSetText(Sender: TField; const Text: string);
+begin
+  inherited;
+  if Text <> EmptyStr then
+    case Text[1] of
+      'I': Sender.AsInteger := 0;
+      'A': Sender.AsInteger := 1;
+    end;
+end;
+
+procedure TClientes.qVendedoresAfterInsert(DataSet: TDataSet);
+begin
+  inherited;
+  qVendedoresativo.AsBoolean := True; 
 end;
 
 procedure TClientes.RefreshCtrl;

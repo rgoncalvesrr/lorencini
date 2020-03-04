@@ -1242,7 +1242,12 @@ object DM: TDM
     UpdateObject = uVendedores
     AfterInsert = qVendedoresAfterInsert
     SQL.Strings = (
-      'select * '
+      
+        'select idvendedor, nome, cpf, rg, cnpj, inscrestadual, cep, ende' +
+        'reco, bairro, cidade, estado,'
+      
+        '       telefone, celular, comissao, ajudacusto, email, senha, us' +
+        'ername, ativo, recno'
       '  from tb_vendedores')
     Params = <>
     IndexFieldNames = 'NOME Asc'

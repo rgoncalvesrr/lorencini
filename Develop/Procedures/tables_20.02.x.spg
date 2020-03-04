@@ -1,0 +1,404 @@
+set session authorization lorencini;
+
+--select t.relname, a.attname, t.* 
+--  from pg_catalog.pg_attribute a
+--       join pg_catalog.pg_class t
+--         on t."oid" = a.attrelid 
+--        and t.relkind = 'r'
+-- where a.attname ilike '%vendedor%';
+
+create table paises (
+	pais varchar(3) not null,
+	nome varchar(250) not null,
+	recno serial not null,
+	constraint pk_paises primary key(pais),
+	constraint uk_paises_1 unique(recno));
+
+insert into paises (pais, nome)
+values 
+	('ARG', 'Argentina'), ('BOL', 'Bol癉ia'), ('BRA', 'Brasil'),  
+	('CHI', 'Chile'), ('COL', 'Col獽bia'), ('URU', 'Uruguai'),
+	('VEN', 'Venezuela'), ('PRY', 'Paraguai') ;
+	
+alter table estados 	
+	add pais varchar(3) default('BRA') not null ,
+	add codigo integer,	
+	add constraint fk_estados_1 foreign key(pais)
+		references paises(pais) on update cascade on delete restrict,	
+	add constraint uk_estados_2 unique(uf, pais);
+
+update estados set codigo = 11 where uf = 'RO';
+update estados set codigo = 12 where uf = 'AC';
+update estados set codigo = 13 where uf = 'AM';
+update estados set codigo = 14 where uf = 'RR';
+update estados set codigo = 15 where uf = 'PA';
+update estados set codigo = 16 where uf = 'AP';
+update estados set codigo = 17 where uf = 'TO';
+update estados set codigo = 21 where uf = 'MA';
+update estados set codigo = 22 where uf = 'PI';
+update estados set codigo = 23 where uf = 'CE';
+update estados set codigo = 24 where uf = 'RN';
+update estados set codigo = 25 where uf = 'PB';
+update estados set codigo = 26 where uf = 'PE';
+update estados set codigo = 27 where uf = 'AL';
+update estados set codigo = 28 where uf = 'SE';
+update estados set codigo = 29 where uf = 'BA';
+update estados set codigo = 31 where uf = 'MG';
+update estados set codigo = 32 where uf = 'ES';
+update estados set codigo = 33 where uf = 'RJ';
+update estados set codigo = 35 where uf = 'SP';
+update estados set codigo = 41 where uf = 'PR';
+update estados set codigo = 42 where uf = 'SC';
+update estados set codigo = 43 where uf = 'RS';
+update estados set codigo = 50 where uf = 'MS';
+update estados set codigo = 51 where uf = 'MT';
+update estados set codigo = 52 where uf = 'GO';
+update estados set codigo = 53 where uf = 'DF';
+update estados set pais = 'PRY' where uf = 'PY';
+
+create table localidades(
+	localidade varchar(7) not null,
+	uf varchar(2) not null,
+	nome varchar(250) not null,
+	recno serial not null,
+	constraint pk_localidades primary key(localidade),
+	constraint fk_localidades_1 foreign key(uf)
+		references estados(uf) 
+		on update cascade on delete restrict,
+	constraint uk_localidades_1 unique (recno));
+	
+create table enderecos(
+	cep varchar(8) not null,
+	logradouro varchar(250) not null,
+	bairro varchar(100),	
+	localidade varchar(7) not null,
+	data date default(current_date) not null,
+   origem varchar(3) default('API') not null,
+	recno serial not null,
+	constraint pk_enderecos primary key(cep),
+	constraint fk_enderecos_1 foreign key(localidade)
+		references localidades(localidade) 
+		on update cascade on delete restrict,
+	constraint uk_enderecos_1 unique(recno));
+
+create table pessoas(
+   recno serial not null,
+   nome varchar(200) not null,
+   nome_curto varchar(50),
+   ativo boolean default(true) not null,
+   data timestamp default(localtimestamp) not null,
+   email varchar(150),
+   celular varchar(25),
+   telefone varchar(25),
+   origem integer not null,
+   origem_recno integer not null,   
+   constraint pk_pessoas primary key(recno),
+   constraint fk_pessoas_1 foreign key(origem)
+      references sys_tables(recno) on update cascade on delete restrict,   
+   constraint uk_pessoas_1 unique(origem, origem_recno) 
+);
+
+create table pessoas_contatos (
+   pessoa integer not null,
+   contato integer not null,
+   enviar_pedido_venda boolean default(false) not null,
+   enviar_cotacao_venda boolean default(false) not null,
+   enviar_laudo_critico boolean default(false) not null,
+   enviar_laudo_atencao boolean default(false) not null,
+   enviar_laudo_normal boolean default(false) not null,
+   enviar_laudo_retorno_critico boolean default(false) not null,
+   enviar_laudo_retorno_atencao boolean default(false) not null,
+   enviar_laudo_retorno_normal boolean default(false) not null,
+   recno serial not null,
+   constraint pk_pessoas_contatos primary key(pessoa, contato),
+   constraint fk_pessoas_contatos_1 foreign key(pessoa)
+      references pessoas(recno) on update cascade on delete cascade,
+   constraint fk_pessoas_contatos_2 foreign key(contato)
+      references pessoas(recno) on update cascade on delete restrict,
+   constraint uk_pessoas_contatos_1 unique(pessoa, contato)   
+);
+
+create table pessoas_fisicas (
+   pessoa integer not null,
+   cpf varchar(11) not null,
+   rg varchar(25),
+   recno serial not null,
+   constraint pk_pessoas_fisicas primary key(pessoa),
+   constraint fk_pessoas_fisicas_1 foreign key(pessoa)
+      references pessoas(recno) on update cascade on delete cascade,
+   constraint uk_pessoas_fisicas_1 unique(recno)
+);
+
+create table pessoas_juridicas (
+   pessoa integer not null,
+   cnpj varchar(14) not null,
+   ie varchar(25),
+   recno serial not null,
+   constraint pk_pessoas_juridicas primary key(pessoa),
+   constraint fk_pessoas_juridicas_1 foreign key(pessoa)
+      references pessoas(recno) on update cascade on delete cascade,
+   constraint uk_pessoas_juridcas_1 unique(recno)
+);
+
+insert into pessoas (recno, nome, nome_curto, ativo, data, email, telefone, origem, origem_recno)
+select c.codigo, c.empresa, c.nome_chave, c.situacao = 'ATIVO', c.dtcadastro, trim(c.email), null, trim(c.email)), substr(c.telefone, 1, 25), sys_origem('tbclientes'), c.recno 
+  from tbclientes c;
+ 
+update pessoas 
+   set email = null
+ where trim(email) = '';
+
+update pessoas 
+   set email = trim(email)
+ where email is not null;
+
+update pessoas 
+   set telefone = null
+ where trim(telefone) = '';
+
+update pessoas 
+   set telefone = trim(telefone)
+ where telefone is not null; 
+
+alter table tbclientes 
+   add constraint fk_tbclientes_1 foreign key(codigo)
+      references pessoas(recno) on update cascade on delete cascade;
+
+insert into pessoas_fisicas (pessoa, cpf, rg)
+select codigo, cpf, rg
+  from tbclientes 
+ where tipo = 2;
+
+insert into pessoas_juridicas (pessoa, cnpj, ie)
+select codigo, cnpj, sys_iif(length(trim(inscricao)) > 25, null, trim(inscricao))
+  from tbclientes 
+ where tipo = 1;
+
+select setval('pessoas_recno_seq'::regclass, max(recno))
+  from pessoas; 
+
+insert into pessoas (nome, ativo, email, celular, telefone, origem, origem_recno )
+select nome, ativo, trim(email), trim(celular), trim(telefone), sys_origem('tb_vendedores'), recno
+  from tb_vendedores;
+
+insert into pessoas_fisicas (pessoa, cpf, rg)
+select p.recno, v.cpf, v.rg
+  from tb_vendedores v
+       join pessoas p
+         on p.origem = 177
+        and p.origem_recno = v.recno
+ where trim(v.cpf) <> '';
+
+insert into pessoas_juridicas (pessoa, cnpj, ie)
+select p.recno, v.cpf, v.rg
+  from tb_vendedores v
+       join pessoas p
+         on p.origem = 177
+        and p.origem_recno = v.recno
+ where trim(v.cpf) <> '';
+
+insert into pessoas_juridicas (pessoa, cnpj, ie)
+select p.recno, v.cnpj, v.inscrestadual
+  from tb_vendedores v
+       join pessoas p
+         on p.origem = 177
+        and p.origem_recno = v.recno
+ where trim(v.cnpj) <> '';
+
+create table pessoas_enderecos (
+	pessoa integer not null,
+	cep varchar(8) not null,
+	descricao varchar(60),
+	referencia varchar(150),
+	tipo integer default(1) not null,
+	numero varchar(20),
+	complemento varchar(60),
+   padrao boolean default(false) not null,
+	data timestamp default(localtimestamp) not null,
+	recno serial not null,
+	constraint pk_pessoas_enderecos primary key(pessoa, cep),
+	constraint fk_pessoas_enderecos_1 foreign key(pessoa)
+		references pessoas(recno) on update cascade on delete cascade,
+	constraint fk_pessoas_enderecos_2 foreign key(cep)
+		references enderecos(cep) on update cascade on delete restrict,
+	constraint uk_pessoas_enderecos_1 unique(recno)
+);
+
+select setval('sys_tables_recno_seq'::regclass, max(recno))
+  from sys_tables;
+
+--------------------------------------------------------------
+---
+--- !!!!!!!!!! Criar gatilhos na tabela pessoas_enderecos !!!!!!!
+---
+--------------------------------------------------------------
+
+insert into pessoas_enderecos (pessoa, cep, descricao, numero, complemento)
+select c.codigo, replace(c.cep, '-', ''), 'Endere蔞 Comercial',  
+       sys_iif(trim(regexp_replace(upper(split_part(trim(split_part(c.endereco, ',', 2)), '-', 1)), '([A-Z]|舉牘 |\.|漏院[A-Z]/[A-Z])', '', 'g')) = '',
+       null, trim(regexp_replace(upper(split_part(trim(split_part(c.endereco, ',', 2)), '-', 1)), '([A-Z]|舉牘 |\.|漏院[A-Z]/[A-Z])', '', 'g'))),
+       substr(sys_iif(trim(split_part(c.endereco, '-', 2)) = '', null, trim(split_part(c.endereco, '-', 2))), 1, 60)       
+  from tbclientes c
+       join enderecos e
+         on e.cep = replace(c.cep, '-', '')      
+ where length(replace(c.cep, '-', '')) = 8;
+
+insert into pessoas_enderecos (pessoa, cep, descricao, numero, complemento, tipo)
+select c.codigo, replace(c.fat_cep, '-', ''), 'Endere蔞 Comercial',  
+       sys_iif(trim(regexp_replace(upper(split_part(trim(split_part(c.fat_ende, ',', 2)), '-', 1)), '([A-Z]|舉牘 |\.|漏院[A-Z]/[A-Z])', '', 'g')) = '',
+       null, trim(regexp_replace(upper(split_part(trim(split_part(c.fat_ende, ',', 2)), '-', 1)), '([A-Z]|舉牘 |\.|漏院[A-Z]/[A-Z])', '', 'g'))),
+       substr(sys_iif(trim(split_part(c.fat_ende, '-', 2)) = '', null, trim(split_part(c.fat_ende, '-', 2))), 1, 60), 1
+  from tbclientes c
+       join enderecos e
+         on e.cep = replace(c.fat_cep, '-', '')      
+ where length(replace(c.fat_cep, '-', '')) = 8
+   and c.fat_cep is not null
+   and not exists(
+  	select 1
+      from pessoas_enderecos pe
+     where pe.pessoa = c.codigo
+       and pe.cep = replace(c.fat_cep, '-', ''));
+
+insert into pessoas_enderecos (pessoa, cep, descricao, numero, complemento, tipo)
+select c.codigo, replace(c.ent_cep, '-', ''), 'Endere蔞 de Entrega',  
+       sys_iif(trim(regexp_replace(upper(split_part(trim(split_part(c.ent_ende, ',', 2)), '-', 1)), '([A-Z]|舉牘 |\.|漏院[A-Z]/[A-Z])', '', 'g')) = '',
+       null, trim(regexp_replace(upper(split_part(trim(split_part(c.ent_ende, ',', 2)), '-', 1)), '([A-Z]|舉牘 |\.|漏院[A-Z]/[A-Z])', '', 'g'))),
+       substr(sys_iif(trim(split_part(c.ent_ende, '-', 2)) = '', null, trim(split_part(c.ent_ende, '-', 2))), 1, 60), 2  
+  from tbclientes c
+       join enderecos e
+         on e.cep = replace(c.ent_cep, '-', '')      
+ where length(replace(c.ent_cep, '-', '')) = 8
+   and c.ent_cep is not null
+   and not exists(
+  	select 1
+      from pessoas_enderecos pe
+     where pe.pessoa = c.codigo
+       and pe.cep = replace(c.ent_cep, '-', ''));
+
+insert into pessoas_enderecos (pessoa, cep, descricao, numero, complemento, tipo)
+select c.codigo, replace(c.cobra_cep, '-', ''), 'Endere蔞 de Cobran蓷',  
+       sys_iif(trim(regexp_replace(upper(split_part(trim(split_part(c.cobra_ende, ',', 2)), '-', 1)), '([A-Z]|舉牘 |\.|漏院[A-Z]/[A-Z])', '', 'g')) = '',
+       null, trim(regexp_replace(upper(split_part(trim(split_part(c.cobra_ende, ',', 2)), '-', 1)), '([A-Z]|舉牘 |\.|漏院[A-Z]/[A-Z])', '', 'g'))),
+       substr(sys_iif(trim(split_part(c.cobra_ende, '-', 2)) = '', null, trim(split_part(c.cobra_ende, '-', 2))), 1, 60), 3
+  from tbclientes c
+       join enderecos e
+         on e.cep = replace(c.cobra_cep, '-', '')      
+ where length(replace(c.cobra_cep, '-', '')) = 8
+   and c.cobra_cep is not null
+   and not exists(
+  	select 1
+      from pessoas_enderecos pe
+     where pe.pessoa = c.codigo
+       and pe.cep = replace(c.cobra_cep, '-', ''));
+
+create or replace view venderecos as
+select e.cep, e.logradouro, e.bairro, e.localidade, l.nome cidade, l.uf, es.nome estado, es.pais, p.nome 
+  from enderecos e
+       join localidades l
+         on l.localidade = e.localidade 
+       join estados es
+         on es.uf = l.uf 
+       join paises p
+         on p.pais = es.pais;
+
+alter table tb_orcamentos disable trigger all;
+update tb_orcamentos o 
+   set idvendedor = 3
+  from (select recno 
+          from tb_orcamentos o
+         where not exists(
+ 	           select 1
+ 	             from tb_vendedores v
+ 	            where v.idvendedor = o.idvendedor)) x
+ where x.recno = o.recno;
+alter table tb_orcamentos enable trigger all;
+
+alter table tb_orcamentos
+	add constraint fk_tb_orcamentos_9 foreign key(idvendedor)
+		references tb_vendedores(idvendedor) on update cascade on delete restrict;
+
+alter table tbclientes
+	add constraint fk_tbclientes_2 foreign key(id_vendedor)
+		references tb_vendedores(idvendedor) on update cascade on delete restrict;
+
+alter table tbclientes disable trigger all;
+alter table cota disable trigger all;
+alter table comissoes disable trigger all;
+alter table tb_orcamentos disable trigger all;
+update tb_vendedores v
+   set idvendedor = p.recno
+  from pessoas p
+ where p.origem = sys_origem('tb_vendedores')
+   and p.origem_recno = v.recno;
+alter table tbclientes enable trigger all;
+alter table cota enable trigger all;
+alter table comissoes enable trigger all;
+alter table tb_orcamentos enable trigger all;
+
+create or replace view vclientes as
+  select p.recno, p.nome, p.nome_curto, p.ativo
+    from pessoas p
+         join tbclientes c
+           on c.codigo = p.recno;
+
+drop view vclicaixa;
+CREATE OR REPLACE VIEW vclicaixa
+AS SELECT c.recno,
+    c.nome,
+    c.nome_curto,
+    f.atual,
+    f.futuro,
+    f.debitos,
+    f.creditos,
+    f.acobrar
+   FROM vclientes c
+     JOIN ( SELECT cx.codigo,
+            sum(sys_iif(cx.data <= 'now'::text::date, cx.valor, 0::numeric)) AS atual,
+            sum(cx.valor) AS futuro,
+            sum(sys_iif(cx.valor < 0::numeric, cx.valor, 0::numeric)) AS debitos,
+            sum(sys_iif(cx.valor > 0::numeric, cx.valor, 0::numeric)) AS creditos,
+            sum(sys_iif(COALESCE(cx.titulo, cx.pedido, cx.os) IS NULL AND cx.valor < 0::numeric, cx.valor, 0::numeric)) AS acobrar
+           FROM fin_caixa cx
+          GROUP BY cx.codigo) f ON f.codigo = c.recno;	
+
+drop view vclifretes;
+
+CREATE OR REPLACE VIEW vclifretes
+AS SELECT c.recno,
+    c.nome,
+    c.nome_curto
+   FROM vclientes c
+     JOIN ( SELECT correio.codigo
+           FROM correio
+          GROUP BY correio.codigo) f 
+       ON f.codigo = c.recno;
+
+alter table tbclientes 
+   drop empresa,
+   drop nome_chave,
+   drop endereco,
+   drop bairro,
+   drop cep,
+   drop cidade,
+   drop estado,
+   drop fat_ende,
+   drop fat_bair,
+   drop fat_cep,
+   drop fat_cida,
+   drop fat_esta,
+   drop ent_ende,
+   drop ent_bair,
+   drop ent_cep,
+   drop ent_cida,
+   drop ent_esta,
+   drop cobra_ende,
+   drop cobra_bairro,
+   drop cobra_cep,
+   drop cobra_cida,
+   drop cobra_esta;       
+
+create or replace view vvendedores as
+  select p.recno, p.nome, p.nome_curto, p.status
+    from pessoas p
+         join tb_vendedores c
+           on c.idvendedor = p.recno;

@@ -1,0 +1,28 @@
+/**
+   Processamento de endereços
+
+	@author    Ricardo Gonçalves
+	@date      25/02/2020 22:59
+	@trigger   pessoas_en
+
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+CREATE OR REPLACE FUNCTION a_pessoas_enderecos()
+  RETURNS trigger AS
+$$
+BEGIN
+   if tg_op <> 'DELETE' then
+      if new.padrao then
+         update pessoas_enderecos
+            set padrao = false
+          where pessoa = new.pessoa         
+            and recno <> new.recno;
+      end if;
+   end if;
+
+   return null;
+END;
+$$
+  LANGUAGE 'plpgsql' VOLATILE;
