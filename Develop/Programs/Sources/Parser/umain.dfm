@@ -2,12 +2,12 @@ object Main: TMain
   Left = 0
   Top = 0
   Caption = 'Aplicador de Procedures'
-  ClientHeight = 586
-  ClientWidth = 768
+  ClientHeight = 853
+  ClientWidth = 1151
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -11
+  Font.Height = -14
   Font.Name = 'Tahoma'
   Font.Style = []
   KeyPreview = True
@@ -16,14 +16,14 @@ object Main: TMain
   WindowState = wsMaximized
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
-  PixelsPerInch = 96
-  TextHeight = 13
+  PixelsPerInch = 120
+  TextHeight = 17
   object PageControl1: TPageControl
     AlignWithMargins = True
     Left = 3
     Top = 3
-    Width = 762
-    Height = 580
+    Width = 1145
+    Height = 847
     ActivePage = TabSheet1
     Align = alClient
     TabOrder = 0
@@ -34,8 +34,8 @@ object Main: TMain
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 748
-        Height = 415
+        Width = 1131
+        Height = 640
         Align = alClient
         Caption = ' C'#243'digo Aplicado '
         Padding.Left = 5
@@ -44,13 +44,13 @@ object Main: TMain
         TabOrder = 0
         object SynEdit1: TSynEdit
           Left = 7
-          Top = 15
-          Width = 734
-          Height = 393
+          Top = 19
+          Width = 1117
+          Height = 614
           Align = alClient
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
-          Font.Height = -13
+          Font.Height = -17
           Font.Name = 'Consolas'
           Font.Pitch = fpVariable
           Font.Style = []
@@ -61,12 +61,11 @@ object Main: TMain
           Gutter.AutoSize = True
           Gutter.Font.Charset = DEFAULT_CHARSET
           Gutter.Font.Color = clWindowText
-          Gutter.Font.Height = -8
+          Gutter.Font.Height = -10
           Gutter.Font.Name = 'Courier New'
           Gutter.Font.Style = []
-          Gutter.LeftOffset = 12
+          Gutter.RightOffset = 3
           Gutter.ShowLineNumbers = True
-          Gutter.Width = 23
           Gutter.Gradient = True
           Highlighter = SynSQLSyn1
           RightEdge = 120
@@ -76,9 +75,9 @@ object Main: TMain
       object GroupBox3: TGroupBox
         AlignWithMargins = True
         Left = 3
-        Top = 424
-        Width = 748
-        Height = 125
+        Top = 649
+        Width = 1131
+        Height = 163
         Align = alBottom
         Caption = ' Resultados '
         Padding.Left = 5
@@ -88,14 +87,14 @@ object Main: TMain
         object Memo2: TMemo
           AlignWithMargins = True
           Left = 10
-          Top = 18
-          Width = 728
-          Height = 97
+          Top = 22
+          Width = 1111
+          Height = 131
           Align = alClient
           BorderStyle = bsNone
           Font.Charset = ANSI_CHARSET
           Font.Color = clWindowText
-          Font.Height = -11
+          Font.Height = -15
           Font.Name = 'Courier New'
           Font.Style = []
           ParentFont = False
@@ -108,16 +107,12 @@ object Main: TMain
     object TabSheet2: TTabSheet
       Caption = 'Op'#231#245'es'
       ImageIndex = 1
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object GroupBox1: TGroupBox
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 748
-        Height = 146
+        Width = 1131
+        Height = 191
         Align = alTop
         Caption = ' Lista de Par'#226'metros '
         Padding.Left = 5
@@ -126,15 +121,15 @@ object Main: TMain
         TabOrder = 0
         object ListView1: TListView
           Left = 7
-          Top = 15
-          Width = 734
-          Height = 124
+          Top = 19
+          Width = 1117
+          Height = 165
           Align = alClient
           BorderStyle = bsNone
           Columns = <
             item
               Caption = 'Par'#226'metro'
-              Width = 100
+              Width = 131
             end
             item
               AutoSize = True

@@ -48,17 +48,9 @@ type
     PageControl2: TPageControl;
     TabSheet2: TTabSheet;
     DBGrid2: TDBGrid;
-    IBrwSrcnome: TStringField;
     Splitter1: TSplitter;
-    IBrwSrccontato_tel: TStringField;
-    IBrwSrccontato_func: TStringField;
-    IBrwSrccontato_cel: TStringField;
-    IBrwSrccontato_mail: TStringField;
-    IBrwSrccontato: TStringField;
     actOrca: TAction;
     Oramentos1: TMenuItem;
-    IBrwSrccontato_nextel: TStringField;
-    IBrwSrccontato_nextelcel: TStringField;
     TabSheet3: TTabSheet;
     TabSheet4: TTabSheet;
     Panel3: TPanel;
@@ -121,36 +113,16 @@ type
     qContatoscontato_nextelcel: TStringField;
     qContatosrecno: TIntegerField;
     uContatos: TZUpdateSQL;
-    qVendedores: TZQuery;
-    qVendedoresidvendedor: TIntegerField;
-    qVendedoresativo: TBooleanField;
-    qVendedoresnome: TStringField;
-    qVendedorescpf: TStringField;
-    qVendedoresrg: TStringField;
-    qVendedorescep: TStringField;
-    qVendedoresendereco: TStringField;
-    qVendedoresbairro: TStringField;
-    qVendedorescidade: TStringField;
-    qVendedoresestado: TStringField;
-    qVendedorestelefone: TStringField;
-    qVendedorescelular: TStringField;
-    qVendedorescomissao: TFloatField;
-    qVendedoresajudacusto: TFloatField;
-    qVendedoresemail: TStringField;
-    qVendedorescnpj: TStringField;
-    qVendedoresinscrestadual: TStringField;
-    qVendedoresusername: TStringField;
-    qVendedoresNomeUsuario: TStringField;
-    dsVendedores: TDataSource;
-    IBrwSrcnomevendedor: TStringField;
-    qSysUsers: TZQuery;
-    qSysUsersusername: TStringField;
-    qSysUserspassword: TStringField;
-    qSysUsersname: TStringField;
-    qSysUsersactive: TBooleanField;
-    qSysUsersemail: TStringField;
-    qSysUserschangepass: TBooleanField;
-    dsSysUsers: TDataSource;
+    IBrwSrcvendedornome: TStringField;
+    qContatospadrao: TBooleanField;
+    qContatosenviar_pedido_venda: TBooleanField;
+    qContatosenviar_cotacao_venda: TBooleanField;
+    qContatosenviar_laudo_critico: TBooleanField;
+    qContatosenviar_laudo_atencao: TBooleanField;
+    qContatosenviar_laudo_normal: TBooleanField;
+    qContatosenviar_laudo_retorno_critico: TBooleanField;
+    qContatosenviar_laudo_retorno_atencao: TBooleanField;
+    qContatosenviar_laudo_retorno_normal: TBooleanField;
     procedure FormCreate(Sender: TObject);
     procedure actOrcaExecute(Sender: TObject);
     procedure DBGrid2DrawColumnCell(Sender: TObject; const Rect: TRect;
@@ -170,7 +142,6 @@ type
     procedure qContatosBeforePost(DataSet: TDataSet);
     procedure IBrwSrctipoGetText(Sender: TField; var Text: string; DisplayText: Boolean);
     procedure IBrwSrctipoSetText(Sender: TField; const Text: string);
-    procedure qVendedoresAfterInsert(DataSet: TDataSet);
     procedure qContatossituacaoGetText(Sender: TField; var Text: string; DisplayText: Boolean);
     procedure qContatossituacaoSetText(Sender: TField; const Text: string);
   private
@@ -306,24 +277,26 @@ begin
   if (Column.Index <> 0) then
     inherited DBGridDrawColumnCell(Sender, Rect, DataCol, Column, State)
   else
-    with TDBGrid(Sender), DM do
-    try
+    with TDBGrid(Sender) do
+    begin
       fBitMap:= TBitmap.Create;
-      fBitMap.Transparent:= True;
+      try
+        fBitMap.Transparent:= True;
 
-      with Resources do
-        case DM.qContatossituacao.AsInteger of
-          0: small_n.GetBitmap(209, fBitMap); // Inativos
-          1: small_n.GetBitmap(208, fBitMap); // Ativos
-        end;
+        with Resources do
+          case qContatossituacao.AsInteger of
+            0: small_n.GetBitmap(209, fBitMap); // Inativos
+            1: small_n.GetBitmap(208, fBitMap); // Ativos
+          end;
 
-      if Column.Width <> fBitMap.Width + 2 then
-        Column.Width:= fBitMap.Width + 2;
+        if Column.Width <> fBitMap.Width + 2 then
+          Column.Width:= fBitMap.Width + 2;
 
-      {Desenha o status da OS}
-      Canvas.Draw(Rect.Left + 1, Rect.Top + 1, fBitMap);
-    finally
-      fBitMap.Free;
+        {Desenha o status da OS}
+        Canvas.Draw(Rect.Left + 1, Rect.Top + 1, fBitMap);
+      finally
+        FreeAndNil(fBitMap);
+      end;
     end;
 end;
 
@@ -337,30 +310,32 @@ begin
     inherited DBGridDrawColumnCell(Sender, Rect, DataCol, Column, State)
   else
     with TDBGrid(Sender), DM do
-    try
+    begin
       fBitMap:= TBitmap.Create;
-      fBitMap.Transparent:= True;
+      try
+        fBitMap.Transparent:= True;
 
-      img := 204;
-      if DM.qClientessituacao.AsString = 'ATIVO' then
-        img := 208;
+        img := 204;
+        if IBrwSrcsituacao.AsString = 'ATIVO' then
+          img := 208;
 
-      if DM.qClientessituacao.AsString = 'INATIVO' then
-        img := 209;
+        if IBrwSrcsituacao.AsString = 'INATIVO' then
+          img := 209;
 
-      if DM.qClientessituacao.AsString = 'PROSPECT' then
-        img := 215;
+        if IBrwSrcsituacao.AsString = 'PROSPECT' then
+          img := 215;
 
-      with Resources do
-        small_n.GetBitmap(img, fBitMap);
+        with Resources do
+          small_n.GetBitmap(img, fBitMap);
 
-      if Column.Width <> fBitMap.Width + 2 then
-        Column.Width:= fBitMap.Width + 2;
+        if Column.Width <> fBitMap.Width + 2 then
+          Column.Width:= fBitMap.Width + 2;
 
-      {Desenha o status da OS}
-      Canvas.Draw(Rect.Left + 1, Rect.Top + 1, fBitMap);
-    finally
-      fBitMap.Free;
+        {Desenha o status da OS}
+        Canvas.Draw(Rect.Left + 1, Rect.Top + 1, fBitMap);
+      finally
+        FreeAndNil(fBitMap);
+      end;
     end;
 end;
 
@@ -523,12 +498,6 @@ begin
       'I': Sender.AsInteger := 0;
       'A': Sender.AsInteger := 1;
     end;
-end;
-
-procedure TClientes.qVendedoresAfterInsert(DataSet: TDataSet);
-begin
-  inherited;
-  qVendedoresativo.AsBoolean := True; 
 end;
 
 procedure TClientes.RefreshCtrl;

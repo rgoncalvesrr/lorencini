@@ -3,10 +3,9 @@ unit ServiceSMTP;
 interface
 
 uses
-  Classes, SysUtils, ServiceBase, IdMessage, IdEMailAddress, IdAttachmentFile,
-  IdAttachment, idText, IdSSLOpenSSL, IdIOHandler, idCTypes, IdBaseComponent,
-  IdComponent, IdTCPConnection, IdTCPClient, IdExplicitTLSClientServerBase,
-  IdMessageClient, IdSMTPBase, IdSMTP, ServiceCFG, ZDataset;
+  Classes, SysUtils, ServiceBase, IdMessage, IdEMailAddress, IdAttachmentFile, IdAttachment, idText, IdSSLOpenSSL,
+  IdIOHandler, idCTypes, IdBaseComponent, IdComponent, IdTCPConnection, IdTCPClient, IdExplicitTLSClientServerBase,
+  IdMessageClient, IdSMTPBase, IdSMTP, ServiceCFG, ZDataset, IdSASLLogin, IdUserPassProvider;
 
 type
   EServiceSMTP = Exception;
@@ -14,6 +13,8 @@ type
   TServiceSMTP = class(TServiceBase)
   private
     FIdSMTP : TIdSMTP;
+    FIdSASLLogin: TIdSASLLogin;
+    FIdUserPassProvider: TIdUserPassProvider;
     FIdSSL : TIdSSLIOHandlerSocketOpenSSL;
     FIdMessage : TIdMessage;
 	  FIdCorpo : TIdText;
@@ -42,8 +43,12 @@ constructor TServiceSMTP.Create(ConnParam: TServiceCFGConnParams);
 begin
   inherited;
   FIdSMTP := TIdSMTP.Create(nil);
-  Trash.Add(FIdSMTP);
+  FIdSASLLogin := TIdSASLLogin.Create(nil);
+  FIdUserPassProvider := TIdUserPassProvider.Create(nil);
   FSMTP := TServiceCFGSmtp.Create;
+  Trash.Add(FIdSMTP);
+  Trash.Add(FIdSASLLogin);
+  Trash.Add(FIdUserPassProvider);
   Trash.Add(FSMTP);
 end;
 
@@ -74,8 +79,6 @@ begin
         FIdMessage.ContentType := 'multipart/mixed'; // obrigatoriamente!
         FIdMessage.CharSet := FieldByName('charset_').AsString;
         FIdMessage.Date := Now;
-
-        FIdMessage.ReplyTo.Add.Address := 'lorencini@lorencini.com.br';
         FIdMessage.ReplyTo.Add.Address := 'laboratorio@lorencini.com.br';
 
         qDST.First;
@@ -173,13 +176,21 @@ begin
   // Configura Conexão
   with FIdSMTP Do
   begin
-    AuthType := satDefault;
+    AuthType := SMTP.AuthType;
     ReadTimeout := 0;
     ConnectTimeout := 0;
     Host := SMTP.Server;
     Port := SMTP.Port;
     UserName := SMTP.User;
     Password := SMTP.Password;
+
+    if AuthType = satSASL then
+    begin
+      FIdUserPassProvider.Username := SMTP.User;
+      FIdUserPassProvider.Password := SMTP.Password;
+      FIdSASLLogin.UserPassProvider := FIdUserPassProvider;
+      SASLMechanisms.Add.SASL := FIdSASLLogin;
+    end;
 
     if SMTP.SSL_Enabled or (SMTP.TLS <> utNoTLSSupport) then
     begin

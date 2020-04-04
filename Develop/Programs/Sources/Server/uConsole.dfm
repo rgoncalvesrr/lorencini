@@ -3,7 +3,7 @@ inherited Console: TConsole
   ClientHeight = 410
   ClientWidth = 695
   ExplicitWidth = 711
-  ExplicitHeight = 448
+  ExplicitHeight = 449
   PixelsPerInch = 96
   TextHeight = 15
   object PageControl1: TPageControl [0]
@@ -27,6 +27,7 @@ inherited Console: TConsole
         Font.Color = clWindowText
         Font.Height = -11
         Font.Name = 'Courier New'
+        Font.Pitch = fpVariable
         Font.Style = []
         ParentFont = False
         ScrollBars = ssBoth
@@ -48,6 +49,7 @@ inherited Console: TConsole
         Font.Color = clWindowText
         Font.Height = -11
         Font.Name = 'Courier New'
+        Font.Pitch = fpVariable
         Font.Style = []
         ParentFont = False
         ScrollBars = ssBoth
@@ -121,5 +123,9 @@ inherited Console: TConsole
       ImageIndex = 79
       OnExecute = actMonitorExecute
     end
+  end
+  object IdUserPassProvider1: TIdUserPassProvider
+    Left = 200
+    Top = 120
   end
 end

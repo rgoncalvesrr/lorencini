@@ -97,219 +97,17 @@ inherited ClientesM: TClientesM
         ExplicitTop = 26
         ExplicitWidth = 1223
         ExplicitHeight = 451
-        object GroupBox2: TGroupBox
-          AlignWithMargins = True
-          Left = 3
-          Top = 204
-          Width = 1217
-          Height = 68
-          Align = alTop
-          Caption = ' Contato Principal '
-          TabOrder = 2
-          object Panel58: TPanel
-            Left = 2
-            Top = 17
-            Width = 150
-            Height = 49
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 0
-            object Label48: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 144
-              Height = 15
-              Align = alTop
-              Caption = 'Contato'
-              FocusControl = DBEdit42
-              ExplicitWidth = 43
-            end
-            object DBEdit42: TDBEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 144
-              Height = 22
-              Align = alClient
-              DataField = 'contato'
-              DataSource = Clientes.DataSource1
-              TabOrder = 0
-              ExplicitHeight = 23
-            end
-          end
-          object Panel59: TPanel
-            Left = 152
-            Top = 17
-            Width = 112
-            Height = 49
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 1
-            object Label49: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 106
-              Height = 15
-              Align = alTop
-              Caption = 'Fun'#231#227'o'
-              FocusControl = DBEdit43
-              ExplicitWidth = 39
-            end
-            object DBEdit43: TDBEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 106
-              Height = 22
-              Align = alClient
-              DataField = 'contato_func'
-              DataSource = Clientes.DataSource1
-              TabOrder = 0
-              ExplicitHeight = 23
-            end
-          end
-          object Panel60: TPanel
-            Left = 264
-            Top = 17
-            Width = 113
-            Height = 49
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 2
-            object Label50: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 107
-              Height = 15
-              Align = alTop
-              Caption = 'Telefone'
-              FocusControl = DBEdit44
-              ExplicitWidth = 44
-            end
-            object DBEdit44: TDBEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 107
-              Height = 22
-              Align = alClient
-              DataField = 'contato_tel'
-              DataSource = Clientes.DataSource1
-              TabOrder = 0
-              ExplicitHeight = 23
-            end
-          end
-          object Panel61: TPanel
-            Left = 377
-            Top = 17
-            Width = 112
-            Height = 49
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 3
-            object Label51: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 106
-              Height = 15
-              Align = alTop
-              Caption = 'Celular'
-              FocusControl = DBEdit45
-              ExplicitWidth = 37
-            end
-            object DBEdit45: TDBEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 106
-              Height = 22
-              Align = alClient
-              DataField = 'contato_cel'
-              DataSource = Clientes.DataSource1
-              TabOrder = 0
-              ExplicitHeight = 23
-            end
-          end
-          object Panel62: TPanel
-            Left = 489
-            Top = 17
-            Width = 651
-            Height = 49
-            Align = alClient
-            BevelOuter = bvNone
-            TabOrder = 4
-            object Label52: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 645
-              Height = 15
-              Align = alTop
-              Caption = 'E-Mail'
-              FocusControl = DBEdit46
-              ExplicitWidth = 34
-            end
-            object DBEdit46: TDBEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 645
-              Height = 22
-              Align = alClient
-              CharCase = ecLowerCase
-              DataField = 'contato_mail'
-              DataSource = Clientes.DataSource1
-              TabOrder = 0
-              ExplicitHeight = 23
-            end
-          end
-          object Panel63: TPanel
-            Left = 1140
-            Top = 17
-            Width = 75
-            Height = 49
-            Align = alRight
-            BevelOuter = bvNone
-            TabOrder = 5
-            object Label53: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 69
-              Height = 15
-              Align = alTop
-              Caption = 'Nextel ID'
-              FocusControl = DBEdit47
-              ExplicitWidth = 48
-            end
-            object DBEdit47: TDBEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 69
-              Height = 22
-              Align = alClient
-              DataField = 'contato_nextel'
-              DataSource = Clientes.DataSource1
-              TabOrder = 0
-              ExplicitHeight = 23
-            end
-          end
-        end
         object Panel2: TPanel
           Left = 0
           Top = 0
-          Width = 1223
+          Width = 1222
           Height = 127
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 0
+          ExplicitWidth = 1223
           inline FrameImage1: TFrameImage
-            Left = 1012
+            Left = 1011
             Top = 0
             Width = 211
             Height = 127
@@ -330,28 +128,31 @@ inherited ClientesM: TClientesM
           object Panel6: TPanel
             Left = 0
             Top = 0
-            Width = 1012
+            Width = 1011
             Height = 127
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 0
+            ExplicitWidth = 1012
             object Panel4: TPanel
               Left = 0
               Top = 50
-              Width = 1012
+              Width = 1011
               Height = 75
               Align = alTop
               BevelOuter = bvNone
               TabOrder = 1
+              ExplicitWidth = 1012
               object GroupBox7: TGroupBox
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 1006
+                Width = 1005
                 Height = 69
                 Align = alClient
                 Caption = ' Tipo de Cliente '
                 TabOrder = 0
+                ExplicitWidth = 1006
                 object Panel22: TPanel
                   Left = 2
                   Top = 17
@@ -482,16 +283,17 @@ inherited ClientesM: TClientesM
                 object Panel26: TPanel
                   Left = 481
                   Top = 17
-                  Width = 523
+                  Width = 522
                   Height = 50
                   Align = alClient
                   BevelOuter = bvNone
                   TabOrder = 4
+                  ExplicitWidth = 523
                   object Label44: TLabel
                     AlignWithMargins = True
                     Left = 3
                     Top = 3
-                    Width = 517
+                    Width = 516
                     Height = 15
                     Align = alTop
                     Caption = 'RG'
@@ -502,12 +304,13 @@ inherited ClientesM: TClientesM
                     AlignWithMargins = True
                     Left = 3
                     Top = 24
-                    Width = 517
+                    Width = 516
                     Height = 23
                     Align = alClient
                     DataField = 'rg'
                     DataSource = Clientes.DataSource1
                     TabOrder = 0
+                    ExplicitWidth = 517
                   end
                 end
               end
@@ -515,11 +318,12 @@ inherited ClientesM: TClientesM
             object Panel5: TPanel
               Left = 0
               Top = 0
-              Width = 1012
+              Width = 1011
               Height = 50
               Align = alTop
               BevelOuter = bvNone
               TabOrder = 0
+              ExplicitWidth = 1012
               object Panel7: TPanel
                 Left = 0
                 Top = 0
@@ -563,16 +367,17 @@ inherited ClientesM: TClientesM
               object Panel8: TPanel
                 Left = 68
                 Top = 0
-                Width = 787
+                Width = 786
                 Height = 50
                 Align = alClient
                 BevelOuter = bvNone
                 TabOrder = 1
+                ExplicitWidth = 787
                 object Label2: TLabel
                   AlignWithMargins = True
                   Left = 3
                   Top = 3
-                  Width = 781
+                  Width = 780
                   Height = 14
                   Align = alTop
                   Caption = 'Nome Empresarial'
@@ -589,24 +394,26 @@ inherited ClientesM: TClientesM
                   AlignWithMargins = True
                   Left = 3
                   Top = 23
-                  Width = 781
+                  Width = 780
                   Height = 24
                   Align = alClient
                   CharCase = ecUpperCase
                   DataField = 'empresa'
                   DataSource = Clientes.DataSource1
                   TabOrder = 0
+                  ExplicitWidth = 781
                   ExplicitHeight = 23
                 end
               end
               object Panel9: TPanel
-                Left = 855
+                Left = 854
                 Top = 0
                 Width = 157
                 Height = 50
                 Align = alRight
                 BevelOuter = bvNone
                 TabOrder = 2
+                ExplicitLeft = 855
                 object Label1: TLabel
                   AlignWithMargins = True
                   Left = 3
@@ -645,11 +452,12 @@ inherited ClientesM: TClientesM
           AlignWithMargins = True
           Left = 3
           Top = 130
-          Width = 1217
+          Width = 1216
           Height = 68
           Align = alTop
           Caption = ' Outras Informa'#231#245'es '
           TabOrder = 1
+          ExplicitWidth = 1217
           object Panel18: TPanel
             Left = 2
             Top = 17
@@ -689,16 +497,17 @@ inherited ClientesM: TClientesM
           object Panel19: TPanel
             Left = 122
             Top = 17
-            Width = 774
+            Width = 773
             Height = 49
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 1
+            ExplicitWidth = 774
             object Label17: TLabel
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 768
+              Width = 767
               Height = 15
               Align = alTop
               Caption = 'Vendedor'
@@ -708,25 +517,26 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 24
-              Width = 768
+              Width = 767
               Height = 23
               Align = alClient
               DataField = 'id_vendedor'
               DataSource = Clientes.DataSource1
               KeyField = 'idvendedor'
               ListField = 'nome;cpf'
-              ListSource = Clientes.dsVendedores
               TabOrder = 0
+              ExplicitWidth = 768
             end
           end
           object Panel20: TPanel
-            Left = 896
+            Left = 895
             Top = 17
             Width = 98
             Height = 49
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 2
+            ExplicitLeft = 896
             object Label16: TLabel
               AlignWithMargins = True
               Left = 3
@@ -760,13 +570,14 @@ inherited ClientesM: TClientesM
             end
           end
           object Panel21: TPanel
-            Left = 994
+            Left = 993
             Top = 17
             Width = 138
             Height = 49
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 3
+            ExplicitLeft = 994
             object Label18: TLabel
               AlignWithMargins = True
               Left = 3
@@ -792,13 +603,14 @@ inherited ClientesM: TClientesM
             end
           end
           object Panel57: TPanel
-            Left = 1132
+            Left = 1131
             Top = 17
             Width = 83
             Height = 49
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 4
+            ExplicitLeft = 1132
             object Label19: TLabel
               AlignWithMargins = True
               Left = 3

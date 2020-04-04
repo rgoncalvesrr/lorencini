@@ -1,34 +1,48 @@
 inherited ClientesContatoM: TClientesContatoM
   Caption = 'Manuten'#231#227'o de contatos'
-  ClientHeight = 398
-  ExplicitHeight = 427
+  ClientHeight = 433
+  ClientWidth = 785
+  ExplicitWidth = 791
+  ExplicitHeight = 462
   PixelsPerInch = 96
   TextHeight = 15
   inherited Panel1: TPanel
-    Height = 354
-    ExplicitLeft = 0
-    ExplicitWidth = 639
-    ExplicitHeight = 354
+    Top = 44
+    Width = 785
+    Height = 389
+    ExplicitTop = 35
+    ExplicitHeight = 363
     inherited Panel3: TPanel
       Top = 61
       Align = alNone
       TabOrder = 3
       ExplicitTop = 61
-      ExplicitWidth = 639
       inherited PageControl3: TPageControl
+        Top = 47
+        Height = 185
         ExplicitLeft = 3
-        ExplicitTop = 47
+        ExplicitTop = 38
         ExplicitWidth = 633
-        ExplicitHeight = 185
+        ExplicitHeight = 194
         inherited tsDet: TTabSheet
           ExplicitLeft = 4
           ExplicitTop = 26
           ExplicitWidth = 625
-          ExplicitHeight = 155
+          ExplicitHeight = 164
+          inherited DBGrid1: TDBGrid
+            Width = 625
+            Height = 155
+          end
         end
       end
       inherited ControlBar2: TControlBar
+        Height = 38
+        ExplicitLeft = 3
+        ExplicitTop = 3
+        ExplicitWidth = 633
+        ExplicitHeight = 38
         inherited ToolBar3: TToolBar
+          ButtonWidth = 129
           inherited ToolButton10: TToolButton
             ExplicitWidth = 32
           end
@@ -55,25 +69,28 @@ inherited ClientesContatoM: TClientesContatoM
     end
     inherited PageControl1: TPageControl
       Top = 56
-      Height = 295
+      Width = 779
+      Height = 330
       ExplicitLeft = 3
       ExplicitTop = 56
       ExplicitWidth = 633
-      ExplicitHeight = 295
+      ExplicitHeight = 304
       inherited TabSheet1: TTabSheet
         Caption = 'Contato'
         ExplicitLeft = 4
         ExplicitTop = 26
         ExplicitWidth = 625
-        ExplicitHeight = 265
+        ExplicitHeight = 274
         object Panel4: TPanel
           Left = 0
-          Top = 35
-          Width = 625
+          Top = 29
+          Width = 771
           Height = 29
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 1
+          ExplicitTop = 35
+          ExplicitWidth = 625
           object Panel5: TPanel
             Left = 0
             Top = 0
@@ -95,6 +112,7 @@ inherited ClientesContatoM: TClientesContatoM
               Font.Color = clWindowText
               Font.Height = -12
               Font.Name = 'Arial'
+              Font.Pitch = fpVariable
               Font.Style = [fsBold]
               ParentFont = False
               Layout = tlCenter
@@ -105,32 +123,36 @@ inherited ClientesContatoM: TClientesContatoM
           object Panel6: TPanel
             Left = 95
             Top = 0
-            Width = 530
+            Width = 676
             Height = 29
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 1
+            ExplicitWidth = 530
             object DBEdit1: TDBEdit
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 524
+              Width = 670
               Height = 23
               Align = alClient
               DataField = 'nome'
               DataSource = DM.dsContatos
               TabOrder = 0
+              ExplicitWidth = 524
             end
           end
         end
         object Panel7: TPanel
           Left = 0
-          Top = 64
-          Width = 625
+          Top = 58
+          Width = 771
           Height = 29
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 2
+          ExplicitTop = 64
+          ExplicitWidth = 625
           object Panel8: TPanel
             Left = 0
             Top = 0
@@ -156,11 +178,12 @@ inherited ClientesContatoM: TClientesContatoM
           object Panel9: TPanel
             Left = 95
             Top = 0
-            Width = 530
+            Width = 676
             Height = 29
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 1
+            ExplicitWidth = 530
             object DBEdit2: TDBEdit
               AlignWithMargins = True
               Left = 3
@@ -176,12 +199,14 @@ inherited ClientesContatoM: TClientesContatoM
         end
         object Panel10: TPanel
           Left = 0
-          Top = 93
-          Width = 625
+          Top = 87
+          Width = 771
           Height = 29
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 3
+          ExplicitTop = 93
+          ExplicitWidth = 625
           object Panel11: TPanel
             Left = 0
             Top = 0
@@ -203,6 +228,7 @@ inherited ClientesContatoM: TClientesContatoM
               Font.Color = clWindowText
               Font.Height = -12
               Font.Name = 'Arial'
+              Font.Pitch = fpVariable
               Font.Style = [fsBold]
               ParentFont = False
               Layout = tlCenter
@@ -213,11 +239,12 @@ inherited ClientesContatoM: TClientesContatoM
           object Panel12: TPanel
             Left = 95
             Top = 0
-            Width = 530
+            Width = 676
             Height = 29
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 1
+            ExplicitWidth = 530
             object DBEdit3: TDBEdit
               AlignWithMargins = True
               Left = 3
@@ -232,14 +259,16 @@ inherited ClientesContatoM: TClientesContatoM
           end
         end
         object Panel13: TPanel
-          AlignWithMargins = True
-          Left = 3
-          Top = 125
-          Width = 619
+          Left = 0
+          Top = 116
+          Width = 771
           Height = 29
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 4
+          ExplicitLeft = 3
+          ExplicitTop = 125
+          ExplicitWidth = 619
           object Panel14: TPanel
             Left = 0
             Top = 0
@@ -265,11 +294,12 @@ inherited ClientesContatoM: TClientesContatoM
           object Panel15: TPanel
             Left = 95
             Top = 0
-            Width = 524
+            Width = 676
             Height = 29
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 1
+            ExplicitWidth = 524
             object DBEdit4: TDBEdit
               AlignWithMargins = True
               Left = 3
@@ -284,14 +314,16 @@ inherited ClientesContatoM: TClientesContatoM
           end
         end
         object Panel16: TPanel
-          AlignWithMargins = True
-          Left = 3
-          Top = 160
-          Width = 619
+          Left = 0
+          Top = 145
+          Width = 771
           Height = 29
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 5
+          ExplicitLeft = 3
+          ExplicitTop = 160
+          ExplicitWidth = 619
           object Panel17: TPanel
             Left = 0
             Top = 0
@@ -317,33 +349,37 @@ inherited ClientesContatoM: TClientesContatoM
           object Panel18: TPanel
             Left = 95
             Top = 0
-            Width = 524
+            Width = 676
             Height = 29
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 1
+            ExplicitWidth = 524
             object DBEdit5: TDBEdit
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 518
+              Width = 670
               Height = 23
               Align = alClient
               DataField = 'email'
               DataSource = DM.dsContatos
               TabOrder = 0
+              ExplicitWidth = 518
             end
           end
         end
         object Panel19: TPanel
-          AlignWithMargins = True
-          Left = 3
-          Top = 195
-          Width = 619
+          Left = 0
+          Top = 174
+          Width = 771
           Height = 29
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 6
+          ExplicitLeft = 3
+          ExplicitTop = 195
+          ExplicitWidth = 619
           object Panel20: TPanel
             Left = 0
             Top = 0
@@ -362,40 +398,44 @@ inherited ClientesContatoM: TClientesContatoM
               Caption = 'Nextel ID'
               FocusControl = DBEdit6
               Layout = tlCenter
-              ExplicitWidth = 47
+              ExplicitWidth = 48
               ExplicitHeight = 15
             end
           end
           object Panel21: TPanel
             Left = 95
             Top = 0
-            Width = 524
+            Width = 676
             Height = 29
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 1
+            ExplicitWidth = 524
             object DBEdit6: TDBEdit
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 518
+              Width = 670
               Height = 23
               Align = alClient
               DataField = 'contato_nextel'
               DataSource = DM.dsContatos
               TabOrder = 0
+              ExplicitWidth = 518
             end
           end
         end
         object Panel22: TPanel
-          AlignWithMargins = True
-          Left = 3
-          Top = 230
-          Width = 619
+          Left = 0
+          Top = 203
+          Width = 771
           Height = 29
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 7
+          ExplicitLeft = 3
+          ExplicitTop = 230
+          ExplicitWidth = 619
           object Panel23: TPanel
             Left = 0
             Top = 0
@@ -414,18 +454,19 @@ inherited ClientesContatoM: TClientesContatoM
               Caption = 'Nextel Celular'
               FocusControl = DBEdit7
               Layout = tlCenter
-              ExplicitWidth = 73
+              ExplicitWidth = 74
               ExplicitHeight = 15
             end
           end
           object Panel24: TPanel
             Left = 95
             Top = 0
-            Width = 524
+            Width = 676
             Height = 29
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 1
+            ExplicitWidth = 524
             object DBEdit7: TDBEdit
               AlignWithMargins = True
               Left = 3
@@ -440,14 +481,16 @@ inherited ClientesContatoM: TClientesContatoM
           end
         end
         object Panel25: TPanel
-          AlignWithMargins = True
-          Left = 3
-          Top = 3
-          Width = 619
+          Left = 0
+          Top = 0
+          Width = 771
           Height = 29
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 0
+          ExplicitLeft = 3
+          ExplicitTop = 3
+          ExplicitWidth = 619
           object Panel26: TPanel
             Left = 0
             Top = 0
@@ -466,18 +509,18 @@ inherited ClientesContatoM: TClientesContatoM
               Caption = 'Situa'#231#227'o'
               FocusControl = DBEdit2
               Layout = tlCenter
-              ExplicitWidth = 45
-              ExplicitHeight = 15
+              ExplicitWidth = 83
             end
           end
           object Panel27: TPanel
             Left = 95
             Top = 0
-            Width = 524
+            Width = 676
             Height = 29
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 1
+            ExplicitWidth = 524
             object JvDBComboBox1: TJvDBComboBox
               AlignWithMargins = True
               Left = 3
@@ -507,11 +550,12 @@ inherited ClientesContatoM: TClientesContatoM
     object Panel2: TPanel
       Left = 0
       Top = 0
-      Width = 639
+      Width = 785
       Height = 53
       Align = alTop
       BevelOuter = bvNone
       TabOrder = 1
+      ExplicitWidth = 639
       object Label36: TLabel
         Left = 5
         Top = 4
@@ -523,6 +567,7 @@ inherited ClientesContatoM: TClientesContatoM
         Font.Color = clWindowText
         Font.Height = -12
         Font.Name = 'Arial'
+        Font.Pitch = fpVariable
         Font.Style = [fsBold]
         ParentFont = False
       end
@@ -536,6 +581,7 @@ inherited ClientesContatoM: TClientesContatoM
         Font.Color = clWindowText
         Font.Height = -12
         Font.Name = 'Arial'
+        Font.Pitch = fpVariable
         Font.Style = [fsBold]
         ParentFont = False
       end
@@ -562,7 +608,14 @@ inherited ClientesContatoM: TClientesContatoM
     end
   end
   inherited ControlBar1: TControlBar
+    Width = 779
+    Height = 38
+    ExplicitLeft = 3
+    ExplicitTop = 3
+    ExplicitWidth = 633
+    ExplicitHeight = 38
     inherited ToolBar1: TToolBar
+      ButtonWidth = 115
       inherited ToolButton6: TToolButton
         ExplicitWidth = 32
       end

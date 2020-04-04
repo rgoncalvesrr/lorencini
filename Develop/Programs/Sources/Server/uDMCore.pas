@@ -42,7 +42,8 @@ var
 
 implementation
 
-uses ServiceCFG, ActiveX, ComObj, uIUtils, ServiceSMTP, mcutils;
+uses ServiceCFG, ActiveX, ComObj, uIUtils, ServiceSMTP, mcutils, IdSSLOpenSSL, 
+  IdExplicitTLSClientServerBase, IdSMTP;
 
 {$R *.dfm}
 
@@ -127,16 +128,48 @@ begin
   zQry.SQL.Text :=
   'select sys_paramv(''smtp_server''), sys_parami(''smtp_port''), '+
          'sys_paramv(''smtp_user''), sys_paramv(''smtp_username''), '+
-         'sys_paramv(''smtp_pass'') ';
+         'sys_paramv(''smtp_pass''), sys_paramb(''smtp_tls_enable''), '+
+         'sys_paramv(''smtp_tls_mode''), sys_paramv(''smtp_tls_use''), '+
+         'sys_paramv(''smtp_auth_type'')';
   zQry.Open;
   try
     with TServiceCFG.GetInstance.Smtp do
     begin
+      AuthType := satDefault;
+
+      if zQry.Fields[8].AsString = 'SASL' then
+        AuthType := satSASL;
+
       Server := zQry.Fields[0].AsString;
       Port := zQry.Fields[1].AsInteger;
       User := zQry.Fields[2].AsString;
       UserName := zQry.Fields[3].AsString;
       Password := zQry.Fields[4].AsString;
+      SSL_Enabled := zQry.Fields[5].AsBoolean;
+      if SSL_Enabled then
+      begin
+        if zQry.Fields[6].AsString = 'SSLv2' then
+          SSLMode := sslvSSLv2;
+        if zQry.Fields[6].AsString = 'SSLv23' then
+          SSLMode := sslvSSLv23;
+        if zQry.Fields[6].AsString = 'SSLv3' then
+          SSLMode := sslvSSLv3;
+        if zQry.Fields[6].AsString = 'TLSv1' then
+          SSLMode := sslvTLSv1;
+        if zQry.Fields[6].AsString = 'TLSv1_1' then
+          SSLMode := sslvTLSv1_1;
+        if zQry.Fields[6].AsString = 'TLSv1_2' then
+          SSLMode := sslvTLSv1_2;
+
+        TLS := utNoTLSSupport;
+
+        if zQry.Fields[7].AsString = 'Implicit' then
+          TLS := utUseImplicitTLS;
+        if zQry.Fields[7].AsString = 'Require' then
+          TLS := utUseRequireTLS;
+        if zQry.Fields[7].AsString = 'Explicit' then
+          TLS := utUseExplicitTLS;
+      end;
     end;
   finally
     zQry.Close;
