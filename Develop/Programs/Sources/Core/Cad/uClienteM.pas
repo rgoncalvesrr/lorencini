@@ -169,7 +169,11 @@ type
     Panel20: TPanel;
     Panel21: TPanel;
     Panel57: TPanel;
+    TabSheet3: TTabSheet;
+    DBGrid2: TDBGrid;
     procedure FormCreate(Sender: TObject);
+    procedure DBGrid2DrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn;
+      State: TGridDrawState);
   private
     procedure RefreshControls; override;
     procedure OnEdit; override;
@@ -184,9 +188,41 @@ var
 implementation
 
 {$R *.dfm}
-uses uClientes, uIUtils, ZDataset, DB, uDM, uClientesMFinais;
+uses uClientes, uIUtils, ZDataset, DB, uDM, uClientesMFinais, uResources, 
+  uClientesMContatos;
 
 { TClientesM }
+
+procedure TClientesM.DBGrid2DrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn;
+  State: TGridDrawState);
+var
+  fBitMap: TBitmap;
+begin
+  if (Column.Index <> 0) then
+    inherited ChildGridDrawColumnCell(Sender, Rect, DataCol, Column, State)
+  else
+    with TDBGrid(Sender) do
+    begin
+      fBitMap:= TBitmap.Create;
+      try
+        fBitMap.Transparent:= True;
+
+        with Resources do
+          case Clientes.qContatossituacao.AsInteger of
+            0: small_n.GetBitmap(209, fBitMap); // Inativos
+            1: small_n.GetBitmap(208, fBitMap); // Ativos
+          end;
+
+        if Column.Width <> fBitMap.Width + 2 then
+          Column.Width:= fBitMap.Width + 2;
+
+        {Desenha o status da OS}
+        Canvas.Draw(Rect.Left + 1, Rect.Top + 1, fBitMap);
+      finally
+        FreeAndNil(fBitMap);
+      end;
+    end;
+end;
 
 procedure TClientesM.FormCreate(Sender: TObject);
 begin
@@ -196,14 +232,28 @@ end;
 
 procedure TClientesM.OnEdit;
 begin
-  ClientesMFinais := TClientesMFinais.Create(nil);
-  try
-    ClientesMFinais.DataSet := DM.qClientesFinais;
-    ClientesMFinais.ShowModal;
-  finally
-    FreeAndNil(ClientesMFinais);
+  case PageControl3.ActivePageIndex of
+    0:
+    begin
+      ClientesMFinais := TClientesMFinais.Create(nil);
+      try
+        ClientesMFinais.DataSet := Clientes.qClientesFinais;
+        ClientesMFinais.ShowModal;
+      finally
+        FreeAndNil(ClientesMFinais);
+      end;
+    end;
+    1:
+    begin
+      ClientesMContatos := TClientesMContatos.Create(nil);
+      try
+        ClientesMContatos.DataSet := Clientes.qContatos;
+        ClientesMContatos.ShowModal;
+      finally
+        FreeAndNil(ClientesMContatos);
+      end;
+    end;
   end;
-
 end;
 
 procedure TClientesM.OnLoad;

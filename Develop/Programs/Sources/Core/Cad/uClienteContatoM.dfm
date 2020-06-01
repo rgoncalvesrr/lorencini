@@ -10,8 +10,9 @@ inherited ClientesContatoM: TClientesContatoM
     Top = 44
     Width = 785
     Height = 389
-    ExplicitTop = 35
-    ExplicitHeight = 363
+    ExplicitTop = 44
+    ExplicitWidth = 785
+    ExplicitHeight = 389
     inherited Panel3: TPanel
       Top = 61
       Align = alNone
@@ -21,14 +22,14 @@ inherited ClientesContatoM: TClientesContatoM
         Top = 47
         Height = 185
         ExplicitLeft = 3
-        ExplicitTop = 38
+        ExplicitTop = 47
         ExplicitWidth = 633
-        ExplicitHeight = 194
+        ExplicitHeight = 185
         inherited tsDet: TTabSheet
           ExplicitLeft = 4
           ExplicitTop = 26
           ExplicitWidth = 625
-          ExplicitHeight = 164
+          ExplicitHeight = 155
           inherited DBGrid1: TDBGrid
             Width = 625
             Height = 155
@@ -73,14 +74,14 @@ inherited ClientesContatoM: TClientesContatoM
       Height = 330
       ExplicitLeft = 3
       ExplicitTop = 56
-      ExplicitWidth = 633
-      ExplicitHeight = 304
+      ExplicitWidth = 779
+      ExplicitHeight = 330
       inherited TabSheet1: TTabSheet
         Caption = 'Contato'
         ExplicitLeft = 4
         ExplicitTop = 26
-        ExplicitWidth = 625
-        ExplicitHeight = 274
+        ExplicitWidth = 771
+        ExplicitHeight = 300
         object Panel4: TPanel
           Left = 0
           Top = 29
@@ -89,8 +90,6 @@ inherited ClientesContatoM: TClientesContatoM
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 1
-          ExplicitTop = 35
-          ExplicitWidth = 625
           object Panel5: TPanel
             Left = 0
             Top = 0
@@ -128,7 +127,6 @@ inherited ClientesContatoM: TClientesContatoM
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 1
-            ExplicitWidth = 530
             object DBEdit1: TDBEdit
               AlignWithMargins = True
               Left = 3
@@ -139,7 +137,6 @@ inherited ClientesContatoM: TClientesContatoM
               DataField = 'nome'
               DataSource = DM.dsContatos
               TabOrder = 0
-              ExplicitWidth = 524
             end
           end
         end
@@ -151,8 +148,6 @@ inherited ClientesContatoM: TClientesContatoM
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 2
-          ExplicitTop = 64
-          ExplicitWidth = 625
           object Panel8: TPanel
             Left = 0
             Top = 0
@@ -183,7 +178,6 @@ inherited ClientesContatoM: TClientesContatoM
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 1
-            ExplicitWidth = 530
             object DBEdit2: TDBEdit
               AlignWithMargins = True
               Left = 3
@@ -205,8 +199,6 @@ inherited ClientesContatoM: TClientesContatoM
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 3
-          ExplicitTop = 93
-          ExplicitWidth = 625
           object Panel11: TPanel
             Left = 0
             Top = 0
@@ -244,7 +236,6 @@ inherited ClientesContatoM: TClientesContatoM
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 1
-            ExplicitWidth = 530
             object DBEdit3: TDBEdit
               AlignWithMargins = True
               Left = 3
@@ -266,9 +257,6 @@ inherited ClientesContatoM: TClientesContatoM
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 4
-          ExplicitLeft = 3
-          ExplicitTop = 125
-          ExplicitWidth = 619
           object Panel14: TPanel
             Left = 0
             Top = 0
@@ -299,7 +287,6 @@ inherited ClientesContatoM: TClientesContatoM
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 1
-            ExplicitWidth = 524
             object DBEdit4: TDBEdit
               AlignWithMargins = True
               Left = 3
@@ -321,9 +308,6 @@ inherited ClientesContatoM: TClientesContatoM
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 5
-          ExplicitLeft = 3
-          ExplicitTop = 160
-          ExplicitWidth = 619
           object Panel17: TPanel
             Left = 0
             Top = 0
@@ -354,7 +338,6 @@ inherited ClientesContatoM: TClientesContatoM
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 1
-            ExplicitWidth = 524
             object DBEdit5: TDBEdit
               AlignWithMargins = True
               Left = 3
@@ -365,7 +348,6 @@ inherited ClientesContatoM: TClientesContatoM
               DataField = 'email'
               DataSource = DM.dsContatos
               TabOrder = 0
-              ExplicitWidth = 518
             end
           end
         end
@@ -377,9 +359,6 @@ inherited ClientesContatoM: TClientesContatoM
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 6
-          ExplicitLeft = 3
-          ExplicitTop = 195
-          ExplicitWidth = 619
           object Panel20: TPanel
             Left = 0
             Top = 0
@@ -410,7 +389,6 @@ inherited ClientesContatoM: TClientesContatoM
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 1
-            ExplicitWidth = 524
             object DBEdit6: TDBEdit
               AlignWithMargins = True
               Left = 3
@@ -421,7 +399,6 @@ inherited ClientesContatoM: TClientesContatoM
               DataField = 'contato_nextel'
               DataSource = DM.dsContatos
               TabOrder = 0
-              ExplicitWidth = 518
             end
           end
         end
@@ -433,9 +410,6 @@ inherited ClientesContatoM: TClientesContatoM
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 7
-          ExplicitLeft = 3
-          ExplicitTop = 230
-          ExplicitWidth = 619
           object Panel23: TPanel
             Left = 0
             Top = 0
@@ -466,7 +440,6 @@ inherited ClientesContatoM: TClientesContatoM
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 1
-            ExplicitWidth = 524
             object DBEdit7: TDBEdit
               AlignWithMargins = True
               Left = 3
@@ -488,9 +461,6 @@ inherited ClientesContatoM: TClientesContatoM
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 0
-          ExplicitLeft = 3
-          ExplicitTop = 3
-          ExplicitWidth = 619
           object Panel26: TPanel
             Left = 0
             Top = 0
@@ -509,7 +479,8 @@ inherited ClientesContatoM: TClientesContatoM
               Caption = 'Situa'#231#227'o'
               FocusControl = DBEdit2
               Layout = tlCenter
-              ExplicitWidth = 83
+              ExplicitWidth = 45
+              ExplicitHeight = 15
             end
           end
           object Panel27: TPanel
@@ -520,7 +491,6 @@ inherited ClientesContatoM: TClientesContatoM
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 1
-            ExplicitWidth = 524
             object JvDBComboBox1: TJvDBComboBox
               AlignWithMargins = True
               Left = 3
@@ -555,7 +525,6 @@ inherited ClientesContatoM: TClientesContatoM
       Align = alTop
       BevelOuter = bvNone
       TabOrder = 1
-      ExplicitWidth = 639
       object Label36: TLabel
         Left = 5
         Top = 4
@@ -612,7 +581,7 @@ inherited ClientesContatoM: TClientesContatoM
     Height = 38
     ExplicitLeft = 3
     ExplicitTop = 3
-    ExplicitWidth = 633
+    ExplicitWidth = 779
     ExplicitHeight = 38
     inherited ToolBar1: TToolBar
       ButtonWidth = 115

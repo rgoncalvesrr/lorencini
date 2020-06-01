@@ -62,13 +62,13 @@ uses mcUtils, uIUtils, uDM, uContatoF;
 procedure TCallCenterM.actContatoFExecute(Sender: TObject);
 begin
   Application.CreateForm(TContatoF, ContatoF);
-  ContatoF.Cliente := DM.qClientescodigo.AsInteger;
-  ContatoF.ShowModal;
+//  ContatoF.Cliente := DM.qClientescodigo.AsInteger;
+//  ContatoF.ShowModal;
 
   if ContatoF.Execute then
     with DM do
     begin
-      qCallCentercontato.AsInteger := ContatoF.IBrwSrcitem.AsInteger;
+      qCallCentercontato.AsInteger := ContatoF.IBrwSrccontato.AsInteger;
       qCallCenternome.AsString := ContatoF.IBrwSrcnome.AsString;
       qCallCentertelefone.AsString := ContatoF.IBrwSrctelefone.AsString;
       qCallCenterfuncao.AsString := ContatoF.IBrwSrcfuncao.AsString;
@@ -99,15 +99,16 @@ end;
 procedure TCallCenterM.SetCliente(const Value: Integer);
 begin
   FCliente := Value;
-  with dm do
-  begin
-    if not qClientes.Active then
-      qClientes.Open;
-    if not qContatos.Active then
-      qContatos.Open;
-
-    qClientes.Locate('codigo', FCliente, []);
-  end;
+  { TODO -oRicardo -cComercial : Revisar o evento de gravação do call center }
+//  with dm do
+//  begin
+//    if not qClientes.Active then
+//      qClientes.Open;
+//    if not qContatos.Active then
+//      qContatos.Open;
+//
+//    qClientes.Locate('codigo', FCliente, []);
+//  end;
 end;
 
 procedure TCallCenterM.SetOs(const Value: Integer);

@@ -161,6 +161,7 @@ inherited LabProcPort: TLabProcPort
           Font.Color = clWindowText
           Font.Height = -12
           Font.Name = 'Arial'
+          Font.Pitch = fpVariable
           Font.Style = [fsBold]
           ParentFont = False
         end
@@ -174,6 +175,7 @@ inherited LabProcPort: TLabProcPort
           Font.Color = clWindowText
           Font.Height = -12
           Font.Name = 'Arial'
+          Font.Pitch = fpVariable
           Font.Style = [fsBold]
           ParentFont = False
         end
@@ -188,6 +190,7 @@ inherited LabProcPort: TLabProcPort
           Font.Color = clWindowText
           Font.Height = -12
           Font.Name = 'Arial'
+          Font.Pitch = fpVariable
           Font.Style = [fsBold]
           ParentFont = False
         end
@@ -201,6 +204,7 @@ inherited LabProcPort: TLabProcPort
           Font.Color = clWindowText
           Font.Height = -12
           Font.Name = 'Arial'
+          Font.Pitch = fpVariable
           Font.Style = [fsBold]
           ParentFont = False
         end
@@ -223,6 +227,7 @@ inherited LabProcPort: TLabProcPort
           Font.Color = clWindowText
           Font.Height = -12
           Font.Name = 'Arial'
+          Font.Pitch = fpVariable
           Font.Style = [fsBold]
           ParentFont = False
         end
@@ -279,6 +284,7 @@ inherited LabProcPort: TLabProcPort
           Font.Color = clWindowText
           Font.Height = -12
           Font.Name = 'Arial'
+          Font.Pitch = fpVariable
           Font.Style = [fsBold]
           ParentFont = False
         end
@@ -293,6 +299,7 @@ inherited LabProcPort: TLabProcPort
           Font.Color = clWindowText
           Font.Height = -12
           Font.Name = 'Arial'
+          Font.Pitch = fpVariable
           Font.Style = [fsBold]
           ParentFont = False
         end
@@ -306,6 +313,7 @@ inherited LabProcPort: TLabProcPort
           Font.Color = clWindowText
           Font.Height = -12
           Font.Name = 'Arial'
+          Font.Pitch = fpVariable
           Font.Style = [fsBold]
           ParentFont = False
         end
@@ -319,6 +327,7 @@ inherited LabProcPort: TLabProcPort
           Font.Color = clWindowText
           Font.Height = -12
           Font.Name = 'Arial'
+          Font.Pitch = fpVariable
           Font.Style = [fsBold]
           ParentFont = False
         end
@@ -340,6 +349,7 @@ inherited LabProcPort: TLabProcPort
           Font.Color = clWindowText
           Font.Height = -12
           Font.Name = 'Arial'
+          Font.Pitch = fpVariable
           Font.Style = [fsBold]
           ParentFont = False
         end

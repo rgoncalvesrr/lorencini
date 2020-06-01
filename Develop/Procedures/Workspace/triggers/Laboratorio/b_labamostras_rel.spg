@@ -59,7 +59,7 @@ BEGIN
          new.criacao := localtimestamp;
 
          -- Obtem informações do laudo
-         select codserv, descri, ativo
+         select descri, ativo
            into rh
            from labrel
           where recno = new.relato_recno;
@@ -68,11 +68,11 @@ BEGIN
             raise '[[O tipo de laudo % - % não está ativo. Verifique!]]', new.relato_recno, rh.descri;
          end if;
 
-         if rh.codserv is null then
+         if new.codserv is null then
             raise '[[O tipo de laudo % - % não possui serviço associado para cobrança. Verifique!]]', new.relato_recno, rh.descri;
          end if;
 
-         new.codserv := rh.codserv;
+         -- new.codserv := rh.codserv;
       else
          -- Alteração do tipo de laudo, remove ensaios inválidos
          if new.relato_recno <> old.relato_recno then

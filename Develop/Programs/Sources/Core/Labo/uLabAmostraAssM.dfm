@@ -130,6 +130,7 @@ inherited LabAmostraAssM: TLabAmostraAssM
             TitleFont.Color = clWindowText
             TitleFont.Height = -12
             TitleFont.Name = 'Segoe UI'
+            TitleFont.Pitch = fpVariable
             TitleFont.Style = []
             AlternateRowColor = 14281433
             SelectColumnsDialogStrings.Caption = 'Select columns'
@@ -225,11 +226,10 @@ inherited LabAmostraAssM: TLabAmostraAssM
                   AlignWithMargins = True
                   Left = 3
                   Top = 3
-                  Width = 195
+                  Width = 63
                   Height = 15
                   Align = alTop
                   Caption = 'Diagn'#243'stico'
-                  ExplicitWidth = 63
                 end
                 object JvDBComboBox1: TJvDBComboBox
                   AlignWithMargins = True
@@ -264,11 +264,10 @@ inherited LabAmostraAssM: TLabAmostraAssM
                   AlignWithMargins = True
                   Left = 3
                   Top = 3
-                  Width = 163
+                  Width = 57
                   Height = 15
                   Align = alTop
                   Caption = 'Criticidade'
-                  ExplicitWidth = 57
                 end
                 object JvDBComboBox2: TJvDBComboBox
                   AlignWithMargins = True
@@ -332,11 +331,10 @@ inherited LabAmostraAssM: TLabAmostraAssM
                   AlignWithMargins = True
                   Left = 3
                   Top = 3
-                  Width = 278
+                  Width = 82
                   Height = 15
                   Align = alTop
                   Caption = 'Recomenda'#231#227'o'
-                  ExplicitWidth = 82
                 end
                 object JvDBComboBox3: TJvDBComboBox
                   AlignWithMargins = True
@@ -371,12 +369,11 @@ inherited LabAmostraAssM: TLabAmostraAssM
                   AlignWithMargins = True
                   Left = 3
                   Top = 3
-                  Width = 28
+                  Width = 22
                   Height = 15
                   Align = alTop
                   Caption = 'Dias'
                   FocusControl = DBEdit47
-                  ExplicitWidth = 22
                 end
                 object DBEdit47: TDBEdit
                   AlignWithMargins = True
@@ -404,11 +401,10 @@ inherited LabAmostraAssM: TLabAmostraAssM
                   AlignWithMargins = True
                   Left = 3
                   Top = 3
-                  Width = 103
+                  Width = 81
                   Height = 15
                   Align = alTop
                   Caption = 'Pr'#243'xima Coleta'
-                  ExplicitWidth = 81
                 end
                 object JvDBDateEdit1: TJvDBDateEdit
                   AlignWithMargins = True
@@ -457,11 +453,10 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 247
+                Width = 133
                 Height = 15
                 Align = alTop
                 Caption = 'Engenheiro / Observa'#231#227'o'
-                ExplicitWidth = 133
               end
               object JvDBComboBox4: TJvDBComboBox
                 AlignWithMargins = True
@@ -490,6 +485,10 @@ inherited LabAmostraAssM: TLabAmostraAssM
       object TabSheet3: TTabSheet
         Caption = 'Informa'#231#245'es Adicionais'
         ImageIndex = 2
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object Panel12: TPanel
           Left = 0
           Top = 0
@@ -510,11 +509,10 @@ inherited LabAmostraAssM: TLabAmostraAssM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 824
+              Width = 63
               Height = 15
               Align = alTop
               Caption = 'Destinat'#225'rio'
-              ExplicitWidth = 63
             end
             object DBEdit39: TDBEdit
               AlignWithMargins = True
@@ -543,12 +541,11 @@ inherited LabAmostraAssM: TLabAmostraAssM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 161
+              Width = 51
               Height = 15
               Align = alTop
               Caption = 'Descri'#231#227'o'
               FocusControl = DBEdit24
-              ExplicitWidth = 51
             end
             object DBEdit24: TDBEdit
               AlignWithMargins = True
@@ -576,12 +573,11 @@ inherited LabAmostraAssM: TLabAmostraAssM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 53
+              Width = 23
               Height = 15
               Align = alTop
               Caption = 'Tipo'
               FocusControl = DBEdit23
-              ExplicitWidth = 23
             end
             object DBEdit23: TDBEdit
               AlignWithMargins = True
@@ -627,7 +623,7 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 45
+                Width = 24
                 Height = 14
                 Align = alTop
                 Caption = 'Tipo'
@@ -636,9 +632,9 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 Font.Color = clWindowText
                 Font.Height = -11
                 Font.Name = 'Arial'
+                Font.Pitch = fpVariable
                 Font.Style = [fsBold]
                 ParentFont = False
-                ExplicitWidth = 24
               end
               object DBEdit9: TDBEdit
                 AlignWithMargins = True
@@ -667,12 +663,11 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 366
+                Width = 51
                 Height = 15
                 Align = alTop
                 Caption = 'Descri'#231#227'o'
                 FocusControl = DBEdit10
-                ExplicitWidth = 51
               end
               object DBEdit10: TDBEdit
                 AlignWithMargins = True
@@ -710,12 +705,11 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 93
+                Width = 34
                 Height = 15
                 Align = alTop
                 Caption = 'Coleta'
                 FocusControl = JvDBDateEdit2
-                ExplicitWidth = 34
               end
               object JvDBDateEdit2: TJvDBDateEdit
                 AlignWithMargins = True
@@ -744,12 +738,11 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 241
+                Width = 63
                 Height = 15
                 Align = alTop
                 Caption = 'Amostrador'
                 FocusControl = DBEdit28
-                ExplicitWidth = 63
               end
               object DBEdit28: TDBEdit
                 AlignWithMargins = True
@@ -776,12 +769,11 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 54
+                Width = 64
                 Height = 15
                 Align = alTop
                 Caption = 'T. Ambiente'
                 FocusControl = DBEdit29
-                ExplicitWidth = 64
               end
               object DBEdit29: TDBEdit
                 AlignWithMargins = True
@@ -808,12 +800,11 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 54
+                Width = 37
                 Height = 15
                 Align = alTop
                 Caption = 'T. '#211'leo'
                 FocusControl = DBEdit30
-                ExplicitWidth = 37
               end
               object DBEdit30: TDBEdit
                 AlignWithMargins = True
@@ -840,12 +831,11 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 54
+                Width = 48
                 Height = 15
                 Align = alTop
                 Caption = 'Umidade'
                 FocusControl = DBEdit31
-                ExplicitWidth = 48
               end
               object DBEdit31: TDBEdit
                 AlignWithMargins = True
@@ -872,12 +862,11 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 81
+                Width = 36
                 Height = 15
                 Align = alTop
                 Caption = 'Tens'#227'o'
                 FocusControl = DBEdit32
-                ExplicitWidth = 36
               end
               object Panel42: TPanel
                 Left = 0
@@ -947,12 +936,11 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 74
+                Width = 71
                 Height = 15
                 Align = alTop
                 Caption = 'Equipamento'
                 FocusControl = DBEdit11
-                ExplicitWidth = 71
               end
               object DBEdit11: TDBEdit
                 AlignWithMargins = True
@@ -980,11 +968,10 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 321
+                Width = 23
                 Height = 15
                 Align = alTop
                 Caption = 'Tipo'
-                ExplicitWidth = 23
               end
               object DBEdit12: TDBEdit
                 AlignWithMargins = True
@@ -1012,11 +999,10 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 150
+                Width = 41
                 Height = 15
                 Align = alTop
                 Caption = 'Isolante'
-                ExplicitWidth = 41
               end
               object DBEdit15: TDBEdit
                 AlignWithMargins = True
@@ -1044,11 +1030,10 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 147
+                Width = 25
                 Height = 15
                 Align = alTop
                 Caption = 'S'#233'rie'
-                ExplicitWidth = 25
               end
               object DBEdit17: TDBEdit
                 AlignWithMargins = True
@@ -1076,11 +1061,10 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 162
+                Width = 160
                 Height = 15
                 Align = alTop
                 Caption = 'S'#233'rie Cliente (Tag, NCia, Ativo)'
-                ExplicitWidth = 160
               end
               object DBEdit36: TDBEdit
                 AlignWithMargins = True
@@ -1108,11 +1092,10 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 156
+                Width = 55
                 Height = 15
                 Align = alTop
                 Caption = 'Fabricante'
-                ExplicitWidth = 55
               end
               object DBEdit13: TDBEdit
                 AlignWithMargins = True
@@ -1149,11 +1132,10 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 58
+                Width = 57
                 Height = 15
                 Align = alTop
                 Caption = 'Fabrica'#231#227'o'
-                ExplicitWidth = 57
               end
               object DBEdit19: TDBEdit
                 AlignWithMargins = True
@@ -1181,12 +1163,11 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 109
+                Width = 23
                 Height = 15
                 Align = alTop
                 Caption = 'Lote'
                 FocusControl = DBEdit20
-                ExplicitWidth = 23
               end
               object DBEdit20: TDBEdit
                 AlignWithMargins = True
@@ -1248,12 +1229,11 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 88
+                Width = 36
                 Height = 15
                 Align = alTop
                 Caption = 'Tens'#227'o'
                 FocusControl = DBEdit16
-                ExplicitWidth = 36
               end
               object Panel57: TPanel
                 Left = 0
@@ -1305,12 +1285,11 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 88
+                Width = 46
                 Height = 15
                 Align = alTop
                 Caption = 'Pot'#234'ncia'
                 FocusControl = DBEdit18
-                ExplicitWidth = 46
               end
               object Panel58: TPanel
                 Left = 0
@@ -1396,12 +1375,11 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 38
+                Width = 37
                 Height = 15
                 Align = alTop
                 Caption = 'Drenos'
                 FocusControl = DBEdit25
-                ExplicitWidth = 37
               end
               object DBEdit25: TDBEdit
                 AlignWithMargins = True
@@ -1429,12 +1407,11 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 44
+                Width = 40
                 Height = 15
                 Align = alTop
                 Caption = 'Volume'
                 FocusControl = DBEdit26
-                ExplicitWidth = 40
               end
               object DBEdit26: TDBEdit
                 AlignWithMargins = True
@@ -1462,12 +1439,11 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 135
+                Width = 38
                 Height = 15
                 Align = alTop
                 Caption = 'Fam'#237'lia'
                 FocusControl = DBEdit35
-                ExplicitWidth = 38
               end
               object DBEdit35: TDBEdit
                 AlignWithMargins = True
@@ -1495,12 +1471,11 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 336
+                Width = 51
                 Height = 15
                 Align = alTop
                 Caption = 'Descri'#231#227'o'
                 FocusControl = DBEdit27
-                ExplicitWidth = 51
               end
               object DBEdit27: TDBEdit
                 AlignWithMargins = True
@@ -1537,12 +1512,11 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 63
+                Width = 61
                 Height = 15
                 Align = alTop
                 Caption = 'Localiza'#231#227'o'
                 FocusControl = DBEdit33
-                ExplicitWidth = 61
               end
               object DBEdit33: TDBEdit
                 AlignWithMargins = True
@@ -1570,12 +1544,11 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 44
+                Width = 25
                 Height = 15
                 Align = alTop
                 Caption = 'Sigla'
                 FocusControl = DBEdit34
-                ExplicitWidth = 25
               end
               object DBEdit34: TDBEdit
                 AlignWithMargins = True
@@ -1603,12 +1576,11 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 169
+                Width = 46
                 Height = 15
                 Align = alTop
                 Caption = 'Regional'
                 FocusControl = DBEdit37
-                ExplicitWidth = 46
               end
               object DBEdit37: TDBEdit
                 AlignWithMargins = True
@@ -1636,12 +1608,11 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 148
+                Width = 33
                 Height = 15
                 Align = alTop
                 Caption = 'Nome'
                 FocusControl = DBEdit38
-                ExplicitWidth = 33
               end
               object DBEdit38: TDBEdit
                 AlignWithMargins = True
@@ -1669,12 +1640,11 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 172
+                Width = 33
                 Height = 15
                 Align = alTop
                 Caption = 'Nome'
                 FocusControl = DBEdit45
-                ExplicitWidth = 33
               end
               object DBEdit45: TDBEdit
                 AlignWithMargins = True
@@ -1702,12 +1672,11 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 414
+                Width = 28
                 Height = 15
                 Align = alTop
                 Caption = 'Local'
                 FocusControl = DBEdit46
-                ExplicitWidth = 28
               end
               object DBEdit46: TDBEdit
                 AlignWithMargins = True
@@ -1756,11 +1725,10 @@ inherited LabAmostraAssM: TLabAmostraAssM
             AlignWithMargins = True
             Left = 3
             Top = 3
-            Width = 74
+            Width = 45
             Height = 15
             Align = alTop
             Caption = 'Amostra'
-            ExplicitWidth = 45
           end
           object DBEdit1: TDBEdit
             AlignWithMargins = True
@@ -1788,12 +1756,11 @@ inherited LabAmostraAssM: TLabAmostraAssM
             AlignWithMargins = True
             Left = 3
             Top = 3
-            Width = 110
+            Width = 40
             Height = 15
             Align = alTop
             Caption = 'C.N.P.J.'
             FocusControl = DBEdit5
-            ExplicitWidth = 40
           end
           object DBEdit5: TDBEdit
             AlignWithMargins = True
@@ -1821,12 +1788,11 @@ inherited LabAmostraAssM: TLabAmostraAssM
             AlignWithMargins = True
             Left = 3
             Top = 3
-            Width = 211
+            Width = 69
             Height = 15
             Align = alTop
             Caption = 'Raz'#227'o/Nome'
             FocusControl = DBEdit4
-            ExplicitWidth = 69
           end
           object DBEdit4: TDBEdit
             AlignWithMargins = True
@@ -1854,12 +1820,11 @@ inherited LabAmostraAssM: TLabAmostraAssM
             AlignWithMargins = True
             Left = 3
             Top = 3
-            Width = 51
+            Width = 37
             Height = 15
             Align = alTop
             Caption = 'Cliente'
             FocusControl = DBEdit3
-            ExplicitWidth = 37
           end
           object DBEdit3: TDBEdit
             AlignWithMargins = True
@@ -1887,12 +1852,11 @@ inherited LabAmostraAssM: TLabAmostraAssM
             AlignWithMargins = True
             Left = 3
             Top = 3
-            Width = 110
+            Width = 40
             Height = 15
             Align = alTop
             Caption = 'Entrada'
             FocusControl = DBEdit8
-            ExplicitWidth = 40
           end
           object DBEdit8: TDBEdit
             AlignWithMargins = True
@@ -1920,12 +1884,11 @@ inherited LabAmostraAssM: TLabAmostraAssM
             AlignWithMargins = True
             Left = 3
             Top = 3
-            Width = 110
+            Width = 44
             Height = 15
             Align = alTop
             Caption = 'Telefone'
             FocusControl = DBEdit7
-            ExplicitWidth = 44
           end
           object DBEdit7: TDBEdit
             AlignWithMargins = True
@@ -1953,12 +1916,11 @@ inherited LabAmostraAssM: TLabAmostraAssM
             AlignWithMargins = True
             Left = 3
             Top = 3
-            Width = 110
+            Width = 30
             Height = 15
             Align = alTop
             Caption = 'C.P.F.'
             FocusControl = DBEdit6
-            ExplicitWidth = 30
           end
           object DBEdit6: TDBEdit
             AlignWithMargins = True
@@ -1986,12 +1948,11 @@ inherited LabAmostraAssM: TLabAmostraAssM
             AlignWithMargins = True
             Left = 3
             Top = 3
-            Width = 74
+            Width = 37
             Height = 15
             Align = alTop
             Caption = 'Pedido'
             FocusControl = DBEdit21
-            ExplicitWidth = 37
           end
           object DBEdit21: TDBEdit
             AlignWithMargins = True
@@ -2019,11 +1980,10 @@ inherited LabAmostraAssM: TLabAmostraAssM
             AlignWithMargins = True
             Left = 3
             Top = 3
-            Width = 74
+            Width = 33
             Height = 15
             Align = alTop
             Caption = 'Laudo'
-            ExplicitWidth = 33
           end
           object DBEdit48: TDBEdit
             AlignWithMargins = True
@@ -2051,12 +2011,11 @@ inherited LabAmostraAssM: TLabAmostraAssM
             AlignWithMargins = True
             Left = 3
             Top = 3
-            Width = 74
+            Width = 43
             Height = 15
             Align = alTop
             Caption = 'Etiqueta'
             FocusControl = DBEdit2
-            ExplicitWidth = 43
           end
           object DBEdit2: TDBEdit
             AlignWithMargins = True

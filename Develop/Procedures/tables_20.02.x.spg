@@ -405,3 +405,290 @@ set session authorization lorencini;
 
 alter table labamostras_rel
 	add notificar boolean default(true) not null;
+
+alter table tbclientes_contatos 
+	add enviar_pedido_venda boolean default(true),
+	add enviar_cotacao_venda boolean default(true),
+	add enviar_laudo_critico boolean default(true),
+	add enviar_laudo_atencao boolean default(true),
+	add enviar_laudo_normal boolean default(true),
+	add enviar_laudo_retorno_critico boolean default(true),
+	add enviar_laudo_retorno_atencao boolean default(true),
+	add enviar_laudo_retorno_normal boolean default(true),
+   add padrao boolean default(false);
+
+create table contatos(
+	recno serial not null,
+	nome varchar(150) not null,
+	telefone varchar(25),
+	celular varchar(25),
+	email varchar(150),
+	data date default(current_date) not null,
+	codigo integer,
+	item integer,
+   situacao integer default(1) not null,
+	constraint pk_contatos primary key(recno));
+
+insert into contatos 
+	(nome, telefone, celular, email, codigo, item, situacao)
+select coalesce(nome, 'Não Informado'), substr(telefone, 1, 25), substr(celular, 1, 25), email, cliente, item, situacao
+  from tbclientes_contatos
+ order by cliente, item;
+
+alter table tbclientes_contatos  
+	add contato integer,
+	add constraint fk_tbclientes_contatos_1 foreign key(contato)
+		references contatos(recno) on update cascade on delete restrict;
+ 
+update tbclientes_contatos tc
+   set contato = c.recno
+  from contatos c
+ where c.codigo = tc.cliente
+   and c.item = tc.item;  
+ 
+alter table tbclientes_contatos
+	alter contato set not null;   
+
+alter table tbclientes_contatos
+	add constraint uk_tbclientes_contatos_1 unique(cliente,contato);
+	
+alter table tb_orcamentos disable trigger all;
+	
+ALTER TABLE public.tb_orcamentos 
+	drop CONSTRAINT fk_tb_orcamentos_5,	
+	drop CONSTRAINT fk_tb_orcamentos_6,
+	drop CONSTRAINT fk_tb_orcamentos_7;
+	
+update tb_orcamentos o
+   set contato = c.contato
+  from tbclientes_contatos c
+ where c.cliente = o.idcliente 
+   and c.item = o.contato;
+   
+update tb_orcamentos o
+   set contato_fin = c.contato
+  from tbclientes_contatos c
+ where c.cliente = o.idcliente 
+   and c.item = o.contato_fin;  
+   
+update tb_orcamentos o
+   set contato_tec = c.contato
+  from tbclientes_contatos c
+ where c.cliente = o.idcliente 
+   and c.item = o.contato_tec;  
+   
+    
+alter table tb_orcamentos enable trigger all;
+
+alter table pedido disable trigger all;
+	
+ALTER TABLE pedido
+	drop CONSTRAINT fk_pedido_3,	
+	drop CONSTRAINT fk_pedido_4,
+	drop CONSTRAINT fk_pedido_5;
+	
+update pedido p
+   set contato = c.contato
+  from tbclientes_contatos c
+ where c.cliente = p.codigo 
+   and c.item = p.contato;
+   
+update pedido p
+   set contato_fin = c.contato
+  from tbclientes_contatos c
+ where c.cliente = p.codigo 
+   and c.item = p.contato_fin;  
+   
+update pedido p
+   set contato_tec = c.contato
+  from tbclientes_contatos c
+ where c.cliente = p.codigo
+   and c.item = p.contato_tec;  
+   
+    
+alter table pedido enable trigger all;
+
+alter table cota disable trigger all;
+	
+ALTER TABLE cota
+	drop CONSTRAINT fk_cota_5,	
+	drop CONSTRAINT fkcota_7,
+	drop CONSTRAINT fkcota_8;
+	
+update cota p
+   set contato = c.contato
+  from tbclientes_contatos c
+ where c.cliente = p.cliente 
+   and c.item = p.contato;
+   
+update cota p
+   set contato_fin = c.contato
+  from tbclientes_contatos c
+ where c.cliente = p.cliente
+   and c.item = p.contato_fin;  
+   
+update cota p
+   set contato_tec = c.contato
+  from tbclientes_contatos c
+ where c.cliente = p.cliente
+   and c.item = p.contato_tec;  
+    
+alter table cota enable trigger all;
+
+alter table call_atividade disable trigger all;
+	
+ALTER TABLE call_atividade
+	drop CONSTRAINT fk_call_atividade1;
+	
+update call_atividade p
+   set contato = c.contato
+  from tbclientes_contatos c
+ where c.cliente = p.codigo
+   and c.item = p.contato;
+    
+alter table call_atividade enable trigger all;
+
+alter table call_chamados disable trigger all;
+	
+ALTER TABLE call_chamados
+	drop CONSTRAINT fk_call_chamados_3;
+	
+update call_chamados p
+   set contato = c.contato
+  from tbclientes_contatos c
+ where c.cliente = p.codigo
+   and c.item = p.contato;
+    
+alter table call_chamados enable trigger all;
+
+alter table call_retornos disable trigger all;
+	
+ALTER TABLE call_retornos
+	drop CONSTRAINT fk_call_retornos2;
+	
+update call_retornos p
+   set contato = c.contato
+  from tbclientes_contatos c
+ where c.cliente = p.codigo
+   and c.item = p.contato;
+
+alter table call_retornos enable trigger all;
+
+alter table callcenter disable trigger all;
+	
+ALTER TABLE callcenter
+	drop CONSTRAINT fk_callcenter_contato;
+	
+update callcenter p
+   set contato = c.contato
+  from tbclientes_contatos c
+ where c.cliente = p.codigo
+   and c.item = p.contato;
+    
+alter table callcenter enable trigger all;
+
+alter table tbclientes_contatos
+	drop constraint pk_tbclientes_contatos;
+
+alter table tbclientes_contatos
+	add constraint pk_tbclientes_contatos primary key(cliente, contato);
+
+alter table pedido 
+  add constraint fk_pedido_3 foreign key(codigo, contato)
+    references tbclientes_contatos (cliente, contato)
+    on update cascade on delete restrict,
+  add constraint fk_pedido_4 foreign key(codigo, contato_fin)
+    references tbclientes_contatos (cliente, contato)
+    on update cascade on delete restrict,
+  add constraint fk_pedido_5 foreign key(codigo, contato_tec)
+    references tbclientes_contatos (cliente, contato)
+    on update cascade on delete restrict;
+
+alter table tb_orcamentos 
+  add constraint fk_tb_orcamentos_5 foreign key(idcliente, contato)
+    references tbclientes_contatos (cliente, contato)
+    on update cascade on delete restrict,
+  add constraint fk_tb_orcamentos_6 foreign key(idcliente, contato_fin)
+    references tbclientes_contatos (cliente, contato)
+    on update cascade on delete restrict,
+  add constraint fk_tb_orcamentos_7 foreign key(idcliente, contato_tec)
+    references tbclientes_contatos (cliente, contato)
+    on update cascade on delete restrict;
+
+alter table cota 
+  add constraint fk_cota_5 foreign key(cliente, contato)
+    references tbclientes_contatos (cliente, contato)
+    on update cascade on delete restrict,
+  add constraint fk_cota_7 foreign key(cliente, contato_fin)
+    references tbclientes_contatos (cliente, contato)
+    on update cascade on delete restrict,
+  add constraint fk_cota_8 foreign key(cliente, contato_tec)
+    references tbclientes_contatos (cliente, contato)
+    on update cascade on delete restrict;
+
+alter table call_atividade
+  add constraint fk_call_atividade1 foreign key(codigo, contato)
+    references tbclientes_contatos (cliente, contato)
+    on update cascade on delete restrict;
+
+alter table call_chamados
+  add constraint fk_call_chamados_3 foreign key(codigo, contato)
+    references tbclientes_contatos (cliente, contato)
+    on update cascade on delete restrict;
+
+alter table call_retornos
+  add constraint fk_call_retornos2 foreign key(codigo, contato)
+    references tbclientes_contatos (cliente, contato)
+    on update cascade on delete restrict;
+
+alter table callcenter
+  add constraint fk_callcenter_contato foreign key(codigo, contato)
+    references tbclientes_contatos (cliente, contato)
+    on update cascade on delete restrict;
+
+alter table tbclientes_contatos 
+  drop nome, 
+  drop telefone, 
+  drop celular, 
+  drop email,  
+  drop item,
+  drop contato_nextel,
+  drop contato_nextelcel;
+
+alter table contatos 
+  drop codigo, 
+  drop item;  
+
+update contatos set email = null where trim(email) = '';
+
+update tbclientes_contatos cc
+   set enviar_pedido_venda = false, enviar_cotacao_venda = false, enviar_laudo_atencao = false,
+       enviar_laudo_critico = false, enviar_laudo_normal = false, enviar_laudo_retorno_atencao = false,
+       enviar_laudo_retorno_critico = false, enviar_laudo_retorno_normal = false
+  from contatos c
+ where c.recno = cc.contato
+   and c.email is null;
+
+update contatos
+   set celular = null
+ where celular ~* '[a-z]';
+
+update contatos set situacao = 0 where nome = '';
+update contatos set situacao = 0 where nome ~* 'não utilizar';
+update contatos set situacao = 0 where nome ~* 'não usar';
+update contatos set situacao = 0 where nome ~* 'nâo usar';
+update contatos set situacao = 0 where nome ~* 'nao usar';
+update contatos set nome = trim(nome);
+update contatos set situacao = 0 where telefone is null and celular is null and email is null;
+
+create or replace view vclientes_contatos as
+   select c.recno, c.nome, c.telefone, c.celular, c.email, c."data", c.situacao, tc.contato,  
+         tc.enviar_cotacao_venda, tc.enviar_pedido_venda, tc.enviar_laudo_normal, tc.enviar_laudo_atencao, 
+         tc.enviar_laudo_critico, tc.enviar_laudo_retorno_normal, tc.enviar_laudo_retorno_atencao,
+         tc.enviar_laudo_retorno_critico, tc.cliente, tc.situacao situacao_cliente, tc.funcao, tc.padrao
+   from contatos c
+         join tbclientes_contatos tc
+            on tc.contato = c.recno;
+
+create index idx_contatos_1 on contatos(recno) where (situacao = 1);
+create index idx_tbclientes_contatos_1 on tbclientes_contatos(cliente,contato) where (situacao = 1);            

@@ -7,7 +7,6 @@ inherited ClientesMFinais: TClientesMFinais
   PixelsPerInch = 96
   TextHeight = 15
   inherited Panel1: TPanel
-    Top = 44
     Width = 839
     Height = 444
     ExplicitTop = 44
@@ -16,73 +15,28 @@ inherited ClientesMFinais: TClientesMFinais
     inherited Panel3: TPanel
       Top = 206
       Align = alNone
+      ExplicitTop = 206
       inherited PageControl3: TPageControl
-        Top = 47
-        Height = 185
-        ExplicitLeft = 3
         ExplicitTop = 47
-        ExplicitWidth = 633
         ExplicitHeight = 185
         inherited tsDet: TTabSheet
-          ExplicitLeft = 4
-          ExplicitTop = 26
-          ExplicitWidth = 625
           ExplicitHeight = 155
-          inherited DBGrid1: TDBGrid
-            Width = 625
-            Height = 155
-          end
-        end
-      end
-      inherited ControlBar2: TControlBar
-        Height = 38
-        ExplicitLeft = 3
-        ExplicitTop = 3
-        ExplicitWidth = 633
-        ExplicitHeight = 38
-        inherited ToolBar3: TToolBar
-          ButtonWidth = 129
-          inherited ToolButton10: TToolButton
-            ExplicitWidth = 32
-          end
-          inherited ToolButton11: TToolButton
-            ExplicitWidth = 32
-          end
-          inherited ToolButton17: TToolButton
-            ExplicitWidth = 32
-          end
-          inherited ToolButton12: TToolButton
-            ExplicitWidth = 32
-          end
-          inherited ToolButton13: TToolButton
-            ExplicitWidth = 32
-          end
-          inherited tbSQLDet: TToolButton
-            ExplicitWidth = 32
-          end
-          inherited tbRefazGrid: TToolButton
-            ExplicitWidth = 32
-          end
         end
       end
     end
     inherited PageControl1: TPageControl
       Width = 833
       Height = 438
-      ExplicitLeft = 3
-      ExplicitTop = 3
       ExplicitWidth = 833
       ExplicitHeight = 438
       inherited TabSheet1: TTabSheet
         Caption = 'Cliente Finais'
-        ExplicitLeft = 4
-        ExplicitTop = 26
         ExplicitWidth = 825
         ExplicitHeight = 408
         object Bevel1: TBevel
           AlignWithMargins = True
           Left = 3
-          Top = 149
+          Top = 153
           Width = 819
           Height = 2
           Align = alTop
@@ -127,11 +81,10 @@ inherited ClientesMFinais: TClientesMFinais
               TabStop = False
               Align = alClient
               DataField = 'codigo'
-              DataSource = DM.dsClientes
+              DataSource = Clientes.DataSource1
               Enabled = False
               ReadOnly = True
               TabOrder = 0
-              ExplicitTop = 23
             end
           end
           object Panel29: TPanel
@@ -162,10 +115,9 @@ inherited ClientesMFinais: TClientesMFinais
               Align = alClient
               CharCase = ecUpperCase
               DataField = 'empresa'
-              DataSource = DM.dsClientes
+              DataSource = Clientes.DataSource1
               ReadOnly = True
               TabOrder = 0
-              ExplicitTop = 23
             end
           end
           object Panel30: TPanel
@@ -196,19 +148,18 @@ inherited ClientesMFinais: TClientesMFinais
               Align = alClient
               CharCase = ecUpperCase
               DataField = 'nome_chave'
-              DataSource = DM.dsClientes
+              DataSource = Clientes.DataSource1
               ReadOnly = True
               TabOrder = 0
-              ExplicitTop = 23
             end
           end
         end
         object GroupBox1: TGroupBox
           AlignWithMargins = True
           Left = 133
-          Top = 157
+          Top = 161
           Width = 689
-          Height = 248
+          Height = 244
           Margins.Left = 133
           Align = alClient
           Caption = ' Logo '
@@ -217,20 +168,27 @@ inherited ClientesMFinais: TClientesMFinais
             Left = 2
             Top = 17
             Width = 685
-            Height = 229
+            Height = 225
             Align = alClient
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Segoe UI'
+            Font.Pitch = fpVariable
+            Font.Style = []
+            ParentFont = False
             TabOrder = 0
             ExplicitLeft = 2
             ExplicitTop = 17
             ExplicitWidth = 685
-            ExplicitHeight = 229
+            ExplicitHeight = 225
             inherited FrameImage: TJvDBImage
               Width = 685
-              Height = 229
+              Height = 225
               DataField = 'logo'
-              DataSource = DM.dsClientesFinais
+              DataSource = Clientes.dsClientesFinais
               ExplicitWidth = 685
-              ExplicitHeight = 229
+              ExplicitHeight = 225
             end
             inherited PopupMenu1: TPopupMenu
               Left = 144
@@ -244,42 +202,36 @@ inherited ClientesMFinais: TClientesMFinais
           Left = 0
           Top = 50
           Width = 825
-          Height = 96
+          Height = 100
           Align = alTop
           AutoSize = True
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'Segoe UI'
-          Font.Style = []
-          ParentFont = False
           TabOrder = 1
           ExplicitTop = 50
           ExplicitWidth = 825
           inherited Panel1: TPanel
             Width = 825
+            Font.Pitch = fpVariable
+            ParentFont = False
             ExplicitWidth = 825
             inherited Panel2: TPanel
               Width = 57
               ExplicitWidth = 57
+              ExplicitHeight = 50
               inherited Label9: TLabel
                 Width = 51
-                ExplicitWidth = 38
               end
               inherited DBEdit8: TDBEdit
                 Width = 54
                 DataField = 'cliente'
                 ExplicitWidth = 54
+                ExplicitHeight = 21
               end
             end
             inherited Panel35: TPanel
               Left = 57
-              Width = 22
               ExplicitLeft = 57
-              ExplicitWidth = 22
+              ExplicitHeight = 50
               inherited SpeedButton1: TSpeedButton
-                Width = 19
-                OnClick = FrameCliente1SpeedButton1Click
                 ExplicitLeft = 0
                 ExplicitTop = 16
                 ExplicitWidth = 20
@@ -287,17 +239,18 @@ inherited ClientesMFinais: TClientesMFinais
               end
             end
             inherited Panel4: TPanel
-              Left = 79
-              Width = 341
-              ExplicitLeft = 79
-              ExplicitWidth = 341
+              Left = 86
+              Width = 334
+              ExplicitLeft = 86
+              ExplicitWidth = 334
+              ExplicitHeight = 50
               inherited Label10: TLabel
-                Width = 335
-                ExplicitWidth = 92
+                Width = 328
               end
               inherited DBEdit9: TDBEdit
-                Width = 335
-                ExplicitWidth = 335
+                Width = 328
+                ExplicitWidth = 328
+                ExplicitHeight = 21
               end
             end
             inherited Panel5: TPanel
@@ -305,13 +258,14 @@ inherited ClientesMFinais: TClientesMFinais
               Width = 187
               ExplicitLeft = 420
               ExplicitWidth = 187
+              ExplicitHeight = 50
               inherited Label11: TLabel
                 Width = 181
-                ExplicitWidth = 76
               end
               inherited DBEdit10: TDBEdit
                 Width = 181
                 ExplicitWidth = 181
+                ExplicitHeight = 21
               end
             end
             inherited Panel6: TPanel
@@ -319,13 +273,14 @@ inherited ClientesMFinais: TClientesMFinais
               Width = 120
               ExplicitLeft = 607
               ExplicitWidth = 120
+              ExplicitHeight = 50
               inherited Label12: TLabel
                 Width = 114
-                ExplicitWidth = 24
               end
               inherited DBEdit11: TDBEdit
                 Width = 114
                 ExplicitWidth = 114
+                ExplicitHeight = 21
               end
             end
             inherited Panel7: TPanel
@@ -333,12 +288,14 @@ inherited ClientesMFinais: TClientesMFinais
               Width = 98
               ExplicitLeft = 727
               ExplicitWidth = 98
+              ExplicitHeight = 50
               inherited Label13: TLabel
                 Width = 92
               end
               inherited DBEdit12: TDBEdit
                 Width = 92
                 ExplicitWidth = 92
+                ExplicitHeight = 21
               end
             end
           end
@@ -350,13 +307,14 @@ inherited ClientesMFinais: TClientesMFinais
               Width = 449
               ExplicitLeft = 241
               ExplicitWidth = 449
+              ExplicitHeight = 50
               inherited Label1: TLabel
                 Width = 443
-                ExplicitWidth = 36
               end
               inherited DBEdit1: TDBEdit
                 Width = 443
                 ExplicitWidth = 443
+                ExplicitHeight = 21
               end
             end
             inherited Panel9: TPanel
@@ -364,24 +322,27 @@ inherited ClientesMFinais: TClientesMFinais
               Width = 39
               ExplicitLeft = 690
               ExplicitWidth = 39
+              ExplicitHeight = 50
               inherited Label2: TLabel
-                ExplicitWidth = 35
+                Width = 33
               end
               inherited DBEdit2: TDBEdit
                 Width = 33
                 ExplicitWidth = 33
+                ExplicitHeight = 21
               end
             end
             inherited Panel30: TPanel
               Width = 241
               ExplicitWidth = 241
+              ExplicitHeight = 50
               inherited Label20: TLabel
                 Width = 235
-                ExplicitWidth = 27
               end
               inherited DBEdit17: TDBEdit
                 Width = 235
                 ExplicitWidth = 235
+                ExplicitHeight = 21
               end
             end
             inherited Panel10: TPanel
@@ -389,18 +350,22 @@ inherited ClientesMFinais: TClientesMFinais
               Width = 96
               ExplicitLeft = 729
               ExplicitWidth = 96
+              ExplicitHeight = 50
               inherited Label3: TLabel
                 Width = 90
-                ExplicitWidth = 44
               end
               inherited DBEdit3: TDBEdit
                 Width = 90
                 ExplicitWidth = 90
+                ExplicitHeight = 21
               end
             end
           end
           inherited dsCliente: TDataSource
-            DataSet = DM.qClientesFinais
+            DataSet = Clientes.qClientesFinais
+          end
+          inherited alFrameCli: TActionList
+            Left = 120
           end
         end
       end
@@ -408,46 +373,6 @@ inherited ClientesMFinais: TClientesMFinais
   end
   inherited ControlBar1: TControlBar
     Width = 833
-    Height = 38
-    ExplicitLeft = 3
-    ExplicitTop = 3
     ExplicitWidth = 833
-    ExplicitHeight = 38
-    inherited ToolBar1: TToolBar
-      ButtonWidth = 115
-      inherited ToolButton6: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited ToolButton4: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited ToolButton7: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited ToolButton1: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited ToolButton2: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited ToolButton8: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited ToolButton9: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited ToolButton14: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited ToolButton16: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited tbSQL: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited tbClose: TToolButton
-        ExplicitWidth = 32
-      end
-    end
   end
 end

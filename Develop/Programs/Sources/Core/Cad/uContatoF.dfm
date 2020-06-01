@@ -122,7 +122,6 @@ inherited ContatoF: TContatoF
         Align = alClient
         BevelOuter = bvNone
         TabOrder = 0
-        ExplicitWidth = 391
         object Label1: TLabel
           AlignWithMargins = True
           Left = 3
@@ -144,7 +143,6 @@ inherited ContatoF: TContatoF
           DataSource = dsIBrowse
           ReadOnly = True
           TabOrder = 0
-          ExplicitWidth = 385
         end
       end
       object Panel4: TPanel
@@ -207,7 +205,6 @@ inherited ContatoF: TContatoF
           DataSource = dsIBrowse
           ReadOnly = True
           TabOrder = 0
-          ExplicitWidth = 209
         end
       end
       object Panel6: TPanel
@@ -218,7 +215,6 @@ inherited ContatoF: TContatoF
         Align = alRight
         BevelOuter = bvNone
         TabOrder = 3
-        ExplicitLeft = 648
         object Label5: TLabel
           AlignWithMargins = True
           Left = 3
@@ -240,7 +236,6 @@ inherited ContatoF: TContatoF
           DataSource = dsIBrowse
           ReadOnly = True
           TabOrder = 0
-          ExplicitWidth = 102
         end
       end
       object Panel7: TPanel
@@ -272,7 +267,6 @@ inherited ContatoF: TContatoF
           DataSource = dsIBrowse
           ReadOnly = True
           TabOrder = 0
-          ExplicitWidth = 102
         end
       end
     end
@@ -362,7 +356,7 @@ inherited ContatoF: TContatoF
     SQL.Strings = (
       
         'select a.nome, a.funcao, a.telefone, a.celular, a.email, b.empre' +
-        'sa, b.nome_chave, a.item, a.situacao, a.padrao,'
+        'sa, b.nome_chave, a.contato, a.situacao, a.padrao,'
       
         '       b.cnpj, b.cpf, b.cidade, b.estado, a.cliente, a.enviar_pe' +
         'dido_venda, a.enviar_cotacao_venda, a.enviar_laudo_critico,'
@@ -370,7 +364,7 @@ inherited ContatoF: TContatoF
         '  '#9'   a.enviar_laudo_atencao, a.enviar_laudo_normal, a.enviar_la' +
         'udo_retorno_critico, a.enviar_laudo_retorno_atencao,'
       #9'     a.enviar_laudo_retorno_normal'
-      '  from tbclientes_contatos a'
+      '  from vclientes_contatos a'
       '       join tbclientes b'
       '         on b.codigo = a.cliente'
       ' where a.cliente = :cliente'
@@ -423,6 +417,10 @@ inherited ContatoF: TContatoF
       DisplayLabel = 'Padr'#227'o'
       FieldName = 'padrao'
     end
+    object IBrwSrccontato: TIntegerField
+      DisplayLabel = 'Contato'
+      FieldName = 'contato'
+    end
     object IBrwSrcnome: TStringField
       DisplayLabel = 'Nome'
       DisplayWidth = 25
@@ -460,10 +458,6 @@ inherited ContatoF: TContatoF
       DisplayWidth = 30
       FieldName = 'email'
       Size = 100
-    end
-    object IBrwSrcitem: TIntegerField
-      FieldName = 'item'
-      Visible = False
     end
     object IBrwSrccnpj: TStringField
       DisplayLabel = 'CNPJ'

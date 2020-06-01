@@ -79,7 +79,7 @@ begin
         FIdMessage.ContentType := 'multipart/mixed'; // obrigatoriamente!
         FIdMessage.CharSet := FieldByName('charset_').AsString;
         FIdMessage.Date := Now;
-        FIdMessage.ReplyTo.Add.Address := 'laboratorio@lorencini.com.br';
+        FIdMessage.ReplyTo.Add.Address := 'nao-responda@lorencini.com.br';
 
         qDST.First;
 

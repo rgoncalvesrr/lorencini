@@ -88,9 +88,9 @@ BEGIN
 
             select email
               into r
-              from tbclientes_contatos
+              from vclientes_contatos
              where cliente = new.codigo
-               and item = new.contato;
+               and contato = new.contato;
 
             if r.email is null then
                msg := msg || CRLF || '- E-mail do contato não está preenchido.';

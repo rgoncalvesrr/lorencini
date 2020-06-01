@@ -23,7 +23,6 @@ type
     IBrwSrcnome_chave: TStringField;
     GroupBox2: TGroupBox;
     Bevel4: TBevel;
-    IBrwSrcitem: TIntegerField;
     IBrwSrcsituacao: TIntegerField;
     TabSheet2: TTabSheet;
     IBrwSrcpadrao: TBooleanField;
@@ -63,6 +62,7 @@ type
     IBrwSrcenviar_laudo_retorno_critico: TBooleanField;
     IBrwSrcenviar_laudo_retorno_atencao: TBooleanField;
     IBrwSrcenviar_laudo_retorno_normal: TBooleanField;
+    IBrwSrccontato: TIntegerField;
     procedure actOkExecute(Sender: TObject);
     procedure actNewExecute(Sender: TObject);
     procedure IBrwSrcsituacaoGetText(Sender: TField; var Text: string;
@@ -90,7 +90,7 @@ implementation
 
 {$R *.dfm}
 
-uses uClienteContatoM, uIUtils, uResources;
+uses uIUtils, uResources;
 
 { TOrcamentosLkpCont }
 
