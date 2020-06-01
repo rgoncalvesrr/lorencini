@@ -122,6 +122,13 @@ type
     qContatosenviar_laudo_retorno_normal: TBooleanField;
     qContatoscontato: TIntegerField;
     sContatos: TZSequence;
+    qVendedores: TZQuery;
+    qVendedoresidvendedor: TIntegerField;
+    qVendedoresnome: TStringField;
+    qVendedorescnpj: TStringField;
+    qVendedorescpf: TStringField;
+    qVendedoresrecno: TIntegerField;
+    dsVendedores: TDataSource;
     procedure FormCreate(Sender: TObject);
     procedure actOrcaExecute(Sender: TObject);
     procedure DBGrid2DrawColumnCell(Sender: TObject; const Rect: TRect;
@@ -143,6 +150,7 @@ type
     procedure qContatossituacaoGetText(Sender: TField; var Text: string; DisplayText: Boolean);
     procedure qContatossituacaoSetText(Sender: TField; const Text: string);
     procedure qContatossituacaoChange(Sender: TField);
+    procedure IBrwSrcAfterOpen(DataSet: TDataSet);
   private
     { Private declarations }
     FSQL : string;
@@ -185,14 +193,14 @@ begin
   sWhere := EmptyStr;
 
   if edCodigo.Value > 0 then
-    sWhere := 'codigo = :codigo ';
+    sWhere := 'c.codigo = :codigo ';
 
   if Length(edCNPJ.Text) > 0 then
   begin
     if sWhere <> EmptyStr then
       sWhere := sWhere + 'and ';
 
-    sWhere := sWhere + 'cnpj like :cnpj ';
+    sWhere := sWhere + 'c.cnpj like :cnpj ';
   end;
 
   if cbSituacao.ItemIndex > 0 then
@@ -200,7 +208,7 @@ begin
     if sWhere <> EmptyStr then
       sWhere := sWhere + 'and ';
 
-    sWhere := sWhere + 'situacao = :situacao ';
+    sWhere := sWhere + 'c.situacao = :situacao ';
   end;
 
   if Length(edCPF.Text) > 0 then
@@ -208,7 +216,7 @@ begin
     if sWhere <> EmptyStr then
       sWhere := sWhere + 'and ';
 
-    sWhere := sWhere + 'cpf like :cpf ';
+    sWhere := sWhere + 'c.cpf like :cpf ';
   end;
 
   if Length(edEmpresa.Text) > 0 then
@@ -216,7 +224,7 @@ begin
     if sWhere <> EmptyStr then
       sWhere := sWhere + 'and ';
 
-    sWhere := sWhere + 'nome_chave ilike :empresa ';
+    sWhere := sWhere + 'c.nome_chave ilike :empresa ';
   end;
 
   if Length(edRazao.Text) > 0 then
@@ -224,7 +232,7 @@ begin
     if sWhere <> EmptyStr then
       sWhere := sWhere + 'and ';
 
-    sWhere := sWhere + 'empresa ilike :razao ';
+    sWhere := sWhere + 'c.empresa ilike :razao ';
   end;
 
   if sWhere <> EmptyStr then
@@ -247,7 +255,7 @@ begin
 
   if Assigned(DataSet.Params.FindParam('situacao')) then
     DataSet.ParamByName('situacao').AsString := cbSituacao.Text;
-    
+
   try
     G.RefreshDataSet(DataSet);
   finally
@@ -358,6 +366,12 @@ begin
   IBrwSrcdtcadastro.AsDateTime:= now;
   IBrwSrcsituacao.AsString := 'ATIVO';
   IBrwSrctipo.AsInteger := 1;
+end;
+
+procedure TClientes.IBrwSrcAfterOpen(DataSet: TDataSet);
+begin
+  inherited;
+  G.RefreshDataSet(qVendedores);
 end;
 
 procedure TClientes.IBrwSrcAfterScroll(DataSet: TDataSet);

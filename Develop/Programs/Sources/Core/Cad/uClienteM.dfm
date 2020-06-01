@@ -51,10 +51,6 @@ inherited ClientesM: TClientesM
         object TabSheet3: TTabSheet
           Caption = 'Contatos'
           ImageIndex = 1
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object DBGrid2: TDBGrid
             Tag = 1
             Left = 0
@@ -146,6 +142,13 @@ inherited ClientesM: TClientesM
             Width = 211
             Height = 127
             Align = alRight
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Segoe UI'
+            Font.Pitch = fpVariable
+            Font.Style = []
+            ParentFont = False
             TabOrder = 1
             ExplicitLeft = 1012
             ExplicitWidth = 211
@@ -157,6 +160,17 @@ inherited ClientesM: TClientesM
               DataSource = Clientes.DataSource1
               ExplicitWidth = 211
               ExplicitHeight = 127
+            end
+            inherited ActionList1: TActionList
+              Left = 16
+              Top = 8
+            end
+            inherited PopupMenu1: TPopupMenu
+              Top = 8
+            end
+            inherited OpenPictureDialog1: TOpenPictureDialog
+              Left = 152
+              Top = 64
             end
           end
           object Panel6: TPanel
@@ -546,8 +560,10 @@ inherited ClientesM: TClientesM
               DataField = 'id_vendedor'
               DataSource = Clientes.DataSource1
               KeyField = 'idvendedor'
-              ListField = 'nome;cpf'
+              ListField = 'nome;cpf;cnpj'
+              ListSource = Clientes.dsVendedores
               TabOrder = 0
+              ExplicitTop = 23
             end
           end
           object Panel20: TPanel
@@ -660,10 +676,6 @@ inherited ClientesM: TClientesM
       object TabSheet5: TTabSheet
         Caption = 'Endere'#231'o'
         ImageIndex = 4
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object Bevel1: TBevel
           AlignWithMargins = True
           Left = 3
@@ -696,7 +708,7 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 39
+              Width = 62
               Height = 14
               Align = alTop
               Caption = 'C'#243'digo'
@@ -708,6 +720,7 @@ inherited ClientesM: TClientesM
               Font.Pitch = fpVariable
               Font.Style = [fsBold]
               ParentFont = False
+              ExplicitWidth = 39
             end
             object DBEdit49: TDBEdit
               AlignWithMargins = True
@@ -737,7 +750,7 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 67
+              Width = 991
               Height = 14
               Align = alTop
               Caption = 'Raz'#227'o Social'
@@ -748,6 +761,7 @@ inherited ClientesM: TClientesM
               Font.Pitch = fpVariable
               Font.Style = [fsBold]
               ParentFont = False
+              ExplicitWidth = 67
             end
             object DBEdit50: TDBEdit
               AlignWithMargins = True
@@ -777,7 +791,7 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 42
+              Width = 152
               Height = 14
               Align = alTop
               Caption = 'Apelido'
@@ -788,6 +802,7 @@ inherited ClientesM: TClientesM
               Font.Pitch = fpVariable
               Font.Style = [fsBold]
               ParentFont = False
+              ExplicitWidth = 42
             end
             object DBEdit51: TDBEdit
               AlignWithMargins = True
@@ -818,7 +833,7 @@ inherited ClientesM: TClientesM
             AlignWithMargins = True
             Left = 3
             Top = 3
-            Width = 52
+            Width = 1217
             Height = 14
             Align = alTop
             Caption = 'Endere'#231'o'
@@ -830,6 +845,7 @@ inherited ClientesM: TClientesM
             Font.Pitch = fpVariable
             Font.Style = [fsBold]
             ParentFont = False
+            ExplicitWidth = 52
           end
           object DBEdit5: TDBEdit
             AlignWithMargins = True
@@ -864,11 +880,12 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 31
+              Width = 203
               Height = 15
               Align = alTop
               Caption = 'Bairro'
               FocusControl = DBEdit6
+              ExplicitWidth = 31
             end
             object DBEdit6: TDBEdit
               AlignWithMargins = True
@@ -894,11 +911,12 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 37
+              Width = 874
               Height = 15
               Align = alTop
               Caption = 'Cidade'
               FocusControl = DBEdit7
+              ExplicitWidth = 37
             end
             object DBEdit7: TDBEdit
               AlignWithMargins = True
@@ -924,7 +942,7 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 13
+              Width = 37
               Height = 14
               Align = alTop
               Caption = 'UF'
@@ -936,6 +954,7 @@ inherited ClientesM: TClientesM
               Font.Pitch = fpVariable
               Font.Style = [fsBold]
               ParentFont = False
+              ExplicitWidth = 13
             end
             object DBEdit8: TDBEdit
               AlignWithMargins = True
@@ -963,11 +982,12 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 21
+              Width = 85
               Height = 15
               Align = alTop
               Caption = 'CEP'
               FocusControl = DBEdit9
+              ExplicitWidth = 21
             end
             object DBEdit9: TDBEdit
               AlignWithMargins = True
@@ -1002,11 +1022,12 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 34
+              Width = 263
               Height = 15
               Align = alTop
               Caption = 'E-Mail'
               FocusControl = DBEdit14
+              ExplicitWidth = 34
             end
             object DBEdit14: TDBEdit
               AlignWithMargins = True
@@ -1032,11 +1053,12 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 19
+              Width = 693
               Height = 15
               Align = alTop
               Caption = 'Site'
               FocusControl = DBEdit13
+              ExplicitWidth = 19
             end
             object DBEdit13: TDBEdit
               AlignWithMargins = True
@@ -1063,11 +1085,12 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 44
+              Width = 121
               Height = 15
               Align = alTop
               Caption = 'Telefone'
               FocusControl = DBEdit11
+              ExplicitWidth = 44
             end
             object DBEdit11: TDBEdit
               AlignWithMargins = True
@@ -1093,11 +1116,12 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 18
+              Width = 122
               Height = 15
               Align = alTop
               Caption = 'Fax'
               FocusControl = DBEdit12
+              ExplicitWidth = 18
             end
             object DBEdit12: TDBEdit
               AlignWithMargins = True
@@ -1116,10 +1140,6 @@ inherited ClientesM: TClientesM
       object TabSheet2: TTabSheet
         Caption = 'Outros Endere'#231'os'
         ImageIndex = 1
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object Bevel2: TBevel
           AlignWithMargins = True
           Left = 3
@@ -1153,11 +1173,12 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 49
+              Width = 719
               Height = 15
               Align = alTop
               Caption = 'Endere'#231'o'
               FocusControl = DBEdit17
+              ExplicitWidth = 49
             end
             object DBEdit17: TDBEdit
               AlignWithMargins = True
@@ -1184,11 +1205,12 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 31
+              Width = 182
               Height = 15
               Align = alTop
               Caption = 'Bairro'
               FocusControl = DBEdit18
+              ExplicitWidth = 31
             end
             object DBEdit18: TDBEdit
               AlignWithMargins = True
@@ -1215,11 +1237,12 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 37
+              Width = 181
               Height = 15
               Align = alTop
               Caption = 'Cidade'
               FocusControl = DBEdit19
+              ExplicitWidth = 37
             end
             object DBEdit19: TDBEdit
               AlignWithMargins = True
@@ -1246,11 +1269,12 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 14
+              Width = 32
               Height = 15
               Align = alTop
               Caption = 'UF'
               FocusControl = DBEdit20
+              ExplicitWidth = 14
             end
             object DBEdit20: TDBEdit
               AlignWithMargins = True
@@ -1278,11 +1302,12 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 21
+              Width = 69
               Height = 15
               Align = alTop
               Caption = 'CEP'
               FocusControl = DBEdit21
+              ExplicitWidth = 21
             end
             object DBEdit21: TDBEdit
               AlignWithMargins = True
@@ -1318,7 +1343,7 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 39
+              Width = 62
               Height = 14
               Align = alTop
               Caption = 'C'#243'digo'
@@ -1330,6 +1355,7 @@ inherited ClientesM: TClientesM
               Font.Pitch = fpVariable
               Font.Style = [fsBold]
               ParentFont = False
+              ExplicitWidth = 39
             end
             object DBEdit32: TDBEdit
               AlignWithMargins = True
@@ -1359,7 +1385,7 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 67
+              Width = 991
               Height = 14
               Align = alTop
               Caption = 'Raz'#227'o Social'
@@ -1370,6 +1396,7 @@ inherited ClientesM: TClientesM
               Font.Pitch = fpVariable
               Font.Style = [fsBold]
               ParentFont = False
+              ExplicitWidth = 67
             end
             object DBEdit33: TDBEdit
               AlignWithMargins = True
@@ -1399,7 +1426,7 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 42
+              Width = 152
               Height = 14
               Align = alTop
               Caption = 'Apelido'
@@ -1410,6 +1437,7 @@ inherited ClientesM: TClientesM
               Font.Pitch = fpVariable
               Font.Style = [fsBold]
               ParentFont = False
+              ExplicitWidth = 42
             end
             object DBEdit34: TDBEdit
               AlignWithMargins = True
@@ -1449,11 +1477,12 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 49
+              Width = 719
               Height = 15
               Align = alTop
               Caption = 'Endere'#231'o'
               FocusControl = DBEdit22
+              ExplicitWidth = 49
             end
             object DBEdit22: TDBEdit
               AlignWithMargins = True
@@ -1480,11 +1509,12 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 31
+              Width = 182
               Height = 15
               Align = alTop
               Caption = 'Bairro'
               FocusControl = DBEdit23
+              ExplicitWidth = 31
             end
             object DBEdit23: TDBEdit
               AlignWithMargins = True
@@ -1511,11 +1541,12 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 37
+              Width = 181
               Height = 15
               Align = alTop
               Caption = 'Cidade'
               FocusControl = DBEdit24
+              ExplicitWidth = 37
             end
             object DBEdit24: TDBEdit
               AlignWithMargins = True
@@ -1542,11 +1573,12 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 14
+              Width = 32
               Height = 15
               Align = alTop
               Caption = 'UF'
               FocusControl = DBEdit25
+              ExplicitWidth = 14
             end
             object DBEdit25: TDBEdit
               AlignWithMargins = True
@@ -1574,11 +1606,12 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 21
+              Width = 69
               Height = 15
               Align = alTop
               Caption = 'CEP'
               FocusControl = DBEdit26
+              ExplicitWidth = 21
             end
             object DBEdit26: TDBEdit
               AlignWithMargins = True
@@ -1615,11 +1648,12 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 49
+              Width = 719
               Height = 15
               Align = alTop
               Caption = 'Endere'#231'o'
               FocusControl = DBEdit27
+              ExplicitWidth = 49
             end
             object DBEdit27: TDBEdit
               AlignWithMargins = True
@@ -1646,11 +1680,12 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 31
+              Width = 182
               Height = 15
               Align = alTop
               Caption = 'Bairro'
               FocusControl = DBEdit28
+              ExplicitWidth = 31
             end
             object DBEdit28: TDBEdit
               AlignWithMargins = True
@@ -1677,11 +1712,12 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 37
+              Width = 181
               Height = 15
               Align = alTop
               Caption = 'Cidade'
               FocusControl = DBEdit29
+              ExplicitWidth = 37
             end
             object DBEdit29: TDBEdit
               AlignWithMargins = True
@@ -1708,11 +1744,12 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 14
+              Width = 32
               Height = 15
               Align = alTop
               Caption = 'UF'
               FocusControl = DBEdit30
+              ExplicitWidth = 14
             end
             object DBEdit30: TDBEdit
               AlignWithMargins = True
@@ -1740,11 +1777,12 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 21
+              Width = 69
               Height = 15
               Align = alTop
               Caption = 'CEP'
               FocusControl = DBEdit31
+              ExplicitWidth = 21
             end
             object DBEdit31: TDBEdit
               AlignWithMargins = True
@@ -1764,10 +1802,6 @@ inherited ClientesM: TClientesM
       object TabSheet4: TTabSheet
         Caption = 'Observa'#231#245'es'
         ImageIndex = 3
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object Bevel3: TBevel
           AlignWithMargins = True
           Left = 3
@@ -1811,7 +1845,7 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 39
+              Width = 62
               Height = 14
               Align = alTop
               Caption = 'C'#243'digo'
@@ -1823,6 +1857,7 @@ inherited ClientesM: TClientesM
               Font.Pitch = fpVariable
               Font.Style = [fsBold]
               ParentFont = False
+              ExplicitWidth = 39
             end
             object DBEdit37: TDBEdit
               AlignWithMargins = True
@@ -1852,7 +1887,7 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 67
+              Width = 991
               Height = 14
               Align = alTop
               Caption = 'Raz'#227'o Social'
@@ -1863,6 +1898,7 @@ inherited ClientesM: TClientesM
               Font.Pitch = fpVariable
               Font.Style = [fsBold]
               ParentFont = False
+              ExplicitWidth = 67
             end
             object DBEdit38: TDBEdit
               AlignWithMargins = True
@@ -1892,7 +1928,7 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 42
+              Width = 152
               Height = 14
               Align = alTop
               Caption = 'Apelido'
@@ -1903,6 +1939,7 @@ inherited ClientesM: TClientesM
               Font.Pitch = fpVariable
               Font.Style = [fsBold]
               ParentFont = False
+              ExplicitWidth = 42
             end
             object DBEdit39: TDBEdit
               AlignWithMargins = True
