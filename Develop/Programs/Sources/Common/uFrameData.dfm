@@ -2,17 +2,24 @@ object FrameData: TFrameData
   Left = 0
   Top = 0
   Width = 145
-  Height = 22
+  Height = 23
+  AutoSize = True
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -12
+  Font.Name = 'Segoe UI'
+  Font.Style = []
+  ParentFont = False
   TabOrder = 0
   object ComboBox1: TComboBox
     Left = 0
     Top = 0
     Width = 145
-    Height = 21
+    Height = 23
     Align = alClient
     Style = csDropDownList
     DropDownCount = 16
-    ItemHeight = 13
+    ItemHeight = 15
     ItemIndex = 0
     TabOrder = 0
     Text = 'Todas as Datas'
@@ -37,7 +44,7 @@ object FrameData: TFrameData
   end
   object CCalendarDiff1: TCCalendarDiff
     Interval = diNone
-    Date = 42653.686031238420000000
+    Date = 43965.948563229170000000
     DateInput = diAuto
     Left = 112
     Top = 65535

@@ -2104,7 +2104,6 @@ inherited LabAmostrasM: TLabAmostrasM
             DataField = 'destinatario'
             DataSource = dsAmostra
             TabOrder = 0
-            ExplicitLeft = 2
           end
         end
         object Panel14: TPanel

@@ -65,6 +65,7 @@ inherited PedM: TPedM
             TitleFont.Color = clWindowText
             TitleFont.Height = -12
             TitleFont.Name = 'Segoe UI'
+            TitleFont.Pitch = fpVariable
             TitleFont.Style = []
             OnDrawColumnCell = ChildGridDrawColumnCell
             OnDblClick = ChildGridDblClick
@@ -95,6 +96,7 @@ inherited PedM: TPedM
             TitleFont.Color = clWindowText
             TitleFont.Height = -12
             TitleFont.Name = 'Segoe UI'
+            TitleFont.Pitch = fpVariable
             TitleFont.Style = []
             OnDrawColumnCell = ChildGridDrawColumnCell
             OnDblClick = ChildGridDblClick
@@ -125,6 +127,7 @@ inherited PedM: TPedM
             TitleFont.Color = clWindowText
             TitleFont.Height = -12
             TitleFont.Name = 'Segoe UI'
+            TitleFont.Pitch = fpVariable
             TitleFont.Style = []
             OnDrawColumnCell = ChildGridDrawColumnCell
             OnDblClick = ChildGridDblClick
@@ -139,8 +142,6 @@ inherited PedM: TPedM
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 1
-            ExplicitLeft = 873
-            ExplicitHeight = 188
             object Label44: TLabel
               AlignWithMargins = True
               Left = 3
@@ -2370,9 +2371,11 @@ inherited PedM: TPedM
                 Left = 57
                 ExplicitLeft = 57
                 inherited SpeedButton1: TSpeedButton
-                  Top = 24
-                  Height = 21
-                  Margins.Top = 24
+                  Top = 23
+                  Width = 27
+                  Height = 22
+                  Margins.Top = 23
+                  Margins.Right = 2
                   Margins.Bottom = 3
                   ExplicitLeft = 0
                   ExplicitTop = 16

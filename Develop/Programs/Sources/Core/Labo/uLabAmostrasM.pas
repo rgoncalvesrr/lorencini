@@ -211,8 +211,7 @@ var
 
 implementation
 
-uses uLabAmostras, uIUtils, mcUtils, uLabTipo, uLabEquip, uLabRegionais,
-  uDM, iTypes, uClienteContatoM, uContatoF;
+uses uLabAmostras, uIUtils, mcUtils, uLabTipo, uLabEquip, uLabRegionais, uDM, iTypes, uContatoF;
 
 {$R *.dfm}
 
@@ -447,25 +446,26 @@ var
 begin
   inherited;
 
-  with DM.qClientesFinais do
-  try
-    DisableControls;
-    ParamByName('codigo').AsInteger := DataSet.FieldByName('codigo').AsInteger;
-    G.RefreshDataSet(DM.qClientesFinais);
-
-    First;
-    while not Eof do
-    begin
-      sin := sin + FieldByName('cliente').AsString;
-
-      Next;
-
-      if not Eof then
-        sin := sin + ',';
-    end;
-  finally
-    EnableControls;
-  end;
+  { TODO -oRicardo -cLaboratório : Revisar relacionamento entre a amostra e o cadastro de clientes }
+//  with DM.qClientesFinais do
+//  try
+//    DisableControls;
+//    ParamByName('codigo').AsInteger := DataSet.FieldByName('codigo').AsInteger;
+//    G.RefreshDataSet(DM.qClientesFinais);
+//
+//    First;
+//    while not Eof do
+//    begin
+//      sin := sin + FieldByName('cliente').AsString;
+//
+//      Next;
+//
+//      if not Eof then
+//        sin := sin + ',';
+//    end;
+//  finally
+//    EnableControls;
+//  end;
 end;
 
 end.

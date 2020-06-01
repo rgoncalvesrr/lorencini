@@ -182,14 +182,13 @@ end;
 procedure TLabEquipCli.actFindCliExecute(Sender: TObject);
 begin
   inherited;
-  with DM do
+  Clientes := TClientes.Create(nil);
   try
-    Application.CreateForm(TClientes, Clientes);
     Clientes.DisplayMode := dmQuery;
     Clientes.ShowModal;
     if (Clientes.Execute) then
     begin
-      edCliCod.Text := qClientescodigo.AsString;
+      edCliCod.Text := Clientes.IBrwSrccodigo.AsString;
       edCliCodExit(edCliCod);
     end;
   finally
