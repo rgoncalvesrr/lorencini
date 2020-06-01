@@ -22,7 +22,7 @@ BEGIN
       select 1
         from tbclientes_contatos
        where cliente = new.cliente
-         and item <> new.item
+         and contato <> new.contato
          and padrao) 
    then
       new.padrao := true;

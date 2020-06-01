@@ -18,7 +18,7 @@ BEGIN
          update tbclientes_contatos
             set padrao = false
           where cliente = new.cliente
-            and item <> new.item;
+            and contato <> new.contato;
       end if;
    end if;
 

@@ -10,12 +10,15 @@ inherited ContatosM: TContatosM
     Top = 44
     Width = 1029
     Height = 558
+    ExplicitTop = 44
+    ExplicitWidth = 1029
+    ExplicitHeight = 558
     inherited Panel3: TPanel
       Top = 152
       Width = 1029
       Height = 406
       ExplicitTop = 152
-      ExplicitWidth = 757
+      ExplicitWidth = 1029
       ExplicitHeight = 406
       inherited PageControl3: TPageControl
         Top = 47
@@ -27,6 +30,10 @@ inherited ContatosM: TContatosM
         ExplicitHeight = 356
         inherited tsDet: TTabSheet
           Caption = 'Clientes'
+          ExplicitLeft = 4
+          ExplicitTop = 26
+          ExplicitWidth = 1015
+          ExplicitHeight = 326
           inherited DBGrid1: TDBGrid
             Width = 1015
             Height = 326
@@ -39,7 +46,7 @@ inherited ContatosM: TContatosM
         Height = 38
         ExplicitLeft = 3
         ExplicitTop = 3
-        ExplicitWidth = 633
+        ExplicitWidth = 1023
         ExplicitHeight = 38
         inherited ToolBar3: TToolBar
           Width = 1008
@@ -74,14 +81,14 @@ inherited ContatosM: TContatosM
       Height = 146
       ExplicitLeft = 3
       ExplicitTop = 3
-      ExplicitWidth = 633
-      ExplicitHeight = 189
+      ExplicitWidth = 1023
+      ExplicitHeight = 146
       inherited TabSheet1: TTabSheet
         Caption = 'Dados do Contato'
         ExplicitLeft = 4
-        ExplicitTop = 27
-        ExplicitWidth = 848
-        ExplicitHeight = 298
+        ExplicitTop = 26
+        ExplicitWidth = 1015
+        ExplicitHeight = 116
         object Panel2: TPanel
           Left = 0
           Top = 0
@@ -90,7 +97,6 @@ inherited ContatosM: TContatosM
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 0
-          ExplicitWidth = 848
           object Panel4: TPanel
             Left = 0
             Top = 0
@@ -99,7 +105,6 @@ inherited ContatosM: TContatosM
             Align = alLeft
             BevelOuter = bvNone
             TabOrder = 0
-            ExplicitHeight = 48
             object Label1: TLabel
               AlignWithMargins = True
               Left = 3
@@ -109,8 +114,7 @@ inherited ContatosM: TContatosM
               Align = alTop
               Caption = 'Contato'
               FocusControl = DBEdit1
-              ExplicitLeft = 0
-              ExplicitWidth = 105
+              ExplicitWidth = 43
             end
             object DBEdit1: TDBEdit
               AlignWithMargins = True
@@ -118,13 +122,12 @@ inherited ContatosM: TContatosM
               Top = 24
               Width = 75
               Height = 23
+              TabStop = False
               Align = alClient
               DataField = 'recno'
               DataSource = Contatos.DataSource1
               ReadOnly = True
               TabOrder = 0
-              ExplicitLeft = 0
-              ExplicitHeight = 21
             end
           end
           object Panel5: TPanel
@@ -135,9 +138,6 @@ inherited ContatosM: TContatosM
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 1
-            ExplicitLeft = 78
-            ExplicitTop = -6
-            ExplicitWidth = 656
             object Label3: TLabel
               AlignWithMargins = True
               Left = 3
@@ -147,8 +147,6 @@ inherited ContatosM: TContatosM
               Align = alTop
               Caption = 'Nome'
               FocusControl = DBEdit3
-              ExplicitLeft = 48
-              ExplicitTop = 24
               ExplicitWidth = 33
             end
             object DBEdit3: TDBEdit
@@ -161,9 +159,6 @@ inherited ContatosM: TContatosM
               DataField = 'nome'
               DataSource = Contatos.DataSource1
               TabOrder = 0
-              ExplicitLeft = 54
-              ExplicitTop = 40
-              ExplicitWidth = 679
             end
           end
           object Panel6: TPanel
@@ -174,7 +169,6 @@ inherited ContatosM: TContatosM
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 2
-            ExplicitLeft = 740
             object Label2: TLabel
               AlignWithMargins = True
               Left = 3
@@ -184,8 +178,6 @@ inherited ContatosM: TContatosM
               Align = alTop
               Caption = 'Data'
               FocusControl = DBEdit2
-              ExplicitLeft = 32
-              ExplicitTop = 24
               ExplicitWidth = 24
             end
             object DBEdit2: TDBEdit
@@ -194,13 +186,12 @@ inherited ContatosM: TContatosM
               Top = 24
               Width = 105
               Height = 23
+              TabStop = False
               Align = alClient
               DataField = 'data'
               DataSource = Contatos.DataSource1
               ReadOnly = True
               TabOrder = 0
-              ExplicitLeft = 6
-              ExplicitHeight = 21
             end
           end
           object Panel11: TPanel
@@ -211,7 +202,6 @@ inherited ContatosM: TContatosM
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 3
-            ExplicitLeft = 762
             object Label4: TLabel
               AlignWithMargins = True
               Left = 3
@@ -243,8 +233,6 @@ inherited ContatosM: TContatosM
               ListSettings.OutfilteredValueFont.Height = -11
               ListSettings.OutfilteredValueFont.Name = 'Tahoma'
               ListSettings.OutfilteredValueFont.Style = []
-              ExplicitLeft = 24
-              ExplicitWidth = 145
             end
           end
         end
@@ -256,7 +244,6 @@ inherited ContatosM: TContatosM
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 1
-          ExplicitWidth = 848
           object Panel8: TPanel
             Left = 0
             Top = 0
@@ -274,8 +261,6 @@ inherited ContatosM: TContatosM
               Align = alTop
               Caption = 'Celular'
               FocusControl = DBEdit4
-              ExplicitLeft = 16
-              ExplicitTop = 16
               ExplicitWidth = 37
             end
             object DBEdit4: TDBEdit
@@ -288,8 +273,6 @@ inherited ContatosM: TContatosM
               DataField = 'celular'
               DataSource = Contatos.DataSource1
               TabOrder = 0
-              ExplicitLeft = 0
-              ExplicitWidth = 105
             end
           end
           object Panel9: TPanel
@@ -309,8 +292,6 @@ inherited ContatosM: TContatosM
               Align = alTop
               Caption = 'Telefone'
               FocusControl = DBEdit5
-              ExplicitLeft = 8
-              ExplicitTop = 16
               ExplicitWidth = 44
             end
             object DBEdit5: TDBEdit
@@ -323,9 +304,6 @@ inherited ContatosM: TContatosM
               DataField = 'telefone'
               DataSource = Contatos.DataSource1
               TabOrder = 0
-              ExplicitLeft = 6
-              ExplicitTop = 32
-              ExplicitWidth = 379
             end
           end
           object Panel10: TPanel
@@ -336,9 +314,6 @@ inherited ContatosM: TContatosM
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 2
-            ExplicitLeft = 283
-            ExplicitTop = 3
-            ExplicitWidth = 568
             object Label7: TLabel
               AlignWithMargins = True
               Left = 3
@@ -348,8 +323,6 @@ inherited ContatosM: TContatosM
               Align = alTop
               Caption = 'E-mail'
               FocusControl = DBEdit6
-              ExplicitLeft = 24
-              ExplicitTop = 16
               ExplicitWidth = 34
             end
             object DBEdit6: TDBEdit
@@ -363,7 +336,6 @@ inherited ContatosM: TContatosM
               DataField = 'email'
               DataSource = Contatos.DataSource1
               TabOrder = 0
-              ExplicitWidth = 562
             end
           end
         end
@@ -375,7 +347,7 @@ inherited ContatosM: TContatosM
     Height = 38
     ExplicitLeft = 3
     ExplicitTop = 3
-    ExplicitWidth = 633
+    ExplicitWidth = 1023
     ExplicitHeight = 38
     inherited ToolBar1: TToolBar
       Width = 715
