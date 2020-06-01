@@ -113,10 +113,11 @@ inherited Clientes: TClientes
             AlignWithMargins = True
             Left = 3
             Top = 3
-            Width = 27
+            Width = 118
             Height = 15
             Align = alTop
             Caption = 'CNPJ'
+            ExplicitWidth = 27
           end
           object edCNPJ: TMaskEdit
             AlignWithMargins = True
@@ -143,10 +144,11 @@ inherited Clientes: TClientes
             AlignWithMargins = True
             Left = 3
             Top = 3
-            Width = 21
+            Width = 118
             Height = 15
             Align = alTop
             Caption = 'CPF'
+            ExplicitWidth = 21
           end
           object edCPF: TMaskEdit
             AlignWithMargins = True
@@ -173,10 +175,11 @@ inherited Clientes: TClientes
             AlignWithMargins = True
             Left = 3
             Top = 3
-            Width = 79
+            Width = 206
             Height = 15
             Align = alTop
             Caption = 'Nome Fantasia'
+            ExplicitWidth = 79
           end
           object edEmpresa: TEdit
             AlignWithMargins = True
@@ -201,10 +204,11 @@ inherited Clientes: TClientes
             AlignWithMargins = True
             Left = 3
             Top = 3
-            Width = 97
+            Width = 321
             Height = 15
             Align = alTop
             Caption = 'Nome Empresarial'
+            ExplicitWidth = 97
           end
           object edRazao: TEdit
             AlignWithMargins = True
@@ -263,26 +267,14 @@ inherited Clientes: TClientes
       object TabSheet5: TTabSheet
         Caption = 'Ativos'
         ImageIndex = 208
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object TabSheet6: TTabSheet
         Caption = 'Inativos'
         ImageIndex = 209
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object TabSheet7: TTabSheet
         Caption = 'Prospects'
         ImageIndex = 215
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
     end
     object Panel3: TPanel
@@ -309,10 +301,6 @@ inherited Clientes: TClientes
         object TabSheet2: TTabSheet
           Caption = 'Todos Contatos'
           ImageIndex = -1
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object DBGrid2: TDBGrid
             Tag = 1
             Left = 0
@@ -342,18 +330,10 @@ inherited Clientes: TClientes
         object TabSheet3: TTabSheet
           Caption = 'Contatos Ativos'
           ImageIndex = 208
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
         end
         object TabSheet4: TTabSheet
           Caption = 'Contatos Inativos'
           ImageIndex = 209
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
         end
       end
     end

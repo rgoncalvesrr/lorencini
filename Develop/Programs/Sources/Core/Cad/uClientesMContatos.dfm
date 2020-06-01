@@ -11,8 +11,8 @@ inherited ClientesMContatos: TClientesMContatos
     Width = 1079
     Height = 365
     ExplicitTop = 44
-    ExplicitWidth = 1039
-    ExplicitHeight = 354
+    ExplicitWidth = 1079
+    ExplicitHeight = 365
     inherited Panel3: TPanel
       Top = 206
       Align = alNone
@@ -71,14 +71,14 @@ inherited ClientesMContatos: TClientesMContatos
       Height = 359
       ExplicitLeft = 3
       ExplicitTop = 3
-      ExplicitWidth = 1033
-      ExplicitHeight = 348
+      ExplicitWidth = 1073
+      ExplicitHeight = 359
       inherited TabSheet1: TTabSheet
         Caption = 'Cliente'
         ExplicitLeft = 4
         ExplicitTop = 26
-        ExplicitWidth = 1025
-        ExplicitHeight = 318
+        ExplicitWidth = 1065
+        ExplicitHeight = 329
         object Bevel1: TBevel
           AlignWithMargins = True
           Left = 3
@@ -99,7 +99,6 @@ inherited ClientesMContatos: TClientesMContatos
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 0
-          ExplicitWidth = 1025
           object Panel28: TPanel
             Left = 0
             Top = 0
@@ -142,7 +141,6 @@ inherited ClientesMContatos: TClientesMContatos
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 1
-            ExplicitWidth = 799
             object Label54: TLabel
               AlignWithMargins = True
               Left = 3
@@ -166,7 +164,6 @@ inherited ClientesMContatos: TClientesMContatos
               DataSource = Clientes.DataSource1
               ReadOnly = True
               TabOrder = 0
-              ExplicitWidth = 793
             end
           end
           object Panel30: TPanel
@@ -177,7 +174,6 @@ inherited ClientesMContatos: TClientesMContatos
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 2
-            ExplicitLeft = 867
             object Label55: TLabel
               AlignWithMargins = True
               Left = 3
@@ -212,7 +208,6 @@ inherited ClientesMContatos: TClientesMContatos
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 1
-          ExplicitWidth = 1025
           object Panel4: TPanel
             Left = 0
             Top = 0
@@ -314,7 +309,6 @@ inherited ClientesMContatos: TClientesMContatos
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 2
-            ExplicitWidth = 283
             object Label2: TLabel
               AlignWithMargins = True
               Left = 3
@@ -337,7 +331,6 @@ inherited ClientesMContatos: TClientesMContatos
               DataSource = Clientes.dsContatos
               ReadOnly = True
               TabOrder = 0
-              ExplicitWidth = 277
             end
           end
           object Panel7: TPanel
@@ -348,7 +341,6 @@ inherited ClientesMContatos: TClientesMContatos
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 3
-            ExplicitLeft = 377
             object Label3: TLabel
               AlignWithMargins = True
               Left = 3
@@ -381,7 +373,6 @@ inherited ClientesMContatos: TClientesMContatos
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 4
-            ExplicitLeft = 497
             object Label4: TLabel
               AlignWithMargins = True
               Left = 3
@@ -414,7 +405,6 @@ inherited ClientesMContatos: TClientesMContatos
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 5
-            ExplicitLeft = 558
             object Label5: TLabel
               AlignWithMargins = True
               Left = 3
@@ -437,7 +427,6 @@ inherited ClientesMContatos: TClientesMContatos
               DataSource = Clientes.dsContatos
               ReadOnly = True
               TabOrder = 0
-              ExplicitWidth = 281
             end
           end
           object Panel10: TPanel
@@ -479,7 +468,6 @@ inherited ClientesMContatos: TClientesMContatos
               ListSettings.OutfilteredValueFont.Height = -11
               ListSettings.OutfilteredValueFont.Name = 'Tahoma'
               ListSettings.OutfilteredValueFont.Style = []
-              ExplicitWidth = 115
             end
           end
           object Panel11: TPanel
@@ -490,7 +478,6 @@ inherited ClientesMContatos: TClientesMContatos
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 7
-            ExplicitLeft = 784
             object Label7: TLabel
               AlignWithMargins = True
               Left = 3
@@ -513,8 +500,6 @@ inherited ClientesMContatos: TClientesMContatos
               DataField = 'funcao'
               DataSource = Clientes.dsContatos
               TabOrder = 0
-              ExplicitLeft = 0
-              ExplicitWidth = 101
             end
           end
         end
@@ -527,10 +512,6 @@ inherited ClientesMContatos: TClientesMContatos
           Align = alClient
           Caption = ' Permiss'#245'es do Contato '
           TabOrder = 2
-          ExplicitLeft = 440
-          ExplicitTop = 120
-          ExplicitWidth = 185
-          ExplicitHeight = 105
           object ControlBar3: TControlBar
             AlignWithMargins = True
             Left = 5
@@ -542,9 +523,6 @@ inherited ClientesMContatos: TClientesMContatos
             BevelKind = bkNone
             DrawingStyle = dsGradient
             TabOrder = 0
-            ExplicitLeft = 3
-            ExplicitTop = 3
-            ExplicitWidth = 581
             object ToolBar2: TToolBar
               Left = 11
               Top = 2
@@ -585,8 +563,7 @@ inherited ClientesMContatos: TClientesMContatos
             Align = alLeft
             BevelOuter = bvNone
             TabOrder = 1
-            ExplicitLeft = 273
-            ExplicitHeight = 166
+            ExplicitTop = 66
             object DBCheckBox3: TDBCheckBox
               AlignWithMargins = True
               Left = 3
@@ -600,8 +577,6 @@ inherited ClientesMContatos: TClientesMContatos
               TabOrder = 0
               ValueChecked = 'True'
               ValueUnchecked = 'False'
-              ExplicitTop = 93
-              ExplicitWidth = 581
             end
             object DBCheckBox5: TDBCheckBox
               AlignWithMargins = True
@@ -616,9 +591,6 @@ inherited ClientesMContatos: TClientesMContatos
               TabOrder = 1
               ValueChecked = 'True'
               ValueUnchecked = 'False'
-              ExplicitLeft = 6
-              ExplicitTop = 61
-              ExplicitWidth = 499
             end
             object DBCheckBox4: TDBCheckBox
               AlignWithMargins = True
@@ -633,8 +605,6 @@ inherited ClientesMContatos: TClientesMContatos
               TabOrder = 2
               ValueChecked = 'True'
               ValueUnchecked = 'False'
-              ExplicitLeft = 6
-              ExplicitTop = 51
             end
           end
           object Panel13: TPanel
@@ -646,8 +616,6 @@ inherited ClientesMContatos: TClientesMContatos
             Align = alLeft
             BevelOuter = bvNone
             TabOrder = 2
-            ExplicitLeft = 541
-            ExplicitHeight = 166
             object DBCheckBox12: TDBCheckBox
               AlignWithMargins = True
               Left = 3
@@ -661,8 +629,6 @@ inherited ClientesMContatos: TClientesMContatos
               TabOrder = 0
               ValueChecked = 'True'
               ValueUnchecked = 'False'
-              ExplicitTop = 72
-              ExplicitWidth = 499
             end
             object DBCheckBox13: TDBCheckBox
               AlignWithMargins = True
@@ -677,8 +643,6 @@ inherited ClientesMContatos: TClientesMContatos
               TabOrder = 1
               ValueChecked = 'True'
               ValueUnchecked = 'False'
-              ExplicitTop = 95
-              ExplicitWidth = 499
             end
             object DBCheckBox14: TDBCheckBox
               AlignWithMargins = True
@@ -693,8 +657,6 @@ inherited ClientesMContatos: TClientesMContatos
               TabOrder = 2
               ValueChecked = 'True'
               ValueUnchecked = 'False'
-              ExplicitTop = 118
-              ExplicitWidth = 499
             end
           end
           object Panel14: TPanel
@@ -706,7 +668,7 @@ inherited ClientesMContatos: TClientesMContatos
             Align = alLeft
             BevelOuter = bvNone
             TabOrder = 3
-            ExplicitHeight = 166
+            ExplicitTop = 66
             object DBCheckBox6: TDBCheckBox
               AlignWithMargins = True
               Left = 3
@@ -721,9 +683,24 @@ inherited ClientesMContatos: TClientesMContatos
               TabOrder = 0
               ValueChecked = 'True'
               ValueUnchecked = 'False'
-              ExplicitWidth = 256
+              ExplicitLeft = 6
             end
             object DBCheckBox7: TDBCheckBox
+              AlignWithMargins = True
+              Left = 3
+              Top = 49
+              Width = 250
+              Height = 17
+              Align = alTop
+              Caption = 'Enviar Pedido'
+              DataField = 'enviar_pedido_venda'
+              DataSource = Clientes.dsContatos
+              TabOrder = 2
+              ValueChecked = 'True'
+              ValueUnchecked = 'False'
+              ExplicitLeft = 6
+            end
+            object DBCheckBox1: TDBCheckBox
               AlignWithMargins = True
               Left = 3
               Top = 26
@@ -736,7 +713,7 @@ inherited ClientesMContatos: TClientesMContatos
               TabOrder = 1
               ValueChecked = 'True'
               ValueUnchecked = 'False'
-              ExplicitWidth = 256
+              ExplicitLeft = 6
             end
           end
         end
@@ -748,7 +725,7 @@ inherited ClientesMContatos: TClientesMContatos
     Height = 38
     ExplicitLeft = 3
     ExplicitTop = 3
-    ExplicitWidth = 1033
+    ExplicitWidth = 1073
     ExplicitHeight = 38
     inherited ToolBar1: TToolBar
       ButtonWidth = 115

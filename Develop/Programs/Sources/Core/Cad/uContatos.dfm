@@ -306,6 +306,8 @@ inherited Contatos: TContatos
   inherited IBrwSrc: TZQuery
     Connection = DM.Design
     SortedFields = 'nome'
+    AfterScroll = IBrwSrcAfterScroll
+    AfterInsert = IBrwSrcAfterInsert
     SQL.Strings = (
       
         'select situacao, nome, telefone, celular, email, data, recno fro' +
@@ -624,6 +626,37 @@ inherited Contatos: TContatos
       FieldName = 'funcao'
       Size = 54
     end
+    object qContClicliente: TIntegerField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'cliente'
+      Required = True
+    end
+    object qContCliempresa: TStringField
+      DisplayLabel = 'Nome Empresarial'
+      DisplayWidth = 40
+      FieldName = 'empresa'
+      Size = 100
+    end
+    object qContClinome_chave: TStringField
+      DisplayLabel = 'Nome Curto'
+      DisplayWidth = 25
+      FieldName = 'nome_chave'
+      Size = 45
+    end
+    object qContClicnpj: TStringField
+      DisplayLabel = 'C.N.P.J.'
+      DisplayWidth = 18
+      FieldName = 'cnpj'
+      EditMask = '99.999.999/9999-99;0;'
+      Size = 14
+    end
+    object qContClicpf: TStringField
+      DisplayLabel = 'CPF'
+      DisplayWidth = 14
+      FieldName = 'cpf'
+      EditMask = '999.999.999-99;0;'
+      Size = 11
+    end
     object qContClienviar_cotacao_venda: TBooleanField
       DisplayLabel = 'Cota'#231#227'o'
       FieldName = 'enviar_cotacao_venda'
@@ -655,36 +688,6 @@ inherited Contatos: TContatos
     object qContClienviar_laudo_retorno_critico: TBooleanField
       DisplayLabel = 'Retorno Cr'#237'tico'
       FieldName = 'enviar_laudo_retorno_critico'
-    end
-    object qContClicliente: TIntegerField
-      DisplayLabel = 'C'#243'digo'
-      FieldName = 'cliente'
-      Required = True
-    end
-    object qContCliempresa: TStringField
-      DisplayLabel = 'Nome Empresarial'
-      DisplayWidth = 25
-      FieldName = 'empresa'
-      Size = 100
-    end
-    object qContClinome_chave: TStringField
-      DisplayLabel = 'Nome Curto'
-      FieldName = 'nome_chave'
-      Size = 45
-    end
-    object qContClicnpj: TStringField
-      DisplayLabel = 'C.N.P.J.'
-      DisplayWidth = 18
-      FieldName = 'cnpj'
-      EditMask = '99.999.999/9999-99;0;'
-      Size = 14
-    end
-    object qContClicpf: TStringField
-      DisplayLabel = 'CPF'
-      DisplayWidth = 14
-      FieldName = 'cpf'
-      EditMask = '999.999.999-99;0;'
-      Size = 11
     end
     object qContClicidade: TStringField
       DisplayLabel = 'Cidade'

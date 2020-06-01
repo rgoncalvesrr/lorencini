@@ -464,6 +464,7 @@ procedure TClientes.qContatosAfterInsert(DataSet: TDataSet);
 begin
   inherited;
   qContatossituacao.AsInteger := 1;
+  qContatospadrao.AsBoolean := False;
 end;
 
 procedure TClientes.qContatosBeforePost(DataSet: TDataSet);

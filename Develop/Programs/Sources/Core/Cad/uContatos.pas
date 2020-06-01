@@ -76,6 +76,8 @@ type
     procedure qContCliBeforeRefresh(DataSet: TDataSet);
     procedure FormCreate(Sender: TObject);
     procedure qContCliAfterInsert(DataSet: TDataSet);
+    procedure IBrwSrcAfterInsert(DataSet: TDataSet);
+    procedure IBrwSrcAfterScroll(DataSet: TDataSet);
   private
     procedure OnEdit; override;
   public
@@ -240,6 +242,19 @@ begin
   Contatos := Self;
 end;
 
+procedure TContatos.IBrwSrcAfterInsert(DataSet: TDataSet);
+begin
+  inherited;
+  IBrwSrcdata.AsDateTime := Now;
+  IBrwSrcsituacao.AsInteger := 1;
+end;
+
+procedure TContatos.IBrwSrcAfterScroll(DataSet: TDataSet);
+begin
+  inherited;
+  G.RefreshDataSet(qContCli);
+end;
+
 procedure TContatos.IBrwSrcsituacaoGetText(Sender: TField; var Text: string; DisplayText: Boolean);
 begin
   inherited;
@@ -307,6 +322,7 @@ begin
   qContClienviar_laudo_retorno_critico.AsBoolean := not IBrwSrcemail.IsNull;
   qContClienviar_laudo_retorno_normal.AsBoolean := not IBrwSrcemail.IsNull;
   qContClisituacao.AsInteger := IBrwSrcsituacao.AsInteger;
+  qContClipadrao.AsBoolean := False;
 end;
 
 procedure TContatos.qContCliBeforeRefresh(DataSet: TDataSet);

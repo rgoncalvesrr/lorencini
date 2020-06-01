@@ -48,6 +48,9 @@ type
     ToolButton15: TToolButton;
     actCheck: TAction;
     actUnCheck: TAction;
+    Panel10: TPanel;
+    Panel13: TPanel;
+    DBCheckBox9: TDBCheckBox;
     procedure FrameCliente1SpeedButton1Click(Sender: TObject);
     procedure actCheckExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
