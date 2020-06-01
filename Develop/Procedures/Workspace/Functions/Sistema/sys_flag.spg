@@ -14,12 +14,12 @@ Create or Replace Function sys_flag(
 Returns Boolean as
 $$
 begin
-	return exists(
-		select 1                     
-		  from sys_flag
-	    where session = sys_session()
-	      and table_ = in_table_
-	      and recno = in_recno);
+   return exists(
+      select 1                     
+        from sys_flag
+       where session = sys_session()
+         and table_ = in_table_
+         and recno = in_recno);
 end;
 $$
 language plpgsql;

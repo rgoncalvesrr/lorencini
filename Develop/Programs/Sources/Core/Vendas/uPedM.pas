@@ -220,6 +220,7 @@ type
     procedure cbRemessaChange(Sender: TObject);
     procedure FrameCliente1DBEdit8Exit(Sender: TObject);
     procedure PageControl3Change(Sender: TObject);
+    procedure FrameCliente1SpeedButton1Click(Sender: TObject);
   private
     { Private declarations }
     procedure RefreshLookupFilter;
@@ -296,7 +297,7 @@ begin
         1: oDbEdit := DBEdit21;
         2: oDbEdit := DBEdit27;
       end;
-      DataSet.FieldByName(oDbEdit.Field.FieldName).AsInteger := ContatoF.IBrwSrcitem.AsInteger;
+      DataSet.FieldByName(oDbEdit.Field.FieldName).AsInteger := ContatoF.IBrwSrccontato.AsInteger;
       DBEdit49Exit(oDbEdit);
     end;
   finally
@@ -306,14 +307,14 @@ end;
 
 procedure TPedM.actFindCliExecute(Sender: TObject);
 begin
-  with DM do
+  with Clientes do
   try
     Application.CreateForm(TClientes, Clientes);
     Clientes.DisplayMode := dmQuery;
     Clientes.ShowModal;
     if (Clientes.Execute) then
     begin
-      DataSet.FieldByName('codigo').AsInteger := qClientescodigo.AsInteger;
+      Self.DataSet.FieldByName('codigo').AsInteger := Clientes.IBrwSrccodigo.AsInteger;
       DBEdit8Exit(DBEdit8);
     end;
   finally
@@ -404,7 +405,7 @@ begin
     fLkp.Add('celular');
     fLkp.Add('email');
 
-    if U.Data.CheckFK('tbclientes_contatos', 'item', TDBEdit(Sender).Text, fLkp,
+    if U.Data.CheckFK('vclientes_contatos', 'recno', TDBEdit(Sender).Text, fLkp,
       Format(' cliente = %d ', [DBEdit8.Field.AsInteger])) then
     begin
       case TDBEdit(sender).Tag of
@@ -533,6 +534,13 @@ begin
   inherited;
   RefreshLookupFilter;
   FrameCliente1.DBEdit8Exit(Sender);
+end;
+
+procedure TPedM.FrameCliente1SpeedButton1Click(Sender: TObject);
+begin
+  inherited;
+  FrameCliente1.actFindCliExecute(Sender);
+
 end;
 
 procedure TPedM.ImprimirEtiqueta;
@@ -723,30 +731,31 @@ var
 begin
   inherited;
 
-  FrameCliente1.Filter := EmptyStr;
-  
-  with DM.qClientesFinais do
-  try
-    DisableControls;
-    ParamByName('codigo').AsInteger := Ped.IBrwSrccodigo.AsInteger;
-    G.RefreshDataSet(DM.qClientesFinais);
-
-    First;
-    while not Eof do
-    begin
-      sin := sin + FieldByName('cliente').AsString;
-
-      Next;
-
-      if not Eof then
-        sin := sin + ',';
-    end;
-  finally
-    EnableControls;
-  end;
-
-  if sin <> EmptyStr then
-    FrameCliente1.Filter := Format('codigo in (%s)', [sin]);
+  { TODO -oRicardo -cLaboratório : Criar tela para exibição de clientes finais }
+//  FrameCliente1.Filter := EmptyStr;
+//
+//  with DM.qClientesFinais do
+//  try
+//    DisableControls;
+//    ParamByName('codigo').AsInteger := Ped.IBrwSrccodigo.AsInteger;
+//    G.RefreshDataSet(DM.qClientesFinais);
+//
+//    First;
+//    while not Eof do
+//    begin
+//      sin := sin + FieldByName('cliente').AsString;
+//
+//      Next;
+//
+//      if not Eof then
+//        sin := sin + ',';
+//    end;
+//  finally
+//    EnableControls;
+//  end;
+//
+//  if sin <> EmptyStr then
+//    FrameCliente1.Filter := Format('codigo in (%s)', [sin]);
 
 end;
 

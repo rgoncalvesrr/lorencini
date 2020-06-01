@@ -100,7 +100,7 @@ begin
       if not FLookupAllowEdit then
         dsCliente.DataSet.FieldByName(DBEdit8.Field.FieldName).AsInteger := ClientesF.IBrwSrccodigo.AsInteger
       else
-        dsCliente.DataSet.FieldByName(DBEdit8.Field.FieldName).AsInteger := qClientescodigo.AsInteger;
+        dsCliente.DataSet.FieldByName(DBEdit8.Field.FieldName).AsInteger := Clientes.IBrwSrccodigo.AsInteger;
         
       DBEdit8Exit(DBEdit8);
     end;

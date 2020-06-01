@@ -23,9 +23,9 @@ Begin
      from pedido p
           join tbclientes c
             on c.codigo = p.codigo
-          left join tbclientes_contatos ct
+          left join vclientes_contatos ct
             on ct.cliente = p.codigo
-           and ct.item = p.contato
+           and ct.contato = p.contato
      where p.recno = in_pedido;
 
 

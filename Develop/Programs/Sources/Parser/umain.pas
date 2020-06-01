@@ -50,6 +50,7 @@ var
   oParse: TCFParser;
 begin
   shift := False;
+  ZConnection1.LibraryLocation := TEnvironment.Lib + 'libpq.dll';
 
   with ListView1 do
   begin

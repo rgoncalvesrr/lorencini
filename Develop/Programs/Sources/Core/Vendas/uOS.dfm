@@ -126,7 +126,7 @@ inherited OS: TOS
             Height = 15
             Align = alTop
             AutoSize = False
-            Caption = '01/01/2020 a 31/01/2020'
+            Caption = '01/05/2020 a 31/05/2020'
             Transparent = True
             ExplicitLeft = 29
             ExplicitTop = 26
@@ -153,7 +153,7 @@ inherited OS: TOS
             end
             inherited CCalendarDiff1: TCCalendarDiff
               Interval = diMonthly
-              Date = 43845.019144861110000000
+              Date = 43965.103972662040000000
               DisplayInterval = Label4
               OnChange = actQueryProcessExecute
             end
@@ -463,6 +463,7 @@ inherited OS: TOS
           TitleFont.Color = clWindowText
           TitleFont.Height = -12
           TitleFont.Name = 'Segoe UI'
+          TitleFont.Pitch = fpVariable
           TitleFont.Style = []
           OnDrawColumnCell = DBGrid2DrawColumnCell
           OnEnter = DBGridEnter
@@ -547,6 +548,7 @@ inherited OS: TOS
           TitleFont.Color = clWindowText
           TitleFont.Height = -12
           TitleFont.Name = 'Segoe UI'
+          TitleFont.Pitch = fpVariable
           TitleFont.Style = []
           OnDrawColumnCell = DBGrid2DrawColumnCell
           OnEnter = DBGridEnter
@@ -695,53 +697,33 @@ inherited OS: TOS
     AfterInsert = IBrwSrcAfterInsert
     SQL.Strings = (
       
-        'select a.idos,         a.data,        a.ano,         a.idcliente' +
-        ','
+        'select a.idos, a.data, a.ano, a.idcliente, a.idvendedor, a.id_se' +
+        'rvico, a.descricao, a.status_data,'
       
-        '       a.idvendedor,   a.id_servico,  a.descricao,   a.status_da' +
-        'ta,'
+        '       a.os, a.chamado, a.status, a.type_, m.vlmat, m.vlsrvfixo,' +
+        ' m.vlsrvvar, m.vlmobra, m.vldespe vlsrvdesp,           '
       
-        '       a.os,           a.chamado,     a.status,      a.type_,   ' +
-        '    '
+        '       a.markup, a.pedidocliente, a.origem, a.recno, a.grupo, a.' +
+        'condicaopg, c.cnpj, c.qtdorcs, c.id_vendedor, '
       
-        '       m.vlmat,        m.vlsrvfixo,   m.vlsrvvar,    m.vlmobra, ' +
-        '    '
+        '       c.nome_chave, c.empresa, a.motivo, c.observacao, a.pedido' +
+        ', g.descri descri_grupo,'
       
-        '       m.vldespe vlsrvdesp,           a.markup,      a.pedidocli' +
-        'ente,'
+        '       cast(atv.ativdescri as varchar(150)) atividade, a.cotacao' +
+        ', a.contato, ct.nome contato_nome, '
       
-        '       a.origem,       a.recno,       a.grupo,       a.condicaop' +
-        'g,'
-      
-        '       c.cnpj,         c.qtdorcs,     c.id_vendedor, c.nome_chav' +
-        'e,'
-      '       c.empresa,      a.motivo,      c.observacao,  a.pedido,'
-      
-        '       g.descri descri_grupo,         cast(atv.ativdescri as var' +
-        'char(150)) atividade,'
-      '       a.cotacao,'
-      ''
-      
-        '       a.contato, ct.nome contato_nome, ct.funcao contato_funcao' +
-        ', '
-      
-        '       ct.celular contato_celular,  ct.telefone contato_telefone' +
-        ', ct.email contato_email,'
-      '       '
+        '       ct.funcao contato_funcao, ct.celular contato_celular,  ct' +
+        '.telefone contato_telefone, ct.email contato_email,       '
       
         '       a.contato_fin, cf.nome contatofin_nome, cf.funcao contato' +
-        'fin_funcao, '
+        'fin_funcao, cf.celular contatofin_celular,'
       
-        '       cf.celular contatofin_celular,  cf.telefone contatofin_te' +
-        'lefone, cf.email contatofin_email,'
-      ''
+        '       cf.telefone contatofin_telefone, cf.email contatofin_emai' +
+        'l, a.contato_tec, cte.nome contatotec_nome, '
       
-        '       a.contato_tec, cte.nome contatotec_nome, cte.funcao conta' +
-        'totec_funcao, '
-      
-        '       cte.celular contatotec_celular,  cte.telefone contatotec_' +
-        'telefone, cte.email contatotec_email'
-      '       '
+        '       cte.funcao contatotec_funcao, cte.celular contatotec_celu' +
+        'lar, cte.telefone contatotec_telefone, cte.email contatotec_emai' +
+        'l       '
       '  from tb_orcamentos a'
       '       join orca_grupo g'
       '         on a.grupo = g.recno'
@@ -749,15 +731,15 @@ inherited OS: TOS
       '         on atv.item = g.atividade'
       '       join tbclientes c'
       '         on c.codigo = a.idcliente'
-      '       join tbclientes_contatos ct  '
+      '       join vclientes_contatos ct  '
       '         on ct.cliente = a.idcliente'
-      '        and ct.item = a.contato '
-      '       join tbclientes_contatos cf'
+      '        and ct.contato = a.contato '
+      '       join vclientes_contatos cf'
       '         on cf.cliente = a.idcliente'
-      '        and cf.item = a.contato_fin  '
-      '       join tbclientes_contatos cte'
+      '        and cf.contato = a.contato_fin  '
+      '       join vclientes_contatos cte'
       '         on cte.cliente = a.idcliente'
-      '        and cte.item = a.contato_tec   '
+      '        and cte.contato = a.contato_tec   '
       '       left join markup m'
       '         on m.recno = a.markup')
     IndexFieldNames = 'os Desc'

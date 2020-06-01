@@ -4,6 +4,12 @@ object FrameImage: TFrameImage
   Width = 451
   Height = 304
   Align = alClient
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -12
+  Font.Name = 'Segoe UI'
+  Font.Style = []
+  ParentFont = False
   TabOrder = 0
   object FrameImage: TJvDBImage
     Left = 0

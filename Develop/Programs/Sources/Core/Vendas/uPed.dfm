@@ -59,7 +59,7 @@ inherited Ped: TPed
           Top = 49
           Width = 128
           Height = 15
-          Caption = '01/01/2020 a 31/01/2020'
+          Caption = '01/05/2020 a 31/05/2020'
           Transparent = True
         end
         inherited BitBtn2: TBitBtn
@@ -142,7 +142,7 @@ inherited Ped: TPed
           end
           inherited CCalendarDiff1: TCCalendarDiff
             Interval = diMonthly
-            Date = 43853.996756655090000000
+            Date = 43965.092222337960000000
             DisplayInterval = Label6
             OnChange = FrameData1CCalendarDiff1Change
           end
@@ -253,58 +253,30 @@ inherited Ped: TPed
       object TabSheet7: TTabSheet
         Caption = 'Aprova'#231#227'o de Cr'#233'dito'
         ImageIndex = 214
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object TabSheet3: TTabSheet
         Caption = 'Autoriza'#231#227'o para Execu'#231#227'o'
         ImageIndex = 210
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object TabSheet8: TTabSheet
         Caption = 'Em Remessa'
         ImageIndex = 211
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object TabSheet9: TTabSheet
         Caption = 'Aguardando Amostra'
         ImageIndex = 212
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object TabSheet4: TTabSheet
         Caption = 'Em Execu'#231#227'o'
         ImageIndex = 205
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object TabSheet5: TTabSheet
         Caption = 'Executado'
         ImageIndex = 208
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object TabSheet10: TTabSheet
         Caption = 'Cancelados'
         ImageIndex = 204
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
     end
     object Panel3: TPanel
@@ -345,6 +317,7 @@ inherited Ped: TPed
             TitleFont.Color = clWindowText
             TitleFont.Height = -12
             TitleFont.Name = 'Segoe UI'
+            TitleFont.Pitch = fpVariable
             TitleFont.Style = []
             OnDrawColumnCell = DBGridDrawColumnCell
             OnDblClick = DBGridDblClick
@@ -487,64 +460,53 @@ inherited Ped: TPed
     OnCalcFields = IBrwSrcCalcFields
     AfterInsert = IBrwSrcAfterInsert
     SQL.Strings = (
-      'select p.recno, p.codigo, p.contato, p.criado, p.emitido,'
-      '   p.autorizado, p.aprovado, p.status, p.remessa, p.laboratorio,'
+      
+        'select p.recno, p.codigo, p.contato, p.criado, p.emitido, p.auto' +
+        'rizado, p.aprovado, p.status, p.remessa, p.laboratorio,'
       
         '   p.obs, p.solicitante, p.solicitante_dep, p.condicaopg, p.pedi' +
-        'do_cliente,'
+        'do_cliente,    p.grupo, p.markup, p.correio, '
       
-        '   p.grupo, p.markup, p.correio, m.vlmat, m.vlsrvvar, m.vlsrvfix' +
-        'o, m.vlmobra,'
+        '   m.vlmat, m.vlsrvvar, m.vlsrvfixo, m.vlmobra,    m.vldespe, p.' +
+        'frete, p.frascos, p.seringas, p.envio, p.coleta, '
       
-        '   m.vldespe, p.frete, p.frascos, p.seringas, p.envio, p.coleta,' +
-        ' p.destinatario,'
-      '   p.obs_remessa, p.cliente, p.lote_aprov,'
-      ''
-      '   og.descri, og.reqsrv, og.reqmat, og.reqmo,'
-      ''
+        '   p.destinatario, p.obs_remessa, p.cliente, p.lote_aprov, og.de' +
+        'scri, og.reqsrv, og.reqmat, og.reqmo,'
       
         '   c.empresa, c.nome_chave, c.endereco, c.cep, c.bairro, c.cidad' +
-        'e, c.estado,'
-      '   c.cnpj, c.cpf, c.telefone, c.email,'
-      '   '
-      '   cl.empresa cliente_empresa, cl.nome_chave cliente_nome_chave,'
+        'e, c.estado, c.cnpj, c.cpf, c.telefone, c.email,'
       
-        '   cl.cnpj cliente_cnpj, cl.cpf cliente_cpf, cl.email cliente_em' +
-        'ail,'
+        '   cl.empresa cliente_empresa, cl.nome_chave cliente_nome_chave,' +
+        '    cl.cnpj cliente_cnpj, cl.cpf cliente_cpf, '
       
-        '   cl.cidade cliente_cidade, cl.estado cliente_estado, cl.telefo' +
-        'ne cliente_telefone,'
-      ''
-      '   ct.nome, ct.funcao, ct.telefone, ct.celular, ct.email,'
-      ''
+        '   cl.email cliente_email, cl.cidade cliente_cidade, cl.estado c' +
+        'liente_estado, cl.telefone cliente_telefone,'
       
-        '   p.contato_fin, ctf.nome contatofin_nome, ctf.funcao contatofi' +
-        'n_funcao,'
+        '   ct.nome, ct.funcao, ct.telefone, ct.celular, ct.email, p.cont' +
+        'ato_fin, ctf.nome contatofin_nome, '
       
-        '   ctf.telefone contatofin_telefone, ctf.celular contatofin_celu' +
-        'lar,'
-      '   ctf.email contatofin_email,'
-      ''
-      '   p.contato_tec, ctt.nome contatotec_nome,'
+        '   ctf.funcao contatofin_funcao, ctf.telefone contatofin_telefon' +
+        'e, ctf.celular contatofin_celular, '
       
-        '   ctt.funcao contatotec_funcao, ctt.telefone contatotec_telefon' +
-        'e,'
-      '   ctt.celular contatotec_celular, ctt.email contatotec_email'
-      ''
+        '   ctf.email contatofin_email, p.contato_tec, ctt.nome contatote' +
+        'c_nome, ctt.funcao contatotec_funcao, '
+      
+        '   ctt.telefone contatotec_telefone, ctt.celular contatotec_celu' +
+        'lar, ctt.email contatotec_email'
       '  from pedido p'
       '       join tbclientes c'
       '         on c.codigo = p.codigo'
       '       join tbclientes cl'
       '         on cl.codigo = p.cliente'
-      '       join tbclientes_contatos ct'
+      '       join vclientes_contatos ct'
       '         on ct.cliente = p.codigo'
-      '        and ct.item = p.contato'
-      '       join tbclientes_contatos ctf'
+      '        and ct.contato = p.contato'
+      '       join vclientes_contatos ctf'
       '         on ctf.cliente = p.codigo'
-      '        and ctf.item = p.contato_fin'
-      '       join tbclientes_contatos ctt'
+      '        and ctf.contato = p.contato_fin'
+      '       join vclientes_contatos ctt'
       '         on ctt.cliente = p.codigo'
-      '        and ctt.item = p.contato_tec'
+      '        and ctt.contato = p.contato_tec'
       '       left join markup m'
       '         on m.recno = p.markup'
       '       join orca_grupo og'

@@ -55,9 +55,9 @@ inherited Clientes: TClientes
             Align = alTop
             Style = csDropDownList
             ItemHeight = 15
-            ItemIndex = 1
+            ItemIndex = 0
             TabOrder = 0
-            Text = 'ATIVO'
+            Text = 'TODOS'
             OnChange = cbSituacaoChange
             Items.Strings = (
               'TODOS'
@@ -90,8 +90,6 @@ inherited Clientes: TClientes
             Top = 24
             Width = 86
             Height = 23
-            Flat = False
-            ParentFlat = False
             Align = alTop
             DecimalPlaceRound = True
             DecimalPlaces = 0
@@ -115,11 +113,10 @@ inherited Clientes: TClientes
             AlignWithMargins = True
             Left = 3
             Top = 3
-            Width = 118
+            Width = 27
             Height = 15
             Align = alTop
             Caption = 'CNPJ'
-            ExplicitWidth = 27
           end
           object edCNPJ: TMaskEdit
             AlignWithMargins = True
@@ -146,11 +143,10 @@ inherited Clientes: TClientes
             AlignWithMargins = True
             Left = 3
             Top = 3
-            Width = 118
+            Width = 21
             Height = 15
             Align = alTop
             Caption = 'CPF'
-            ExplicitWidth = 21
           end
           object edCPF: TMaskEdit
             AlignWithMargins = True
@@ -177,11 +173,10 @@ inherited Clientes: TClientes
             AlignWithMargins = True
             Left = 3
             Top = 3
-            Width = 206
+            Width = 79
             Height = 15
             Align = alTop
             Caption = 'Nome Fantasia'
-            ExplicitWidth = 79
           end
           object edEmpresa: TEdit
             AlignWithMargins = True
@@ -206,11 +201,10 @@ inherited Clientes: TClientes
             AlignWithMargins = True
             Left = 3
             Top = 3
-            Width = 321
+            Width = 97
             Height = 15
             Align = alTop
             Caption = 'Nome Empresarial'
-            ExplicitWidth = 97
           end
           object edRazao: TEdit
             AlignWithMargins = True
@@ -251,7 +245,6 @@ inherited Clientes: TClientes
     inherited PageControl1: TPageControl
       Width = 1108
       Height = 255
-      ActivePage = TabSheet5
       Images = Resources.medium_n
       ExplicitWidth = 1108
       ExplicitHeight = 255
@@ -270,16 +263,26 @@ inherited Clientes: TClientes
       object TabSheet5: TTabSheet
         Caption = 'Ativos'
         ImageIndex = 208
-        ExplicitLeft = 43
-        ExplicitTop = -47
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
       object TabSheet6: TTabSheet
         Caption = 'Inativos'
         ImageIndex = 209
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
       object TabSheet7: TTabSheet
         Caption = 'Prospects'
         ImageIndex = 215
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
     end
     object Panel3: TPanel
@@ -306,6 +309,10 @@ inherited Clientes: TClientes
         object TabSheet2: TTabSheet
           Caption = 'Todos Contatos'
           ImageIndex = -1
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object DBGrid2: TDBGrid
             Tag = 1
             Left = 0
@@ -324,6 +331,7 @@ inherited Clientes: TClientes
             TitleFont.Color = clWindowText
             TitleFont.Height = -12
             TitleFont.Name = 'Segoe UI'
+            TitleFont.Pitch = fpVariable
             TitleFont.Style = []
             OnDrawColumnCell = DBGrid2DrawColumnCell
             OnDblClick = DBGridDblClick
@@ -334,10 +342,18 @@ inherited Clientes: TClientes
         object TabSheet3: TTabSheet
           Caption = 'Contatos Ativos'
           ImageIndex = 208
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
         end
         object TabSheet4: TTabSheet
           Caption = 'Contatos Inativos'
           ImageIndex = 209
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
         end
       end
     end
@@ -415,32 +431,32 @@ inherited Clientes: TClientes
     AfterInsert = IBrwSrcAfterInsert
     SQL.Strings = (
       
-        'select codigo, empresa, nome_chave, endereco, bairro, cep, cidad' +
-        'e, estado, tipo,'
+        'select c.codigo, c.empresa, c.nome_chave, c.endereco, c.bairro, ' +
+        'c.cep, c.cidade, c.estado, c.tipo, c.cnpj, c.inscricao, '
       
-        '       cnpj, inscricao, cpf, rg, telefone, fax, website, email, ' +
-        'id_vendedor,'
+        '       c.cpf, c.rg, c.telefone, c.fax, c.website, c.email, c.id_' +
+        'vendedor, v.nome vendedornome, c.situacao, c.fat_ende, '
       
-        '       situacao, fat_ende, fat_bair, fat_cep, fat_cida, fat_esta' +
-        ', ent_ende,'
+        '       c.fat_bair, c.fat_cep, c.fat_cida, c.fat_esta, c.ent_ende' +
+        ', c.ent_bair, c.ent_cep, c.ent_cida, c.ent_esta, '
       
-        '       ent_bair, ent_cep, ent_cida, ent_esta, cobra_ende, cobra_' +
-        'bairro,'
-      
-        '       cobra_cep, cobra_cida, cobra_esta, observacao, restricao,' +
-        ' restrmotiv,'
-      
-        '       dtcadastro, senha, tag_caption, contato, contato_tel, con' +
-        'tato_func,'
-      
-        '       contato_cel, contato_mail, contato_nextel, contato_nextel' +
-        'cel, recno, logo'
-      '  from tbclientes')
+        '       c.cobra_ende, c.cobra_bairro, c.cobra_cep, c.cobra_cida, ' +
+        'c.cobra_esta, c.observacao, c.restricao, c.restrmotiv,'
+      '       c.dtcadastro, c.senha, c.tag_caption, c.recno, c.logo'
+      '  from tbclientes c'
+      '       left join tb_vendedores v'
+      '         on v.idvendedor = c.id_vendedor')
     IndexFieldNames = 'nome_chave Asc'
     Sequence = ZSequence1
     SequenceField = 'recno'
     Left = 552
     Top = 144
+    object IBrwSrcsituacao: TStringField
+      DisplayLabel = ' '
+      DisplayWidth = 15
+      FieldName = 'situacao'
+      Size = 100
+    end
     object IBrwSrccodigo: TIntegerField
       DisplayLabel = 'C'#243'digo'
       FieldName = 'codigo'
@@ -541,27 +557,9 @@ inherited Clientes: TClientes
       FieldName = 'id_vendedor'
       Visible = False
     end
-    object IBrwSrcnomevendedor: TStringField
-      DisplayLabel = 'Vendedor'
-      FieldKind = fkLookup
+    object IBrwSrcvendedornome: TStringField
       FieldName = 'vendedornome'
-      LookupDataSet = qVendedores
-      LookupKeyFields = 'idvendedor'
-      LookupResultField = 'nome'
-      KeyFields = 'id_vendedor'
-      Size = 60
-      Lookup = True
-    end
-    object IBrwSrcnome: TStringField
-      DisplayLabel = 'Vendedor'
-      DisplayWidth = 15
-      FieldName = 'nome'
-      Size = 100
-    end
-    object IBrwSrcsituacao: TStringField
-      DisplayLabel = 'Situa'#231#227'o'
-      DisplayWidth = 15
-      FieldName = 'situacao'
+      Visible = False
       Size = 100
     end
     object IBrwSrcfat_ende: TStringField
@@ -694,69 +692,41 @@ inherited Clientes: TClientes
       FieldName = 'tag_caption'
       Visible = False
     end
-    object IBrwSrccontato: TStringField
-      FieldName = 'contato'
-      Visible = False
-      Size = 60
-    end
-    object IBrwSrccontato_tel: TStringField
-      FieldName = 'contato_tel'
-      Visible = False
-      Size = 25
-    end
-    object IBrwSrccontato_func: TStringField
-      FieldName = 'contato_func'
-      Visible = False
-      Size = 54
-    end
-    object IBrwSrccontato_cel: TStringField
-      FieldName = 'contato_cel'
-      Visible = False
-      Size = 25
-    end
-    object IBrwSrccontato_mail: TStringField
-      FieldName = 'contato_mail'
-      Visible = False
-      Size = 25
-    end
-    object IBrwSrccontato_nextel: TStringField
-      DisplayLabel = 'Nextel ID'
-      FieldName = 'contato_nextel'
-      Size = 25
-    end
-    object IBrwSrccontato_nextelcel: TStringField
-      DisplayLabel = 'Nextel Celular'
-      FieldName = 'contato_nextelcel'
-      Size = 25
-    end
     object IBrwSrctipo: TIntegerField
       FieldName = 'tipo'
       Required = True
+      Visible = False
       OnGetText = IBrwSrctipoGetText
       OnSetText = IBrwSrctipoSetText
     end
     object IBrwSrccpf: TStringField
       FieldName = 'cpf'
+      Visible = False
       Size = 11
     end
     object IBrwSrcrg: TStringField
       FieldName = 'rg'
+      Visible = False
       Size = 9
     end
     object IBrwSrcrestricao: TStringField
       FieldName = 'restricao'
+      Visible = False
       Size = 100
     end
     object IBrwSrcrestrmotiv: TMemoField
       FieldName = 'restrmotiv'
+      Visible = False
       BlobType = ftMemo
     end
     object IBrwSrcrecno: TIntegerField
       FieldName = 'recno'
       Required = True
+      Visible = False
     end
     object IBrwSrclogo: TBlobField
       FieldName = 'logo'
+      Visible = False
     end
   end
   inherited pmOpcao: TPopupMenu
@@ -782,10 +752,7 @@ inherited Clientes: TClientes
       
         '   ent_esta, cobra_ende, cobra_bairro, cobra_cep, cobra_cida, co' +
         'bra_esta, observacao, restricao, restrmotiv, dtcadastro,'
-      
-        '   senha, tag_caption, recno, contato, contato_tel, contato_cel,' +
-        ' contato_mail, contato_func, contato_nextel,'
-      '   contato_nextelcel, cpf, rg, tipo, logo)'
+      '   senha, tag_caption, recno, cpf, rg, tipo, logo)'
       'VALUES'
       
         '  (:codigo, :empresa, :nome_chave, :endereco, :bairro, :cep, :ci' +
@@ -798,10 +765,7 @@ inherited Clientes: TClientes
         'a_bairro, :cobra_cep, :cobra_cida, :cobra_esta,'
       
         '   :observacao, :restricao, :restrmotiv, :dtcadastro, :senha, :t' +
-        'ag_caption, :recno, :contato, :contato_tel, :contato_cel,'
-      
-        '   :contato_mail, :contato_func, :contato_nextel, :contato_nexte' +
-        'lcel, :cpf, :rg, :tipo, :logo)')
+        'ag_caption, :recno, :cpf, :rg, :tipo, :logo)')
     ModifySQL.Strings = (
       'UPDATE tbclientes SET'
       '  codigo = :codigo,'
@@ -842,13 +806,6 @@ inherited Clientes: TClientes
       '  senha = :senha,'
       '  tag_caption = :tag_caption,'
       '  recno = :recno,'
-      '  contato = :contato,'
-      '  contato_tel = :contato_tel,'
-      '  contato_cel = :contato_cel,'
-      '  contato_mail = :contato_mail,'
-      '  contato_func = :contato_func,'
-      '  contato_nextel = :contato_nextel,'
-      '  contato_nextelcel = :contato_nextelcel,'
       '  cpf = :cpf,'
       '  rg = :rg,'
       '  tipo = :tipo,'
@@ -1046,41 +1003,6 @@ inherited Clientes: TClientes
       item
         DataType = ftUnknown
         Name = 'recno'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'contato'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'contato_tel'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'contato_cel'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'contato_mail'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'contato_func'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'contato_nextel'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'contato_nextelcel'
         ParamType = ptUnknown
       end
       item
@@ -1287,16 +1209,25 @@ inherited Clientes: TClientes
   end
   object qContatos: TZQuery
     Tag = 1
+    Connection = DM.Design
     UpdateObject = uContatos
     AfterInsert = qContatosAfterInsert
     BeforePost = qContatosBeforePost
     SQL.Strings = (
       
-        'select cliente, item, nome, funcao, telefone, celular, email, co' +
-        'ntato_nextel,'
-      '       contato_nextelcel, situacao, recno'
-      '  from tbclientes_contatos'
-      ' where cliente = :cliente')
+        'select a.cliente, a.contato, c.nome, a.funcao, c.telefone, c.cel' +
+        'ular, c.email, a.situacao, a.recno, a.padrao,'
+      
+        '       a.enviar_pedido_venda, a.enviar_cotacao_venda, a.enviar_l' +
+        'audo_critico, a.enviar_laudo_atencao,'
+      
+        '       a.enviar_laudo_normal, a.enviar_laudo_retorno_critico, a.' +
+        'enviar_laudo_retorno_atencao,'
+      '       a.enviar_laudo_retorno_normal'
+      '  from tbclientes_contatos a'
+      '       join contatos c'
+      '         on c.recno = a.contato'
+      ' where a.cliente = :cliente')
     Params = <
       item
         DataType = ftInteger
@@ -1304,6 +1235,8 @@ inherited Clientes: TClientes
         ParamType = ptUnknown
       end>
     Options = []
+    Sequence = sContatos
+    SequenceField = 'recno'
     Left = 552
     Top = 240
     ParamData = <
@@ -1315,6 +1248,7 @@ inherited Clientes: TClientes
     object qContatossituacao: TIntegerField
       DisplayLabel = ' '
       FieldName = 'situacao'
+      OnChange = qContatossituacaoChange
       OnGetText = qContatossituacaoGetText
       OnSetText = qContatossituacaoSetText
     end
@@ -1322,9 +1256,14 @@ inherited Clientes: TClientes
       FieldName = 'cliente'
       Visible = False
     end
-    object qContatositem: TIntegerField
-      FieldName = 'item'
-      Visible = False
+    object qContatoscontato: TIntegerField
+      DisplayLabel = 'Contato'
+      FieldName = 'contato'
+      Required = True
+    end
+    object qContatospadrao: TBooleanField
+      DisplayLabel = 'Padr'#227'o'
+      FieldName = 'padrao'
     end
     object qContatosnome: TStringField
       DisplayLabel = 'Nome'
@@ -1359,17 +1298,48 @@ inherited Clientes: TClientes
       DisplayLabel = 'E-Mail'
       DisplayWidth = 25
       FieldName = 'email'
+      OnChange = qContatossituacaoChange
       Size = 100
     end
-    object qContatoscontato_nextel: TStringField
-      DisplayLabel = 'Nextel ID'
-      FieldName = 'contato_nextel'
-      Size = 25
+    object qContatosenviar_pedido_venda: TBooleanField
+      DisplayLabel = 'Pedido'
+      FieldName = 'enviar_pedido_venda'
+      Required = True
     end
-    object qContatoscontato_nextelcel: TStringField
-      DisplayLabel = 'Nextel Celular'
-      FieldName = 'contato_nextelcel'
-      Size = 25
+    object qContatosenviar_cotacao_venda: TBooleanField
+      DisplayLabel = 'Cota'#231#227'o'
+      FieldName = 'enviar_cotacao_venda'
+      Required = True
+    end
+    object qContatosenviar_laudo_critico: TBooleanField
+      DisplayLabel = 'Laudo Cr'#237'tico'
+      FieldName = 'enviar_laudo_critico'
+      Required = True
+    end
+    object qContatosenviar_laudo_atencao: TBooleanField
+      DisplayLabel = 'Laudo Aten'#231#227'o'
+      FieldName = 'enviar_laudo_atencao'
+      Required = True
+    end
+    object qContatosenviar_laudo_normal: TBooleanField
+      DisplayLabel = 'Laudo Normal'
+      FieldName = 'enviar_laudo_normal'
+      Required = True
+    end
+    object qContatosenviar_laudo_retorno_critico: TBooleanField
+      DisplayLabel = 'Laudo Retorno Cr'#237'tico'
+      FieldName = 'enviar_laudo_retorno_critico'
+      Required = True
+    end
+    object qContatosenviar_laudo_retorno_atencao: TBooleanField
+      DisplayLabel = 'Laudo Retorno Aten'#231#227'o'
+      FieldName = 'enviar_laudo_retorno_atencao'
+      Required = True
+    end
+    object qContatosenviar_laudo_retorno_normal: TBooleanField
+      DisplayLabel = 'Laudo Retorno Normal'
+      FieldName = 'enviar_laudo_retorno_normal'
+      Required = True
     end
     object qContatosrecno: TIntegerField
       FieldName = 'recno'
@@ -1381,34 +1351,55 @@ inherited Clientes: TClientes
       'DELETE FROM tbclientes_contatos'
       'WHERE'
       '  tbclientes_contatos.cliente = :OLD_cliente AND'
-      '  tbclientes_contatos.item = :OLD_item')
+      '  tbclientes_contatos.contato = :OLD_contato')
     InsertSQL.Strings = (
       'INSERT INTO tbclientes_contatos'
-      '  (cliente, nome, funcao, telefone, celular, email, '
-      '   contato_nextel, contato_nextelcel, situacao)'
+      
+        '  (cliente, funcao, recno, situacao, enviar_pedido_venda, enviar' +
+        '_cotacao_venda, '
+      
+        '   enviar_laudo_critico, enviar_laudo_atencao, enviar_laudo_norm' +
+        'al, enviar_laudo_retorno_critico, '
+      
+        '   enviar_laudo_retorno_atencao, enviar_laudo_retorno_normal, pa' +
+        'drao, contato)'
       'VALUES'
-      '  (:cliente, :nome, :funcao, :telefone, :celular, :email, '
-      '   :contato_nextel, :contato_nextelce, :situacao)')
+      
+        '  (:cliente, :funcao, :recno, :situacao, :enviar_pedido_venda, :' +
+        'enviar_cotacao_venda, '
+      
+        '   :enviar_laudo_critico, :enviar_laudo_atencao, :enviar_laudo_n' +
+        'ormal, '
+      
+        '   :enviar_laudo_retorno_critico, :enviar_laudo_retorno_atencao,' +
+        ' :enviar_laudo_retorno_normal, '
+      '   :padrao, :contato)')
     ModifySQL.Strings = (
       'UPDATE tbclientes_contatos SET'
-      '  nome = :nome,'
+      '  cliente = :cliente,'
       '  funcao = :funcao,'
-      '  telefone = :telefone,'
-      '  celular = :celular,'
-      '  email = :email,'
-      '  contato_nextel = :contato_nextel, '
-      '  contato_nextelcel = :contato_nextelcel,'
-      '  situacao = :situacao'
+      '  recno = :recno,'
+      '  situacao = :situacao,'
+      '  enviar_pedido_venda = :enviar_pedido_venda,'
+      '  enviar_cotacao_venda = :enviar_cotacao_venda,'
+      '  enviar_laudo_critico = :enviar_laudo_critico,'
+      '  enviar_laudo_atencao = :enviar_laudo_atencao,'
+      '  enviar_laudo_normal = :enviar_laudo_normal,'
+      '  enviar_laudo_retorno_critico = :enviar_laudo_retorno_critico,'
+      '  enviar_laudo_retorno_atencao = :enviar_laudo_retorno_atencao,'
+      '  enviar_laudo_retorno_normal = :enviar_laudo_retorno_normal,'
+      '  padrao = :padrao,'
+      '  contato = :contato'
       'WHERE'
-      '  cliente = :OLD_cliente AND'
-      '  item = :OLD_item')
+      '  tbclientes_contatos.cliente = :OLD_cliente AND'
+      '  tbclientes_contatos.contato = :OLD_contato')
     UseSequenceFieldForRefreshSQL = False
     Left = 464
     Top = 240
     ParamData = <
       item
         DataType = ftUnknown
-        Name = 'nome'
+        Name = 'cliente'
         ParamType = ptUnknown
       end
       item
@@ -1418,27 +1409,7 @@ inherited Clientes: TClientes
       end
       item
         DataType = ftUnknown
-        Name = 'telefone'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'celular'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'email'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'contato_nextel'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'contato_nextelcel'
+        Name = 'recno'
         ParamType = ptUnknown
       end
       item
@@ -1448,219 +1419,69 @@ inherited Clientes: TClientes
       end
       item
         DataType = ftUnknown
+        Name = 'enviar_pedido_venda'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'enviar_cotacao_venda'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'enviar_laudo_critico'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'enviar_laudo_atencao'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'enviar_laudo_normal'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'enviar_laudo_retorno_critico'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'enviar_laudo_retorno_atencao'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'enviar_laudo_retorno_normal'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'padrao'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'contato'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
         Name = 'OLD_cliente'
         ParamType = ptUnknown
       end
       item
         DataType = ftUnknown
-        Name = 'OLD_item'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'cliente'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'contato_nextelce'
+        Name = 'OLD_contato'
         ParamType = ptUnknown
       end>
   end
-  object qVendedores: TZQuery
-    SortedFields = 'NOME'
-    Filter = 'ativo = true'
-    AfterInsert = qVendedoresAfterInsert
-    SQL.Strings = (
-      'select * '
-      '  from tb_vendedores')
-    Params = <>
-    IndexFieldNames = 'NOME Asc'
-    Options = []
-    Left = 552
-    Top = 288
-    object qVendedoresidvendedor: TIntegerField
-      DisplayLabel = 'Vendedor'
-      FieldName = 'idvendedor'
-      ReadOnly = True
-    end
-    object qVendedoresativo: TBooleanField
-      DisplayLabel = 'Ativo'
-      FieldName = 'ativo'
-    end
-    object qVendedoresnome: TStringField
-      DisplayLabel = 'Nome'
-      DisplayWidth = 25
-      FieldName = 'nome'
-      Required = True
-      Size = 100
-    end
-    object qVendedorescpf: TStringField
-      DisplayLabel = 'CPF'
-      DisplayWidth = 14
-      FieldName = 'cpf'
-      EditMask = '999.999.999-99;0;'
-      Size = 100
-    end
-    object qVendedoresrg: TStringField
-      DisplayLabel = 'RG'
-      DisplayWidth = 10
-      FieldName = 'rg'
-      EditMask = '99.999.999-9;0;'
-      Size = 100
-    end
-    object qVendedorescep: TStringField
-      DisplayLabel = 'C.E.P.'
-      DisplayWidth = 10
-      FieldName = 'cep'
-      Visible = False
-      EditMask = '99999-999;1;'
-      Size = 100
-    end
-    object qVendedoresendereco: TStringField
-      DisplayLabel = 'Logradouro'
-      DisplayWidth = 30
-      FieldName = 'endereco'
-      Visible = False
-      Size = 100
-    end
-    object qVendedoresbairro: TStringField
-      DisplayLabel = 'Bairro'
-      DisplayWidth = 25
-      FieldName = 'bairro'
-      Visible = False
-      Size = 100
-    end
-    object qVendedorescidade: TStringField
-      DisplayLabel = 'Cidade'
-      DisplayWidth = 30
-      FieldName = 'cidade'
-      Visible = False
-      Size = 100
-    end
-    object qVendedoresestado: TStringField
-      DisplayLabel = 'UF'
-      DisplayWidth = 4
-      FieldName = 'estado'
-      Visible = False
-      Size = 100
-    end
-    object qVendedorestelefone: TStringField
-      DisplayLabel = 'Telefone'
-      DisplayWidth = 15
-      FieldName = 'telefone'
-      Size = 100
-    end
-    object qVendedorescelular: TStringField
-      DisplayLabel = 'Celular'
-      DisplayWidth = 15
-      FieldName = 'celular'
-      Size = 100
-    end
-    object qVendedorescomissao: TFloatField
-      DisplayLabel = 'Comiss'#227'o'
-      FieldName = 'comissao'
-      Visible = False
-      DisplayFormat = ',0.#0%'
-    end
-    object qVendedoresajudacusto: TFloatField
-      DisplayLabel = 'Ajuda de Custo'
-      FieldName = 'ajudacusto'
-      Visible = False
-      DisplayFormat = ',0.#0'
-      currency = True
-    end
-    object qVendedoresemail: TStringField
-      DisplayLabel = 'E-Mail'
-      DisplayWidth = 30
-      FieldName = 'email'
-      Size = 100
-    end
-    object qVendedorescnpj: TStringField
-      DisplayLabel = 'C.N.P.J.'
-      FieldName = 'cnpj'
-      Visible = False
-      EditMask = '99.999.999/9999-99;0;'
-      Size = 14
-    end
-    object qVendedoresinscrestadual: TStringField
-      DisplayLabel = 'Inscri'#231#227'o Estadual'
-      DisplayWidth = 15
-      FieldName = 'inscrestadual'
-      Visible = False
-      Size = 100
-    end
-    object qVendedoresusername: TStringField
-      DisplayLabel = 'Login'
-      FieldName = 'username'
-      Visible = False
-    end
-    object qVendedoresNomeUsuario: TStringField
-      DisplayWidth = 25
-      FieldKind = fkLookup
-      FieldName = 'NomeUsuario'
-      LookupDataSet = qSysUsers
-      LookupKeyFields = 'username'
-      LookupResultField = 'name'
-      KeyFields = 'username'
-      Visible = False
-      Size = 30
-      Lookup = True
-    end
-  end
-  object dsVendedores: TDataSource
-    AutoEdit = False
-    DataSet = qVendedores
-    Left = 648
-    Top = 288
-  end
-  object qSysUsers: TZQuery
-    SortedFields = 'name'
-    Filter = 'active = true and type_ = 1'
-    SQL.Strings = (
-      'select * '
-      '  from sys_users')
-    Params = <>
-    IndexFieldNames = 'name Asc'
-    Options = []
-    Left = 552
-    Top = 336
-    object qSysUsersusername: TStringField
-      DisplayLabel = 'Usu'#225'rio'
-      FieldName = 'username'
-      Required = True
-    end
-    object qSysUserspassword: TStringField
-      DisplayLabel = 'Senha'
-      FieldName = 'password'
-      Required = True
-    end
-    object qSysUsersname: TStringField
-      DisplayLabel = 'Nome'
-      FieldName = 'name'
-      Required = True
-      Size = 40
-    end
-    object qSysUsersactive: TBooleanField
-      DisplayLabel = 'Ativo'
-      FieldName = 'active'
-      Required = True
-    end
-    object qSysUsersemail: TStringField
-      DisplayLabel = 'EMail'
-      FieldName = 'email'
-      Size = 40
-    end
-    object qSysUserschangepass: TBooleanField
-      DisplayLabel = 'Troca Senha?'
-      FieldName = 'changepass'
-      Required = True
-    end
-  end
-  object dsSysUsers: TDataSource
-    AutoEdit = False
-    DataSet = qSysUsers
-    Left = 648
-    Top = 336
+  object sContatos: TZSequence
+    Connection = DM.Design
+    SequenceName = 'public.contatos_recno_seq'
+    Left = 376
+    Top = 240
   end
 end

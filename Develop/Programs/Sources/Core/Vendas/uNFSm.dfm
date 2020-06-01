@@ -11,15 +11,15 @@ inherited NFSM: TNFSM
     Top = 44
     Width = 745
     Height = 554
-    ExplicitTop = 35
+    ExplicitTop = 44
     ExplicitWidth = 745
-    ExplicitHeight = 563
+    ExplicitHeight = 554
     inherited Panel3: TPanel
       Top = 356
       Width = 745
       Height = 198
       Visible = True
-      ExplicitTop = 365
+      ExplicitTop = 356
       ExplicitWidth = 745
       ExplicitHeight = 198
       inherited PageControl3: TPageControl
@@ -27,15 +27,15 @@ inherited NFSM: TNFSM
         Width = 739
         Height = 148
         ExplicitLeft = 3
-        ExplicitTop = 38
+        ExplicitTop = 47
         ExplicitWidth = 739
-        ExplicitHeight = 157
+        ExplicitHeight = 148
         inherited tsDet: TTabSheet
           Caption = 'Itens da Nota'
           ExplicitLeft = 4
           ExplicitTop = 26
           ExplicitWidth = 731
-          ExplicitHeight = 127
+          ExplicitHeight = 118
           inherited DBGrid1: TDBGrid
             Width = 731
             Height = 118
@@ -45,6 +45,10 @@ inherited NFSM: TNFSM
         object TabSheet2: TTabSheet
           Caption = 'Hist'#243'rico'
           ImageIndex = 1
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object DBGrid2: TDBGrid
             Tag = 1
             Left = 0
@@ -64,6 +68,7 @@ inherited NFSM: TNFSM
             TitleFont.Color = clWindowText
             TitleFont.Height = -12
             TitleFont.Name = 'Segoe UI'
+            TitleFont.Pitch = fpVariable
             TitleFont.Style = []
             OnDrawColumnCell = ChildGridDrawColumnCell
             OnDblClick = ChildGridDblClick
@@ -113,7 +118,7 @@ inherited NFSM: TNFSM
       ExplicitLeft = 3
       ExplicitTop = 3
       ExplicitWidth = 739
-      ExplicitHeight = 359
+      ExplicitHeight = 350
       inherited TabSheet1: TTabSheet
         Caption = 'Cabe'#231'alho'
         Font.Name = 'Fhg'
@@ -121,7 +126,7 @@ inherited NFSM: TNFSM
         ExplicitLeft = 4
         ExplicitTop = 26
         ExplicitWidth = 731
-        ExplicitHeight = 329
+        ExplicitHeight = 320
         object Label1: TLabel
           Left = 55
           Top = 9
@@ -133,6 +138,7 @@ inherited NFSM: TNFSM
           Font.Color = clWindowText
           Font.Height = -12
           Font.Name = 'Arial'
+          Font.Pitch = fpVariable
           Font.Style = [fsBold]
           ParentFont = False
         end
@@ -154,6 +160,7 @@ inherited NFSM: TNFSM
           Font.Color = clWindowText
           Font.Height = -12
           Font.Name = 'Arial'
+          Font.Pitch = fpVariable
           Font.Style = [fsBold]
           ParentFont = False
         end
@@ -167,6 +174,7 @@ inherited NFSM: TNFSM
           Font.Color = clWindowText
           Font.Height = -12
           Font.Name = 'Arial'
+          Font.Pitch = fpVariable
           Font.Style = [fsBold]
           ParentFont = False
         end
@@ -222,6 +230,7 @@ inherited NFSM: TNFSM
           Font.Color = clWindowText
           Font.Height = -12
           Font.Name = 'Arial'
+          Font.Pitch = fpVariable
           Font.Style = [fsBold]
           ParentFont = False
         end
@@ -286,6 +295,7 @@ inherited NFSM: TNFSM
           Font.Color = clWindowText
           Font.Height = -12
           Font.Name = 'Arial'
+          Font.Pitch = fpVariable
           Font.Style = [fsBold]
           ParentFont = False
         end
@@ -380,6 +390,7 @@ inherited NFSM: TNFSM
           Font.Color = clWindowText
           Font.Height = -12
           Font.Name = 'Arial'
+          Font.Pitch = fpVariable
           Font.Style = []
           ParentFont = False
         end
@@ -393,6 +404,7 @@ inherited NFSM: TNFSM
           Font.Color = clWindowText
           Font.Height = -12
           Font.Name = 'Arial'
+          Font.Pitch = fpVariable
           Font.Style = []
           ParentFont = False
         end
@@ -406,6 +418,7 @@ inherited NFSM: TNFSM
           Font.Color = clWindowText
           Font.Height = -12
           Font.Name = 'Arial'
+          Font.Pitch = fpVariable
           Font.Style = []
           ParentFont = False
         end

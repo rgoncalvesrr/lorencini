@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uIBrowse, DB, ZAbstractRODataset, ZAbstractDataset, ZDataset, Menus,
   ActnList, Grids, DBGrids, ComCtrls, StdCtrls, Buttons, Mask, ExtCtrls, ToolWin,
-  ZSqlUpdate, iTypes, JvExMask, JvToolEdit, JvBaseEdits, ZSequence;
+  ZSqlUpdate, iTypes, JvExMask, JvToolEdit, JvBaseEdits, ZSequence, uIUtils;
 
 type
   TClientes = class(TIDefBrowse)
@@ -48,17 +48,9 @@ type
     PageControl2: TPageControl;
     TabSheet2: TTabSheet;
     DBGrid2: TDBGrid;
-    IBrwSrcnome: TStringField;
     Splitter1: TSplitter;
-    IBrwSrccontato_tel: TStringField;
-    IBrwSrccontato_func: TStringField;
-    IBrwSrccontato_cel: TStringField;
-    IBrwSrccontato_mail: TStringField;
-    IBrwSrccontato: TStringField;
     actOrca: TAction;
     Oramentos1: TMenuItem;
-    IBrwSrccontato_nextel: TStringField;
-    IBrwSrccontato_nextelcel: TStringField;
     TabSheet3: TTabSheet;
     TabSheet4: TTabSheet;
     Panel3: TPanel;
@@ -111,52 +103,30 @@ type
     qContatos: TZQuery;
     qContatossituacao: TIntegerField;
     qContatoscliente: TIntegerField;
-    qContatositem: TIntegerField;
     qContatosnome: TStringField;
     qContatosfuncao: TStringField;
     qContatostelefone: TStringField;
     qContatoscelular: TStringField;
     qContatosemail: TStringField;
-    qContatoscontato_nextel: TStringField;
-    qContatoscontato_nextelcel: TStringField;
     qContatosrecno: TIntegerField;
     uContatos: TZUpdateSQL;
-    qVendedores: TZQuery;
-    qVendedoresidvendedor: TIntegerField;
-    qVendedoresativo: TBooleanField;
-    qVendedoresnome: TStringField;
-    qVendedorescpf: TStringField;
-    qVendedoresrg: TStringField;
-    qVendedorescep: TStringField;
-    qVendedoresendereco: TStringField;
-    qVendedoresbairro: TStringField;
-    qVendedorescidade: TStringField;
-    qVendedoresestado: TStringField;
-    qVendedorestelefone: TStringField;
-    qVendedorescelular: TStringField;
-    qVendedorescomissao: TFloatField;
-    qVendedoresajudacusto: TFloatField;
-    qVendedoresemail: TStringField;
-    qVendedorescnpj: TStringField;
-    qVendedoresinscrestadual: TStringField;
-    qVendedoresusername: TStringField;
-    qVendedoresNomeUsuario: TStringField;
-    dsVendedores: TDataSource;
-    IBrwSrcnomevendedor: TStringField;
-    qSysUsers: TZQuery;
-    qSysUsersusername: TStringField;
-    qSysUserspassword: TStringField;
-    qSysUsersname: TStringField;
-    qSysUsersactive: TBooleanField;
-    qSysUsersemail: TStringField;
-    qSysUserschangepass: TBooleanField;
-    dsSysUsers: TDataSource;
+    IBrwSrcvendedornome: TStringField;
+    qContatospadrao: TBooleanField;
+    qContatosenviar_pedido_venda: TBooleanField;
+    qContatosenviar_cotacao_venda: TBooleanField;
+    qContatosenviar_laudo_critico: TBooleanField;
+    qContatosenviar_laudo_atencao: TBooleanField;
+    qContatosenviar_laudo_normal: TBooleanField;
+    qContatosenviar_laudo_retorno_critico: TBooleanField;
+    qContatosenviar_laudo_retorno_atencao: TBooleanField;
+    qContatosenviar_laudo_retorno_normal: TBooleanField;
+    qContatoscontato: TIntegerField;
+    sContatos: TZSequence;
     procedure FormCreate(Sender: TObject);
     procedure actOrcaExecute(Sender: TObject);
     procedure DBGrid2DrawColumnCell(Sender: TObject; const Rect: TRect;
       DataCol: Integer; Column: TColumn; State: TGridDrawState);
     procedure PageControl2Change(Sender: TObject);
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure edCNPJChange(Sender: TObject);
     procedure actQueryProcessExecute(Sender: TObject);
     procedure DBGridDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn;
@@ -170,9 +140,9 @@ type
     procedure qContatosBeforePost(DataSet: TDataSet);
     procedure IBrwSrctipoGetText(Sender: TField; var Text: string; DisplayText: Boolean);
     procedure IBrwSrctipoSetText(Sender: TField; const Text: string);
-    procedure qVendedoresAfterInsert(DataSet: TDataSet);
     procedure qContatossituacaoGetText(Sender: TField; var Text: string; DisplayText: Boolean);
     procedure qContatossituacaoSetText(Sender: TField; const Text: string);
+    procedure qContatossituacaoChange(Sender: TField);
   private
     { Private declarations }
     FSQL : string;
@@ -190,9 +160,10 @@ var
 
 implementation
 
-{$R *.dfm}
+uses
+  uResources, uDM, uIBrowseDet, uClienteM, uClientesMContatos;
 
-uses uDM, uClienteM, uClienteContatoM, uIUtils, uIBrowseDet, uResources;
+{$R *.dfm}
 
 procedure TClientes.actOrcaExecute(Sender: TObject);
 begin
@@ -306,24 +277,26 @@ begin
   if (Column.Index <> 0) then
     inherited DBGridDrawColumnCell(Sender, Rect, DataCol, Column, State)
   else
-    with TDBGrid(Sender), DM do
-    try
+    with TDBGrid(Sender) do
+    begin
       fBitMap:= TBitmap.Create;
-      fBitMap.Transparent:= True;
+      try
+        fBitMap.Transparent:= True;
 
-      with Resources do
-        case DM.qContatossituacao.AsInteger of
-          0: small_n.GetBitmap(209, fBitMap); // Inativos
-          1: small_n.GetBitmap(208, fBitMap); // Ativos
-        end;
+        with Resources do
+          case qContatossituacao.AsInteger of
+            0: small_n.GetBitmap(209, fBitMap); // Inativos
+            1: small_n.GetBitmap(208, fBitMap); // Ativos
+          end;
 
-      if Column.Width <> fBitMap.Width + 2 then
-        Column.Width:= fBitMap.Width + 2;
+        if Column.Width <> fBitMap.Width + 2 then
+          Column.Width:= fBitMap.Width + 2;
 
-      {Desenha o status da OS}
-      Canvas.Draw(Rect.Left + 1, Rect.Top + 1, fBitMap);
-    finally
-      fBitMap.Free;
+        {Desenha o status da OS}
+        Canvas.Draw(Rect.Left + 1, Rect.Top + 1, fBitMap);
+      finally
+        FreeAndNil(fBitMap);
+      end;
     end;
 end;
 
@@ -337,30 +310,32 @@ begin
     inherited DBGridDrawColumnCell(Sender, Rect, DataCol, Column, State)
   else
     with TDBGrid(Sender), DM do
-    try
+    begin
       fBitMap:= TBitmap.Create;
-      fBitMap.Transparent:= True;
+      try
+        fBitMap.Transparent:= True;
 
-      img := 204;
-      if DM.qClientessituacao.AsString = 'ATIVO' then
-        img := 208;
+        img := 204;
+        if IBrwSrcsituacao.AsString = 'ATIVO' then
+          img := 208;
 
-      if DM.qClientessituacao.AsString = 'INATIVO' then
-        img := 209;
+        if IBrwSrcsituacao.AsString = 'INATIVO' then
+          img := 209;
 
-      if DM.qClientessituacao.AsString = 'PROSPECT' then
-        img := 215;
+        if IBrwSrcsituacao.AsString = 'PROSPECT' then
+          img := 215;
 
-      with Resources do
-        small_n.GetBitmap(img, fBitMap);
+        with Resources do
+          small_n.GetBitmap(img, fBitMap);
 
-      if Column.Width <> fBitMap.Width + 2 then
-        Column.Width:= fBitMap.Width + 2;
+        if Column.Width <> fBitMap.Width + 2 then
+          Column.Width:= fBitMap.Width + 2;
 
-      {Desenha o status da OS}
-      Canvas.Draw(Rect.Left + 1, Rect.Top + 1, fBitMap);
-    finally
-      fBitMap.Free;
+        {Desenha o status da OS}
+        Canvas.Draw(Rect.Left + 1, Rect.Top + 1, fBitMap);
+      finally
+        FreeAndNil(fBitMap);
+      end;
     end;
 end;
 
@@ -368,12 +343,6 @@ procedure TClientes.edCNPJChange(Sender: TObject);
 begin
   inherited;
   actQueryProcess.Enabled := True; 
-end;
-
-procedure TClientes.FormClose(Sender: TObject; var Action: TCloseAction);
-begin
-  inherited;
-  DM.qContatos.Filtered := False;
 end;
 
 procedure TClientes.FormCreate(Sender: TObject);
@@ -394,10 +363,8 @@ end;
 procedure TClientes.IBrwSrcAfterScroll(DataSet: TDataSet);
 begin
   inherited;
-  qContatos.ParamByName('cliente').AsInteger :=
-    IBrwSrccodigo.AsInteger;
-  qClientesFinais.ParamByName('codigo').AsInteger :=
-    IBrwSrccodigo.AsInteger;
+  qContatos.ParamByName('cliente').AsInteger := IBrwSrccodigo.AsInteger;
+  qClientesFinais.ParamByName('codigo').AsInteger := IBrwSrccodigo.AsInteger;
   G.RefreshDataSet(qContatos);
   G.RefreshDataSet(qClientesFinais);
 end;
@@ -432,15 +399,15 @@ var
 begin
   case DataSet.Tag of
     0: FormClass:= TClientesM;
-    1: FormClass:= TClientesContatoM;
+    1: FormClass:= TClientesMContatos;
   end;
 
-  Form:= TIDefBrowseEdit(FormClass.Create(Application));
+  Form := TIDefBrowseEdit(FormClass.Create(Application));
   Form.DataSet:= DataSet;
   if (DataSet.Tag = 0) then
   begin
     Form.ScreenType := stMasterDetail;
-    Form.ChildDataSet := DM.qClientesFinais;
+    Form.ChildDataSet := Clientes.qClientesFinais;
   end;
   Form.ShowModal;
 end;
@@ -455,8 +422,7 @@ procedure TClientes.OnSortCliente(Sender: TObject; DataSet: TZQuery; Field: TFie
 begin
   edSearch.CharCase:= ecNormal;
 
-  with DM do
-  if (Field = qClientesempresa) or (Field = qClientesnome_chave) then
+  if (Field = IBrwSrcempresa) or (Field = IBrwSrcnome_chave) then
     edSearch.CharCase:= ecUpperCase;
 end;
 
@@ -475,7 +441,7 @@ begin
   inherited;
   DBGrid2.Parent := PageControl2.ActivePage;
 
-  with DM.qContatos do
+  with qContatos do
   begin
     if PageControl2.ActivePageIndex = 1 then
       Filter := Format('situacao = %d', [1])
@@ -506,6 +472,22 @@ begin
   qContatoscliente.AsInteger:= IBrwSrccodigo.AsInteger;
 end;
 
+procedure TClientes.qContatossituacaoChange(Sender: TField);
+begin
+  inherited;
+  if (Sender.DataSet.State = dsInsert) then
+  begin
+    qContatosenviar_pedido_venda.AsBoolean := (qContatossituacao.AsInteger = 1) and (qContatosemail.AsString <> EmptyStr);
+    qContatosenviar_cotacao_venda.AsBoolean := qContatosenviar_pedido_venda.AsBoolean;
+    qContatosenviar_laudo_normal.AsBoolean := qContatosenviar_pedido_venda.AsBoolean;
+    qContatosenviar_laudo_atencao.AsBoolean := qContatosenviar_pedido_venda.AsBoolean;
+    qContatosenviar_laudo_critico.AsBoolean := qContatosenviar_pedido_venda.AsBoolean;
+    qContatosenviar_laudo_retorno_normal.AsBoolean := qContatosenviar_pedido_venda.AsBoolean;
+    qContatosenviar_laudo_retorno_atencao.AsBoolean := qContatosenviar_pedido_venda.AsBoolean;
+    qContatosenviar_laudo_retorno_critico.AsBoolean := qContatosenviar_pedido_venda.AsBoolean;
+  end;
+end;
+
 procedure TClientes.qContatossituacaoGetText(Sender: TField; var Text: string; DisplayText: Boolean);
 begin
   inherited;
@@ -523,12 +505,6 @@ begin
       'I': Sender.AsInteger := 0;
       'A': Sender.AsInteger := 1;
     end;
-end;
-
-procedure TClientes.qVendedoresAfterInsert(DataSet: TDataSet);
-begin
-  inherited;
-  qVendedoresativo.AsBoolean := True; 
 end;
 
 procedure TClientes.RefreshCtrl;

@@ -4,7 +4,9 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, uIForm, ActnList, ComCtrls, StdCtrls, ServiceSMTP, Buttons, ExtCtrls;
+  Dialogs, uIForm, ActnList, ComCtrls, StdCtrls, ServiceSMTP, Buttons, ExtCtrls, IdBaseComponent, IdComponent,
+  IdTCPConnection, IdTCPClient, IdExplicitTLSClientServerBase, IdMessageClient, IdSMTPBase, IdSMTP, IdIOHandler,
+  IdIOHandlerSocket, IdIOHandlerStack, IdSSL, IdSSLOpenSSL, IdSASL, IdSASLUserPass, IdSASLLogin, IdUserPassProvider;
 
 type
   TConsole = class(TIForm)
@@ -16,6 +18,7 @@ type
     SpeedButton1: TSpeedButton;
     actMonitor: TAction;
     Memo2: TMemo;
+    IdUserPassProvider1: TIdUserPassProvider;
     procedure actMonitorExecute(Sender: TObject);
   private
     { Private declarations }
@@ -56,7 +59,7 @@ begin
     except
       on e:Exception do
       begin
-        actMonitor.Checked := False; 
+        actMonitor.Checked := False;
         actMonitorExecute(actMonitor);
       end;
     end;

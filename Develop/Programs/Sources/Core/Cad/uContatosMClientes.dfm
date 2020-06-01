@@ -1,0 +1,771 @@
+inherited ContatosMClientes: TContatosMClientes
+  ActiveControl = FrameCliente1.DBEdit8
+  Caption = 'Contato po Cliente'
+  ClientHeight = 545
+  ClientWidth = 934
+  ExplicitWidth = 940
+  ExplicitHeight = 574
+  PixelsPerInch = 96
+  TextHeight = 15
+  inherited Panel1: TPanel
+    Top = 44
+    Width = 934
+    Height = 501
+    ExplicitTop = 44
+    ExplicitWidth = 934
+    ExplicitHeight = 501
+    inherited Panel3: TPanel
+      Top = 206
+      Align = alNone
+      inherited PageControl3: TPageControl
+        Top = 47
+        Height = 185
+        ExplicitLeft = 3
+        ExplicitTop = 47
+        ExplicitWidth = 633
+        ExplicitHeight = 185
+        inherited tsDet: TTabSheet
+          ExplicitLeft = 4
+          ExplicitTop = 26
+          ExplicitWidth = 625
+          ExplicitHeight = 155
+          inherited DBGrid1: TDBGrid
+            Width = 625
+            Height = 155
+          end
+        end
+      end
+      inherited ControlBar2: TControlBar
+        Height = 38
+        ExplicitLeft = 3
+        ExplicitTop = 3
+        ExplicitWidth = 633
+        ExplicitHeight = 38
+        inherited ToolBar3: TToolBar
+          ButtonWidth = 129
+          inherited ToolButton10: TToolButton
+            ExplicitWidth = 32
+          end
+          inherited ToolButton11: TToolButton
+            ExplicitWidth = 32
+          end
+          inherited ToolButton17: TToolButton
+            ExplicitWidth = 32
+          end
+          inherited ToolButton12: TToolButton
+            ExplicitWidth = 32
+          end
+          inherited ToolButton13: TToolButton
+            ExplicitWidth = 32
+          end
+          inherited tbSQLDet: TToolButton
+            ExplicitWidth = 32
+          end
+          inherited tbRefazGrid: TToolButton
+            ExplicitWidth = 32
+          end
+        end
+      end
+    end
+    inherited PageControl1: TPageControl
+      Width = 928
+      Height = 495
+      ExplicitLeft = 3
+      ExplicitTop = 3
+      ExplicitWidth = 928
+      ExplicitHeight = 495
+      inherited TabSheet1: TTabSheet
+        Caption = 'Clientes por Contato'
+        ExplicitLeft = 4
+        ExplicitTop = 26
+        ExplicitWidth = 920
+        ExplicitHeight = 465
+        object GroupBox1: TGroupBox
+          AlignWithMargins = True
+          Left = 3
+          Top = 3
+          Width = 914
+          Height = 69
+          Align = alTop
+          Caption = ' Contato '
+          TabOrder = 0
+          object Panel2: TPanel
+            Left = 2
+            Top = 17
+            Width = 910
+            Height = 50
+            Align = alClient
+            BevelOuter = bvNone
+            TabOrder = 0
+            object Panel4: TPanel
+              Left = 0
+              Top = 0
+              Width = 81
+              Height = 50
+              Align = alLeft
+              BevelOuter = bvNone
+              TabOrder = 0
+              object Label1: TLabel
+                AlignWithMargins = True
+                Left = 3
+                Top = 3
+                Width = 75
+                Height = 15
+                Align = alTop
+                Caption = 'Contato'
+                FocusControl = DBEdit1
+                ExplicitWidth = 43
+              end
+              object DBEdit1: TDBEdit
+                AlignWithMargins = True
+                Left = 3
+                Top = 24
+                Width = 75
+                Height = 23
+                TabStop = False
+                Align = alClient
+                DataField = 'recno'
+                DataSource = Contatos.DataSource1
+                ReadOnly = True
+                TabOrder = 0
+              end
+            end
+            object Panel5: TPanel
+              Left = 81
+              Top = 0
+              Width = 607
+              Height = 50
+              Align = alClient
+              BevelOuter = bvNone
+              TabOrder = 1
+              object Label3: TLabel
+                AlignWithMargins = True
+                Left = 3
+                Top = 3
+                Width = 601
+                Height = 15
+                Align = alTop
+                Caption = 'Nome'
+                FocusControl = DBEdit3
+                ExplicitWidth = 33
+              end
+              object DBEdit3: TDBEdit
+                AlignWithMargins = True
+                Left = 3
+                Top = 24
+                Width = 601
+                Height = 23
+                TabStop = False
+                Align = alClient
+                DataField = 'nome'
+                DataSource = Contatos.DataSource1
+                ReadOnly = True
+                TabOrder = 0
+              end
+            end
+            object Panel6: TPanel
+              Left = 688
+              Top = 0
+              Width = 111
+              Height = 50
+              Align = alRight
+              BevelOuter = bvNone
+              TabOrder = 2
+              object Label2: TLabel
+                AlignWithMargins = True
+                Left = 3
+                Top = 3
+                Width = 105
+                Height = 15
+                Align = alTop
+                Caption = 'Data'
+                FocusControl = DBEdit2
+                ExplicitWidth = 24
+              end
+              object DBEdit2: TDBEdit
+                AlignWithMargins = True
+                Left = 3
+                Top = 24
+                Width = 105
+                Height = 23
+                TabStop = False
+                Align = alClient
+                DataField = 'data'
+                DataSource = Contatos.DataSource1
+                TabOrder = 0
+              end
+            end
+            object Panel11: TPanel
+              Left = 799
+              Top = 0
+              Width = 111
+              Height = 50
+              Align = alRight
+              BevelOuter = bvNone
+              TabOrder = 3
+              object Label4: TLabel
+                AlignWithMargins = True
+                Left = 3
+                Top = 3
+                Width = 105
+                Height = 15
+                Align = alTop
+                Caption = 'Situa'#231#227'o'
+                ExplicitWidth = 45
+              end
+              object JvDBComboBox1: TJvDBComboBox
+                AlignWithMargins = True
+                Left = 3
+                Top = 24
+                Width = 105
+                Height = 23
+                Align = alTop
+                DataField = 'situacao'
+                DataSource = Contatos.DataSource1
+                Items.Strings = (
+                  'Ativo'
+                  'Inativo')
+                ReadOnly = True
+                TabOrder = 0
+                TabStop = False
+                Values.Strings = (
+                  '1'
+                  '0')
+                ListSettings.OutfilteredValueFont.Charset = DEFAULT_CHARSET
+                ListSettings.OutfilteredValueFont.Color = clRed
+                ListSettings.OutfilteredValueFont.Height = -11
+                ListSettings.OutfilteredValueFont.Name = 'Tahoma'
+                ListSettings.OutfilteredValueFont.Style = []
+              end
+            end
+          end
+        end
+        object GroupBox2: TGroupBox
+          AlignWithMargins = True
+          Left = 3
+          Top = 78
+          Width = 914
+          Height = 123
+          Align = alTop
+          Caption = ' Cliente '
+          TabOrder = 1
+          inline FrameCliente1: TFrameCliente
+            Left = 2
+            Top = 17
+            Width = 910
+            Height = 100
+            Align = alTop
+            AutoSize = True
+            TabOrder = 0
+            ExplicitLeft = 2
+            ExplicitTop = 17
+            ExplicitWidth = 910
+            ExplicitHeight = 100
+            inherited Panel1: TPanel
+              Width = 910
+              Height = 50
+              ExplicitWidth = 910
+              ExplicitHeight = 50
+              inherited Panel2: TPanel
+                Height = 50
+                ExplicitHeight = 50
+                inherited Label9: TLabel
+                  Width = 70
+                  Height = 15
+                  ExplicitWidth = 39
+                  ExplicitHeight = 15
+                end
+                inherited DBEdit8: TDBEdit
+                  Top = 24
+                  DataField = 'cliente'
+                  ExplicitTop = 24
+                  ExplicitHeight = 23
+                end
+              end
+              inherited Panel35: TPanel
+                Height = 50
+                ExplicitHeight = 50
+                inherited SpeedButton1: TSpeedButton
+                  Top = 23
+                  Margins.Top = 23
+                  ExplicitTop = 23
+                end
+              end
+              inherited Panel4: TPanel
+                Width = 265
+                Height = 50
+                ExplicitWidth = 265
+                ExplicitHeight = 50
+                inherited Label10: TLabel
+                  Width = 259
+                  Height = 15
+                  ExplicitWidth = 97
+                  ExplicitHeight = 15
+                end
+                inherited DBEdit9: TDBEdit
+                  Top = 24
+                  Width = 259
+                  ExplicitTop = 24
+                  ExplicitWidth = 259
+                  ExplicitHeight = 23
+                end
+              end
+              inherited Panel5: TPanel
+                Left = 370
+                Height = 50
+                ExplicitLeft = 370
+                ExplicitHeight = 50
+                inherited Label11: TLabel
+                  Width = 243
+                  Height = 15
+                  ExplicitWidth = 79
+                  ExplicitHeight = 15
+                end
+                inherited DBEdit10: TDBEdit
+                  Top = 24
+                  ExplicitTop = 24
+                  ExplicitHeight = 23
+                end
+              end
+              inherited Panel6: TPanel
+                Left = 619
+                Height = 50
+                ExplicitLeft = 619
+                ExplicitHeight = 50
+                inherited Label12: TLabel
+                  Width = 154
+                  Height = 15
+                  ExplicitWidth = 27
+                  ExplicitHeight = 15
+                end
+                inherited DBEdit11: TDBEdit
+                  Top = 24
+                  ExplicitTop = 24
+                  ExplicitHeight = 23
+                end
+              end
+              inherited Panel7: TPanel
+                Left = 779
+                Height = 50
+                ExplicitLeft = 779
+                ExplicitHeight = 50
+                inherited Label13: TLabel
+                  Width = 125
+                  Height = 15
+                  ExplicitWidth = 21
+                  ExplicitHeight = 15
+                end
+                inherited DBEdit12: TDBEdit
+                  Top = 24
+                  ExplicitTop = 24
+                  ExplicitHeight = 23
+                end
+              end
+            end
+            inherited Panel3: TPanel
+              Top = 50
+              Width = 910
+              Height = 50
+              ExplicitTop = 50
+              ExplicitWidth = 910
+              ExplicitHeight = 50
+              inherited Panel8: TPanel
+                Width = 409
+                Height = 50
+                ExplicitWidth = 409
+                ExplicitHeight = 50
+                inherited Label1: TLabel
+                  Width = 403
+                  Height = 15
+                  ExplicitWidth = 37
+                  ExplicitHeight = 15
+                end
+                inherited DBEdit1: TDBEdit
+                  Top = 24
+                  Width = 403
+                  ExplicitTop = 24
+                  ExplicitWidth = 403
+                  ExplicitHeight = 23
+                end
+              end
+              inherited Panel9: TPanel
+                Left = 730
+                Height = 50
+                ExplicitLeft = 730
+                ExplicitHeight = 50
+                inherited Label2: TLabel
+                  Width = 46
+                  Height = 15
+                  ExplicitWidth = 35
+                  ExplicitHeight = 15
+                end
+                inherited DBEdit2: TDBEdit
+                  Top = 24
+                  ExplicitTop = 24
+                  ExplicitHeight = 23
+                end
+              end
+              inherited Panel30: TPanel
+                Height = 50
+                ExplicitHeight = 50
+                inherited Label20: TLabel
+                  Width = 315
+                  Height = 15
+                  ExplicitWidth = 29
+                  ExplicitHeight = 15
+                end
+                inherited DBEdit17: TDBEdit
+                  Top = 24
+                  ExplicitTop = 24
+                  ExplicitHeight = 23
+                end
+              end
+              inherited Panel10: TPanel
+                Left = 782
+                Height = 50
+                ExplicitLeft = 782
+                ExplicitHeight = 50
+                inherited Label3: TLabel
+                  Width = 122
+                  Height = 15
+                  ExplicitWidth = 44
+                  ExplicitHeight = 15
+                end
+                inherited DBEdit3: TDBEdit
+                  Top = 24
+                  ExplicitTop = 24
+                  ExplicitHeight = 23
+                end
+              end
+            end
+            inherited dsCliente: TDataSource
+              DataSet = Contatos.qContCli
+            end
+          end
+        end
+        object GroupBox3: TGroupBox
+          AlignWithMargins = True
+          Left = 3
+          Top = 207
+          Width = 914
+          Height = 255
+          Align = alClient
+          Caption = ' Configura'#231#245'es '
+          TabOrder = 2
+          object Panel7: TPanel
+            AlignWithMargins = True
+            Left = 5
+            Top = 20
+            Width = 306
+            Height = 230
+            Align = alLeft
+            Alignment = taLeftJustify
+            BevelOuter = bvNone
+            TabOrder = 0
+            object Panel8: TPanel
+              Left = 0
+              Top = 0
+              Width = 306
+              Height = 50
+              Align = alTop
+              BevelOuter = bvNone
+              TabOrder = 0
+              object Label5: TLabel
+                AlignWithMargins = True
+                Left = 3
+                Top = 3
+                Width = 300
+                Height = 15
+                Align = alTop
+                Caption = 'Fun'#231#227'o'
+                FocusControl = DBEdit4
+                ExplicitWidth = 39
+              end
+              object DBEdit4: TDBEdit
+                AlignWithMargins = True
+                Left = 3
+                Top = 24
+                Width = 300
+                Height = 23
+                Align = alClient
+                DataField = 'funcao'
+                DataSource = Contatos.dsContCli
+                TabOrder = 0
+              end
+            end
+            object Panel12: TPanel
+              Left = 0
+              Top = 50
+              Width = 306
+              Height = 177
+              Align = alTop
+              BevelOuter = bvNone
+              TabOrder = 1
+              object Label8: TLabel
+                AlignWithMargins = True
+                Left = 3
+                Top = 3
+                Width = 300
+                Height = 15
+                Align = alTop
+                Caption = 'Situa'#231#227'o do Contato no Cliente'
+                ExplicitWidth = 165
+              end
+              object JvDBComboBox2: TJvDBComboBox
+                AlignWithMargins = True
+                Left = 3
+                Top = 24
+                Width = 300
+                Height = 23
+                Align = alTop
+                DataField = 'situacao'
+                DataSource = Contatos.dsContCli
+                Items.Strings = (
+                  'Ativo'
+                  'Inativo')
+                TabOrder = 0
+                Values.Strings = (
+                  '1'
+                  '0')
+                ListSettings.OutfilteredValueFont.Charset = DEFAULT_CHARSET
+                ListSettings.OutfilteredValueFont.Color = clRed
+                ListSettings.OutfilteredValueFont.Height = -11
+                ListSettings.OutfilteredValueFont.Name = 'Tahoma'
+                ListSettings.OutfilteredValueFont.Style = []
+              end
+            end
+          end
+          object Panel9: TPanel
+            AlignWithMargins = True
+            Left = 322
+            Top = 20
+            Width = 587
+            Height = 230
+            Margins.Left = 8
+            Align = alClient
+            BevelOuter = bvNone
+            TabOrder = 1
+            object DBCheckBox1: TDBCheckBox
+              AlignWithMargins = True
+              Left = 3
+              Top = 47
+              Width = 581
+              Height = 17
+              Align = alTop
+              AllowGrayed = True
+              Caption = 'Contato Padr'#227'o'
+              DataField = 'padrao'
+              DataSource = FrameCliente1.dsCliente
+              TabOrder = 0
+              ValueChecked = 'True'
+              ValueUnchecked = 'False'
+            end
+            object DBCheckBox2: TDBCheckBox
+              AlignWithMargins = True
+              Left = 3
+              Top = 70
+              Width = 581
+              Height = 17
+              Align = alTop
+              Caption = 'Enviar Cota'#231#227'o'
+              DataField = 'enviar_cotacao_venda'
+              DataSource = FrameCliente1.dsCliente
+              TabOrder = 1
+              ValueChecked = 'True'
+              ValueUnchecked = 'False'
+            end
+            object DBCheckBox3: TDBCheckBox
+              AlignWithMargins = True
+              Left = 3
+              Top = 93
+              Width = 581
+              Height = 17
+              Align = alTop
+              Caption = 'Enviar laudo em n'#237'vel normal'
+              DataField = 'enviar_laudo_normal'
+              DataSource = FrameCliente1.dsCliente
+              TabOrder = 2
+              ValueChecked = 'True'
+              ValueUnchecked = 'False'
+            end
+            object DBCheckBox4: TDBCheckBox
+              AlignWithMargins = True
+              Left = 3
+              Top = 208
+              Width = 581
+              Height = 17
+              Align = alTop
+              Caption = 'Enviar laudo em n'#237'vel de aten'#231#227'o'
+              DataField = 'enviar_laudo_atencao'
+              DataSource = FrameCliente1.dsCliente
+              TabOrder = 3
+              ValueChecked = 'True'
+              ValueUnchecked = 'False'
+            end
+            object DBCheckBox5: TDBCheckBox
+              AlignWithMargins = True
+              Left = 3
+              Top = 185
+              Width = 581
+              Height = 17
+              Align = alTop
+              Caption = 'Enviar laudo em n'#237'vel de cr'#237'tico'
+              DataField = 'enviar_laudo_critico'
+              DataSource = FrameCliente1.dsCliente
+              TabOrder = 4
+              ValueChecked = 'True'
+              ValueUnchecked = 'False'
+            end
+            object DBCheckBox6: TDBCheckBox
+              AlignWithMargins = True
+              Left = 3
+              Top = 162
+              Width = 581
+              Height = 17
+              Align = alTop
+              Caption = 'Enviar laudo de retorno em n'#237'vel normal'
+              DataField = 'enviar_laudo_retorno_normal'
+              DataSource = FrameCliente1.dsCliente
+              TabOrder = 5
+              ValueChecked = 'True'
+              ValueUnchecked = 'False'
+            end
+            object DBCheckBox7: TDBCheckBox
+              AlignWithMargins = True
+              Left = 3
+              Top = 139
+              Width = 581
+              Height = 17
+              Align = alTop
+              Caption = 'Enviar laudo de retorno em n'#237'vel de aten'#231#227'o'
+              DataField = 'enviar_laudo_retorno_atencao'
+              DataSource = FrameCliente1.dsCliente
+              TabOrder = 6
+              ValueChecked = 'True'
+              ValueUnchecked = 'False'
+            end
+            object DBCheckBox8: TDBCheckBox
+              AlignWithMargins = True
+              Left = 3
+              Top = 116
+              Width = 581
+              Height = 17
+              Align = alTop
+              Caption = 'Enviar laudo de retorno em n'#237'vel de cr'#237'tico'
+              DataField = 'enviar_laudo_retorno_critico'
+              DataSource = FrameCliente1.dsCliente
+              TabOrder = 7
+              ValueChecked = 'True'
+              ValueUnchecked = 'False'
+            end
+            object ControlBar3: TControlBar
+              AlignWithMargins = True
+              Left = 3
+              Top = 3
+              Width = 581
+              Height = 38
+              Align = alTop
+              AutoSize = True
+              BevelKind = bkNone
+              DrawingStyle = dsGradient
+              TabOrder = 8
+              object ToolBar2: TToolBar
+                Left = 11
+                Top = 2
+                Width = 568
+                Height = 34
+                AutoSize = True
+                BorderWidth = 1
+                ButtonHeight = 30
+                ButtonWidth = 125
+                Caption = 'ToolBar2'
+                DisabledImages = Resources.medium_d
+                DrawingStyle = dsGradient
+                HotImages = Resources.medium_h
+                Images = Resources.medium_n
+                List = True
+                AllowTextButtons = True
+                TabOrder = 0
+                object ToolButton5: TToolButton
+                  Left = 0
+                  Top = 0
+                  Action = actCheck
+                  Style = tbsTextButton
+                end
+                object ToolButton15: TToolButton
+                  Left = 110
+                  Top = 0
+                  Action = actUnCheck
+                  Style = tbsTextButton
+                end
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+  inherited ControlBar1: TControlBar
+    Width = 928
+    Height = 38
+    ExplicitLeft = 3
+    ExplicitTop = 3
+    ExplicitWidth = 928
+    ExplicitHeight = 38
+    inherited ToolBar1: TToolBar
+      Width = 697
+      ButtonWidth = 115
+      ExplicitWidth = 697
+      inherited ToolButton6: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton4: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton7: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton1: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton2: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton8: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton9: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton14: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton16: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited tbSQL: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited tbClose: TToolButton
+        ExplicitWidth = 32
+      end
+    end
+  end
+  inherited alDef: TActionList
+    Left = 248
+    Top = 216
+    object actCheck: TAction
+      Tag = 1
+      Caption = 'Marcar Todos'
+      Enabled = False
+      ImageIndex = 67
+      OnExecute = actCheckExecute
+    end
+    object actUnCheck: TAction
+      Caption = 'Desmarcar Todos'
+      Enabled = False
+      ImageIndex = 69
+      OnExecute = actCheckExecute
+    end
+  end
+end
