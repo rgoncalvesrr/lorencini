@@ -1,0 +1,41 @@
+set session authorization lorencini;
+
+create table sys_phases(
+   recno serial not null,
+   name varchar(60) not null,
+   constraint pk_sys_phases primary key(recno)
+);
+
+insert into sys_phases (name) values ('Entrada'), ('Agendado para'), ('Iniciado'), ('Finalizado');
+
+create table sys_services(
+   recno serial not null,
+   name varchar(60) not null,
+   status integer default(1) not null,
+   constraint pk_sys_services primary key(recno)
+);
+
+create table sys_tasks (
+   recno serial not null,
+   service integer not null,
+   phase integer default(1) not null,
+   phase_date timestamp default(current_timestamp) not null,
+   source_table integer,
+   source_recno integer,
+   constraint pk_sys_tasks primary key(recno),
+   constraint fk_sys_tasks_1 foreign key(service) references sys_services(recno)
+      on update cascade on delete cascade,
+   constraint fk_sys_tasks_2 foreign key(phase) references sys_phases(recno)
+      on update cascade on delete restrict,
+   constraint fk_sys_tasks_3 foreign key(source_table) references sys_tables(recno)
+      on update cascade on delete restrict
+);
+
+create table sys_tasks_phases(
+   task integer not null,
+   phase integer not null,
+   date timestamp default(local_timestamp) not null,
+   username varchar(20) not null,
+   constraint pk_sys_tasks_phases primary key(task, phase),
+   
+)
