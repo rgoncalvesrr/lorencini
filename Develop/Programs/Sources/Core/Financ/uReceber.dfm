@@ -10,24 +10,23 @@ inherited Receber: TReceber
   inherited StatusBar1: TStatusBar
     Top = 727
     Width = 1069
-    ExplicitTop = 574
-    ExplicitWidth = 849
+    ExplicitTop = 727
+    ExplicitWidth = 1069
   end
   inherited Panel1: TPanel
     Width = 1075
-    ExplicitWidth = 855
+    ExplicitWidth = 1075
     inherited pctlFind: TPageControl
       Width = 1065
-      ExplicitWidth = 845
+      ExplicitWidth = 1065
       inherited tsQuery: TTabSheet
-        ExplicitLeft = 3
-        ExplicitTop = 7
+        ExplicitLeft = 4
+        ExplicitTop = 6
         ExplicitWidth = 1057
         ExplicitHeight = 75
         inherited BitBtn2: TBitBtn
           Left = 956
           ExplicitLeft = 956
-          ExplicitTop = 11
         end
         object Panel3: TPanel
           Left = 0
@@ -45,7 +44,6 @@ inherited Receber: TReceber
             Height = 15
             Align = alTop
             Caption = 'Status'
-            ExplicitLeft = 4
             ExplicitWidth = 32
           end
           object cbStatus: TComboBox
@@ -66,9 +64,6 @@ inherited Receber: TReceber
               'Em Aberto'
               'Recebidos'
               'Em Atraso')
-            ExplicitLeft = 4
-            ExplicitTop = 23
-            ExplicitWidth = 83
           end
         end
         object Panel4: TPanel
@@ -79,7 +74,6 @@ inherited Receber: TReceber
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 2
-          ExplicitLeft = 87
           object Label3: TLabel
             AlignWithMargins = True
             Left = 3
@@ -88,7 +82,6 @@ inherited Receber: TReceber
             Height = 15
             Align = alTop
             Caption = 'Vencimento Real'
-            ExplicitLeft = 75
             ExplicitWidth = 88
           end
           object Label4: TLabel
@@ -98,8 +91,6 @@ inherited Receber: TReceber
             Width = 157
             Height = 15
             Align = alTop
-            ExplicitLeft = 93
-            ExplicitTop = 48
             ExplicitWidth = 3
           end
           inline FrameData1: TFrameData
@@ -118,17 +109,17 @@ inherited Receber: TReceber
             Font.Style = []
             ParentFont = False
             TabOrder = 0
-            ExplicitLeft = 7
-            ExplicitTop = 23
-            ExplicitWidth = 156
+            ExplicitLeft = 3
+            ExplicitTop = 24
+            ExplicitWidth = 157
             inherited ComboBox1: TComboBox
               Width = 157
               ItemIndex = 2
               Text = 'Trimestralmente'
-              ExplicitWidth = 156
+              ExplicitWidth = 157
             end
             inherited CCalendarDiff1: TCCalendarDiff
-              Date = 43984.411104965280000000
+              Date = 43984.706190393520000000
               DisplayInterval = Label4
               OnChange = FrameData1CCalendarDiff1Change
             end
@@ -142,7 +133,6 @@ inherited Receber: TReceber
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 3
-          ExplicitLeft = 250
           object Label18: TLabel
             AlignWithMargins = True
             Left = 3
@@ -152,8 +142,6 @@ inherited Receber: TReceber
             Align = alTop
             Caption = 'Vizualizar cliente:'
             Transparent = True
-            ExplicitLeft = 255
-            ExplicitTop = 2
             ExplicitWidth = 90
           end
           object ComboBox1: TComboBox
@@ -181,9 +169,6 @@ inherited Receber: TReceber
               'OUTUBRO'
               'NOVEMBRO'
               'DEZEMBRO')
-            ExplicitLeft = 111
-            ExplicitTop = 23
-            ExplicitWidth = 264
           end
         end
       end
@@ -198,22 +183,22 @@ inherited Receber: TReceber
   inherited Panel2: TPanel
     Width = 1075
     Height = 595
-    ExplicitWidth = 855
-    ExplicitHeight = 442
+    ExplicitWidth = 1075
+    ExplicitHeight = 595
     inherited PageControl1: TPageControl
       Width = 1069
       Height = 589
       ActivePage = TabSheet2
       Images = Resources.medium_n
-      ExplicitWidth = 849
-      ExplicitHeight = 436
+      ExplicitWidth = 1069
+      ExplicitHeight = 589
       inherited TabSheet1: TTabSheet
         Caption = 'Todos os T'#237'tulos'
         ImageIndex = -1
         ExplicitLeft = 4
         ExplicitTop = 33
-        ExplicitWidth = 841
-        ExplicitHeight = 399
+        ExplicitWidth = 1061
+        ExplicitHeight = 552
         inherited DBGrid1: TDBGrid
           Width = 1055
           Height = 546
@@ -235,7 +220,7 @@ inherited Receber: TReceber
   end
   inherited ctrlBarTop: TControlBar
     Width = 1069
-    ExplicitWidth = 849
+    ExplicitWidth = 1069
     inherited ToolBar1: TToolBar
       Width = 836
       ExplicitWidth = 836
