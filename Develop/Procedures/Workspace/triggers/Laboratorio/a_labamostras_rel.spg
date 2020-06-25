@@ -55,6 +55,7 @@ BEGIN
                   select 1
                     from labamostras_rel 
                    where pedido = new.pedido
+                     and revisao is null
                      and status <> 3)
                then
                   update pedido
