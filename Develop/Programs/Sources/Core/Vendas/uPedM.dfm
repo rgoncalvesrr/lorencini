@@ -205,6 +205,7 @@ inherited PedM: TPedM
     inherited PageControl1: TPageControl
       Width = 1126
       Height = 355
+      ActivePage = TabSheet4
       ExplicitLeft = 3
       ExplicitTop = 3
       ExplicitWidth = 1126
@@ -2340,9 +2341,16 @@ inherited PedM: TPedM
             Left = 2
             Top = 17
             Width = 1108
-            Height = 96
+            Height = 100
             Align = alTop
             AutoSize = True
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Segoe UI'
+            Font.Pitch = fpVariable
+            Font.Style = []
+            ParentFont = False
             TabOrder = 0
             ExplicitLeft = 2
             ExplicitTop = 17
@@ -2350,16 +2358,12 @@ inherited PedM: TPedM
               inherited Panel2: TPanel
                 Width = 57
                 ExplicitWidth = 57
+                ExplicitHeight = 50
                 inherited Label9: TLabel
                   Width = 51
-                  Height = 15
-                  ExplicitWidth = 39
-                  ExplicitHeight = 15
                 end
                 inherited DBEdit8: TDBEdit
-                  Top = 24
                   Width = 54
-                  Height = 21
                   DataField = 'cliente'
                   OnExit = FrameCliente1DBEdit8Exit
                   ExplicitTop = 24
@@ -2370,11 +2374,10 @@ inherited PedM: TPedM
               inherited Panel35: TPanel
                 Left = 57
                 ExplicitLeft = 57
+                ExplicitHeight = 50
                 inherited SpeedButton1: TSpeedButton
-                  Top = 23
                   Width = 27
-                  Height = 22
-                  Margins.Top = 23
+                  Height = 24
                   Margins.Right = 2
                   Margins.Bottom = 3
                   ExplicitLeft = 0
@@ -2388,16 +2391,12 @@ inherited PedM: TPedM
                 Width = 617
                 ExplicitLeft = 86
                 ExplicitWidth = 617
+                ExplicitHeight = 50
                 inherited Label10: TLabel
                   Width = 611
-                  Height = 15
-                  ExplicitWidth = 97
-                  ExplicitHeight = 15
                 end
                 inherited DBEdit9: TDBEdit
-                  Top = 24
                   Width = 611
-                  Height = 21
                   DataField = 'cliente_empresa'
                   ExplicitTop = 24
                   ExplicitWidth = 611
@@ -2409,16 +2408,12 @@ inherited PedM: TPedM
                 Width = 186
                 ExplicitLeft = 703
                 ExplicitWidth = 186
+                ExplicitHeight = 50
                 inherited Label11: TLabel
                   Width = 180
-                  Height = 15
-                  ExplicitWidth = 79
-                  ExplicitHeight = 15
                 end
                 inherited DBEdit10: TDBEdit
-                  Top = 24
                   Width = 180
-                  Height = 21
                   DataField = 'cliente_nome_chave'
                   ExplicitTop = 24
                   ExplicitWidth = 180
@@ -2430,16 +2425,12 @@ inherited PedM: TPedM
                 Width = 120
                 ExplicitLeft = 889
                 ExplicitWidth = 120
+                ExplicitHeight = 50
                 inherited Label12: TLabel
                   Width = 114
-                  Height = 15
-                  ExplicitWidth = 27
-                  ExplicitHeight = 15
                 end
                 inherited DBEdit11: TDBEdit
-                  Top = 24
                   Width = 114
-                  Height = 21
                   DataField = 'cliente_cnpj'
                   ExplicitTop = 24
                   ExplicitWidth = 114
@@ -2451,16 +2442,12 @@ inherited PedM: TPedM
                 Width = 99
                 ExplicitLeft = 1009
                 ExplicitWidth = 99
+                ExplicitHeight = 50
                 inherited Label13: TLabel
                   Width = 93
-                  Height = 15
-                  ExplicitWidth = 21
-                  ExplicitHeight = 15
                 end
                 inherited DBEdit12: TDBEdit
-                  Top = 24
                   Width = 93
-                  Height = 21
                   DataField = 'cliente_cpf'
                   ExplicitTop = 24
                   ExplicitWidth = 93
@@ -2474,16 +2461,12 @@ inherited PedM: TPedM
                 Width = 732
                 ExplicitLeft = 241
                 ExplicitWidth = 732
+                ExplicitHeight = 50
                 inherited Label1: TLabel
                   Width = 726
-                  Height = 15
-                  ExplicitWidth = 37
-                  ExplicitHeight = 15
                 end
                 inherited DBEdit1: TDBEdit
-                  Top = 24
                   Width = 726
-                  Height = 21
                   DataField = 'cliente_cidade'
                   ExplicitTop = 24
                   ExplicitWidth = 726
@@ -2495,15 +2478,12 @@ inherited PedM: TPedM
                 Width = 39
                 ExplicitLeft = 973
                 ExplicitWidth = 39
+                ExplicitHeight = 50
                 inherited Label2: TLabel
-                  Height = 15
-                  ExplicitWidth = 35
-                  ExplicitHeight = 15
+                  Width = 33
                 end
                 inherited DBEdit2: TDBEdit
-                  Top = 24
                   Width = 33
-                  Height = 21
                   DataField = 'cliente_estado'
                   ExplicitTop = 24
                   ExplicitWidth = 33
@@ -2513,16 +2493,12 @@ inherited PedM: TPedM
               inherited Panel30: TPanel
                 Width = 241
                 ExplicitWidth = 241
+                ExplicitHeight = 50
                 inherited Label20: TLabel
                   Width = 235
-                  Height = 15
-                  ExplicitWidth = 29
-                  ExplicitHeight = 15
                 end
                 inherited DBEdit17: TDBEdit
-                  Top = 24
                   Width = 235
-                  Height = 21
                   DataField = 'cliente_email'
                   ExplicitTop = 24
                   ExplicitWidth = 235
@@ -2534,16 +2510,12 @@ inherited PedM: TPedM
                 Width = 96
                 ExplicitLeft = 1012
                 ExplicitWidth = 96
+                ExplicitHeight = 50
                 inherited Label3: TLabel
                   Width = 90
-                  Height = 15
-                  ExplicitWidth = 44
-                  ExplicitHeight = 15
                 end
                 inherited DBEdit3: TDBEdit
-                  Top = 24
                   Width = 90
-                  Height = 21
                   DataField = 'cliente_telefone'
                   ExplicitTop = 24
                   ExplicitWidth = 90

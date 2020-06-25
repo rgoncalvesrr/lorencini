@@ -294,7 +294,9 @@ uses
   uContatos in '..\..\Sources\Core\Cad\uContatos.pas' {Contatos},
   uContatosM in '..\..\Sources\Core\Cad\uContatosM.pas' {ContatosM},
   uContatosMClientes in '..\..\Sources\Core\Cad\uContatosMClientes.pas' {ContatosMClientes},
-  uClientesMContatos in '..\..\Sources\Core\Cad\uClientesMContatos.pas' {ClientesMContatos};
+  uClientesMContatos in '..\..\Sources\Core\Cad\uClientesMContatos.pas' {ClientesMContatos},
+  uSysService in '..\..\Sources\Core\Sys\uSysService.pas' {SysService},
+  uSysServiceM in '..\..\Sources\Core\Sys\uSysServiceM.pas' {SysServiceM};
 
 {$R *.res}
 begin

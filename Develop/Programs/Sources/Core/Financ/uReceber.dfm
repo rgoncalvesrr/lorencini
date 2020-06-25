@@ -1,153 +1,207 @@
 inherited Receber: TReceber
   Caption = 'Contas a Receber'
-  ClientHeight = 601
-  ClientWidth = 855
+  ClientHeight = 754
+  ClientWidth = 1075
   Constraints.MinWidth = 696
-  ExplicitWidth = 871
-  ExplicitHeight = 640
+  ExplicitWidth = 1091
+  ExplicitHeight = 793
   PixelsPerInch = 96
   TextHeight = 15
   inherited StatusBar1: TStatusBar
-    Top = 574
-    Width = 849
-    ExplicitTop = 574
-    ExplicitWidth = 849
+    Top = 727
+    Width = 1069
+    ExplicitTop = 727
+    ExplicitWidth = 1069
   end
   inherited Panel1: TPanel
-    Width = 855
-    ExplicitWidth = 855
+    Width = 1075
+    ExplicitWidth = 1075
     inherited pctlFind: TPageControl
-      Width = 845
-      ExplicitWidth = 845
+      Width = 1065
+      ExplicitWidth = 1065
       inherited tsQuery: TTabSheet
         ExplicitLeft = 4
         ExplicitTop = 6
-        ExplicitWidth = 837
-        ExplicitHeight = 65
-        object Label1: TLabel [0]
-          Left = 4
-          Top = 3
-          Width = 32
-          Height = 15
-          Caption = 'Status'
+        ExplicitWidth = 1057
+        ExplicitHeight = 75
+        inherited BitBtn2: TBitBtn
+          Left = 956
+          ExplicitLeft = 956
         end
-        object Label3: TLabel [1]
-          Left = 93
-          Top = 3
-          Width = 88
-          Height = 15
-          Caption = 'Vencimento Real'
-        end
-        object Label4: TLabel [2]
-          Left = 93
-          Top = 48
-          Width = 3
-          Height = 15
-        end
-        object Label18: TLabel [3]
-          Left = 255
-          Top = 2
-          Width = 90
-          Height = 15
-          Caption = 'Vizualizar cliente:'
-          Transparent = True
-        end
-        inline FrameData1: TFrameData
-          Left = 93
-          Top = 23
-          Width = 156
-          Height = 23
+        object Panel3: TPanel
+          Left = 0
+          Top = 0
+          Width = 101
+          Height = 75
+          Align = alLeft
+          BevelOuter = bvNone
           TabOrder = 1
-          ExplicitLeft = 93
-          ExplicitTop = 23
-          ExplicitWidth = 156
-          ExplicitHeight = 23
-          inherited ComboBox1: TComboBox
-            Width = 156
+          object Label1: TLabel
+            AlignWithMargins = True
+            Left = 3
+            Top = 3
+            Width = 95
+            Height = 15
+            Align = alTop
+            Caption = 'Status'
+            ExplicitWidth = 32
+          end
+          object cbStatus: TComboBox
+            AlignWithMargins = True
+            Left = 3
+            Top = 24
+            Width = 95
             Height = 23
+            Align = alTop
+            Style = csDropDownList
             ItemHeight = 15
-            ItemIndex = 2
-            Text = 'Trimestralmente'
-            ExplicitWidth = 156
-            ExplicitHeight = 23
-          end
-          inherited CCalendarDiff1: TCCalendarDiff
-            Date = 43622.860870532410000000
-            DisplayInterval = Label4
-            OnChange = FrameData1CCalendarDiff1Change
+            ItemIndex = 1
+            TabOrder = 0
+            Text = 'Em Aberto'
+            OnChange = cbStatusChange
+            Items.Strings = (
+              'Todos'
+              'Em Aberto'
+              'Recebidos'
+              'Em Atraso')
           end
         end
-        object cbStatus: TComboBox
-          Left = 4
-          Top = 23
-          Width = 83
-          Height = 23
-          Style = csDropDownList
-          ItemHeight = 15
-          ItemIndex = 1
+        object Panel4: TPanel
+          Left = 101
+          Top = 0
+          Width = 163
+          Height = 75
+          Align = alLeft
+          BevelOuter = bvNone
           TabOrder = 2
-          Text = 'Em Aberto'
-          OnChange = cbStatusChange
-          Items.Strings = (
-            'Todos'
-            'Em Aberto'
-            'Recebidos'
-            'Em Atraso')
+          object Label3: TLabel
+            AlignWithMargins = True
+            Left = 3
+            Top = 3
+            Width = 157
+            Height = 15
+            Align = alTop
+            Caption = 'Vencimento Real'
+            ExplicitWidth = 88
+          end
+          object Label4: TLabel
+            AlignWithMargins = True
+            Left = 3
+            Top = 53
+            Width = 157
+            Height = 15
+            Align = alTop
+            ExplicitWidth = 3
+          end
+          inline FrameData1: TFrameData
+            AlignWithMargins = True
+            Left = 3
+            Top = 24
+            Width = 157
+            Height = 23
+            Align = alTop
+            AutoSize = True
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Segoe UI'
+            Font.Pitch = fpVariable
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 0
+            ExplicitLeft = 3
+            ExplicitTop = 24
+            ExplicitWidth = 157
+            inherited ComboBox1: TComboBox
+              Width = 157
+              ItemIndex = 2
+              Text = 'Trimestralmente'
+              ExplicitWidth = 157
+            end
+            inherited CCalendarDiff1: TCCalendarDiff
+              Date = 43984.706190393520000000
+              DisplayInterval = Label4
+              OnChange = FrameData1CCalendarDiff1Change
+            end
+          end
         end
-        object ComboBox1: TComboBox
-          Left = 256
-          Top = 23
-          Width = 264
-          Height = 23
-          DropDownCount = 30
-          ItemHeight = 15
+        object Panel5: TPanel
+          Left = 264
+          Top = 0
+          Width = 375
+          Height = 75
+          Align = alLeft
+          BevelOuter = bvNone
           TabOrder = 3
-          OnChange = ComboBox1Change
-          Items.Strings = (
-            '<TODOS>'
-            'JANEIRO'
-            'FEVEREIRO'
-            'MAR'#199'O'
-            'ABRIL'
-            'MAIO'
-            'JUNHO'
-            'JULHO'
-            'AGOSTO'
-            'SETEMBRO'
-            'OUTUBRO'
-            'NOVEMBRO'
-            'DEZEMBRO')
+          object Label18: TLabel
+            AlignWithMargins = True
+            Left = 3
+            Top = 3
+            Width = 369
+            Height = 15
+            Align = alTop
+            Caption = 'Vizualizar cliente:'
+            Transparent = True
+            ExplicitWidth = 90
+          end
+          object ComboBox1: TComboBox
+            AlignWithMargins = True
+            Left = 3
+            Top = 24
+            Width = 369
+            Height = 23
+            Align = alTop
+            DropDownCount = 30
+            ItemHeight = 15
+            TabOrder = 0
+            OnChange = ComboBox1Change
+            Items.Strings = (
+              '<TODOS>'
+              'JANEIRO'
+              'FEVEREIRO'
+              'MAR'#199'O'
+              'ABRIL'
+              'MAIO'
+              'JUNHO'
+              'JULHO'
+              'AGOSTO'
+              'SETEMBRO'
+              'OUTUBRO'
+              'NOVEMBRO'
+              'DEZEMBRO')
+          end
         end
       end
       inherited tsFind: TTabSheet
         ExplicitLeft = 4
         ExplicitTop = 6
-        ExplicitWidth = 837
-        ExplicitHeight = 65
+        ExplicitWidth = 1057
+        ExplicitHeight = 75
       end
     end
   end
   inherited Panel2: TPanel
-    Width = 855
-    Height = 452
-    ExplicitWidth = 855
-    ExplicitHeight = 452
+    Width = 1075
+    Height = 595
+    ExplicitWidth = 1075
+    ExplicitHeight = 595
     inherited PageControl1: TPageControl
-      Width = 849
-      Height = 446
+      Width = 1069
+      Height = 589
+      ActivePage = TabSheet2
       Images = Resources.medium_n
-      ExplicitWidth = 849
-      ExplicitHeight = 446
+      ExplicitWidth = 1069
+      ExplicitHeight = 589
       inherited TabSheet1: TTabSheet
         Caption = 'Todos os T'#237'tulos'
         ImageIndex = -1
         ExplicitLeft = 4
         ExplicitTop = 33
-        ExplicitWidth = 841
-        ExplicitHeight = 409
+        ExplicitWidth = 1061
+        ExplicitHeight = 552
         inherited DBGrid1: TDBGrid
-          Width = 841
-          Height = 409
+          Width = 1055
+          Height = 546
         end
       end
       object TabSheet2: TTabSheet
@@ -165,8 +219,8 @@ inherited Receber: TReceber
     end
   end
   inherited ctrlBarTop: TControlBar
-    Width = 849
-    ExplicitWidth = 849
+    Width = 1069
+    ExplicitWidth = 1069
     inherited ToolBar1: TToolBar
       Width = 836
       ExplicitWidth = 836
@@ -206,12 +260,24 @@ inherited Receber: TReceber
     end
   end
   inherited alDef: TActionList
-    Left = 248
+    Left = 264
     Top = 200
   end
+  inherited pmRel: TPopupMenu
+    Left = 312
+    Top = 200
+  end
+  inherited pmOrder: TPopupMenu
+    Left = 362
+    Top = 198
+  end
+  inherited alRunTime: TActionList
+    Left = 418
+    Top = 198
+  end
   inherited DataSource1: TDataSource
-    Left = 200
-    Top = 168
+    Left = 264
+    Top = 256
   end
   inherited IBrwSrc: TZQuery
     Connection = DM.Design
@@ -249,8 +315,7 @@ inherited Receber: TReceber
     IndexFieldNames = 'vencimento_real Asc'
     Sequence = ZSequence1
     SequenceField = 'recno'
-    Left = 120
-    Top = 160
+    Top = 256
     ParamData = <
       item
         DataType = ftLargeint
@@ -416,9 +481,13 @@ inherited Receber: TReceber
       Size = 25
     end
   end
-  inherited zIBrwSrc: TZUpdateSQL
-    Left = 120
+  inherited pmOpcao: TPopupMenu
+    Left = 480
     Top = 200
+  end
+  inherited zIBrwSrc: TZUpdateSQL
+    Left = 136
+    Top = 256
   end
   object ZUpdateSQL1: TZUpdateSQL
     DeleteSQL.Strings = (
@@ -460,8 +529,8 @@ inherited Receber: TReceber
       'WHERE'
       '  recno = :OLD_recno')
     UseSequenceFieldForRefreshSQL = False
-    Left = 80
-    Top = 160
+    Left = 136
+    Top = 352
     ParamData = <
       item
         DataType = ftUnknown
@@ -552,14 +621,14 @@ inherited Receber: TReceber
   object ZSequence1: TZSequence
     Connection = DM.Design
     SequenceName = 'fin_receber_recno_seq'
-    Left = 24
-    Top = 192
+    Left = 64
+    Top = 256
   end
   object dsContatos: TDataSource
     AutoEdit = False
     DataSet = qContatos
-    Left = 184
-    Top = 120
+    Left = 264
+    Top = 304
   end
   object qContatos: TZQuery
     Connection = DM.Design
@@ -569,11 +638,8 @@ inherited Receber: TReceber
       
         'select con.cliente, con.nome, con.funcao, con.telefone, con.celu' +
         'lar, '
-      
-        '       con.email, con.contato_nextel, con.contato_nextelcel, con' +
-        '.recno,'
-      '       con.item, cli.empresa'
-      '  from tbclientes_contatos con'
+      '       con.email, con.recno, con.contato, cli.empresa'
+      '  from vclientes_contatos con'
       '       join tbclientes cli'
       '         on cli.codigo = con.cliente'
       ' where con.cliente = :cliente')
@@ -585,8 +651,8 @@ inherited Receber: TReceber
       end>
     Sequence = sContatos
     SequenceField = 'recno'
-    Left = 152
-    Top = 120
+    Left = 200
+    Top = 304
     ParamData = <
       item
         DataType = ftUnknown
@@ -633,22 +699,6 @@ inherited Receber: TReceber
       FieldName = 'email'
       Size = 100
     end
-    object qContatoscontato_nextel: TStringField
-      DisplayLabel = 'Nextel'
-      DisplayWidth = 15
-      FieldName = 'contato_nextel'
-      Size = 25
-    end
-    object qContatoscontato_nextelcel: TStringField
-      DisplayLabel = 'Nextel Cel.'
-      DisplayWidth = 15
-      FieldName = 'contato_nextelcel'
-      Size = 25
-    end
-    object qContatositem: TIntegerField
-      FieldName = 'item'
-      Visible = False
-    end
     object qContatosempresa: TStringField
       DisplayLabel = 'Empresa'
       DisplayWidth = 25
@@ -656,12 +706,16 @@ inherited Receber: TReceber
       Visible = False
       Size = 100
     end
+    object qContatoscontato: TIntegerField
+      DisplayLabel = 'Contato'
+      FieldName = 'contato'
+    end
   end
   object sContatos: TZSequence
     Connection = DM.Design
     SequenceName = 'public.tbclientes_contatos_recno_seq'
-    Left = 80
-    Top = 120
+    Left = 64
+    Top = 304
   end
   object zContatos: TZUpdateSQL
     DeleteSQL.Strings = (
@@ -671,15 +725,11 @@ inherited Receber: TReceber
       '  tbclientes_contatos.item = :OLD_item')
     InsertSQL.Strings = (
       'INSERT INTO tbclientes_contatos'
-      
-        '  (cliente, nome, funcao, telefone, celular, email, recno, conta' +
-        'to_nextel, '
-      '   contato_nextelcel)'
+      '  (cliente, nome, funcao, telefone, celular, email, recno)'
       'VALUES'
       
         '  (:cliente, :nome, :funcao, :telefone, :celular, :email, :recno' +
-        ', :contato_nextel, '
-      '   :contato_nextelcel)')
+        ')')
     ModifySQL.Strings = (
       'UPDATE tbclientes_contatos SET'
       '  cliente = :cliente,'
@@ -688,15 +738,13 @@ inherited Receber: TReceber
       '  telefone = :telefone,'
       '  celular = :celular,'
       '  email = :email,'
-      '  recno = :recno,'
-      '  contato_nextel = :contato_nextel,'
-      '  contato_nextelcel = :contato_nextelcel'
+      '  recno = :recno'
       'WHERE'
       '  tbclientes_contatos.cliente = :OLD_cliente AND'
-      '  tbclientes_contatos.item = :OLD_item')
+      '  tbclientes_contatos.contato = :OLD_contato')
     UseSequenceFieldForRefreshSQL = False
-    Left = 120
-    Top = 120
+    Left = 136
+    Top = 304
     ParamData = <
       item
         DataType = ftUnknown
@@ -735,17 +783,12 @@ inherited Receber: TReceber
       end
       item
         DataType = ftUnknown
-        Name = 'contato_nextel'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'contato_nextelcel'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
         Name = 'OLD_cliente'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'OLD_contato'
         ParamType = ptUnknown
       end
       item

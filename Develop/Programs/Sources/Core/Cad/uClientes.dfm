@@ -27,6 +27,7 @@ inherited Clientes: TClientes
         inherited BitBtn2: TBitBtn
           Left = 995
           ExplicitLeft = 995
+          ExplicitTop = 11
         end
         object Panel4: TPanel
           Left = 0
@@ -407,6 +408,7 @@ inherited Clientes: TClientes
   inherited IBrwSrc: TZQuery
     Connection = DM.Design
     SortedFields = 'nome_chave'
+    AfterOpen = IBrwSrcAfterOpen
     AfterScroll = IBrwSrcAfterScroll
     AfterInsert = IBrwSrcAfterInsert
     SQL.Strings = (
@@ -1463,5 +1465,41 @@ inherited Clientes: TClientes
     SequenceName = 'public.contatos_recno_seq'
     Left = 376
     Top = 240
+  end
+  object qVendedores: TZQuery
+    Tag = 1
+    Connection = DM.Design
+    SQL.Strings = (
+      'select idvendedor, nome, cnpj, cpf, recno'
+      '  from tb_vendedores')
+    Params = <>
+    Options = []
+    Left = 552
+    Top = 288
+    object qVendedoresidvendedor: TIntegerField
+      FieldName = 'idvendedor'
+      Required = True
+    end
+    object qVendedoresnome: TStringField
+      FieldName = 'nome'
+      Size = 100
+    end
+    object qVendedorescnpj: TStringField
+      FieldName = 'cnpj'
+      Size = 14
+    end
+    object qVendedorescpf: TStringField
+      FieldName = 'cpf'
+      Size = 11
+    end
+    object qVendedoresrecno: TIntegerField
+      FieldName = 'recno'
+      Required = True
+    end
+  end
+  object dsVendedores: TDataSource
+    DataSet = qVendedores
+    Left = 648
+    Top = 288
   end
 end
