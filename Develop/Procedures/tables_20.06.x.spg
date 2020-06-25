@@ -25,8 +25,11 @@ create table sys_services(
    constraint ck_sys_services_1 check (maxprocs > 0)
 );
 
-insert into sys_services (name, status, source_tasks, maxprocs) values ('Envio de E-mails', 1, sys_origem('sys_email'), 8);
-insert into sys_services (name, status) values ('Recebimento de E-mails (IMAP4)', 1);
+insert into sys_services (name, status, source_tasks, maxprocs) values ('Envio de E-mails', 1, sys_origem('sys_email'), 24);
+insert into sys_services (name, status) values ('Recebimento de E-mails (IMAP4)', 16);
+insert into sys_services (name, status, source_tasks, maxprocs) values ('Gerenciamento de Impressão', 1, sys_origem('sys_spool'), 16);
+insert into sys_services (name, status, source_tasks, maxprocs) values ('Escrita de Arquivos', 1, sys_origem('sys_email'), 16);
+insert into sys_services (name, status) values ('Leitura de Arquivos', 1);
 
 create table sys_tasks (
    recno serial not null,
@@ -64,3 +67,23 @@ create table sys_tasks_phases(
       references sys_phases(recno) on update cascade on delete restrict,
    constraint fk_sys_tasks_phases_3 foreign key(username)
       references sys_users(username) on update cascade on delete restrict);
+
+insert into sys_tables (tabela, descri)
+select s.tablename, s.tablename 
+  from pg_catalog.pg_tables s
+ where not exists(
+       select 1 
+         from sys_tables t 
+        where s.tablename = t.tabela)
+   and s.schemaname = 'public';
+
+delete 
+  from sys_tables 
+ where recno in ( 
+       select t.recno
+         from sys_tables t
+        where not exists(
+              select 1 
+                from pg_catalog.pg_tables s 
+               where s.tablename = t.tabela 
+                 and s.schemaname = 'public'));
