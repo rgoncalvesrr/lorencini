@@ -4,7 +4,7 @@
    "version": "2.0.0",
    "tasks": [
       {
-         "label": "fluent",
+         "label": "manager",
          "type": "process",
          "command": "D:\\Projetos\\Lorencini\\_Release\\Parser.exe",
          "args": [

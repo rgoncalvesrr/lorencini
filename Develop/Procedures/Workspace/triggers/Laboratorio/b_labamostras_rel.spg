@@ -105,7 +105,7 @@ BEGIN
                 where amostra = new.amostra
                   and estado = 50)
             then
-               raise '[[O laudo % não pode receber apontamento de resultados porque a amostras % não foi revisada]]', new.recno, new.amostra;
+               raise '[[O laudo % não pode receber apontamento de resultados porque a amostra % não foi revisada]]', new.recno, new.amostra;
             end if;
 
             return new;
