@@ -235,6 +235,14 @@ inherited LabAmostraAss: TLabAmostraAss
             Width = 193
             Height = 24
             Align = alTop
+            AutoSize = True
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Segoe UI'
+            Font.Pitch = fpVariable
+            Font.Style = []
+            ParentFont = False
             TabOrder = 0
             ExplicitLeft = 3
             ExplicitTop = 24
@@ -242,13 +250,10 @@ inherited LabAmostraAss: TLabAmostraAss
             ExplicitHeight = 24
             inherited ComboBox1: TComboBox
               Width = 193
-              Height = 23
-              ItemHeight = 15
               ExplicitWidth = 193
-              ExplicitHeight = 23
             end
             inherited CCalendarDiff1: TCCalendarDiff
-              Date = 43780.608844236110000000
+              Date = 44012.535176828710000000
               DisplayInterval = Label1
               OnChange = actQueryProcessExecute
             end
@@ -326,8 +331,8 @@ inherited LabAmostraAss: TLabAmostraAss
         ExplicitWidth = 1109
         ExplicitHeight = 361
         inherited DBGrid1: TDBGrid
-          Width = 1109
-          Height = 361
+          Width = 1103
+          Height = 355
         end
       end
     end
@@ -421,7 +426,7 @@ inherited LabAmostraAss: TLabAmostraAss
         '       a.toleo, a.umidade, a.tensao, a.local, a.labsubest_recno,' +
         ' a.codigo, c.empresa, c.nome_chave, c.cnpj, c.cpf,'
       
-        '       c.telefone, a.destinatario, a.pedido, a.tpamostra_recno, ' +
+        '       c.telefone, a.destinatario, r.pedido, a.tpamostra_recno, ' +
         'tp.descri atipo, a.equip_recno, e.fabricante, e.serie,'
       
         '       e.tipo, e.descri, e.potencia, e.imped, e.tensao, e.fases,' +
