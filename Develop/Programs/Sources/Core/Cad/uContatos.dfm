@@ -255,6 +255,8 @@ inherited Contatos: TContatos
       object TabSheet2: TTabSheet
         Caption = 'Ativos'
         ImageIndex = 208
+        ExplicitLeft = 2
+        ExplicitTop = 37
       end
       object TabSheet3: TTabSheet
         Caption = 'Inativos'
