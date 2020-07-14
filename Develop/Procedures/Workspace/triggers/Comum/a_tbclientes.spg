@@ -14,17 +14,7 @@ Returns trigger
 As
 $$
 BEGIN
-   if tg_op = 'INSERT' then
-      -- Cadastra contato principal
-      -- if new.contato is not null then
-      --    insert into tbclientes_contatos
-      --               (cliente,         nome,             funcao,             telefone,
-      --                celular,         email,            contato_nextel,     contato_nextelcel)
-      --         values
-      --               (new.codigo,      new.contato,      new.contato_func,   new.contato_tel,
-      --                new.contato_cel, new.contato_mail, new.contato_nextel, new.contato_nextelcel);
-      -- end if;
-      
+   if tg_op = 'INSERT' then      
       -- Cadastra o patrocinador (cliente) como cliente final dos laudos
       insert into tbclientes_finais
          (codigo,     cliente, logo)
