@@ -19,7 +19,8 @@ begin
         from sys_fn a
              join sys_flag b
                on b.session = sys_session()
-              and b.recno = a.recno;
+              and b.recno = a.recno
+       where a.status = 2;
 
    fetch xcur into r;
 

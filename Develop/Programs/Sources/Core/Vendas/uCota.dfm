@@ -101,7 +101,7 @@ inherited Cota: TCota
             ExplicitHeight = 23
           end
           inherited CCalendarDiff1: TCCalendarDiff
-            Date = 43845.006774467590000000
+            Date = 43965.049720243060000000
             DisplayInterval = Label4
             OnChange = FrameData1CCalendarDiff1Change
           end
@@ -482,17 +482,18 @@ inherited Cota: TCota
       '         on ve.idvendedor = co.vendedor'
       '       left join markup m'
       '         on m.recno = co.markup'
-      '       join tbclientes_contatos ct'
+      '       join vclientes_contatos ct'
       '         on ct.cliente = co.cliente'
-      '        and ct.item = co.contato'
-      '       join tbclientes_contatos ctf'
+      '        and ct.contato = co.contato'
+      '       join vclientes_contatos ctf'
       '         on ctf.cliente = co.cliente'
-      '        and ctf.item = co.contato_fin'
-      '       join tbclientes_contatos ctt'
+      '        and ctf.contato = co.contato_fin'
+      '       join vclientes_contatos ctt'
       '         on ctt.cliente = co.cliente'
-      '        and ctt.item = co.contato_tec'
+      '        and ctt.contato = co.contato_tec'
       '       left join labproc lp'
-      '         on lp.cotacao = co.recno')
+      '         on lp.cotacao = co.recno'
+      '')
     IndexFieldNames = 'recno Desc'
     Sequence = zsCota
     SequenceField = 'recno'

@@ -157,18 +157,17 @@ BEGIN
                 order by p.codserv, p.amostra)
             loop
                if ilastserv <> r.codserv then
-                  select recno 
+                  select relato_recno
                     into irelato_recno
-                    from labrel 
+                    from labrel_serv
                    where codserv = r.codserv
-                     and ativo 
                    limit 1;
 
                   ilastserv := r.codserv;
                end if;
                
                if irelato_recno is null then
-                  raise '[[O serviço % - % não possui tipo de laudos ativos.]]', r.codserv, r.descri;
+                  raise '[[O serviço % - % do pedido % não possui tipo de laudos ativos.]]', r.codserv, r.descri, new.recno;
                end if;
 
                -- Insere laudo em estado de digitação

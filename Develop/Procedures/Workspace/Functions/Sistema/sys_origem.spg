@@ -9,9 +9,8 @@
 	-------------------------------------------------------------------------------------------------------------------
  */
 Create or Replace Function sys_origem(
-   in aTabela varchar(100))
-Returns integer
-As
+   in aTabela varchar)
+Returns integer As
 $$
 Declare
    out_res  integer;
