@@ -14,16 +14,16 @@ inherited ContatosM: TContatosM
     ExplicitWidth = 1029
     ExplicitHeight = 558
     inherited Panel3: TPanel
-      Top = 152
+      Top = 240
       Width = 1029
-      Height = 406
-      ExplicitTop = 152
+      Height = 318
+      ExplicitTop = 240
       ExplicitWidth = 1029
-      ExplicitHeight = 406
+      ExplicitHeight = 318
       inherited PageControl3: TPageControl
         Top = 47
         Width = 1023
-        Height = 356
+        Height = 268
         ExplicitLeft = 3
         ExplicitTop = 47
         ExplicitWidth = 1023
@@ -36,7 +36,7 @@ inherited ContatosM: TContatosM
           ExplicitHeight = 326
           inherited DBGrid1: TDBGrid
             Width = 1015
-            Height = 326
+            Height = 238
             DataSource = Contatos.dsContCli
           end
         end
@@ -78,7 +78,7 @@ inherited ContatosM: TContatosM
     end
     inherited PageControl1: TPageControl
       Width = 1023
-      Height = 146
+      Height = 234
       ExplicitLeft = 3
       ExplicitTop = 3
       ExplicitWidth = 1023
@@ -89,6 +89,17 @@ inherited ContatosM: TContatosM
         ExplicitTop = 26
         ExplicitWidth = 1015
         ExplicitHeight = 116
+        object Label8: TLabel
+          AlignWithMargins = True
+          Left = 3
+          Top = 103
+          Width = 1009
+          Height = 15
+          Align = alTop
+          Caption = 'Obs'
+          FocusControl = DBEdit1
+          ExplicitWidth = 21
+        end
         object Panel2: TPanel
           Left = 0
           Top = 0
@@ -307,18 +318,20 @@ inherited ContatosM: TContatosM
             end
           end
           object Panel10: TPanel
-            Left = 280
+            Left = 329
             Top = 0
-            Width = 735
+            Width = 686
             Height = 50
             Align = alClient
             BevelOuter = bvNone
-            TabOrder = 2
+            TabOrder = 3
+            ExplicitLeft = 280
+            ExplicitWidth = 735
             object Label7: TLabel
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 729
+              Width = 680
               Height = 15
               Align = alTop
               Caption = 'E-mail'
@@ -329,15 +342,63 @@ inherited ContatosM: TContatosM
               AlignWithMargins = True
               Left = 3
               Top = 24
-              Width = 729
+              Width = 680
               Height = 23
               Align = alClient
               CharCase = ecLowerCase
               DataField = 'email'
               DataSource = Contatos.DataSource1
               TabOrder = 0
+              ExplicitWidth = 729
             end
           end
+          object Panel12: TPanel
+            Left = 280
+            Top = 0
+            Width = 49
+            Height = 50
+            Align = alLeft
+            BevelOuter = bvNone
+            TabOrder = 2
+            object Label9: TLabel
+              AlignWithMargins = True
+              Left = 3
+              Top = 3
+              Width = 43
+              Height = 15
+              Align = alTop
+              Caption = 'Ramal'
+              FocusControl = DBEdit7
+              ExplicitWidth = 33
+            end
+            object DBEdit7: TDBEdit
+              AlignWithMargins = True
+              Left = 3
+              Top = 24
+              Width = 43
+              Height = 23
+              Align = alClient
+              DataField = 'ramal'
+              DataSource = Contatos.DataSource1
+              TabOrder = 0
+              ExplicitWidth = 134
+            end
+          end
+        end
+        object DBMemo1: TDBMemo
+          AlignWithMargins = True
+          Left = 3
+          Top = 124
+          Width = 1009
+          Height = 77
+          Align = alClient
+          DataField = 'obs'
+          DataSource = Contatos.DataSource1
+          TabOrder = 2
+          ExplicitLeft = 80
+          ExplicitTop = 144
+          ExplicitWidth = 185
+          ExplicitHeight = 89
         end
       end
     end

@@ -16,8 +16,9 @@ object DM: TDM
     Properties.Strings = (
       'codepage=LATIN1'
       'controls_cp=GET_ACP')
+    Connected = True
     DesignConnection = True
-    HostName = '127.0.0.1'
+    HostName = '192.168.122.1'
     Port = 5432
     Database = 'lorencini'
     User = 'postgres'

@@ -32,6 +32,11 @@ type
     DBEdit5: TDBEdit;
     Label7: TLabel;
     DBEdit6: TDBEdit;
+    Label8: TLabel;
+    DBMemo1: TDBMemo;
+    Panel12: TPanel;
+    Label9: TLabel;
+    DBEdit7: TDBEdit;
     procedure ChildGridDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn;
       State: TGridDrawState);
   private

@@ -131,6 +131,8 @@ type
     dsVendedores: TDataSource;
     qContatosportal_acessivel: TBooleanField;
     qContatosportal_senha: TStringField;
+    qContatosobs: TMemoField;
+    qContatosramal: TStringField;
     procedure FormCreate(Sender: TObject);
     procedure actOrcaExecute(Sender: TObject);
     procedure DBGrid2DrawColumnCell(Sender: TObject; const Rect: TRect;

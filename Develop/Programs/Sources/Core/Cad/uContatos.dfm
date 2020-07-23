@@ -255,8 +255,6 @@ inherited Contatos: TContatos
       object TabSheet2: TTabSheet
         Caption = 'Ativos'
         ImageIndex = 208
-        ExplicitLeft = 6
-        ExplicitTop = 37
       end
       object TabSheet3: TTabSheet
         Caption = 'Inativos'
@@ -312,8 +310,8 @@ inherited Contatos: TContatos
     AfterInsert = IBrwSrcAfterInsert
     SQL.Strings = (
       
-        'select situacao, nome, telefone, celular, email, data, recno fro' +
-        'm contatos')
+        'select situacao, nome, telefone, celular, email, data, ramal, ob' +
+        's, recno from contatos')
     IndexFieldNames = 'nome Asc'
     Sequence = sContatos
     SequenceField = 'recno'
@@ -338,6 +336,11 @@ inherited Contatos: TContatos
       ProviderFlags = [pfInUpdate]
       Required = True
       Size = 150
+    end
+    object IBrwSrcramal: TStringField
+      DisplayLabel = 'Ramal'
+      FieldName = 'ramal'
+      Size = 6
     end
     object IBrwSrctelefone: TStringField
       DisplayLabel = 'Telefone'
@@ -368,6 +371,12 @@ inherited Contatos: TContatos
       Required = True
       EditMask = '99/99/9999;0;'
     end
+    object IBrwSrcobs: TMemoField
+      DisplayLabel = 'Obs'
+      FieldName = 'obs'
+      Visible = False
+      BlobType = ftMemo
+    end
   end
   inherited zIBrwSrc: TZUpdateSQL
     DeleteSQL.Strings = (
@@ -376,9 +385,13 @@ inherited Contatos: TContatos
       '  contatos.recno = :OLD_recno')
     InsertSQL.Strings = (
       'INSERT INTO contatos'
-      '  (recno, nome, telefone, celular, email, data, situacao)'
+      
+        '  (recno, nome, telefone, celular, email, data, situacao, ramal,' +
+        ' obs)'
       'VALUES'
-      '  (:recno, :nome, :telefone, :celular, :email, :data, :situacao)')
+      
+        '  (:recno, :nome, :telefone, :celular, :email, :data, :situacao,' +
+        ' :ramal, :obs)')
     ModifySQL.Strings = (
       'UPDATE contatos SET'
       '  recno = :recno,'
@@ -387,7 +400,9 @@ inherited Contatos: TContatos
       '  celular = :celular,'
       '  email = :email,'
       '  data = :data,'
-      '  situacao = :situacao'
+      '  situacao = :situacao,'
+      '  ramal = :ramal,'
+      '  obs = :obs'
       'WHERE'
       '  contatos.recno = :OLD_recno')
     ParamData = <
@@ -428,6 +443,16 @@ inherited Contatos: TContatos
       end
       item
         DataType = ftUnknown
+        Name = 'ramal'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'obs'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
         Name = 'OLD_recno'
         ParamType = ptUnknown
       end>
@@ -460,7 +485,8 @@ inherited Contatos: TContatos
         'al, enviar_laudo_retorno_critico, '
       
         '   enviar_laudo_retorno_atencao, enviar_laudo_retorno_normal, pa' +
-        'drao, portal_acessivel, portal_senha)'
+        'drao, portal_acessivel, portal_senha,'
+      '   obs)'
       'VALUES'
       
         '  (:cliente, :contato, :funcao, :recno, :situacao, :enviar_pedid' +
@@ -471,7 +497,7 @@ inherited Contatos: TContatos
       
         '   :enviar_laudo_retorno_critico, :enviar_laudo_retorno_atencao,' +
         ' :enviar_laudo_retorno_normal,'
-      '   :padrao, :portal_acessivel, :portal_senha)')
+      '   :padrao, :portal_acessivel, :portal_senha, :obs)')
     ModifySQL.Strings = (
       'UPDATE tbclientes_contatos SET'
       '  funcao = :funcao,'
@@ -487,7 +513,8 @@ inherited Contatos: TContatos
       '  enviar_laudo_retorno_normal = :enviar_laudo_retorno_normal,'
       '  padrao = :padrao,'
       '  portal_acessivel = :portal_acessivel,'
-      '  portal_senha = :portal_senha'
+      '  portal_senha = :portal_senha,'
+      ' obs = :obs'
       'WHERE'
       '  tbclientes_contatos.cliente = :OLD_cliente AND'
       '  tbclientes_contatos.contato = :OLD_contato')
@@ -567,6 +594,11 @@ inherited Contatos: TContatos
       end
       item
         DataType = ftUnknown
+        Name = 'obs'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
         Name = 'OLD_cliente'
         ParamType = ptUnknown
       end
@@ -603,7 +635,8 @@ inherited Contatos: TContatos
         'critico, cc.enviar_laudo_retorno_normal, cc.situacao,'
       
         '       cc.padrao, cc.funcao, cc.recno, c.cnpj, c.cpf, cc.contato' +
-        ', cc.portal_acessivel, cc.portal_senha'
+        ', cc.portal_acessivel, cc.portal_senha,'
+      '       cc.obs'
       '  from tbclientes_contatos cc'
       '       join tbclientes c'
       '         on c.codigo = cc.cliente'
@@ -748,6 +781,11 @@ inherited Contatos: TContatos
       FieldName = 'portal_senha'
       Visible = False
       Size = 34
+    end
+    object qContCliobs: TMemoField
+      FieldName = 'obs'
+      Visible = False
+      BlobType = ftMemo
     end
   end
   object dsContCli: TDataSource

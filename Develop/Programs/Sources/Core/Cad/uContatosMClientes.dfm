@@ -1,16 +1,16 @@
 inherited ContatosMClientes: TContatosMClientes
   ActiveControl = FrameCliente1.DBEdit8
   Caption = 'Contato po Cliente'
-  ClientHeight = 518
+  ClientHeight = 622
   ClientWidth = 934
   ExplicitWidth = 940
-  ExplicitHeight = 547
+  ExplicitHeight = 651
   PixelsPerInch = 96
   TextHeight = 15
   inherited Panel1: TPanel
     Top = 44
     Width = 934
-    Height = 474
+    Height = 578
     ExplicitTop = 44
     ExplicitWidth = 934
     ExplicitHeight = 474
@@ -69,7 +69,7 @@ inherited ContatosMClientes: TContatosMClientes
     end
     inherited PageControl1: TPageControl
       Width = 928
-      Height = 468
+      Height = 572
       ExplicitLeft = 3
       ExplicitTop = 3
       ExplicitWidth = 928
@@ -80,6 +80,17 @@ inherited ContatosMClientes: TContatosMClientes
         ExplicitTop = 26
         ExplicitWidth = 920
         ExplicitHeight = 438
+        object Label7: TLabel
+          AlignWithMargins = True
+          Left = 3
+          Top = 207
+          Width = 914
+          Height = 15
+          Align = alTop
+          Caption = 'Obs'
+          FocusControl = DBEdit1
+          ExplicitWidth = 21
+        end
         object GroupBox1: TGroupBox
           AlignWithMargins = True
           Left = 3
@@ -271,6 +282,8 @@ inherited ContatosMClientes: TContatosMClientes
               Width = 910
               ExplicitWidth = 910
               inherited Panel2: TPanel
+                ExplicitLeft = -3
+                ExplicitTop = -3
                 ExplicitHeight = 50
                 inherited Label9: TLabel
                   Width = 70
@@ -398,22 +411,25 @@ inherited ContatosMClientes: TContatosMClientes
         object GroupBox3: TGroupBox
           AlignWithMargins = True
           Left = 3
-          Top = 207
+          Top = 319
           Width = 914
-          Height = 228
+          Height = 220
           Align = alClient
           Caption = ' Configura'#231#245'es '
-          TabOrder = 2
+          TabOrder = 3
+          ExplicitTop = 207
+          ExplicitHeight = 228
           object Panel7: TPanel
             AlignWithMargins = True
             Left = 5
             Top = 20
             Width = 220
-            Height = 203
+            Height = 195
             Align = alLeft
             Alignment = taLeftJustify
             BevelOuter = bvNone
             TabOrder = 0
+            ExplicitHeight = 203
             object Panel8: TPanel
               Left = 0
               Top = 0
@@ -524,11 +540,12 @@ inherited ContatosMClientes: TContatosMClientes
             Left = 236
             Top = 20
             Width = 673
-            Height = 203
+            Height = 195
             Margins.Left = 8
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 1
+            ExplicitHeight = 203
             object ControlBar3: TControlBar
               AlignWithMargins = True
               Left = 3
@@ -576,10 +593,11 @@ inherited ContatosMClientes: TContatosMClientes
               Left = 3
               Top = 47
               Width = 262
-              Height = 153
+              Height = 145
               Align = alLeft
               BevelOuter = bvNone
               TabOrder = 1
+              ExplicitHeight = 153
               object DBCheckBox1: TDBCheckBox
                 AlignWithMargins = True
                 Left = 3
@@ -643,10 +661,11 @@ inherited ContatosMClientes: TContatosMClientes
               Left = 271
               Top = 47
               Width = 399
-              Height = 153
+              Height = 145
               Align = alClient
               BevelOuter = bvNone
               TabOrder = 2
+              ExplicitHeight = 153
               object DBCheckBox3: TDBCheckBox
                 AlignWithMargins = True
                 Left = 3
@@ -733,6 +752,17 @@ inherited ContatosMClientes: TContatosMClientes
               end
             end
           end
+        end
+        object DBMemo1: TDBMemo
+          AlignWithMargins = True
+          Left = 3
+          Top = 228
+          Width = 914
+          Height = 85
+          Align = alTop
+          DataField = 'obs'
+          DataSource = Contatos.dsContCli
+          TabOrder = 2
         end
       end
     end

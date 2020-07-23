@@ -1206,7 +1206,7 @@ inherited Clientes: TClientes
         'enviar_laudo_retorno_atencao,'
       
         '       a.enviar_laudo_retorno_normal, a.portal_acessivel, a.port' +
-        'al_senha'
+        'al_senha, a.obs, c.ramal'
       '  from tbclientes_contatos a'
       '       join contatos c'
       '         on c.recno = a.contato'
@@ -1269,6 +1269,11 @@ inherited Clientes: TClientes
       Required = True
       EditMask = '(99) 9999-9999;0;'
       Size = 100
+    end
+    object qContatosramal: TStringField
+      DisplayLabel = 'Ramal'
+      FieldName = 'ramal'
+      Size = 6
     end
     object qContatoscelular: TStringField
       DisplayLabel = 'Celular'
@@ -1339,6 +1344,11 @@ inherited Clientes: TClientes
       Visible = False
       Size = 34
     end
+    object qContatosobs: TMemoField
+      FieldName = 'obs'
+      Visible = False
+      BlobType = ftMemo
+    end
   end
   object uContatos: TZUpdateSQL
     DeleteSQL.Strings = (
@@ -1356,7 +1366,8 @@ inherited Clientes: TClientes
         'al, enviar_laudo_retorno_critico, '
       
         '   enviar_laudo_retorno_atencao, enviar_laudo_retorno_normal, pa' +
-        'drao, contato, portal_acessivel, portal_senha)'
+        'drao, contato, portal_acessivel, portal_senha,'
+      '   obs)'
       'VALUES'
       
         '  (:cliente, :funcao, :recno, :situacao, :enviar_pedido_venda, :' +
@@ -1367,7 +1378,7 @@ inherited Clientes: TClientes
       
         '   :enviar_laudo_retorno_critico, :enviar_laudo_retorno_atencao,' +
         ' :enviar_laudo_retorno_normal,'
-      '   :padrao, :contato, :portal_acessivel, :portal_senha)')
+      '   :padrao, :contato, :portal_acessivel, :portal_senha, :obs)')
     ModifySQL.Strings = (
       'UPDATE tbclientes_contatos SET'
       '  cliente = :cliente,'
@@ -1385,7 +1396,8 @@ inherited Clientes: TClientes
       '  padrao = :padrao,'
       '  contato = :contato,'
       '  portal_acessivel = :portal_acessivel,'
-      '  portal_senha = :portal_senha'
+      '  portal_senha = :portal_senha,'
+      '  obs = :obs'
       'WHERE'
       '  tbclientes_contatos.cliente = :OLD_cliente AND'
       '  tbclientes_contatos.contato = :OLD_contato')
@@ -1471,6 +1483,11 @@ inherited Clientes: TClientes
       item
         DataType = ftUnknown
         Name = 'portal_senha'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'obs'
         ParamType = ptUnknown
       end
       item

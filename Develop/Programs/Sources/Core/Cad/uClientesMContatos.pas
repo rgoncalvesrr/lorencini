@@ -68,6 +68,8 @@ type
     Panel15: TPanel;
     Label8: TLabel;
     DBEdit7: TDBEdit;
+    Label9: TLabel;
+    DBMemo1: TDBMemo;
     procedure actCheckExecute(Sender: TObject);
     procedure DBEdit1Exit(Sender: TObject);
     procedure actFindContatoExecute(Sender: TObject);

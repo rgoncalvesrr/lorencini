@@ -55,6 +55,8 @@ type
     Panel14: TPanel;
     Label6: TLabel;
     DBEdit5: TDBEdit;
+    Label7: TLabel;
+    DBMemo1: TDBMemo;
     procedure FrameCliente1SpeedButton1Click(Sender: TObject);
     procedure actCheckExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);

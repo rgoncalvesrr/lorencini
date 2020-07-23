@@ -65,6 +65,9 @@ type
     qContClicontato: TIntegerField;
     qContCliportal_acessivel: TBooleanField;
     qContCliportal_senha: TStringField;
+    qContCliobs: TMemoField;
+    IBrwSrcramal: TStringField;
+    IBrwSrcobs: TMemoField;
     procedure IBrwSrcsituacaoGetText(Sender: TField; var Text: string; DisplayText: Boolean);
     procedure IBrwSrcsituacaoSetText(Sender: TField; const Text: string);
     procedure DBGridDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn;
