@@ -35,64 +35,6 @@ type
     qNatuDetdescri: TStringField;
     uNatuDet: TZUpdateSQL;
     dsNatu: TDataSource;
-    qClientes: TZQuery;
-    qClientescodigo: TIntegerField;
-    qClientesempresa: TStringField;
-    qClientesnome_chave: TStringField;
-    qClientesendereco: TStringField;
-    qClientesbairro: TStringField;
-    qClientescep: TStringField;
-    qClientesestado: TStringField;
-    qClientescnpj: TStringField;
-    qClientesinscricao: TStringField;
-    qClientestelefone: TStringField;
-    qClientesfax: TStringField;
-    qClienteswebsite: TStringField;
-    qClientesemail: TStringField;
-    qClientesid_vendedor: TIntegerField;
-    qClientessituacao: TStringField;
-    qClientesfat_ende: TStringField;
-    qClientesfat_bair: TStringField;
-    qClientesfat_cep: TStringField;
-    qClientesfat_cida: TStringField;
-    qClientesfat_esta: TStringField;
-    qClientesent_ende: TStringField;
-    qClientesent_bair: TStringField;
-    qClientesent_cep: TStringField;
-    qClientesent_cida: TStringField;
-    qClientesent_esta: TStringField;
-    qClientescobra_ende: TStringField;
-    qClientescobra_bairro: TStringField;
-    qClientescobra_cep: TStringField;
-    qClientescobra_cida: TStringField;
-    qClientescobra_esta: TStringField;
-    qClientesobservacao: TMemoField;
-    qClientesrestricao: TStringField;
-    qClientesrestrmotiv: TMemoField;
-    qClientesdtcadastro: TDateField;
-    qClientessenha: TStringField;
-    qClientestag_caption: TStringField;
-    qClientescontato: TStringField;
-    qClientescontato_tel: TStringField;
-    qClientescontato_func: TStringField;
-    qClientescontato_cel: TStringField;
-    qClientescontato_mail: TStringField;
-    qClientescontato_nextel: TStringField;
-    qClientescontato_nextelcel: TStringField;
-    uClientes: TZUpdateSQL;
-    dsClientes: TDataSource;
-    dsContatos: TDataSource;
-    qContatos: TZQuery;
-    qContatoscliente: TIntegerField;
-    qContatositem: TIntegerField;
-    qContatosnome: TStringField;
-    qContatosfuncao: TStringField;
-    qContatostelefone: TStringField;
-    qContatoscelular: TStringField;
-    qContatosemail: TStringField;
-    qContatoscontato_nextel: TStringField;
-    qContatoscontato_nextelcel: TStringField;
-    uContatos: TZUpdateSQL;
     qVendedores: TZQuery;
     qVendedoresidvendedor: TIntegerField;
     qVendedoresativo: TBooleanField;
@@ -113,7 +55,6 @@ type
     qVendedoresinscrestadual: TStringField;
     qVendedoresusername: TStringField;
     dsVendedores: TDataSource;
-    qClientesvendedornome: TStringField;
     qSysUsers: TZQuery;
     dsSysUsers: TDataSource;
     qSysUsersusername: TStringField;
@@ -241,11 +182,6 @@ type
     qFornProddescricao: TStringField;
     SQLMonitor: TZSQLMonitor;
     SQLProcessor: TZSQLProcessor;
-    qClientesrecno: TIntegerField;
-    sClientes: TZSequence;
-    qClientescpf: TStringField;
-    qClientesrg: TStringField;
-    qClientestipo: TIntegerField;
     qSysFormRpt: TZQuery;
     uSysFormRpt: TZUpdateSQL;
     dsqSysFormRpt: TDataSource;
@@ -260,26 +196,6 @@ type
     qFuncoesvlr_janta: TFloatField;
     qFuncoesrecno: TIntegerField;
     qFuncoesativo: TBooleanField;
-    qContatosrecno: TIntegerField;
-    qContatossituacao: TIntegerField;
-    qClienteslogo: TBlobField;
-    qClientesFinais: TZQuery;
-    qClientesFinaiscodigo: TIntegerField;
-    qClientesFinaisempresa: TStringField;
-    qClientesFinaisnome_chave: TStringField;
-    qClientesFinaiscidade: TStringField;
-    qClientesFinaisestado: TStringField;
-    qClientesFinaiscnpj: TStringField;
-    qClientesFinaiscpf: TStringField;
-    qClientesFinaislogo: TBlobField;
-    qClientesFinaisrecno: TIntegerField;
-    dsClientesFinais: TDataSource;
-    uClientesFinais: TZUpdateSQL;
-    sClientesFinais: TZSequence;
-    qClientesFinaisemail: TStringField;
-    qClientesFinaiscliente: TIntegerField;
-    qClientesFinaistelefone: TStringField;
-    qClientescidade: TStringField;
     qProdutosunidade: TStringField;
     sProdutos: TZSequence;
     qProdutosrecno: TIntegerField;
@@ -290,10 +206,6 @@ type
     procedure uNatuBeforeInsertSQL(Sender: TObject);
     procedure qNatuCalcFields(DataSet: TDataSet);
     procedure qNatuAfterInsert(DataSet: TDataSet);
-    procedure qContatosBeforePost(DataSet: TDataSet);
-    procedure uContatosBeforeInsertSQL(Sender: TObject);
-    procedure qClientesAfterInsert(DataSet: TDataSet);
-    procedure dsClientesStateChange(Sender: TObject);
     procedure dsVendedoresStateChange(Sender: TObject);
     procedure qVendedoresAfterInsert(DataSet: TDataSet);
     procedure uSGruposBeforeInsertSQL(Sender: TObject);
@@ -315,9 +227,6 @@ type
     procedure qContatossituacaoGetText(Sender: TField; var Text: string;
       DisplayText: Boolean);
     procedure qContatossituacaoSetText(Sender: TField; const Text: string);
-    procedure qContatosAfterInsert(DataSet: TDataSet);
-    procedure qClientesAfterScroll(DataSet: TDataSet);
-    procedure qClientesFinaisAfterInsert(DataSet: TDataSet);
     procedure TasksTimer(Sender: TObject);
   private
     FActiveSQLMonitor: Boolean;
@@ -384,11 +293,6 @@ begin
       TDataSet(Components[i]).Close;
       
   inherited;
-end;
-
-procedure TDM.dsClientesStateChange(Sender: TObject);
-begin
-  qVendedores.Filtered := (qClientes.State in [dsInsert, dsEdit]);
 end;
 
 procedure TDM.dsVendedoresStateChange(Sender: TObject);
@@ -463,34 +367,10 @@ begin
   if DataSet.State = dsInsert then
   begin
     qCallCenterusername.AsString := U.Info.UserName;
-    qCallCentercodigo.AsInteger := qClientescodigo.AsInteger;
+     { TODO -oRicardo -cComercial : Revisar o evento de gravação do call center }
+//    qCallCentercodigo.AsInteger := qClientescodigo.AsInteger;
+
   end;
-end;
-
-procedure TDM.qClientesAfterInsert(DataSet: TDataSet);
-begin
-  qClientesdtcadastro.AsDateTime:= now;
-  {Atualiza código do vendedor automaticamente}
-//  if U.Info.IsVendor then
-//    qClientesid_vendedor.AsInteger:= U.Info.IdVendor;
-
-  qClientessituacao.AsString := 'ATIVO';
-  qClientestipo.AsInteger := 1;
-end;
-
-procedure TDM.qClientesAfterScroll(DataSet: TDataSet);
-begin
-  qContatos.ParamByName('cliente').AsInteger :=
-    qClientescodigo.AsInteger;
-  qClientesFinais.ParamByName('codigo').AsInteger :=
-    qClientescodigo.AsInteger;
-  G.RefreshDataSet(qContatos);
-  G.RefreshDataSet(qClientesFinais);
-end;
-
-procedure TDM.qClientesFinaisAfterInsert(DataSet: TDataSet);
-begin
-  qClientesFinaiscodigo.AsInteger := qClientescodigo.AsInteger;
 end;
 
 procedure TDM.qClientestipoGetText(Sender: TField; var Text: string;
@@ -513,16 +393,6 @@ begin
     'F': Sender.AsInteger := 2;
     'E': Sender.AsInteger := 3;
   end;
-end;
-
-procedure TDM.qContatosAfterInsert(DataSet: TDataSet);
-begin
-  qContatossituacao.AsInteger := 1;
-end;
-
-procedure TDM.qContatosBeforePost(DataSet: TDataSet);
-begin
-  qContatoscliente.AsInteger:= qClientescodigo.AsInteger;
 end;
 
 procedure TDM.qContatossituacaoGetText(Sender: TField; var Text: string;
@@ -649,11 +519,6 @@ begin
     U.Data.ExecSQL('update cota set status = 7 where validade < current_date and status = 4');
     FTaskLimpaCota := Now;
   end;
-end;
-
-procedure TDM.uContatosBeforeInsertSQL(Sender: TObject);
-begin
-  uContatos.Params.ParamByName('cliente').AsInteger:= qClientescodigo.AsInteger;
 end;
 
 procedure TDM.uNatuBeforeInsertSQL(Sender: TObject);

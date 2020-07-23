@@ -1,0 +1,47 @@
+/**
+   Processamento de contatos
+
+	@author    Ricardo Gonçalves
+	@date      25/02/2020 22:59
+	@trigger   pessoas_en
+
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+CREATE OR REPLACE FUNCTION b_tbclientes_contatos()
+  RETURNS trigger AS
+$$
+BEGIN
+   if tg_op = 'DELETE' then
+      return old;
+   end if;
+
+   if new.situacao = 1 and not exists(
+      select 1
+        from tbclientes_contatos
+       where cliente = new.cliente
+         and contato <> new.contato
+         and padrao) 
+   then
+      new.padrao := true;
+   end if;
+
+   if not new.portal_acessivel then
+      new.portal_senha := null;
+   end if;
+
+   if tg_op = 'UPDATE' then
+      if new.portal_senha is not null and new.portal_senha <> coalesce(old.portal_senha, '') then
+         new.portal_senha := md5(new.portal_senha);
+      end if;
+
+      if new.portal_acessivel <> old.portal_acessivel then
+         new.portal_token := md5(localtimestamp::varchar);
+      end if;
+   end if;
+
+   return new;
+END;
+$$
+  LANGUAGE 'plpgsql' VOLATILE;

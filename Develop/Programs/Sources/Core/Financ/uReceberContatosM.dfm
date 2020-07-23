@@ -1,21 +1,81 @@
 inherited ReceberContatosM: TReceberContatosM
   Caption = 'Contatos'
   ClientHeight = 363
+  ExplicitWidth = 645
   ExplicitHeight = 392
   PixelsPerInch = 96
   TextHeight = 15
   inherited Panel1: TPanel
+    Top = 44
     Height = 319
+    ExplicitLeft = 3
+    ExplicitTop = 45
     ExplicitHeight = 319
     inherited Panel3: TPanel
       Align = alNone
+      ExplicitTop = 204
+      inherited PageControl3: TPageControl
+        Top = 47
+        Height = 185
+        ExplicitLeft = 3
+        ExplicitTop = 38
+        ExplicitWidth = 633
+        ExplicitHeight = 194
+        inherited tsDet: TTabSheet
+          ExplicitLeft = 4
+          ExplicitTop = 26
+          ExplicitWidth = 625
+          ExplicitHeight = 164
+          inherited DBGrid1: TDBGrid
+            Width = 625
+            Height = 155
+          end
+        end
+      end
+      inherited ControlBar2: TControlBar
+        Height = 38
+        ExplicitLeft = 3
+        ExplicitTop = 3
+        ExplicitWidth = 633
+        ExplicitHeight = 38
+        inherited ToolBar3: TToolBar
+          ButtonWidth = 129
+          inherited ToolButton10: TToolButton
+            ExplicitWidth = 32
+          end
+          inherited ToolButton11: TToolButton
+            ExplicitWidth = 32
+          end
+          inherited ToolButton17: TToolButton
+            ExplicitWidth = 32
+          end
+          inherited ToolButton12: TToolButton
+            ExplicitWidth = 32
+          end
+          inherited ToolButton13: TToolButton
+            ExplicitWidth = 32
+          end
+          inherited tbSQLDet: TToolButton
+            ExplicitWidth = 32
+          end
+          inherited tbRefazGrid: TToolButton
+            ExplicitWidth = 32
+          end
+        end
+      end
     end
     inherited PageControl1: TPageControl
       Height = 313
-      ExplicitHeight = 313
+      ExplicitLeft = 3
+      ExplicitTop = 3
+      ExplicitWidth = 633
+      ExplicitHeight = 322
       inherited TabSheet1: TTabSheet
         Caption = 'Manuten'#231#227'o de Contatos'
-        ExplicitHeight = 283
+        ExplicitLeft = 4
+        ExplicitTop = 26
+        ExplicitWidth = 625
+        ExplicitHeight = 292
         object Label1: TLabel
           Left = 3
           Top = 9
@@ -50,6 +110,7 @@ inherited ReceberContatosM: TReceberContatosM
           Font.Color = clWindowText
           Font.Height = -12
           Font.Name = 'Arial'
+          Font.Pitch = fpVariable
           Font.Style = [fsBold]
           ParentFont = False
         end
@@ -72,6 +133,7 @@ inherited ReceberContatosM: TReceberContatosM
           Font.Color = clWindowText
           Font.Height = -12
           Font.Name = 'Arial'
+          Font.Pitch = fpVariable
           Font.Style = [fsBold]
           ParentFont = False
         end
@@ -94,13 +156,14 @@ inherited ReceberContatosM: TReceberContatosM
           Font.Color = clWindowText
           Font.Height = -12
           Font.Name = 'Arial'
+          Font.Pitch = fpVariable
           Font.Style = [fsBold]
           ParentFont = False
         end
         object Label8: TLabel
           Left = 3
           Top = 226
-          Width = 33
+          Width = 34
           Height = 15
           Caption = 'Nextel'
           FocusControl = DBEdit8
@@ -108,7 +171,7 @@ inherited ReceberContatosM: TReceberContatosM
         object Label9: TLabel
           Left = 3
           Top = 256
-          Width = 56
+          Width = 57
           Height = 15
           Caption = 'Nextel Cel.'
           FocusControl = DBEdit9
@@ -137,7 +200,7 @@ inherited ReceberContatosM: TReceberContatosM
         end
         object DBEdit3: TDBEdit
           Left = 71
-          Top = 65
+          Top = 66
           Width = 304
           Height = 23
           DataField = 'nome'
@@ -155,7 +218,7 @@ inherited ReceberContatosM: TReceberContatosM
         end
         object DBEdit5: TDBEdit
           Left = 71
-          Top = 128
+          Top = 129
           Width = 229
           Height = 23
           DataField = 'telefone'
@@ -198,6 +261,49 @@ inherited ReceberContatosM: TReceberContatosM
           DataSource = Receber.dsContatos
           TabOrder = 8
         end
+      end
+    end
+  end
+  inherited ControlBar1: TControlBar
+    Height = 38
+    ExplicitLeft = 3
+    ExplicitTop = 3
+    ExplicitWidth = 633
+    ExplicitHeight = 38
+    inherited ToolBar1: TToolBar
+      ButtonWidth = 115
+      inherited ToolButton6: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton4: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton7: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton1: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton2: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton8: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton9: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton14: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton16: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited tbSQL: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited tbClose: TToolButton
+        ExplicitWidth = 32
       end
     end
   end

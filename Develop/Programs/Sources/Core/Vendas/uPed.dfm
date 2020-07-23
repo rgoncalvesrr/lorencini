@@ -1,150 +1,232 @@
 inherited Ped: TPed
   Caption = 'Pedidos'
-  ClientHeight = 526
-  ClientWidth = 997
+  ClientHeight = 651
+  ClientWidth = 1119
   Constraints.MinWidth = 851
-  ExplicitWidth = 1013
-  ExplicitHeight = 565
+  ExplicitWidth = 1135
+  ExplicitHeight = 690
   PixelsPerInch = 96
   TextHeight = 15
   inherited StatusBar1: TStatusBar
-    Top = 499
-    Width = 991
+    Top = 624
+    Width = 1113
     ExplicitTop = 499
     ExplicitWidth = 991
   end
   inherited Panel1: TPanel
-    Width = 997
+    Width = 1119
     ExplicitWidth = 997
     inherited pctlFind: TPageControl
-      Width = 987
-      ExplicitWidth = 987
+      Width = 1109
+      ExplicitLeft = 7
+      ExplicitTop = -3
+      ExplicitWidth = 1109
       inherited tsQuery: TTabSheet
-        ExplicitLeft = 4
-        ExplicitTop = 6
-        ExplicitWidth = 979
+        ExplicitLeft = 3
+        ExplicitTop = 7
+        ExplicitWidth = 1101
         ExplicitHeight = 75
-        object Label1: TLabel [0]
-          Left = 58
-          Top = 3
-          Width = 32
-          Height = 15
-          Caption = 'Status'
-        end
-        object Label18: TLabel [1]
-          Left = 294
-          Top = 3
-          Width = 90
-          Height = 15
-          Caption = 'Vizualizar cliente:'
-          Transparent = True
-        end
-        object Label3: TLabel [2]
-          Left = 3
-          Top = 3
-          Width = 37
-          Height = 15
-          Caption = 'Pedido'
-        end
-        object Label5: TLabel [3]
-          Left = 568
-          Top = 3
-          Width = 43
-          Height = 15
-          Caption = 'Emiss'#227'o'
-          Transparent = True
-        end
-        object Label6: TLabel [4]
-          Left = 568
-          Top = 49
-          Width = 128
-          Height = 15
-          Caption = '01/01/2020 a 31/01/2020'
-          Transparent = True
+        object Panel5: TPanel [0]
+          Left = 0
+          Top = 0
+          Width = 54
+          Height = 75
+          Align = alLeft
+          BevelOuter = bvNone
+          TabOrder = 1
+          ExplicitTop = 1
+          object Label3: TLabel
+            AlignWithMargins = True
+            Left = 3
+            Top = 3
+            Width = 48
+            Height = 15
+            Align = alTop
+            Caption = 'Pedido'
+            ExplicitWidth = 37
+          end
+          object edPedido: TJvCalcEdit
+            AlignWithMargins = True
+            Left = 3
+            Top = 24
+            Width = 48
+            Height = 23
+            Align = alTop
+            DecimalPlaces = 0
+            DisplayFormat = '#'
+            FormatOnEditing = True
+            ShowButton = False
+            TabOrder = 0
+            DecimalPlacesAlwaysShown = False
+            OnChange = ComboBox1Change
+            ExplicitLeft = 2
+            ExplicitWidth = 46
+          end
         end
         inherited BitBtn2: TBitBtn
-          Left = 878
-          ExplicitLeft = 878
+          Left = 1000
+          ExplicitLeft = 1000
+          ExplicitTop = 11
         end
-        object cbStatus: TComboBox
-          Left = 60
-          Top = 24
-          Width = 228
-          Height = 23
-          Style = csDropDownList
-          ItemHeight = 15
-          TabOrder = 1
-          OnChange = cbStatusChange
-          Items.Strings = (
-            'Todos'
-            'Em Digita'#231#227'o'
-            'Aprova'#231#227'o de Cr'#233'dito'
-            'Aguardando Autoriza'#231#227'o'
-            'Em Remessa'
-            'Aguardando Amostras'
-            'Executando'
-            'Executado'
-            'Cancelado')
-        end
-        object ComboBox1: TComboBox
-          Left = 294
-          Top = 23
-          Width = 264
-          Height = 23
-          DropDownCount = 30
-          ItemHeight = 15
+        object Panel6: TPanel
+          Left = 54
+          Top = 0
+          Width = 234
+          Height = 75
+          Align = alLeft
+          BevelOuter = bvNone
           TabOrder = 2
-          OnChange = ComboBox1Change
-          Items.Strings = (
-            '<TODOS>'
-            'JANEIRO'
-            'FEVEREIRO'
-            'MAR'#199'O'
-            'ABRIL'
-            'MAIO'
-            'JUNHO'
-            'JULHO'
-            'AGOSTO'
-            'SETEMBRO'
-            'OUTUBRO'
-            'NOVEMBRO'
-            'DEZEMBRO')
-        end
-        object edPedido: TJvCalcEdit
-          Left = 3
-          Top = 23
-          Width = 46
-          Height = 23
-          DecimalPlaces = 0
-          DisplayFormat = '#'
-          FormatOnEditing = True
-          ShowButton = False
-          TabOrder = 3
-          DecimalPlacesAlwaysShown = False
-          OnChange = ComboBox1Change
-        end
-        inline FrameData1: TFrameData
-          Left = 568
-          Top = 23
-          Width = 145
-          Height = 23
-          TabOrder = 4
-          ExplicitLeft = 568
-          ExplicitTop = 23
-          ExplicitHeight = 23
-          inherited ComboBox1: TComboBox
-            Height = 23
-            Enabled = False
-            ItemHeight = 15
-            ItemIndex = 2
-            Text = 'Trimestralmente'
-            ExplicitHeight = 23
+          ExplicitTop = 1
+          object Label1: TLabel
+            AlignWithMargins = True
+            Left = 3
+            Top = 3
+            Width = 228
+            Height = 15
+            Align = alTop
+            Caption = 'Status'
+            ExplicitLeft = 58
+            ExplicitWidth = 32
           end
-          inherited CCalendarDiff1: TCCalendarDiff
-            Interval = diMonthly
-            Date = 43853.996756655090000000
-            DisplayInterval = Label6
-            OnChange = FrameData1CCalendarDiff1Change
+          object cbStatus: TComboBox
+            AlignWithMargins = True
+            Left = 3
+            Top = 24
+            Width = 228
+            Height = 23
+            Align = alTop
+            Style = csDropDownList
+            ItemHeight = 15
+            TabOrder = 0
+            OnChange = cbStatusChange
+            Items.Strings = (
+              'Todos'
+              'Em Digita'#231#227'o'
+              'Aprova'#231#227'o de Cr'#233'dito'
+              'Aguardando Autoriza'#231#227'o'
+              'Em Remessa'
+              'Aguardando Amostras'
+              'Executando'
+              'Executado'
+              'Cancelado')
+            ExplicitLeft = 6
+          end
+        end
+        object Panel7: TPanel
+          Left = 288
+          Top = 0
+          Width = 234
+          Height = 75
+          Align = alLeft
+          BevelOuter = bvNone
+          TabOrder = 3
+          ExplicitLeft = 528
+          ExplicitTop = -6
+          object Label18: TLabel
+            AlignWithMargins = True
+            Left = 3
+            Top = 3
+            Width = 228
+            Height = 15
+            Align = alTop
+            Caption = 'Vizualizar cliente:'
+            Transparent = True
+            ExplicitLeft = 144
+            ExplicitWidth = 90
+          end
+          object ComboBox1: TComboBox
+            AlignWithMargins = True
+            Left = 3
+            Top = 24
+            Width = 228
+            Height = 23
+            Align = alTop
+            DropDownCount = 30
+            ItemHeight = 15
+            TabOrder = 0
+            OnChange = ComboBox1Change
+            Items.Strings = (
+              '<TODOS>'
+              'JANEIRO'
+              'FEVEREIRO'
+              'MAR'#199'O'
+              'ABRIL'
+              'MAIO'
+              'JUNHO'
+              'JULHO'
+              'AGOSTO'
+              'SETEMBRO'
+              'OUTUBRO'
+              'NOVEMBRO'
+              'DEZEMBRO')
+            ExplicitLeft = -30
+            ExplicitTop = 23
+            ExplicitWidth = 264
+          end
+        end
+        object Panel8: TPanel
+          Left = 522
+          Top = 0
+          Width = 191
+          Height = 75
+          Align = alLeft
+          BevelOuter = bvNone
+          TabOrder = 4
+          object Label5: TLabel
+            AlignWithMargins = True
+            Left = 3
+            Top = 3
+            Width = 185
+            Height = 15
+            Align = alTop
+            Caption = 'Emiss'#227'o'
+            Transparent = True
+            ExplicitLeft = 148
+            ExplicitWidth = 43
+          end
+          object Label6: TLabel
+            AlignWithMargins = True
+            Left = 3
+            Top = 53
+            Width = 185
+            Height = 15
+            Align = alTop
+            Caption = '01/06/2020 a 30/06/2020'
+            Transparent = True
+            ExplicitLeft = 63
+            ExplicitTop = 49
+            ExplicitWidth = 128
+          end
+          inline FrameData1: TFrameData
+            AlignWithMargins = True
+            Left = 3
+            Top = 24
+            Width = 185
+            Height = 23
+            Align = alTop
+            AutoSize = True
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Segoe UI'
+            Font.Pitch = fpVariable
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 0
+            ExplicitLeft = 46
+            ExplicitTop = 23
+            inherited ComboBox1: TComboBox
+              Width = 185
+              Enabled = False
+              ItemIndex = 2
+              Text = 'Trimestralmente'
+            end
+            inherited CCalendarDiff1: TCCalendarDiff
+              Interval = diMonthly
+              Date = 43984.709995023150000000
+              DisplayInterval = Label6
+              OnChange = FrameData1CCalendarDiff1Change
+            end
           end
         end
       end
@@ -157,13 +239,13 @@ inherited Ped: TPed
     end
   end
   inherited Panel2: TPanel
-    Width = 997
-    Height = 367
+    Width = 1119
+    Height = 492
     ExplicitWidth = 997
     ExplicitHeight = 367
     inherited PageControl1: TPageControl
-      Width = 991
-      Height = 211
+      Width = 1113
+      Height = 336
       ActivePage = TabSheet2
       Images = Resources.medium_n
       ExplicitWidth = 991
@@ -176,19 +258,21 @@ inherited Ped: TPed
         ExplicitWidth = 983
         ExplicitHeight = 174
         inherited DBGrid1: TDBGrid
-          Width = 977
-          Height = 168
+          Width = 1099
+          Height = 293
           OnDrawColumnCell = DBGrid1DrawColumnCell
         end
       end
       object TabSheet2: TTabSheet
         Caption = 'Em Digita'#231#227'o'
         ImageIndex = 213
+        ExplicitWidth = 983
+        ExplicitHeight = 174
         object ControlBar1: TControlBar
           AlignWithMargins = True
           Left = 3
           Top = 3
-          Width = 977
+          Width = 1099
           Height = 40
           Align = alTop
           AutoSize = True
@@ -197,6 +281,7 @@ inherited Ped: TPed
           BorderWidth = 1
           DrawingStyle = dsGradient
           TabOrder = 0
+          ExplicitWidth = 977
           object ToolBar2: TToolBar
             AlignWithMargins = True
             Left = 11
@@ -253,84 +338,74 @@ inherited Ped: TPed
       object TabSheet7: TTabSheet
         Caption = 'Aprova'#231#227'o de Cr'#233'dito'
         ImageIndex = 214
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
+        ExplicitWidth = 983
+        ExplicitHeight = 174
       end
       object TabSheet3: TTabSheet
         Caption = 'Autoriza'#231#227'o para Execu'#231#227'o'
         ImageIndex = 210
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
+        ExplicitWidth = 983
+        ExplicitHeight = 174
       end
       object TabSheet8: TTabSheet
         Caption = 'Em Remessa'
         ImageIndex = 211
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
+        ExplicitWidth = 983
+        ExplicitHeight = 174
       end
       object TabSheet9: TTabSheet
         Caption = 'Aguardando Amostra'
         ImageIndex = 212
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
+        ExplicitWidth = 983
+        ExplicitHeight = 174
       end
       object TabSheet4: TTabSheet
         Caption = 'Em Execu'#231#227'o'
         ImageIndex = 205
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
+        ExplicitWidth = 983
+        ExplicitHeight = 174
       end
       object TabSheet5: TTabSheet
         Caption = 'Executado'
         ImageIndex = 208
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
+        ExplicitWidth = 983
+        ExplicitHeight = 174
       end
       object TabSheet10: TTabSheet
         Caption = 'Cancelados'
         ImageIndex = 204
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
+        ExplicitWidth = 983
+        ExplicitHeight = 174
       end
     end
     object Panel3: TPanel
       Left = 0
-      Top = 217
-      Width = 997
+      Top = 342
+      Width = 1119
       Height = 150
       Align = alBottom
       BevelOuter = bvNone
       TabOrder = 1
+      ExplicitTop = 217
+      ExplicitWidth = 997
       object PageControl2: TPageControl
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 498
+        Width = 620
         Height = 144
         ActivePage = TabSheet6
         Align = alClient
         TabOrder = 0
+        ExplicitWidth = 498
         object TabSheet6: TTabSheet
           Caption = 'Mensagens do Pedido'
+          ExplicitWidth = 490
           object DBGrid2: TDBGrid
             Tag = 1
             Left = 0
             Top = 0
-            Width = 490
+            Width = 612
             Height = 114
             Align = alClient
             BorderStyle = bsNone
@@ -345,6 +420,7 @@ inherited Ped: TPed
             TitleFont.Color = clWindowText
             TitleFont.Height = -12
             TitleFont.Name = 'Segoe UI'
+            TitleFont.Pitch = fpVariable
             TitleFont.Style = []
             OnDrawColumnCell = DBGridDrawColumnCell
             OnDblClick = DBGridDblClick
@@ -353,13 +429,14 @@ inherited Ped: TPed
         end
       end
       object Panel4: TPanel
-        Left = 504
+        Left = 626
         Top = 0
         Width = 493
         Height = 150
         Align = alRight
         BevelOuter = bvNone
         TabOrder = 1
+        ExplicitLeft = 504
         object Label4: TLabel
           AlignWithMargins = True
           Left = 3
@@ -384,7 +461,7 @@ inherited Ped: TPed
     end
   end
   inherited ctrlBarTop: TControlBar
-    Width = 991
+    Width = 1113
     ExplicitWidth = 991
     inherited ToolBar1: TToolBar
       inherited ToolButton2: TToolButton
@@ -487,64 +564,53 @@ inherited Ped: TPed
     OnCalcFields = IBrwSrcCalcFields
     AfterInsert = IBrwSrcAfterInsert
     SQL.Strings = (
-      'select p.recno, p.codigo, p.contato, p.criado, p.emitido,'
-      '   p.autorizado, p.aprovado, p.status, p.remessa, p.laboratorio,'
+      
+        'select p.recno, p.codigo, p.contato, p.criado, p.emitido, p.auto' +
+        'rizado, p.aprovado, p.status, p.remessa, p.laboratorio,'
       
         '   p.obs, p.solicitante, p.solicitante_dep, p.condicaopg, p.pedi' +
-        'do_cliente,'
+        'do_cliente,    p.grupo, p.markup, p.correio, '
       
-        '   p.grupo, p.markup, p.correio, m.vlmat, m.vlsrvvar, m.vlsrvfix' +
-        'o, m.vlmobra,'
+        '   m.vlmat, m.vlsrvvar, m.vlsrvfixo, m.vlmobra,    m.vldespe, p.' +
+        'frete, p.frascos, p.seringas, p.envio, p.coleta, '
       
-        '   m.vldespe, p.frete, p.frascos, p.seringas, p.envio, p.coleta,' +
-        ' p.destinatario,'
-      '   p.obs_remessa, p.cliente, p.lote_aprov,'
-      ''
-      '   og.descri, og.reqsrv, og.reqmat, og.reqmo,'
-      ''
+        '   p.destinatario, p.obs_remessa, p.cliente, p.lote_aprov, og.de' +
+        'scri, og.reqsrv, og.reqmat, og.reqmo,'
       
         '   c.empresa, c.nome_chave, c.endereco, c.cep, c.bairro, c.cidad' +
-        'e, c.estado,'
-      '   c.cnpj, c.cpf, c.telefone, c.email,'
-      '   '
-      '   cl.empresa cliente_empresa, cl.nome_chave cliente_nome_chave,'
+        'e, c.estado, c.cnpj, c.cpf, c.telefone, c.email,'
       
-        '   cl.cnpj cliente_cnpj, cl.cpf cliente_cpf, cl.email cliente_em' +
-        'ail,'
+        '   cl.empresa cliente_empresa, cl.nome_chave cliente_nome_chave,' +
+        '    cl.cnpj cliente_cnpj, cl.cpf cliente_cpf, '
       
-        '   cl.cidade cliente_cidade, cl.estado cliente_estado, cl.telefo' +
-        'ne cliente_telefone,'
-      ''
-      '   ct.nome, ct.funcao, ct.telefone, ct.celular, ct.email,'
-      ''
+        '   cl.email cliente_email, cl.cidade cliente_cidade, cl.estado c' +
+        'liente_estado, cl.telefone cliente_telefone,'
       
-        '   p.contato_fin, ctf.nome contatofin_nome, ctf.funcao contatofi' +
-        'n_funcao,'
+        '   ct.nome, ct.funcao, ct.telefone, ct.celular, ct.email, p.cont' +
+        'ato_fin, ctf.nome contatofin_nome, '
       
-        '   ctf.telefone contatofin_telefone, ctf.celular contatofin_celu' +
-        'lar,'
-      '   ctf.email contatofin_email,'
-      ''
-      '   p.contato_tec, ctt.nome contatotec_nome,'
+        '   ctf.funcao contatofin_funcao, ctf.telefone contatofin_telefon' +
+        'e, ctf.celular contatofin_celular, '
       
-        '   ctt.funcao contatotec_funcao, ctt.telefone contatotec_telefon' +
-        'e,'
-      '   ctt.celular contatotec_celular, ctt.email contatotec_email'
-      ''
+        '   ctf.email contatofin_email, p.contato_tec, ctt.nome contatote' +
+        'c_nome, ctt.funcao contatotec_funcao, '
+      
+        '   ctt.telefone contatotec_telefone, ctt.celular contatotec_celu' +
+        'lar, ctt.email contatotec_email'
       '  from pedido p'
       '       join tbclientes c'
       '         on c.codigo = p.codigo'
       '       join tbclientes cl'
       '         on cl.codigo = p.cliente'
-      '       join tbclientes_contatos ct'
+      '       join vclientes_contatos ct'
       '         on ct.cliente = p.codigo'
-      '        and ct.item = p.contato'
-      '       join tbclientes_contatos ctf'
+      '        and ct.contato = p.contato'
+      '       join vclientes_contatos ctf'
       '         on ctf.cliente = p.codigo'
-      '        and ctf.item = p.contato_fin'
-      '       join tbclientes_contatos ctt'
+      '        and ctf.contato = p.contato_fin'
+      '       join vclientes_contatos ctt'
       '         on ctt.cliente = p.codigo'
-      '        and ctt.item = p.contato_tec'
+      '        and ctt.contato = p.contato_tec'
       '       left join markup m'
       '         on m.recno = p.markup'
       '       join orca_grupo og'
@@ -1852,7 +1918,7 @@ inherited Ped: TPed
     Sequence = sServ
     SequenceField = 'recno'
     Left = 448
-    Top = 320
+    Top = 312
     ParamData = <
       item
         DataType = ftUnknown
@@ -1945,7 +2011,7 @@ inherited Ped: TPed
     AutoEdit = False
     DataSet = qServ
     Left = 520
-    Top = 320
+    Top = 312
   end
   object uServ: TZUpdateSQL
     DeleteSQL.Strings = (
@@ -1971,7 +2037,7 @@ inherited Ped: TPed
       '  pedido_serv.codserv = :OLD_codserv')
     UseSequenceFieldForRefreshSQL = False
     Left = 384
-    Top = 320
+    Top = 312
     ParamData = <
       item
         DataType = ftUnknown
@@ -2023,13 +2089,13 @@ inherited Ped: TPed
     Connection = DM.Design
     SequenceName = 'public.pedido_serv_recno_seq'
     Left = 320
-    Top = 320
+    Top = 312
   end
   object sServDet: TZSequence
     Connection = DM.Design
     SequenceName = 'public.pedido_serv_det_recno_seq'
     Left = 320
-    Top = 376
+    Top = 360
   end
   object uServDet: TZUpdateSQL
     DeleteSQL.Strings = (
@@ -2055,7 +2121,7 @@ inherited Ped: TPed
       '  pedido_servicos_det.detalhe = :OLD_detalhe')
     UseSequenceFieldForRefreshSQL = False
     Left = 384
-    Top = 376
+    Top = 360
     ParamData = <
       item
         DataType = ftUnknown
@@ -2122,7 +2188,7 @@ inherited Ped: TPed
     Sequence = sServDet
     SequenceField = 'recno'
     Left = 448
-    Top = 376
+    Top = 360
     ParamData = <
       item
         DataType = ftUnknown
@@ -2165,13 +2231,13 @@ inherited Ped: TPed
     AutoEdit = False
     DataSet = qServDet
     Left = 520
-    Top = 376
+    Top = 360
   end
   object sMObra: TZSequence
     Connection = DM.Design
     SequenceName = 'public.pedido_mo_recno_seq'
     Left = 320
-    Top = 424
+    Top = 408
   end
   object uMObra: TZUpdateSQL
     DeleteSQL.Strings = (
@@ -2225,7 +2291,7 @@ inherited Ped: TPed
       '  pedido_mo.funcao = :OLD_funcao')
     UseSequenceFieldForRefreshSQL = False
     Left = 384
-    Top = 424
+    Top = 408
     ParamData = <
       item
         DataType = ftUnknown
@@ -2359,7 +2425,7 @@ inherited Ped: TPed
     Sequence = sMObra
     SequenceField = 'recno'
     Left = 448
-    Top = 424
+    Top = 408
     ParamData = <
       item
         DataType = ftUnknown
@@ -2485,7 +2551,7 @@ inherited Ped: TPed
     AutoEdit = False
     DataSet = qMObra
     Left = 520
-    Top = 424
+    Top = 408
   end
   object uDesp: TZUpdateSQL
     DeleteSQL.Strings = (

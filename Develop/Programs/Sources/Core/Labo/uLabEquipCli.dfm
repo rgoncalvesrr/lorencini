@@ -1,6 +1,7 @@
 inherited LabEquipCli: TLabEquipCli
   Caption = 'Equipamento x Cliente'
   ClientHeight = 356
+  ExplicitWidth = 320
   ExplicitHeight = 395
   PixelsPerInch = 96
   TextHeight = 15
@@ -14,7 +15,7 @@ inherited LabEquipCli: TLabEquipCli
         ExplicitLeft = 4
         ExplicitTop = 6
         ExplicitWidth = 819
-        ExplicitHeight = 65
+        ExplicitHeight = 75
         object Label7: TLabel [0]
           Left = 3
           Top = 6
@@ -25,6 +26,7 @@ inherited LabEquipCli: TLabEquipCli
           Font.Color = clWindowText
           Font.Height = -12
           Font.Name = 'Arial'
+          Font.Pitch = fpVariable
           Font.Style = [fsBold]
           ParentFont = False
         end
@@ -85,8 +87,6 @@ inherited LabEquipCli: TLabEquipCli
           Caption = 'C.N.P.J.'
         end
         inherited BitBtn2: TBitBtn
-          Left = 729
-          Top = 15
           Glyph.Data = {
             36040000424D3604000000000000360000002800000010000000100000000100
             2000000000000004000000000000000000000000000000000000FF00FF00FF00
@@ -163,10 +163,10 @@ inherited LabEquipCli: TLabEquipCli
     end
   end
   inherited Panel2: TPanel
-    Height = 207
+    Height = 197
     ExplicitHeight = 207
     inherited PageControl1: TPageControl
-      Height = 201
+      Height = 191
       ExplicitHeight = 201
       inherited TabSheet1: TTabSheet
         Caption = 'Equipamentos'
@@ -240,7 +240,6 @@ inherited LabEquipCli: TLabEquipCli
     Top = 6
   end
   inherited DataSource1: TDataSource
-    Left = 256
     Top = 8
   end
   inherited IBrwSrc: TZQuery

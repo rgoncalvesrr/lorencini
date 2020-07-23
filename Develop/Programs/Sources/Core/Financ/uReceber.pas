@@ -54,13 +54,14 @@ type
     qContatostelefone: TStringField;
     qContatoscelular: TStringField;
     qContatosemail: TStringField;
-    qContatoscontato_nextel: TStringField;
-    qContatoscontato_nextelcel: TStringField;
     qContatosrecno: TIntegerField;
     sContatos: TZSequence;
     zContatos: TZUpdateSQL;
-    qContatositem: TIntegerField;
     qContatosempresa: TStringField;
+    qContatoscontato: TIntegerField;
+    Panel3: TPanel;
+    Panel4: TPanel;
+    Panel5: TPanel;
     procedure IBrwSrcAfterInsert(DataSet: TDataSet);
     procedure IBrwSrctipoGetText(Sender: TField; var Text: string;
       DisplayText: Boolean);
