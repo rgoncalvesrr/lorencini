@@ -17,7 +17,6 @@ BEGIN
       return old;
    end if;
 
-
    if new.situacao = 1 and not exists(
       select 1
         from tbclientes_contatos
@@ -26,6 +25,20 @@ BEGIN
          and padrao) 
    then
       new.padrao := true;
+   end if;
+
+   if not new.portal_acessivel then
+      new.portal_senha := null;
+   end if;
+
+   if tg_op = 'UPDATE' then
+      if new.portal_senha is not null and new.portal_senha <> coalesce(old.portal_senha, '') then
+         new.portal_senha := md5(new.portal_senha);
+      end if;
+
+      if new.portal_acessivel <> old.portal_acessivel then
+         new.portal_token := md5(localtimestamp::varchar);
+      end if;
    end if;
 
    return new;

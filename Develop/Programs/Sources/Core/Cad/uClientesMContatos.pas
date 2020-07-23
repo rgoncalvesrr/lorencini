@@ -64,6 +64,10 @@ type
     DBCheckBox6: TDBCheckBox;
     DBCheckBox7: TDBCheckBox;
     DBCheckBox1: TDBCheckBox;
+    DBCheckBox2: TDBCheckBox;
+    Panel15: TPanel;
+    Label8: TLabel;
+    DBEdit7: TDBEdit;
     procedure actCheckExecute(Sender: TObject);
     procedure DBEdit1Exit(Sender: TObject);
     procedure actFindContatoExecute(Sender: TObject);

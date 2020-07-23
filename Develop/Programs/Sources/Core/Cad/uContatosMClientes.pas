@@ -51,6 +51,10 @@ type
     Panel10: TPanel;
     Panel13: TPanel;
     DBCheckBox9: TDBCheckBox;
+    DBCheckBox10: TDBCheckBox;
+    Panel14: TPanel;
+    Label6: TLabel;
+    DBEdit5: TDBEdit;
     procedure FrameCliente1SpeedButton1Click(Sender: TObject);
     procedure actCheckExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -68,7 +72,7 @@ implementation
 {$R *.dfm}
 
 uses
-  uContatos, db;
+  uContatos, db, mcUtils;
 
 procedure TContatosMClientes.actCheckExecute(Sender: TObject);
 var

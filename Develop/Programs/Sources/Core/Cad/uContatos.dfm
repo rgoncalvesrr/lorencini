@@ -255,7 +255,7 @@ inherited Contatos: TContatos
       object TabSheet2: TTabSheet
         Caption = 'Ativos'
         ImageIndex = 208
-        ExplicitLeft = 2
+        ExplicitLeft = 6
         ExplicitTop = 37
       end
       object TabSheet3: TTabSheet
@@ -460,18 +460,18 @@ inherited Contatos: TContatos
         'al, enviar_laudo_retorno_critico, '
       
         '   enviar_laudo_retorno_atencao, enviar_laudo_retorno_normal, pa' +
-        'drao)'
+        'drao, portal_acessivel, portal_senha)'
       'VALUES'
       
         '  (:cliente, :contato, :funcao, :recno, :situacao, :enviar_pedid' +
-        'o_venda, :enviar_cotacao_venda, '
+        'o_venda, :enviar_cotacao_venda,'
       
         '   :enviar_laudo_critico, :enviar_laudo_atencao, :enviar_laudo_n' +
-        'ormal, '
+        'ormal,'
       
         '   :enviar_laudo_retorno_critico, :enviar_laudo_retorno_atencao,' +
-        ' :enviar_laudo_retorno_normal, '
-      '   :padrao)')
+        ' :enviar_laudo_retorno_normal,'
+      '   :padrao, :portal_acessivel, :portal_senha)')
     ModifySQL.Strings = (
       'UPDATE tbclientes_contatos SET'
       '  funcao = :funcao,'
@@ -485,7 +485,9 @@ inherited Contatos: TContatos
       '  enviar_laudo_retorno_critico = :enviar_laudo_retorno_critico,'
       '  enviar_laudo_retorno_atencao = :enviar_laudo_retorno_atencao,'
       '  enviar_laudo_retorno_normal = :enviar_laudo_retorno_normal,'
-      '  padrao = :padrao'
+      '  padrao = :padrao,'
+      '  portal_acessivel = :portal_acessivel,'
+      '  portal_senha = :portal_senha'
       'WHERE'
       '  tbclientes_contatos.cliente = :OLD_cliente AND'
       '  tbclientes_contatos.contato = :OLD_contato')
@@ -555,6 +557,16 @@ inherited Contatos: TContatos
       end
       item
         DataType = ftUnknown
+        Name = 'portal_acessivel'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'portal_senha'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
         Name = 'OLD_cliente'
         ParamType = ptUnknown
       end
@@ -589,7 +601,9 @@ inherited Contatos: TContatos
       
         '       cc.enviar_laudo_retorno_atencao, cc.enviar_laudo_retorno_' +
         'critico, cc.enviar_laudo_retorno_normal, cc.situacao,'
-      '       cc.padrao, cc.funcao, cc.recno, c.cnpj, c.cpf, cc.contato'
+      
+        '       cc.padrao, cc.funcao, cc.recno, c.cnpj, c.cpf, cc.contato' +
+        ', cc.portal_acessivel, cc.portal_senha'
       '  from tbclientes_contatos cc'
       '       join tbclientes c'
       '         on c.codigo = cc.cliente'
@@ -724,6 +738,16 @@ inherited Contatos: TContatos
       FieldName = 'contato'
       Required = True
       Visible = False
+    end
+    object qContCliportal_acessivel: TBooleanField
+      DisplayLabel = 'Portal'
+      FieldName = 'portal_acessivel'
+      Required = True
+    end
+    object qContCliportal_senha: TStringField
+      FieldName = 'portal_senha'
+      Visible = False
+      Size = 34
     end
   end
   object dsContCli: TDataSource

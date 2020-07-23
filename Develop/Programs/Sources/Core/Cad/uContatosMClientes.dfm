@@ -484,7 +484,38 @@ inherited ContatosMClientes: TContatosMClientes
                 ListSettings.OutfilteredValueFont.Height = -11
                 ListSettings.OutfilteredValueFont.Name = 'Tahoma'
                 ListSettings.OutfilteredValueFont.Style = []
-                ExplicitLeft = 6
+              end
+              object Panel14: TPanel
+                Left = 0
+                Top = 50
+                Width = 220
+                Height = 50
+                Align = alTop
+                BevelOuter = bvNone
+                TabOrder = 1
+                object Label6: TLabel
+                  AlignWithMargins = True
+                  Left = 3
+                  Top = 3
+                  Width = 214
+                  Height = 15
+                  Align = alTop
+                  Caption = 'Senha Portal'
+                  FocusControl = DBEdit5
+                  ExplicitWidth = 66
+                end
+                object DBEdit5: TDBEdit
+                  AlignWithMargins = True
+                  Left = 3
+                  Top = 24
+                  Width = 214
+                  Height = 23
+                  Align = alClient
+                  DataField = 'portal_senha'
+                  DataSource = Contatos.dsContCli
+                  PasswordChar = '*'
+                  TabOrder = 0
+                end
               end
             end
           end
@@ -567,7 +598,7 @@ inherited ContatosMClientes: TContatosMClientes
               object DBCheckBox2: TDBCheckBox
                 AlignWithMargins = True
                 Left = 3
-                Top = 49
+                Top = 72
                 Width = 256
                 Height = 17
                 Align = alTop
@@ -581,7 +612,7 @@ inherited ContatosMClientes: TContatosMClientes
               object DBCheckBox9: TDBCheckBox
                 AlignWithMargins = True
                 Left = 3
-                Top = 26
+                Top = 49
                 Width = 256
                 Height = 17
                 Align = alTop
@@ -589,6 +620,20 @@ inherited ContatosMClientes: TContatosMClientes
                 DataField = 'enviar_cotacao_venda'
                 DataSource = Contatos.dsContCli
                 TabOrder = 2
+                ValueChecked = 'True'
+                ValueUnchecked = 'False'
+              end
+              object DBCheckBox10: TDBCheckBox
+                AlignWithMargins = True
+                Left = 3
+                Top = 26
+                Width = 256
+                Height = 17
+                Align = alTop
+                Caption = 'Portal do Cliente'
+                DataField = 'portal_acessivel'
+                DataSource = Contatos.dsContCli
+                TabOrder = 3
                 ValueChecked = 'True'
                 ValueUnchecked = 'False'
               end

@@ -63,6 +63,8 @@ type
     qContClicpf: TStringField;
     qContClicliente: TIntegerField;
     qContClicontato: TIntegerField;
+    qContCliportal_acessivel: TBooleanField;
+    qContCliportal_senha: TStringField;
     procedure IBrwSrcsituacaoGetText(Sender: TField; var Text: string; DisplayText: Boolean);
     procedure IBrwSrcsituacaoSetText(Sender: TField; const Text: string);
     procedure DBGridDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn;
@@ -92,7 +94,7 @@ implementation
 {$R *.dfm}
 
 uses
-  uDM, uResources, uContatosM, iTypes;
+  uDM, uResources, uContatosM, iTypes, mcUtils;
 
 procedure TContatos.actQueryProcessExecute(Sender: TObject);
 var

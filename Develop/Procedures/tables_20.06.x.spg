@@ -27,7 +27,7 @@ create table sys_services(
 
 insert into sys_services (name, status, source_tasks, maxprocs) values ('Envio de E-mails', 1, sys_origem('sys_email'), 24);
 insert into sys_services (name, status) values ('Recebimento de E-mails (IMAP4)', 16);
-insert into sys_services (name, status, source_tasks, maxprocs) values ('Gerenciamento de Impress„o', 1, sys_origem('sys_spool'), 16);
+insert into sys_services (name, status, source_tasks, maxprocs) values ('Gerenciamento de Impress√£o', 1, sys_origem('sys_spool'), 16);
 insert into sys_services (name, status, source_tasks, maxprocs) values ('Escrita de Arquivos', 1, sys_origem('sys_email'), 16);
 insert into sys_services (name, status) values ('Leitura de Arquivos', 1);
 
@@ -87,3 +87,16 @@ delete
                 from pg_catalog.pg_tables s 
                where s.tablename = t.tabela 
                  and s.schemaname = 'public'));
+
+alter table tbclientes_contatos
+   add portal_acessivel boolean default false not null,
+   add portal_senha varchar(34),
+   add portal_token varchar(34) default(md5(localtimestamp::varchar)),
+   add constraint ck_tbclientes_contatos_1 check (not portal_acessivel or (portal_acessivel and portal_senha is not null)),
+   add constraint ck_tbclientes_contatos_2 check (not portal_acessivel or (portal_acessivel and portal_token is not null));
+
+insert into sys_errors 
+	(constraint_, descri, solucao) 
+values 
+	('ck_tbclientes_contatos_1', 'Senha de acesso ao portal n„o preenchida.', 'Preencha a senha de acesso ao portal'),
+	('ck_tbclientes_contatos_2', 'Token de acesso ao portal n„o gerado.', 'Contate o administrador do sistema');   

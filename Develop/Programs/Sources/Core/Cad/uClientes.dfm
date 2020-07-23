@@ -27,7 +27,6 @@ inherited Clientes: TClientes
         inherited BitBtn2: TBitBtn
           Left = 995
           ExplicitLeft = 995
-          ExplicitTop = 11
         end
         object Panel4: TPanel
           Left = 0
@@ -1205,7 +1204,9 @@ inherited Clientes: TClientes
       
         '       a.enviar_laudo_normal, a.enviar_laudo_retorno_critico, a.' +
         'enviar_laudo_retorno_atencao,'
-      '       a.enviar_laudo_retorno_normal'
+      
+        '       a.enviar_laudo_retorno_normal, a.portal_acessivel, a.port' +
+        'al_senha'
       '  from tbclientes_contatos a'
       '       join contatos c'
       '         on c.recno = a.contato'
@@ -1283,6 +1284,11 @@ inherited Clientes: TClientes
       OnChange = qContatossituacaoChange
       Size = 100
     end
+    object qContatosportal_acessivel: TBooleanField
+      DisplayLabel = 'Acesso ao Portal'
+      FieldName = 'portal_acessivel'
+      Required = True
+    end
     object qContatosenviar_pedido_venda: TBooleanField
       DisplayLabel = 'Pedido'
       FieldName = 'enviar_pedido_venda'
@@ -1327,6 +1333,12 @@ inherited Clientes: TClientes
       FieldName = 'recno'
       Visible = False
     end
+    object qContatosportal_senha: TStringField
+      DisplayLabel = 'Senha do Portal'
+      FieldName = 'portal_senha'
+      Visible = False
+      Size = 34
+    end
   end
   object uContatos: TZUpdateSQL
     DeleteSQL.Strings = (
@@ -1344,18 +1356,18 @@ inherited Clientes: TClientes
         'al, enviar_laudo_retorno_critico, '
       
         '   enviar_laudo_retorno_atencao, enviar_laudo_retorno_normal, pa' +
-        'drao, contato)'
+        'drao, contato, portal_acessivel, portal_senha)'
       'VALUES'
       
         '  (:cliente, :funcao, :recno, :situacao, :enviar_pedido_venda, :' +
-        'enviar_cotacao_venda, '
+        'enviar_cotacao_venda,'
       
         '   :enviar_laudo_critico, :enviar_laudo_atencao, :enviar_laudo_n' +
-        'ormal, '
+        'ormal,'
       
         '   :enviar_laudo_retorno_critico, :enviar_laudo_retorno_atencao,' +
-        ' :enviar_laudo_retorno_normal, '
-      '   :padrao, :contato)')
+        ' :enviar_laudo_retorno_normal,'
+      '   :padrao, :contato, :portal_acessivel, :portal_senha)')
     ModifySQL.Strings = (
       'UPDATE tbclientes_contatos SET'
       '  cliente = :cliente,'
@@ -1371,7 +1383,9 @@ inherited Clientes: TClientes
       '  enviar_laudo_retorno_atencao = :enviar_laudo_retorno_atencao,'
       '  enviar_laudo_retorno_normal = :enviar_laudo_retorno_normal,'
       '  padrao = :padrao,'
-      '  contato = :contato'
+      '  contato = :contato,'
+      '  portal_acessivel = :portal_acessivel,'
+      '  portal_senha = :portal_senha'
       'WHERE'
       '  tbclientes_contatos.cliente = :OLD_cliente AND'
       '  tbclientes_contatos.contato = :OLD_contato')
@@ -1447,6 +1461,16 @@ inherited Clientes: TClientes
       item
         DataType = ftUnknown
         Name = 'contato'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'portal_acessivel'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'portal_senha'
         ParamType = ptUnknown
       end
       item
