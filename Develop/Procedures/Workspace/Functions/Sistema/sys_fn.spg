@@ -7,16 +7,20 @@ create or replace function sys_fn(
    in in_remove boolean)
 returns void as
 $$
+declare
+   irecno   sys_fn.recno%type;
 begin
    if not exists(
       select 1
         from sys_fn
        where fn = in_fn)
    then
+      irecno := nextval('sys_fn_recno_seq');
+      
       insert into sys_fn (
-         fn,      descri,    tipo,    modification,    stmt,    remove)
+         fn,      descri,    tipo,    modification,    stmt,    remove,    recno)
       values (
-         in_fn,   in_descri, in_tipo, in_modification, in_stmt, in_remove);
+         in_fn,   in_descri, in_tipo, in_modification, in_stmt, in_remove, irecno);
    else
       update sys_fn
          set descri = in_descri, tipo = in_tipo, modification = in_modification,

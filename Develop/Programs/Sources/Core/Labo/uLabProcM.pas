@@ -90,13 +90,14 @@ uses uLabProc, uIUtils, mcUtils, DB, uClientes, uDM, uLabProcMItens,
 
 procedure TLabProcM.actFindCliExecute(Sender: TObject);
 begin
-  Application.CreateForm(TClientes, Clientes);
+  with DM do
   try
+    Application.CreateForm(TClientes, Clientes);
     Clientes.DisplayMode := dmQuery;
     Clientes.ShowModal;
     if (Clientes.Execute) then
     begin
-      DataSet.FieldByName('codigo').AsInteger := Clientes.IBrwSrccodigo.AsInteger;
+      DataSet.FieldByName('codigo').AsInteger := qClientescodigo.AsInteger;
       DBEdit7Exit(DBEdit7);
     end;
   finally

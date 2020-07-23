@@ -8,7 +8,6 @@ inherited ClientesGrupoMClientes: TClientesGrupoMClientes
   inherited Panel1: TPanel
     Top = 44
     Height = 150
-    ExplicitTop = 44
     ExplicitHeight = 150
     inherited Panel3: TPanel
       Align = alNone
@@ -109,7 +108,6 @@ inherited ClientesGrupoMClientes: TClientesGrupoMClientes
           Font.Color = clWindowText
           Font.Height = -12
           Font.Name = 'Arial'
-          Font.Pitch = fpVariable
           Font.Style = [fsBold]
           ParentFont = False
         end

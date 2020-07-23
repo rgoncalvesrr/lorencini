@@ -23,9 +23,9 @@ Begin
                 a.contato_tec, a.remessa, a.laboratorio, c.nome, a.envio, a.correio, a.indice, a.condicaopg
            into r
            from cota a
-                join vclientes_contatos c
+                join tbclientes_contatos c
                   on c.cliente = a.cliente
-                 and c.contato = a.contato 
+                 and c.item = a.contato 
           where a.recno = new.cotacao;
 
          if r.status != 4 then            

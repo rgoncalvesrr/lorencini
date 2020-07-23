@@ -55,7 +55,6 @@ BEGIN
                   select 1
                     from labamostras_rel 
                    where pedido = new.pedido
-                     and revisao is null
                      and status <> 3)
                then
                   update pedido
@@ -72,12 +71,6 @@ BEGIN
               from labamostras_hres
              where laudo = new.recno
                and relato_recno = new.relato_recno;
-            
-            -- Coloca o pedido em execução
-            update pedido
-               set status = 60
-             where recno = new.pedido
-               and status = 70;  
          end if;
       end if;
 

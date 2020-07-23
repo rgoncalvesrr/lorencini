@@ -4,7 +4,7 @@ interface
 
 uses
   IdExplicitTLSClientServerBase, IdSMTPBase, IdSSLOpenSSL, IdIOHandler,
-  Classes, SysUtils, IdSMTP;
+  Classes, SysUtils;
 
 type
   TServiceCFGConnParams = class(TPersistent)
@@ -41,7 +41,6 @@ type
     FUser: string;
     FServer: string;
     FUserName: string;
-    FAuthType: TIdSMTPAuthenticationType;
     procedure SetPassword(const Value: string);
     procedure SetPort(const Value: integer);
     procedure SetServer(const Value: string);
@@ -54,7 +53,6 @@ type
     constructor Create;
     procedure Assign(Source: TPersistent); virtual;
 
-    property AuthType: TIdSMTPAuthenticationType read FAuthType write FAuthType;
     property User: string read FUser write SetUser;
     property UserName: string read FUserName write SetUserName;
     property Password: string read FPassword write SetPassword;
@@ -202,7 +200,6 @@ begin
   if Source is TServiceCFGSmtp then
     with TServiceCFGSmtp(Source) do
     begin
-      Self.AuthType := AuthType;
       Self.Server := Server;
       Self.User := User;
       Self.Password := Password;

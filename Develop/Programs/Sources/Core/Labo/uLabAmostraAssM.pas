@@ -233,13 +233,14 @@ uses uLabAmostraAss, uIUtils, mcUtils, uDM, uClientes;
 procedure TLabAmostraAssM.actFindCliFExecute(Sender: TObject);
 begin
   inherited;
-  Application.CreateForm(TClientes, Clientes);
+  with DM do
   try
+    Application.CreateForm(TClientes, Clientes);
     Clientes.DisplayMode := dmQuery;
     Clientes.ShowModal;
     if (Clientes.Execute) then
     begin
-      DataSet.FieldByName('codigo_final').AsInteger := Clientes.IBrwSrccodigo.AsInteger;
+      DataSet.FieldByName('codigo_final').AsInteger := qClientescodigo.AsInteger;
       DBEdit39Exit(DBEdit39);
     end;
   finally

@@ -237,10 +237,6 @@ type
     qDespvalor: TFloatField;
     qDesphistorico_desc: TStringField;
     uDesp: TZUpdateSQL;
-    Panel5: TPanel;
-    Panel6: TPanel;
-    Panel7: TPanel;
-    Panel8: TPanel;
     procedure IBrwSrcaprovadoGetText(Sender: TField; var Text: string;
       DisplayText: Boolean);
     procedure IBrwSrcaprovadoSetText(Sender: TField; const Text: string);

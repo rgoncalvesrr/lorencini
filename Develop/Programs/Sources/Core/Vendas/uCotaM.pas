@@ -253,7 +253,7 @@ begin
     Clientes.ShowModal;
     if (Clientes.Execute) then
     begin
-      DataSet.FieldByName('cliente').AsInteger := Clientes.IBrwSrccodigo.AsInteger;
+      DataSet.FieldByName('cliente').AsInteger := DM.qClientescodigo.AsInteger;
       DBEdit9Exit(DBEdit9);
     end;
   finally
@@ -279,7 +279,7 @@ begin
         1: oDbEdit := DBEdit24;
         2: oDbEdit := DBEdit29;
       end;
-      DataSet.FieldByName(oDbEdit.Field.FieldName).AsInteger := ContatoF.IBrwSrccontato.AsInteger;
+      DataSet.FieldByName(oDbEdit.Field.FieldName).AsInteger := ContatoF.IBrwSrcitem.AsInteger;
       DBEdit15Exit(oDbEdit);
     end;
   finally
@@ -349,7 +349,7 @@ begin
     fLkp.Add('celular');
     fLkp.Add('email');
 
-    if U.Data.CheckFK('vclientes_contatos', 'recno', QuotedStr(TDBEdit(Sender).Text), fLkp, 'cliente = ' + DataSet.FieldByName('cliente').AsString) then
+    if U.Data.CheckFK('tbclientes_contatos', 'item', QuotedStr(TDBEdit(Sender).Text), fLkp, 'cliente = ' + DataSet.FieldByName('cliente').AsString) then
     begin
       case TDBEdit(sender).Tag of
         0:
@@ -426,7 +426,6 @@ var
   filtro: string;
 begin
   inherited;
-  filtro := EmptyStr;  
   if mcEmpty(TDBEdit(Sender).Text) or not (DataSet.State in [dsEdit, dsInsert]) then
     Exit;
 
@@ -443,7 +442,7 @@ begin
     fLkp.Add('cidade');
     fLkp.Add('estado');
 
-    if U.Data.CheckFK('tbclientes', 'codigo', QuotedStr(TDBEdit(Sender).Text), fLkp, filtro) then
+    if U.Data.CheckFK('tbclientes', 'codigo', QuotedStr(TDBEdit(Sender).Text), fLkp) then
     begin
       DataSet.FieldByName('empresa').AsString := fLkp[0];
       DataSet.FieldByName('nome_chave').AsString := fLkp[1];

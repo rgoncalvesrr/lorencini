@@ -8,7 +8,7 @@ uses
   DBGrids, ComCtrls, StdCtrls, Buttons, Mask, ExtCtrls, ToolWin, DBCtrls;
 
 type
-  TContatoSituacao = (csTodos, csAtivos, csInativos);
+  TContatoSituacao = (csTodos, csAtivos, csInativos); 
 
   TContatoF = class(TIDefFind)
     IBrwSrcnome: TStringField;
@@ -22,55 +22,19 @@ type
     IBrwSrcempresa: TStringField;
     IBrwSrcnome_chave: TStringField;
     GroupBox2: TGroupBox;
+    Label1: TLabel;
+    Label3: TLabel;
+    DBText2: TDBText;
+    DBText1: TDBText;
     Bevel4: TBevel;
+    IBrwSrcitem: TIntegerField;
     IBrwSrcsituacao: TIntegerField;
     TabSheet2: TTabSheet;
-    IBrwSrcpadrao: TBooleanField;
-    IBrwSrccnpj: TStringField;
-    IBrwSrccpf: TStringField;
-    IBrwSrccidade: TStringField;
-    IBrwSrcestado: TStringField;
-    Panel2: TPanel;
-    Panel3: TPanel;
-    Label1: TLabel;
-    DBEdit1: TDBEdit;
-    Panel4: TPanel;
-    Label3: TLabel;
-    DBEdit2: TDBEdit;
-    IBrwSrccliente: TIntegerField;
-    Panel5: TPanel;
-    Label4: TLabel;
-    DBEdit3: TDBEdit;
-    Panel6: TPanel;
-    Label5: TLabel;
-    DBEdit4: TDBEdit;
-    Panel7: TPanel;
-    Label6: TLabel;
-    DBEdit5: TDBEdit;
-    Panel8: TPanel;
-    Panel9: TPanel;
-    Label7: TLabel;
-    DBEdit6: TDBEdit;
-    Panel13: TPanel;
-    Label11: TLabel;
-    DBEdit10: TDBEdit;
-    IBrwSrcenviar_pedido_venda: TBooleanField;
-    IBrwSrcenviar_cotacao_venda: TBooleanField;
-    IBrwSrcenviar_laudo_critico: TBooleanField;
-    IBrwSrcenviar_laudo_atencao: TBooleanField;
-    IBrwSrcenviar_laudo_normal: TBooleanField;
-    IBrwSrcenviar_laudo_retorno_critico: TBooleanField;
-    IBrwSrcenviar_laudo_retorno_atencao: TBooleanField;
-    IBrwSrcenviar_laudo_retorno_normal: TBooleanField;
-    IBrwSrccontato: TIntegerField;
     procedure actOkExecute(Sender: TObject);
     procedure actNewExecute(Sender: TObject);
     procedure IBrwSrcsituacaoGetText(Sender: TField; var Text: string;
       DisplayText: Boolean);
     procedure PageControl1Change(Sender: TObject);
-    procedure DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn;
-      State: TGridDrawState);
-    procedure FormActivate(Sender: TObject);
   private
     FCliente: Integer;
     FSituacao: TContatoSituacao;
@@ -90,76 +54,28 @@ implementation
 
 {$R *.dfm}
 
-uses uIUtils, uResources;
+uses uDM, uClienteContatoM, uIUtils, uResources;
 
 { TOrcamentosLkpCont }
 
 procedure TContatoF.actNewExecute(Sender: TObject);
 begin
   inherited;
-//  if not DM.qClientes.Active then
-//    G.RefreshDataSet(DM.qClientes);
-//
-//  DM.qClientes.Locate('codigo', FCliente, []);
-//
-//  Application.CreateForm(TClientesContatoM, ClientesContatoM);
-//  ClientesContatoM.DataSet := DM.qContatos;
-//  ClientesContatoM.ShowModal;
-//  IBrwSrc.Refresh;
+  if not DM.qClientes.Active then
+    G.RefreshDataSet(DM.qClientes);
+
+  DM.qClientes.Locate('codigo', FCliente, []);
+
+  Application.CreateForm(TClientesContatoM, ClientesContatoM);
+  ClientesContatoM.DataSet := DM.qContatos;
+  ClientesContatoM.ShowModal;
+  IBrwSrc.Refresh;
 end;
 
 procedure TContatoF.actOkExecute(Sender: TObject);
 begin
   inherited;
   close;
-end;
-
-procedure TContatoF.DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn;
-  State: TGridDrawState);
-var
-  Bmp: TBitmap;
-  x, y: integer;
-begin
-  with TDBGrid(Sender) do
-  begin
-    if not (gdFocused in State) and (DataSource.DataSet.State = dsBrowse) then
-    begin
-      Canvas.Brush.Color:= clWhite;
-
-      if DataSource.DataSet.RecNo mod 2 = 0 then
-        Canvas.Brush.Color:= $00D9EAD9
-      else
-        Canvas.Brush.Color:= clWhite;
-
-      Canvas.FillRect(Rect);
-    end;
-
-    DefaultDrawColumnCell(Rect, DataCol, Column, State);
-
-    if Column.Field is TBooleanField then
-      try
-        Bmp:= TBitmap.Create;
-
-        if Column.Field.AsBoolean then
-          Resources.small_n.GetBitmap(67, Bmp)
-        else
-          Resources.small_n.GetBitmap(69, Bmp);
-
-        x:= Rect.Left + (Rect.Right - Rect.Left - Bmp.Width) div 2;
-        y:= Rect.Top + (Rect.Bottom - Rect.Top - Bmp.Height) div 2;
-
-        Canvas.FillRect(Rect);
-        Canvas.Draw(x, y, Bmp);
-      finally
-        Bmp.Free;
-      end;
-  end;
-end;
-
-procedure TContatoF.FormActivate(Sender: TObject);
-begin
-  inherited;
-  WindowState := wsMaximized;
 end;
 
 procedure TContatoF.IBrwSrcsituacaoGetText(Sender: TField; var Text: string;

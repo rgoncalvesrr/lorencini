@@ -8,9 +8,9 @@ inherited CallCenterM: TCallCenterM
   PixelsPerInch = 96
   TextHeight = 15
   inherited Panel1: TPanel
-    Top = 44
     Width = 766
     Height = 290
+    ExplicitLeft = 0
     ExplicitWidth = 766
     ExplicitHeight = 290
     inherited pnLookup: TPanel
@@ -24,9 +24,7 @@ inherited CallCenterM: TCallCenterM
       ExplicitTop = -90
       ExplicitWidth = 786
       inherited PageControl3: TPageControl
-        Top = 47
         Width = 780
-        Height = 185
         ExplicitLeft = 3
         ExplicitTop = 47
         ExplicitWidth = 780
@@ -35,23 +33,17 @@ inherited CallCenterM: TCallCenterM
           ExplicitLeft = 4
           ExplicitTop = 26
           ExplicitWidth = 772
-          ExplicitHeight = 164
+          ExplicitHeight = 155
           inherited DBGrid1: TDBGrid
             Width = 772
-            Height = 155
           end
         end
       end
       inherited ControlBar2: TControlBar
         Width = 780
-        Height = 38
-        ExplicitLeft = 3
-        ExplicitTop = 3
         ExplicitWidth = 780
-        ExplicitHeight = 38
         inherited ToolBar3: TToolBar
           Width = 767
-          ButtonWidth = 129
           ExplicitWidth = 767
           inherited ToolButton10: TToolButton
             ExplicitWidth = 32
@@ -83,13 +75,13 @@ inherited CallCenterM: TCallCenterM
       ExplicitLeft = 3
       ExplicitTop = 3
       ExplicitWidth = 760
-      ExplicitHeight = 293
+      ExplicitHeight = 284
       inherited TabSheet1: TTabSheet
         Caption = 'Registro de Contato'
         ExplicitLeft = 4
         ExplicitTop = 26
         ExplicitWidth = 752
-        ExplicitHeight = 263
+        ExplicitHeight = 254
         object Label4: TLabel
           Left = 9
           Top = 9
@@ -101,7 +93,6 @@ inherited CallCenterM: TCallCenterM
           Font.Color = clWindowText
           Font.Height = -12
           Font.Name = 'Arial'
-          Font.Pitch = fpVariable
           Font.Style = []
           ParentFont = False
         end
@@ -158,7 +149,7 @@ inherited CallCenterM: TCallCenterM
         object Label7: TLabel
           Left = 245
           Top = 68
-          Width = 44
+          Width = 45
           Height = 15
           Caption = 'Telefone'
         end
@@ -190,6 +181,7 @@ inherited CallCenterM: TCallCenterM
           Height = 23
           TabStop = False
           DataField = 'codigo'
+          DataSource = DM.dsClientes
           Enabled = False
           ReadOnly = True
           TabOrder = 0
@@ -202,6 +194,7 @@ inherited CallCenterM: TCallCenterM
           TabStop = False
           CharCase = ecUpperCase
           DataField = 'empresa'
+          DataSource = DM.dsClientes
           ReadOnly = True
           TabOrder = 1
         end
@@ -213,6 +206,7 @@ inherited CallCenterM: TCallCenterM
           TabStop = False
           CharCase = ecUpperCase
           DataField = 'nome_chave'
+          DataSource = DM.dsClientes
           ReadOnly = True
           TabOrder = 2
         end
@@ -223,6 +217,7 @@ inherited CallCenterM: TCallCenterM
           Height = 23
           TabStop = False
           DataField = 'cnpj'
+          DataSource = DM.dsClientes
           MaxLength = 18
           ReadOnly = True
           TabOrder = 3
@@ -234,6 +229,7 @@ inherited CallCenterM: TCallCenterM
           Height = 23
           TabStop = False
           DataField = 'inscricao'
+          DataSource = DM.dsClientes
           ReadOnly = True
           TabOrder = 4
         end
@@ -340,14 +336,9 @@ inherited CallCenterM: TCallCenterM
   end
   inherited ControlBar1: TControlBar
     Width = 760
-    Height = 38
-    ExplicitLeft = 3
-    ExplicitTop = 3
     ExplicitWidth = 760
-    ExplicitHeight = 38
     inherited ToolBar1: TToolBar
       Width = 747
-      ButtonWidth = 115
       ExplicitWidth = 747
       inherited ToolButton6: TToolButton
         ExplicitWidth = 32

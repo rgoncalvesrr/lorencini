@@ -77,12 +77,10 @@ Begin
                raise  '[[Para que o sistema possa gerar o título no contas a receber é necessário informar uma natureza de receita.]]';
             end if;
 
-            insert into fin_receber 
-               (os,     natureza,     id_cli,        emissao,     vencimento, vencimento_real, valor, 
-                obs)
-            values 
-               (new.os, new.natureza, orc.idcliente, new.emissao, new.dtvenc, new.dtvenc,      new.valor, 
-                'Título criado automaticamente pela rotina de faturamento.');
+            insert into fin_receber (os, natureza, id_cli, emissao, vencimento,
+                                     vencimento_real, valor, obs )
+                             values (new.os, new.natureza, orc.idcliente, new.emissao, new.dtvenc,
+                                     new.dtvenc, new.valor, 'Título criado automaticamente pela rotina de faturamento.');
          end if;
       end if;
 

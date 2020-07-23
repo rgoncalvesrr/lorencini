@@ -22,6 +22,7 @@ uses
   uIBrowseQry in '..\..\Sources\Core\Infra\uIBrowseQry.pas' {IDefBrowseQry},
   uClientes in '..\..\Sources\Core\Cad\uClientes.pas' {Clientes},
   uClienteM in '..\..\Sources\Core\Cad\uClienteM.pas' {ClientesM},
+  uClienteContatoM in '..\..\Sources\Core\Cad\uClienteContatoM.pas' {ClientesContatoM},
   ufieldnotnull in '..\..\Sources\Core\Global\ufieldnotnull.pas' {FieldsNotNull},
   uSysForms in '..\..\Sources\Core\Sys\uSysForms.pas' {SysForms},
   uSysFormsEdit in '..\..\Sources\Core\Sys\uSysFormsEdit.pas' {SysFormsEdit},
@@ -290,13 +291,7 @@ uses
   uIProgress in '..\..\Sources\Core\Infra\uIProgress.pas' {IProgress},
   uConsts in '..\..\Sources\Core\Class\uConsts.pas',
   uFrameCheckBar in '..\..\Sources\Common\uFrameCheckBar.pas' {FrameCheckBar: TFrame},
-  uSysFnSyncResult in '..\..\Sources\Core\Sys\uSysFnSyncResult.pas' {SysFnSyncResult},
-  uContatos in '..\..\Sources\Core\Cad\uContatos.pas' {Contatos},
-  uContatosM in '..\..\Sources\Core\Cad\uContatosM.pas' {ContatosM},
-  uContatosMClientes in '..\..\Sources\Core\Cad\uContatosMClientes.pas' {ContatosMClientes},
-  uClientesMContatos in '..\..\Sources\Core\Cad\uClientesMContatos.pas' {ClientesMContatos},
-  uSysService in '..\..\Sources\Core\Sys\uSysService.pas' {SysService},
-  uSysServiceM in '..\..\Sources\Core\Sys\uSysServiceM.pas' {SysServiceM};
+  uSysFnSyncResult in '..\..\Sources\Core\Sys\uSysFnSyncResult.pas' {SysFnSyncResult};
 
 {$R *.res}
 begin

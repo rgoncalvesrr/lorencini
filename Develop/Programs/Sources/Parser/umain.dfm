@@ -2,8 +2,8 @@ object Main: TMain
   Left = 0
   Top = 0
   Caption = 'Aplicador de Procedures'
-  ClientHeight = 652
-  ClientWidth = 880
+  ClientHeight = 586
+  ClientWidth = 768
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -22,8 +22,8 @@ object Main: TMain
     AlignWithMargins = True
     Left = 3
     Top = 3
-    Width = 874
-    Height = 646
+    Width = 762
+    Height = 580
     ActivePage = TabSheet1
     Align = alClient
     TabOrder = 0
@@ -34,8 +34,8 @@ object Main: TMain
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 860
-        Height = 481
+        Width = 748
+        Height = 415
         Align = alClient
         Caption = ' C'#243'digo Aplicado '
         Padding.Left = 5
@@ -45,8 +45,8 @@ object Main: TMain
         object SynEdit1: TSynEdit
           Left = 7
           Top = 15
-          Width = 846
-          Height = 459
+          Width = 734
+          Height = 393
           Align = alClient
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
@@ -76,8 +76,8 @@ object Main: TMain
       object GroupBox3: TGroupBox
         AlignWithMargins = True
         Left = 3
-        Top = 490
-        Width = 860
+        Top = 424
+        Width = 748
         Height = 125
         Align = alBottom
         Caption = ' Resultados '
@@ -89,7 +89,7 @@ object Main: TMain
           AlignWithMargins = True
           Left = 10
           Top = 18
-          Width = 840
+          Width = 728
           Height = 97
           Align = alClient
           BorderStyle = bsNone
@@ -108,11 +108,15 @@ object Main: TMain
     object TabSheet2: TTabSheet
       Caption = 'Op'#231#245'es'
       ImageIndex = 1
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object GroupBox1: TGroupBox
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 860
+        Width = 748
         Height = 146
         Align = alTop
         Caption = ' Lista de Par'#226'metros '
@@ -123,7 +127,7 @@ object Main: TMain
         object ListView1: TListView
           Left = 7
           Top = 15
-          Width = 846
+          Width = 734
           Height = 124
           Align = alClient
           BorderStyle = bsNone
@@ -159,6 +163,7 @@ object Main: TMain
   end
   object ExecProc: TZReadOnlyQuery
     Connection = ZConnection1
+    ParamCheck = False
     Params = <>
     Left = 224
     Top = 16

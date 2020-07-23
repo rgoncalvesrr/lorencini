@@ -318,7 +318,7 @@ begin
     fLkp.Add('celular');
     fLkp.Add('email');
 
-    if U.Data.CheckFK('vclientes_contatos', 'contato', TDBEdit(Sender).Text, fLkp,
+    if U.Data.CheckFK('tbclientes_contatos', 'item', TDBEdit(Sender).Text, fLkp,
       Format(' cliente = %d ', [DBEdit27.Field.AsInteger])) then
     begin
       case TDBEdit(sender).Tag of
@@ -424,13 +424,13 @@ end;
 
 procedure TOSM.actFindCliExecute(Sender: TObject);
 begin
-  Clientes := TClientes.Create(Application);
   try
+    Clientes := TClientes.Create(Application);
     Clientes.DisplayMode := dmQuery;
     Clientes.ShowModal;
     if (Clientes.Execute) then
     begin
-      DataSet.FieldByName('idcliente').AsInteger := Clientes.IBrwSrccodigo.AsInteger;
+      DataSet.FieldByName('idcliente').AsInteger := DM.qClientescodigo.AsInteger;
       DBEdit27Exit(DBEdit27);
     end;
   finally
@@ -456,7 +456,7 @@ begin
         1: oDbEdit := DBEdit2;
         2: oDbEdit := DBEdit41;
       end;
-      DataSet.FieldByName(oDbEdit.Field.FieldName).AsInteger := ContatoF.IBrwSrccontato.AsInteger;
+      DataSet.FieldByName(oDbEdit.Field.FieldName).AsInteger := ContatoF.IBrwSrcitem.AsInteger;
       DBEdit49Exit(oDbEdit);
     end;
   finally

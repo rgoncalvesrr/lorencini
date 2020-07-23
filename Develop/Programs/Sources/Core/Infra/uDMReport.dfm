@@ -2012,9 +2012,9 @@ object DMReport: TDMReport
       '         on o.os = r.os'
       '       join tbclientes c'
       '         on c.codigo = a.cliente'
-      '       left join vclientes_contatos co'
+      '       left join tbclientes_contatos co'
       '         on co.cliente = a.codigo'
-      '        and co.recno = o.contato'
+      '        and co.item = o.contato'
       '       left join vequip e'
       '         on e.recno = a.equip_recno'
       '       join labtipo tp'
@@ -4161,9 +4161,9 @@ object DMReport: TDMReport
       '         on a.item = gp.atividade'
       '       join tbclientes cl'
       '         on cl.codigo = c.cliente'
-      '       left join vclientes_contatos ct'
+      '       left join tbclientes_contatos ct'
       '         on ct.cliente = c.cliente'
-      '        and ct.recno = c.contato'
+      '        and ct.item = c.contato'
       ' where c.origem = :origem '
       '   and c.recno = :recno')
     Params = <
@@ -4758,12 +4758,13 @@ object DMReport: TDMReport
         '   ct.nome contatofin_nome, ct.funcao contatofin_funcao, ct.tele' +
         'fone contatofin_telefone,'
       '   ct.celular contatofin_celular, ct.email contatofin_email'
+      ''
       '  from vos o'
       '       join tbclientes c'
       '         on c.codigo = o.idcliente'
-      '       join vclientes_contatos ct'
+      '       join tbclientes_contatos ct'
       '         on ct.cliente = o.idcliente'
-      '        and ct.recno = o.contato_fin'
+      '        and ct.item = o.contato_fin'
       ' where o.os = :os')
     Params = <
       item

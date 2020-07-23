@@ -46,13 +46,13 @@ uses uClientesGrupo, uClientes, uIUtils, mcUtils, DB, uDM;
 
 procedure TClientesGrupoMClientes.actFindCliExecute(Sender: TObject);
 begin
-  Clientes := TClientes.Create(Application);
   try
+    Clientes := TClientes.Create(Application);
     Clientes.DisplayMode := dmQuery;
     Clientes.ShowModal;
     if (Clientes.Execute) then
     begin
-      DataSet.FieldByName('codigo').AsInteger := Clientes.IBrwSrccodigo.AsInteger;
+      DataSet.FieldByName('codigo').AsInteger := DM.qClientescodigo.AsInteger;
       DBEdit27Exit(DBEdit27);
     end;
   finally

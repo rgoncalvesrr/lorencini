@@ -94,13 +94,14 @@ end;
 procedure TLabProcSolM.actFindCliExecute(Sender: TObject);
 begin
   inherited;
-  Application.CreateForm(TClientes, Clientes);
+  with DM do
   try
+    Application.CreateForm(TClientes, Clientes);
     Clientes.DisplayMode := dmQuery;
     Clientes.ShowModal;
     if (Clientes.Execute) then
     begin
-      DataSet.FieldByName('codigo').AsInteger := Clientes.IBrwSrccodigo.AsInteger;
+      DataSet.FieldByName('codigo').AsInteger := qClientescodigo.AsInteger;
       DBEdit7Exit(DBEdit7);
     end;
   finally

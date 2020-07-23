@@ -27,6 +27,7 @@ type
   private
     { Private declarations }
     FTimeApp: TDateTime;
+    procedure ParserFinish(Sender: TObject);
   public
     { Public declarations }
   end;
@@ -38,7 +39,7 @@ implementation
 
 {$R *.dfm}
 
-uses mcUtils, uHelpers;
+uses mcUtils, uHelpers, CFParser;
 
 procedure TMain.FormCreate(Sender: TObject);
 var
@@ -46,11 +47,9 @@ var
   i: Integer;
   IsValid: Boolean;
   shift: boolean;
-  tApp: TDateTime;
-  stmt: string;
+  oParse: TCFParser;
 begin
   shift := False;
-  ZConnection1.LibraryLocation := TEnvironment.Lib + 'libpq.dll';
 
   with ListView1 do
   begin
@@ -124,47 +123,11 @@ begin
 
   Memo2.Clear;
   Memo2.ParentFont := True;
-  ExecProc.ParamCheck := True;
-  ExecProc.SQL.Clear;
-  ExecProc.SQL.Add('select sys_parse(:stmt, false);');
-  ExecProc.ParamByName('stmt').AsString := SynEdit1.Text;
-  tApp := Now;
-  try
-    ExecProc.Open;
-    stmt := ExecProc.Fields[0].AsString;
-    SynEdit1.Text := stmt;
-
-    ExecProc.SQL.Clear;
-    ExecProc.SQL.Add('select sys_parse(:stmt);');
-    ExecProc.ParamByName('stmt').AsString := SynEdit1.Text;
-    ExecProc.Open;
-    stmt := ExecProc.Fields[0].AsString;
-
-    ExecProc.ParamCheck := False;
-    ExecProc.SQL.Clear;
-    ExecProc.SQL.Add(stmt);
-    ExecProc.ExecSQL;
-    tApp := Now - tApp;
-    Memo2.Font.Color := clNavy;
-    Memo2.Lines.Add('Rotina aplicada com sucesso.');
-    Memo2.Lines.Add(EmptyStr);
-    Memo2.Lines.Add('Tempo de conexão com o banco: ' +
-    FormatDateTime('nn:zzz', tApp) + ' ms');
-  except
-    on E:Exception do
-    begin
-      Memo2.Font.Color := clRed;
-      Memo2.Lines.Add('Erro na aplicação da rotina:'#13#10);
-      Memo2.Lines.Add(E.Message);
-    end;
-  end;
-
-
-//  oParse := TCFParser.Create(EmptyStr, -1);
-//  Memo2.Lines.Add('Threading '+IntToStr(oParse.ThreadID));
-//  oParse.OnTerminate := ParserFinish;
-//  oParse.Parse(SynEdit1.Text);
-//  oParse.Resume;
+  oParse := TCFParser.Create(EmptyStr, -1);
+  Memo2.Lines.Add('Threading '+IntToStr(oParse.ThreadID));
+  oParse.OnTerminate := ParserFinish;
+  oParse.Parse(SynEdit1.Text);
+  oParse.Resume;
 
   Application.ProcessMessages;
 end;
@@ -175,6 +138,38 @@ begin
   begin
     Key := 0;
     Close;
+  end;
+end;
+
+procedure TMain.ParserFinish(Sender: TObject);
+var
+  tApp: TDateTime;
+begin
+  with TCFParser(Sender) do
+  try
+    if ErrorList.Count = 0 then
+    begin
+      SynEdit1.Text := Ouput.Text;
+      ExecProc.SQL.Text := SynEdit1.Text;
+      tApp := Now;
+      ExecProc.ExecSQL;
+      tApp := Now - tApp;
+      Memo2.Font.Color := clNavy;
+      Memo2.Lines.Add('Rotina aplicada com sucesso.');
+      Memo2.Lines.Add(EmptyStr);
+      Memo2.Lines.Add('Tempo de conexão com o banco: ' +
+      FormatDateTime('nn:zzz', tApp) + ' ms');
+    end
+    else
+    begin
+      Memo2.Font.Color := clRed;
+      Memo2.Lines.Add('Erro na aplicação da rotina:'#13#10);
+      Memo2.Lines.AddStrings(ErrorList);
+      Memo2.Lines.Add(EmptyStr);
+    end;
+  finally
+    Memo2.Lines.Add('Tempo de processamento: ' +
+      FormatDateTime('ss:zzzz', ElipsedTime) + ' ms');
   end;
 end;
 
