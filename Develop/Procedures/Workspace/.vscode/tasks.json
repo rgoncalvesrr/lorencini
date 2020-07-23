@@ -12,7 +12,7 @@
        "windows": {
           "command": "D:\\Projetos\\Lorencini\\_Release\\Parser.exe"  
        },
-       "args": ["-h", "127.0.0.1", "-p","5432", "-U", "postgres", "-P", "postgres.", "-db", "lorencini", "-f", "${file}"
+       "args": ["-h", "felicia.conceitho.corp", "-p","5432", "-U", "postgres", "-P", "postgres.", "-db", "lorencini", "-f", "${file}"
          // "-h", "lorencini.net.br", "-p", "54321", "-U", "postgres", "-P", "C0nc31th0.", "-db", "lorencini", "-f", "${file}"
          // "-h", "192.168.0.3", "-p", "5412", "-U", "postgres", "-P", "postgres.", "-db", "lorencini", "-f", "${file}"
        ],
