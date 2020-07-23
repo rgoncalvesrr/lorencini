@@ -9,12 +9,14 @@ inherited LabEquipCliM: TLabEquipCliM
   TextHeight = 15
   inherited Panel1: TPanel
     Width = 783
-    Height = 422
+    Height = 413
+    ExplicitLeft = 0
     ExplicitWidth = 651
     ExplicitHeight = 350
     inherited Panel3: TPanel
       Align = alNone
       ExplicitTop = 195
+      ExplicitWidth = 639
       inherited PageControl3: TPageControl
         ExplicitLeft = 3
         ExplicitTop = 47
@@ -55,7 +57,7 @@ inherited LabEquipCliM: TLabEquipCliM
     end
     inherited PageControl1: TPageControl
       Width = 777
-      Height = 416
+      Height = 407
       ExplicitLeft = 3
       ExplicitTop = 3
       ExplicitWidth = 645
@@ -106,7 +108,6 @@ inherited LabEquipCliM: TLabEquipCliM
                 Font.Color = clWindowText
                 Font.Height = -12
                 Font.Name = 'Arial'
-                Font.Pitch = fpVariable
                 Font.Style = [fsBold]
                 ParentFont = False
                 ExplicitLeft = 4
@@ -204,11 +205,14 @@ inherited LabEquipCliM: TLabEquipCliM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 23
+                Width = 248
                 Height = 15
                 Align = alTop
                 Caption = 'Tipo'
                 FocusControl = DBEdit2
+                ExplicitLeft = 84
+                ExplicitTop = 35
+                ExplicitWidth = 24
               end
               object DBEdit2: TDBEdit
                 AlignWithMargins = True
@@ -240,11 +244,14 @@ inherited LabEquipCliM: TLabEquipCliM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 18
+                Width = 171
                 Height = 15
                 Align = alTop
                 Caption = 'Tag'
                 FocusControl = DBEdit3
+                ExplicitLeft = 89
+                ExplicitTop = 35
+                ExplicitWidth = 19
               end
               object DBEdit3: TDBEdit
                 AlignWithMargins = True
@@ -269,6 +276,7 @@ inherited LabEquipCliM: TLabEquipCliM
               Align = alRight
               BevelOuter = bvNone
               TabOrder = 4
+              ExplicitLeft = 432
               object Label14: TLabel
                 AlignWithMargins = True
                 Left = 3
@@ -278,6 +286,8 @@ inherited LabEquipCliM: TLabEquipCliM
                 Align = alTop
                 Caption = 'Energiza'#231#227'o'
                 FocusControl = DBEdit6
+                ExplicitLeft = 45
+                ExplicitTop = 35
                 ExplicitWidth = 63
               end
               object JvDBDateEdit1: TJvDBDateEdit
@@ -292,6 +302,9 @@ inherited LabEquipCliM: TLabEquipCliM
                 ButtonWidth = 23
                 ShowNullDate = False
                 TabOrder = 0
+                ExplicitLeft = 15
+                ExplicitTop = 27
+                ExplicitWidth = 93
               end
             end
             object Panel26: TPanel
@@ -313,6 +326,8 @@ inherited LabEquipCliM: TLabEquipCliM
                 Align = alTop
                 Caption = 'Estado'
                 FocusControl = DBEdit6
+                ExplicitLeft = 73
+                ExplicitTop = 35
                 ExplicitWidth = 35
               end
               object dbcbSituacao: TDBComboBox
@@ -356,11 +371,13 @@ inherited LabEquipCliM: TLabEquipCliM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 55
+                Width = 251
                 Height = 15
                 Align = alTop
                 Caption = 'Fabricante'
                 FocusControl = DBEdit4
+                ExplicitTop = 35
+                ExplicitWidth = 55
               end
               object DBEdit4: TDBEdit
                 AlignWithMargins = True
@@ -392,11 +409,14 @@ inherited LabEquipCliM: TLabEquipCliM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 57
+                Width = 83
                 Height = 15
                 Align = alTop
                 Caption = 'Fabrica'#231#227'o'
                 FocusControl = DBEdit5
+                ExplicitLeft = 51
+                ExplicitTop = 35
+                ExplicitWidth = 57
               end
               object DBEdit5: TDBEdit
                 AlignWithMargins = True
@@ -428,11 +448,14 @@ inherited LabEquipCliM: TLabEquipCliM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 23
+                Width = 106
                 Height = 15
                 Align = alTop
                 Caption = 'Lote'
                 FocusControl = DBEdit6
+                ExplicitLeft = 85
+                ExplicitTop = 35
+                ExplicitWidth = 23
               end
               object DBEdit6: TDBEdit
                 AlignWithMargins = True
@@ -465,11 +488,14 @@ inherited LabEquipCliM: TLabEquipCliM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 25
+                Width = 295
                 Height = 15
                 Align = alTop
                 Caption = 'S'#233'rie'
                 FocusControl = DBEdit17
+                ExplicitLeft = 83
+                ExplicitTop = 35
+                ExplicitWidth = 25
               end
               object DBEdit17: TDBEdit
                 AlignWithMargins = True
@@ -510,11 +536,13 @@ inherited LabEquipCliM: TLabEquipCliM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 46
+                Width = 102
                 Height = 15
                 Align = alTop
                 Caption = 'Pot'#234'ncia'
                 FocusControl = DBEdit16
+                ExplicitTop = 35
+                ExplicitWidth = 46
               end
               object Panel35: TPanel
                 Left = 0
@@ -572,11 +600,14 @@ inherited LabEquipCliM: TLabEquipCliM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 62
+                Width = 102
                 Height = 15
                 Align = alTop
                 Caption = 'Imped'#226'ncia'
                 FocusControl = DBEdit10
+                ExplicitLeft = 46
+                ExplicitTop = 35
+                ExplicitWidth = 62
               end
               object DBEdit10: TDBEdit
                 AlignWithMargins = True
@@ -607,11 +638,14 @@ inherited LabEquipCliM: TLabEquipCliM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 36
+                Width = 102
                 Height = 15
                 Align = alTop
                 Caption = 'Tens'#227'o'
                 FocusControl = DBEdit11
+                ExplicitLeft = 71
+                ExplicitTop = 35
+                ExplicitWidth = 37
               end
               object Panel36: TPanel
                 Left = 0
@@ -669,11 +703,14 @@ inherited LabEquipCliM: TLabEquipCliM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 46
+                Width = 102
                 Height = 15
                 Align = alTop
                 Caption = 'Corrente'
                 FocusControl = DBEdit12
+                ExplicitLeft = 62
+                ExplicitTop = 35
+                ExplicitWidth = 46
               end
               object DBEdit12: TDBEdit
                 AlignWithMargins = True
@@ -705,11 +742,14 @@ inherited LabEquipCliM: TLabEquipCliM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 41
+                Width = 203
                 Height = 15
                 Align = alTop
                 Caption = 'Isolante'
                 FocusControl = DBEdit13
+                ExplicitLeft = 67
+                ExplicitTop = 35
+                ExplicitWidth = 41
               end
               object DBEdit13: TDBEdit
                 AlignWithMargins = True
@@ -741,11 +781,14 @@ inherited LabEquipCliM: TLabEquipCliM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 37
+                Width = 47
                 Height = 15
                 Align = alTop
                 Caption = 'Drenos'
                 FocusControl = DBEdit15
+                ExplicitLeft = 71
+                ExplicitTop = 35
+                ExplicitWidth = 37
               end
               object DBEdit15: TDBEdit
                 AlignWithMargins = True
@@ -777,11 +820,14 @@ inherited LabEquipCliM: TLabEquipCliM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 40
+                Width = 59
                 Height = 15
                 Align = alTop
                 Caption = 'Volume'
                 FocusControl = DBEdit14
+                ExplicitLeft = 68
+                ExplicitTop = 35
+                ExplicitWidth = 40
               end
               object DBEdit14: TDBEdit
                 AlignWithMargins = True
@@ -825,7 +871,7 @@ inherited LabEquipCliM: TLabEquipCliM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 39
+              Width = 102
               Height = 15
               Align = alTop
               Caption = 'Cliente'
@@ -834,9 +880,11 @@ inherited LabEquipCliM: TLabEquipCliM
               Font.Color = clWindowText
               Font.Height = -12
               Font.Name = 'Arial'
-              Font.Pitch = fpVariable
               Font.Style = [fsBold]
               ParentFont = False
+              ExplicitLeft = 4
+              ExplicitTop = 9
+              ExplicitWidth = 39
             end
             object DBEdit7: TDBEdit
               AlignWithMargins = True
@@ -868,11 +916,14 @@ inherited LabEquipCliM: TLabEquipCliM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 65
+              Width = 486
               Height = 15
               Align = alTop
               Caption = 'Raz'#227'o Social'
               FocusControl = DBEdit8
+              ExplicitLeft = 43
+              ExplicitTop = 9
+              ExplicitWidth = 65
             end
             object DBEdit8: TDBEdit
               AlignWithMargins = True
@@ -904,11 +955,14 @@ inherited LabEquipCliM: TLabEquipCliM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 40
+              Width = 131
               Height = 15
               Align = alTop
               Caption = 'C.N.P.J.'
               FocusControl = DBEdit9
+              ExplicitLeft = 68
+              ExplicitTop = 9
+              ExplicitWidth = 40
             end
             object DBEdit9: TDBEdit
               AlignWithMargins = True
@@ -1021,7 +1075,7 @@ inherited LabEquipCliM: TLabEquipCliM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 68
+                Width = 74
                 Height = 15
                 Align = alTop
                 Caption = 'Localiza'#231#227'o'
@@ -1030,9 +1084,10 @@ inherited LabEquipCliM: TLabEquipCliM
                 Font.Color = clWindowText
                 Font.Height = -12
                 Font.Name = 'Arial'
-                Font.Pitch = fpVariable
                 Font.Style = [fsBold]
                 ParentFont = False
+                ExplicitTop = 33
+                ExplicitWidth = 68
               end
               object DBEdit18: TDBEdit
                 AlignWithMargins = True
@@ -1123,11 +1178,14 @@ inherited LabEquipCliM: TLabEquipCliM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 25
+                Width = 54
                 Height = 15
                 Align = alTop
                 Caption = 'Sigla'
                 FocusControl = DBEdit19
+                ExplicitLeft = 52
+                ExplicitTop = 33
+                ExplicitWidth = 25
               end
               object DBEdit19: TDBEdit
                 AlignWithMargins = True
@@ -1161,11 +1219,14 @@ inherited LabEquipCliM: TLabEquipCliM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 33
+                Width = 331
                 Height = 15
                 Align = alTop
                 Caption = 'Nome'
                 FocusControl = DBEdit20
+                ExplicitLeft = 91
+                ExplicitTop = 33
+                ExplicitWidth = 33
               end
               object DBEdit20: TDBEdit
                 AlignWithMargins = True
@@ -1198,11 +1259,14 @@ inherited LabEquipCliM: TLabEquipCliM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 46
+                Width = 244
                 Height = 15
                 Align = alTop
                 Caption = 'Regional'
                 FocusControl = DBEdit21
+                ExplicitLeft = 204
+                ExplicitTop = 33
+                ExplicitWidth = 46
               end
               object DBEdit21: TDBEdit
                 AlignWithMargins = True
@@ -1234,11 +1298,13 @@ inherited LabEquipCliM: TLabEquipCliM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 28
+              Width = 753
               Height = 15
               Align = alTop
               Caption = 'Local'
               FocusControl = DBEdit22
+              ExplicitTop = 26
+              ExplicitWidth = 28
             end
             object DBEdit22: TDBEdit
               AlignWithMargins = True

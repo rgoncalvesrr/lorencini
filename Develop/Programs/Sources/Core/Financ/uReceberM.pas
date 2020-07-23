@@ -62,33 +62,6 @@ type
     deBaixa: TJvDBDateEdit;
     Label24: TLabel;
     ceBaixa: TJvDBCalcEdit;
-    Panel2: TPanel;
-    Panel4: TPanel;
-    Panel5: TPanel;
-    Panel6: TPanel;
-    Panel7: TPanel;
-    Panel8: TPanel;
-    Panel9: TPanel;
-    Panel10: TPanel;
-    Panel11: TPanel;
-    Panel12: TPanel;
-    Panel13: TPanel;
-    Panel14: TPanel;
-    Panel15: TPanel;
-    Panel16: TPanel;
-    Panel19: TPanel;
-    Panel20: TPanel;
-    Panel21: TPanel;
-    Panel22: TPanel;
-    Panel23: TPanel;
-    Panel17: TPanel;
-    Panel18: TPanel;
-    Panel27: TPanel;
-    Panel28: TPanel;
-    Panel29: TPanel;
-    Panel30: TPanel;
-    Panel31: TPanel;
-    Panel32: TPanel;
     procedure DBEdit4Exit(Sender: TObject);
     procedure DBEdit7Exit(Sender: TObject);
     procedure findNatuExecute(Sender: TObject);
@@ -108,7 +81,8 @@ var
 
 implementation
 
-uses uIUtils, mcUtils, uFinNaturezas, DB, uReceber, uDM, ZSqlProcessor, uReceberContatosM, uClientes;
+uses uClientesF, uIUtils, mcUtils, uFinNaturezas, DB, uReceber, uDM,
+  ZSqlProcessor, uReceberContatosM;
 
 {$R *.dfm}
 
@@ -148,8 +122,8 @@ begin
   if mcEmpty(DBEdit7.Text) or not (DataSet.State in [dsEdit, dsInsert])  then
     Exit;
 
-  fLkp:= TStringList.Create;
   try
+    fLkp:= TStringList.Create;
     fLkp.Add('nome_chave');
     fLkp.Add('cnpj');
     fLkp.Add('telefone');
@@ -172,17 +146,16 @@ end;
 
 procedure TReceberM.findCliExecute(Sender: TObject);
 begin
-  Clientes := TClientes.Create(nil);
   try
-    Clientes.DisplayMode := dmQuery;
-    Clientes.ShowModal;
-    if (Clientes.Execute) then
+    Application.CreateForm(TClientesF, ClientesF);
+    ClientesF.ShowModal;
+    if (ClientesF.Execute) then
     begin
-      DataSet.FieldByName('id_cli').AsInteger := Clientes.IBrwSrccodigo.AsInteger;
+      DataSet.FieldByName('id_cli').AsInteger := ClientesF.IBrwSrccodigo.AsInteger;
       DBEdit7Exit(DBEdit7);
     end;
   finally
-    FreeAndNil(Clientes);
+    ClientesF.Release;
   end;
 end;
 
@@ -256,14 +229,10 @@ end;
 
 procedure TReceberM.OnEdit;
 begin
-  ReceberContatosM := TReceberContatosM.Create(nil);
-  try
-    ReceberContatosM.DataSet := ChildDataSet;
-    ReceberContatosM.ShowModal;
-  finally
-    FreeAndNil(ReceberContatosM);
-  end;
-
+  ReceberContatosM := TReceberContatosM.Create(Application);
+  ReceberContatosM.DataSet := ChildDataSet;
+  ReceberContatosM.ShowModal;
+  FreeAndNil(ReceberContatosM);
 end;
 
 procedure TReceberM.RefreshControls;

@@ -113,11 +113,12 @@ inherited LabProcM: TLabProcM
           AlignWithMargins = True
           Left = 3
           Top = 153
-          Width = 102
+          Width = 767
           Height = 15
           Align = alTop
           Caption = 'Observa'#231#227'o Pedido'
           FocusControl = DBEdit11
+          ExplicitWidth = 102
         end
         object Panel2: TPanel
           Left = 0
@@ -139,11 +140,12 @@ inherited LabProcM: TLabProcM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 40
+              Width = 122
               Height = 15
               Align = alTop
               Caption = 'C.N.P.J.'
               FocusControl = DBEdit9
+              ExplicitWidth = 40
             end
             object DBEdit9: TDBEdit
               AlignWithMargins = True
@@ -171,11 +173,12 @@ inherited LabProcM: TLabProcM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 37
+              Width = 54
               Height = 15
               Align = alTop
               Caption = 'Cliente'
               FocusControl = DBEdit7
+              ExplicitWidth = 37
             end
             object DBEdit7: TDBEdit
               AlignWithMargins = True
@@ -261,11 +264,12 @@ inherited LabProcM: TLabProcM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 65
+              Width = 347
               Height = 15
               Align = alTop
               Caption = 'Raz'#227'o Social'
               FocusControl = DBEdit8
+              ExplicitWidth = 65
             end
             object DBEdit8: TDBEdit
               AlignWithMargins = True
@@ -293,11 +297,12 @@ inherited LabProcM: TLabProcM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 47
+              Width = 54
               Height = 15
               Align = alTop
               Caption = 'Processo'
               FocusControl = DBEdit1
+              ExplicitWidth = 47
             end
             object DBEdit1: TDBEdit
               AlignWithMargins = True
@@ -326,11 +331,12 @@ inherited LabProcM: TLabProcM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 44
+              Width = 98
               Height = 15
               Align = alTop
               Caption = 'Telefone'
               FocusControl = DBEdit10
+              ExplicitWidth = 44
             end
             object DBEdit10: TDBEdit
               AlignWithMargins = True
@@ -358,11 +364,12 @@ inherited LabProcM: TLabProcM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 14
+              Width = 33
               Height = 15
               Align = alTop
               Caption = 'UF'
               FocusControl = DBEdit12
+              ExplicitWidth = 14
             end
             object DBEdit12: TDBEdit
               AlignWithMargins = True
@@ -400,11 +407,12 @@ inherited LabProcM: TLabProcM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 39
+              Width = 64
               Height = 15
               Align = alTop
               Caption = 'Frascos'
               FocusControl = DBEdit14
+              ExplicitWidth = 39
             end
             object DBEdit14: TDBEdit
               AlignWithMargins = True
@@ -430,11 +438,12 @@ inherited LabProcM: TLabProcM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 44
+              Width = 64
               Height = 15
               Align = alTop
               Caption = 'Seringas'
               FocusControl = DBEdit15
+              ExplicitWidth = 44
             end
             object DBEdit15: TDBEdit
               AlignWithMargins = True
@@ -460,11 +469,12 @@ inherited LabProcM: TLabProcM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 15
+              Width = 97
               Height = 15
               Align = alTop
               Caption = 'OS'
               FocusControl = DBEdit3
+              ExplicitWidth = 15
             end
             object DBEdit3: TDBEdit
               AlignWithMargins = True
@@ -493,11 +503,12 @@ inherited LabProcM: TLabProcM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 51
+              Width = 524
               Height = 15
               Align = alTop
               Caption = 'Descri'#231#227'o'
               FocusControl = DBEdit2
+              ExplicitWidth = 51
             end
             object DBEdit2: TDBEdit
               AlignWithMargins = True
@@ -532,11 +543,12 @@ inherited LabProcM: TLabProcM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 40
+              Width = 141
               Height = 15
               Align = alTop
               Caption = 'Cria'#231#227'o'
               FocusControl = DBEdit4
+              ExplicitWidth = 40
             end
             object DBEdit4: TDBEdit
               AlignWithMargins = True
@@ -564,11 +576,12 @@ inherited LabProcM: TLabProcM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 43
+              Width = 141
               Height = 15
               Align = alTop
               Caption = 'Emiss'#227'o'
               FocusControl = DBEdit5
+              ExplicitWidth = 43
             end
             object DBEdit5: TDBEdit
               AlignWithMargins = True
@@ -596,11 +609,12 @@ inherited LabProcM: TLabProcM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 46
+              Width = 141
               Height = 15
               Align = alTop
               Caption = 'Remessa'
               FocusControl = DBEdit6
+              ExplicitWidth = 46
             end
             object DBEdit6: TDBEdit
               AlignWithMargins = True
@@ -628,11 +642,12 @@ inherited LabProcM: TLabProcM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 42
+              Width = 141
               Height = 15
               Align = alTop
               Caption = 'Retorno'
               FocusControl = DBEdit11
+              ExplicitWidth = 42
             end
             object DBEdit11: TDBEdit
               AlignWithMargins = True

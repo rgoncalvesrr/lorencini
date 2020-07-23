@@ -9,7 +9,7 @@
   out_res        | 0 - Falha / 1 - Sucesso
   ============================================================================*/
 Create or Replace Function sys_session() 
-   returns varchar as 
+   returns varchar(60) as 
 $$
 Begin
    Return lower(session_user||'@'||host(inet_client_addr()));

@@ -98,13 +98,13 @@ uses uNFS, uIUtils, mcUtils, uFinNaturezas, uNFSSerie, uClientes, uDM,
 procedure TNFSM.actLocClienteExecute(Sender: TObject);
 begin
   inherited;
-  Clientes := TClientes.Create(Application);
   try
+    Clientes := TClientes.Create(Application);
     Clientes.DisplayMode := dmQuery;
     Clientes.ShowModal;
     if (Clientes.Execute) then
     begin
-      DataSet.FieldByName('codigo').AsInteger := Clientes.IBrwSrccodigo.AsInteger;
+      DataSet.FieldByName('codigo').AsInteger := DM.qClientescodigo.AsInteger;
       DBEdit7Exit(DBEdit7);
     end;
   finally

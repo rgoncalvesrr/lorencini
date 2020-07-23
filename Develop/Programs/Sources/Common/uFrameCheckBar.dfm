@@ -45,19 +45,19 @@ object FrameCheckBar: TFrameCheckBar
         Action = actInverseAll
         Style = tbsTextButton
       end
-      object ToolButton17: TToolButton
-        Left = 190
-        Top = 0
-        Action = actCkAll
-        Style = tbsTextButton
-      end
       object ToolButton1: TToolButton
-        Left = 258
+        Left = 190
         Top = 0
         Width = 8
         Caption = 'ToolButton1'
         ImageIndex = 70
         Style = tbsSeparator
+      end
+      object ToolButton17: TToolButton
+        Left = 198
+        Top = 0
+        Action = actCkAll
+        Style = tbsTextButton
       end
       object ToolButton16: TToolButton
         Left = 266

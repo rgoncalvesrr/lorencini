@@ -128,13 +128,14 @@ uses uDM, uLabEquipCli, uClientes, iTypes, uIUtils, mcUtils, DB, uLabEquip,
 
 procedure TLabEquipCliM.actFindCliExecute(Sender: TObject);
 begin
-  Clientes := TClientes.Create(nil);
+  with DM do
   try
+    Application.CreateForm(TClientes, Clientes);
     Clientes.DisplayMode := dmQuery;
     Clientes.ShowModal;
     if (Clientes.Execute) then
     begin
-      DataSet.FieldByName('codigo').AsInteger := Clientes.IBrwSrccodigo.AsInteger;
+      DataSet.FieldByName('codigo').AsInteger := qClientescodigo.AsInteger;
       DBEdit7Exit(DBEdit7);
     end;
   finally

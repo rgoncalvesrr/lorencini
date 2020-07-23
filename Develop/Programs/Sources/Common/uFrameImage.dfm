@@ -4,12 +4,6 @@ object FrameImage: TFrameImage
   Width = 451
   Height = 304
   Align = alClient
-  Font.Charset = DEFAULT_CHARSET
-  Font.Color = clWindowText
-  Font.Height = -12
-  Font.Name = 'Segoe UI'
-  Font.Style = []
-  ParentFont = False
   TabOrder = 0
   object FrameImage: TJvDBImage
     Left = 0
@@ -25,7 +19,7 @@ object FrameImage: TFrameImage
   end
   object ActionList1: TActionList
     Images = Resources.small_n
-    Left = 32
+    Left = 48
     Top = 16
     object actLoad: TAction
       Caption = 'Carregar...'
@@ -43,7 +37,7 @@ object FrameImage: TFrameImage
   object PopupMenu1: TPopupMenu
     Images = Resources.small_n
     OnPopup = PopupMenu1Popup
-    Left = 96
+    Left = 88
     Top = 16
     object Carregar1: TMenuItem
       Action = actLoad
@@ -54,7 +48,7 @@ object FrameImage: TFrameImage
   end
   object OpenPictureDialog1: TOpenPictureDialog
     Filter = 'JPEG Image File (*.jpg)|*.jpg|JPEG Image File (*.jpeg)|*.jpeg'
-    Left = 184
+    Left = 128
     Top = 16
   end
 end

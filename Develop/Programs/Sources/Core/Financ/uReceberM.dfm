@@ -1,10 +1,10 @@
 inherited ReceberM: TReceberM
   Caption = 'T'#237'tulo a Receber'
-  ClientHeight = 672
-  ClientWidth = 798
+  ClientHeight = 597
+  ClientWidth = 745
   Constraints.MinWidth = 691
-  ExplicitWidth = 804
-  ExplicitHeight = 701
+  ExplicitWidth = 751
+  ExplicitHeight = 626
   PixelsPerInch = 96
   TextHeight = 15
   object SpeedButton1: TSpeedButton [0]
@@ -15,45 +15,45 @@ inherited ReceberM: TReceberM
   end
   inherited Panel1: TPanel
     Top = 44
-    Width = 798
-    Height = 628
-    ExplicitTop = 44
-    ExplicitWidth = 745
-    ExplicitHeight = 553
+    Width = 745
+    Height = 553
+    ExplicitTop = 35
+    ExplicitWidth = 737
+    ExplicitHeight = 562
     inherited Panel3: TPanel
-      Top = 401
-      Width = 798
-      Height = 227
-      ExplicitTop = 368
-      ExplicitWidth = 903
-      ExplicitHeight = 227
+      Top = 370
+      Width = 745
+      Height = 183
+      ExplicitTop = 379
+      ExplicitWidth = 737
+      ExplicitHeight = 183
       inherited PageControl3: TPageControl
         Top = 47
-        Width = 792
-        Height = 177
+        Width = 739
+        Height = 133
         ExplicitLeft = 3
-        ExplicitTop = 47
-        ExplicitWidth = 739
-        ExplicitHeight = 133
+        ExplicitTop = 38
+        ExplicitWidth = 731
+        ExplicitHeight = 142
         inherited tsDet: TTabSheet
           Caption = 'Contatos'
           ExplicitLeft = 4
           ExplicitTop = 26
-          ExplicitWidth = 731
-          ExplicitHeight = 103
+          ExplicitWidth = 723
+          ExplicitHeight = 112
           inherited DBGrid1: TDBGrid
-            Width = 784
-            Height = 147
+            Width = 731
+            Height = 103
             DataSource = Receber.dsContatos
           end
         end
       end
       inherited ControlBar2: TControlBar
-        Width = 792
+        Width = 739
         Height = 38
         ExplicitLeft = 3
         ExplicitTop = 3
-        ExplicitWidth = 739
+        ExplicitWidth = 731
         ExplicitHeight = 38
         inherited ToolBar3: TToolBar
           Width = 718
@@ -84,1093 +84,583 @@ inherited ReceberM: TReceberM
       end
     end
     inherited PageControl1: TPageControl
-      Width = 792
-      Height = 395
+      Width = 739
+      Height = 364
       ExplicitLeft = 3
       ExplicitTop = 3
-      ExplicitWidth = 739
-      ExplicitHeight = 364
+      ExplicitWidth = 731
+      ExplicitHeight = 373
       inherited TabSheet1: TTabSheet
         Caption = 'T'#237'tulo a Receber'
         ExplicitLeft = 4
-        ExplicitTop = 27
-        ExplicitWidth = 889
-        ExplicitHeight = 468
-        object Label18: TLabel
-          AlignWithMargins = True
+        ExplicitTop = 26
+        ExplicitWidth = 723
+        ExplicitHeight = 343
+        object Label1: TLabel
           Left = 3
-          Top = 253
-          Width = 778
+          Top = 8
+          Width = 31
           Height = 15
-          Align = alTop
+          Caption = 'T'#237'tulo'
+          FocusControl = DBEdit1
+        end
+        object Label2: TLabel
+          Left = 51
+          Top = 8
+          Width = 63
+          Height = 15
+          Caption = 'Documento'
+          FocusControl = DBEdit2
+        end
+        object Label4: TLabel
+          Left = 282
+          Top = 8
+          Width = 51
+          Height = 15
+          Caption = 'Natureza'
+          FocusControl = DBEdit4
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label5: TLabel
+          Left = 361
+          Top = 8
+          Width = 51
+          Height = 15
+          Caption = 'Descri'#231#227'o'
+          FocusControl = DBEdit5
+        end
+        object Label6: TLabel
+          Left = 659
+          Top = 8
+          Width = 24
+          Height = 15
+          Caption = 'Tipo'
+          FocusControl = DBEdit6
+        end
+        object Label7: TLabel
+          Left = 3
+          Top = 60
+          Width = 39
+          Height = 15
+          Caption = 'Cliente'
+          FocusControl = DBEdit7
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label8: TLabel
+          Left = 109
+          Top = 60
+          Width = 65
+          Height = 15
+          Caption = 'Raz'#227'o Social'
+          FocusControl = DBEdit8
+        end
+        object Label9: TLabel
+          Left = 495
+          Top = 60
+          Width = 40
+          Height = 15
+          Caption = 'C.N.P.J.'
+          FocusControl = DBEdit9
+        end
+        object Label10: TLabel
+          Left = 605
+          Top = 60
+          Width = 45
+          Height = 15
+          Caption = 'Telefone'
+          FocusControl = DBEdit10
+        end
+        object Label11: TLabel
+          Left = 3
+          Top = 110
+          Width = 40
+          Height = 15
+          Caption = 'Cria'#231#227'o'
+          FocusControl = DBEdit11
+        end
+        object Label12: TLabel
+          Left = 154
+          Top = 110
+          Width = 49
+          Height = 15
+          Caption = 'Emiss'#227'o'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label13: TLabel
+          Left = 283
+          Top = 110
+          Width = 67
+          Height = 15
+          Caption = 'Vencimento'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label14: TLabel
+          Left = 410
+          Top = 110
+          Width = 95
+          Height = 15
+          Caption = 'Vencimento Real'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label18: TLabel
+          Left = 3
+          Top = 243
+          Width = 67
+          Height = 15
           Caption = 'Observa'#231#245'es'
           FocusControl = DBMemo1
-          ExplicitTop = 239
-          ExplicitWidth = 67
+        end
+        object SpeedButton2: TSpeedButton
+          Left = 334
+          Top = 25
+          Width = 25
+          Height = 23
+          Action = findNatu
+          Glyph.Data = {
+            36040000424D3604000000000000360000002800000010000000100000000100
+            2000000000000004000000000000000000000000000000000000FF00FF00FF00
+            FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+            FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF000A0A
+            0A000A0A0A000A0A0A000A0A0A000A0A0A000A0A0A00FF00FF00FF00FF000A0A
+            0A000A0A0A000A0A0A000A0A0A000A0A0A000A0A0A00FF00FF00FF00FF000A0A
+            0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
+            0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
+            0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
+            0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
+            0A00121212001E1E1E000B0B0B000A0A0A000A0A0A00FF00FF00FF00FF000A0A
+            0A0015151500222222000B0B0B000A0A0A000A0A0A00FF00FF00FF00FF007549
+            4900A0725E00EFE1D200EBC8A3009F674D0070414000FF00FF00FF00FF007549
+            4900A0725E00EFE1D200EBC8A3009F674D0070414000FF00FF00FF00FF008461
+            610085554C00F5E5D400EAC5A000865043007D565500FF00FF00FF00FF008461
+            610085554C00F5E5D400EAC5A000865043007D565500FF00FF00FF00FF009A82
+            820074444000F5E4D300E1B488007443400093777700FF00FF00FF00FF009A82
+            820074444000F5E4D300E1B488007443400093777700FF00FF00FF00FF00B7AE
+            AE006C3C3C00E9C8A800D19669006C3C3C00B2A7A700FF00FF00FF00FF00B7AE
+            AE006C3C3C00E9C8A800D19669006C3C3C00B2A7A700FF00FF00FF00FF00FF00
+            FF006E3E3E00734444006B3B3B006B3B3B000B0B0B000A0A0A000A0A0A000E0D
+            0D006C3C3C006B3B3B006B3B3B006C3B3B00FF00FF00FF00FF00FF00FF00FF00
+            FF006C3B3B00F1D8BE00E8BF9300C78657000A0A0A00C4C4C400696969001010
+            1000F9DEB700E2B38600BD7B51006C3B3B00FF00FF00FF00FF00FF00FF00FF00
+            FF006C3B3B00F6E6D600E9BF9500C88759000A0A0A00C4C4C400696969000C0C
+            0C00E3C6A900CA9B7600A5694B006C3B3B00FF00FF00FF00FF00FF00FF00FF00
+            FF006D3D3D00724343006B3B3B006B3B3B00141010000A0A0A000A0A0A002416
+            14006C3B3B006C3B3B006C3B3B006C3B3B00FF00FF00FF00FF00FF00FF00FF00
+            FF00FF00FF000A0A0A00C4C4C400696969000A0A0A00FF00FF00FF00FF000A0A
+            0A00C4C4C400696969000A0A0A00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+            FF00FF00FF000A0A0A000A0A0A000A0A0A001D1D1D00FF00FF00FF00FF000A0A
+            0A000A0A0A000A0A0A001D1D1D00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+            FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+            FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00}
+        end
+        object SpeedButton3: TSpeedButton
+          Left = 78
+          Top = 77
+          Width = 25
+          Height = 24
+          Action = findCli
+          Glyph.Data = {
+            36040000424D3604000000000000360000002800000010000000100000000100
+            2000000000000004000000000000000000000000000000000000FF00FF00FF00
+            FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+            FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF000A0A
+            0A000A0A0A000A0A0A000A0A0A000A0A0A000A0A0A00FF00FF00FF00FF000A0A
+            0A000A0A0A000A0A0A000A0A0A000A0A0A000A0A0A00FF00FF00FF00FF000A0A
+            0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
+            0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
+            0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
+            0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
+            0A00121212001E1E1E000B0B0B000A0A0A000A0A0A00FF00FF00FF00FF000A0A
+            0A0015151500222222000B0B0B000A0A0A000A0A0A00FF00FF00FF00FF007549
+            4900A0725E00EFE1D200EBC8A3009F674D0070414000FF00FF00FF00FF007549
+            4900A0725E00EFE1D200EBC8A3009F674D0070414000FF00FF00FF00FF008461
+            610085554C00F5E5D400EAC5A000865043007D565500FF00FF00FF00FF008461
+            610085554C00F5E5D400EAC5A000865043007D565500FF00FF00FF00FF009A82
+            820074444000F5E4D300E1B488007443400093777700FF00FF00FF00FF009A82
+            820074444000F5E4D300E1B488007443400093777700FF00FF00FF00FF00B7AE
+            AE006C3C3C00E9C8A800D19669006C3C3C00B2A7A700FF00FF00FF00FF00B7AE
+            AE006C3C3C00E9C8A800D19669006C3C3C00B2A7A700FF00FF00FF00FF00FF00
+            FF006E3E3E00734444006B3B3B006B3B3B000B0B0B000A0A0A000A0A0A000E0D
+            0D006C3C3C006B3B3B006B3B3B006C3B3B00FF00FF00FF00FF00FF00FF00FF00
+            FF006C3B3B00F1D8BE00E8BF9300C78657000A0A0A00C4C4C400696969001010
+            1000F9DEB700E2B38600BD7B51006C3B3B00FF00FF00FF00FF00FF00FF00FF00
+            FF006C3B3B00F6E6D600E9BF9500C88759000A0A0A00C4C4C400696969000C0C
+            0C00E3C6A900CA9B7600A5694B006C3B3B00FF00FF00FF00FF00FF00FF00FF00
+            FF006D3D3D00724343006B3B3B006B3B3B00141010000A0A0A000A0A0A002416
+            14006C3B3B006C3B3B006C3B3B006C3B3B00FF00FF00FF00FF00FF00FF00FF00
+            FF00FF00FF000A0A0A00C4C4C400696969000A0A0A00FF00FF00FF00FF000A0A
+            0A00C4C4C400696969000A0A0A00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+            FF00FF00FF000A0A0A000A0A0A000A0A0A001D1D1D00FF00FF00FF00FF000A0A
+            0A000A0A0A000A0A0A001D1D1D00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+            FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+            FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00}
+        end
+        object Label19: TLabel
+          Left = 168
+          Top = 8
+          Width = 32
+          Height = 15
+          Caption = 'Conta'
         end
         object Label3: TLabel
-          AlignWithMargins = True
           Left = 3
-          Top = 203
-          Width = 778
+          Top = 198
+          Width = 48
           Height = 15
-          Align = alTop
           Caption = 'Hist'#243'rico'
           FocusControl = DBEdit3
-          ExplicitTop = 194
-          ExplicitWidth = 48
         end
-        object DBMemo1: TDBMemo
-          Left = 0
-          Top = 271
-          Width = 784
-          Height = 94
-          Align = alClient
-          DataField = 'obs'
+        object Label16: TLabel
+          Left = 4
+          Top = 156
+          Width = 29
+          Height = 15
+          Caption = 'Valor'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label15: TLabel
+          Left = 106
+          Top = 156
+          Width = 27
+          Height = 15
+          Caption = 'Juros'
+        end
+        object Label21: TLabel
+          Left = 209
+          Top = 156
+          Width = 31
+          Height = 15
+          Caption = 'Multa'
+        end
+        object Label22: TLabel
+          Left = 311
+          Top = 156
+          Width = 50
+          Height = 15
+          Caption = 'Desconto'
+        end
+        object Label23: TLabel
+          Left = 413
+          Top = 156
+          Width = 26
+          Height = 15
+          Caption = 'Total'
+        end
+        object Label17: TLabel
+          Left = 513
+          Top = 155
+          Width = 27
+          Height = 15
+          Caption = 'Baixa'
+        end
+        object Label24: TLabel
+          Left = 618
+          Top = 156
+          Width = 70
+          Height = 15
+          Caption = 'Valor Baixado'
+        end
+        object DBEdit1: TDBEdit
+          Left = 3
+          Top = 25
+          Width = 42
+          Height = 23
+          TabStop = False
+          DataField = 'recno'
+          DataSource = Receber.DataSource1
+          Enabled = False
+          ReadOnly = True
+          TabOrder = 0
+        end
+        object DBEdit2: TDBEdit
+          Left = 51
+          Top = 25
+          Width = 111
+          Height = 23
+          DataField = 'docto'
           DataSource = Receber.DataSource1
           TabOrder = 1
-          ExplicitTop = 272
+        end
+        object DBEdit4: TDBEdit
+          Left = 282
+          Top = 25
+          Width = 51
+          Height = 23
+          DataField = 'natureza'
+          DataSource = Receber.DataSource1
+          TabOrder = 3
+          OnExit = DBEdit4Exit
+        end
+        object DBEdit5: TDBEdit
+          Left = 361
+          Top = 25
+          Width = 292
+          Height = 23
+          TabStop = False
+          DataField = 'descri'
+          DataSource = Receber.DataSource1
+          ReadOnly = True
+          TabOrder = 4
+        end
+        object DBEdit6: TDBEdit
+          Left = 659
+          Top = 25
+          Width = 56
+          Height = 23
+          TabStop = False
+          DataField = 'tipo'
+          DataSource = Receber.DataSource1
+          ReadOnly = True
+          TabOrder = 5
+        end
+        object DBEdit7: TDBEdit
+          Left = 3
+          Top = 77
+          Width = 75
+          Height = 23
+          DataField = 'id_cli'
+          DataSource = Receber.DataSource1
+          TabOrder = 6
+          OnExit = DBEdit7Exit
+        end
+        object DBEdit8: TDBEdit
+          Left = 109
+          Top = 77
+          Width = 380
+          Height = 23
+          TabStop = False
+          DataField = 'nome_chave'
+          DataSource = Receber.DataSource1
+          ReadOnly = True
+          TabOrder = 7
+        end
+        object DBEdit9: TDBEdit
+          Left = 495
+          Top = 77
+          Width = 104
+          Height = 23
+          TabStop = False
+          DataField = 'cnpj'
+          DataSource = Receber.DataSource1
+          ReadOnly = True
+          TabOrder = 8
+        end
+        object DBEdit10: TDBEdit
+          Left = 605
+          Top = 77
+          Width = 110
+          Height = 23
+          TabStop = False
+          DataField = 'telefone'
+          DataSource = Receber.DataSource1
+          ReadOnly = True
+          TabOrder = 9
+        end
+        object DBEdit11: TDBEdit
+          Left = 3
+          Top = 129
+          Width = 145
+          Height = 23
+          TabStop = False
+          DataField = 'criacao'
+          DataSource = Receber.DataSource1
+          ReadOnly = True
+          TabOrder = 10
+        end
+        object DBMemo1: TDBMemo
+          Left = 3
+          Top = 260
+          Width = 712
+          Height = 61
+          DataField = 'obs'
+          DataSource = Receber.DataSource1
+          TabOrder = 22
+        end
+        object DBComboBox1: TDBComboBox
+          Left = 168
+          Top = 29
+          Width = 108
+          Height = 23
+          Style = csDropDownList
+          DataField = 'cc'
+          DataSource = Receber.DataSource1
+          ItemHeight = 15
+          TabOrder = 2
+        end
+        object JvDBDateEdit1: TJvDBDateEdit
+          Left = 154
+          Top = 129
+          Width = 124
+          Height = 23
+          DataField = 'emissao'
+          DataSource = Receber.DataSource1
+          ButtonFlat = True
+          ButtonWidth = 23
+          ShowNullDate = False
+          TabOrder = 11
+        end
+        object JvDBDateEdit2: TJvDBDateEdit
+          Left = 283
+          Top = 129
+          Width = 123
+          Height = 23
+          DataField = 'vencimento'
+          DataSource = Receber.DataSource1
+          ButtonFlat = True
+          ButtonWidth = 23
+          ShowNullDate = False
+          TabOrder = 12
+        end
+        object JvDBDateEdit3: TJvDBDateEdit
+          Left = 410
+          Top = 129
+          Width = 124
+          Height = 23
+          DataField = 'vencimento_real'
+          DataSource = Receber.DataSource1
+          ButtonFlat = True
+          ButtonWidth = 23
+          ShowNullDate = False
+          TabOrder = 13
         end
         object DBEdit3: TDBEdit
-          AlignWithMargins = True
           Left = 3
-          Top = 224
-          Width = 778
+          Top = 215
+          Width = 712
           Height = 23
-          Align = alTop
           DataField = 'historico'
           DataSource = Receber.DataSource1
-          TabOrder = 0
-          ExplicitTop = 214
-          ExplicitWidth = 712
+          TabOrder = 21
         end
-        object Panel2: TPanel
-          Left = 0
-          Top = 0
-          Width = 784
-          Height = 50
-          Align = alTop
-          BevelOuter = bvNone
-          TabOrder = 2
-          ExplicitTop = 370
-          ExplicitWidth = 889
-          object Panel4: TPanel
-            Left = 0
-            Top = 0
-            Width = 70
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 0
-            ExplicitLeft = -6
-            ExplicitTop = -6
-            ExplicitHeight = 48
-            object Label1: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 64
-              Height = 15
-              Align = alTop
-              Caption = 'T'#237'tulo'
-              FocusControl = DBEdit1
-              ExplicitTop = 8
-              ExplicitWidth = 30
-            end
-            object DBEdit1: TDBEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 64
-              Height = 23
-              TabStop = False
-              Align = alClient
-              DataField = 'recno'
-              DataSource = Receber.DataSource1
-              Enabled = False
-              ReadOnly = True
-              TabOrder = 0
-              ExplicitTop = 25
-              ExplicitWidth = 42
-            end
-          end
-          object Panel5: TPanel
-            Left = 70
-            Top = 0
-            Width = 113
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 1
-            ExplicitHeight = 48
-            object Label2: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 107
-              Height = 15
-              Align = alTop
-              Caption = 'Documento'
-              FocusControl = DBEdit2
-              ExplicitLeft = 50
-              ExplicitTop = 8
-              ExplicitWidth = 63
-            end
-            object DBEdit2: TDBEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 107
-              Height = 23
-              Align = alClient
-              DataField = 'docto'
-              DataSource = Receber.DataSource1
-              TabOrder = 0
-              ExplicitLeft = 2
-              ExplicitTop = 25
-              ExplicitWidth = 111
-            end
-          end
-          object Panel6: TPanel
-            Left = 183
-            Top = 0
-            Width = 136
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 2
-            ExplicitLeft = 186
-            ExplicitHeight = 48
-            object Label19: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 130
-              Height = 15
-              Align = alTop
-              Caption = 'Conta'
-              ExplicitLeft = 104
-              ExplicitTop = 8
-              ExplicitWidth = 32
-            end
-            object DBComboBox1: TDBComboBox
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 130
-              Height = 23
-              Style = csDropDownList
-              Align = alClient
-              DataField = 'cc'
-              DataSource = Receber.DataSource1
-              ItemHeight = 15
-              TabOrder = 0
-              ExplicitLeft = 28
-              ExplicitTop = 25
-              ExplicitWidth = 108
-            end
-          end
-          object Panel7: TPanel
-            Left = 319
-            Top = 0
-            Width = 70
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 3
-            ExplicitLeft = 322
-            ExplicitTop = -6
-            object Label4: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 64
-              Height = 15
-              Align = alTop
-              Caption = 'Natureza'
-              FocusControl = DBEdit4
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -12
-              Font.Name = 'Arial'
-              Font.Pitch = fpVariable
-              Font.Style = [fsBold]
-              ParentFont = False
-              ExplicitLeft = 19
-              ExplicitTop = 4
-              ExplicitWidth = 51
-            end
-            object DBEdit4: TDBEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 67
-              Height = 23
-              Margins.Right = 0
-              Align = alClient
-              DataField = 'natureza'
-              DataSource = Receber.DataSource1
-              TabOrder = 0
-              OnExit = DBEdit4Exit
-              ExplicitLeft = 19
-              ExplicitTop = 25
-              ExplicitWidth = 51
-            end
-          end
-          object Panel8: TPanel
-            Left = 389
-            Top = 0
-            Width = 29
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 4
-            object SpeedButton2: TSpeedButton
-              AlignWithMargins = True
-              Left = 0
-              Top = 23
-              Width = 26
-              Height = 25
-              Margins.Left = 0
-              Margins.Top = 23
-              Margins.Bottom = 2
-              Action = findNatu
-              Align = alClient
-              Glyph.Data = {
-                36040000424D3604000000000000360000002800000010000000100000000100
-                2000000000000004000000000000000000000000000000000000FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF000A0A
-                0A000A0A0A000A0A0A000A0A0A000A0A0A000A0A0A00FF00FF00FF00FF000A0A
-                0A000A0A0A000A0A0A000A0A0A000A0A0A000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00121212001E1E1E000B0B0B000A0A0A000A0A0A00FF00FF00FF00FF000A0A
-                0A0015151500222222000B0B0B000A0A0A000A0A0A00FF00FF00FF00FF007549
-                4900A0725E00EFE1D200EBC8A3009F674D0070414000FF00FF00FF00FF007549
-                4900A0725E00EFE1D200EBC8A3009F674D0070414000FF00FF00FF00FF008461
-                610085554C00F5E5D400EAC5A000865043007D565500FF00FF00FF00FF008461
-                610085554C00F5E5D400EAC5A000865043007D565500FF00FF00FF00FF009A82
-                820074444000F5E4D300E1B488007443400093777700FF00FF00FF00FF009A82
-                820074444000F5E4D300E1B488007443400093777700FF00FF00FF00FF00B7AE
-                AE006C3C3C00E9C8A800D19669006C3C3C00B2A7A700FF00FF00FF00FF00B7AE
-                AE006C3C3C00E9C8A800D19669006C3C3C00B2A7A700FF00FF00FF00FF00FF00
-                FF006E3E3E00734444006B3B3B006B3B3B000B0B0B000A0A0A000A0A0A000E0D
-                0D006C3C3C006B3B3B006B3B3B006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF006C3B3B00F1D8BE00E8BF9300C78657000A0A0A00C4C4C400696969001010
-                1000F9DEB700E2B38600BD7B51006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF006C3B3B00F6E6D600E9BF9500C88759000A0A0A00C4C4C400696969000C0C
-                0C00E3C6A900CA9B7600A5694B006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF006D3D3D00724343006B3B3B006B3B3B00141010000A0A0A000A0A0A002416
-                14006C3B3B006C3B3B006C3B3B006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF000A0A0A00C4C4C400696969000A0A0A00FF00FF00FF00FF000A0A
-                0A00C4C4C400696969000A0A0A00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF000A0A0A000A0A0A000A0A0A001D1D1D00FF00FF00FF00FF000A0A
-                0A000A0A0A000A0A0A001D1D1D00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00}
-              ExplicitTop = 20
-              ExplicitWidth = 67
-            end
-          end
-          object Panel9: TPanel
-            Left = 418
-            Top = 0
-            Width = 296
-            Height = 50
-            Align = alClient
-            BevelOuter = bvNone
-            TabOrder = 5
-            ExplicitLeft = 421
-            ExplicitWidth = 401
-            object Label5: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 290
-              Height = 15
-              Align = alTop
-              Caption = 'Descri'#231#227'o'
-              FocusControl = DBEdit5
-              ExplicitLeft = 350
-              ExplicitTop = 4
-              ExplicitWidth = 51
-            end
-            object DBEdit5: TDBEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 290
-              Height = 23
-              TabStop = False
-              Align = alClient
-              DataField = 'descri'
-              DataSource = Receber.DataSource1
-              ReadOnly = True
-              TabOrder = 0
-              ExplicitLeft = 109
-              ExplicitWidth = 292
-            end
-          end
-          object Panel10: TPanel
-            Left = 714
-            Top = 0
-            Width = 70
-            Height = 50
-            Align = alRight
-            BevelOuter = bvNone
-            TabOrder = 6
-            ExplicitLeft = 535
-            ExplicitTop = -6
-            object Label6: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 64
-              Height = 15
-              Align = alTop
-              Caption = 'Tipo'
-              FocusControl = DBEdit6
-              ExplicitLeft = 47
-              ExplicitTop = 8
-              ExplicitWidth = 23
-            end
-            object DBEdit6: TDBEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 64
-              Height = 23
-              TabStop = False
-              Align = alClient
-              DataField = 'tipo'
-              DataSource = Receber.DataSource1
-              ReadOnly = True
-              TabOrder = 0
-              ExplicitLeft = 14
-              ExplicitTop = 25
-              ExplicitWidth = 56
-            end
-          end
+        object JvDBCalcEdit1: TJvDBCalcEdit
+          Left = 3
+          Top = 174
+          Width = 97
+          Height = 23
+          ButtonFlat = True
+          ButtonWidth = 23
+          TabOrder = 14
+          DecimalPlacesAlwaysShown = False
+          DataField = 'valor'
+          DataSource = Receber.DataSource1
         end
-        object Panel11: TPanel
-          Left = 0
-          Top = 50
-          Width = 784
-          Height = 50
-          Align = alTop
-          BevelOuter = bvNone
-          TabOrder = 3
-          ExplicitTop = 364
-          ExplicitWidth = 889
-          object Panel12: TPanel
-            Left = 0
-            Top = 0
-            Width = 83
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 0
-            ExplicitHeight = 48
-            object Label7: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 77
-              Height = 15
-              Align = alTop
-              Caption = 'Cliente'
-              FocusControl = DBEdit7
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -12
-              Font.Name = 'Arial'
-              Font.Pitch = fpVariable
-              Font.Style = [fsBold]
-              ParentFont = False
-              ExplicitTop = 33
-              ExplicitWidth = 39
-            end
-            object DBEdit7: TDBEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 80
-              Height = 23
-              Margins.Right = 0
-              Align = alClient
-              DataField = 'id_cli'
-              DataSource = Receber.DataSource1
-              TabOrder = 0
-              OnExit = DBEdit7Exit
-              ExplicitLeft = 0
-              ExplicitWidth = 77
-            end
-          end
-          object Panel13: TPanel
-            Left = 83
-            Top = 0
-            Width = 29
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 1
-            object SpeedButton3: TSpeedButton
-              AlignWithMargins = True
-              Left = 0
-              Top = 23
-              Width = 26
-              Height = 25
-              Margins.Left = 0
-              Margins.Top = 23
-              Margins.Bottom = 2
-              Action = findCli
-              Align = alClient
-              Glyph.Data = {
-                36040000424D3604000000000000360000002800000010000000100000000100
-                2000000000000004000000000000000000000000000000000000FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF000A0A
-                0A000A0A0A000A0A0A000A0A0A000A0A0A000A0A0A00FF00FF00FF00FF000A0A
-                0A000A0A0A000A0A0A000A0A0A000A0A0A000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00121212001E1E1E000B0B0B000A0A0A000A0A0A00FF00FF00FF00FF000A0A
-                0A0015151500222222000B0B0B000A0A0A000A0A0A00FF00FF00FF00FF007549
-                4900A0725E00EFE1D200EBC8A3009F674D0070414000FF00FF00FF00FF007549
-                4900A0725E00EFE1D200EBC8A3009F674D0070414000FF00FF00FF00FF008461
-                610085554C00F5E5D400EAC5A000865043007D565500FF00FF00FF00FF008461
-                610085554C00F5E5D400EAC5A000865043007D565500FF00FF00FF00FF009A82
-                820074444000F5E4D300E1B488007443400093777700FF00FF00FF00FF009A82
-                820074444000F5E4D300E1B488007443400093777700FF00FF00FF00FF00B7AE
-                AE006C3C3C00E9C8A800D19669006C3C3C00B2A7A700FF00FF00FF00FF00B7AE
-                AE006C3C3C00E9C8A800D19669006C3C3C00B2A7A700FF00FF00FF00FF00FF00
-                FF006E3E3E00734444006B3B3B006B3B3B000B0B0B000A0A0A000A0A0A000E0D
-                0D006C3C3C006B3B3B006B3B3B006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF006C3B3B00F1D8BE00E8BF9300C78657000A0A0A00C4C4C400696969001010
-                1000F9DEB700E2B38600BD7B51006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF006C3B3B00F6E6D600E9BF9500C88759000A0A0A00C4C4C400696969000C0C
-                0C00E3C6A900CA9B7600A5694B006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF006D3D3D00724343006B3B3B006B3B3B00141010000A0A0A000A0A0A002416
-                14006C3B3B006C3B3B006C3B3B006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF000A0A0A00C4C4C400696969000A0A0A00FF00FF00FF00FF000A0A
-                0A00C4C4C400696969000A0A0A00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF000A0A0A000A0A0A000A0A0A001D1D1D00FF00FF00FF00FF000A0A
-                0A000A0A0A000A0A0A001D1D1D00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00}
-              ExplicitLeft = 39
-              ExplicitTop = 26
-              ExplicitWidth = 25
-              ExplicitHeight = 24
-            end
-          end
-          object Panel14: TPanel
-            Left = 112
-            Top = 0
-            Width = 393
-            Height = 50
-            Align = alClient
-            BevelOuter = bvNone
-            TabOrder = 2
-            ExplicitLeft = 115
-            ExplicitTop = -6
-            ExplicitWidth = 637
-            object Label8: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 387
-              Height = 15
-              Align = alTop
-              Caption = 'Raz'#227'o Social'
-              FocusControl = DBEdit8
-              ExplicitLeft = 112
-              ExplicitTop = 35
-              ExplicitWidth = 65
-            end
-            object DBEdit8: TDBEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 387
-              Height = 23
-              TabStop = False
-              Align = alClient
-              DataField = 'nome_chave'
-              DataSource = Receber.DataSource1
-              ReadOnly = True
-              TabOrder = 0
-              ExplicitLeft = 109
-              ExplicitTop = 27
-              ExplicitWidth = 380
-            end
-          end
-          object Panel15: TPanel
-            Left = 505
-            Top = 0
-            Width = 150
-            Height = 50
-            Align = alRight
-            BevelOuter = bvNone
-            TabOrder = 3
-            ExplicitLeft = 613
-            object Label9: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 144
-              Height = 15
-              Align = alTop
-              Caption = 'C.N.P.J.'
-              FocusControl = DBEdit9
-              ExplicitLeft = 85
-              ExplicitTop = 35
-              ExplicitWidth = 40
-            end
-            object DBEdit9: TDBEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 144
-              Height = 23
-              TabStop = False
-              Align = alClient
-              DataField = 'cnpj'
-              DataSource = Receber.DataSource1
-              ReadOnly = True
-              TabOrder = 0
-              ExplicitLeft = 21
-              ExplicitTop = 27
-              ExplicitWidth = 104
-            end
-          end
-          object Panel16: TPanel
-            Left = 655
-            Top = 0
-            Width = 129
-            Height = 50
-            Align = alRight
-            BevelOuter = bvNone
-            TabOrder = 4
-            ExplicitLeft = 760
-            object Label10: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 123
-              Height = 15
-              Align = alTop
-              Caption = 'Telefone'
-              FocusControl = DBEdit10
-              ExplicitLeft = 85
-              ExplicitTop = 35
-              ExplicitWidth = 44
-            end
-            object DBEdit10: TDBEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 123
-              Height = 23
-              TabStop = False
-              Align = alClient
-              DataField = 'telefone'
-              DataSource = Receber.DataSource1
-              ReadOnly = True
-              TabOrder = 0
-              ExplicitLeft = 19
-              ExplicitTop = 27
-              ExplicitWidth = 110
-            end
-          end
+        object JvDBCalcEdit2: TJvDBCalcEdit
+          Left = 106
+          Top = 174
+          Width = 97
+          Height = 23
+          ButtonFlat = True
+          DisplayFormat = ',0.#0'
+          ButtonWidth = 23
+          TabOrder = 15
+          DecimalPlacesAlwaysShown = False
+          DataField = 'juros'
+          DataSource = Receber.DataSource1
         end
-        object Panel19: TPanel
-          Left = 0
-          Top = 100
-          Width = 784
-          Height = 50
-          Align = alTop
-          BevelOuter = bvNone
-          TabOrder = 4
-          ExplicitTop = 419
-          ExplicitWidth = 889
-          object Panel20: TPanel
-            Left = 0
-            Top = 0
-            Width = 134
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 0
-            ExplicitTop = -6
-            object Label11: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 128
-              Height = 15
-              Align = alTop
-              Caption = 'Cria'#231#227'o'
-              FocusControl = DBEdit11
-              ExplicitTop = 35
-              ExplicitWidth = 40
-            end
-            object DBEdit11: TDBEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 128
-              Height = 23
-              TabStop = False
-              Align = alClient
-              DataField = 'criacao'
-              DataSource = Receber.DataSource1
-              ReadOnly = True
-              TabOrder = 0
-              ExplicitLeft = -11
-              ExplicitTop = 27
-              ExplicitWidth = 145
-            end
-          end
-          object Panel21: TPanel
-            Left = 134
-            Top = 0
-            Width = 134
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 1
-            object Label12: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 128
-              Height = 15
-              Align = alTop
-              Caption = 'Emiss'#227'o'
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -12
-              Font.Name = 'Arial'
-              Font.Pitch = fpVariable
-              Font.Style = [fsBold]
-              ParentFont = False
-              ExplicitLeft = 85
-              ExplicitTop = 35
-              ExplicitWidth = 49
-            end
-            object JvDBDateEdit1: TJvDBDateEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 128
-              Height = 23
-              Align = alClient
-              DataField = 'emissao'
-              DataSource = Receber.DataSource1
-              ButtonFlat = True
-              ButtonWidth = 23
-              ShowNullDate = False
-              TabOrder = 0
-              ExplicitLeft = 10
-              ExplicitTop = 27
-              ExplicitWidth = 124
-            end
-          end
-          object Panel22: TPanel
-            Left = 268
-            Top = 0
-            Width = 134
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 2
-            object Label13: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 128
-              Height = 15
-              Align = alTop
-              Caption = 'Vencimento'
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -12
-              Font.Name = 'Arial'
-              Font.Pitch = fpVariable
-              Font.Style = [fsBold]
-              ParentFont = False
-              ExplicitLeft = 67
-              ExplicitTop = 35
-              ExplicitWidth = 67
-            end
-            object JvDBDateEdit2: TJvDBDateEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 128
-              Height = 23
-              Align = alClient
-              DataField = 'vencimento'
-              DataSource = Receber.DataSource1
-              ButtonFlat = True
-              ButtonWidth = 23
-              ShowNullDate = False
-              TabOrder = 0
-              ExplicitLeft = 11
-              ExplicitTop = 27
-              ExplicitWidth = 123
-            end
-          end
-          object Panel23: TPanel
-            Left = 402
-            Top = 0
-            Width = 134
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 3
-            object Label14: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 128
-              Height = 15
-              Align = alTop
-              Caption = 'Vencimento Real'
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -12
-              Font.Name = 'Arial'
-              Font.Pitch = fpVariable
-              Font.Style = [fsBold]
-              ParentFont = False
-              ExplicitLeft = 39
-              ExplicitTop = 35
-              ExplicitWidth = 95
-            end
-            object JvDBDateEdit3: TJvDBDateEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 128
-              Height = 23
-              Align = alClient
-              DataField = 'vencimento_real'
-              DataSource = Receber.DataSource1
-              ButtonFlat = True
-              ButtonWidth = 23
-              ShowNullDate = False
-              TabOrder = 0
-              ExplicitLeft = 10
-              ExplicitTop = 27
-              ExplicitWidth = 124
-            end
-          end
+        object JvDBCalcEdit3: TJvDBCalcEdit
+          Left = 209
+          Top = 174
+          Width = 96
+          Height = 23
+          ButtonFlat = True
+          DisplayFormat = ',0.#0'
+          ButtonWidth = 23
+          TabOrder = 16
+          DecimalPlacesAlwaysShown = False
+          DataField = 'multa'
+          DataSource = Receber.DataSource1
         end
-        object Panel17: TPanel
-          Left = 0
-          Top = 150
-          Width = 784
-          Height = 50
-          Align = alTop
-          BevelOuter = bvNone
-          TabOrder = 5
-          ExplicitTop = 362
-          ExplicitWidth = 889
-          object Panel18: TPanel
-            Left = 0
-            Top = 0
-            Width = 103
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 0
-            ExplicitLeft = -6
-            ExplicitTop = -6
-            object Label16: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 97
-              Height = 15
-              Align = alTop
-              Caption = 'Valor'
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -12
-              Font.Name = 'Arial'
-              Font.Pitch = fpVariable
-              Font.Style = [fsBold]
-              ParentFont = False
-              ExplicitLeft = 4
-              ExplicitTop = 35
-              ExplicitWidth = 29
-            end
-            object JvDBCalcEdit1: TJvDBCalcEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 97
-              Height = 23
-              Align = alClient
-              ButtonFlat = True
-              ButtonWidth = 23
-              TabOrder = 0
-              DecimalPlacesAlwaysShown = False
-              DataField = 'valor'
-              DataSource = Receber.DataSource1
-              ExplicitLeft = 0
-            end
-          end
-          object Panel27: TPanel
-            Left = 103
-            Top = 0
-            Width = 103
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 1
-            object Label15: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 97
-              Height = 15
-              Align = alTop
-              Caption = 'Juros'
-              ExplicitLeft = 76
-              ExplicitTop = 35
-              ExplicitWidth = 27
-            end
-            object JvDBCalcEdit2: TJvDBCalcEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 97
-              Height = 23
-              Align = alClient
-              ButtonFlat = True
-              DisplayFormat = ',0.#0'
-              ButtonWidth = 23
-              TabOrder = 0
-              DecimalPlacesAlwaysShown = False
-              DataField = 'juros'
-              DataSource = Receber.DataSource1
-              ExplicitLeft = 6
-              ExplicitTop = 27
-            end
-          end
-          object Panel28: TPanel
-            Left = 206
-            Top = 0
-            Width = 103
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 2
-            ExplicitLeft = 209
-            object Label21: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 97
-              Height = 15
-              Align = alTop
-              Caption = 'Multa'
-              ExplicitLeft = 72
-              ExplicitTop = 35
-              ExplicitWidth = 31
-            end
-            object JvDBCalcEdit3: TJvDBCalcEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 97
-              Height = 23
-              Align = alClient
-              ButtonFlat = True
-              DisplayFormat = ',0.#0'
-              ButtonWidth = 23
-              TabOrder = 0
-              DecimalPlacesAlwaysShown = False
-              DataField = 'multa'
-              DataSource = Receber.DataSource1
-              ExplicitLeft = 7
-              ExplicitTop = 27
-              ExplicitWidth = 96
-            end
-          end
-          object Panel29: TPanel
-            Left = 309
-            Top = 0
-            Width = 103
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 3
-            object Label22: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 97
-              Height = 15
-              Align = alTop
-              Caption = 'Desconto'
-              ExplicitLeft = 53
-              ExplicitTop = 35
-              ExplicitWidth = 50
-            end
-            object JvDBCalcEdit4: TJvDBCalcEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 97
-              Height = 23
-              Align = alClient
-              ButtonFlat = True
-              DisplayFormat = ',0.#0'
-              ButtonWidth = 23
-              TabOrder = 0
-              DecimalPlacesAlwaysShown = False
-              DataField = 'descto'
-              DataSource = Receber.DataSource1
-              ExplicitLeft = 7
-              ExplicitTop = 27
-              ExplicitWidth = 96
-            end
-          end
-          object Panel30: TPanel
-            Left = 412
-            Top = 0
-            Width = 103
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 4
-            object Label23: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 97
-              Height = 15
-              Align = alTop
-              Caption = 'Total'
-              ExplicitLeft = 78
-              ExplicitTop = 35
-              ExplicitWidth = 25
-            end
-            object JvDBCalcEdit5: TJvDBCalcEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 97
-              Height = 23
-              Align = alClient
-              ButtonFlat = True
-              DisplayFormat = ',0.#0'
-              Enabled = False
-              ButtonWidth = 23
-              TabOrder = 0
-              DecimalPlacesAlwaysShown = False
-              DataField = 'total'
-              DataSource = Receber.DataSource1
-              ExplicitLeft = 7
-              ExplicitTop = 27
-              ExplicitWidth = 96
-            end
-          end
-          object Panel31: TPanel
-            Left = 515
-            Top = 0
-            Width = 103
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 5
-            object Label17: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 97
-              Height = 15
-              Align = alTop
-              Caption = 'Baixa'
-              ExplicitLeft = 75
-              ExplicitTop = 35
-              ExplicitWidth = 28
-            end
-            object deBaixa: TJvDBDateEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 97
-              Height = 23
-              Align = alClient
-              DataField = 'baixa'
-              DataSource = Receber.DataSource1
-              ButtonFlat = True
-              Enabled = False
-              ButtonWidth = 23
-              ShowNullDate = False
-              TabOrder = 0
-              ExplicitTop = 27
-              ExplicitWidth = 100
-            end
-          end
-          object Panel32: TPanel
-            Left = 618
-            Top = 0
-            Width = 103
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 6
-            object Label24: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 97
-              Height = 15
-              Align = alTop
-              Caption = 'Valor Baixado'
-              ExplicitLeft = -1
-              ExplicitTop = 35
-              ExplicitWidth = 71
-            end
-            object ceBaixa: TJvDBCalcEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 97
-              Height = 23
-              Align = alClient
-              ButtonFlat = True
-              Enabled = False
-              ButtonWidth = 23
-              TabOrder = 0
-              DecimalPlacesAlwaysShown = False
-              DataField = 'valor_baixado'
-              DataSource = Receber.DataSource1
-              ExplicitLeft = -27
-              ExplicitTop = 27
-            end
-          end
+        object JvDBCalcEdit4: TJvDBCalcEdit
+          Left = 311
+          Top = 174
+          Width = 96
+          Height = 23
+          ButtonFlat = True
+          DisplayFormat = ',0.#0'
+          ButtonWidth = 23
+          TabOrder = 17
+          DecimalPlacesAlwaysShown = False
+          DataField = 'descto'
+          DataSource = Receber.DataSource1
+        end
+        object JvDBCalcEdit5: TJvDBCalcEdit
+          Left = 413
+          Top = 174
+          Width = 96
+          Height = 23
+          ButtonFlat = True
+          DisplayFormat = ',0.#0'
+          Enabled = False
+          ButtonWidth = 23
+          TabOrder = 18
+          DecimalPlacesAlwaysShown = False
+          DataField = 'total'
+          DataSource = Receber.DataSource1
+        end
+        object deBaixa: TJvDBDateEdit
+          Left = 513
+          Top = 174
+          Width = 100
+          Height = 23
+          DataField = 'baixa'
+          DataSource = Receber.DataSource1
+          ButtonFlat = True
+          Enabled = False
+          ButtonWidth = 23
+          ShowNullDate = False
+          TabOrder = 19
+        end
+        object ceBaixa: TJvDBCalcEdit
+          Left = 618
+          Top = 174
+          Width = 97
+          Height = 23
+          ButtonFlat = True
+          Enabled = False
+          ButtonWidth = 23
+          TabOrder = 20
+          DecimalPlacesAlwaysShown = False
+          DataField = 'valor_baixado'
+          DataSource = Receber.DataSource1
         end
       end
     end
   end
   inherited ControlBar1: TControlBar
-    Width = 792
+    Width = 739
     Height = 38
     ExplicitLeft = 3
     ExplicitTop = 3
-    ExplicitWidth = 739
+    ExplicitWidth = 731
     ExplicitHeight = 38
     inherited ToolBar1: TToolBar
       Width = 718

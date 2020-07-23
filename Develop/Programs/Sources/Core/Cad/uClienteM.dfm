@@ -1,82 +1,51 @@
 inherited ClientesM: TClientesM
   BorderStyle = bsSizeable
   Caption = 'Manuten'#231#227'o do cadastro  do cliente'
-  ClientHeight = 689
+  ClientHeight = 781
   ClientWidth = 1237
   Constraints.MinWidth = 691
   WindowState = wsMaximized
   ExplicitWidth = 1253
-  ExplicitHeight = 728
+  ExplicitHeight = 820
   PixelsPerInch = 96
   TextHeight = 15
   inherited Panel1: TPanel
     Top = 44
     Width = 1237
-    Height = 645
+    Height = 737
     ExplicitTop = 44
     ExplicitWidth = 1237
-    ExplicitHeight = 645
+    ExplicitHeight = 737
     inherited pnLookup: TPanel
       Width = 754
       ExplicitWidth = 754
     end
     inherited Panel3: TPanel
-      Top = 328
+      Top = 487
       Width = 1237
-      Height = 317
+      Height = 250
       Visible = True
-      ExplicitTop = 328
+      ExplicitTop = 487
       ExplicitWidth = 1237
-      ExplicitHeight = 317
+      ExplicitHeight = 250
       inherited PageControl3: TPageControl
         Top = 47
         Width = 1231
-        Height = 267
+        Height = 200
         ExplicitLeft = 3
         ExplicitTop = 47
         ExplicitWidth = 1231
-        ExplicitHeight = 267
+        ExplicitHeight = 200
         inherited tsDet: TTabSheet
           Caption = 'Clientes Finais'
           ExplicitLeft = 4
           ExplicitTop = 26
           ExplicitWidth = 1223
-          ExplicitHeight = 237
+          ExplicitHeight = 170
           inherited DBGrid1: TDBGrid
             Width = 1223
-            Height = 237
+            Height = 170
             DataSource = Clientes.dsClientesFinais
-          end
-        end
-        object TabSheet3: TTabSheet
-          Caption = 'Contatos'
-          ImageIndex = 1
-          object DBGrid2: TDBGrid
-            Tag = 1
-            Left = 0
-            Top = 0
-            Width = 1223
-            Height = 237
-            Align = alClient
-            BorderStyle = bsNone
-            Ctl3D = False
-            DataSource = Clientes.dsContatos
-            DefaultDrawing = False
-            Enabled = False
-            Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
-            ParentCtl3D = False
-            ReadOnly = True
-            TabOrder = 0
-            TitleFont.Charset = ANSI_CHARSET
-            TitleFont.Color = clWindowText
-            TitleFont.Height = -12
-            TitleFont.Name = 'Segoe UI'
-            TitleFont.Pitch = fpVariable
-            TitleFont.Style = []
-            OnDrawColumnCell = DBGrid2DrawColumnCell
-            OnDblClick = ChildGridDblClick
-            OnEnter = ChildGridEnter
-            OnKeyPress = ChildGridKeyPress
           end
         end
       end
@@ -117,17 +86,220 @@ inherited ClientesM: TClientesM
     end
     inherited PageControl1: TPageControl
       Width = 1231
-      Height = 322
+      Height = 481
       ExplicitLeft = 3
       ExplicitTop = 3
       ExplicitWidth = 1231
-      ExplicitHeight = 322
+      ExplicitHeight = 481
       inherited TabSheet1: TTabSheet
         Caption = 'Informa'#231#245'es Principais'
         ExplicitLeft = 4
         ExplicitTop = 26
         ExplicitWidth = 1223
-        ExplicitHeight = 292
+        ExplicitHeight = 451
+        object GroupBox2: TGroupBox
+          AlignWithMargins = True
+          Left = 3
+          Top = 204
+          Width = 1217
+          Height = 68
+          Align = alTop
+          Caption = ' Contato Principal '
+          TabOrder = 2
+          object Panel58: TPanel
+            Left = 2
+            Top = 17
+            Width = 150
+            Height = 49
+            Align = alLeft
+            BevelOuter = bvNone
+            TabOrder = 0
+            object Label48: TLabel
+              AlignWithMargins = True
+              Left = 3
+              Top = 3
+              Width = 144
+              Height = 15
+              Align = alTop
+              Caption = 'Contato'
+              FocusControl = DBEdit42
+              ExplicitWidth = 43
+            end
+            object DBEdit42: TDBEdit
+              AlignWithMargins = True
+              Left = 3
+              Top = 24
+              Width = 144
+              Height = 22
+              Align = alClient
+              DataField = 'contato'
+              DataSource = Clientes.DataSource1
+              TabOrder = 0
+              ExplicitHeight = 23
+            end
+          end
+          object Panel59: TPanel
+            Left = 152
+            Top = 17
+            Width = 112
+            Height = 49
+            Align = alLeft
+            BevelOuter = bvNone
+            TabOrder = 1
+            object Label49: TLabel
+              AlignWithMargins = True
+              Left = 3
+              Top = 3
+              Width = 106
+              Height = 15
+              Align = alTop
+              Caption = 'Fun'#231#227'o'
+              FocusControl = DBEdit43
+              ExplicitWidth = 39
+            end
+            object DBEdit43: TDBEdit
+              AlignWithMargins = True
+              Left = 3
+              Top = 24
+              Width = 106
+              Height = 22
+              Align = alClient
+              DataField = 'contato_func'
+              DataSource = Clientes.DataSource1
+              TabOrder = 0
+              ExplicitHeight = 23
+            end
+          end
+          object Panel60: TPanel
+            Left = 264
+            Top = 17
+            Width = 113
+            Height = 49
+            Align = alLeft
+            BevelOuter = bvNone
+            TabOrder = 2
+            object Label50: TLabel
+              AlignWithMargins = True
+              Left = 3
+              Top = 3
+              Width = 107
+              Height = 15
+              Align = alTop
+              Caption = 'Telefone'
+              FocusControl = DBEdit44
+              ExplicitWidth = 44
+            end
+            object DBEdit44: TDBEdit
+              AlignWithMargins = True
+              Left = 3
+              Top = 24
+              Width = 107
+              Height = 22
+              Align = alClient
+              DataField = 'contato_tel'
+              DataSource = Clientes.DataSource1
+              TabOrder = 0
+              ExplicitHeight = 23
+            end
+          end
+          object Panel61: TPanel
+            Left = 377
+            Top = 17
+            Width = 112
+            Height = 49
+            Align = alLeft
+            BevelOuter = bvNone
+            TabOrder = 3
+            object Label51: TLabel
+              AlignWithMargins = True
+              Left = 3
+              Top = 3
+              Width = 106
+              Height = 15
+              Align = alTop
+              Caption = 'Celular'
+              FocusControl = DBEdit45
+              ExplicitWidth = 37
+            end
+            object DBEdit45: TDBEdit
+              AlignWithMargins = True
+              Left = 3
+              Top = 24
+              Width = 106
+              Height = 22
+              Align = alClient
+              DataField = 'contato_cel'
+              DataSource = Clientes.DataSource1
+              TabOrder = 0
+              ExplicitHeight = 23
+            end
+          end
+          object Panel62: TPanel
+            Left = 489
+            Top = 17
+            Width = 651
+            Height = 49
+            Align = alClient
+            BevelOuter = bvNone
+            TabOrder = 4
+            object Label52: TLabel
+              AlignWithMargins = True
+              Left = 3
+              Top = 3
+              Width = 645
+              Height = 15
+              Align = alTop
+              Caption = 'E-Mail'
+              FocusControl = DBEdit46
+              ExplicitWidth = 34
+            end
+            object DBEdit46: TDBEdit
+              AlignWithMargins = True
+              Left = 3
+              Top = 24
+              Width = 645
+              Height = 22
+              Align = alClient
+              CharCase = ecLowerCase
+              DataField = 'contato_mail'
+              DataSource = Clientes.DataSource1
+              TabOrder = 0
+              ExplicitHeight = 23
+            end
+          end
+          object Panel63: TPanel
+            Left = 1140
+            Top = 17
+            Width = 75
+            Height = 49
+            Align = alRight
+            BevelOuter = bvNone
+            TabOrder = 5
+            object Label53: TLabel
+              AlignWithMargins = True
+              Left = 3
+              Top = 3
+              Width = 69
+              Height = 15
+              Align = alTop
+              Caption = 'Nextel ID'
+              FocusControl = DBEdit47
+              ExplicitWidth = 48
+            end
+            object DBEdit47: TDBEdit
+              AlignWithMargins = True
+              Left = 3
+              Top = 24
+              Width = 69
+              Height = 22
+              Align = alClient
+              DataField = 'contato_nextel'
+              DataSource = Clientes.DataSource1
+              TabOrder = 0
+              ExplicitHeight = 23
+            end
+          end
+        end
         object Panel2: TPanel
           Left = 0
           Top = 0
@@ -142,13 +314,6 @@ inherited ClientesM: TClientesM
             Width = 211
             Height = 127
             Align = alRight
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -12
-            Font.Name = 'Segoe UI'
-            Font.Pitch = fpVariable
-            Font.Style = []
-            ParentFont = False
             TabOrder = 1
             ExplicitLeft = 1012
             ExplicitWidth = 211
@@ -160,17 +325,6 @@ inherited ClientesM: TClientesM
               DataSource = Clientes.DataSource1
               ExplicitWidth = 211
               ExplicitHeight = 127
-            end
-            inherited ActionList1: TActionList
-              Left = 16
-              Top = 8
-            end
-            inherited PopupMenu1: TPopupMenu
-              Top = 8
-            end
-            inherited OpenPictureDialog1: TOpenPictureDialog
-              Left = 152
-              Top = 64
             end
           end
           object Panel6: TPanel
@@ -560,10 +714,9 @@ inherited ClientesM: TClientesM
               DataField = 'id_vendedor'
               DataSource = Clientes.DataSource1
               KeyField = 'idvendedor'
-              ListField = 'nome;cpf;cnpj'
+              ListField = 'nome;cpf'
               ListSource = Clientes.dsVendedores
               TabOrder = 0
-              ExplicitTop = 23
             end
           end
           object Panel20: TPanel
@@ -1819,7 +1972,7 @@ inherited ClientesM: TClientesM
           Left = 3
           Top = 61
           Width = 1217
-          Height = 228
+          Height = 387
           Align = alClient
           DataField = 'observacao'
           DataSource = Clientes.DataSource1

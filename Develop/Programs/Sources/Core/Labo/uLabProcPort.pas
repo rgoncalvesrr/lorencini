@@ -149,13 +149,14 @@ uses uLabProc, uDM, uClientes, mcUtils, iTypes, uLabProcPortM, uLabProcDespacho,
 procedure TLabProcPort.actFindCliExecute(Sender: TObject);
 begin
   inherited;
-  Application.CreateForm(TClientes, Clientes);
+  with DM do
   try
+    Application.CreateForm(TClientes, Clientes);
     Clientes.DisplayMode := dmQuery;
     Clientes.ShowModal;
     if (Clientes.Execute) then
     begin
-      DataSet.FieldByName('codigo').AsInteger := Clientes.IBrwSrccodigo.AsInteger;
+      DataSet.FieldByName('codigo').AsInteger := qClientescodigo.AsInteger;
       DBEdit1Exit(DBEdit1);
     end;
   finally

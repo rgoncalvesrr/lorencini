@@ -2,10 +2,10 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ProjectGuid>{efc7470e-954a-4cd8-9e5f-7d79e34a0ac2}</ProjectGuid>
-    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
-    <DCC_DependencyCheckOutputName>..\..\..\..\_Release\Parser.exe</DCC_DependencyCheckOutputName>
+    <DCC_DependencyCheckOutputName>..\..\..\..\_Debug\Parser.exe</DCC_DependencyCheckOutputName>
     <MainSource>Parser.dpr</MainSource>
     <DCC_UsePackage>LMDP;BaseCore</DCC_UsePackage>
   </PropertyGroup>
@@ -42,24 +42,74 @@
     <DCC_BplOutput>..\..\..\Application\Core\Debug</DCC_BplOutput>
     <DCC_DcpOutput>..\Output\DCP\Debug</DCC_DcpOutput>
     <DCC_Hints>False</DCC_Hints>
-    <DCC_SymbolReferenceInfo>2</DCC_SymbolReferenceInfo>
+    <DCC_AssertionsAtRuntime>False</DCC_AssertionsAtRuntime>
+    <DCC_DebugInformation>False</DCC_DebugInformation>
+    <DCC_LocalDebugSymbols>False</DCC_LocalDebugSymbols>
+    <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
     <DCC_Warnings>False</DCC_Warnings>
   </PropertyGroup>
   <ProjectExtensions>
     <Borland.Personality>Delphi.Personality</Borland.Personality>
     <Borland.ProjectType />
     <BorlandProject>
-<BorlandProject><Delphi.Personality><Parameters><Parameters Name="UseLauncher">False</Parameters><Parameters Name="LoadAllSymbols">True</Parameters><Parameters Name="LoadUnspecifiedSymbols">False</Parameters><Parameters Name="RunParams">-p 5432 -U postgres -P postgres. -h 127.0.0.1 -f "D:\Projetos\Lorencini\Develop\Procedures\Workspace\Functions\Sistema\sys_cep.spg" -db lorencini</Parameters></Parameters><VersionInfo><VersionInfo Name="IncludeVerInfo">True</VersionInfo><VersionInfo Name="AutoIncBuild">True</VersionInfo><VersionInfo Name="MajorVer">20</VersionInfo><VersionInfo Name="MinorVer">3</VersionInfo><VersionInfo Name="Release">1</VersionInfo><VersionInfo Name="Build">48</VersionInfo><VersionInfo Name="Debug">False</VersionInfo><VersionInfo Name="PreRelease">False</VersionInfo><VersionInfo Name="Special">False</VersionInfo><VersionInfo Name="Private">False</VersionInfo><VersionInfo Name="DLL">False</VersionInfo><VersionInfo Name="Locale">1046</VersionInfo><VersionInfo Name="CodePage">1252</VersionInfo></VersionInfo><VersionInfoKeys><VersionInfoKeys Name="CompanyName"></VersionInfoKeys><VersionInfoKeys Name="FileDescription"></VersionInfoKeys><VersionInfoKeys Name="FileVersion">20.3.1.48</VersionInfoKeys><VersionInfoKeys Name="InternalName"></VersionInfoKeys><VersionInfoKeys Name="LegalCopyright"></VersionInfoKeys><VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys><VersionInfoKeys Name="OriginalFilename"></VersionInfoKeys><VersionInfoKeys Name="ProductName"></VersionInfoKeys><VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys><VersionInfoKeys Name="Comments"></VersionInfoKeys></VersionInfoKeys><Source><Source Name="MainSource">Parser.dpr</Source></Source></Delphi.Personality></BorlandProject></BorlandProject>
+<BorlandProject><Delphi.Personality><Parameters><Parameters Name="UseLauncher">False</Parameters><Parameters Name="LoadAllSymbols">True</Parameters><Parameters Name="LoadUnspecifiedSymbols">False</Parameters><Parameters Name="RunParams">-p 5432 -U postgres -P postgres. -h 10.1.1.1 -f "D:\Projetos\Lorencini\Application\Sources\functions\calcula_markup.spg" -db lorencini</Parameters></Parameters><VersionInfo><VersionInfo Name="IncludeVerInfo">True</VersionInfo><VersionInfo Name="AutoIncBuild">True</VersionInfo><VersionInfo Name="MajorVer">19</VersionInfo><VersionInfo Name="MinorVer">10</VersionInfo><VersionInfo Name="Release">1</VersionInfo><VersionInfo Name="Build">32</VersionInfo><VersionInfo Name="Debug">False</VersionInfo><VersionInfo Name="PreRelease">True</VersionInfo><VersionInfo Name="Special">False</VersionInfo><VersionInfo Name="Private">False</VersionInfo><VersionInfo Name="DLL">False</VersionInfo><VersionInfo Name="Locale">1046</VersionInfo><VersionInfo Name="CodePage">1252</VersionInfo></VersionInfo><VersionInfoKeys><VersionInfoKeys Name="CompanyName"></VersionInfoKeys><VersionInfoKeys Name="FileDescription"></VersionInfoKeys><VersionInfoKeys Name="FileVersion">19.10.1.32</VersionInfoKeys><VersionInfoKeys Name="InternalName"></VersionInfoKeys><VersionInfoKeys Name="LegalCopyright"></VersionInfoKeys><VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys><VersionInfoKeys Name="OriginalFilename"></VersionInfoKeys><VersionInfoKeys Name="ProductName"></VersionInfoKeys><VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys><VersionInfoKeys Name="Comments"></VersionInfoKeys></VersionInfoKeys><Source><Source Name="MainSource">Parser.dpr</Source></Source></Delphi.Personality></BorlandProject></BorlandProject>
   </ProjectExtensions>
   <Import Project="$(MSBuildBinPath)\Borland.Delphi.Targets" />
   <ItemGroup>
     <DelphiCompile Include="Parser.dpr">
       <MainSource>MainSource</MainSource>
     </DelphiCompile>
+    <DCCReference Include="..\..\Sources\Common\CFParser.pas" />
     <DCCReference Include="..\..\Sources\Common\uHelpers.pas" />
+    <DCCReference Include="..\..\Sources\Common\uIConnection.pas">
+      <Form>IConnection</Form>
+    </DCCReference>
     <DCCReference Include="..\..\Sources\Common\uIForm.pas">
       <Form>IForm</Form>
     </DCCReference>
+    <DCCReference Include="..\..\Sources\Common\uIUtils.pas" />
+    <DCCReference Include="..\..\Sources\Common\uIWizard.pas">
+      <Form>IWizard</Form>
+    </DCCReference>
+    <DCCReference Include="..\..\Sources\Common\uResources.pas">
+      <Form>Resources</Form>
+      <DesignClass>TDataModule</DesignClass>
+    </DCCReference>
+    <DCCReference Include="..\..\Sources\Core\Class\CoreIntf.pas" />
+    <DCCReference Include="..\..\Sources\Core\Class\SecurityIntf.pas" />
+    <DCCReference Include="..\..\Sources\Core\Class\uDBLog.pas" />
+    <DCCReference Include="..\..\Sources\Core\Class\uReport.pas" />
+    <DCCReference Include="..\..\Sources\Core\Infra\iTypes.pas" />
+    <DCCReference Include="..\..\Sources\Core\Infra\uDM.pas">
+      <Form>DM</Form>
+      <DesignClass>TDataModule</DesignClass>
+    </DCCReference>
+    <DCCReference Include="..\..\Sources\Core\Infra\uDMReport.pas">
+      <Form>DMReport</Form>
+      <DesignClass>TDataModule</DesignClass>
+    </DCCReference>
+    <DCCReference Include="..\..\Sources\Core\Infra\uIBrowse.pas">
+      <Form>IDefBrowse</Form>
+    </DCCReference>
+    <DCCReference Include="..\..\Sources\Core\Infra\uIBrowseQry.pas">
+      <Form>IDefBrowseQry</Form>
+    </DCCReference>
+    <DCCReference Include="..\..\Sources\Core\Infra\uIBrowseSQL.pas">
+      <Form>IDefBrowseSQL</Form>
+    </DCCReference>
+    <DCCReference Include="..\..\Sources\Core\Infra\uidefeditform.pas">
+      <Form>IDefEditForm</Form>
+    </DCCReference>
+    <DCCReference Include="..\..\Sources\Core\Infra\uLogRegister.pas">
+      <Form>LogRegister</Form>
+    </DCCReference>
+    <DCCReference Include="..\..\Sources\Core\Sys\uSysCompromisso.pas">
+      <Form>SysCompromisso</Form>
+    </DCCReference>
+    <DCCReference Include="..\..\Sources\Core\Sys\uSysReportsParam.pas">
+      <Form>SysReportsParam</Form>
+    </DCCReference>
+    <DCCReference Include="..\..\Sources\Packages\CCore\CCore.pas" />
     <DCCReference Include="..\..\Sources\parser\umain.pas">
       <Form>Main</Form>
     </DCCReference>

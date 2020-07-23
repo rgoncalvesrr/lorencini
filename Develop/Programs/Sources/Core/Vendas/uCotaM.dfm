@@ -53,7 +53,6 @@ inherited CotaM: TCotaM
             TitleFont.Color = clWindowText
             TitleFont.Height = -12
             TitleFont.Name = 'Segoe UI'
-            TitleFont.Pitch = fpVariable
             TitleFont.Style = []
             OnDrawColumnCell = ChildGridDrawColumnCell
             OnDblClick = ChildGridDblClick
@@ -100,7 +99,6 @@ inherited CotaM: TCotaM
             TitleFont.Color = clWindowText
             TitleFont.Height = -12
             TitleFont.Name = 'Segoe UI'
-            TitleFont.Pitch = fpVariable
             TitleFont.Style = []
             OnDrawColumnCell = ChildGridDrawColumnCell
             OnDblClick = ChildGridDblClick
@@ -132,7 +130,6 @@ inherited CotaM: TCotaM
             TitleFont.Color = clWindowText
             TitleFont.Height = -12
             TitleFont.Name = 'Segoe UI'
-            TitleFont.Pitch = fpVariable
             TitleFont.Style = []
             OnDrawColumnCell = ChildGridDrawColumnCell
             OnDblClick = ChildGridDblClick
@@ -1555,6 +1552,8 @@ inherited CotaM: TCotaM
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 7
+            ExplicitLeft = 505
+            ExplicitWidth = 511
             object Label41: TLabel
               AlignWithMargins = True
               Left = 3
