@@ -92,6 +92,7 @@ alter table tbclientes_contatos
    add portal_acessivel boolean default false not null,
    add portal_senha varchar(34),
    add portal_token varchar(34) default(md5(localtimestamp::varchar)),
+   add obs text,
    add constraint ck_tbclientes_contatos_1 check (not portal_acessivel or (portal_acessivel and portal_senha is not null)),
    add constraint ck_tbclientes_contatos_2 check (not portal_acessivel or (portal_acessivel and portal_token is not null));
 
@@ -100,3 +101,10 @@ insert into sys_errors
 values 
 	('ck_tbclientes_contatos_1', 'Senha de acesso ao portal não preenchida.', 'Preencha a senha de acesso ao portal'),
 	('ck_tbclientes_contatos_2', 'Token de acesso ao portal não gerado.', 'Contate o administrador do sistema');   
+
+alter table labamostras 
+   add tequip numeric(6, 2) default(0) not null;
+
+alter table contatos
+   add ramal varchar(6),
+   add obs text;
