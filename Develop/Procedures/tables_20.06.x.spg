@@ -108,3 +108,7 @@ alter table labamostras
 alter table contatos
    add ramal varchar(6),
    add obs text;
+
+update contatos 
+   set email = null 
+ where email = '0';   
