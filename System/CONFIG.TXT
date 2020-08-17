@@ -1,8 +1,8 @@
 [Localhost_desenvolvimento]
-HostName=192.168.122.1
+HostName=lorencinidb
 Database=lorencini
 User_Name=postgres
-Password=postgres.
+Password=C0nc31th0.
 Protocol=postgresql-8
 Port=5432
 
