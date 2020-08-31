@@ -52,20 +52,20 @@ BEGIN
    end if;
 
    if tg_op = 'UPDATE' then
-      if old.status = 10 and new.status = 20 then -- Aprovação Financeira
-      elsif old.status = 20 and new.status = 30 then -- Autorização para execução
+      if old.status = 10 and new.status = 20 then ---- Aprovação Financeira
+      elsif old.status = 20 and new.status = 30 then ---- Autorização para execução
 
-      elsif old.status = 30 and new.status = 40 then -- Gerar remessa
+      elsif old.status = 30 and new.status = 40 then ---- Gerar remessa
          insert into labproc
             (descri,                 codigo,     frascos,     seringas,     envio, 
              coleta,                 frete,      correio,     pedido)
          values
             ('Pedido ' || new.recno, new.codigo, new.frascos, new.seringas, new.envio, 
              new.coleta,             new.frete,  new.correio, new.recno);
-      elsif old.status in (30, 40) and new.status = 50 then -- Aguardando amostras
+      elsif old.status in (30, 40) and new.status = 50 then ---- Aguardando amostras
          
-      elsif old.status in (30, 50) and new.status = 60 then -- Produção
-         -- Gera ordem de serviço
+      elsif old.status in (30, 50) and new.status = 60 then ---- Produção
+         ---- Gera ordem de serviço
          --------------------------------------------------------------------------------------------------------
          select coalesce(max(os), 0) + 1
            into ios

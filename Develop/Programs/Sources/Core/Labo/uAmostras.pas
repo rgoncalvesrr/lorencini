@@ -152,6 +152,7 @@ type
     Label11: TLabel;
     edRemessa: TJvCalcEdit;
     IBrwSrcvidraria: TStringField;
+    IBrwSrctequip: TFloatField;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure actQueryProcessExecute(Sender: TObject);

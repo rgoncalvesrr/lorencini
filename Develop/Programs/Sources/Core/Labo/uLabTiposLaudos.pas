@@ -24,8 +24,6 @@ type
     zEnsaiosunidade: TStringField;
     zEnsaiosmetodo: TStringField;
     zEnsaiosrecno: TIntegerField;
-    IBrwSrccodserv: TIntegerField;
-    IBrwSrcdescri_1: TStringField;
     sDiag: TZSequence;
     uDiag: TZUpdateSQL;
     qDiag: TZQuery;
@@ -48,6 +46,7 @@ type
     zEnsaiosordem: TIntegerField;
     IBrwSrcinmetro: TBooleanField;
     IBrwSrcacreditacao: TDateField;
+    IBrwSrcsigla: TStringField;
     procedure IBrwSrcAfterScroll(DataSet: TDataSet);
     procedure zEnsaiosAfterInsert(DataSet: TDataSet);
     procedure qCritAfterInsert(DataSet: TDataSet);

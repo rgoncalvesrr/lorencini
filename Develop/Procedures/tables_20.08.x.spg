@@ -1,0 +1,55 @@
+set session authorization lorencini;
+
+update contatos set email = lower(trim(email)) where email !~ '^[a-z]';
+update contatos set email = null where email !~ '^[a-zA-Z0-9][a-zA-Z0-9\._-]+@([a-zA-Z0-9\._-]+\.)[a-zA-Z0-9]{2}'
+
+create domain email_ as varchar(150) check(VALUE ~ '^[a-zA-Z0-9][a-zA-Z0-9\._-]+@([a-zA-Z0-9\._-]+\.)[a-zA-Z0-9]{2}');
+create domain password_ as varchar(32) check (VALUE is null or length(VALUE) = 32);
+
+drop table if exists emails cascade;
+drop table if exists contatos_emails cascade;
+
+create table emails(
+	email email_ not null,
+ 	ativo boolean default false,
+ 	criado timestamp default(localtimestamp) not null,
+ 	ativado timestamp,
+ 	senha password_,
+ 	recno serial not null,
+ 	constraint pk_emails primary key(recno),
+ 	constraint uk_emails_1 unique(email));
+ 	
+create table contatos_emails (
+ 	contato integer not null,
+ 	email integer not null,
+ 	recno serial not null,
+ 	constraint pk_contatos_emails primary key(contato, email),
+ 	constraint fk_contatos_emails_1 foreign key(contato)
+ 		references contatos(recno) on update cascade on delete cascade,
+ 	constraint fk_contatos_emails_2 foreign key(email)
+ 		references emails(recno) on update cascade on delete restrict,
+ 	constraint uk_contatos_emails_1 unique(recno));
+ 
+insert into emails(email, ativo, ativado)
+select email, true, localtimestamp
+  from contatos 
+ where email ~ '^[a-zA-Z0-9][a-zA-Z0-9\._-]+@([a-zA-Z0-9\._-]+\.)[a-zA-Z0-9]{2}' 
+ group by email
+ order by 1;
+
+insert into contatos_emails (contato, email)
+  select c.recno, e.recno 
+    from emails e
+         join contatos c
+           on c.email = e.email;
+
+alter table labrel
+   add sigla varchar(4),
+   drop codserv;           
+
+update labrel set sigla = 'FQ' where titulo ~ 'Físico-Químico';
+update labrel set sigla = 'FQ' where titulo ~ 'Físico Químico';
+update labrel set sigla = 'FQ' where titulo ~ 'FQ';
+update labrel set sigla = 'PCB' where titulo ~ 'PCB';
+update labrel set sigla = 'CR' where titulo ~ 'Cromato';
+update labrel set sigla = 'FQ' where descri ~ 'FQ' and sigla is null;

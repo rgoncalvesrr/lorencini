@@ -74,6 +74,7 @@ type
     Panel13: TPanel;
     Label14: TLabel;
     edRazao: TEdit;
+    IBrwSrcsigla: TStringField;
     procedure FormCreate(Sender: TObject);
     procedure actQueryProcessExecute(Sender: TObject);
     procedure FrameData1ComboBox1Change(Sender: TObject);
@@ -110,6 +111,18 @@ var
   currentCursor: TCursor;
   pathTarget: string;
   fileName: string;
+  function ComposeFileName(Filename, Field, Value : string): string;
+  begin
+    Result := Filename;
+    
+    if Trim(Value) <> EmptyStr then
+    begin
+      if Result <> EmptyStr then
+        Result := Result + ' - ';
+
+      Result := Result + Field + ' [' + Value + ']';
+    end;
+  end;
 begin
   inherited;
 
@@ -144,10 +157,30 @@ begin
       G.RefreshDataSet(DMReport.R00014);
 
       fileName := EmptyStr;
-      if not IBrwSrcpedido.IsNull then
-        fileName := Format('Pedido %s. ', [IBrwSrcpedido.AsString]);
+//      if not IBrwSrcpedido.IsNull then
+//        fileName := Format('Pedido %s. ', [IBrwSrcpedido.AsString]);
 
-      fileName := Format('%sLaudo %s - %s', [fileName, IBrwSrcrecno.AsString, IBrwSrctitulo.AsString]);
+      //Sigla_serie_<dsfdsfdsf>_tag_<dfsdfdsf>
+
+      if not IBrwSrcsigla.IsNull then
+        fileName := UpperCase(IBrwSrcsigla.AsString);
+
+      fileName := ComposeFileName(fileName, 'Serie', IBrwSrcserie.AsString);
+      fileName := ComposeFileName(fileName, 'TAG', IBrwSrctag.AsString);
+      fileName := ComposeFileName(fileName, 'Local', IBrwSrclocal.AsString);
+      fileName := ComposeFileName(fileName, 'Laudo', IBrwSrcrecno.AsString);
+
+      fileName := StringReplace(fileName, '\', EmptyStr, [rfReplaceAll]);
+      fileName := StringReplace(fileName, '/', EmptyStr, [rfReplaceAll]);
+      fileName := StringReplace(fileName, ':', EmptyStr, [rfReplaceAll]);
+      fileName := StringReplace(fileName, '*', EmptyStr, [rfReplaceAll]);
+      fileName := StringReplace(fileName, '?', EmptyStr, [rfReplaceAll]);
+      fileName := StringReplace(fileName, '"', EmptyStr, [rfReplaceAll]);
+      fileName := StringReplace(fileName, '<', EmptyStr, [rfReplaceAll]);
+      fileName := StringReplace(fileName, '>', EmptyStr, [rfReplaceAll]);
+      fileName := StringReplace(fileName, '|', EmptyStr, [rfReplaceAll]);
+            
+//      fileName := Format('%sLaudo %s - %s', [fileName, IBrwSrcrecno.AsString, IBrwSrctitulo.AsString]);
       oLaudo.FileName := Format('%s\%s.pdf', [pathTarget, fileName]);
       IProgress.Label3.Caption := 'Exportando ' + oLaudo.FileName;
       Sleep(1);

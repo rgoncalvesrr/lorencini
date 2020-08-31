@@ -16,13 +16,12 @@ object DM: TDM
     Properties.Strings = (
       'codepage=LATIN1'
       'controls_cp=GET_ACP')
-    Connected = True
     DesignConnection = True
-    HostName = '192.168.122.1'
+    HostName = 'lorencinidb'
     Port = 5432
     Database = 'lorencini'
     User = 'postgres'
-    Password = 'postgres.'
+    Password = 'C0nc31th0.'
     Protocol = 'postgresql'
     LibraryLocation = 'D:\Projetos\Lorencini\Lib\libpq.dll'
     Left = 88
