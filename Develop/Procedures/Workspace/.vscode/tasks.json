@@ -3,23 +3,27 @@
    // for the documentation about the tasks.json format
    "version": "2.0.0",
    "tasks": [
-      {
-         "label": "manager",
-         "type": "process",
-         "command": "D:\\Projetos\\Lorencini\\_Release\\Parser.exe",
-         "args": [
-            "-h", "192.168.122.1", "-p", "5432", "-U", "postgres", "-P", "postgres.", "-db", "lorencini", "-f", "${file}"
-            // "-h", "lorencini.net.br", "-p", "54321", "-U", "postgres", "-P", "C0nc31th0.", "-db", "lorencini", "-f", "${file}"
-            // "-h", "192.168.0.3", "-p", "5412", "-U", "postgres", "-P", "postgres.", "-db", "lorencini", "-f", "${file}"
-         ],
-         "presentation": {
-            "echo": false,
-            "reveal": "never"
-         },
-         "group": {
-            "kind": "build",
-            "isDefault": true
-         }
-      }
+     {
+       "label": "manager",
+       "type": "process",
+       "linux": {
+          "command": "/opt/lorencini/parser/parser.sh"
+       },      
+       "windows": {
+          "command": "D:\\Projetos\\Lorencini\\_Release\\Parser.exe"  
+       },
+       "args": ["-h", "lorencinidb", "-p","5432", "-U", "postgres", "-P", "C0nc31th0.", "-db", "lorencini", "-f", "${file}"
+         // "-h", "lorencini.net.br", "-p", "54321", "-U", "postgres", "-P", "C0nc31th0.", "-db", "lorencini", "-f", "${file}"
+         // "-h", "192.168.0.3", "-p", "5412", "-U", "postgres", "-P", "postgres.", "-db", "lorencini", "-f", "${file}"
+       ],
+       "presentation": {
+         "echo": false,
+         "reveal": "silent"
+       },
+       "group": {
+         "kind": "build",
+         "isDefault": true
+       }
+     }
    ]
-}
+ } 

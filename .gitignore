@@ -27,8 +27,8 @@
 # Delphi history and backups
 __history/
 __recovery/
-_release
-_debug
+_Release
+_Debug
 *.~*
 
 # Castalia statistics file (since XE7 Castalia is distributed with Delphi)
@@ -52,3 +52,5 @@ Recursos
 temp
 bin*
 data
+Data
+*.def

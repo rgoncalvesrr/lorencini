@@ -18,7 +18,7 @@ Declare
    html  text;
    imsg  integer;
 Begin
-   select p.criado, c.email, c.empresa, ct.email email1, ct.nome, c.contato_mail, p.contato
+   select p.criado, c.email, c.empresa, ct.email email1, ct.nome, c.email as contato_mail, p.contato
      into rc
      from pedido p
           join tbclientes c
