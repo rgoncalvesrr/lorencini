@@ -1,11 +1,11 @@
 /**
-   Gera e-mail de autoriza&ccedil;&atilde;o de execu&ccedil;&atilde;o do pedido
+   Gera e-mail de autorização de execução do pedido
 
-	@author    Ricardo Gon&ccedil;alves
+	@author    Ricardo Gonçalves
 	@date      29/02/2016 21:10:02
 	@trigger
 
-	Hist&oacute;rico
+	Histórico
 	-------------------------------------------------------------------------------------------------------------------
  */
 Create or Replace Function labped_autorizacao(

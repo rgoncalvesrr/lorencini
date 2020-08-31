@@ -802,6 +802,7 @@ type
     R00013remessa: TIntegerField;
     R00013rem_cnpj: TStringField;
     R00013rem_empresa: TStringField;
+    R00014tequip: TFloatField;
     procedure DataModuleCreate(Sender: TObject);
     procedure R00011CalcFields(DataSet: TDataSet);
     procedure R00014CalcFields(DataSet: TDataSet);

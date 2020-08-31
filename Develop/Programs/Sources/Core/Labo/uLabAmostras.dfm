@@ -165,6 +165,14 @@ inherited LabAmostras: TLabAmostras
             Width = 147
             Height = 24
             Align = alTop
+            AutoSize = True
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Segoe UI'
+            Font.Pitch = fpVariable
+            Font.Style = []
+            ParentFont = False
             TabOrder = 0
             ExplicitLeft = 3
             ExplicitTop = 24
@@ -172,13 +180,10 @@ inherited LabAmostras: TLabAmostras
             ExplicitHeight = 24
             inherited ComboBox1: TComboBox
               Width = 147
-              Height = 23
-              ItemHeight = 15
               ExplicitWidth = 147
-              ExplicitHeight = 23
             end
             inherited CCalendarDiff1: TCCalendarDiff
-              Date = 43848.606172361110000000
+              Date = 44069.840209247680000000
               DisplayInterval = Label1
               OnChange = FrameData1CCalendarDiff1Change
             end
@@ -377,7 +382,8 @@ inherited LabAmostras: TLabAmostras
         've nome_chavecli, cf.cnpj cnpj_cli, cf.cpf cpf_cli,'
       
         '       cf.telefone telefone_cli, cf.cidade cidade_cli, cf.estado' +
-        ' estado_cli, cf.email email_cli'
+        ' estado_cli, cf.email email_cli,'
+      '       a.tequip'
       '  from labamostras a'
       '       join tbclientes c'
       '         on c.codigo = a.codigo'
@@ -611,6 +617,11 @@ inherited LabAmostras: TLabAmostras
       FieldName = 'toleo'
       Visible = False
     end
+    object IBrwSrctequip: TFloatField
+      DisplayLabel = 'T. Equip.'
+      FieldName = 'tequip'
+      Required = True
+    end
     object IBrwSrcumidade: TIntegerField
       DisplayLabel = 'Umidade'
       FieldName = 'umidade'
@@ -731,15 +742,15 @@ inherited LabAmostras: TLabAmostras
       '  labamostras.recno = :OLD_recno')
     InsertSQL.Strings = (
       'INSERT INTO labamostras'
-      '  (recno, codigo, equip_recno, tpamostra_recno, coleta,'
-      '   amostrador, tamb, toleo, umidade, tensao, estado, origem,'
-      '   labsubest_recno, local)'
-      'VALUES'
-      '  (:recno, :codigo, :equip_recno, :tpamostra_recno,'
       
-        '   :coleta, :amostrador, :tamb, :toleo, :umidade, :tensao, :esta' +
-        'do, :origem,'
-      '   :labsubest_recno, :local)')
+        '  (recno, codigo, equip_recno, tpamostra_recno, coleta, amostrad' +
+        'or, tamb, toleo, umidade, tensao, estado, origem,'
+      '   labsubest_recno, local, tequip)'
+      'VALUES'
+      
+        '  (:recno, :codigo, :equip_recno, :tpamostra_recno, :coleta, :am' +
+        'ostrador, :tamb, :toleo, :umidade, :tensao, :estado, :origem,'
+      '   :labsubest_recno, :local, :tequip)')
     ModifySQL.Strings = (
       'UPDATE labamostras SET'
       '  equip_recno = :equip_recno,'
@@ -748,6 +759,7 @@ inherited LabAmostras: TLabAmostras
       '  amostrador = :amostrador,'
       '  tamb = :tamb,'
       '  toleo = :toleo,'
+      '  tequip = :tequip,'
       '  umidade = :umidade,'
       '  tensao = :tensao,'
       '  estado = :estado,'
@@ -789,6 +801,11 @@ inherited LabAmostras: TLabAmostras
       item
         DataType = ftUnknown
         Name = 'toleo'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'tequip'
         ParamType = ptUnknown
       end
       item

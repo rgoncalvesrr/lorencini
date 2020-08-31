@@ -4,15 +4,15 @@ inherited LabAmostrasM: TLabAmostrasM
   BorderStyle = bsSizeable
   Caption = 'Revis'#227'o de Amostras'
   ClientHeight = 532
-  ClientWidth = 1084
+  ClientWidth = 1160
   Constraints.MinWidth = 691
-  ExplicitWidth = 1100
+  ExplicitWidth = 1176
   ExplicitHeight = 571
   PixelsPerInch = 96
   TextHeight = 15
   inherited Panel1: TPanel
     Top = 44
-    Width = 1084
+    Width = 1160
     Height = 488
     ExplicitTop = 44
     ExplicitWidth = 1084
@@ -81,7 +81,7 @@ inherited LabAmostrasM: TLabAmostrasM
       end
     end
     inherited PageControl1: TPageControl
-      Width = 1078
+      Width = 1154
       Height = 482
       ExplicitLeft = 3
       ExplicitTop = 3
@@ -97,7 +97,7 @@ inherited LabAmostrasM: TLabAmostrasM
           AlignWithMargins = True
           Left = 3
           Top = 53
-          Width = 1064
+          Width = 1140
           Height = 2
           Align = alTop
           Shape = bsTopLine
@@ -109,19 +109,21 @@ inherited LabAmostrasM: TLabAmostrasM
           AlignWithMargins = True
           Left = 3
           Top = 266
-          Width = 1064
+          Width = 1140
           Height = 177
           Align = alTop
           Caption = ' Equipamento '
           TabOrder = 2
+          ExplicitWidth = 1064
           object Panel38: TPanel
             Left = 2
             Top = 17
-            Width = 1060
+            Width = 1136
             Height = 50
             Align = alTop
             BevelOuter = bvNone
             TabOrder = 0
+            ExplicitWidth = 1060
             object Panel39: TPanel
               Left = 0
               Top = 0
@@ -215,16 +217,17 @@ inherited LabAmostrasM: TLabAmostrasM
             object Panel41: TPanel
               Left = 109
               Top = 0
-              Width = 312
+              Width = 388
               Height = 50
               Align = alClient
               BevelOuter = bvNone
               TabOrder = 2
+              ExplicitWidth = 312
               object Label11: TLabel
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 306
+                Width = 382
                 Height = 15
                 Align = alTop
                 Caption = 'Tipo'
@@ -234,7 +237,7 @@ inherited LabAmostrasM: TLabAmostrasM
                 AlignWithMargins = True
                 Left = 3
                 Top = 24
-                Width = 306
+                Width = 382
                 Height = 23
                 TabStop = False
                 Align = alClient
@@ -242,16 +245,18 @@ inherited LabAmostrasM: TLabAmostrasM
                 DataSource = dsAmostra
                 ReadOnly = True
                 TabOrder = 0
+                ExplicitWidth = 306
               end
             end
             object Panel42: TPanel
-              Left = 421
+              Left = 497
               Top = 0
               Width = 156
               Height = 50
               Align = alRight
               BevelOuter = bvNone
               TabOrder = 3
+              ExplicitLeft = 421
               object Label16: TLabel
                 AlignWithMargins = True
                 Left = 3
@@ -277,13 +282,14 @@ inherited LabAmostrasM: TLabAmostrasM
               end
             end
             object Panel43: TPanel
-              Left = 577
+              Left = 653
               Top = 0
               Width = 153
               Height = 50
               Align = alRight
               BevelOuter = bvNone
               TabOrder = 4
+              ExplicitLeft = 577
               object Label19: TLabel
                 AlignWithMargins = True
                 Left = 3
@@ -309,13 +315,14 @@ inherited LabAmostrasM: TLabAmostrasM
               end
             end
             object Panel44: TPanel
-              Left = 730
+              Left = 806
               Top = 0
               Width = 168
               Height = 50
               Align = alRight
               BevelOuter = bvNone
               TabOrder = 5
+              ExplicitLeft = 730
               object Label38: TLabel
                 AlignWithMargins = True
                 Left = 3
@@ -340,13 +347,14 @@ inherited LabAmostrasM: TLabAmostrasM
               end
             end
             object Panel45: TPanel
-              Left = 898
+              Left = 974
               Top = 0
               Width = 162
               Height = 50
               Align = alRight
               BevelOuter = bvNone
               TabOrder = 6
+              ExplicitLeft = 898
               object Label12: TLabel
                 AlignWithMargins = True
                 Left = 3
@@ -375,11 +383,12 @@ inherited LabAmostrasM: TLabAmostrasM
           object Panel46: TPanel
             Left = 2
             Top = 67
-            Width = 1060
+            Width = 1136
             Height = 50
             Align = alTop
             BevelOuter = bvNone
             TabOrder = 1
+            ExplicitWidth = 1060
             object Panel47: TPanel
               Left = 0
               Top = 0
@@ -727,16 +736,17 @@ inherited LabAmostrasM: TLabAmostrasM
             object Panel56: TPanel
               Left = 704
               Top = 0
-              Width = 356
+              Width = 432
               Height = 50
               Align = alClient
               BevelOuter = bvNone
               TabOrder = 9
+              ExplicitWidth = 356
               object Label22: TLabel
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 350
+                Width = 426
                 Height = 15
                 Align = alTop
                 Caption = 'Descri'#231#227'o'
@@ -747,7 +757,7 @@ inherited LabAmostrasM: TLabAmostrasM
                 AlignWithMargins = True
                 Left = 3
                 Top = 24
-                Width = 350
+                Width = 426
                 Height = 23
                 TabStop = False
                 Align = alClient
@@ -755,17 +765,19 @@ inherited LabAmostrasM: TLabAmostrasM
                 DataSource = dsAmostra
                 ReadOnly = True
                 TabOrder = 0
+                ExplicitWidth = 350
               end
             end
           end
           object Panel59: TPanel
             Left = 2
             Top = 117
-            Width = 1060
+            Width = 1136
             Height = 50
             Align = alTop
             BevelOuter = bvNone
             TabOrder = 2
+            ExplicitWidth = 1060
             object Panel60: TPanel
               Left = 0
               Top = 0
@@ -991,16 +1003,17 @@ inherited LabAmostrasM: TLabAmostrasM
             object Panel66: TPanel
               Left = 656
               Top = 0
-              Width = 404
+              Width = 480
               Height = 50
               Align = alClient
               BevelOuter = bvNone
               TabOrder = 6
+              ExplicitWidth = 404
               object Label39: TLabel
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 398
+                Width = 474
                 Height = 15
                 Align = alTop
                 Caption = 'Local'
@@ -1011,12 +1024,13 @@ inherited LabAmostrasM: TLabAmostrasM
                 AlignWithMargins = True
                 Left = 3
                 Top = 24
-                Width = 398
+                Width = 474
                 Height = 23
                 Align = alClient
                 DataField = 'local'
                 DataSource = dsAmostra
                 TabOrder = 0
+                ExplicitWidth = 398
               end
             end
           end
@@ -1024,11 +1038,12 @@ inherited LabAmostrasM: TLabAmostrasM
         object Panel2: TPanel
           Left = 0
           Top = 0
-          Width = 1070
+          Width = 1146
           Height = 50
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 0
+          ExplicitWidth = 1070
           object Panel4: TPanel
             Left = 100
             Top = 0
@@ -1095,13 +1110,14 @@ inherited LabAmostrasM: TLabAmostrasM
             end
           end
           object Panel12: TPanel
-            Left = 977
+            Left = 1053
             Top = 0
             Width = 93
             Height = 50
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 3
+            ExplicitLeft = 977
             object Label8: TLabel
               AlignWithMargins = True
               Left = 3
@@ -1213,11 +1229,12 @@ inherited LabAmostrasM: TLabAmostrasM
         object Panel27: TPanel
           Left = 0
           Top = 188
-          Width = 1070
+          Width = 1146
           Height = 75
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 1
+          ExplicitWidth = 1070
           object GroupBox2: TGroupBox
             AlignWithMargins = True
             Left = 3
@@ -1381,11 +1398,12 @@ inherited LabAmostrasM: TLabAmostrasM
             AlignWithMargins = True
             Left = 436
             Top = 3
-            Width = 631
+            Width = 707
             Height = 69
             Align = alClient
             Caption = ' Informa'#231#245'es da Coleta '
             TabOrder = 1
+            ExplicitWidth = 631
             object Panel32: TPanel
               Left = 2
               Top = 17
@@ -1422,16 +1440,17 @@ inherited LabAmostrasM: TLabAmostrasM
             object Panel33: TPanel
               Left = 101
               Top = 17
-              Width = 213
+              Width = 214
               Height = 50
               Align = alClient
               BevelOuter = bvNone
               TabOrder = 1
+              ExplicitWidth = 213
               object Label30: TLabel
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 207
+                Width = 208
                 Height = 15
                 Align = alTop
                 Caption = 'Amostrador'
@@ -1442,22 +1461,24 @@ inherited LabAmostrasM: TLabAmostrasM
                 AlignWithMargins = True
                 Left = 3
                 Top = 24
-                Width = 207
+                Width = 208
                 Height = 23
                 Align = alClient
                 DataField = 'amostrador'
                 DataSource = dsAmostra
                 TabOrder = 0
+                ExplicitWidth = 207
               end
             end
             object Panel34: TPanel
-              Left = 314
+              Left = 315
               Top = 17
               Width = 75
               Height = 50
               Align = alRight
               BevelOuter = bvNone
               TabOrder = 2
+              ExplicitLeft = 314
               object Label31: TLabel
                 AlignWithMargins = True
                 Left = 3
@@ -1482,13 +1503,15 @@ inherited LabAmostrasM: TLabAmostrasM
               end
             end
             object Panel35: TPanel
-              Left = 389
+              Left = 390
               Top = 17
               Width = 75
               Height = 50
               Align = alRight
               BevelOuter = bvNone
               TabOrder = 3
+              ExplicitLeft = 468
+              ExplicitTop = 19
               object Label32: TLabel
                 AlignWithMargins = True
                 Left = 3
@@ -1513,13 +1536,14 @@ inherited LabAmostrasM: TLabAmostrasM
               end
             end
             object Panel36: TPanel
-              Left = 464
+              Left = 540
               Top = 17
               Width = 75
               Height = 50
               Align = alRight
               BevelOuter = bvNone
-              TabOrder = 4
+              TabOrder = 5
+              ExplicitLeft = 464
               object Label33: TLabel
                 AlignWithMargins = True
                 Left = 3
@@ -1544,13 +1568,14 @@ inherited LabAmostrasM: TLabAmostrasM
               end
             end
             object Panel37: TPanel
-              Left = 539
+              Left = 615
               Top = 17
               Width = 90
               Height = 50
               Align = alRight
               BevelOuter = bvNone
-              TabOrder = 5
+              TabOrder = 6
+              ExplicitLeft = 539
               object Label34: TLabel
                 AlignWithMargins = True
                 Left = 3
@@ -1597,33 +1622,69 @@ inherited LabAmostrasM: TLabAmostrasM
                 end
               end
             end
+            object Panel18: TPanel
+              Left = 465
+              Top = 17
+              Width = 75
+              Height = 50
+              Align = alRight
+              BevelOuter = bvNone
+              TabOrder = 4
+              ExplicitLeft = 510
+              ExplicitTop = 19
+              object Label43: TLabel
+                AlignWithMargins = True
+                Left = 3
+                Top = 3
+                Width = 69
+                Height = 15
+                Align = alTop
+                Caption = 'T. Equip.'
+                FocusControl = DBEdit46
+                ExplicitWidth = 45
+              end
+              object DBEdit46: TDBEdit
+                AlignWithMargins = True
+                Left = 3
+                Top = 24
+                Width = 69
+                Height = 23
+                Align = alClient
+                DataField = 'tequip'
+                DataSource = dsAmostra
+                TabOrder = 0
+              end
+            end
           end
         end
         object GroupBox4: TGroupBox
           AlignWithMargins = True
           Left = 3
           Top = 61
-          Width = 1064
+          Width = 1140
           Height = 124
           Align = alTop
           Caption = ' Patrocinador '
           TabOrder = 3
+          ExplicitWidth = 1064
           object Panel13: TPanel
             Left = 2
             Top = 17
-            Width = 1060
+            Width = 1136
             Height = 50
             Align = alTop
             BevelOuter = bvNone
             TabOrder = 0
+            ExplicitWidth = 1060
             object Panel10: TPanel
-              Left = 943
+              Left = 1019
               Top = 0
               Width = 117
               Height = 50
               Align = alRight
               BevelOuter = bvNone
               TabOrder = 0
+              ExplicitLeft = 943
               object Label6: TLabel
                 AlignWithMargins = True
                 Left = 3
@@ -1685,16 +1746,17 @@ inherited LabAmostrasM: TLabAmostrasM
             object Panel8: TPanel
               Left = 77
               Top = 0
-              Width = 531
+              Width = 607
               Height = 50
               Align = alClient
               BevelOuter = bvNone
               TabOrder = 2
+              ExplicitWidth = 531
               object Label4: TLabel
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 525
+                Width = 601
                 Height = 15
                 Align = alTop
                 Caption = 'Nome Empresarial'
@@ -1705,7 +1767,7 @@ inherited LabAmostrasM: TLabAmostrasM
                 AlignWithMargins = True
                 Left = 3
                 Top = 24
-                Width = 525
+                Width = 601
                 Height = 23
                 TabStop = False
                 Align = alClient
@@ -1713,16 +1775,18 @@ inherited LabAmostrasM: TLabAmostrasM
                 DataSource = dsAmostra
                 ReadOnly = True
                 TabOrder = 0
+                ExplicitWidth = 525
               end
             end
             object Panel9: TPanel
-              Left = 832
+              Left = 908
               Top = 0
               Width = 111
               Height = 50
               Align = alRight
               BevelOuter = bvNone
               TabOrder = 3
+              ExplicitLeft = 832
               object Label5: TLabel
                 AlignWithMargins = True
                 Left = 3
@@ -1749,13 +1813,14 @@ inherited LabAmostrasM: TLabAmostrasM
               end
             end
             object Panel73: TPanel
-              Left = 608
+              Left = 684
               Top = 0
               Width = 224
               Height = 50
               Align = alRight
               BevelOuter = bvNone
               TabOrder = 4
+              ExplicitLeft = 608
               object Label55: TLabel
                 AlignWithMargins = True
                 Left = 3
@@ -1785,24 +1850,26 @@ inherited LabAmostrasM: TLabAmostrasM
           object Panel74: TPanel
             Left = 2
             Top = 67
-            Width = 1060
+            Width = 1136
             Height = 50
             Align = alTop
             BevelOuter = bvNone
             TabOrder = 1
+            ExplicitWidth = 1060
             object Panel78: TPanel
               Left = 0
               Top = 0
-              Width = 996
+              Width = 1072
               Height = 50
               Align = alClient
               BevelOuter = bvNone
               TabOrder = 0
+              ExplicitWidth = 996
               object Label59: TLabel
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 990
+                Width = 1066
                 Height = 15
                 Align = alTop
                 Caption = 'Cidade'
@@ -1813,7 +1880,7 @@ inherited LabAmostrasM: TLabAmostrasM
                 AlignWithMargins = True
                 Left = 3
                 Top = 24
-                Width = 990
+                Width = 1066
                 Height = 23
                 TabStop = False
                 Align = alClient
@@ -1821,16 +1888,18 @@ inherited LabAmostrasM: TLabAmostrasM
                 DataSource = dsAmostra
                 ReadOnly = True
                 TabOrder = 0
+                ExplicitWidth = 990
               end
             end
             object Panel80: TPanel
-              Left = 996
+              Left = 1072
               Top = 0
               Width = 64
               Height = 50
               Align = alRight
               BevelOuter = bvNone
               TabOrder = 1
+              ExplicitLeft = 996
               object Label61: TLabel
                 AlignWithMargins = True
                 Left = 3
@@ -1862,42 +1931,43 @@ inherited LabAmostrasM: TLabAmostrasM
       object TabSheet2: TTabSheet
         Caption = 'Destinat'#225'rio'
         ImageIndex = 1
+        ExplicitWidth = 1070
         object GroupBox5: TGroupBox
           Left = 0
           Top = 50
-          Width = 1070
+          Width = 1146
           Height = 129
           Align = alTop
           Caption = ' Cliente para o Laudo '
           TabOrder = 0
+          ExplicitWidth = 1070
           inline FrameCliente1: TFrameCliente
             Left = 2
             Top = 17
-            Width = 1066
+            Width = 1142
             Height = 100
             Align = alTop
             AutoSize = True
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Segoe UI'
+            Font.Pitch = fpVariable
+            Font.Style = []
+            ParentFont = False
             TabOrder = 0
             ExplicitLeft = 2
             ExplicitTop = 17
             ExplicitWidth = 1066
-            ExplicitHeight = 100
             inherited Panel1: TPanel
-              Width = 1066
-              Height = 50
+              Width = 1142
               ExplicitWidth = 1066
-              ExplicitHeight = 50
               inherited Panel2: TPanel
-                Height = 50
                 ExplicitHeight = 50
                 inherited Label9: TLabel
                   Width = 70
-                  Height = 15
-                  ExplicitWidth = 39
-                  ExplicitHeight = 15
                 end
                 inherited DBEdit8: TDBEdit
-                  Top = 24
                   DataField = 'cliente'
                   ExplicitTop = 24
                   ExplicitHeight = 23
@@ -1905,33 +1975,25 @@ inherited LabAmostrasM: TLabAmostrasM
               end
               inherited Panel35: TPanel
                 Width = 28
-                Height = 50
                 ExplicitWidth = 28
                 ExplicitHeight = 50
                 inherited SpeedButton1: TSpeedButton
-                  Top = 23
                   Width = 25
-                  Margins.Top = 23
                   ExplicitTop = 23
                   ExplicitWidth = 25
                 end
               end
               inherited Panel4: TPanel
                 Left = 104
-                Width = 422
-                Height = 50
+                Width = 498
                 ExplicitLeft = 104
                 ExplicitWidth = 422
                 ExplicitHeight = 50
                 inherited Label10: TLabel
-                  Width = 416
-                  Height = 15
-                  ExplicitWidth = 97
-                  ExplicitHeight = 15
+                  Width = 492
                 end
                 inherited DBEdit9: TDBEdit
-                  Top = 24
-                  Width = 416
+                  Width = 492
                   DataField = 'empresacli'
                   ExplicitTop = 24
                   ExplicitWidth = 416
@@ -1939,54 +2001,39 @@ inherited LabAmostrasM: TLabAmostrasM
                 end
               end
               inherited Panel5: TPanel
-                Left = 526
-                Height = 50
+                Left = 602
                 ExplicitLeft = 526
                 ExplicitHeight = 50
                 inherited Label11: TLabel
                   Width = 243
-                  Height = 15
-                  ExplicitWidth = 79
-                  ExplicitHeight = 15
                 end
                 inherited DBEdit10: TDBEdit
-                  Top = 24
                   DataField = 'nome_chavecli'
                   ExplicitTop = 24
                   ExplicitHeight = 23
                 end
               end
               inherited Panel6: TPanel
-                Left = 775
-                Height = 50
+                Left = 851
                 ExplicitLeft = 775
                 ExplicitHeight = 50
                 inherited Label12: TLabel
                   Width = 154
-                  Height = 15
-                  ExplicitWidth = 27
-                  ExplicitHeight = 15
                 end
                 inherited DBEdit11: TDBEdit
-                  Top = 24
                   DataField = 'cnpj_cli'
                   ExplicitTop = 24
                   ExplicitHeight = 23
                 end
               end
               inherited Panel7: TPanel
-                Left = 935
-                Height = 50
+                Left = 1011
                 ExplicitLeft = 935
                 ExplicitHeight = 50
                 inherited Label13: TLabel
                   Width = 125
-                  Height = 15
-                  ExplicitWidth = 21
-                  ExplicitHeight = 15
                 end
                 inherited DBEdit12: TDBEdit
-                  Top = 24
                   DataField = 'cpf_cli'
                   ExplicitTop = 24
                   ExplicitHeight = 23
@@ -1994,26 +2041,17 @@ inherited LabAmostrasM: TLabAmostrasM
               end
             end
             inherited Panel3: TPanel
-              Top = 50
-              Width = 1066
-              Height = 50
-              ExplicitTop = 50
+              Width = 1142
               ExplicitWidth = 1066
-              ExplicitHeight = 50
               inherited Panel8: TPanel
-                Width = 565
-                Height = 50
+                Width = 641
                 ExplicitWidth = 565
                 ExplicitHeight = 50
                 inherited Label1: TLabel
-                  Width = 559
-                  Height = 15
-                  ExplicitWidth = 37
-                  ExplicitHeight = 15
+                  Width = 635
                 end
                 inherited DBEdit1: TDBEdit
-                  Top = 24
-                  Width = 559
+                  Width = 635
                   DataField = 'cidade_cli'
                   ExplicitTop = 24
                   ExplicitWidth = 559
@@ -2021,52 +2059,37 @@ inherited LabAmostrasM: TLabAmostrasM
                 end
               end
               inherited Panel9: TPanel
-                Left = 886
-                Height = 50
+                Left = 962
                 ExplicitLeft = 886
                 ExplicitHeight = 50
                 inherited Label2: TLabel
                   Width = 46
-                  Height = 15
-                  ExplicitWidth = 35
-                  ExplicitHeight = 15
                 end
                 inherited DBEdit2: TDBEdit
-                  Top = 24
                   DataField = 'estado_1'
                   ExplicitTop = 24
                   ExplicitHeight = 23
                 end
               end
               inherited Panel30: TPanel
-                Height = 50
                 ExplicitHeight = 50
                 inherited Label20: TLabel
                   Width = 315
-                  Height = 15
-                  ExplicitWidth = 29
-                  ExplicitHeight = 15
                 end
                 inherited DBEdit17: TDBEdit
-                  Top = 24
                   DataField = 'email_cli'
                   ExplicitTop = 24
                   ExplicitHeight = 23
                 end
               end
               inherited Panel10: TPanel
-                Left = 938
-                Height = 50
+                Left = 1014
                 ExplicitLeft = 938
                 ExplicitHeight = 50
                 inherited Label3: TLabel
                   Width = 122
-                  Height = 15
-                  ExplicitWidth = 44
-                  ExplicitHeight = 15
                 end
                 inherited DBEdit3: TDBEdit
-                  Top = 24
                   DataField = 'telefone_cli'
                   ExplicitTop = 24
                   ExplicitHeight = 23
@@ -2078,16 +2101,17 @@ inherited LabAmostrasM: TLabAmostrasM
         object Panel11: TPanel
           Left = 0
           Top = 179
-          Width = 1070
+          Width = 1146
           Height = 50
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 1
+          ExplicitWidth = 1070
           object Label7: TLabel
             AlignWithMargins = True
             Left = 3
             Top = 3
-            Width = 1064
+            Width = 1140
             Height = 15
             Align = alTop
             Caption = 'Destinat'#225'rio'
@@ -2097,23 +2121,25 @@ inherited LabAmostrasM: TLabAmostrasM
             AlignWithMargins = True
             Left = 3
             Top = 24
-            Width = 1064
+            Width = 1140
             Height = 23
             TabStop = False
             Align = alClient
             DataField = 'destinatario'
             DataSource = dsAmostra
             TabOrder = 0
+            ExplicitWidth = 1064
           end
         end
         object Panel14: TPanel
           Left = 0
           Top = 0
-          Width = 1070
+          Width = 1146
           Height = 50
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 2
+          ExplicitWidth = 1070
           object Panel15: TPanel
             Left = 100
             Top = 0
@@ -2249,7 +2275,7 @@ inherited LabAmostrasM: TLabAmostrasM
     end
   end
   inherited ControlBar1: TControlBar
-    Width = 1078
+    Width = 1154
     Height = 38
     ExplicitLeft = 3
     ExplicitTop = 3

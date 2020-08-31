@@ -143,7 +143,6 @@ inherited Amostras: TAmostras
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 3
-          ExplicitLeft = 250
           object Label18: TLabel
             AlignWithMargins = True
             Left = 3
@@ -190,7 +189,6 @@ inherited Amostras: TAmostras
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 4
-          ExplicitLeft = 498
           object Label5: TLabel
             AlignWithMargins = True
             Left = 3
@@ -229,7 +227,6 @@ inherited Amostras: TAmostras
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 5
-          ExplicitLeft = 598
           object Label4: TLabel
             AlignWithMargins = True
             Left = 3
@@ -272,7 +269,6 @@ inherited Amostras: TAmostras
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 7
-          ExplicitLeft = 698
           object Label8: TLabel
             AlignWithMargins = True
             Left = 3
@@ -280,7 +276,7 @@ inherited Amostras: TAmostras
             Width = 179
             Height = 15
             Align = alTop
-            Caption = '01/02/2020 a 29/02/2020'
+            Caption = '01/08/2020 a 31/08/2020'
             ExplicitWidth = 128
           end
           object Label9: TLabel
@@ -301,6 +297,14 @@ inherited Amostras: TAmostras
             Width = 179
             Height = 24
             Align = alTop
+            AutoSize = True
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Segoe UI'
+            Font.Pitch = fpVariable
+            Font.Style = []
+            ParentFont = False
             TabOrder = 0
             ExplicitLeft = 3
             ExplicitTop = 24
@@ -308,16 +312,13 @@ inherited Amostras: TAmostras
             ExplicitHeight = 24
             inherited ComboBox1: TComboBox
               Width = 179
-              Height = 23
-              ItemHeight = 15
               ItemIndex = 1
               Text = 'Mensalmente'
               ExplicitWidth = 179
-              ExplicitHeight = 23
             end
             inherited CCalendarDiff1: TCCalendarDiff
               Interval = diMonthly
-              Date = 43864.925146469900000000
+              Date = 44069.853664456020000000
               DisplayInterval = Label8
             end
           end
@@ -330,8 +331,6 @@ inherited Amostras: TAmostras
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 8
-          ExplicitLeft = 310
-          ExplicitTop = 3
           object Label11: TLabel
             AlignWithMargins = True
             Left = 3
@@ -459,6 +458,7 @@ inherited Amostras: TAmostras
             TitleFont.Color = clWindowText
             TitleFont.Height = -12
             TitleFont.Name = 'Segoe UI'
+            TitleFont.Pitch = fpVariable
             TitleFont.Style = []
             OnDrawColumnCell = DBGridDrawColumnCell
             OnDblClick = DBGridDblClick
@@ -489,6 +489,7 @@ inherited Amostras: TAmostras
             TitleFont.Color = clWindowText
             TitleFont.Height = -12
             TitleFont.Name = 'Segoe UI'
+            TitleFont.Pitch = fpVariable
             TitleFont.Style = []
             OnDrawColumnCell = DBGrid3DrawColumnCell
             OnDblClick = DBGridDblClick
@@ -928,6 +929,7 @@ inherited Amostras: TAmostras
             TitleFont.Color = clWindowText
             TitleFont.Height = -12
             TitleFont.Name = 'Segoe UI'
+            TitleFont.Pitch = fpVariable
             TitleFont.Style = []
             OnDrawColumnCell = DBGrid4DrawColumnCell
             OnDblClick = DBGridDblClick
@@ -1035,7 +1037,8 @@ inherited Amostras: TAmostras
       
         '       a.qtd, a.consumido, a.descartado, a.saldo, p.labproc_recn' +
         'o solicitacao, cast(sys_iif(p.tipo = 2, '#39'Seringa'#39', '#39'Frasco'#39') as ' +
-        'varchar(15)) vidraria'
+        'varchar(15)) vidraria,'
+      '       a.tequip'
       '  from labamostras a'
       '       join tbclientes c'
       '         on c.codigo = a.codigo'
@@ -1190,6 +1193,10 @@ inherited Amostras: TAmostras
     object IBrwSrctoleo: TIntegerField
       FieldName = 'toleo'
       Visible = False
+    end
+    object IBrwSrctequip: TFloatField
+      FieldName = 'tequip'
+      Required = True
     end
     object IBrwSrclabsubest_recno: TIntegerField
       FieldName = 'labsubest_recno'
@@ -1392,6 +1399,7 @@ inherited Amostras: TAmostras
       '  amostrador = :amostrador,'
       '  tamb = :tamb,'
       '  toleo = :toleo,'
+      '  tequip = :tequip,'
       '  umidade = :umidade,'
       '  tensao = :tensao,'
       '  estado = :estado,'
@@ -1433,6 +1441,11 @@ inherited Amostras: TAmostras
       item
         DataType = ftUnknown
         Name = 'toleo'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'tequip'
         ParamType = ptUnknown
       end
       item

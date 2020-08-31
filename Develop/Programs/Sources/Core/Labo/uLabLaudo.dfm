@@ -233,6 +233,14 @@ inherited LabLaudo: TLabLaudo
             Width = 134
             Height = 24
             Align = alTop
+            AutoSize = True
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Segoe UI'
+            Font.Pitch = fpVariable
+            Font.Style = []
+            ParentFont = False
             TabOrder = 0
             ExplicitLeft = 3
             ExplicitTop = 24
@@ -240,13 +248,10 @@ inherited LabLaudo: TLabLaudo
             ExplicitHeight = 24
             inherited ComboBox1: TComboBox
               Width = 134
-              Height = 23
-              ItemHeight = 15
               ExplicitWidth = 134
-              ExplicitHeight = 23
             end
             inherited CCalendarDiff1: TCCalendarDiff
-              Date = 43860.765618935180000000
+              Date = 44071.004270486110000000
               DisplayInterval = Label11
               OnChange = actQueryProcessExecute
             end
@@ -267,7 +272,7 @@ inherited LabLaudo: TLabLaudo
             Width = 134
             Height = 15
             Align = alTop
-            Caption = '01/01/2020 a 31/01/2020'
+            Caption = '01/08/2020 a 31/08/2020'
             ExplicitWidth = 128
           end
           object Label3: TLabel
@@ -288,24 +293,28 @@ inherited LabLaudo: TLabLaudo
             Width = 134
             Height = 23
             Align = alTop
+            AutoSize = True
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Segoe UI'
+            Font.Pitch = fpVariable
+            Font.Style = []
+            ParentFont = False
             TabOrder = 0
             ExplicitLeft = 3
             ExplicitTop = 24
             ExplicitWidth = 134
-            ExplicitHeight = 23
             inherited ComboBox1: TComboBox
               Width = 134
-              Height = 23
-              ItemHeight = 15
               ItemIndex = 1
               Text = 'Mensalmente'
               OnChange = FrameData1ComboBox1Change
               ExplicitWidth = 134
-              ExplicitHeight = 23
             end
             inherited CCalendarDiff1: TCCalendarDiff
               Interval = diMonthly
-              Date = 43860.765618935180000000
+              Date = 44071.004270486110000000
               DisplayInterval = Label1
               OnChange = actQueryProcessExecute
               Left = 96
@@ -558,7 +567,9 @@ inherited LabLaudo: TLabLaudo
       
         '  h.ocorrencia entrada, r.emissao, a.local, a.labsubest_recno, a' +
         '.codigo, c.empresa, c.nome_chave, c.cnpj, c.cpf,'
-      '  c.telefone, c.cidade, c.estado, c.email, e.serie, a.tag'
+      
+        '  c.telefone, c.cidade, c.estado, c.email, e.serie, a.tag, re.si' +
+        'gla'
       '  from labamostras_rel r'
       '       join labrel re'
       '         on re.recno = r.relato_recno'
@@ -577,7 +588,7 @@ inherited LabLaudo: TLabLaudo
       ' where r.status >= 3'
       '   and r.assinatura is not null')
     IndexFieldNames = 'recno Asc'
-    Left = 187
+    Left = 171
     Top = 120
     object IBrwSrcrecno: TIntegerField
       DisplayLabel = 'Laudo'
@@ -704,6 +715,11 @@ inherited LabLaudo: TLabLaudo
     object IBrwSrcrelato_recno: TIntegerField
       FieldName = 'relato_recno'
     end
+    object IBrwSrcsigla: TStringField
+      FieldName = 'sigla'
+      Visible = False
+      Size = 4
+    end
   end
   inherited pmOpcao: TPopupMenu
     Left = 496
@@ -713,7 +729,7 @@ inherited LabLaudo: TLabLaudo
     end
   end
   inherited zIBrwSrc: TZUpdateSQL
-    Left = 136
+    Left = 112
     Top = 120
   end
 end

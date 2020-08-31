@@ -89,6 +89,7 @@ type
     IBrwSrcestado_cli: TStringField;
     IBrwSrcemail: TStringField;
     IBrwSrcemail_cli: TStringField;
+    IBrwSrctequip: TFloatField;
     procedure actQueryProcessExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FrameData1CCalendarDiff1Change(Sender: TObject);

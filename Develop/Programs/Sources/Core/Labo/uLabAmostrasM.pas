@@ -186,6 +186,9 @@ type
     DBEdit45: TDBEdit;
     dsAmostra: TDataSource;
     JvDBComboBox1: TJvDBComboBox;
+    Panel18: TPanel;
+    Label43: TLabel;
+    DBEdit46: TDBEdit;
     procedure DBEdit23Exit(Sender: TObject);
     procedure actFindTipoExecute(Sender: TObject);
     procedure DBEdit9Exit(Sender: TObject);

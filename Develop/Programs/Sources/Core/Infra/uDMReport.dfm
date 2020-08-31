@@ -1970,7 +1970,7 @@ object DMReport: TDMReport
       
         '  a.amostrador coletor,         cast(initcap(re.descri) as varch' +
         'ar(30)) as laudodesc,'
-      '  a.tamb,       a.toleo,'
+      '  a.tamb,       a.toleo,  a.tequip, '
       
         '  a.umidade,         a.tensao,        a.local,      a.labsubest_' +
         'recno,'
@@ -2404,6 +2404,10 @@ object DMReport: TDMReport
     object R00014revisao: TIntegerField
       FieldName = 'revisao'
     end
+    object R00014tequip: TFloatField
+      FieldName = 'tequip'
+      Required = True
+    end
   end
   object frxR00014: TfrxDBDataset
     Description = 'Laudo'
@@ -2503,7 +2507,8 @@ object DMReport: TDMReport
       'potencia_un=potencia_un'
       'logo=logo'
       'inmetro=inmetro'
-      'revisao=revisao')
+      'revisao=revisao'
+      'tequip=tequip')
     DataSet = R00014
     BCDToCurrency = False
     Left = 280
