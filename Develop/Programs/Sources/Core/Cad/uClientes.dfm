@@ -1503,7 +1503,7 @@ inherited Clientes: TClientes
   end
   object sContatos: TZSequence
     Connection = DM.Design
-    SequenceName = 'public.contatos_recno_seq'
+    SequenceName = 'public.tbclientes_contatos_recno_seq'
     Left = 376
     Top = 240
   end
