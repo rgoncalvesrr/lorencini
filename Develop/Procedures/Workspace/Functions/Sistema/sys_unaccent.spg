@@ -1,0 +1,24 @@
+/**
+   Remove acentos
+
+	@author    Ricardo Gonçalves
+	@date      14/09/2020
+	@trigger
+
+   @param in_text Texto acentuado
+
+   @return texto sem acentuação
+
+	Histórico
+	-------------------------------------------------------------------------------------------------------------------
+ */
+ create or replace function sys_unaccent(
+    in in_text text) 
+returns text as
+$$
+begin
+   return unaccent(in_text);
+end;
+$$
+language plpgsql
+immutable 

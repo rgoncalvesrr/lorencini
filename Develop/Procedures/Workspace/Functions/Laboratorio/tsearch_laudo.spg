@@ -1,0 +1,64 @@
+/**
+   Gera documento pesquisável para o laudo informado
+
+	@author    Ricardo Gonçalves
+	@date      14/09/2020
+	@trigger
+
+	Histórico
+	-------------------------------------------------------------------------------------------------------------------
+ */
+Create or Replace Function tsearch_laudo(
+   in in_laudo integer)
+Returns tsvector As
+$$
+declare
+   r     record;
+   docto tsvector;
+begin
+   docto := null;
+
+   select l.amostra, l.diagnostico, l.recomendacao, l.obs, lr.titulo, lr.sigla, lr.descri desc_tp, s.descri, 
+          a.amostrador, e.serie, e.descri desc_equip, e.familia, e.fabricante, e.isolante, e.tipo, ec."local", 
+          ec.subest, ec.tag       
+     into r     
+     from labamostras_rel l
+          join labamostras a
+            on a.recno = l.amostra 
+          join labrel lr
+            on lr.recno = l.relato_recno
+          join servicos s
+            on s.codserv = l.codserv
+          join labequipxcli ec
+            on ec.codigo = a.codigo 
+           and ec.equip = a.equip_recno
+          join vequip e
+            on e.recno = a.equip_recno
+    where l.recno = in_laudo;
+
+   if found then      
+      docto := sys_fts_compose(docto, in_laudo);
+      docto := sys_fts_compose(docto, r.amostra);      
+      docto := sys_fts_compose(docto, r.diagnostico);
+      docto := sys_fts_compose(docto, r.recomendacao);
+      docto := sys_fts_compose(docto, r.obs);
+      docto := sys_fts_compose(docto, r.titulo);
+      docto := sys_fts_compose(docto, r.sigla);      
+      docto := sys_fts_compose(docto, r.desc_tp);
+      docto := sys_fts_compose(docto, r.descri); 
+      docto := sys_fts_compose(docto, r.amostrador);
+      docto := sys_fts_compose(docto, r.serie);      
+      docto := sys_fts_compose(docto, r.desc_equip);
+      docto := sys_fts_compose(docto, r.familia);
+      docto := sys_fts_compose(docto, r.fabricante);
+      docto := sys_fts_compose(docto, r.isolante);
+      docto := sys_fts_compose(docto, r.tipo);
+      docto := sys_fts_compose(docto, r."local"); 
+      docto := sys_fts_compose(docto, r.subest);
+      docto := sys_fts_compose(docto, r.tag);
+   end if;
+
+   return docto;
+end;
+$$
+language plpgsql;
