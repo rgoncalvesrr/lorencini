@@ -1,0 +1,36 @@
+set session authorization lorencini;
+
+alter table labamostras_rel 
+	add doc tsvector;
+
+create extension if not exists unaccent;
+create extension if not exists pg_trgm;
+create extension if not exists fuzzystrmatch;
+
+create schema if not exists api;
+
+drop view if exists api.reports;
+create or replace view api.reports as
+ select l.recno id, l.amostra sample, l.relato_recno reporttype, l.diagnostico diagnostic, l.recomendacao recommendation, l.obs observation, 
+        l.criacao created, l.emissao emmited, l.assinatura sign, l.status, l.pcoleta nextcollect, rc.descri crit_label, rc.cor crit_cor, 
+        rc.recno crit_id, a.codigo tenantid, lr.titulo typetitle, lr.sigla typeabbreviation, lr.descri typedescription, s.descri description, 
+        a.amostrador sampler, e.serie, e.descri equipment, e.familia familygroup, e.fabricante manufacturer, e.isolante insulator, e.tipo devicetype, 
+        ec."local", ec.subest substation, ec.tag, l.fts
+   from labamostras_rel l
+       join labamostras a
+         on a.recno = l.amostra 
+       join labrel lr
+         on lr.recno = l.relato_recno
+       join servicos s
+         on s.codserv = l.codserv
+       join labequipxcli ec
+         on ec.codigo = a.codigo 
+        and ec.equip = a.equip_recno
+       join vequip e
+         on e.recno = a.equip_recno
+       join vlaudocrit rc 
+         on rc.relato_recno = l.relato_recno 
+        and rc.recno  = l.labcrit_recno;
+
+create index idx_labamostras_rel_15 on labamostras_rel using gin (fts);
+
