@@ -183,7 +183,7 @@ inherited LabAmostras: TLabAmostras
               ExplicitWidth = 147
             end
             inherited CCalendarDiff1: TCCalendarDiff
-              Date = 44069.840209247680000000
+              Date = 44075.747045115740000000
               DisplayInterval = Label1
               OnChange = FrameData1CCalendarDiff1Change
             end
@@ -693,41 +693,51 @@ inherited LabAmostras: TLabAmostras
     object IBrwSrccliente: TIntegerField
       FieldName = 'cliente'
       Required = True
+      Visible = False
     end
     object IBrwSrcempresacli: TStringField
       FieldName = 'empresacli'
+      Visible = False
       Size = 100
     end
     object IBrwSrcnome_chavecli: TStringField
       FieldName = 'nome_chavecli'
+      Visible = False
       Size = 45
     end
     object IBrwSrccnpj_cli: TStringField
       FieldName = 'cnpj_cli'
+      Visible = False
       Size = 14
     end
     object IBrwSrccpf_cli: TStringField
       FieldName = 'cpf_cli'
+      Visible = False
       Size = 11
     end
     object IBrwSrctelefone_cli: TStringField
       FieldName = 'telefone_cli'
+      Visible = False
       Size = 100
     end
     object IBrwSrccidade_cli: TStringField
       FieldName = 'cidade_cli'
+      Visible = False
       Size = 100
     end
     object IBrwSrcestado_cli: TStringField
       FieldName = 'estado_cli'
+      Visible = False
       Size = 2
     end
     object IBrwSrcemail: TStringField
       FieldName = 'email'
+      Visible = False
       Size = 100
     end
     object IBrwSrcemail_cli: TStringField
       FieldName = 'email_cli'
+      Visible = False
       Size = 100
     end
   end

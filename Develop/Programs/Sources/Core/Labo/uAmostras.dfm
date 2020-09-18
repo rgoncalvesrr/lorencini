@@ -276,7 +276,7 @@ inherited Amostras: TAmostras
             Width = 179
             Height = 15
             Align = alTop
-            Caption = '01/08/2020 a 31/08/2020'
+            Caption = '01/09/2020 a 30/09/2020'
             ExplicitWidth = 128
           end
           object Label9: TLabel
@@ -318,7 +318,7 @@ inherited Amostras: TAmostras
             end
             inherited CCalendarDiff1: TCCalendarDiff
               Interval = diMonthly
-              Date = 44069.853664456020000000
+              Date = 44075.747090486110000000
               DisplayInterval = Label8
             end
           end
@@ -1027,7 +1027,7 @@ inherited Amostras: TAmostras
         '_un,  tp.descri,             tp.inf_te,'
       
         '       s.sigla,           s.nome,        s.regional,  s.reg_nome' +
-        ',     pa.pedido,             a.comodato,'
+        ',     a.pedido,             a.comodato,'
       
         '       a.cliente,         cf.empresa empresacli,     cf.nome_cha' +
         've nome_chavecli, cf.cnpj cnpj_cli, cf.cpf cpf_cli,'
@@ -1051,8 +1051,6 @@ inherited Amostras: TAmostras
       '       left join vsubest s'
       '         on s.codigo = c.codigo'
       '        and s.recno = a.labsubest_recno'
-      '       left join pedido_amostras pa'
-      '         on pa.amostra = a.recno'
       '       join labprocxequip p'
       '         on p.amostra = a.recno')
     Sequence = ZSequence1

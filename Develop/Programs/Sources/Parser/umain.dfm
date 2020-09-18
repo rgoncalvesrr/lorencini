@@ -49,10 +49,10 @@ object Main: TMain
           Height = 459
           Align = alClient
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
+          Font.Color = clBlack
           Font.Height = -13
-          Font.Name = 'Consolas'
-          Font.Pitch = fpVariable
+          Font.Name = 'Fira Code'
+          Font.Pitch = fpFixed
           Font.Style = []
           TabOrder = 0
           BookMarkOptions.LeftMargin = 0
@@ -71,6 +71,8 @@ object Main: TMain
           Highlighter = SynSQLSyn1
           RightEdge = 120
           FontSmoothing = fsmClearType
+          ExplicitLeft = 6
+          ExplicitTop = 14
         end
       end
       object GroupBox3: TGroupBox

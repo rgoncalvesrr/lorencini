@@ -1,0 +1,42 @@
+/**
+   Compõe o vetor Full Text Search
+
+	@author    Ricardo Gonçalves
+	@date      16/09/2020
+	@trigger
+
+	Histórico
+	-------------------------------------------------------------------------------------------------------------------
+ */
+create or replace function sys_fts_compose(
+      in in_docto tsvector,
+      in in_text text)
+Returns tsvector As
+$$
+declare
+   DIC   constant regconfig = 'portuguese';
+begin
+   if in_text is not null then
+      return coalesce(in_docto, '') || to_tsvector(DIC, sys_unaccent(in_text));
+   else
+      return in_docto;
+   end if;
+end;
+$$
+language plpgsql;
+
+
+create or replace function sys_fts_compose(
+      in in_docto tsvector,
+      in in_number int)
+Returns tsvector As
+$$
+begin
+   if in_number is not null then
+      return sys_fts_compose(in_docto, cast(in_number as text));
+   else
+      return in_docto;
+   end if;
+end;
+$$
+language plpgsql;

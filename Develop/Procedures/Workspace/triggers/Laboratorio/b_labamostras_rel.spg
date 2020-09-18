@@ -230,6 +230,7 @@ BEGIN
             vass_p4 := md5(new.diagnostico);
 
             new.assinatura := vass_p1 || vass_p2 || vass_p3 || vass_p4;
+            new.fts := tsearch_laudo(new.recno);
          elsif old.status = 4 then
             raise '[[O laudo % não pode sofrer alterações porque está cancelado.]]', new.recno;
          elsif (new.status < old.status) then                     

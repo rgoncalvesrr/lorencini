@@ -38,7 +38,7 @@ BEGIN
             perform log('Solicitação de autorização.', msg, 4, new.table_, new.recno_);
          end if;
 
-         perform sys_tasks_schedule(1, localtimestamp, new.recno);
+         perform sys_tasks_schedule(1, current_timestamp, new.recno);
 
       end if;
    end if;
