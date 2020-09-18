@@ -1,7 +1,7 @@
 set session authorization lorencini;
 
 alter table labamostras_rel 
-	add doc tsvector;
+	add fts tsvector;
 
 create extension if not exists unaccent;
 create extension if not exists pg_trgm;
@@ -33,4 +33,3 @@ create or replace view api.reports as
         and rc.recno  = l.labcrit_recno;
 
 create index idx_labamostras_rel_15 on labamostras_rel using gin (fts);
-
