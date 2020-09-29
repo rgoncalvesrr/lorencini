@@ -22,7 +22,7 @@
    @param inivel Nível de log: 1 - Informação / 2 - Atenção / 3 - Crítico / 4 - Debug
 
 */
-CREATE OR REPLACE FUNCTION log(
+create or replace function log(
    in vlog varchar,
    in thist text,
    in itable integer,
@@ -34,7 +34,7 @@ CREATE OR REPLACE FUNCTION log(
 $$
 Declare
    thistorico  sys_log.historico%type;
-BEGIN
+begin
    thistorico := coalesce(thist, vlog);
 
    -- Gera registro de log
@@ -43,47 +43,47 @@ BEGIN
 END;
 $$ LANGUAGE 'plpgsql' VOLATILE;
 
-CREATE OR REPLACE FUNCTION log(
+create or replace function log(
    in vlog varchar,
    in thist text,
    in itipo integer)
   RETURNS void AS
 $$
-BEGIN
+begin
    perform log(vlog, thist, null, null, false, itipo, 3);
 END;
 $$ LANGUAGE 'plpgsql' VOLATILE;
 
-CREATE OR REPLACE FUNCTION log(
+create or replace function log(
    in vlog varchar,
    in thist text)
   RETURNS void AS
 $$
-BEGIN
+begin
    perform log(vlog, thist, 4);
 END;
 $$ LANGUAGE 'plpgsql' VOLATILE;
 
-CREATE OR REPLACE FUNCTION log(
+create or replace function log(
    in vlog varchar)
   RETURNS void AS
 $$
-BEGIN
+begin
    perform log(vlog, null, 4);
 END;
 $$ LANGUAGE 'plpgsql' VOLATILE;
 
-CREATE OR REPLACE FUNCTION log(
+create or replace function log(
    in vlog varchar,
    in itipo integer)
   RETURNS void AS
 $$
-BEGIN
+begin
    perform log(vlog, null, itipo);
 END;
 $$ LANGUAGE 'plpgsql' VOLATILE;
 
-CREATE OR REPLACE FUNCTION log(
+create or replace function log(
    in vlog varchar,
    in thist text,
    in itipo integer,
@@ -91,20 +91,55 @@ CREATE OR REPLACE FUNCTION log(
    in itable_recno integer)
   RETURNS void AS
 $$
-BEGIN
+begin
    perform log(vlog, thist, itable, itable_recno, false, itipo, 3);
 END;
 $$ LANGUAGE 'plpgsql' VOLATILE;
 
-CREATE OR REPLACE FUNCTION log(
+create or replace function log(
    in vlog varchar,
    in itipo integer,
    in itable integer,
    in itable_recno integer)
   RETURNS void AS
 $$
-BEGIN
+begin
    perform log(vlog, null, itable, itable_recno, false, itipo, 3);
 END;
 $$ LANGUAGE 'plpgsql' VOLATILE;
 
+create or replace function log_error(
+   in vlog varchar)
+  RETURNS void AS
+$$
+begin
+   perform log(vlog, null, null, null, false, 4, 3);
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+
+create or replace function log_warning(
+   in vlog varchar)
+  RETURNS void AS
+$$
+begin
+   perform log(vlog, null, null, null, false, 4, 2);
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+
+create or replace function log_info(
+   in vlog varchar)
+  RETURNS void AS
+$$
+begin
+   perform log(vlog, null, null, null, false, 4, 1);
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+
+create or replace function log_debug(
+   in vlog varchar)
+  RETURNS void AS
+$$
+begin
+   perform log(vlog, null, null, null, false, 4, 4);
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;

@@ -18,6 +18,8 @@ BEGIN
      from sys_session
     where session = sys_session();
 
+   new.username := coalesce(new.username, sys_user_def());
+
    return new;
 END;
 $$ LANGUAGE 'plpgsql' VOLATILE;
