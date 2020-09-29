@@ -16,7 +16,6 @@ object DM: TDM
     Properties.Strings = (
       'codepage=LATIN1'
       'controls_cp=GET_ACP')
-    Connected = True
     DesignConnection = True
     HostName = 'lorencinidb'
     Port = 5432

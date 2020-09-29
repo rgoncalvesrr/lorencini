@@ -18,7 +18,7 @@ begin
    if tg_op = 'DELETE' then
       return old;
    else
-      new.phase_date := coalesce(new.phase_date, current_timestamp);
+      new.phase_date := coalesce(new.phase_date, clock_timestamp());
 
       if not exists(
          select 1
@@ -34,6 +34,17 @@ begin
               into new.source_table
               from sys_services
              where recno = new.service;
+         end if;
+      else
+         if new.phase > old.phase then
+            new.phase_date := clock_timestamp();
+
+            if new.phase = 3 and old.phase < 3 then
+               if new.id is null then
+                  raise '[[A tarefa % não pode ser iniciada porque não há um agente de processamento identificado]]', new.recno;
+               end if;
+               new.pulse := clock_timestamp();
+            end if;
          end if;
       end if;
 

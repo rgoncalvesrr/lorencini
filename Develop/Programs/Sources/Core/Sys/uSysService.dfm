@@ -17,6 +17,7 @@ inherited SysService: TSysService
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 1
+          ExplicitTop = 1
           object Label1: TLabel
             AlignWithMargins = True
             Left = 3
@@ -43,8 +44,8 @@ inherited SysService: TSysService
             Items.Strings = (
               'Todos'
               'Ativos'
-              'Inativos'
-              '')
+              'Inativos')
+            ExplicitLeft = 5
           end
         end
       end
@@ -58,6 +59,7 @@ inherited SysService: TSysService
   end
   inherited Panel2: TPanel
     inherited PageControl1: TPageControl
+      ActivePage = TabSheet3
       Images = Resources.medium_n
       inherited TabSheet1: TTabSheet
         Caption = 'Todos'
@@ -122,6 +124,8 @@ inherited SysService: TSysService
     SQL.Strings = (
       'select recno, name, status, maxprocs'
       '  from sys_services')
+    Sequence = sIBrwSrc
+    SequenceField = 'recno'
     object IBrwSrcstatus: TIntegerField
       DisplayLabel = ' '
       FieldName = 'status'
@@ -189,5 +193,11 @@ inherited SysService: TSysService
         Name = 'recno'
         ParamType = ptUnknown
       end>
+  end
+  object sIBrwSrc: TZSequence
+    Connection = DM.Design
+    SequenceName = 'public.sys_services_recno_seq'
+    Left = 64
+    Top = 128
   end
 end

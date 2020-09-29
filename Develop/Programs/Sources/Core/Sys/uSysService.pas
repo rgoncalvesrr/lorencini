@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uIBrowse, ZSqlUpdate, Menus, DB, ZAbstractRODataset, ZAbstractDataset, ZDataset, ActnList, ComCtrls, ToolWin,
-  ExtCtrls, Grids, DBGrids, StdCtrls, Mask, Buttons, uIUtils;
+  ExtCtrls, Grids, DBGrids, StdCtrls, Mask, Buttons, uIUtils, ZSequence;
 
 type
   TSysService = class(TIDefBrowse)
@@ -18,6 +18,7 @@ type
     Label1: TLabel;
     cbStatus: TComboBox;
     IBrwSrcmaxprocs: TIntegerField;
+    sIBrwSrc: TZSequence;
     procedure DBGridDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn;
       State: TGridDrawState);
     procedure cbStatusChange(Sender: TObject);
