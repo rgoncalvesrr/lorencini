@@ -10,26 +10,132 @@ create extension if not exists fuzzystrmatch;
 create schema if not exists api;
 
 drop view if exists api.reports;
+drop view if exists api.devices;
+drop view if exists api.devicesbycustomers;
+
 create or replace view api.reports as
- select l.recno id, l.amostra sample, l.relato_recno reporttype, l.diagnostico diagnostic, l.recomendacao recommendation, l.obs observation, 
-        l.criacao created, l.emissao emmited, l.assinatura sign, l.status, l.pcoleta nextcollect, rc.descri crit_label, rc.cor crit_cor, 
-        rc.recno crit_id, a.codigo tenantid, lr.titulo typetitle, lr.sigla typeabbreviation, lr.descri typedescription, s.descri description, 
-        a.amostrador sampler, e.serie, e.descri equipment, e.familia familygroup, e.fabricante manufacturer, e.isolante insulator, e.tipo devicetype, 
-        ec."local", ec.subest substation, ec.tag, l.fts
-   from labamostras_rel l
-       join labamostras a
-         on a.recno = l.amostra 
-       join labrel lr
-         on lr.recno = l.relato_recno
-       join servicos s
-         on s.codserv = l.codserv
-       join labequipxcli ec
-         on ec.codigo = a.codigo 
-        and ec.equip = a.equip_recno
-       join vequip e
-         on e.recno = a.equip_recno
-       join vlaudocrit rc 
-         on rc.relato_recno = l.relato_recno 
-        and rc.recno  = l.labcrit_recno;
+select l.recno id, l.amostra sample, l.relato_recno reporttype, l.diagnostico diagnostic, l.recomendacao recommendation, l.obs observation, 
+       l.criacao created, l.emissao emmited, l.assinatura sign, l.status, l.pcoleta nextcollect, rc.descri crit_label, rc.cor crit_cor, 
+       rc.recno crit_id, a.codigo tenantid, lr.titulo typetitle, lr.sigla typeabbreviation, lr.descri typedescription, s.descri description, 
+       a.amostrador sampler, d.serie, d.devicename, d.familyname, d.manufacturer, d.insulator, d.devicetypename, 
+       d."local", d.substation, d.tag, l.fts
+  from public.labamostras_rel l
+      join public.labamostras a
+        on a.recno = l.amostra     
+      join public.labrel lr
+        on lr.recno = l.relato_recno
+      join public.servicos s
+        on s.codserv = l.codserv
+      join api.devicesbycustomers d
+        on d.tenantid = a.codigo 
+       and d.device = a.equip_recno
+      join vlaudocrit rc 
+        on rc.relato_recno = l.relato_recno 
+       and rc.recno  = l.labcrit_recno;       
+
+create or replace view api.devices as 
+select e.recno device, e.serie, e.descri devicename, e.tipo devicetypeid, t.sigla devicetypeabbreviation, t.descri devicetypename, e.fabricante manufacturerid, fa.nome manufacturer,     
+       e.potencia power, e.potencia_a powera, e.potencia_b powerb, e.potencia_un powerunit, e.fases phases, e.lote, e.imped impedance, e.imped_a impedancea, e.imped_b impedancb, 
+       e.tensao voltage, e.tensao_a voltagea, e.tensao_b voltageb, e.tensao_un voltageunit, e.corr electriccurrent, e.corr_a electriccurrenta, e.corr_b electriccurrentb, e.ano "year", 
+       e.isolante insulator, i.nome insulatorname, e.volume, e.drenos tap, e.familia "family", f.descri familyname
+  FROM public.labequip e
+       JOIN public.labequip_tipo t 
+         ON t.tipo = e.tipo
+       LEFT JOIN public.labfabri fa 
+         ON fa.recno = e.fabricante
+       LEFT JOIN public.labisolante i 
+         ON i.recno = e.isolante
+       LEFT JOIN public.labfamilia f 
+         ON f.recno = e.familia;                
+
+create or replace view api.devicesbycustomers as     
+select e.codigo tenantid, d.device, d.serie, d.devicename, d.devicetypeid, d.devicetypeabbreviation, d.devicetypename, d.manufacturerid, d.manufacturer,     
+       d.power, d.powera, d.powerb, d.powerunit, d.phases, d.lote, d.impedance, d.impedancea, d.impedancb, d.voltage, d.voltagea, d.voltageb, d.voltageunit, 
+       d.electriccurrent, d.electriccurrenta, d.electriccurrentb, d."year", d.insulator, d.insulatorname, d.volume, d.tap, d."family", d.familyname,
+       e.energ, e."local", e.subest substation, e.tag, e.status
+  from public.labequipxcli e
+       join api.devices d
+         on d.device = e.equip;
 
 create index idx_labamostras_rel_15 on labamostras_rel using gin (fts);
+
+-- drop table if exists sys_tasks_phases cascade;
+-- drop table if exists sys_phases cascade;
+-- drop table if exists sys_services cascade;
+-- drop table if exists sys_tasks cascade;
+
+create table sys_phases(
+   recno serial not null,
+   name varchar(60) not null,
+   constraint pk_sys_phases primary key(recno)
+);
+
+insert into sys_phases (name) values ('Entrada'), ('Agendado para'), ('Iniciando'), ('Executando'), ('Finalizado com Sucesso'), ('Finalizado com Erro');
+
+create table sys_services(
+   recno serial not null,
+   name varchar(60) not null,
+   status integer default(1) not null,
+   source_tasks integer,
+   maxprocs integer default(1) not null,
+   constraint pk_sys_services primary key(recno),
+   constraint fk_sys_services_1 foreign key(source_tasks)
+      references sys_tables(recno) on update cascade on delete set null,
+   constraint ck_sys_services_1 check (maxprocs > 0)
+);
+
+insert into sys_services (name, status, source_tasks, maxprocs) values ('Envio de E-mails', 1, sys_origem('sys_email'), 24);
+insert into sys_services (name, status) values ('Recebimento de E-mails (IMAP4)', 16);
+
+create table sys_tasks (
+   recno serial not null,
+   service integer not null,
+   phase integer default(1) not null,
+   phase_date timestamp default(current_timestamp) not null,
+   source_table integer,
+   source_recno integer,
+   pulse timestamp,
+   id varchar(38),
+   priority integer default(1000),
+   constraint pk_sys_tasks primary key(recno),
+   constraint fk_sys_tasks_1 foreign key(service) references sys_services(recno)
+      on update cascade on delete cascade,
+   constraint fk_sys_tasks_2 foreign key(phase) references sys_phases(recno)
+      on update cascade on delete restrict,
+   constraint fk_sys_tasks_3 foreign key(source_table) references sys_tables(recno)
+      on update cascade on delete restrict
+);
+
+create index idx_sys_tasks_1 on sys_tasks(service) where (phase = 2);
+create index idx_sys_tasks_2 on sys_tasks(service) where (phase = 3);
+create index idx_sys_tasks_3 on sys_tasks(service) where (phase = 4);
+create index idx_sys_tasks_4 on sys_tasks(service) where (phase = 5);
+create index idx_sys_tasks_5 on sys_tasks(service, id) where (phase = 3);
+create index idx_sys_tasks_6 on sys_tasks(service, id) where (phase = 4);
+
+create table sys_tasks_phases(
+   task integer not null,
+   phase integer not null,
+   date timestamp default(localtimestamp) not null,
+   username varchar(20) not null,
+   constraint pk_sys_tasks_phases primary key(task, phase),
+   constraint fk_sys_tasks_phases_1 foreign key(task)
+      references sys_tasks(recno) on update cascade on delete cascade,
+   constraint fk_sys_tasks_phases_2 foreign key(phase)
+      references sys_phases(recno) on update cascade on delete restrict,
+   constraint fk_sys_tasks_phases_3 foreign key(username)
+      references sys_users(username) on update cascade on delete restrict);
+
+create or replace view vtasks as
+   select t.recno, t.service, s.name service_name, t.phase, p."name" phase_name, t.phase_date, 
+          t.priority, t.id, t.pulse, pt.username "user", u."name" username, u.email 
+     from sys_tasks t
+          join sys_services s
+            on s.recno = t.service
+          join sys_phases p
+            on p.recno = t.phase
+          join sys_tasks_phases pt
+            on pt.task = t.recno 
+           and pt.phase = t.phase
+          join sys_users u
+            on u.username = pt.username;
