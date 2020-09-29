@@ -35,7 +35,7 @@ begin
          insert into sys_tasks_phases 
             (task,      phase,     date,           username)
          values
-            (new.recno, new.phase, new.phase_date, sys_user());
+            (new.recno, new.phase, new.phase_date, coalesce(sys_user(), sys_user_def()));
       end if;         
    end if;
 
