@@ -1,0 +1,78 @@
+/**
+   Seleciona tarefas para processamento
+
+   Autor	      Ricardo Gonçalves
+   Data        28/09/2020
+
+   @param in_service código do serviço
+   @param in_id identificação do binário que executará o serviço
+
+	Histórico
+	------------------------------------------------------------------
+*/
+create or replace function sys_tasks_select(
+   in in_service integer,
+   in in_id varchar) 
+returns integer as
+$function$
+declare
+   _AGENDADO   constant integer := 2;
+   _INICIANDO  constant integer := 3;
+   _EXECUTANDO constant integer := 4;
+   _SINATIVO   constant integer := 1;
+
+   r           record;
+   selected    integer := 0;
+   executing   integer := 0;
+   erro        boolean := false;
+   pagesize    integer;
+begin   
+   select status, maxprocs, name
+     into r
+     from sys_services 
+    where recno = in_service;
+
+   if not found then
+      perform log(format('Serviço %s não existe!', in_service));
+      erro := true;
+   end if;
+
+   if r.status != _SINATIVO then
+      perform log(format('Serviço %s - %s não está ativo!', in_service, r.name));
+      erro := true;
+   end if;
+
+   if (not erro) then
+      select count(*) 
+        into executing
+        from sys_tasks 
+       where service = in_service
+         and id = in_id
+         and phase in (_INICIANDO, _EXECUTANDO);
+      
+      pagesize := r.maxprocs - executing;
+
+      if (pagesize > 0) then
+         for r in (
+            select recno
+              from sys_tasks
+             where service = in_service               
+               and phase = _AGENDADO
+               and phase_date <= localtimestamp
+             order by priority, phase_date
+             limit pagesize
+            for update skip locked)
+         loop
+            update sys_tasks
+               set phase = _INICIANDO, id = in_id, pulse = clock_timestamp()
+             where recno = r.recno;
+
+            selected := selected + 1;
+         end loop;
+      end if;
+   end if;
+
+   return selected;
+end;
+$function$
+language plpgsql;

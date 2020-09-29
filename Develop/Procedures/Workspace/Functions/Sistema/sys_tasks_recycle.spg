@@ -1,0 +1,50 @@
+/**
+   Recicla tarefas que não foram finalizadas
+
+   Autor	      Ricardo Gonçalves
+   Data        28/09/2020
+
+   @param in_service código do serviço para o qual as tarefas devem ser recicladas
+
+	Histórico
+	------------------------------------------------------------------
+*/
+create or replace function sys_tasks_recycle(
+   in in_service integer,
+   in in_force boolean) 
+returns void as
+$function$
+declare
+   _AGENDADO   constant integer := 2;
+   _INICIANDO  constant integer := 3;
+   _EXECUTANDO constant integer := 4;
+
+   r           record;
+begin   
+   
+   for r in (
+      select recno
+        from sys_tasks
+       where service = in_service
+         and phase in (_EXECUTANDO, _INICIANDO)
+         and (in_force or (phase_date + interval '3min' < clock_timestamp())))
+   loop
+      update sys_tasks
+         set phase = _AGENDADO, pulse = null, id = null
+       where recno = r.recno;
+
+      perform log_warning(format('Reciclando tarefa %s', r.recno));
+   end loop;
+end;
+$function$
+language plpgsql;
+
+create or replace function sys_tasks_recycle(
+   in in_service integer) 
+returns void as
+$function$
+begin
+   perform sys_tasks_recycle(in_service, false);
+end;
+$function$
+language plpgsql;

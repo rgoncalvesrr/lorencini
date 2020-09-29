@@ -5,8 +5,9 @@
    @date      02/06/2020
    @trigger
 
-   @param in_service código do serviço
-   @param in_process identificação do processo
+   @param in_service código do serviço   
+   @param in_date_schedule data e hora que a tarefa deve ser executada
+   @param in_source_recno registro de origem da tarefa
 
    Histórico
    ---------------------------------------------------------------------------------------------------------------------
@@ -19,8 +20,7 @@ create or replace function sys_task_schedule(
    in_source_recno integer)
 returns integer as
 $$
-declare
-   _PHASE_ENTRY constant integer = 1;
+declare   
    _PHASE_SCHEDULE constant integer = 2;
 
    task  integer;
@@ -34,6 +34,38 @@ begin
     where recno = task;
    
    return task;
+end;
+$$
+language plpgsql;
+
+create or replace function sys_task_schedule(
+   in_service integer,      
+   in_source_recno integer)
+returns integer as
+$$
+begin   
+   return sys_task_schedule(in_service, clock_timestamp(), in_source_recno);
+end;
+$$
+language plpgsql;
+
+create or replace function sys_task_schedule(
+   in_service integer)
+returns integer as
+$$
+begin   
+   return sys_task_schedule(in_service, clock_timestamp(), null);
+end;
+$$
+language plpgsql;
+
+create or replace function sys_task_schedule(
+   in_service integer,   
+   in_date_schedule timestamp)
+returns integer as
+$$
+begin
+   return sys_task_schedule(in_service, in_date_schedule, null);
 end;
 $$
 language plpgsql;

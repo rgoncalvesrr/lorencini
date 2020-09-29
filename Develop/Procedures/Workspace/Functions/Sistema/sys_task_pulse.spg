@@ -1,0 +1,22 @@
+/**
+   Atualiza o pulso na tarefa.
+
+   Autor	      Ricardo Gonçalves
+   Data        28/09/2020
+
+   @param in_task recno da tarefa que será atualizada
+
+	Histórico
+	------------------------------------------------------------------
+*/
+create or replace function sys_task_pulse(
+   in in_task integer) 
+returns void as
+$function$
+begin   
+   update sys_tasks
+      set pulse = clock_timestamp()
+    where recno = in_task;
+end;
+$function$
+language plpgsql;
