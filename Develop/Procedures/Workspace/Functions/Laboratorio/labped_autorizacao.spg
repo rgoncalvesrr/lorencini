@@ -59,7 +59,7 @@ Begin
 
    -- cria mensagem
    insert into sys_email (recno, subject, message, table_, recno_)
-        values           (imsg, 'Autoriza&ccedil;&atilde;o do Pedido ' || in_pedido, html, sys_origem('pedido'), in_pedido);
+        values           (imsg, 'Autorização do Pedido ' || in_pedido, html, sys_origem('pedido'), in_pedido);
 
    -- adiciona destinat&aacute;rios
    if rc.email is not null then
@@ -76,14 +76,6 @@ Begin
       insert into sys_emailto (email, to_, to_name)
            values             (imsg, rc.contato_mail, rc.contato);
    end if;
-
-   -- Cópia oculta
-   insert into sys_emailto (email, to_, to_name, type_)
-        values             (imsg, 'lorencini@lorencini.com.br', 'Dagoberto', 3);
-
-   -- Cópia oculta
-   insert into sys_emailto (email, to_, to_name, type_)
-        values             (imsg, 'laboratorio@lorencini.com.br', 'Laboratório', 3);
 
    -- Cópia oculta
    insert into sys_emailatach (email, contenttype, attach_name)
