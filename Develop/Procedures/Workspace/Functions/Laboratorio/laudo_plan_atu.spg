@@ -1,0 +1,44 @@
+/**
+   Atualiza resultados planos
+
+	@author    Ricardo Gonçalves
+	@date      15/10/2020
+	@trigger
+
+	@param in_laudo número do laudo
+
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+CREATE OR REPLACE FUNCTION laudo_plan_atu(
+   in in_laudo integer)
+RETURNS void as
+$$
+declare   
+   r     record;
+   dml   text;
+begin
+   perform laudo_plan_stru(in_laudo);
+
+   select 't'|| to_char(relato_recno, 'FM000') tablename, 
+      'insert into api.%s (laudo,' || string_agg('c' || ensaio_recno::text, ',') || ') values (%s,' || string_agg(valor::text, ',')||');' stmt_insert,
+      'update api.%s set ' || string_agg('c' || ensaio_recno::text || ' = ' || valor::text, ',') || ' where laudo = %s;' stmt_update
+     into r
+     from labamostras_res
+    where laudo = in_laudo
+    group by laudo, relato_recno;
+
+   if Found then   
+      begin
+         execute format(r.stmt_insert, r.tablename, in_laudo);
+      exception
+         when unique_violation then
+            execute format(r.stmt_update, r.tablename, in_laudo);
+      end;
+   else
+      perform log_warning(format('Laudo %s não possui resultados. Não foi possível incluí-lo na planilha.', in_laudo));
+   end if;
+end;
+$$
+LANGUAGE 'plpgsql' VOLATILE;

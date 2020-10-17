@@ -1,0 +1,59 @@
+/**
+   Cria tabela de estrutura para planilhas
+
+	@author    Ricardo Gonçalves
+	@date      15/10/2020
+	@trigger
+
+	@param in_laudo número do laudo
+
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+CREATE OR REPLACE FUNCTION laudo_plan_stru(
+   in in_laudo integer)
+RETURNS void as
+$$
+declare   
+   ddl      text;
+   tipo     text;
+   tiporel  integer;
+   tbname   text;
+begin
+   select relato_recno
+     into tiporel
+     from labamostras_rel
+    where recno = in_laudo;
+
+   tipo := to_char(tiporel, 'FM000');
+   tbname := format('t%s', tipo);
+
+   if exists(
+      select 1
+        from pg_catalog.pg_tables 
+       where tablename = tbname)
+   then
+      return;
+   end if;
+
+   select string_agg('c' || ensaio_recno::text, ' numeric(18,4) not null default(0),')
+     into ddl
+     from (select ensaio_recno
+             from labamostras_res
+            where relato_recno = tiporel
+            group by ensaio_recno
+            order by 1) a;
+   
+   if ddl is null then
+      raise '[[Não foi possível criar estrutura da planilha para o laudo %]]', in_laudo;
+   end if;
+
+   ddl = $x$create table if not exists api.$x$ || tbname || $x$ (laudo integer not null, $x$ || 
+      ddl || $x$ numeric(18,4) not null default(0), $x$ ||
+      $x$ constraint pk_$x$ || tbname || $x$ primary key(laudo),
+          constraint fk_$x$ || tbname || $x$_1 foreign key(laudo) references public.labamostras_rel(recno) on update cascade on delete cascade);$x$;
+   execute ddl;   
+end;
+$$
+LANGUAGE 'plpgsql' VOLATILE;
