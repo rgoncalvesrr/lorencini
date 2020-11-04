@@ -12,6 +12,6 @@ Create or Replace Function sys_session()
    returns varchar as 
 $$
 Begin
-   Return lower(session_user||'@'||host(inet_client_addr()));
+   return lower(session_user);
 End;
 $$ language plpgsql;

@@ -5,9 +5,10 @@
 	@date      20/07/2017 21:34
 	@trigger	
    
-   @param in_mov tipo de movimento que será validado
+   @param in_user nome do usuário
+   @param in_pass senha do usuário
 	
-	@return in_mov retorna o movimento processado se não houver erros
+	@return sessão criada ou erro
 
 	Histórico
 	---------------------------------------------------------------------------------------------------------------------
@@ -50,10 +51,10 @@ begin
       
    if not exists(
       select 1
-        from pg_user
-       where usename = su)
+        from pg_catalog.pg_roles 
+       where rolname = su)
    then
-      execute format('create role "%s" login in group %s valid until ''infinity''', su, 'lorencini');   
+      execute format('create role "%s" login in role %s valid until %s', su, 'lorencini', quote_literal('infinity'));   
    end if;
    
    execute format('set session authorization "%s"', su);
