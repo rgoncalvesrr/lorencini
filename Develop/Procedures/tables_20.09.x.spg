@@ -1,7 +1,7 @@
 set session authorization lorencini;
 
-alter table labamostras_rel 
-	add fts tsvector;
+alter table labens
+	add mask varchar;
 
 create extension if not exists unaccent;
 create extension if not exists pg_trgm;
@@ -10,28 +10,8 @@ create extension if not exists fuzzystrmatch;
 create schema if not exists api;
 
 drop view if exists api.reports;
-drop view if exists api.devices;
 drop view if exists api.devicesbycustomers;
-
-create or replace view api.reports as
-select l.recno id, l.amostra sample, l.relato_recno reporttype, l.diagnostico diagnostic, l.recomendacao recommendation, l.obs observation, 
-       l.criacao created, l.emissao emmited, l.assinatura sign, l.status, l.pcoleta nextcollect, rc.descri crit_label, rc.cor crit_cor, 
-       rc.recno crit_id, a.codigo tenantid, lr.titulo typetitle, lr.sigla typeabbreviation, lr.descri typedescription, s.descri description, 
-       a.amostrador sampler, d.serie, d.devicename, d.familyname, d.manufacturer, d.insulator, d.devicetypename, 
-       d."local", d.substation, d.tag, l.fts
-  from public.labamostras_rel l
-      join public.labamostras a
-        on a.recno = l.amostra     
-      join public.labrel lr
-        on lr.recno = l.relato_recno
-      join public.servicos s
-        on s.codserv = l.codserv
-      join api.devicesbycustomers d
-        on d.tenantid = a.codigo 
-       and d.device = a.equip_recno
-      join vlaudocrit rc 
-        on rc.relato_recno = l.relato_recno 
-       and rc.recno  = l.labcrit_recno;       
+drop view if exists api.devices;
 
 create or replace view api.devices as 
 select e.recno device, e.serie, e.descri devicename, e.tipo devicetypeid, t.sigla devicetypeabbreviation, t.descri devicetypename, e.fabricante manufacturerid, fa.nome manufacturer,     
@@ -47,7 +27,7 @@ select e.recno device, e.serie, e.descri devicename, e.tipo devicetypeid, t.sigl
          ON i.recno = e.isolante
        LEFT JOIN public.labfamilia f 
          ON f.recno = e.familia;                
-
+        
 create or replace view api.devicesbycustomers as     
 select e.codigo tenantid, d.device, d.serie, d.devicename, d.devicetypeid, d.devicetypeabbreviation, d.devicetypename, d.manufacturerid, d.manufacturer,     
        d.power, d.powera, d.powerb, d.powerunit, d.phases, d.lote, d.impedance, d.impedancea, d.impedancb, d.voltage, d.voltagea, d.voltageb, d.voltageunit, 
@@ -56,13 +36,34 @@ select e.codigo tenantid, d.device, d.serie, d.devicename, d.devicetypeid, d.dev
   from public.labequipxcli e
        join api.devices d
          on d.device = e.equip;
+        
+create or replace view api.reports as
+select l.recno report, l.amostra sample, l.pedido "order", a.comodato ticket, l.relato_recno reporttype, l.diagnostico diagnostic, l.recomendacao recommendation, l.obs observation, 
+       l.criacao created, l.emissao emmited, l.assinatura sign, l.status, l.pcoleta nextcollect, rc.descri crit_label, rc.cor crit_cor, 
+       rc.recno crit_id, a.codigo tenantid, lr.titulo typetitle, lr.sigla typeabbreviation, lr.descri typedescription, s.descri description, 
+       a.amostrador sampler, d.device, d.serie, d.devicename, d.status devicestatus, d.familyname, d.manufacturer, d.insulator, d.insulatorname, d.devicetypename,
+       d."local", d.substation, d.tag, ah.ocorrencia received, l.revisao revision, a.tamb tenvironment, a.toleo tsample, a.tequip tdevice, d.volume 
+  from public.labamostras_rel l
+      join public.labamostras a
+        on a.recno = l.amostra     
+      left join labamostras_hist ah
+        on ah.amostra = l.amostra 
+       and ah.estado = 40
+      join public.labrel lr
+        on lr.recno = l.relato_recno
+      join public.servicos s
+        on s.codserv = l.codserv
+      join api.devicesbycustomers d
+        on d.tenantid = a.codigo 
+       and d.device = a.equip_recno
+      join vlaudocrit rc 
+        on rc.relato_recno = l.relato_recno 
+       and rc.recno  = l.labcrit_recno;
 
-create index idx_labamostras_rel_15 on labamostras_rel using gin (fts);
-
--- drop table if exists sys_tasks_phases cascade;
--- drop table if exists sys_phases cascade;
--- drop table if exists sys_services cascade;
--- drop table if exists sys_tasks cascade;
+--drop table if exists sys_tasks_phases cascade;
+--drop table if exists sys_phases cascade;
+--drop table if exists sys_services cascade;
+--drop table if exists sys_tasks cascade;
 
 create table sys_phases(
    recno serial not null,
@@ -139,3 +140,143 @@ create or replace view vtasks as
            and pt.phase = t.phase
           join sys_users u
             on u.username = pt.username;
+
+CREATE INDEX idx_labamostras_res_1 ON public.labamostras_res(relato_recno, ensaio_recno);            
+
+create table api.reports_results (
+	laudo integer not null,
+	ensaios integer[] not null,
+	resultados numeric(18, 4) default(0) not null,
+	recno serial not null,
+	constraint pk_reports_results primary key(laudo),
+	constraint fk_reports_results_1 foreign key(laudo) 
+		references labamostras_rel(recno) on update cascade on delete cascade,
+	constraint uk_recno unique(recno));
+
+create table api.reports_assays (
+	report integer not null,
+	reporttype integer not null,
+	hash varchar(32) not null,
+	assays integer[] not null,
+    titles varchar[] not null,
+	results varchar[] not null,
+	recno serial not null,
+	constraint pk_reports_assays primary key(report),
+	constraint fk_reports_assays_1 foreign key(report) 
+		references public.labamostras_rel(recno) on update cascade on delete cascade,
+	constraint fk_reports_assays_2 foreign key(report) 
+		references public.labamostras_rel(recno) on update cascade on delete cascade,
+	constraint fk_reports_assays_3 foreign key(reporttype) 
+		references public.labrel(recno) on update cascade on delete cascade,	
+	constraint uk_reports_assays_1 unique(recno));		         
+		         
+-- Criar trigger antes de executar este comando
+update labens set recno = recno;
+
+insert into api.reports_assays(report, reporttype, hash, assays, titles, results)
+select g.laudo, g.relato_recno, md5(string_agg(g.ensaio_recno::text, '|')), array_agg(g.ensaio_recno), array_agg(g.nome), array_agg(g.valor)
+      from (select r.laudo, r.relato_recno, r.ensaio_recno, e.nome, ensaio_mascara(r.ensaio_recno, r.valor) valor
+              from labamostras_res r
+                   join labrel_ens le 
+                     on le.relato_recno = r.relato_recno 
+                    and le.ensaio_recno = r.ensaio_recno
+                   join labens e
+                     on e.recno = le.ensaio_recno 
+                   join labamostras_rel l                   
+                     on l.recno = r.laudo 
+                    and l.status = 3
+                    and l.revisao is null
+                    and l.assinatura is not null
+             order by r.laudo, r.relato_recno, le.ordem, le.ensaio_recno) g
+    group by g.laudo, g.relato_recno;
+
+
+create or replace view api.spreadsheet as
+select r.tenantid, r.report, r.reporttype, r.crit_cor, r.crit_label, r.serie, r.sample, r.ticket, r.order, r.received, r.emmited, r.tenvironment, r.tsample, r.tdevice,
+       r.tag, r.devicestatus, a.assays, a.results, r.diagnostic, r.recommendation, r.insulatorname, r.volume
+  from api.reports r
+       join api.reports_assays a
+         on a.report = r.report 
+ where r.status = 3
+   and r.revision is null
+   and r.sign is not null;
+
+create or replace view api.reporttypes as
+select lr.recno "type", lr.ativo active, lr.descri "name", lr.titulo title, lr.sigla abbreviation,
+       lr.inmetro, lr.acreditacao accreditation
+  from labrel lr;
+  
+create table api.ftsdevicesbycustomers (
+	tenantid integer not null,
+	device integer not null,
+	fts tsvector,
+	recno serial not null,
+	constraint pk_ftsdevicesbycustomers primary key(tenantid, device),
+	constraint fk_ftsdevicesbycustomers foreign key(tenantid, device)
+		references public.labequipxcli(codigo, equip) on update cascade on delete cascade,
+	constraint uk_unique unique(recno));
+
+create index idx_ftsdevicesbycustomers_1 on api.ftsdevicesbycustomers using gin (fts);
+
+select tsearch_equip(codigo, equip) from labequipxcli;
+
+create table api.ftsreports (
+	report integer not null,
+	fts tsvector not null,
+	recno serial not null,
+	constraint pk_ftsreports primary key(report),
+	constraint fk_ftsreports_1 foreign key(report)
+		references public.labamostras_rel(recno) 
+		on update cascade on delete cascade,
+	constraint uk_ftsreports_1 unique(recno));
+
+create index idx_ftsreports_1 on api.ftsreports using gin (fts);
+
+select tsearch_laudo(recno) from labamostras_rel where status in (3, 4);
+
+create table api.ftscustomers (
+	tenantid integer not null,
+	fts tsvector not null,
+	recno serial not null,
+	constraint pk_ftscustomers primary key(tenantid),
+	constraint fk_ftscustomers_1 foreign key(tenantid)
+		references public.tbclientes(codigo) 
+		on update cascade on delete cascade,
+	constraint uk_ftscustomers_1 unique(recno));
+
+create index idx_ftscustomers_1 on api.ftscustomers using gin (fts);   
+
+select tsearch_cliente(codigo) from public.tbclientes;
+
+alter table sys_emailto
+	rename email to message;
+
+alter table sys_emailatach 
+	rename email to message;   
+
+alter table sys_emailto 
+	add status integer default(0) not null,
+	add to_domain varchar(100),
+	add entry_ timestamp default(localtimestamp) not null,
+	add send_ timestamp,
+	add schedule timestamp default(localtimestamp) not null,
+	add result_ varchar(100),
+	add constraint ck_sys_emailto_3 check (status between 0 and 3),
+	add constraint ck_sys_emailto_4 check (entry_ <= send_);
+	
+update sys_emailto c 
+   set status = m.status, entry_ = m.entry_, send_ = m.send_, schedule = coalesce(m.schedule, m.entry_), to_domain = substr(to_, strpos(to_, '@') + 1) 
+  from sys_email m
+ where m.recno = c.message;
+
+-- create or replace view api.spreadsheet as 
+--    select g.laudo, g.relato_recno, array_agg(g.nome) as ensaios, array_agg(g.valor) as resultados
+--      from (select r.laudo, r.relato_recno, e.nome, r.valor
+--              from labamostras_res r
+--                   join labrel_ens le 
+--                     on le.relato_recno = r.relato_recno 
+--                    and le.ensaio_recno = r.ensaio_recno
+--                   join labens e 
+--                     on e.recno = r.ensaio_recno
+--             order by r.laudo, r.relato_recno, le.ordem) g
+--    group by g.laudo, g.relato_recno;
