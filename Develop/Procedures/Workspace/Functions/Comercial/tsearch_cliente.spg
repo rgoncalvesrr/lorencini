@@ -1,0 +1,61 @@
+/**
+   Gera documento pesquisável para o cliente informado
+
+	@author    Ricardo Gonçalves
+	@date      24/10/2020
+	@trigger
+
+   @param in_cliente código do cliente
+
+	Histórico
+	-------------------------------------------------------------------------------------------------------------------
+ */
+Create or Replace Function tsearch_cliente(
+   in in_cliente integer,
+   in in_atualiza boolean = true)
+Returns tsvector As
+$$
+declare
+   r     record;
+   docto tsvector;
+begin
+   docto := null;
+
+   select empresa, nome_chave, endereco, bairro, cidade, estado, cnpj, cpf, inscricao, website, email, rg
+     into r
+     from tbclientes 
+    where codigo = in_cliente; 
+   
+   if found then      
+      docto := sys_fts_compose(docto, in_cliente);
+      docto := sys_fts_compose(docto, r.empresa);
+      docto := sys_fts_compose(docto, r.nome_chave);      
+      docto := sys_fts_compose(docto, r.endereco);
+      docto := sys_fts_compose(docto, r.bairro);
+      docto := sys_fts_compose(docto, r.cidade);
+      docto := sys_fts_compose(docto, r.estado);
+      docto := sys_fts_compose(docto, r.cnpj);      
+      docto := sys_fts_compose(docto, r.cpf);
+      docto := sys_fts_compose(docto, r.inscricao);
+      docto := sys_fts_compose(docto, r.website);
+      docto := sys_fts_compose(docto, r.email);
+      docto := sys_fts_compose(docto, r.rg);
+   end if;
+
+   if in_atualiza then
+      update api.ftscustomers
+         set fts = docto
+      where tenantid = in_cliente;
+         
+      if not Found then
+         insert into api.ftscustomers
+            (tenantid, fts)
+         values
+            (in_cliente, docto);
+      end if;        
+   end if;
+
+   return docto;
+end;
+$$
+language plpgsql;
