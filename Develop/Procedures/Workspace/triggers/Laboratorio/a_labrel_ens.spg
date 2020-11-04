@@ -1,0 +1,39 @@
+/**
+   Atualização da lista de ensaios para o tipo de laudo
+
+	@author    Ricardo Gonçalves
+	@date      20/10/2020
+	@trigger   labens_rel A IUD
+
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+create or replace function a_labrel_ens()
+  returns trigger as
+$$
+declare
+   desativar   boolean := false;
+   tipo        integer;
+begin
+   if tg_op = 'DELETE' then
+      tipo := old.relato_recno;
+   else
+      tipo := new.relato_recno;
+      desativar := tg_op = 'INSERT';
+
+      if not desativar and tg_op = 'UPDATE' then
+         -- desativando tipo de laudo
+         desativar := new.ordem <> old.ordem;         
+      end if;
+   end if;
+
+   if desativar then
+      update labrel
+         set ativo = false
+       where recno = tipo;  
+   end if;
+   return null;
+end;
+$$
+  LANGUAGE 'plpgsql' VOLATILE;
