@@ -14,6 +14,8 @@
 Create or Replace Function b_sys_tasks()
 Returns trigger AS
 $$
+declare
+   _INICIANDO  constant integer := 3;
 begin
    if tg_op = 'DELETE' then
       return old;
@@ -39,7 +41,7 @@ begin
          if new.phase > old.phase then
             new.phase_date := clock_timestamp();
 
-            if new.phase = 3 and old.phase < 3 then
+            if new.phase = _INICIANDO and old.phase < _INICIANDO then
                if new.id is null then
                   raise '[[A tarefa % não pode ser iniciada porque não há um agente de processamento identificado]]', new.recno;
                end if;

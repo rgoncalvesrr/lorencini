@@ -1,0 +1,71 @@
+/**
+   Faz o agendamento de uma determina tarefa
+
+   @author    Ricardo Gonçalves
+   @date      02/06/2020
+   @trigger
+
+   @param in_service código do serviço   
+   @param in_date_schedule data e hora que a tarefa deve ser executada
+   @param in_source_recno registro de origem da tarefa
+
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+   
+*/
+create or replace function sys_task_schedule(
+   in_service integer,   
+   in_date_schedule timestamp,
+   in_source_recno integer)
+returns integer as
+$$
+declare   
+   _PHASE_SCHEDULE constant integer = 2;
+
+   task  integer;
+begin
+   insert into sys_tasks (service,    source_recno)
+        values           (in_service, in_source_recno)
+   returning recno into task;
+
+   update sys_tasks
+      set phase = _PHASE_SCHEDULE, phase_date = in_date_schedule
+    where recno = task;
+   
+   return task;
+end;
+$$
+language plpgsql;
+
+create or replace function sys_task_schedule(
+   in_service integer,      
+   in_source_recno integer)
+returns integer as
+$$
+begin   
+   return sys_task_schedule(in_service, clock_timestamp(), in_source_recno);
+end;
+$$
+language plpgsql;
+
+create or replace function sys_task_schedule(
+   in_service integer)
+returns integer as
+$$
+begin   
+   return sys_task_schedule(in_service, clock_timestamp(), null);
+end;
+$$
+language plpgsql;
+
+create or replace function sys_task_schedule(
+   in_service integer,   
+   in_date_schedule timestamp)
+returns integer as
+$$
+begin
+   return sys_task_schedule(in_service, in_date_schedule, null);
+end;
+$$
+language plpgsql;
