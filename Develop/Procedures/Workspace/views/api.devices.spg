@@ -1,0 +1,15 @@
+set session authorization lorencini;
+create or replace view api.devices as 
+select e.recno device, e.serie, e.descri devicename, e.tipo devicetypeid, t.sigla devicetypeabbreviation, t.descri devicetypename, e.fabricante manufacturerid, fa.nome manufacturer,     
+       e.potencia power, e.potencia_a powera, e.potencia_b powerb, e.potencia_un powerunit, e.fases phases, e.lote, e.imped impedance, e.imped_a impedancea, e.imped_b impedancb, 
+       e.tensao voltage, e.tensao_a voltagea, e.tensao_b voltageb, e.tensao_un voltageunit, e.corr electriccurrent, e.corr_a electriccurrenta, e.corr_b electriccurrentb, e.ano "year", 
+       e.isolante insulator, i.nome insulatorname, e.volume, e.drenos tap, e.familia "family", f.descri familyname
+  FROM public.labequip e
+       JOIN public.labequip_tipo t 
+         ON t.tipo = e.tipo
+       LEFT JOIN public.labfabri fa 
+         ON fa.recno = e.fabricante
+       LEFT JOIN public.labisolante i 
+         ON i.recno = e.isolante
+       LEFT JOIN public.labfamilia f 
+         ON f.recno = e.familia;
