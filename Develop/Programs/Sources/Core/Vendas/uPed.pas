@@ -632,7 +632,7 @@ end;
 procedure TPed.FrameData1CCalendarDiff1Change(Sender: TObject);
 begin
   inherited;
-  if (cbStatus.ItemIndex > 3) then  
+  if (cbStatus.ItemIndex > 3) then
     actQueryProcessExecute(actQuery);
 end;
 

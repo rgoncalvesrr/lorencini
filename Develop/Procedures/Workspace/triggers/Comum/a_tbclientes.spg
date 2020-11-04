@@ -45,6 +45,8 @@ BEGIN
 	IF TG_OP = 'DELETE' THEN
 		RETURN old;
 	ELSE
+      perform tsearch_cliente(new.codigo);
+
 		RETURN new;
 	END IF;
 END

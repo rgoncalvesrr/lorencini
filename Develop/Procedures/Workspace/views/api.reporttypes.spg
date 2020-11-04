@@ -1,0 +1,5 @@
+set session authorization lorencini;
+create or replace view api.reporttypes as
+select lr.recno "type", lr.ativo active, lr.descri "name", lr.titulo title, lr.sigla abbreviation,
+       lr.inmetro, lr.acreditacao accreditation, lr.ensaios assays, lr.ensaios_titulos assaytitles
+  from labrel lr;

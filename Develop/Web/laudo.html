@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=1, initial-scale=1.0" />
+		<title>Document</title>
+		<style type="text/css">
+			th {
+				background-color: #d0e3fa;
+			}
+			.normal {
+				background-color: #5dc421;
+			}
+			.warn {
+				background-color: #fbff00;
+			}
+			.crit {
+				background-color: #ff0000;
+			}
+
+			table {
+				border-collapse: collapse;
+				width: fit-content;
+				text-align: center;
+			}
+
+			th,
+			td {
+				border-style: solid;
+				border-color: #6495ed;
+				border-width: 1px;
+				padding: 10px;
+			}
+
+			tr:nth-child(odd) {
+				background-color: #e8edff;
+			}
+		</style>
+	</head>
+	<body>
+		<table>
+			<thead>
+				<tr>
+					<th>Laudo</th>
+					<th>Criticidade</th>
+					<th>Entrada</th>
+					<th>Próxima Coleta</th>
+					<th>Tipo Laudo</th>
+					<th>Equipamento</th>
+					<th>TAG</th>
+					<th>Tipo</th>
+					<th>Isolante</th>
+					<th>Região</th>
+					<th>Sigla</th>
+					<th>Nome</th>
+					<th>Local</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>144800</td>
+					<td class="normal">Normal</td>
+					<td>01/11/2020</td>
+					<td>20/11/2020</td>
+					<td>Laudo Físico-Químico</td>
+					<td>500530</td>
+					<td>AB422</td>
+					<td>Transformador de Potencia</td>
+					<td>Óleo Mineral</td>
+					<td>SUL AB422</td>
+					<td>SUL</td>
+					<td>AB422</td>
+					<td>Rua do Pinhal Longe</td>
+				</tr>
+				<tr>
+					<td>139867</td>
+					<td class="warn">Atenção</td>
+					<td>01/06/2020</td>
+					<td>11/06/2020</td>
+					<td>Laudo Cromatográfico</td>
+					<td>500530</td>
+					<td>AB422</td>
+					<td>Transformador de Potencia</td>
+					<td>Óleo Mineral</td>
+					<td>SUL AB422</td>
+					<td>SUL</td>
+					<td>AB422</td>
+					<td>Rua do Pinhal Longe</td>
+				</tr>
+				<tr>
+					<td>132808</td>
+					<td class="crit">Crítico</td>
+					<td>01/03/2020</td>
+					<td>14/03/2020</td>
+					<td>Laudo Cromatográfico PCB</td>
+					<td>59367</td>
+					<td>1012358</td>
+					<td>Transformador de Potencia</td>
+					<td>Óleo Mineral</td>
+					<td>JEM</td>
+					<td>JEM</td>
+					<td>JEM</td>
+					<td>Rua do Pinhal Norte</td>
+				</tr>
+			</tbody>
+		</table>
+	</body>
+</html>

@@ -15,7 +15,9 @@
    08/12/2011 20:34:53  v3    Ricardo Gonçalves.
       [*] Tratamento do retrocesso de etapa do laudo.
    14/12/2018  Ricardo Gonçalves
-      [*] Remoção do camodato_recno
+      [*] Remoção do comodato_recno
+   22/10/2020  Ricardo Gonçalves
+      [-] Coloca o pedido em estado de execução quando o laudo é cancelado
 */
 CREATE OR REPLACE FUNCTION a_labamostras_rel()
   RETURNS trigger AS
@@ -63,9 +65,37 @@ BEGIN
                    where recno = new.pedido; 
                end if;
 
-               -- Gera informações para o reader
-               perform labamostras_rel_reader(new.recno);
+               -- Gera informações para o portal
+               delete 
+                 from api.reports_assays
+                where report = new.recno;
+               
+               insert into api.reports_assays
+                  (report,                   reporttype,        hash, 
+                   assays,                   titles,            results)
+               select new.recno, new.relato_recno, md5(string_agg(g.ensaio_recno::text, '|')), array_agg(g.ensaio_recno), array_agg(g.nome), array_agg(g.valor)
+                 from (select r.ensaio_recno, e.nome, ensaio_mascara(r.ensaio_recno, r.valor) valor
+                         from labamostras_res r
+                              join labrel_ens le 
+                                on le.relato_recno = r.relato_recno 
+                               and le.ensaio_recno = r.ensaio_recno
+                              join labens e
+                                on e.recno = le.ensaio_recno
+                        where r.laudo = new.recno
+                          and r.relato_recno = new.relato_recno
+                       order by le.ordem, le.ensaio_recno) g;
             end if;
+
+            -- Gerando consulta para laudos
+            perform tsearch_laudo(new.recno);
+
+         -- Cancelamento
+         elsif new.status = 4 and old.status = 3 then
+            -- Coloca o pedido em execução
+            update pedido
+               set status = 60
+             where recno = new.pedido
+               and status = 70;  
          elsif new.status < old.status then
             -- Apaga histórico de resultados associados a amostra
             delete

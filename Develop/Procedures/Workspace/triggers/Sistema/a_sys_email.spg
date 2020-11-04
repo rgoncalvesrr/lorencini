@@ -24,7 +24,7 @@ BEGIN
          for r in (
             select cast(to_name ||' <' || to_ || '>' as varchar)  to_
               from sys_emailto
-             where email = new.recno)
+             where message = new.recno)
          loop
             if msg <> '' then
                msg := msg || ', ';
@@ -38,7 +38,7 @@ BEGIN
             perform log('Solicitação de autorização.', msg, 4, new.table_, new.recno_);
          end if;
 
-         perform sys_tasks_schedule(1, current_timestamp, new.recno);
+         perform sys_task_schedule(1, localtimestamp, new.recno);
 
       end if;
    end if;

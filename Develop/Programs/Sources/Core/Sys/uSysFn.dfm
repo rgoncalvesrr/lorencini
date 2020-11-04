@@ -12,6 +12,10 @@ inherited SysFn: TSysFn
   inherited Panel1: TPanel
     inherited pctlFind: TPageControl
       inherited tsQuery: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 6
+        ExplicitWidth = 819
+        ExplicitHeight = 75
         object Panel7: TPanel
           Left = 274
           Top = 0
@@ -47,20 +51,24 @@ inherited SysFn: TSysFn
             Width = 147
             Height = 23
             Align = alTop
+            AutoSize = True
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Segoe UI'
+            Font.Pitch = fpVariable
+            Font.Style = []
+            ParentFont = False
             TabOrder = 0
             ExplicitLeft = 3
             ExplicitTop = 24
             ExplicitWidth = 147
-            ExplicitHeight = 23
             inherited ComboBox1: TComboBox
               Width = 147
-              Height = 23
-              ItemHeight = 15
               ExplicitWidth = 147
-              ExplicitHeight = 23
             end
             inherited CCalendarDiff1: TCCalendarDiff
-              Date = 43795.467407766210000000
+              Date = 44132.069420381940000000
               DisplayInterval = Label5
               OnChange = FrameData1CCalendarDiff1Change
             end
@@ -141,6 +149,12 @@ inherited SysFn: TSysFn
           end
         end
       end
+      inherited tsFind: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 6
+        ExplicitWidth = 819
+        ExplicitHeight = 75
+      end
     end
   end
   inherited Panel2: TPanel
@@ -177,17 +191,20 @@ inherited SysFn: TSysFn
               Width = 798
               ButtonWidth = 109
               ExplicitWidth = 798
+              inherited ToolButton13: TToolButton
+                ExplicitWidth = 79
+              end
               inherited ToolButton12: TToolButton
                 ExplicitWidth = 113
               end
-              inherited ToolButton1: TToolButton
+              inherited ToolButton17: TToolButton
                 Left = 192
                 ExplicitLeft = 192
-              end
-              inherited ToolButton17: TToolButton
-                Left = 200
-                ExplicitLeft = 200
                 ExplicitWidth = 70
+              end
+              inherited ToolButton1: TToolButton
+                Left = 262
+                ExplicitLeft = 262
               end
               inherited ToolButton16: TToolButton
                 Left = 270
@@ -208,6 +225,43 @@ inherited SysFn: TSysFn
       object TabSheet3: TTabSheet
         Caption = 'Pronta'
         ImageIndex = 208
+      end
+    end
+  end
+  inherited ctrlBarTop: TControlBar
+    inherited ToolBar1: TToolBar
+      inherited ToolButton2: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton5: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton9: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton6: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton1: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton8: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton3: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited tbOrder: TToolButton
+        ExplicitWidth = 76
+      end
+      inherited tbReport: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited tbOpcao: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton10: TToolButton
+        ExplicitWidth = 32
       end
     end
   end

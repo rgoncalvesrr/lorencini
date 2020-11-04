@@ -1,4 +1,4 @@
-﻿program Manager;
+program Manager;
 
 uses
   midaslib,
@@ -296,7 +296,8 @@ uses
   uContatosMClientes in '..\..\Sources\Core\Cad\uContatosMClientes.pas' {ContatosMClientes},
   uClientesMContatos in '..\..\Sources\Core\Cad\uClientesMContatos.pas' {ClientesMContatos},
   uSysService in '..\..\Sources\Core\Sys\uSysService.pas' {SysService},
-  uSysServiceM in '..\..\Sources\Core\Sys\uSysServiceM.pas' {SysServiceM};
+  uSysServiceM in '..\..\Sources\Core\Sys\uSysServiceM.pas' {SysServiceM},
+  uSysEmail in '..\..\Sources\Core\Sys\uSysEmail.pas' {SysEmail};
 
 {$R *.res}
 begin
@@ -308,12 +309,11 @@ begin
   try
     Application.Title := 'Manager';
     Application.CreateForm(TResources, Resources);
-  Application.CreateForm(TDM, DM);
-  Application.CreateForm(TDMReport, DMReport);
-  Application.CreateForm(TMain, Main);
-  Application.CreateForm(TILogin, ILogin);
-  ILogin.ShowModal;
-
+    Application.CreateForm(TDM, DM);
+    Application.CreateForm(TDMReport, DMReport);
+    Application.CreateForm(TMain, Main);
+    Application.CreateForm(TILogin, ILogin);
+    ILogin.ShowModal;
     if ILogin.Execute then
       Application.Run;
   finally

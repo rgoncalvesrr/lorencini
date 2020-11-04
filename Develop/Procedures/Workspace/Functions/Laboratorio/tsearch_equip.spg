@@ -1,0 +1,64 @@
+/**
+   Gera documento pesquisável para o equipamento informado
+
+	@author    Ricardo Gonçalves
+	@date      22/10/2020
+	@trigger
+
+   @param in_dispositivo código do equipamento
+   @param in_cliente código do cliente
+
+	Histórico
+	-------------------------------------------------------------------------------------------------------------------
+ */
+Create or Replace Function tsearch_equip(
+   in in_cliente integer,
+   in in_dispositivo integer,
+   in in_atualiza boolean = true)
+Returns tsvector As
+$$
+declare
+   r     record;
+   docto tsvector;
+begin
+   docto := null;
+
+   select serie, devicename, devicetypeabbreviation, devicetypename, manufacturer, insulatorname, volume, familyname, local, substation, tag, sys_iif(status = 1, 'energizado', 'desligado') status
+     into r     
+     from api.devicesbycustomers 
+    where tenantid = in_cliente
+      and device = in_dispositivo;
+
+   if found then      
+      docto := sys_fts_compose(docto, in_dispositivo);
+      docto := sys_fts_compose(docto, r.devicename);
+      docto := sys_fts_compose(docto, r.devicetypeabbreviation);      
+      docto := sys_fts_compose(docto, r.devicetypename);
+      docto := sys_fts_compose(docto, r.manufacturer);
+      docto := sys_fts_compose(docto, r.insulatorname);
+      docto := sys_fts_compose(docto, r.volume);
+      docto := sys_fts_compose(docto, r.familyname);      
+      docto := sys_fts_compose(docto, r.local);
+      docto := sys_fts_compose(docto, r.substation); 
+      docto := sys_fts_compose(docto, r.tag);
+      docto := sys_fts_compose(docto, r.status);            
+   end if;
+
+   if in_atualiza then
+      update api.ftsdevicesbycustomers
+         set fts = docto
+      where tenantid = in_cliente
+         and device = in_dispositivo;
+         
+      if not Found then
+         insert into api.ftsdevicesbycustomers
+            (tenantid, device, fts)
+         values
+            (in_cliente, in_dispositivo, docto);
+      end if;        
+   end if;
+
+   return docto;
+end;
+$$
+language plpgsql;

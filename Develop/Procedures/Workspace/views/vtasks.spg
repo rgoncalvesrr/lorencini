@@ -1,0 +1,14 @@
+set session authorization lorencini;
+create or replace view vtasks as
+   select t.recno, t.service, s.name service_name, t.phase, p."name" phase_name, t.phase_date, 
+          t.priority, t.id, t.pulse, pt.username "user", u."name" username, u.email 
+     from sys_tasks t
+          join sys_services s
+            on s.recno = t.service
+          join sys_phases p
+            on p.recno = t.phase
+          join sys_tasks_phases pt
+            on pt.task = t.recno 
+           and pt.phase = t.phase
+          join sys_users u
+            on u.username = pt.username;

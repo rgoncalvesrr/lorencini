@@ -1,0 +1,30 @@
+set session authorization lorencini;
+create or replace view spreadsheet.laudo05 as
+select e.serie "Nº Série", a.recno "Amostra", a.comodato "Etiqueta", lh.ocorrencia "Data", a.tamb "Temperatura Ambiente", a.toleo "Temperatura Amostra", a.tequip "Temperatura Equipamento",
+       e.tag "TAG", sys_iif(e.status = 1, 'Sim', 'Não') "Operando", lr.*, l.diagnostico "Diagnóstico", pa.pedido "Pedido", l.recomendacao "Recomendação", e.volume "Volume", e.isolante "Isolante"
+  from pedido_amostras pa        
+       join pedido p
+         on p.recno = pa.pedido
+        and p.status = 70
+       join labamostras a
+         on a.recno = pa.amostra 
+       join vequipxcli e
+         on e.equip = a.equip_recno 
+       join labamostras_rel l
+         on l.amostra = pa.amostra
+        and l.relato_recno = 5
+       join labamostras_hist lh
+         on lh.amostra = a.recno 
+        and lh.estado = 40 
+       join lateral (
+       		select laudo, sum(sys_iif(ensaio_recno = 18, valor, 0)) "Cor", 
+                  sum(sys_iif(ensaio_recno = 19, valor, 0)) "Densidade a 20/4 ºC", 
+                  sum(sys_iif(ensaio_recno = 20, valor, 0)) "Fator de Potência a 100 ºC", 
+                  sum(sys_iif(ensaio_recno = 21, valor, 0)) "Indice de Neutralização",
+                  sum(sys_iif(ensaio_recno = 22, valor, 0)) "Rigidez Dielétrica",
+                  sum(sys_iif(ensaio_recno = 23, valor, 0)) "Tensão Interfacial, a 25 ºC",
+                  sum(sys_iif(ensaio_recno = 24, valor, 0)) "Teor de Água"
+              from labamostras_res x
+             where x.laudo = l.recno
+             group by laudo) lr
+         on lr.laudo = l.recno;

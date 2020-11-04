@@ -1,0 +1,29 @@
+/**
+   Gera máscara de formatação do resultado
+
+	@author    Ricardo Gonçalves
+	@date      27/10/2020
+	@trigger   labens B IUD
+
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso   
+*/
+CREATE OR REPLACE FUNCTION b_labens()
+  RETURNS trigger AS
+$$
+BEGIN
+   if tg_op = 'DELETE' then
+      return old;
+   end if;
+
+   new.mask := 'FM999G999G990';
+
+   if new.dec > 0 then
+      new.mask := new.mask || 'D' || repeat('0', new.dec);
+   end if;      
+   
+   return new;   
+END;
+$$
+  LANGUAGE 'plpgsql' VOLATILE;

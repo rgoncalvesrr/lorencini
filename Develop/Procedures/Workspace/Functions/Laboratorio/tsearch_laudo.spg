@@ -9,7 +9,8 @@
 	-------------------------------------------------------------------------------------------------------------------
  */
 Create or Replace Function tsearch_laudo(
-   in in_laudo integer)
+   in in_laudo integer,
+   in in_atualiza boolean = true)
 Returns tsvector As
 $$
 declare
@@ -20,7 +21,7 @@ begin
 
    select l.amostra, l.diagnostico, l.recomendacao, l.obs, lr.titulo, lr.sigla, lr.descri desc_tp, s.descri, 
           a.amostrador, e.serie, e.descri desc_equip, e.familia, e.fabricante, e.isolante, e.tipo, ec."local", 
-          ec.subest, ec.tag       
+          ec.subest, ec.tag, l.pedido
      into r     
      from labamostras_rel l
           join labamostras a
@@ -38,6 +39,7 @@ begin
 
    if found then      
       docto := sys_fts_compose(docto, in_laudo);
+      docto := sys_fts_compose(docto, r.pedido);
       docto := sys_fts_compose(docto, r.amostra);      
       docto := sys_fts_compose(docto, r.diagnostico);
       docto := sys_fts_compose(docto, r.recomendacao);
@@ -56,6 +58,23 @@ begin
       docto := sys_fts_compose(docto, r."local"); 
       docto := sys_fts_compose(docto, r.subest);
       docto := sys_fts_compose(docto, r.tag);
+   end if;
+
+   if docto is not null then
+      if in_atualiza then         
+         update api.ftsreports
+            set fts = docto
+         where report = in_laudo;
+            
+         if not Found then
+            insert into api.ftsreports
+               (report, fts)
+            values
+               (in_laudo, docto);
+         end if;        
+      end if;
+   else
+      perform log_warning(format('Não há conteúdo para gerar o laudo %s', in_laudo));
    end if;
 
    return docto;

@@ -55,38 +55,29 @@ Begin
       set autorizacao = html, emitido = clock_timestamp()
     where recno = in_pedido;
 
-   imsg := nextval('sys_email_recno_seq'::regclass);
-
    -- cria mensagem
-   insert into sys_email (recno, subject, message, table_, recno_)
-        values           (imsg, 'Autoriza&ccedil;&atilde;o do Pedido ' || in_pedido, html, sys_origem('pedido'), in_pedido);
+   insert into sys_email (subject, message, table_, recno_)
+        values           ('Autorização do Pedido ' || in_pedido, html, sys_origem('pedido'), in_pedido)
+      returning recno into imsg;
 
    -- adiciona destinat&aacute;rios
    if rc.email is not null then
-      insert into sys_emailto (email, to_, to_name)
+      insert into sys_emailto (message, to_, to_name)
            values             (imsg, rc.email, rc.empresa);
    end if;
 
    if rc.email1 is not null and coalesce(rc.email, '') <> coalesce(rc.email1, '') then
-      insert into sys_emailto (email, to_, to_name)
+      insert into sys_emailto (message, to_, to_name)
            values             (imsg, rc.email1, rc.nome);
    end if;
 
    if rc.contato_mail is not null and (coalesce(rc.email, '') <> coalesce(rc.contato_mail, '')) and (coalesce(rc.contato_mail, '') <> coalesce(rc.email1, '')) then
-      insert into sys_emailto (email, to_, to_name)
+      insert into sys_emailto (message, to_, to_name)
            values             (imsg, rc.contato_mail, rc.contato);
    end if;
 
    -- Cópia oculta
-   insert into sys_emailto (email, to_, to_name, type_)
-        values             (imsg, 'lorencini@lorencini.com.br', 'Dagoberto', 3);
-
-   -- Cópia oculta
-   insert into sys_emailto (email, to_, to_name, type_)
-        values             (imsg, 'laboratorio@lorencini.com.br', 'Laboratório', 3);
-
-   -- Cópia oculta
-   insert into sys_emailatach (email, contenttype, attach_name)
+   insert into sys_emailatach (message, contenttype, attach_name)
         values                (imsg,  'application/pdf', in_anexo);
 
    -- dispara envio do email

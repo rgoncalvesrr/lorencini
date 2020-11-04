@@ -1,0 +1,34 @@
+set session authorization lorencini;
+create or replace view spreadsheet.laudo03 as
+select e.serie "Nº Série", a.recno "Amostra", a.comodato "Etiqueta", lh.ocorrencia "Data", a.tamb "Temperatura Ambiente", a.toleo "Temperatura Amostra", a.tequip "Temperatura Equipamento",
+       e.tag "TAG", sys_iif(e.status = 1, 'Sim', 'Não') "Operando", lr.*, l.diagnostico "Diagnóstico", pa.pedido "Pedido", l.recomendacao "Recomendação", e.volume "Volume", e.isolante "Isolante"
+  from pedido_amostras pa        
+       join pedido p
+         on p.recno = pa.pedido
+        and p.status = 70
+       join labamostras a
+         on a.recno = pa.amostra 
+       join vequipxcli e
+         on e.equip = a.equip_recno 
+       join labamostras_rel l
+         on l.amostra = pa.amostra        
+        and l.relato_recno = 3
+       join labamostras_hist lh
+         on lh.amostra = a.recno 
+        and lh.estado = 40
+       join lateral (
+       		select laudo, sum(sys_iif(ensaio_recno = 10, valor, 0)) "Hidrogênio - H2", 
+                   sum(sys_iif(ensaio_recno = 15, valor, 0)) "Oxigênio - O2",
+			       sum(sys_iif(ensaio_recno = 16, valor, 0)) "Nitrogênio - N2",
+			       sum(sys_iif(ensaio_recno = 9, valor, 0)) "Monóxido de carbono - CO", 
+			       sum(sys_iif(ensaio_recno = 11, valor, 0)) "Metano - CH4", 
+			       sum(sys_iif(ensaio_recno = 17, valor, 0)) "Dióxido de Carbono - CO2",
+			       sum(sys_iif(ensaio_recno = 12, valor, 0)) "Etileno - C2H4",
+			       sum(sys_iif(ensaio_recno = 13, valor, 0)) "Etano - C2H6",
+			       sum(sys_iif(ensaio_recno = 14, valor, 0)) "Acetileno - C2H2",
+			       sum(sys_iif(ensaio_recno = 122, valor, 0)) "Total de Gases Combustíveis",
+			       sum(sys_iif(ensaio_recno = 124, valor, 0)) "Total de Gases"
+              from labamostras_res x
+             where x.laudo = l.recno
+             group by laudo) lr
+         on lr.laudo = l.recno;

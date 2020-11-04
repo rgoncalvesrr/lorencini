@@ -1,0 +1,22 @@
+/**
+   Atualizado do documento para pesquisa
+
+	@author    Ricardo Gonçalves
+	@date      20/10/2020
+	@trigger   labens_rel A IUD
+
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+create or replace function a_labequipxcli()
+  returns trigger as
+$$
+begin
+   if tg_op <> 'DELETE' then
+      perform tsearch_equip(new.codigo, new.equip);
+   end if;
+   return null;
+end;
+$$
+  LANGUAGE 'plpgsql' VOLATILE;
