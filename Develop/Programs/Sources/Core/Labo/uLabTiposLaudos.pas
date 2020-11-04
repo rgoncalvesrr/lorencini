@@ -52,6 +52,7 @@ type
     procedure qCritAfterInsert(DataSet: TDataSet);
     procedure qDiagAfterInsert(DataSet: TDataSet);
     procedure IBrwSrcdescriSetText(Sender: TField; const Text: string);
+    procedure zEnsaiosAfterPost(DataSet: TDataSet);
   private
     { Private declarations }
     procedure OnEdit; override;
@@ -124,6 +125,12 @@ procedure TLabTiposLaudos.zEnsaiosAfterInsert(DataSet: TDataSet);
 begin
   inherited;
   zEnsaiosrelato_recno.AsInteger := IBrwSrcrecno.AsInteger;
+end;
+
+procedure TLabTiposLaudos.zEnsaiosAfterPost(DataSet: TDataSet);
+begin
+  inherited;
+  G.RefreshDataSet(IBrwSrc, True);
 end;
 
 initialization

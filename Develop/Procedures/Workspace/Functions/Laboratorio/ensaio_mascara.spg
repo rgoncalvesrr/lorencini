@@ -1,0 +1,40 @@
+/**
+   Gera o resulta
+
+	@author    Ricardo Gonçalves
+	@date      26/05/2018 21:10:02
+	@trigger
+
+   @param in_ensaio código do ensiaio
+   @param in_resultado resultado do ensio que deve ser formatado
+
+   @return valor formatado para impressão
+
+	Histórico
+	-------------------------------------------------------------------------------------------------------------------
+ */
+create or replace function ensaio_mascara(
+   in in_ensaio integer,
+   in in_resultado numeric) 
+returns varchar as 
+$$
+declare
+  r      record;  
+begin
+   if in_resultado is null then
+      return null;
+   end if;
+
+   select mask, sezerotxt 
+     into r
+     from labens e            
+    where e.recno = in_ensaio;
+
+   if in_resultado = 0 and r.sezerotxt is not null then
+      return r.sezerotxt;
+   else
+      return to_char(in_resultado, r.mask);
+   end if;
+end;
+$$
+language plpgsql;
