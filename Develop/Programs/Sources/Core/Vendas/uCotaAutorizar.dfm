@@ -788,6 +788,7 @@ inherited CotaAutorizar: TCotaAutorizar
           TitleFont.Color = clWindowText
           TitleFont.Height = -12
           TitleFont.Name = 'Segoe UI'
+          TitleFont.Pitch = fpVariable
           TitleFont.Style = []
           OnDrawColumnCell = DBGrid1DrawColumnCell
           OnDblClick = DBGrid1DblClick
@@ -889,6 +890,7 @@ inherited CotaAutorizar: TCotaAutorizar
         Font.Color = clWindowText
         Font.Height = -16
         Font.Name = 'Segoe UI'
+        Font.Pitch = fpVariable
         Font.Style = [fsBold]
         ParentFont = False
         Layout = tlCenter
@@ -906,6 +908,7 @@ inherited CotaAutorizar: TCotaAutorizar
         Font.Color = clWindowText
         Font.Height = -16
         Font.Name = 'Segoe UI'
+        Font.Pitch = fpVariable
         Font.Style = [fsBold]
         ParentFont = False
         Layout = tlCenter

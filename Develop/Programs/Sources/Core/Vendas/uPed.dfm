@@ -10,20 +10,18 @@ inherited Ped: TPed
   inherited StatusBar1: TStatusBar
     Top = 624
     Width = 1113
-    ExplicitTop = 499
-    ExplicitWidth = 991
+    ExplicitTop = 624
+    ExplicitWidth = 1113
   end
   inherited Panel1: TPanel
     Width = 1119
-    ExplicitWidth = 997
+    ExplicitWidth = 1119
     inherited pctlFind: TPageControl
       Width = 1109
-      ExplicitLeft = 7
-      ExplicitTop = -3
       ExplicitWidth = 1109
       inherited tsQuery: TTabSheet
-        ExplicitLeft = 3
-        ExplicitTop = 7
+        ExplicitLeft = 4
+        ExplicitTop = 6
         ExplicitWidth = 1101
         ExplicitHeight = 75
         object Panel5: TPanel [0]
@@ -34,7 +32,6 @@ inherited Ped: TPed
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 1
-          ExplicitTop = 1
           object Label3: TLabel
             AlignWithMargins = True
             Left = 3
@@ -59,8 +56,6 @@ inherited Ped: TPed
             TabOrder = 0
             DecimalPlacesAlwaysShown = False
             OnChange = ComboBox1Change
-            ExplicitLeft = 2
-            ExplicitWidth = 46
           end
         end
         inherited BitBtn2: TBitBtn
@@ -76,7 +71,6 @@ inherited Ped: TPed
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 2
-          ExplicitTop = 1
           object Label1: TLabel
             AlignWithMargins = True
             Left = 3
@@ -85,7 +79,6 @@ inherited Ped: TPed
             Height = 15
             Align = alTop
             Caption = 'Status'
-            ExplicitLeft = 58
             ExplicitWidth = 32
           end
           object cbStatus: TComboBox
@@ -109,7 +102,6 @@ inherited Ped: TPed
               'Executando'
               'Executado'
               'Cancelado')
-            ExplicitLeft = 6
           end
         end
         object Panel7: TPanel
@@ -120,8 +112,6 @@ inherited Ped: TPed
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 3
-          ExplicitLeft = 528
-          ExplicitTop = -6
           object Label18: TLabel
             AlignWithMargins = True
             Left = 3
@@ -131,7 +121,6 @@ inherited Ped: TPed
             Align = alTop
             Caption = 'Vizualizar cliente:'
             Transparent = True
-            ExplicitLeft = 144
             ExplicitWidth = 90
           end
           object ComboBox1: TComboBox
@@ -159,9 +148,6 @@ inherited Ped: TPed
               'OUTUBRO'
               'NOVEMBRO'
               'DEZEMBRO')
-            ExplicitLeft = -30
-            ExplicitTop = 23
-            ExplicitWidth = 264
           end
         end
         object Panel8: TPanel
@@ -172,6 +158,8 @@ inherited Ped: TPed
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 4
+          ExplicitLeft = 525
+          ExplicitTop = -2
           object Label5: TLabel
             AlignWithMargins = True
             Left = 3
@@ -181,7 +169,6 @@ inherited Ped: TPed
             Align = alTop
             Caption = 'Emiss'#227'o'
             Transparent = True
-            ExplicitLeft = 148
             ExplicitWidth = 43
           end
           object Label6: TLabel
@@ -191,10 +178,8 @@ inherited Ped: TPed
             Width = 185
             Height = 15
             Align = alTop
-            Caption = '01/06/2020 a 30/06/2020'
+            Caption = '01/10/2020 a 31/10/2020'
             Transparent = True
-            ExplicitLeft = 63
-            ExplicitTop = 49
             ExplicitWidth = 128
           end
           inline FrameData1: TFrameData
@@ -213,17 +198,19 @@ inherited Ped: TPed
             Font.Style = []
             ParentFont = False
             TabOrder = 0
-            ExplicitLeft = 46
-            ExplicitTop = 23
+            ExplicitLeft = 3
+            ExplicitTop = 24
+            ExplicitWidth = 185
             inherited ComboBox1: TComboBox
               Width = 185
               Enabled = False
               ItemIndex = 2
               Text = 'Trimestralmente'
+              ExplicitWidth = 185
             end
             inherited CCalendarDiff1: TCCalendarDiff
               Interval = diMonthly
-              Date = 43984.709995023150000000
+              Date = 44132.049103553240000000
               DisplayInterval = Label6
               OnChange = FrameData1CCalendarDiff1Change
             end
@@ -233,7 +220,7 @@ inherited Ped: TPed
       inherited tsFind: TTabSheet
         ExplicitLeft = 4
         ExplicitTop = 6
-        ExplicitWidth = 979
+        ExplicitWidth = 1101
         ExplicitHeight = 75
       end
     end
@@ -241,22 +228,22 @@ inherited Ped: TPed
   inherited Panel2: TPanel
     Width = 1119
     Height = 492
-    ExplicitWidth = 997
-    ExplicitHeight = 367
+    ExplicitWidth = 1119
+    ExplicitHeight = 492
     inherited PageControl1: TPageControl
       Width = 1113
       Height = 336
       ActivePage = TabSheet2
       Images = Resources.medium_n
-      ExplicitWidth = 991
-      ExplicitHeight = 211
+      ExplicitWidth = 1113
+      ExplicitHeight = 336
       inherited TabSheet1: TTabSheet
         Caption = 'Todos'
         ImageIndex = -1
         ExplicitLeft = 4
         ExplicitTop = 33
-        ExplicitWidth = 983
-        ExplicitHeight = 174
+        ExplicitWidth = 1105
+        ExplicitHeight = 299
         inherited DBGrid1: TDBGrid
           Width = 1099
           Height = 293
@@ -266,8 +253,6 @@ inherited Ped: TPed
       object TabSheet2: TTabSheet
         Caption = 'Em Digita'#231#227'o'
         ImageIndex = 213
-        ExplicitWidth = 983
-        ExplicitHeight = 174
         object ControlBar1: TControlBar
           AlignWithMargins = True
           Left = 3
@@ -281,7 +266,6 @@ inherited Ped: TPed
           BorderWidth = 1
           DrawingStyle = dsGradient
           TabOrder = 0
-          ExplicitWidth = 977
           object ToolBar2: TToolBar
             AlignWithMargins = True
             Left = 11
@@ -338,44 +322,30 @@ inherited Ped: TPed
       object TabSheet7: TTabSheet
         Caption = 'Aprova'#231#227'o de Cr'#233'dito'
         ImageIndex = 214
-        ExplicitWidth = 983
-        ExplicitHeight = 174
       end
       object TabSheet3: TTabSheet
         Caption = 'Autoriza'#231#227'o para Execu'#231#227'o'
         ImageIndex = 210
-        ExplicitWidth = 983
-        ExplicitHeight = 174
       end
       object TabSheet8: TTabSheet
         Caption = 'Em Remessa'
         ImageIndex = 211
-        ExplicitWidth = 983
-        ExplicitHeight = 174
       end
       object TabSheet9: TTabSheet
         Caption = 'Aguardando Amostra'
         ImageIndex = 212
-        ExplicitWidth = 983
-        ExplicitHeight = 174
       end
       object TabSheet4: TTabSheet
         Caption = 'Em Execu'#231#227'o'
         ImageIndex = 205
-        ExplicitWidth = 983
-        ExplicitHeight = 174
       end
       object TabSheet5: TTabSheet
         Caption = 'Executado'
         ImageIndex = 208
-        ExplicitWidth = 983
-        ExplicitHeight = 174
       end
       object TabSheet10: TTabSheet
         Caption = 'Cancelados'
         ImageIndex = 204
-        ExplicitWidth = 983
-        ExplicitHeight = 174
       end
     end
     object Panel3: TPanel
@@ -386,8 +356,6 @@ inherited Ped: TPed
       Align = alBottom
       BevelOuter = bvNone
       TabOrder = 1
-      ExplicitTop = 217
-      ExplicitWidth = 997
       object PageControl2: TPageControl
         AlignWithMargins = True
         Left = 3
@@ -397,10 +365,8 @@ inherited Ped: TPed
         ActivePage = TabSheet6
         Align = alClient
         TabOrder = 0
-        ExplicitWidth = 498
         object TabSheet6: TTabSheet
           Caption = 'Mensagens do Pedido'
-          ExplicitWidth = 490
           object DBGrid2: TDBGrid
             Tag = 1
             Left = 0
@@ -436,7 +402,6 @@ inherited Ped: TPed
         Align = alRight
         BevelOuter = bvNone
         TabOrder = 1
-        ExplicitLeft = 504
         object Label4: TLabel
           AlignWithMargins = True
           Left = 3
@@ -462,7 +427,7 @@ inherited Ped: TPed
   end
   inherited ctrlBarTop: TControlBar
     Width = 1113
-    ExplicitWidth = 991
+    ExplicitWidth = 1113
     inherited ToolBar1: TToolBar
       inherited ToolButton2: TToolButton
         ExplicitWidth = 32

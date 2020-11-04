@@ -30,27 +30,27 @@ BEGIN
                select 1
                  from labrel_ens
                 where relato_recno = new.recno)
-             then
-               raise exception '[[O tipo de laudo % não pode ser ativado porque não há ensaios associados a ele.]]', new.recno;
-             end if;
+            then
+               raise '[[O tipo de laudo % não pode ser ativado porque não há ensaios associados a ele.]]', new.recno;
+            end if;
 
-             -- Checa a existência de diagnósticos
-             if not exists(
+            -- Checa a existência de diagnósticos
+            if not exists(
                select 1
                  from labdiagrel
                 where relato_recno = new.recno)
-             then
-               raise exception '[[O tipo de laudo % não pode ser ativado porque não há diagnósticos associados a ele.]]', new.recno;
-             end if;
+            then
+               raise '[[O tipo de laudo % não pode ser ativado porque não há diagnósticos associados a ele.]]', new.recno;
+            end if;
 
-             -- Checa a existência de criticidades
-             if not exists(
+            -- Checa a existência de criticidades
+            if not exists(
                select 1
                  from labcrit_rel
                 where relato_recno = new.recno)
-             then
-               raise exception '[[O tipo de laudo % não pode ser ativado porque não há criticidades associadas a ele.]]', new.recno;
-             end if;
+            then
+               raise '[[O tipo de laudo % não pode ser ativado porque não há criticidades associadas a ele.]]', new.recno;
+            end if;
          end if;
       end if;
 
