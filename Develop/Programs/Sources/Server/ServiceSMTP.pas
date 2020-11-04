@@ -166,6 +166,16 @@ begin
     Params[1].AsInteger := FRecno;
 
     ExecSQL;
+
+    SQL.Text :=
+    'update sys_emailto '+
+       'set status = :status, send_ = localtimestamp '+
+     'where message = :recno ';
+
+    Params[0].AsInteger := iStatus;
+    Params[1].AsInteger := FRecno;
+
+    ExecSQL;
   end;
 end;
 
@@ -246,7 +256,7 @@ begin
   qDST.SQL.Text :=
   'select type_, to_, to_name '+
     'from sys_emailto '+
-   'where email = :email '+
+   'where message = :message '+
    'order by type_, to_name, to_';
   qDST.Params[0].AsInteger := FRecno;
   qDST.Open;
@@ -256,7 +266,7 @@ begin
   qAtt.SQL.Text :=
   'select contenttype, attach_name ' +
     'from sys_emailatach '+
-   'where email = :email ';
+   'where message = :message ';
   qAtt.Params[0].AsInteger := FRecno;
   qAtt.Open;
 end;
