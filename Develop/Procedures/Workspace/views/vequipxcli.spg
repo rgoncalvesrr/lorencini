@@ -1,0 +1,35 @@
+set session authorization lorencini;
+CREATE OR REPLACE VIEW public.vequipxcli
+AS SELECT ec.codigo,
+    ec.subest,
+    ec.status,
+    ec.equip,
+    ec.tag,
+    e.serie,
+    e.potencia,
+    e.potencia_a,
+    e.potencia_b,
+    e.tensao,
+    e.tensao_a,
+    e.tensao_b,
+    e.imped,
+    e.imped_a,
+    e.imped_b,
+    e.corr,
+    e.corr_a,
+    e.corr_b,
+    e.fases,
+    e.fabricante,
+    e.lote,
+    e.ano,
+    e.descri,
+    e.tipo,
+    e.isolante,
+    e.volume,
+    e.drenos,
+    vse.reg_nome,
+    vse.sigla,
+    vse.nome
+   FROM labequipxcli ec
+     JOIN vequip e ON e.recno = ec.equip
+     LEFT JOIN vsubest vse ON vse.recno = ec.subest;
