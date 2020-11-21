@@ -251,7 +251,7 @@ inherited LabLaudo: TLabLaudo
               ExplicitWidth = 134
             end
             inherited CCalendarDiff1: TCCalendarDiff
-              Date = 44071.004270486110000000
+              Date = 44156.425518865740000000
               DisplayInterval = Label11
               OnChange = actQueryProcessExecute
             end
@@ -272,7 +272,7 @@ inherited LabLaudo: TLabLaudo
             Width = 134
             Height = 15
             Align = alTop
-            Caption = '01/08/2020 a 31/08/2020'
+            Caption = '01/11/2020 a 30/11/2020'
             ExplicitWidth = 128
           end
           object Label3: TLabel
@@ -314,7 +314,7 @@ inherited LabLaudo: TLabLaudo
             end
             inherited CCalendarDiff1: TCCalendarDiff
               Interval = diMonthly
-              Date = 44071.004270486110000000
+              Date = 44156.425518865740000000
               DisplayInterval = Label1
               OnChange = actQueryProcessExecute
               Left = 96

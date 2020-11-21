@@ -1,0 +1,12 @@
+set session authorization lorencini;
+CREATE OR REPLACE VIEW public.vequip AS 
+SELECT e.recno,
+    e.fabricante fabricante_id, fa.nome fabricante, e.serie, e.tipo tipo_id, t.descri tipo, e.descri, e.potencia,
+    e.potencia_a, e.potencia_b, e.fases, e.lote, e.imped, e.imped_a, e.imped_b, e.tensao, e.tensao_a, e.tensao_b,
+    e.corr, e.corr_a, e.corr_b, e.ano, e.isolante isolante_id, i.nome isolante, e.volume, e.drenos, 
+    e.familia familia_id, f.descri familia, e.potencia_un, e.tensao_un
+   FROM labequip e
+     JOIN labequip_tipo t ON t.tipo = e.tipo
+     LEFT JOIN labfabri fa ON fa.recno = e.fabricante
+     LEFT JOIN labisolante i ON i.recno = e.isolante
+     LEFT JOIN labfamilia f ON f.recno = e.familia;
