@@ -41,10 +41,9 @@ object DMReport: TDMReport
     PreviewOptions.Zoom = 1.000000000000000000
     PrintOptions.Printer = 'Padr'#227'o'
     PrintOptions.PrintOnSheet = 0
-    ReportOptions.Author = 'Cartel Inform'#225'tica'
+    ReportOptions.Compressed = True
     ReportOptions.CreateDate = 39757.585007557900000000
-    ReportOptions.Name = 'Materiais em Poder de Terceiros'
-    ReportOptions.LastChange = 43872.914085428200000000
+    ReportOptions.LastChange = 44156.555285185180000000
     ScriptLanguage = 'PascalScript'
     StoreInDFM = False
     OnReportPrint = 'ReportBaseOnReportPrint'
@@ -2944,115 +2943,108 @@ object DMReport: TDMReport
   end
   object R00017: TZQuery
     Connection = DM.Design
-    SortedFields = 'relato_recno;amostra_recno'
+    SortedFields = 'relato_recno;amostra'
     AfterScroll = R00017AfterScroll
     OnCalcFields = R00017CalcFields
     SQL.Strings = (
       'select'
       
-        '  r.amostra_recno,   r.relato_recno,  re.titulo laudo, r.status,' +
-        '     r.recno,'
+        '  r.amostra,   r.relato_recno,  re.titulo as laudo, r.status,   ' +
+        '  r.recno,'
       
-        '  r.labcrit_recno,   r.idcodigo,      cri.descri crit, cast(coal' +
-        'esce(cri.cor, '#39'clBlack'#39') as varchar(30)) cor,'
-      '  r.labdiag_recno,   r.apontado,'
+        '  r.labcrit_recno,   r.idcodigo,      cri.descri as crit, cast(c' +
+        'oalesce(cri.cor, '#39'clGreen'#39') as varchar(30)) as cor,'
       
-        '  diag.descri diag_descri, diag.diag diag_diag, diag.dias diag_d' +
-        'ias,'
+        '  r.labdiag_recno,   r.apontado,      coalesce(re.acreditacao, r' +
+        '.emissao + interval '#39'1 day'#39') <= cast(r.emissao as date) inmetro,'
       
-        '  r.labrec_recno, rec.descri rec_descri, rec.recomenda, r.assina' +
-        'tura,'
+        '  diag.descri as diag_descri, diag.diag as diag_diag, diag.dias ' +
+        'as diag_dias,'
+      
+        '  r.labrec_recno, rec.descri as rec_descri, rec.recomenda, r.ass' +
+        'inatura,'
       '  r.diagnostico,     r.recomendacao,  r.pcoleta,    r.obs,'
       '  r.emissao,         r.d1,            r.d2,         r.d3,'
+      '  r.d4,              r.d5,            r.d6,         r.revisao,'
       
-        '  r.d4,              r.d5,            r.d6,         a.comodato_r' +
-        'ecno,'
-      '  trim(to_char(a.comodato_recno, '#39'000000000000'#39')) etiqueta,'
-      '  a.os,              a.osc,           a.entrada,    a.coleta,'
+        '  trim(to_char(a.comodato, '#39'000000000000'#39')) as etiqueta, a.comod' +
+        'ato,'
+      '  r.os,              h.ocorrencia entrada,    a.coleta,'
       
-        '  a.coletor,         cast(initcap(re.descri) as varchar(30)) lau' +
-        'dodesc,'
-      '  a.revisor,         ur.name,         a.tamb,       a.toleo,'
+        '  a.amostrador coletor,         cast(initcap(re.descri) as varch' +
+        'ar(30)) as laudodesc,'
+      '  a.tamb,       a.toleo,  a.tequip, '
       
         '  a.umidade,         a.tensao,        a.local,      a.labsubest_' +
         'recno,'
       ''
       '  a.codigo,          c.empresa,       c.nome_chave, c.cnpj,'
-      '  c.cpf,             c.telefone,      c.endereco,   c.bairro,'
+      #9'c.cpf,             c.telefone,      c.endereco,   c.bairro,'
       '  c.cidade,          c.estado,        c.cep,        c.email,'
-      '  a.destinatario,    '
+      '  c.logo,'
+      '  a.destinatario,    r.pedido,'
       ''
-      '  a.tpamostra_recno, tp.descri atipo,'
-      '  -- informa'#231#245'es do equipamento'
+      '  a.tpamostra_recno, tp.descri as atipo,'
       
-        '  a.equip_recno,     cast(e.fabricante as varchar(100)) fabrican' +
-        'te,    e.serie,      cast(e.tipo as varchar(100)) tipo,'
+        '  a.equip_recno,     cast(e.fabricante as varchar(100)) as fabri' +
+        'cante,    e.serie,'
       
-        '  e.descri,          e.potencia,      e.imped,      e.tensao, e.' +
-        'potencia_un, e.tensao_un,'
+        '  cast(e.tipo as varchar(100)) as tipo, e.tensao_un, e.potencia_' +
+        'un,'
+      '  e.descri,          e.potencia,      e.imped,      e.tensao,'
       
         '  e.fases,           e.ano,           e.lote,       cast(e.isola' +
-        'nte as varchar(100)) isolante,'
+        'nte as varchar(100)) as isolante,'
       
         '  e.volume,          e.drenos,        cast(e.familia as varchar(' +
-        '100)) familia, a.tag,'
+        '100)) as familia, a.tag,'
       '  se.sigla,          se.nome,         se.regional,  se.reg_nome,'
-      '  cast(Initcap(f.nome) as varchar(60)) nome, f.crq,'
+      '  cast(Initcap(f.nome) as varchar(60)) as nome, f.crq,'
       '  co.nome,       co.funcao,  co.telefone, co.celular,'
-      '  co.email,      f.assinatura ass_arquivo, f.cargo,'
+      '  co.email,      f.assinatura as ass_arquivo, f.cargo,'
       '  o.idos,'
       '  '
-      '  -- informa'#231#245'es da etiqueta'
-      '  com.situacao,'
-      '  com.emi_dh, com.emi_usr, u3.name emi_usrname,'
-      '  com.imp_dh, com.imp_usr, u4.name imp_usrname,'
-      '  com.rem_dh, com.rem_usr, u1.name rem_usrname, com.rem_tr, '
-      '  com.ret_dh, com.ret_usr, u2.name ret_usrname, com.ret_tr,'
+      '  --remessa'
+      
+        '  le.rem_dh, le.rem_usrname, le.envnf, le.envnf_serie, le.envnf_' +
+        'emissao, '
+      
+        '  le.envtipo_port, le.envtipo_outros, le.envcnpj, le.envempresa,' +
+        ' le.envobs,'
       '  '
-      '  -- Informa'#231#245'es de envio'
-      
-        '  le.volume, le.tipo, le.empresa envempresa, le.cnpj envcnpj, le' +
-        '.nf envnf,'
-      
-        '  le.nf_serie envnf_serie, le.nf_emissao envnf_emissao, le.tipo_' +
-        'port envtipo_port, le.tipo_outros envtipo_outros,'
-      
-        '  le.portador envportador, le.cpf envcpf,        le.obs envobs, ' +
-        'le.emissao envemissao,'
-      ''
       '  -- Informa'#231#245'es do pedido'
       
         '  a.pedido, p.criado pedcriado, p.emitido pedemitido, p.autoriza' +
         'do pedautorizado, '
       
-        '  p.aprovado pedaprovado, p.frete pedfrete, p.servicos pedservic' +
-        'os, p.total pedtotal, '
+        '  p.aprovado pedaprovado, p.solicitante pedsolicitante, p.solici' +
+        'tante_dep pedsolicitante_dep,  '
       
-        '  p.obs pedobs, p.solicitante pedsolicitante, p.solicitante_dep ' +
-        'pedsolicitante_dep,'
+        '  p.condicaopg pedcond, p.frete pedfrete, pr.ret_usrname, pr.ped' +
+        'nf, pr.pednf_serie, '
       
-        '  p.condicaopg pedcond, p.pedido_cliente pedcliente, p.nf pednf,' +
-        ' p.nf_serie pednf_serie,'
-      '  p.nf_emissao pednf_emissao, p.nf_valor pednf_valor'
-      '  '
+        '  pr.pednf_emissao, pr.pednf_valor, (mk.vlsrvvar + mk.vlsrvfixo ' +
+        '+ mk.vlmat + mk.vlmobra + mk.vldespe) pedtotal'
+      ''
       '  from labamostras_rel r'
       '       join labrel re'
       '         on re.recno = r.relato_recno'
       '       join labamostras a'
-      '         on a.recno = r.amostra_recno'
+      '         on a.recno = r.amostra'
+      '       left join labamostras_hist h'
+      '         on h.amostra = r.amostra'
+      '        and h.estado = 40 '
       '       join tb_orcamentos o'
-      '         on o.os = a.os'
+      '         on o.os = r.os'
       '       join tbclientes c'
-      '         on c.codigo = a.codigo'
-      '       left join tbclientes_contatos co'
+      '         on c.codigo = a.cliente'
+      '       left join vclientes_contatos co'
       '         on co.cliente = a.codigo'
-      '        and co.item = a.contato'
+      '        and co.recno = o.contato'
       '       left join vequip e'
       '         on e.recno = a.equip_recno'
       '       join labtipo tp'
       '         on tp.recno = a.tpamostra_recno'
-      '       join sys_users ur'
-      '         on ur.username = a.revisor'
       '       left join vsubest se'
       '         on se.codigo = a.codigo'
       '        and se.recno = a.labsubest_recno'
@@ -3068,44 +3060,58 @@ object DMReport: TDMReport
       '        and rec.recno = r.labrec_recno'
       '       left join tbfuncionarios f'
       '         on f.idcodigo = r.idcodigo'
-      '       join comodato com'
-      '         on com.recno = a.comodato_recno'
-      '       left join sys_users u1'
-      '         on u1.username = com.rem_usr'
-      '       join sys_users u2'
-      '         on u2.username = com.ret_usr'
-      '       join sys_users u3'
-      '         on u3.username = com.emi_usr'
-      '       join sys_users u4'
-      '         on u4.username = com.imp_usr'
       '       left join ('
       
-        #9'    select le.comodato_recno, cast(le.tipo as varchar(100)) tip' +
-        'o, le.volume, lp.empresa, lp.cnpj, lp.nf,'
+        #9'        select pe.amostra, p.remessa rem_dh, u.name rem_usrname' +
+        ', po.nf envnf, po.nf_serie envnf_serie, po.emissao envnf_emissao' +
+        ', '
       
-        #9'           lp.nf_serie, lp.nf_emissao, lp.tipo tipo_port, lp.ti' +
-        'po_outros,'
-      #9'           lp.portador, lp.cpf,        lp.obs,    lp.emissao'
-      '              from labprocxequip le'
-      '                   join labport lp'
-      '                     on lp.labproc_recno = le.labproc_recno'
-      '                    and lp.operac = 1) le'
-      '         on le.comodato_recno = com.recno'
-      '       left join pedido p'
-      '         on p.recno = a.pedido  '
-      ' where r.status = 3'
+        #9#9'           po.tipo envtipo_port, po.tipo_outros envtipo_outros' +
+        ', po.cnpj envcnpj, po.empresa envempresa, po.obs envobs'
+      ' '#9#9'      from labprocxequip pe'
+      #9#9#9'       join labproc p'
+      #9#9#9'         on p.recno = pe.labproc_recno '
+      #9#9#9'       join labport po'
+      #9#9#9'         on po.labproc_recno = pe.labproc_recno '
+      #9#9#9'        and po.operac = 1'
+      #9#9#9'       join labamostras_hist ah'
+      #9#9#9'         on ah.amostra = pe.amostra '
+      #9#9#9'        and ah.estado = 30'
+      #9#9#9'       join sys_users u'
+      #9#9#9'         on u.username = ah.username) le'
+      #9'     on le.amostra = a.recno'
+      #9'   left join ('
+      
+        #9'        select pe.amostra, u.name ret_usrname, po.nf pednf, po.' +
+        'nf_serie pednf_serie, po.emissao pednf_emissao, '
+      '                   po.nf_valor pednf_valor'
+      '              from labret pe'
+      #9#9#9'       join labport po'
+      #9#9#9'         on po.recno = pe.labport_recno'
+      #9#9#9'        and po.operac = 2'
+      #9#9#9'       join labamostras_hist ah'
+      #9#9#9'         on ah.amostra = pe.amostra '
+      #9#9#9'        and ah.estado = 40'
+      #9#9#9'       join sys_users u'
+      #9#9#9'         on u.username = ah.username) pr'
+      #9#9' on pr.amostra = a.recno      '
+      #9'   left join pedido p'
+      '         on p.recno = r.pedido  '
+      '       left join markup mk'
+      '         on mk.recno = p.markup '
+      ' where r.status >= 3'
       '   and r.assinatura is not null')
     Params = <>
     FetchRow = 50
-    IndexFieldNames = 'relato_recno Asc;amostra_recno Asc'
+    IndexFieldNames = 'relato_recno Asc;amostra Asc'
     Left = 216
     Top = 320
-    object R00017amostra_recno: TIntegerField
-      FieldName = 'amostra_recno'
+    object R00017amostra: TIntegerField
+      FieldName = 'amostra'
+      Required = True
     end
     object R00017relato_recno: TIntegerField
       FieldName = 'relato_recno'
-      Required = True
     end
     object R00017laudo: TStringField
       FieldName = 'laudo'
@@ -3140,6 +3146,10 @@ object DMReport: TDMReport
     end
     object R00017apontado: TDateTimeField
       FieldName = 'apontado'
+    end
+    object R00017inmetro: TBooleanField
+      FieldName = 'inmetro'
+      ReadOnly = True
     end
     object R00017diag_descri: TStringField
       FieldName = 'diag_descri'
@@ -3203,20 +3213,21 @@ object DMReport: TDMReport
     object R00017d6: TDateField
       FieldName = 'd6'
     end
-    object R00017comodato_recno: TIntegerField
-      FieldName = 'comodato_recno'
-      Required = True
+    object R00017revisao: TIntegerField
+      FieldName = 'revisao'
     end
     object R00017etiqueta: TMemoField
       FieldName = 'etiqueta'
       ReadOnly = True
       BlobType = ftMemo
     end
+    object R00017comodato: TIntegerField
+      FieldName = 'comodato'
+      Required = True
+    end
     object R00017os: TIntegerField
       FieldName = 'os'
-    end
-    object R00017osc: TStringField
-      FieldName = 'osc'
+      Required = True
     end
     object R00017entrada: TDateTimeField
       FieldName = 'entrada'
@@ -3233,19 +3244,15 @@ object DMReport: TDMReport
       ReadOnly = True
       Size = 30
     end
-    object R00017revisor: TStringField
-      FieldName = 'revisor'
-    end
-    object R00017name: TStringField
-      FieldName = 'name'
-      Required = True
-      Size = 40
-    end
     object R00017tamb: TIntegerField
       FieldName = 'tamb'
     end
     object R00017toleo: TIntegerField
       FieldName = 'toleo'
+    end
+    object R00017tequip: TFloatField
+      FieldName = 'tequip'
+      Required = True
     end
     object R00017umidade: TIntegerField
       FieldName = 'umidade'
@@ -3308,9 +3315,15 @@ object DMReport: TDMReport
       FieldName = 'email'
       Size = 100
     end
+    object R00017logo: TBlobField
+      FieldName = 'logo'
+    end
     object R00017destinatario: TStringField
       FieldName = 'destinatario'
       Size = 100
+    end
+    object R00017pedido: TIntegerField
+      FieldName = 'pedido'
     end
     object R00017tpamostra_recno: TIntegerField
       FieldName = 'tpamostra_recno'
@@ -3336,6 +3349,14 @@ object DMReport: TDMReport
       FieldName = 'tipo'
       ReadOnly = True
       Size = 100
+    end
+    object R00017tensao_un: TStringField
+      FieldName = 'tensao_un'
+      Size = 3
+    end
+    object R00017potencia_un: TStringField
+      FieldName = 'potencia_un'
+      Size = 3
     end
     object R00017descri: TStringField
       FieldName = 'descri'
@@ -3396,12 +3417,6 @@ object DMReport: TDMReport
       FieldName = 'reg_nome'
       Size = 60
     end
-    object R00017localizacao: TStringField
-      FieldKind = fkCalculated
-      FieldName = 'localizacao'
-      Size = 100
-      Calculated = True
-    end
     object R00017nome_1: TStringField
       FieldName = 'nome_1'
       ReadOnly = True
@@ -3413,7 +3428,7 @@ object DMReport: TDMReport
     end
     object R00017nome_2: TStringField
       FieldName = 'nome_2'
-      Size = 60
+      Size = 150
     end
     object R00017funcao: TStringField
       FieldName = 'funcao'
@@ -3421,15 +3436,15 @@ object DMReport: TDMReport
     end
     object R00017telefone_1: TStringField
       FieldName = 'telefone_1'
-      Size = 100
+      Size = 25
     end
     object R00017celular: TStringField
       FieldName = 'celular'
-      Size = 100
+      Size = 25
     end
     object R00017email_1: TStringField
       FieldName = 'email_1'
-      Size = 100
+      Size = 150
     end
     object R00017ass_arquivo: TStringField
       FieldName = 'ass_arquivo'
@@ -3444,77 +3459,13 @@ object DMReport: TDMReport
       Required = True
       Size = 10
     end
-    object R00017situacao: TIntegerField
-      FieldName = 'situacao'
-    end
-    object R00017emi_dh: TDateTimeField
-      FieldName = 'emi_dh'
-      Required = True
-    end
-    object R00017emi_usr: TStringField
-      FieldName = 'emi_usr'
-      Required = True
-    end
-    object R00017emi_usrname: TStringField
-      FieldName = 'emi_usrname'
-      Required = True
-      Size = 40
-    end
-    object R00017imp_dh: TDateTimeField
-      FieldName = 'imp_dh'
-    end
-    object R00017imp_usr: TStringField
-      FieldName = 'imp_usr'
-    end
-    object R00017imp_usrname: TStringField
-      FieldName = 'imp_usrname'
-      Required = True
-      Size = 40
-    end
     object R00017rem_dh: TDateTimeField
       FieldName = 'rem_dh'
-    end
-    object R00017rem_usr: TStringField
-      FieldName = 'rem_usr'
     end
     object R00017rem_usrname: TStringField
       FieldName = 'rem_usrname'
       Required = True
       Size = 40
-    end
-    object R00017rem_tr: TMemoField
-      FieldName = 'rem_tr'
-      BlobType = ftMemo
-    end
-    object R00017ret_dh: TDateTimeField
-      FieldName = 'ret_dh'
-    end
-    object R00017ret_usr: TStringField
-      FieldName = 'ret_usr'
-    end
-    object R00017ret_usrname: TStringField
-      FieldName = 'ret_usrname'
-      Required = True
-      Size = 40
-    end
-    object R00017ret_tr: TMemoField
-      FieldName = 'ret_tr'
-      BlobType = ftMemo
-    end
-    object R00017volume_1: TIntegerField
-      FieldName = 'volume_1'
-    end
-    object R00017tipo_1: TStringField
-      FieldName = 'tipo_1'
-      Size = 4
-    end
-    object R00017envempresa: TStringField
-      FieldName = 'envempresa'
-      Size = 100
-    end
-    object R00017envcnpj: TStringField
-      FieldName = 'envcnpj'
-      Size = 14
     end
     object R00017envnf: TIntegerField
       FieldName = 'envnf'
@@ -3524,37 +3475,34 @@ object DMReport: TDMReport
       FieldName = 'envnf_serie'
       Required = True
     end
-    object R00017envnf_emissao: TDateField
+    object R00017envnf_emissao: TDateTimeField
       FieldName = 'envnf_emissao'
       Required = True
     end
     object R00017envtipo_port: TIntegerField
       FieldName = 'envtipo_port'
-      ReadOnly = True
+      Required = True
     end
     object R00017envtipo_outros: TStringField
       FieldName = 'envtipo_outros'
-      ReadOnly = True
       Size = 30
     end
-    object R00017envportador: TStringField
-      FieldName = 'envportador'
-      ReadOnly = True
-      Size = 60
+    object R00017envcnpj: TStringField
+      FieldName = 'envcnpj'
+      Required = True
+      Size = 14
     end
-    object R00017envcpf: TStringField
-      FieldName = 'envcpf'
-      Size = 11
+    object R00017envempresa: TStringField
+      FieldName = 'envempresa'
+      Required = True
+      Size = 100
     end
     object R00017envobs: TMemoField
       FieldName = 'envobs'
       BlobType = ftMemo
     end
-    object R00017envemissao: TDateTimeField
-      FieldName = 'envemissao'
-    end
-    object R00017pedido: TIntegerField
-      FieldName = 'pedido'
+    object R00017pedido_1: TIntegerField
+      FieldName = 'pedido_1'
     end
     object R00017pedcriado: TDateTimeField
       FieldName = 'pedcriado'
@@ -3570,22 +3518,6 @@ object DMReport: TDMReport
       FieldName = 'pedaprovado'
       Required = True
     end
-    object R00017pedfrete: TFloatField
-      FieldName = 'pedfrete'
-      Required = True
-    end
-    object R00017pedservicos: TFloatField
-      FieldName = 'pedservicos'
-      Required = True
-    end
-    object R00017pedtotal: TFloatField
-      FieldName = 'pedtotal'
-      Required = True
-    end
-    object R00017pedobs: TMemoField
-      FieldName = 'pedobs'
-      BlobType = ftMemo
-    end
     object R00017pedsolicitante: TStringField
       FieldName = 'pedsolicitante'
       Size = 60
@@ -3598,9 +3530,14 @@ object DMReport: TDMReport
       FieldName = 'pedcond'
       Size = 15
     end
-    object R00017pedcliente: TStringField
-      FieldName = 'pedcliente'
-      Size = 15
+    object R00017pedfrete: TFloatField
+      FieldName = 'pedfrete'
+      Required = True
+    end
+    object R00017ret_usrname: TStringField
+      FieldName = 'ret_usrname'
+      Required = True
+      Size = 40
     end
     object R00017pednf: TIntegerField
       FieldName = 'pednf'
@@ -3610,7 +3547,7 @@ object DMReport: TDMReport
       FieldName = 'pednf_serie'
       Required = True
     end
-    object R00017pednf_emissao: TDateField
+    object R00017pednf_emissao: TDateTimeField
       FieldName = 'pednf_emissao'
       Required = True
     end
@@ -3618,15 +3555,15 @@ object DMReport: TDMReport
       FieldName = 'pednf_valor'
       Required = True
     end
-    object R00017potencia_un: TStringField
-      FieldName = 'potencia_un'
+    object R00017pedtotal: TFloatField
+      FieldName = 'pedtotal'
       ReadOnly = True
-      Size = 3
     end
-    object R00017tensao_un: TStringField
-      FieldName = 'tensao_un'
-      ReadOnly = True
-      Size = 3
+    object R00017localizacao: TStringField
+      FieldKind = fkCalculated
+      FieldName = 'localizacao'
+      Size = 150
+      Calculated = True
     end
   end
   object frxR00017: TfrxDBDataset
@@ -3634,7 +3571,7 @@ object DMReport: TDMReport
     UserName = 'R00017'
     CloseDataSource = True
     FieldAliases.Strings = (
-      'amostra_recno=amostra_recno'
+      'amostra=amostra'
       'relato_recno=relato_recno'
       'laudo=laudo'
       'status=status'
@@ -3645,6 +3582,7 @@ object DMReport: TDMReport
       'cor=cor'
       'labdiag_recno=labdiag_recno'
       'apontado=apontado'
+      'inmetro=inmetro'
       'diag_descri=diag_descri'
       'diag_diag=diag_diag'
       'diag_dias=diag_dias'
@@ -3663,18 +3601,17 @@ object DMReport: TDMReport
       'd4=d4'
       'd5=d5'
       'd6=d6'
-      'comodato_recno=comodato_recno'
+      'revisao=revisao'
       'etiqueta=etiqueta'
+      'comodato=comodato'
       'os=os'
-      'osc=osc'
       'entrada=entrada'
       'coleta=coleta'
       'coletor=coletor'
       'laudodesc=laudodesc'
-      'revisor=revisor'
-      'name=name'
       'tamb=tamb'
       'toleo=toleo'
+      'tequip=tequip'
       'umidade=umidade'
       'tensao=tensao'
       'local=local'
@@ -3691,13 +3628,17 @@ object DMReport: TDMReport
       'estado=estado'
       'cep=cep'
       'email=email'
+      'logo=logo'
       'destinatario=destinatario'
+      'pedido=pedido'
       'tpamostra_recno=tpamostra_recno'
       'atipo=atipo'
       'equip_recno=equip_recno'
       'fabricante=fabricante'
       'serie=serie'
       'tipo=tipo'
+      'tensao_un=tensao_un'
+      'potencia_un=potencia_un'
       'descri=descri'
       'potencia=potencia'
       'imped=imped'
@@ -3714,7 +3655,6 @@ object DMReport: TDMReport
       'nome=nome'
       'regional=regional'
       'reg_nome=reg_nome'
-      'localizacao=localizacao'
       'nome_1=nome_1'
       'crq=crq'
       'nome_2=nome_2'
@@ -3725,53 +3665,32 @@ object DMReport: TDMReport
       'ass_arquivo=ass_arquivo'
       'cargo=cargo'
       'idos=idos'
-      'situacao=situacao'
-      'emi_dh=emi_dh'
-      'emi_usr=emi_usr'
-      'emi_usrname=emi_usrname'
-      'imp_dh=imp_dh'
-      'imp_usr=imp_usr'
-      'imp_usrname=imp_usrname'
       'rem_dh=rem_dh'
-      'rem_usr=rem_usr'
       'rem_usrname=rem_usrname'
-      'rem_tr=rem_tr'
-      'ret_dh=ret_dh'
-      'ret_usr=ret_usr'
-      'ret_usrname=ret_usrname'
-      'ret_tr=ret_tr'
-      'volume_1=volume_1'
-      'tipo_1=tipo_1'
-      'envempresa=envempresa'
-      'envcnpj=envcnpj'
       'envnf=envnf'
       'envnf_serie=envnf_serie'
       'envnf_emissao=envnf_emissao'
       'envtipo_port=envtipo_port'
       'envtipo_outros=envtipo_outros'
-      'envportador=envportador'
-      'envcpf=envcpf'
+      'envcnpj=envcnpj'
+      'envempresa=envempresa'
       'envobs=envobs'
-      'envemissao=envemissao'
-      'pedido=pedido'
+      'pedido_1=pedido_1'
       'pedcriado=pedcriado'
       'pedemitido=pedemitido'
       'pedautorizado=pedautorizado'
       'pedaprovado=pedaprovado'
-      'pedfrete=pedfrete'
-      'pedservicos=pedservicos'
-      'pedtotal=pedtotal'
-      'pedobs=pedobs'
       'pedsolicitante=pedsolicitante'
       'pedsolicitante_dep=pedsolicitante_dep'
       'pedcond=pedcond'
-      'pedcliente=pedcliente'
+      'pedfrete=pedfrete'
+      'ret_usrname=ret_usrname'
       'pednf=pednf'
       'pednf_serie=pednf_serie'
       'pednf_emissao=pednf_emissao'
       'pednf_valor=pednf_valor'
-      'potencia_un=potencia_un'
-      'tensao_un=tensao_un')
+      'pedtotal=pedtotal'
+      'localizacao=localizacao')
     DataSet = R00017
     BCDToCurrency = False
     Left = 280
