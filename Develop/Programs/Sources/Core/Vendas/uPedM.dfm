@@ -205,7 +205,6 @@ inherited PedM: TPedM
     inherited PageControl1: TPageControl
       Width = 1126
       Height = 355
-      ActivePage = TabSheet4
       ExplicitLeft = 3
       ExplicitTop = 3
       ExplicitWidth = 1126
@@ -2282,6 +2281,10 @@ inherited PedM: TPedM
       object TabSheet5: TTabSheet
         Caption = 'Observa'#231#245'es'
         ImageIndex = 2
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object GroupBox5: TGroupBox
           AlignWithMargins = True
           Left = 3
@@ -2359,9 +2362,6 @@ inherited PedM: TPedM
                 Width = 57
                 ExplicitWidth = 57
                 ExplicitHeight = 50
-                inherited Label9: TLabel
-                  Width = 51
-                end
                 inherited DBEdit8: TDBEdit
                   Width = 54
                   DataField = 'cliente'
@@ -2392,9 +2392,6 @@ inherited PedM: TPedM
                 ExplicitLeft = 86
                 ExplicitWidth = 617
                 ExplicitHeight = 50
-                inherited Label10: TLabel
-                  Width = 611
-                end
                 inherited DBEdit9: TDBEdit
                   Width = 611
                   DataField = 'cliente_empresa'
@@ -2409,9 +2406,6 @@ inherited PedM: TPedM
                 ExplicitLeft = 703
                 ExplicitWidth = 186
                 ExplicitHeight = 50
-                inherited Label11: TLabel
-                  Width = 180
-                end
                 inherited DBEdit10: TDBEdit
                   Width = 180
                   DataField = 'cliente_nome_chave'
@@ -2426,9 +2420,6 @@ inherited PedM: TPedM
                 ExplicitLeft = 889
                 ExplicitWidth = 120
                 ExplicitHeight = 50
-                inherited Label12: TLabel
-                  Width = 114
-                end
                 inherited DBEdit11: TDBEdit
                   Width = 114
                   DataField = 'cliente_cnpj'
@@ -2443,9 +2434,6 @@ inherited PedM: TPedM
                 ExplicitLeft = 1009
                 ExplicitWidth = 99
                 ExplicitHeight = 50
-                inherited Label13: TLabel
-                  Width = 93
-                end
                 inherited DBEdit12: TDBEdit
                   Width = 93
                   DataField = 'cliente_cpf'
@@ -2462,9 +2450,6 @@ inherited PedM: TPedM
                 ExplicitLeft = 241
                 ExplicitWidth = 732
                 ExplicitHeight = 50
-                inherited Label1: TLabel
-                  Width = 726
-                end
                 inherited DBEdit1: TDBEdit
                   Width = 726
                   DataField = 'cliente_cidade'
@@ -2479,9 +2464,6 @@ inherited PedM: TPedM
                 ExplicitLeft = 973
                 ExplicitWidth = 39
                 ExplicitHeight = 50
-                inherited Label2: TLabel
-                  Width = 33
-                end
                 inherited DBEdit2: TDBEdit
                   Width = 33
                   DataField = 'cliente_estado'
@@ -2494,9 +2476,6 @@ inherited PedM: TPedM
                 Width = 241
                 ExplicitWidth = 241
                 ExplicitHeight = 50
-                inherited Label20: TLabel
-                  Width = 235
-                end
                 inherited DBEdit17: TDBEdit
                   Width = 235
                   DataField = 'cliente_email'
@@ -2511,9 +2490,6 @@ inherited PedM: TPedM
                 ExplicitLeft = 1012
                 ExplicitWidth = 96
                 ExplicitHeight = 50
-                inherited Label3: TLabel
-                  Width = 90
-                end
                 inherited DBEdit3: TDBEdit
                   Width = 90
                   DataField = 'cliente_telefone'
