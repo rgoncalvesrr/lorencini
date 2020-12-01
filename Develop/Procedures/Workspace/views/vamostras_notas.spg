@@ -1,0 +1,16 @@
+set session authorization lorencini;
+drop view if exists vamostras_notas;
+create or replace view vamostras_notas as
+-- notas fiscais de saída - remessa
+select p.codigo, pe.amostra, p.operac, p.nf, p.nf_serie, p.nf_emissao, p.nf_valor, p.recno portador
+  from labport p
+       join labprocxequip pe
+         on pe.labproc_recno = p.labproc_recno
+ where p.operac = 1
+ union all   
+ -- notas fiscais de entrada - retorno
+select p.codigo, ret.amostra, p.operac, p.nf, p.nf_serie, p.nf_emissao, p.nf_valor, p.recno portador
+  from labport p
+       join labret ret
+         on ret.labport_recno = p.recno
+ where p.operac = 2;
