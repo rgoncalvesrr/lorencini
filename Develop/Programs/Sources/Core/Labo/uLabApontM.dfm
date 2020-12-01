@@ -93,6 +93,7 @@ inherited LabApontM: TLabApontM
           Caption = 'Panel2'
           TabOrder = 0
           OnResize = Panel2Resize
+          ExplicitLeft = -1
         end
       end
       object TabSheet2: TTabSheet
