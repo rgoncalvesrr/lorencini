@@ -7,22 +7,78 @@ inherited SysReportsM: TSysReportsM
   PixelsPerInch = 96
   TextHeight = 15
   inherited Panel1: TPanel
+    Top = 44
     Width = 645
     Height = 142
+    ExplicitTop = 35
     ExplicitWidth = 645
-    ExplicitHeight = 142
+    ExplicitHeight = 151
     inherited Panel3: TPanel
       Align = alNone
+      ExplicitTop = 204
+      inherited PageControl3: TPageControl
+        Top = 47
+        Height = 185
+        ExplicitLeft = 3
+        ExplicitTop = 38
+        ExplicitWidth = 633
+        ExplicitHeight = 194
+        inherited tsDet: TTabSheet
+          ExplicitLeft = 4
+          ExplicitTop = 26
+          ExplicitWidth = 625
+          ExplicitHeight = 164
+          inherited DBGrid1: TDBGrid
+            Width = 625
+            Height = 155
+          end
+        end
+      end
+      inherited ControlBar2: TControlBar
+        Height = 38
+        ExplicitLeft = 3
+        ExplicitTop = 3
+        ExplicitWidth = 633
+        ExplicitHeight = 38
+        inherited ToolBar3: TToolBar
+          ButtonWidth = 129
+          inherited ToolButton10: TToolButton
+            ExplicitWidth = 32
+          end
+          inherited ToolButton11: TToolButton
+            ExplicitWidth = 32
+          end
+          inherited ToolButton17: TToolButton
+            ExplicitWidth = 32
+          end
+          inherited ToolButton12: TToolButton
+            ExplicitWidth = 32
+          end
+          inherited ToolButton13: TToolButton
+            ExplicitWidth = 32
+          end
+          inherited tbSQLDet: TToolButton
+            ExplicitWidth = 32
+          end
+          inherited tbRefazGrid: TToolButton
+            ExplicitWidth = 32
+          end
+        end
+      end
     end
     inherited PageControl1: TPageControl
       Width = 639
       Height = 136
+      ExplicitLeft = 3
+      ExplicitTop = 3
       ExplicitWidth = 639
-      ExplicitHeight = 136
+      ExplicitHeight = 145
       inherited TabSheet1: TTabSheet
         Caption = 'Formul'#225'rio'
+        ExplicitLeft = 4
+        ExplicitTop = 26
         ExplicitWidth = 631
-        ExplicitHeight = 106
+        ExplicitHeight = 115
         object Label1: TLabel
           Left = 3
           Top = 3
@@ -50,6 +106,7 @@ inherited SysReportsM: TSysReportsM
           Font.Color = clWindowText
           Font.Height = -12
           Font.Name = 'Arial'
+          Font.Pitch = fpVariable
           Font.Style = [fsBold]
           ParentFont = False
         end
@@ -134,8 +191,8 @@ inherited SysReportsM: TSysReportsM
           TabOrder = 1
         end
         object DBEdit6: TDBEdit
-          Left = 5
-          Top = 68
+          Left = 3
+          Top = 71
           Width = 174
           Height = 23
           CharCase = ecUpperCase
@@ -169,10 +226,48 @@ inherited SysReportsM: TSysReportsM
   end
   inherited ControlBar1: TControlBar
     Width = 639
+    Height = 38
+    ExplicitLeft = 3
+    ExplicitTop = 3
     ExplicitWidth = 639
+    ExplicitHeight = 38
     inherited ToolBar1: TToolBar
       Width = 602
+      ButtonWidth = 115
       ExplicitWidth = 602
+      inherited ToolButton6: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton4: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton7: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton1: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton2: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton8: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton9: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton14: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton16: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited tbSQL: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited tbClose: TToolButton
+        ExplicitWidth = 32
+      end
     end
   end
   inherited alDef: TActionList

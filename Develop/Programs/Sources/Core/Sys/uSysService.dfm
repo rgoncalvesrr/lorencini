@@ -17,7 +17,6 @@ inherited SysService: TSysService
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 1
-          ExplicitTop = 1
           object Label1: TLabel
             AlignWithMargins = True
             Left = 3
@@ -45,7 +44,6 @@ inherited SysService: TSysService
               'Todos'
               'Ativos'
               'Inativos')
-            ExplicitLeft = 5
           end
         end
       end
@@ -59,7 +57,6 @@ inherited SysService: TSysService
   end
   inherited Panel2: TPanel
     inherited PageControl1: TPageControl
-      ActivePage = TabSheet3
       Images = Resources.medium_n
       inherited TabSheet1: TTabSheet
         Caption = 'Todos'
