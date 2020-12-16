@@ -8,6 +8,7 @@
     <Projects Include="MMonitor\MMonitor.dproj" />
     <Projects Include="Parser\Parser.dproj" />
     <Projects Include="Server\LService.dproj" />
+    <Projects Include="Server\Server.dproj" />
   </ItemGroup>
   <ProjectExtensions>
     <Borland.Personality>Default.Personality</Borland.Personality>
@@ -51,14 +52,23 @@
   <Target Name="LService:Make">
     <MSBuild Projects="Server\LService.dproj" Targets="Make" />
   </Target>
+  <Target Name="Server">
+    <MSBuild Projects="Server\Server.dproj" Targets="" />
+  </Target>
+  <Target Name="Server:Clean">
+    <MSBuild Projects="Server\Server.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="Server:Make">
+    <MSBuild Projects="Server\Server.dproj" Targets="Make" />
+  </Target>
   <Target Name="Build">
-    <CallTarget Targets="Parser;Manager;MMonitor;LService" />
+    <CallTarget Targets="Parser;Manager;MMonitor;LService;Server" />
   </Target>
   <Target Name="Clean">
-    <CallTarget Targets="Parser:Clean;Manager:Clean;MMonitor:Clean;LService:Clean" />
+    <CallTarget Targets="Parser:Clean;Manager:Clean;MMonitor:Clean;LService:Clean;Server:Clean" />
   </Target>
   <Target Name="Make">
-    <CallTarget Targets="Parser:Make;Manager:Make;MMonitor:Make;LService:Make" />
+    <CallTarget Targets="Parser:Make;Manager:Make;MMonitor:Make;LService:Make;Server:Make" />
   </Target>
   <Import Condition="Exists('$(MSBuildBinPath)\Borland.Group.Targets')" Project="$(MSBuildBinPath)\Borland.Group.Targets" />
 </Project>

@@ -1,0 +1,43 @@
+set session authorization lorencini;
+
+create table sys_schedules_setup(
+	recno serial not null,
+	descri varchar(100) not null,
+	fn varchar(100) not null,
+	agendamento varchar(150) not null,
+	inicio date not null,
+	expiracao date,
+	habilitado boolean default(false) not null,
+	min integer[],
+	hor integer[],
+	dia integer[],
+	mes integer[],
+	sem integer[],
+	data timestamp default(clock_timestamp()) not null,
+	username varchar(20) not null,
+	constraint pk_sys_schedule_setup primary key(recno),
+	constraint fk_sys_schedule_setup_1 foreign key(fn)
+		references sys_fn(fn) on update cascade on delete restrict,
+	constraint fk_sys_schedule_setup_2 foreign key(username)
+		references sys_users(username) on update cascade on delete restrict);
+
+create table sys_schedules (
+	agendamento integer not null,
+	status integer default(0) not null,
+	emissao timestamp default(localtimestamp) not null,
+	execucao timestamp,
+	historico text,
+	recno serial not null,
+	constraint pk_sys_schedules primary key(recno),
+	constraint fk_sys_schedules_1 foreign key(agendamento)
+		references sys_schedules_setup(recno) on update cascade on delete cascade,
+	constraint ck_sys_schedules_1 check (status between 0 and 3),
+	constraint ck_sys_schedules_2 check (execucao is null or emissao <= execucao));
+
+alter table labens
+	add incerteza numeric(6, 2) default(0) not null,
+	add constraint ck_labens_1 check( incerteza >= 0);
+
+alter table labamostras_res 
+	add incerteza numeric(18, 4) default(0) not null,
+	add constraint ck_labamostras_res_1 check(incerteza >= 0);

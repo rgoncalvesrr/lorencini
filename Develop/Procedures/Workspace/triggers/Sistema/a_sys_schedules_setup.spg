@@ -1,0 +1,37 @@
+/**
+   Agendamento de execução de rotinas
+
+	@author  Ricardo Gonçalves
+	@date    01/12/2020
+	@trigger sys_schedule B IUD
+	
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso      
+*/
+Create or Replace Function a_sys_schedules_setup() 
+returns trigger As 
+$$
+Begin
+   if tg_op = 'DELETE' then      
+      return old;
+   end if;
+   
+   if tg_op = 'UPDATE' then
+      if not new.habilitado then
+         delete 
+           from sys_schedules
+          where agendamento = new.recno
+            and status = 0;           
+      end if;
+      
+      -- Gerando o primeiro agendamento
+      if new.habilitado or new.agendamento <> old.agendamento then
+         perform sys_schedule_next(new.recno);
+      end if;   
+   end if;
+   
+   return new;
+End;
+$$
+language plpgsql;

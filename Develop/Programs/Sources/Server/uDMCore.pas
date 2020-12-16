@@ -121,6 +121,9 @@ begin
 end;
 
 procedure TdmCore.Initialize;
+var
+  authTyp: string;
+  tlsTyp: string;
 begin
   if not FFirstExec then
     Exit;
@@ -146,28 +149,30 @@ begin
       UserName := zQry.Fields[3].AsString;
       Password := zQry.Fields[4].AsString;
       SSL_Enabled := zQry.Fields[5].AsBoolean;
+      authTyp := zQry.Fields[6].AsString;
+      tlsTyp := zQry.Fields[7].AsString;
       if SSL_Enabled then
       begin
-        if zQry.Fields[6].AsString = 'SSLv2' then
+        if authTyp = 'SSLv2' then
           SSLMode := sslvSSLv2;
-        if zQry.Fields[6].AsString = 'SSLv23' then
+        if authTyp = 'SSLv23' then
           SSLMode := sslvSSLv23;
-        if zQry.Fields[6].AsString = 'SSLv3' then
+        if authTyp = 'SSLv3' then
           SSLMode := sslvSSLv3;
-        if zQry.Fields[6].AsString = 'TLSv1' then
+        if authTyp = 'TLSv1' then
           SSLMode := sslvTLSv1;
-        if zQry.Fields[6].AsString = 'TLSv1_1' then
+        if authTyp = 'TLSv1_1' then
           SSLMode := sslvTLSv1_1;
-        if zQry.Fields[6].AsString = 'TLSv1_2' then
+        if authTyp = 'TLSv1_2' then
           SSLMode := sslvTLSv1_2;
 
         TLS := utNoTLSSupport;
 
-        if zQry.Fields[7].AsString = 'Implicit' then
+        if tlsTyp = 'Implicit' then
           TLS := utUseImplicitTLS;
-        if zQry.Fields[7].AsString = 'Require' then
+        if tlsTyp = 'Require' then
           TLS := utUseRequireTLS;
-        if zQry.Fields[7].AsString = 'Explicit' then
+        if tlsTyp = 'Explicit' then
           TLS := utUseExplicitTLS;
       end;
     end;
@@ -231,7 +236,7 @@ begin
       if zQry.RecordCount = 1 then
         Log('Processando 1 mensagem')
       else
-        Log('Processando 0 mensagens', [zQry.RecordCount]);
+        Log('Processando %d mensagens', [zQry.RecordCount]);
 
     while not zQry.Eof do
     begin

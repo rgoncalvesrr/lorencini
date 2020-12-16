@@ -297,7 +297,9 @@ uses
   uClientesMContatos in '..\..\Sources\Core\Cad\uClientesMContatos.pas' {ClientesMContatos},
   uSysService in '..\..\Sources\Core\Sys\uSysService.pas' {SysService},
   uSysServiceM in '..\..\Sources\Core\Sys\uSysServiceM.pas' {SysServiceM},
-  uSysEmail in '..\..\Sources\Core\Sys\uSysEmail.pas' {SysEmail};
+  uSysEmail in '..\..\Sources\Core\Sys\uSysEmail.pas' {SysEmail},
+  uSysScheduler in '..\..\Sources\Core\Sys\uSysScheduler.pas' {SysScheduler},
+  uSysSchedulerM in '..\..\Sources\Core\Sys\uSysSchedulerM.pas' {SysSchedulerM};
 
 {$R *.res}
 begin
@@ -309,11 +311,11 @@ begin
   try
     Application.Title := 'Manager';
     Application.CreateForm(TResources, Resources);
-    Application.CreateForm(TDM, DM);
-    Application.CreateForm(TDMReport, DMReport);
-    Application.CreateForm(TMain, Main);
-    Application.CreateForm(TILogin, ILogin);
-    ILogin.ShowModal;
+  Application.CreateForm(TDM, DM);
+  Application.CreateForm(TDMReport, DMReport);
+  Application.CreateForm(TMain, Main);
+  Application.CreateForm(TILogin, ILogin);
+  ILogin.ShowModal;
     if ILogin.Execute then
       Application.Run;
   finally
