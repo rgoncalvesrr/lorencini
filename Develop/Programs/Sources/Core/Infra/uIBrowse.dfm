@@ -66,6 +66,8 @@ inherited IDefBrowse: TIDefBrowse
       object tsQuery: TTabSheet
         Caption = 'Filtrar'
         TabVisible = False
+        ExplicitLeft = 5
+        ExplicitTop = 7
         object BitBtn2: TBitBtn
           AlignWithMargins = True
           Left = 718
@@ -129,6 +131,7 @@ inherited IDefBrowse: TIDefBrowse
           Font.Color = clWindowText
           Font.Height = -15
           Font.Name = 'MS Sans Serif'
+          Font.Pitch = fpVariable
           Font.Style = []
           ParentFont = False
           Transparent = True
@@ -144,6 +147,7 @@ inherited IDefBrowse: TIDefBrowse
           Font.Color = clWindowText
           Font.Height = -15
           Font.Name = 'MS Sans Serif'
+          Font.Pitch = fpVariable
           Font.Style = []
           ParentFont = False
           ParentShowHint = False
@@ -196,6 +200,7 @@ inherited IDefBrowse: TIDefBrowse
           Font.Color = clWindowText
           Font.Height = -15
           Font.Name = 'MS Sans Serif'
+          Font.Pitch = fpVariable
           Font.Style = []
           ParentFont = False
           TabOrder = 1
@@ -248,6 +253,7 @@ inherited IDefBrowse: TIDefBrowse
           TitleFont.Color = clWindowText
           TitleFont.Height = -12
           TitleFont.Name = 'Segoe UI'
+          TitleFont.Pitch = fpVariable
           TitleFont.Style = []
           OnDrawColumnCell = DBGridDrawColumnCell
           OnDblClick = DBGridDblClick
@@ -495,12 +501,6 @@ inherited IDefBrowse: TIDefBrowse
     inherited actClose: TAction
       ShortCut = 27
     end
-    object actReg: TAction
-      Caption = 'Registro...'
-      ImageIndex = 330
-      ShortCut = 16466
-      OnExecute = actRegExecute
-    end
     object actCkAll: TAction
       Caption = 'Todos'
       ImageIndex = 67
@@ -516,6 +516,12 @@ inherited IDefBrowse: TIDefBrowse
     object actInverse: TAction
       Caption = 'Inverter'
       ImageIndex = 193
+    end
+    object actLog: TAction
+      Caption = 'Registro'
+      ImageIndex = 330
+      ShortCut = 16466
+      OnExecute = actLogExecute
     end
   end
   object pmRel: TPopupMenu
@@ -545,6 +551,7 @@ inherited IDefBrowse: TIDefBrowse
     Top = 128
   end
   object pmOpcao: TPopupMenu
+    Images = Resources.medium_n
     Left = 512
     Top = 136
     object Agenda1: TMenuItem
@@ -553,8 +560,8 @@ inherited IDefBrowse: TIDefBrowse
     object Compromisso1: TMenuItem
       Action = actCompro
     end
-    object Registro1: TMenuItem
-      Action = actReg
+    object Inspecionar1: TMenuItem
+      Action = actLog
     end
     object N1: TMenuItem
       Caption = '-'

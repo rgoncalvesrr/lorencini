@@ -258,7 +258,6 @@ uses
   uFrameImage in '..\..\Sources\Common\uFrameImage.pas' {FrameImage: TFrame},
   uMarkupReprovMot in '..\..\Sources\Core\Vendas\uMarkupReprovMot.pas' {MarkupReprovMot},
   uDBLog in '..\..\Sources\Core\Class\uDBLog.pas',
-  uLogRegister in '..\..\Sources\Core\Infra\uLogRegister.pas' {LogRegister},
   uSedexCalculos in '..\..\Sources\Core\Admin\uSedexCalculos.pas',
   uCotaAutorizar in '..\..\Sources\Core\Vendas\uCotaAutorizar.pas' {CotaAutorizar},
   uCotaCancelar in '..\..\Sources\Core\Vendas\uCotaCancelar.pas' {CotaCancelar},
@@ -299,7 +298,8 @@ uses
   uSysServiceM in '..\..\Sources\Core\Sys\uSysServiceM.pas' {SysServiceM},
   uSysEmail in '..\..\Sources\Core\Sys\uSysEmail.pas' {SysEmail},
   uSysScheduler in '..\..\Sources\Core\Sys\uSysScheduler.pas' {SysScheduler},
-  uSysSchedulerM in '..\..\Sources\Core\Sys\uSysSchedulerM.pas' {SysSchedulerM};
+  uSysSchedulerM in '..\..\Sources\Core\Sys\uSysSchedulerM.pas' {SysSchedulerM},
+  uSysLog in '..\..\Sources\Core\Sys\uSysLog.pas' {SysLog};
 
 {$R *.res}
 begin

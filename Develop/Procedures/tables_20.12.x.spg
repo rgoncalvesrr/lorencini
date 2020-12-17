@@ -41,3 +41,26 @@ alter table labens
 alter table labamostras_res 
 	add incerteza numeric(18, 4) default(0) not null,
 	add constraint ck_labamostras_res_1 check(incerteza >= 0);
+
+create type rlog as (
+	descri varchar,
+	historico text,
+	username varchar(20),
+	tipo integer,
+	rotacionar boolean,
+	origem integer,
+	origem_recno integer,
+	nivel integer);
+
+DROP FUNCTION public.log(varchar);
+DROP FUNCTION public.log(varchar,text);
+DROP FUNCTION public.log(varchar,int4);
+DROP FUNCTION public.log(varchar,text,int4);
+DROP FUNCTION public.log(varchar,int4,int4,int4);
+DROP FUNCTION public.log(varchar,text,int4,int4,int4);
+DROP FUNCTION public.log(varchar,text,int4,int4,bool,int4);
+DROP FUNCTION public.log(varchar,text,int4,int4,bool,int4,int4);
+DROP FUNCTION public.log_debug(varchar);
+DROP FUNCTION public.log_error(varchar);
+DROP FUNCTION public.log_info(varchar);
+DROP FUNCTION public.log_warning(varchar);

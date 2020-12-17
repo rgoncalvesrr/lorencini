@@ -66,13 +66,13 @@ type
     N3: TMenuItem;
     zIBrwSrc: TZUpdateSQL;
     tbReport: TToolButton;
-    actReg: TAction;
-    Registro1: TMenuItem;
     ctrlBarTop: TControlBar;
     actCkAll: TAction;
     actUCkAll: TAction;
     actInverseAll: TAction;
     actInverse: TAction;
+    actLog: TAction;
+    Inspecionar1: TMenuItem;
     procedure DBGridDblClick(Sender: TObject);
     procedure DBGridKeyPress(Sender: TObject; var Key: Char);
     procedure DBGridEnter(Sender: TObject);
@@ -99,7 +99,7 @@ type
     procedure actOkExecute(Sender: TObject);
     procedure actRGridExecute(Sender: TObject);
     procedure PageControl1Change(Sender: TObject);
-    procedure actRegExecute(Sender: TObject);
+    procedure actLogExecute(Sender: TObject);
   protected
     fOnEdit: Boolean;
     //fGridRestored: TList;
@@ -112,6 +112,7 @@ type
     procedure SetActiveDBGrid(DBGrid: TDBGrid);
     procedure CopySecurity(Form : ISecurityForm);
     procedure OnPrint(Sender: TReport; var Continue: Boolean); virtual;
+    procedure OnLog(var TableName: string; var Recno: Integer); virtual;
 
     procedure DoRpt(Sender: TObject);
 
@@ -162,8 +163,7 @@ implementation
 
 {$R *.dfm}
 
-uses uDM, mcUtils, uIBrowseQry, uSysCompromisso, uIBrowseSQL,
-  uDMReport, frxClass, uResources, uLogRegister;
+uses uDM, mcUtils, uIBrowseQry, uSysCompromisso, uIBrowseSQL, uDMReport, frxClass, uResources, uSysLog;
 
 procedure TIDefBrowse.actRefreshExecute(Sender: TObject);
 var
@@ -186,23 +186,6 @@ begin
     finally
       FDataSet.EnableControls;
     end;
-end;
-
-procedure TIDefBrowse.actRegExecute(Sender: TObject);
-begin
-  inherited;
-  LogRegister := TLogRegister.Create(nil);
-  try
-    LogRegister.ReadOnly := True;
-    LogRegister.Tabela := GetTabela;
-    LogRegister.Registro := GetTabelaOrigem;
-    if LogRegister.IBrwSrc.IsEmpty then
-      U.Out.ShowInfo('Não há informações para exibir')
-    else
-      LogRegister.ShowModal;
-  finally
-    FreeAndNil(LogRegister);
-  end;
 end;
 
 procedure TIDefBrowse.actRGridExecute(Sender: TObject);
@@ -383,7 +366,25 @@ begin
     FDataSet.Locate(fFieldSeek.FieldName, edSearch.Text, [loPartialKey]);
 end;
 
-{ Summary:
+{procedure TIDefBrowse.actInspectExecute(Sender: TObject);
+begin
+  inherited;
+
+end;
+
+procedure TIDefBrowse.actInspectExecute(Sender: TObject);
+begin
+  inherited;
+
+end;
+
+procedure TIDefBrowse.actInspectExecute(Sender: TObject);
+begin
+  inherited;
+
+end;
+
+ Summary:
     Atualiza controles conforme estado da tabela
    Description:
       Método disparado quando ocorre alguma iteração
@@ -426,7 +427,6 @@ begin
   actView.Enabled:= FAllowView and (FDataSet.RecordCount > 0);
   actView.Visible := FAllowView;
   actShowSQL.Enabled := FDataSet.SQL.Text <> EmptyStr;
-  actReg.Enabled := (GetTabela <> EmptyStr) and (FDataSet.RecordCount > 0);
 end;
 
 procedure TIDefBrowse.IBrwSrcAfterRefresh(DataSet: TDataSet);
@@ -949,7 +949,7 @@ end;
 
 procedure TIDefBrowse.OnEdit;
 begin
-  fOnEdit:= False;    
+  fOnEdit:= False;
 end;
 
 procedure TIDefBrowse.OnLoad;
@@ -958,7 +958,7 @@ var
   dbGrid: TDBGrid;
 begin
   inherited;
-  
+
   for i := 0 to ComponentCount - 1 do
     if Components[i] is TDBGrid then
     begin
@@ -978,6 +978,42 @@ begin
   end;
 
   WindowState := wsMaximized;
+end;
+
+procedure TIDefBrowse.OnLog(var TableName: string; var Recno: Integer);
+begin
+end;
+
+procedure TIDefBrowse.actLogExecute(Sender: TObject);
+var
+  table: string;
+  recno: Integer;
+begin
+
+  table := EmptyStr;
+  recno := -1;
+
+  OnLog(table, recno);
+
+  if (table = EmptyStr) or (recno = -1) then
+    Exit;
+
+  SysLog := TSysLog.Create(nil);
+  try
+    SysLog.TableName := table;
+    SysLog.Recno := recno;
+    G.RefreshDataSet(SysLog.qLog);
+
+    if SysLog.qLog.IsEmpty then
+    begin
+      U.Out.ShowInfo('Não há informações para inspecionar');
+      Exit;
+    end;
+
+    SysLog.ShowModal;
+  finally
+    FreeAndNil(SysLog);
+  end;
 end;
 
 end.

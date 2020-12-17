@@ -30,16 +30,20 @@ create or replace function log(
    in lrotacionar boolean,
    in itipo integer,
    in inivel integer)
-  RETURNS void AS
+  RETURNS rlog AS
 $$
 Declare
-   thistorico  sys_log.historico%type;
+   xlog   rlog;
 begin
-   thistorico := coalesce(thist, vlog);
-
-   -- Gera registro de log
-   insert into sys_log(descri, historico,  rotacionar,  origem, origem_recno, tipo, nivel)
-        values        (vlog,   thistorico, lrotacionar, itable, itable_recno, itipo, inivel);
+   xlog.descri := vlog;
+   xlog.historico := thist;
+   xlog.rotacionar := lrotacionar;  
+   xlog.origem := itable;
+   xlog.origem_recno := itable_recno; 
+   xlog.tipo := itipo;
+   xlog.nivel := inivel;
+   
+   return log(xlog);
 END;
 $$ LANGUAGE 'plpgsql' VOLATILE;
 
@@ -47,39 +51,56 @@ create or replace function log(
    in vlog varchar,
    in thist text,
    in itipo integer)
-  RETURNS void AS
+  RETURNS rlog AS
 $$
+Declare
+   xlog   rlog;
 begin
-   perform log(vlog, thist, null, null, false, itipo, 3);
+   xlog.descri := vlog;
+   xlog.historico := thist;
+   xlog.rotacionar := false;     
+   xlog.tipo := itipo;   
+   return log(xlog);
 END;
 $$ LANGUAGE 'plpgsql' VOLATILE;
 
 create or replace function log(
    in vlog varchar,
    in thist text)
-  RETURNS void AS
+  RETURNS rlog AS
 $$
+Declare
+   xlog   rlog;
 begin
-   perform log(vlog, thist, 4);
+   xlog.descri := vlog;
+   xlog.historico := thist;   
+   return log(xlog);
 END;
 $$ LANGUAGE 'plpgsql' VOLATILE;
 
 create or replace function log(
    in vlog varchar)
-  RETURNS void AS
+  RETURNS rlog AS
 $$
+Declare
+   xlog   rlog;
 begin
-   perform log(vlog, null, 4);
+   xlog.descri := vlog;   
+   return log(xlog);
 END;
 $$ LANGUAGE 'plpgsql' VOLATILE;
 
 create or replace function log(
    in vlog varchar,
    in itipo integer)
-  RETURNS void AS
+  RETURNS rlog AS
 $$
+Declare
+   xlog   rlog;
 begin
-   perform log(vlog, null, itipo);
+   xlog.descri := vlog;
+   xlog.tipo := itipo;
+   return log(xlog);
 END;
 $$ LANGUAGE 'plpgsql' VOLATILE;
 
@@ -89,10 +110,17 @@ create or replace function log(
    in itipo integer,
    in itable integer,
    in itable_recno integer)
-  RETURNS void AS
+  RETURNS rlog AS
 $$
+Declare
+   xlog   rlog;
 begin
-   perform log(vlog, thist, itable, itable_recno, false, itipo, 3);
+   xlog.descri := vlog;
+   xlog.historico := thist;   
+   xlog.origem := itable;
+   xlog.origem_recno := itable_recno; 
+   xlog.tipo := itipo;   
+   return log(xlog);
 END;
 $$ LANGUAGE 'plpgsql' VOLATILE;
 
@@ -101,45 +129,92 @@ create or replace function log(
    in itipo integer,
    in itable integer,
    in itable_recno integer)
-  RETURNS void AS
+  RETURNS rlog AS
 $$
+Declare
+   xlog   rlog;
 begin
-   perform log(vlog, null, itable, itable_recno, false, itipo, 3);
+   xlog.descri := vlog;   
+   xlog.origem := itable;
+   xlog.origem_recno := itable_recno; 
+   xlog.tipo := itipo;   
+   return log(xlog);
 END;
 $$ LANGUAGE 'plpgsql' VOLATILE;
 
-create or replace function log_error(
-   in vlog varchar)
-  RETURNS void AS
+create or replace function log(
+   in in_log rlog)
+  RETURNS rlog AS
 $$
 begin
-   perform log(vlog, null, null, null, false, 4, 3);
-END;
-$$ LANGUAGE 'plpgsql' VOLATILE;
+   if in_log.descri is null then
+      raise '[[Não é possível registrar log sem descrição]]';
+   end if;
 
-create or replace function log_warning(
-   in vlog varchar)
-  RETURNS void AS
-$$
-begin
-   perform log(vlog, null, null, null, false, 4, 2);
+   in_log.historico := coalesce(in_log.historico, in_log.descri);
+   in_log.username := coalesce(in_log.username, sys_user(), sys_user_def());
+   in_log.tipo := coalesce(in_log.tipo, 4); -- outros
+   in_log.nivel := coalesce(in_log.nivel, 1); -- info
+   in_log.rotacionar := coalesce(in_log.rotacionar, true);
+
+   -- Gera registro de log
+   insert into sys_log
+      (descri,        historico,        rotacionar,        origem,        origem_recno,        tipo,        nivel)
+   values        
+      (in_log.descri, in_log.historico, in_log.rotacionar, in_log.origem, in_log.origem_recno, in_log.tipo, in_log.nivel);
+
+   return in_log;
+
 END;
 $$ LANGUAGE 'plpgsql' VOLATILE;
 
 create or replace function log_info(
    in vlog varchar)
-  RETURNS void AS
+  RETURNS rlog AS
 $$
+declare  
+   xlog  rlog;
 begin
-   perform log(vlog, null, null, null, false, 4, 1);
+   xlog.descri := vlog;
+   return log(xlog);
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+
+create or replace function log_warning(
+   in vlog varchar)
+  RETURNS rlog AS
+$$
+declare  
+   xlog  rlog;
+begin
+   xlog.descri := vlog;
+   xlog.nivel := 2;
+   return log(xlog);
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+
+create or replace function log_error(
+   in vlog varchar)
+  RETURNS rlog AS
+$$
+declare  
+   xlog  rlog;
+begin
+   xlog.descri := vlog;
+   xlog.nivel := 3;
+   return log(xlog);
 END;
 $$ LANGUAGE 'plpgsql' VOLATILE;
 
 create or replace function log_debug(
    in vlog varchar)
-  RETURNS void AS
+  RETURNS rlog AS
 $$
+declare  
+   xlog  rlog;
 begin
-   perform log(vlog, null, null, null, false, 4, 4);
+   xlog.descri := vlog;
+   xlog.nivel := 4;
+   return log(xlog);
 END;
 $$ LANGUAGE 'plpgsql' VOLATILE;

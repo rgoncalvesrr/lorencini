@@ -6,19 +6,31 @@ inherited LogRegister: TLogRegister
   TextHeight = 15
   inherited StatusBar1: TStatusBar
     Top = 374
+    ExplicitTop = 374
+  end
+  inherited Panel1: TPanel
+    inherited pctlFind: TPageControl
+      inherited tsQuery: TTabSheet
+        ExplicitLeft = 3
+        ExplicitTop = 7
+      end
+    end
   end
   inherited Panel2: TPanel
-    Height = 252
+    Height = 242
+    ExplicitHeight = 242
     inherited PageControl1: TPageControl
-      Height = 246
+      Height = 236
+      ExplicitHeight = 236
       inherited TabSheet1: TTabSheet
         Caption = 'Hist'#243'rico'
+        ExplicitHeight = 206
         inherited DBGrid1: TDBGrid
-          Height = 127
+          Height = 111
         end
         object DBMemo1: TDBMemo
           Left = 0
-          Top = 127
+          Top = 117
           Width = 823
           Height = 89
           Align = alBottom
@@ -26,7 +38,6 @@ inherited LogRegister: TLogRegister
           DataSource = DataSource1
           ReadOnly = True
           TabOrder = 1
-          ExplicitTop = 68
         end
       end
     end

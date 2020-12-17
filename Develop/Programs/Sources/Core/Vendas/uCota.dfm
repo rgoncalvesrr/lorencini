@@ -22,10 +22,7 @@ inherited Cota: TCota
       Width = 1081
       ExplicitWidth = 1081
       inherited tsQuery: TTabSheet
-        ExplicitLeft = 4
-        ExplicitTop = 6
         ExplicitWidth = 1073
-        ExplicitHeight = 75
         object Label4: TLabel [0]
           Left = 173
           Top = 48
@@ -86,22 +83,26 @@ inherited Cota: TCota
           Top = 23
           Width = 156
           Height = 23
+          AutoSize = True
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = 'Segoe UI'
+          Font.Pitch = fpVariable
+          Font.Style = []
+          ParentFont = False
           TabOrder = 3
           ExplicitLeft = 261
           ExplicitTop = 23
           ExplicitWidth = 156
-          ExplicitHeight = 23
           inherited ComboBox1: TComboBox
             Width = 156
-            Height = 23
-            ItemHeight = 15
             ItemIndex = 2
             Text = 'Trimestralmente'
             ExplicitWidth = 156
-            ExplicitHeight = 23
           end
           inherited CCalendarDiff1: TCCalendarDiff
-            Date = 43965.049720243060000000
+            Date = 44180.993986793980000000
             DisplayInterval = Label4
             OnChange = FrameData1CCalendarDiff1Change
           end
@@ -205,10 +206,7 @@ inherited Cota: TCota
         end
       end
       inherited tsFind: TTabSheet
-        ExplicitLeft = 4
-        ExplicitTop = 6
         ExplicitWidth = 1073
-        ExplicitHeight = 75
       end
     end
   end
@@ -227,7 +225,6 @@ inherited Cota: TCota
       inherited TabSheet1: TTabSheet
         Caption = 'Todas'
         ImageIndex = -1
-        ExplicitLeft = 4
         ExplicitTop = 33
         ExplicitWidth = 1077
         ExplicitHeight = 368
@@ -309,30 +306,58 @@ inherited Cota: TCota
       object TabSheet3: TTabSheet
         Caption = 'Em Aprova'#231#227'o'
         ImageIndex = 213
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
       object TabSheet4: TTabSheet
         Caption = 'Aprovadas'
         ImageIndex = 211
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
       object TabSheet5: TTabSheet
         Caption = 'Em Estudo'
         ImageIndex = 208
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
       object TabSheet6: TTabSheet
         Caption = 'Autorizadas'
         ImageIndex = 205
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
       object TabSheet9: TTabSheet
         Caption = 'Executadas'
         ImageIndex = 210
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
       object TabSheet7: TTabSheet
         Caption = 'Expiradas'
         ImageIndex = 204
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
       object TabSheet8: TTabSheet
         Caption = 'Canceladas'
         ImageIndex = 209
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
     end
   end
@@ -342,39 +367,6 @@ inherited Cota: TCota
     inherited ToolBar1: TToolBar
       Width = 942
       ExplicitWidth = 942
-      inherited ToolButton2: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited ToolButton5: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited ToolButton9: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited ToolButton6: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited ToolButton1: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited ToolButton8: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited ToolButton3: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited tbOrder: TToolButton
-        ExplicitWidth = 76
-      end
-      inherited tbReport: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited tbOpcao: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited ToolButton10: TToolButton
-        ExplicitWidth = 32
-      end
     end
   end
   inherited alDef: TActionList
@@ -812,10 +804,10 @@ inherited Cota: TCota
   inherited pmOpcao: TPopupMenu
     Left = 528
     Top = 56
-    object Markup1: TMenuItem [6]
+    object Markup1: TMenuItem [5]
       Action = actMarkup
     end
-    object Modelo1: TMenuItem [7]
+    object Modelo1: TMenuItem [6]
       Action = actModelo
     end
   end
