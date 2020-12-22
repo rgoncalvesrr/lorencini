@@ -86,6 +86,7 @@ type
     sLabEnsComp: TZSequence;
     qLabEnsCompunidade: TStringField;
     qLabEnsCompmetodo: TStringField;
+    IBrwSrcincerteza: TFloatField;
     procedure qLabReftipoGetText(Sender: TField; var Text: string;
       DisplayText: Boolean);
     procedure qLabReftipoSetText(Sender: TField; const Text: string);
@@ -107,6 +108,8 @@ type
     procedure qLabEnsCompAfterInsert(DataSet: TDataSet);
   private
     procedure OnEdit; override;
+    procedure RefreshCtrl; override;
+    procedure OnLog(var TableName: string; var Recno: Integer); override;
   public
     { Public declarations }
   end;
@@ -232,6 +235,13 @@ begin
 
 end;
 
+procedure TLabEnsaios.OnLog(var TableName: string; var Recno: Integer);
+begin
+  inherited;
+  TableName := 'labens';
+  Recno := IBrwSrcrecno.AsInteger;
+end;
+
 procedure TLabEnsaios.qLabEnsCompAfterInsert(DataSet: TDataSet);
 begin
   inherited;
@@ -277,6 +287,12 @@ begin
 
   if Text = 'Máximo' then
     Sender.AsInteger := 2;
+end;
+
+procedure TLabEnsaios.RefreshCtrl;
+begin
+  inherited;
+  actLog.Enabled := not IBrwSrc.IsEmpty and (IBrwSrc.State = dsBrowse); 
 end;
 
 initialization

@@ -17,7 +17,6 @@ type
     procedure actRegExecute(Sender: TObject);
   private
     { Private declarations }
-    procedure RefreshCtrl; override;
   public
     { Public declarations }
   end;
@@ -56,12 +55,6 @@ begin
     G.RefreshDataSet(IBrwSrc);
     RefreshCtrl;
   end;
-end;
-
-procedure TSysTables.RefreshCtrl;
-begin
-  inherited;
-  actReg.Enabled := Assigned(DataSet) and (DataSet.State = dsBrowse);
 end;
 
 initialization

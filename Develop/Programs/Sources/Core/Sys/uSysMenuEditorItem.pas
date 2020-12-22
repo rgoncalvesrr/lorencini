@@ -21,6 +21,19 @@ type
     SpeedButton2: TSpeedButton;
     edDescForm: TEdit;
     actLkpReports: TAction;
+    Panel1: TPanel;
+    PageControl1: TPageControl;
+    TabSheet1: TTabSheet;
+    Panel2: TPanel;
+    Panel3: TPanel;
+    Panel4: TPanel;
+    Panel5: TPanel;
+    Panel6: TPanel;
+    Panel7: TPanel;
+    Panel8: TPanel;
+    Panel9: TPanel;
+    Label4: TLabel;
+    Label5: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure actOkExecute(Sender: TObject);
     procedure edFormChange(Sender: TObject);
@@ -47,7 +60,7 @@ implementation
 
 {$R *.dfm}
 
-Uses uIUtils, mcUtils, uDM, uSysForms, uSysReports;
+Uses uIUtils, mcUtils, uDM, uSysForms, uSysReports, uResources;
 
 procedure TSysMenuEditorItem.actCancelExecute(Sender: TObject);
 begin

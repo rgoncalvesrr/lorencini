@@ -68,20 +68,6 @@ type
     qAmostraspedido: TIntegerField;
     qAmostrasServ: TZQuery;
     dsAmostrasServ: TDataSource;
-    Panel3: TPanel;
-    PageControl2: TPageControl;
-    TabSheet6: TTabSheet;
-    DBGrid2: TDBGrid;
-    qLog: TZQuery;
-    dsLog: TDataSource;
-    DBMemo1: TDBMemo;
-    Panel4: TPanel;
-    qLogdata: TDateTimeField;
-    qLogdescri: TStringField;
-    qLoghistorico: TMemoField;
-    Label4: TLabel;
-    qLogusername: TStringField;
-    qLogname: TStringField;
     qAmostrasetiqueta: TStringField;
     TabSheet7: TTabSheet;
     actPedLiberar: TAction;
@@ -307,6 +293,7 @@ type
     procedure RefreshCtrl; override;
     procedure OnEdit; override;
     procedure OnPrint(Sender: TReport; var Continue: Boolean); override;
+    procedure OnLog(var TableName: string; var Recno: Integer); override;
     procedure InitMat;
     procedure InitServ;
     procedure InitMObra;
@@ -342,9 +329,9 @@ begin
   IBrwSrc.Post;
   
   try
+    // Localizado o pedido
+    oPedido := FindReport(20);
     try
-      // Localizado o pedido
-      oPedido := FindReport(20);
       if not Assigned(oPedido) then
         raise Exception.Create('Não foi possível localizar relatório 20 (pedido).');
 
@@ -659,13 +646,11 @@ procedure TPed.IBrwSrcAfterScroll(DataSet: TDataSet);
 begin
   inherited;
   qAmostras.ParamByName('pedido').AsInteger := IBrwSrcrecno.AsInteger;
-  qLog.ParamByName('pedido').AsInteger := IBrwSrcrecno.AsInteger;
   qDesp.ParamByName('pedido').AsInteger := IBrwSrcrecno.AsInteger;
   qMat.ParamByName('pedido').AsInteger := IBrwSrcrecno.AsInteger;
   qServ.ParamByName('pedido').AsInteger := IBrwSrcrecno.AsInteger;
   qMObra.ParamByName('pedido').AsInteger := IBrwSrcrecno.AsInteger;
 //  G.RefreshDataSet(qAmostras);
-  G.RefreshDataSet(qLog);
   G.RefreshDataSet(qDesp);
   G.RefreshDataSet(qMat);
   G.RefreshDataSet(qServ);
@@ -851,6 +836,13 @@ begin
   cbStatus.ItemIndex := 1;
   cbStatusChange(cbStatus);
   DataSet := IBrwSrc;
+end;
+
+procedure TPed.OnLog(var TableName: string; var Recno: Integer);
+begin
+  inherited;
+  TableName := 'pedido';
+  Recno := IBrwSrcrecno.AsInteger;
 end;
 
 procedure TPed.OnPrint(Sender: TReport; var Continue: Boolean);
@@ -1146,6 +1138,7 @@ begin
     actDel.Enabled := (IBrwSrc.State = dsBrowse) and (IBrwSrc.RecordCount > 0)
       and (IBrwSrcstatus.AsInteger = 10);
     actEdit.Enabled := actDel.Enabled;
+    actLog.Enabled := not IBrwSrc.IsEmpty and (IBrwSrc.State = dsBrowse);
   finally
     actPedLiberar.Visible := actPedLiberar.Enabled or (cbStatus.ItemIndex = 0);
     actPedEmitir.Visible := actPedEmitir.Enabled or (cbStatus.ItemIndex = 0);

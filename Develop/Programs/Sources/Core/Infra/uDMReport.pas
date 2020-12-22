@@ -785,6 +785,7 @@ type
     R00017pednf_valor: TFloatField;
     R00017pedtotal: TFloatField;
     R00017localizacao: TStringField;
+    R00014aincerteza: TFloatField;
     procedure DataModuleCreate(Sender: TObject);
     procedure R00011CalcFields(DataSet: TDataSet);
     procedure R00014CalcFields(DataSet: TDataSet);

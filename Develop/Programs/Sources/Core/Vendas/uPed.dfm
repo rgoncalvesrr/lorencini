@@ -23,7 +23,6 @@ inherited Ped: TPed
         ExplicitLeft = 4
         ExplicitTop = 6
         ExplicitWidth = 1101
-        ExplicitHeight = 75
         object Panel5: TPanel [0]
           Left = 0
           Top = 0
@@ -61,7 +60,6 @@ inherited Ped: TPed
         inherited BitBtn2: TBitBtn
           Left = 1000
           ExplicitLeft = 1000
-          ExplicitTop = 11
         end
         object Panel6: TPanel
           Left = 54
@@ -158,8 +156,6 @@ inherited Ped: TPed
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 4
-          ExplicitLeft = 525
-          ExplicitTop = -2
           object Label5: TLabel
             AlignWithMargins = True
             Left = 3
@@ -178,7 +174,7 @@ inherited Ped: TPed
             Width = 185
             Height = 15
             Align = alTop
-            Caption = '01/10/2020 a 31/10/2020'
+            Caption = '01/12/2020 a 31/12/2020'
             Transparent = True
             ExplicitWidth = 128
           end
@@ -210,7 +206,7 @@ inherited Ped: TPed
             end
             inherited CCalendarDiff1: TCCalendarDiff
               Interval = diMonthly
-              Date = 44132.049103553240000000
+              Date = 44181.024370312500000000
               DisplayInterval = Label6
               OnChange = FrameData1CCalendarDiff1Change
             end
@@ -218,10 +214,7 @@ inherited Ped: TPed
         end
       end
       inherited tsFind: TTabSheet
-        ExplicitLeft = 4
-        ExplicitTop = 6
         ExplicitWidth = 1101
-        ExplicitHeight = 75
       end
     end
   end
@@ -232,7 +225,7 @@ inherited Ped: TPed
     ExplicitHeight = 492
     inherited PageControl1: TPageControl
       Width = 1113
-      Height = 336
+      Height = 486
       ActivePage = TabSheet2
       Images = Resources.medium_n
       ExplicitWidth = 1113
@@ -240,19 +233,21 @@ inherited Ped: TPed
       inherited TabSheet1: TTabSheet
         Caption = 'Todos'
         ImageIndex = -1
-        ExplicitLeft = 4
         ExplicitTop = 33
         ExplicitWidth = 1105
         ExplicitHeight = 299
         inherited DBGrid1: TDBGrid
           Width = 1099
-          Height = 293
+          Height = 443
           OnDrawColumnCell = DBGrid1DrawColumnCell
         end
       end
       object TabSheet2: TTabSheet
         Caption = 'Em Digita'#231#227'o'
         ImageIndex = 213
+        ExplicitLeft = 2
+        ExplicitTop = 34
+        ExplicitHeight = 299
         object ControlBar1: TControlBar
           AlignWithMargins = True
           Left = 3
@@ -322,106 +317,37 @@ inherited Ped: TPed
       object TabSheet7: TTabSheet
         Caption = 'Aprova'#231#227'o de Cr'#233'dito'
         ImageIndex = 214
+        ExplicitHeight = 299
       end
       object TabSheet3: TTabSheet
         Caption = 'Autoriza'#231#227'o para Execu'#231#227'o'
         ImageIndex = 210
+        ExplicitHeight = 299
       end
       object TabSheet8: TTabSheet
         Caption = 'Em Remessa'
         ImageIndex = 211
+        ExplicitHeight = 299
       end
       object TabSheet9: TTabSheet
         Caption = 'Aguardando Amostra'
         ImageIndex = 212
+        ExplicitHeight = 299
       end
       object TabSheet4: TTabSheet
         Caption = 'Em Execu'#231#227'o'
         ImageIndex = 205
+        ExplicitHeight = 299
       end
       object TabSheet5: TTabSheet
         Caption = 'Executado'
         ImageIndex = 208
+        ExplicitHeight = 299
       end
       object TabSheet10: TTabSheet
         Caption = 'Cancelados'
         ImageIndex = 204
-      end
-    end
-    object Panel3: TPanel
-      Left = 0
-      Top = 342
-      Width = 1119
-      Height = 150
-      Align = alBottom
-      BevelOuter = bvNone
-      TabOrder = 1
-      object PageControl2: TPageControl
-        AlignWithMargins = True
-        Left = 3
-        Top = 3
-        Width = 620
-        Height = 144
-        ActivePage = TabSheet6
-        Align = alClient
-        TabOrder = 0
-        object TabSheet6: TTabSheet
-          Caption = 'Mensagens do Pedido'
-          object DBGrid2: TDBGrid
-            Tag = 1
-            Left = 0
-            Top = 0
-            Width = 612
-            Height = 114
-            Align = alClient
-            BorderStyle = bsNone
-            Ctl3D = False
-            DataSource = dsLog
-            DefaultDrawing = False
-            Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
-            ParentCtl3D = False
-            ReadOnly = True
-            TabOrder = 0
-            TitleFont.Charset = ANSI_CHARSET
-            TitleFont.Color = clWindowText
-            TitleFont.Height = -12
-            TitleFont.Name = 'Segoe UI'
-            TitleFont.Pitch = fpVariable
-            TitleFont.Style = []
-            OnDrawColumnCell = DBGridDrawColumnCell
-            OnDblClick = DBGridDblClick
-            OnKeyPress = DBGridKeyPress
-          end
-        end
-      end
-      object Panel4: TPanel
-        Left = 626
-        Top = 0
-        Width = 493
-        Height = 150
-        Align = alRight
-        BevelOuter = bvNone
-        TabOrder = 1
-        object Label4: TLabel
-          AlignWithMargins = True
-          Left = 3
-          Top = 3
-          Width = 487
-          Height = 15
-          Align = alTop
-          Caption = 'Hist'#243'rico da Mensagem'
-          ExplicitWidth = 126
-        end
-        object DBMemo1: TDBMemo
-          Left = 0
-          Top = 21
-          Width = 493
-          Height = 129
-          Align = alClient
-          DataField = 'historico'
-          DataSource = dsLog
-          TabOrder = 0
-        end
+        ExplicitHeight = 299
       end
     end
   end
@@ -429,46 +355,17 @@ inherited Ped: TPed
     Width = 1113
     ExplicitWidth = 1113
     inherited ToolBar1: TToolBar
-      inherited ToolButton2: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited ToolButton5: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited ToolButton9: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited ToolButton6: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited ToolButton1: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited ToolButton8: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited ToolButton3: TToolButton
-        ExplicitWidth = 32
-      end
       inherited ToolButton4: TToolButton
         Enabled = False
       end
       inherited tbOrder: TToolButton
         Enabled = False
-        ExplicitWidth = 76
-      end
-      inherited tbReport: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited tbOpcao: TToolButton
-        ExplicitWidth = 32
       end
       inherited ToolButton11: TToolButton
         Enabled = False
       end
       inherited ToolButton10: TToolButton
         Enabled = False
-        ExplicitWidth = 32
       end
     end
   end
@@ -1386,70 +1283,6 @@ inherited Ped: TPed
     DataSet = qAmostrasServ
     Left = 840
     Top = 368
-  end
-  object qLog: TZQuery
-    Connection = DM.Design
-    SQL.Strings = (
-      'select l.data, l.descri, l.historico, l.username, u.name'
-      '  from sys_log l'
-      '       join sys_users u'
-      '         on u.username = l.username'
-      ' where l.origem = sys_origem('#39'pedido'#39')'
-      '   and l.origem_recno = :pedido'
-      ' order by l.data desc')
-    Params = <
-      item
-        DataType = ftUnknown
-        Name = 'pedido'
-        ParamType = ptUnknown
-      end>
-    FetchRow = 50
-    Left = 176
-    Top = 224
-    ParamData = <
-      item
-        DataType = ftUnknown
-        Name = 'pedido'
-        ParamType = ptUnknown
-      end>
-    object qLogdata: TDateTimeField
-      DisplayLabel = 'Data'
-      FieldName = 'data'
-      Required = True
-      DisplayFormat = 'dd/mm/yyyy hh:nn:ss'
-    end
-    object qLogdescri: TStringField
-      DisplayLabel = 'Descri'#231#227'o'
-      DisplayWidth = 40
-      FieldName = 'descri'
-      Required = True
-      Size = 255
-    end
-    object qLoghistorico: TMemoField
-      FieldName = 'historico'
-      Visible = False
-      BlobType = ftMemo
-    end
-    object qLogusername: TStringField
-      DisplayLabel = 'Usu'#225'rio'
-      DisplayWidth = 15
-      FieldName = 'username'
-      Required = True
-      Visible = False
-    end
-    object qLogname: TStringField
-      DisplayLabel = 'Usu'#225'rio'
-      DisplayWidth = 25
-      FieldName = 'name'
-      Required = True
-      Size = 40
-    end
-  end
-  object dsLog: TDataSource
-    AutoEdit = False
-    DataSet = qLog
-    Left = 232
-    Top = 224
   end
   object qDesp: TZQuery
     Connection = DM.Design
