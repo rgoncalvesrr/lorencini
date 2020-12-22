@@ -41,9 +41,8 @@ object DMReport: TDMReport
     PreviewOptions.Zoom = 1.000000000000000000
     PrintOptions.Printer = 'Padr'#227'o'
     PrintOptions.PrintOnSheet = 0
-    ReportOptions.Compressed = True
     ReportOptions.CreateDate = 39757.585007557900000000
-    ReportOptions.LastChange = 44156.555285185180000000
+    ReportOptions.LastChange = 44071.009155844900000000
     ScriptLanguage = 'PascalScript'
     StoreInDFM = False
     OnReportPrint = 'ReportBaseOnReportPrint'
@@ -2526,7 +2525,7 @@ object DMReport: TDMReport
       
         '       r.v1,     r.v2,       r.v3,        r.v4,       r.v5,     ' +
         'r.v6, r.ensaio_recno,'
-      '       e.somenteleitura'
+      '       e.somenteleitura, r.incerteza'
       '  from labamostras_res r'
       '       join labrel_ens le'
       '         on le.relato_recno = r.relato_recno'
@@ -2637,6 +2636,10 @@ object DMReport: TDMReport
     object R00014asomenteleitura: TBooleanField
       FieldName = 'somenteleitura'
     end
+    object R00014aincerteza: TFloatField
+      FieldName = 'incerteza'
+      Required = True
+    end
   end
   object frxR00014a: TfrxDBDataset
     Description = 'Laudo'
@@ -2662,7 +2665,8 @@ object DMReport: TDMReport
       'arred=arred'
       'sezerotxt=sezerotxt'
       'ensaio_recno=ensaio_recno'
-      'somenteleitura=somenteleitura')
+      'somenteleitura=somenteleitura'
+      'incerteza=incerteza')
     DataSet = R00014a
     BCDToCurrency = False
     Left = 280
