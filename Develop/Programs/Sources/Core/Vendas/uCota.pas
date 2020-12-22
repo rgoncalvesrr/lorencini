@@ -251,8 +251,7 @@ var
 
 implementation
 
-uses uDM, uResources, ccalendardiff, uCotaM, iTypes, uMarkup, uDoc,
-  uDMReport, uLogRegister, uDBLog, uCotaAutorizar, uCotaCancelar;
+uses uDM, uResources, ccalendardiff, uCotaM, iTypes, uMarkup, uDoc, uDMReport, uDBLog, uCotaAutorizar, uCotaCancelar;
 
 {$R *.dfm}
 

@@ -18,11 +18,12 @@ CREATE OR REPLACE FUNCTION b_labamostras_res()
   RETURNS trigger AS
 $$
 Declare
-   xCur        refcursor;
-   r           record;
-   ra          record;
-   rinst       record;
-   fvalor      float;
+   xCur     refcursor;
+   r        record;
+   ra       record;
+   rinst    record;
+   fvalor   float;
+   xlog     rlog;
 BEGIN
    if tg_op <> 'DELETE' then
       -- Obtem informações do laudo
@@ -76,11 +77,15 @@ BEGIN
               from labinst
              where recno = new.labinst_recno;
 
-            perform log(
-               'Impossível localizar certificado',
-               'Não foi possível localizar certificado de aferição para o instrumento ' || new.labinst_recno ||
-               ' - ' || r.descri || coalesce(', série '|| r.serie, '') || coalesce(', modelo '||r.modelo, '')||' na data '||to_char(ra.criacao, 'DD/MM/YYYY'),
-               sys_origem('labamostras_res'), new.recno, false, 1, 2);
+            xlog.descri := 'Impossível localizar certificado';
+            xlog.historico := format('Não foi possível localizar certificado de aferição para o instrumento %s - %s%s%s para data %s', 
+               new.labinst_recno, r.descri, coalesce(', série '|| r.serie, ''), coalesce(', modelo '||r.modelo, ''), to_char(ra.criacao, 'DD/MM/YYYY'));
+            xlog.origem := sys_origem('labamostras_res');
+            xlog.origem_recno := new.recno;
+            xlog.nivel := 1;
+            xlog.tipo = 2;
+
+            perform log(xlog);
          end if;
       end if;
 
@@ -99,6 +104,18 @@ BEGIN
       if Found then
          new.valor := round(new.valor, r.dec);
       end if;
+
+      -- Cálculo da incerteza
+      --- Obtendo percentual de certeza
+      select incerteza
+        into new.incerteza
+        from labens 
+       where recno = new.ensaio_recno;
+
+      --- Calculando valor da incerteza
+      if new.incerteza > 0 then
+         new.incerteza := new.incerteza / 100 * new.valor;
+      end if; 
 
       return new;
    else      

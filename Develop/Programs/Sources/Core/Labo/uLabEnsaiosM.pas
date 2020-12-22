@@ -89,6 +89,9 @@ type
     Panel22: TPanel;
     Panel23: TPanel;
     Panel24: TPanel;
+    Panel25: TPanel;
+    Label17: TLabel;
+    DBEdit13: TDBEdit;
     procedure DBEdit4Exit(Sender: TObject);
     procedure FindUnidadeExecute(Sender: TObject);
     procedure FindMetodoExecute(Sender: TObject);

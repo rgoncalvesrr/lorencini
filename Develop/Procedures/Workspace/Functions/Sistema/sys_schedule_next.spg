@@ -1,0 +1,95 @@
+/**
+   Gera o agendamento que será efetivamente executado
+
+	@author  Ricardo Gonçalves
+	@date    24/10/2017
+	@trigger 
+	
+   @param in_recno registro do agendamento que deverá ser processado
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso      
+*/
+Create or Replace Function sys_schedule_next(
+   in in_recno integer) 
+Returns integer As 
+$$
+Declare
+   r     record;
+   data  timestamp;
+   imin  integer;
+   ihor  integer;
+   idia  integer;
+   imes  integer;
+   isem  integer;
+Begin
+   select descri, habilitado, inicio, expiracao, fn, agendamento, min, hor, dia, mes, sem
+     into r
+     from sys_schedules_setup
+    where recno = in_recno;
+    
+   if not FOUND then
+      raise '[[Não foi possível localizar agendamento %]]', in_recno;
+   end if;
+   
+   if not r.habilitado then
+      perform log_error(format('Agendamento %s - %s não poder executado porque está desabilitado!', in_recno, r.descri));
+      return 1;
+   end if;
+   
+   -- Exclui dos os agendamento que não iniciaram o processamento ainda
+   -- delete 
+   --   from [(ss104)]
+   --  where agendamento = in_recno
+   --    and estado < 1;     
+   
+   -- Verifica se agendamento está vigente ou expirou
+   -- if r.expiracao is not null and (r.expiracao < clock_timestamp()) then   
+      -- Desabilita o agendamento
+      -- update [(ss103)]
+      --    set estado = 0
+      --  where recno = in_recno;
+       
+      -- return 1;
+   -- end if;
+
+   data := clock_timestamp() + interval '1 min';
+
+   while data <= coalesce(r.expiracao, data + interval '3 year') loop
+      data := date_trunc('minute', data);
+      imin := extract(minute from data);
+      ihor := extract(hour from data);
+      idia := extract(day from data);
+      imes := extract(month from data);
+      isem := extract(dow from data);
+
+      if isem = 7 then
+         isem := 0;
+      end if;
+
+      if r.min @> array[imin] and r.hor @> array[ihor] and r.dia @> array[idia] and
+         r.mes @> array[imes] and r.sem @> array[isem]
+      then
+         if not exists(
+            select 1
+              from sys_schedules
+             where agendamento = in_recno
+               and execucao = data)
+         then
+            insert into sys_schedules
+               (agendamento, execucao, historico, status)
+            values           
+               (in_recno, data, 'Agendamento por recorrência', 0);
+               
+            exit;
+         end if; 
+                 
+      end if;
+
+      data := data + interval '1 min';
+   end loop;
+
+   return 1;
+End;
+$$
+language plpgsql;

@@ -1,0 +1,32 @@
+/**
+   Registra alterações no tipo de ensaio
+
+	@author    Ricardo Gonçalves
+	@date      15/12/2020
+	@trigger   labens A IUD
+
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso   
+*/
+CREATE OR REPLACE FUNCTION a_labens()
+  RETURNS trigger AS
+$$
+declare
+   xlog  rlog;
+BEGIN
+   if tg_op = 'UPDATE' then
+      if new.incerteza <> old.incerteza then
+         xlog.descri := format('Atualização da taxa de incerteza de %s%% para %s%%', to_char(old.incerteza, 'FM999G990D90'), to_char(new.incerteza, 'FM999G990D90'));
+         xlog.origem := sys_origem('labens');
+         xlog.origem_recno := new.recno;
+         xlog.tipo := 2;
+
+         perform log(xlog);
+      end if;
+   end if;
+   
+   return null;   
+END;
+$$
+  LANGUAGE 'plpgsql' VOLATILE;
