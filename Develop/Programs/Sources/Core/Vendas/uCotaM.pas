@@ -177,6 +177,10 @@ type
     Panel55: TPanel;
     Label41: TLabel;
     DBEdit21: TDBEdit;
+    Panel56: TPanel;
+    Panel59: TPanel;
+    Label44: TLabel;
+    JvDBComboBox1: TJvDBComboBox;
     procedure DBEdit7Exit(Sender: TObject);
     procedure actFindTipoExecute(Sender: TObject);
     procedure DBEdit9Exit(Sender: TObject);

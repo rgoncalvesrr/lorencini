@@ -1,0 +1,8 @@
+set session authorization lorencini;
+
+alter table cota 
+	add dec_conf boolean default(true) not null;
+
+alter table pedido 
+	add dec_conf boolean default(true) not null;
+

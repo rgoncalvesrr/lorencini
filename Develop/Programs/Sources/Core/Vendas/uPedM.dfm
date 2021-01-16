@@ -432,8 +432,6 @@ inherited PedM: TPedM
             Align = alLeft
             BevelOuter = bvNone
             TabOrder = 6
-            ExplicitLeft = 62
-            ExplicitTop = 16
             object SpeedButton1: TSpeedButton
               AlignWithMargins = True
               Left = 0
@@ -1118,7 +1116,6 @@ inherited PedM: TPedM
             Align = alLeft
             BevelOuter = bvNone
             TabOrder = 1
-            ExplicitLeft = 117
             object Label40: TLabel
               AlignWithMargins = True
               Left = 3
@@ -1462,16 +1459,17 @@ inherited PedM: TPedM
           object Panel60: TPanel
             Left = 0
             Top = 0
-            Width = 1112
+            Width = 904
             Height = 50
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 0
+            ExplicitWidth = 1112
             object Label8: TLabel
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 1106
+              Width = 898
               Height = 15
               Align = alTop
               Caption = 'Destinat'#225'rio'
@@ -1482,12 +1480,56 @@ inherited PedM: TPedM
               AlignWithMargins = True
               Left = 3
               Top = 24
-              Width = 1106
+              Width = 898
               Height = 23
               Align = alClient
               DataField = 'destinatario'
               DataSource = Ped.DataSource1
               TabOrder = 0
+              ExplicitWidth = 1106
+            end
+          end
+          object Panel62: TPanel
+            Left = 904
+            Top = 0
+            Width = 208
+            Height = 50
+            Align = alRight
+            BevelOuter = bvNone
+            TabOrder = 1
+            ExplicitLeft = 872
+            ExplicitTop = 3
+            object Label45: TLabel
+              AlignWithMargins = True
+              Left = 3
+              Top = 3
+              Width = 202
+              Height = 15
+              Align = alTop
+              Caption = 'Declara'#231#227'o de Conformidade'
+              ExplicitWidth = 154
+            end
+            object JvDBComboBox1: TJvDBComboBox
+              AlignWithMargins = True
+              Left = 3
+              Top = 24
+              Width = 202
+              Height = 23
+              Align = alClient
+              DataField = 'dec_conf'
+              DataSource = Ped.DataSource1
+              Items.Strings = (
+                'Aceito a declara'#231#227'o'
+                'N'#227'o aceito a declara'#231#227'o')
+              TabOrder = 0
+              Values.Strings = (
+                'true'
+                'false')
+              ListSettings.OutfilteredValueFont.Charset = DEFAULT_CHARSET
+              ListSettings.OutfilteredValueFont.Color = clRed
+              ListSettings.OutfilteredValueFont.Height = -11
+              ListSettings.OutfilteredValueFont.Name = 'Tahoma'
+              ListSettings.OutfilteredValueFont.Style = []
             end
           end
         end

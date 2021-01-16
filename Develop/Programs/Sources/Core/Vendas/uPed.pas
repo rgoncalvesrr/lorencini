@@ -227,6 +227,7 @@ type
     Panel6: TPanel;
     Panel7: TPanel;
     Panel8: TPanel;
+    IBrwSrcdec_conf: TBooleanField;
     procedure IBrwSrcaprovadoGetText(Sender: TField; var Text: string;
       DisplayText: Boolean);
     procedure IBrwSrcaprovadoSetText(Sender: TField; const Text: string);
@@ -640,6 +641,7 @@ begin
   IBrwSrcaprovado.AsInteger := 3;
   IBrwSrcremessa.AsBoolean := False;
   IBrwSrclaboratorio.AsBoolean := False;
+  IBrwSrcdec_conf.AsBoolean := True;
 end;
 
 procedure TPed.IBrwSrcAfterScroll(DataSet: TDataSet);

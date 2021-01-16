@@ -54,6 +54,7 @@ Begin
       new.status := _SDIGITACAO;
       new.contato_fin := coalesce(new.contato_fin, new.contato);
       new.contato_tec := coalesce(new.contato_tec, new.contato);
+      new.dec_conf := coalesce(new.dec_conf, true);
    else
       if new.status < old.status and not sys_flag('cota', new.recno) then
          raise '[[Não é possível retroceder etapas na cotação %]]', new.recno;
