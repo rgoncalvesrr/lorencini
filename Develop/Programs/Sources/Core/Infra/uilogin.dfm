@@ -27,6 +27,7 @@ inherited ILogin: TILogin
     Font.Color = 12615680
     Font.Height = -15
     Font.Name = 'Tahoma'
+    Font.Pitch = fpVariable
     Font.Style = [fsBold]
     ParentFont = False
     Layout = tlCenter
@@ -112,8 +113,8 @@ inherited ILogin: TILogin
       OnChange = edUserNameChange
     end
     object edPassword: TJvEdit
-      Left = 228
-      Top = 149
+      Left = 220
+      Top = 145
       Width = 173
       Height = 25
       ThemedPassword = True
@@ -225,6 +226,7 @@ inherited ILogin: TILogin
       Font.Color = 12615680
       Font.Height = -48
       Font.Name = 'Segoe UI'
+      Font.Pitch = fpVariable
       Font.Style = [fsBold]
       ParentFont = False
     end
@@ -238,6 +240,7 @@ inherited ILogin: TILogin
       Font.Color = clGray
       Font.Height = -48
       Font.Name = 'Segoe UI'
+      Font.Pitch = fpVariable
       Font.Style = []
       ParentFont = False
     end
