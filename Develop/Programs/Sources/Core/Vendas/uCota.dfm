@@ -22,7 +22,10 @@ inherited Cota: TCota
       Width = 1081
       ExplicitWidth = 1081
       inherited tsQuery: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 6
         ExplicitWidth = 1073
+        ExplicitHeight = 75
         object Label4: TLabel [0]
           Left = 173
           Top = 48
@@ -102,7 +105,7 @@ inherited Cota: TCota
             ExplicitWidth = 156
           end
           inherited CCalendarDiff1: TCCalendarDiff
-            Date = 44180.993986793980000000
+            Date = 44212.642789976850000000
             DisplayInterval = Label4
             OnChange = FrameData1CCalendarDiff1Change
           end
@@ -206,7 +209,10 @@ inherited Cota: TCota
         end
       end
       inherited tsFind: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 6
         ExplicitWidth = 1073
+        ExplicitHeight = 75
       end
     end
   end
@@ -225,6 +231,7 @@ inherited Cota: TCota
       inherited TabSheet1: TTabSheet
         Caption = 'Todas'
         ImageIndex = -1
+        ExplicitLeft = 4
         ExplicitTop = 33
         ExplicitWidth = 1077
         ExplicitHeight = 368
@@ -306,58 +313,30 @@ inherited Cota: TCota
       object TabSheet3: TTabSheet
         Caption = 'Em Aprova'#231#227'o'
         ImageIndex = 213
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object TabSheet4: TTabSheet
         Caption = 'Aprovadas'
         ImageIndex = 211
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object TabSheet5: TTabSheet
         Caption = 'Em Estudo'
         ImageIndex = 208
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object TabSheet6: TTabSheet
         Caption = 'Autorizadas'
         ImageIndex = 205
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object TabSheet9: TTabSheet
         Caption = 'Executadas'
         ImageIndex = 210
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object TabSheet7: TTabSheet
         Caption = 'Expiradas'
         ImageIndex = 204
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object TabSheet8: TTabSheet
         Caption = 'Canceladas'
         ImageIndex = 209
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
     end
   end
@@ -367,6 +346,39 @@ inherited Cota: TCota
     inherited ToolBar1: TToolBar
       Width = 942
       ExplicitWidth = 942
+      inherited ToolButton2: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton5: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton9: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton6: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton1: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton8: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton3: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited tbOrder: TToolButton
+        ExplicitWidth = 76
+      end
+      inherited tbReport: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited tbOpcao: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton10: TToolButton
+        ExplicitWidth = 32
+      end
     end
   end
   inherited alDef: TActionList
@@ -462,7 +474,7 @@ inherited Cota: TCota
       
         '       ctt.celular contatotec_celular, ctt.email contatotec_emai' +
         'l,'
-      '       co.remessa, co.laboratorio'
+      '       co.remessa, co.laboratorio, co.dec_conf'
       '  from cota co'
       '       join tbclientes cl'
       '         on cl.codigo = co.cliente'
@@ -800,6 +812,11 @@ inherited Cota: TCota
       Visible = False
       Size = 15
     end
+    object IBrwSrcdec_conf: TBooleanField
+      DisplayLabel = 'Declara'#231#227'o de Conformidade'
+      FieldName = 'dec_conf'
+      Required = True
+    end
   end
   inherited pmOpcao: TPopupMenu
     Left = 528
@@ -824,7 +841,7 @@ inherited Cota: TCota
       
         '   recno, frascos, seringas, envio, frete, correio, coleta, pedc' +
         'li, contato_fin,'
-      '   contato_tec, remessa, laboratorio, condicaopg)'
+      '   contato_tec, remessa, laboratorio, condicaopg, dec_conf)'
       'VALUES'
       
         '  (:cliente, :vendedor, :grupo, :status, :emissao, :validade, :d' +
@@ -832,7 +849,7 @@ inherited Cota: TCota
       
         '   :recno, :frascos, :seringas, :envio, :frete, :correio, :colet' +
         'a, :pedcli, :contato_fin,'
-      '   :contato_tec, :remessa, :laboratorio, :condicaopg)')
+      '   :contato_tec, :remessa, :laboratorio, :condicaopg, :dec_conf)')
     ModifySQL.Strings = (
       'UPDATE cota SET'
       '  cliente = :cliente,'
@@ -854,7 +871,8 @@ inherited Cota: TCota
       '  contato_tec = :contato_tec,'
       '  remessa = :remessa,'
       '  laboratorio = :laboratorio,'
-      '  condicaopg = :condicaopg '
+      '  condicaopg = :condicaopg,'
+      '  dec_conf = :dec_conf'
       'WHERE'
       '  cota.recno = :OLD_recno')
     Left = 160
@@ -958,6 +976,11 @@ inherited Cota: TCota
       item
         DataType = ftUnknown
         Name = 'condicaopg'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'dec_conf'
         ParamType = ptUnknown
       end
       item

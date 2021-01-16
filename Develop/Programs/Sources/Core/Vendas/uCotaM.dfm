@@ -1300,6 +1300,8 @@ inherited CotaM: TCotaM
             Align = alLeft
             BevelOuter = bvNone
             TabOrder = 1
+            ExplicitLeft = 70
+            ExplicitTop = 3
             object Label25: TLabel
               AlignWithMargins = True
               Left = 3
@@ -1587,28 +1589,85 @@ inherited CotaM: TCotaM
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 4
-          object Label27: TLabel
-            AlignWithMargins = True
-            Left = 3
-            Top = 3
-            Width = 1071
-            Height = 15
-            Align = alTop
-            Caption = 'Atividade'
-            ExplicitWidth = 50
-          end
-          object DBEdit23: TDBEdit
-            AlignWithMargins = True
-            Left = 3
-            Top = 24
-            Width = 1071
-            Height = 23
-            TabStop = False
+          ExplicitTop = 197
+          object Panel56: TPanel
+            Left = 0
+            Top = 0
+            Width = 869
+            Height = 50
             Align = alClient
-            DataField = 'atividade'
-            DataSource = Cota.DataSource1
-            ReadOnly = True
+            BevelOuter = bvNone
             TabOrder = 0
+            ExplicitTop = 18
+            ExplicitWidth = 658
+            ExplicitHeight = 29
+            object Label27: TLabel
+              AlignWithMargins = True
+              Left = 3
+              Top = 3
+              Width = 863
+              Height = 15
+              Align = alTop
+              Caption = 'Atividade'
+              ExplicitWidth = 50
+            end
+            object DBEdit23: TDBEdit
+              AlignWithMargins = True
+              Left = 3
+              Top = 24
+              Width = 863
+              Height = 23
+              TabStop = False
+              Align = alClient
+              DataField = 'atividade'
+              DataSource = Cota.DataSource1
+              ReadOnly = True
+              TabOrder = 0
+              ExplicitWidth = 652
+            end
+          end
+          object Panel59: TPanel
+            Left = 869
+            Top = 0
+            Width = 208
+            Height = 50
+            Align = alRight
+            BevelOuter = bvNone
+            TabOrder = 1
+            ExplicitLeft = 872
+            ExplicitTop = 3
+            object Label44: TLabel
+              AlignWithMargins = True
+              Left = 3
+              Top = 3
+              Width = 202
+              Height = 15
+              Align = alTop
+              Caption = 'Declara'#231#227'o de Conformidade'
+              ExplicitWidth = 154
+            end
+            object JvDBComboBox1: TJvDBComboBox
+              AlignWithMargins = True
+              Left = 3
+              Top = 24
+              Width = 202
+              Height = 23
+              Align = alClient
+              DataField = 'dec_conf'
+              DataSource = Cota.DataSource1
+              Items.Strings = (
+                'Aceito a declara'#231#227'o'
+                'N'#227'o aceito a declara'#231#227'o')
+              TabOrder = 0
+              Values.Strings = (
+                'true'
+                'false')
+              ListSettings.OutfilteredValueFont.Charset = DEFAULT_CHARSET
+              ListSettings.OutfilteredValueFont.Color = clRed
+              ListSettings.OutfilteredValueFont.Height = -11
+              ListSettings.OutfilteredValueFont.Name = 'Tahoma'
+              ListSettings.OutfilteredValueFont.Style = []
+            end
           end
         end
       end

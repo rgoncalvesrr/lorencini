@@ -37,6 +37,7 @@ BEGIN
          new.criado := localtimestamp;
          new.status := 10; -- força estado de digitação
          new.frete := coalesce(new.frete, 0);
+         new.dec_conf := coalesce(new.dec_conf, true);
          
          if new.indice is null then
             select recno

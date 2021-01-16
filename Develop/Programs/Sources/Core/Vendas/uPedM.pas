@@ -206,6 +206,9 @@ type
     Panel61: TPanel;
     Label44: TLabel;
     DBMemo4: TDBMemo;
+    Panel62: TPanel;
+    Label45: TLabel;
+    JvDBComboBox1: TJvDBComboBox;
     procedure actFindCliContExecute(Sender: TObject);
     procedure DBEdit49Exit(Sender: TObject);
     procedure DBEdit8Exit(Sender: TObject);
