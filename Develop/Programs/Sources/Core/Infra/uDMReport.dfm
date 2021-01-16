@@ -1997,12 +1997,14 @@ object DMReport: TDMReport
       '  cast(Initcap(f.nome) as varchar(60)) as nome, f.crq,'
       '  co.nome,       co.funcao,  co.telefone, co.celular,'
       '  co.email,      f.assinatura as ass_arquivo, f.cargo,'
-      '  o.idos'
+      '  o.idos,  p.dec_conf'
       '  from labamostras_rel r'
       '       join labrel re'
       '         on re.recno = r.relato_recno'
       '       join labamostras a'
       '         on a.recno = r.amostra'
+      '       left join pedido p'
+      '         on p.recno = r.pedido '
       '       left join labamostras_hist h'
       '         on h.amostra = r.amostra'
       '        and h.estado = 40 '
@@ -2406,6 +2408,10 @@ object DMReport: TDMReport
       FieldName = 'tequip'
       Required = True
     end
+    object R00014dec_conf: TBooleanField
+      FieldName = 'dec_conf'
+      Required = True
+    end
   end
   object frxR00014: TfrxDBDataset
     Description = 'Laudo'
@@ -2506,7 +2512,8 @@ object DMReport: TDMReport
       'logo=logo'
       'inmetro=inmetro'
       'revisao=revisao'
-      'tequip=tequip')
+      'tequip=tequip'
+      'dec_conf=dec_conf')
     DataSet = R00014
     BCDToCurrency = False
     Left = 280

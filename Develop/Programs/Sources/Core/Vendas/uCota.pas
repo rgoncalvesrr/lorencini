@@ -177,6 +177,7 @@ type
     qDesphistorico_desc: TStringField;
     zDesp: TZUpdateSQL;
     IBrwSrccondicaopg: TStringField;
+    IBrwSrcdec_conf: TBooleanField;
     procedure DBGridDrawColumnCell(Sender: TObject; const Rect: TRect;
       DataCol: Integer; Column: TColumn; State: TGridDrawState);
     procedure cbStatusChange(Sender: TObject);
@@ -630,6 +631,7 @@ begin
   IBrwSrcenvio.AsInteger := 1;
   IBrwSrcremessa.AsBoolean := False;
   IBrwSrclaboratorio.AsBoolean := False;
+  IBrwSrcdec_conf.AsBoolean := True;
 end;
 
 procedure TCota.IBrwSrcAfterScroll(DataSet: TDataSet);
