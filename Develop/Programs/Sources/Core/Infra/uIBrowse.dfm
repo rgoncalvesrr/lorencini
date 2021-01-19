@@ -66,8 +66,6 @@ inherited IDefBrowse: TIDefBrowse
       object tsQuery: TTabSheet
         Caption = 'Filtrar'
         TabVisible = False
-        ExplicitLeft = 5
-        ExplicitTop = 7
         object BitBtn2: TBitBtn
           AlignWithMargins = True
           Left = 718
@@ -121,19 +119,14 @@ inherited IDefBrowse: TIDefBrowse
         Caption = 'Pesquisar'
         ImageIndex = 1
         TabVisible = False
+        ExplicitLeft = 3
+        ExplicitTop = 7
         object Label2: TLabel
           Left = 3
           Top = 3
-          Width = 97
-          Height = 16
+          Width = 84
+          Height = 15
           Caption = 'Valor procurado'
-          Font.Charset = ANSI_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -15
-          Font.Name = 'MS Sans Serif'
-          Font.Pitch = fpVariable
-          Font.Style = []
-          ParentFont = False
           Transparent = True
         end
         object BitBtn1: TBitBtn
@@ -194,8 +187,6 @@ inherited IDefBrowse: TIDefBrowse
           Top = 24
           Width = 331
           Height = 24
-          BevelKind = bkSoft
-          BorderStyle = bsNone
           Font.Charset = ANSI_CHARSET
           Font.Color = clWindowText
           Font.Height = -15

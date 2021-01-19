@@ -147,6 +147,10 @@ BEGIN
                raise '[[Para assinar um laudo é necessário que o código do engenheiro seja informado.]]';
             end if;
 
+            if new.analista is null then
+               raise '[[Para assinar um laudo é necessário que o código do analista seja informado.]]';
+            end if;
+
             new.emissao := localtimestamp;            
             iensaio := -1;
 

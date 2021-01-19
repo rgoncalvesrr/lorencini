@@ -3,10 +3,10 @@
   <PropertyGroup>
     <ProjectGuid>{54297583-1487-4f1b-8f57-0b8d383bdb4d}</ProjectGuid>
     <MainSource>Manager.dpr</MainSource>
-    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
-    <DCC_DependencyCheckOutputName>..\..\..\..\_Release\Manager.exe</DCC_DependencyCheckOutputName>
+    <DCC_DependencyCheckOutputName>..\..\..\..\_Debug\Manager.exe</DCC_DependencyCheckOutputName>
     <DCC_UsePackage>LMDP;BaseCore</DCC_UsePackage>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -49,7 +49,7 @@
     <Borland.Personality>Delphi.Personality</Borland.Personality>
     <Borland.ProjectType>VCLApplication</Borland.ProjectType>
     <BorlandProject>
-<BorlandProject><Delphi.Personality><Parameters><Parameters Name="UseLauncher">False</Parameters><Parameters Name="LoadAllSymbols">True</Parameters><Parameters Name="LoadUnspecifiedSymbols">False</Parameters></Parameters><VersionInfo><VersionInfo Name="IncludeVerInfo">True</VersionInfo><VersionInfo Name="AutoIncBuild">True</VersionInfo><VersionInfo Name="MajorVer">21</VersionInfo><VersionInfo Name="MinorVer">1</VersionInfo><VersionInfo Name="Release">16</VersionInfo><VersionInfo Name="Build">1724</VersionInfo><VersionInfo Name="Debug">False</VersionInfo><VersionInfo Name="PreRelease">False</VersionInfo><VersionInfo Name="Special">False</VersionInfo><VersionInfo Name="Private">False</VersionInfo><VersionInfo Name="DLL">False</VersionInfo><VersionInfo Name="Locale">1046</VersionInfo><VersionInfo Name="CodePage">1252</VersionInfo></VersionInfo><VersionInfoKeys><VersionInfoKeys Name="CompanyName">Lorencini Brasil</VersionInfoKeys><VersionInfoKeys Name="FileDescription"></VersionInfoKeys><VersionInfoKeys Name="FileVersion">21.1.16.1724</VersionInfoKeys><VersionInfoKeys Name="InternalName">manager.exe</VersionInfoKeys><VersionInfoKeys Name="LegalCopyright"></VersionInfoKeys><VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys><VersionInfoKeys Name="OriginalFilename"></VersionInfoKeys><VersionInfoKeys Name="ProductName">Manager</VersionInfoKeys><VersionInfoKeys Name="ProductVersion">2020.05</VersionInfoKeys><VersionInfoKeys Name="Comments">Gerenciador de processos Laboratoriais</VersionInfoKeys></VersionInfoKeys><Source><Source Name="MainSource">Manager.dpr</Source></Source><Excluded_Packages /></Delphi.Personality><ModelSupport>False</ModelSupport></BorlandProject></BorlandProject>
+<BorlandProject><Delphi.Personality><Parameters><Parameters Name="UseLauncher">False</Parameters><Parameters Name="LoadAllSymbols">True</Parameters><Parameters Name="LoadUnspecifiedSymbols">False</Parameters></Parameters><VersionInfo><VersionInfo Name="IncludeVerInfo">True</VersionInfo><VersionInfo Name="AutoIncBuild">True</VersionInfo><VersionInfo Name="MajorVer">21</VersionInfo><VersionInfo Name="MinorVer">1</VersionInfo><VersionInfo Name="Release">16</VersionInfo><VersionInfo Name="Build">1726</VersionInfo><VersionInfo Name="Debug">False</VersionInfo><VersionInfo Name="PreRelease">False</VersionInfo><VersionInfo Name="Special">False</VersionInfo><VersionInfo Name="Private">False</VersionInfo><VersionInfo Name="DLL">False</VersionInfo><VersionInfo Name="Locale">1046</VersionInfo><VersionInfo Name="CodePage">1252</VersionInfo></VersionInfo><VersionInfoKeys><VersionInfoKeys Name="CompanyName">Lorencini Brasil</VersionInfoKeys><VersionInfoKeys Name="FileDescription"></VersionInfoKeys><VersionInfoKeys Name="FileVersion">21.1.16.1726</VersionInfoKeys><VersionInfoKeys Name="InternalName">manager.exe</VersionInfoKeys><VersionInfoKeys Name="LegalCopyright"></VersionInfoKeys><VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys><VersionInfoKeys Name="OriginalFilename"></VersionInfoKeys><VersionInfoKeys Name="ProductName">Manager</VersionInfoKeys><VersionInfoKeys Name="ProductVersion">2020.05</VersionInfoKeys><VersionInfoKeys Name="Comments">Gerenciador de processos Laboratoriais</VersionInfoKeys></VersionInfoKeys><Source><Source Name="MainSource">Manager.dpr</Source></Source><Excluded_Packages /></Delphi.Personality><ModelSupport>False</ModelSupport></BorlandProject></BorlandProject>
   </ProjectExtensions>
   <Import Project="$(MSBuildBinPath)\Borland.Delphi.Targets" />
   <ItemGroup>
@@ -171,6 +171,12 @@
     </DCCReference>
     <DCCReference Include="..\..\Sources\Core\Cad\uDeptosM.pas">
       <Form>DeptosM</Form>
+    </DCCReference>
+    <DCCReference Include="..\..\Sources\Core\Cad\uEntidadesDeClasse.pas">
+      <Form>EntidadesDeClasse</Form>
+    </DCCReference>
+    <DCCReference Include="..\..\Sources\Core\Cad\uEntidadesDeClasseM.pas">
+      <Form>EntidadesDeClasseM</Form>
     </DCCReference>
     <DCCReference Include="..\..\Sources\Core\Cad\uEstados.pas">
       <Form>Estados</Form>

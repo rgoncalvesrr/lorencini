@@ -299,7 +299,9 @@ uses
   uSysEmail in '..\..\Sources\Core\Sys\uSysEmail.pas' {SysEmail},
   uSysScheduler in '..\..\Sources\Core\Sys\uSysScheduler.pas' {SysScheduler},
   uSysSchedulerM in '..\..\Sources\Core\Sys\uSysSchedulerM.pas' {SysSchedulerM},
-  uSysLog in '..\..\Sources\Core\Sys\uSysLog.pas' {SysLog};
+  uSysLog in '..\..\Sources\Core\Sys\uSysLog.pas' {SysLog},
+  uEntidadesDeClasse in '..\..\Sources\Core\Cad\uEntidadesDeClasse.pas' {EntidadesDeClasse},
+  uEntidadesDeClasseM in '..\..\Sources\Core\Cad\uEntidadesDeClasseM.pas' {EntidadesDeClasseM};
 
 {$R *.res}
 begin
