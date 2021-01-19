@@ -20,10 +20,7 @@ inherited LabAmostraAss: TLabAmostraAss
       Width = 1113
       ExplicitWidth = 1113
       inherited tsQuery: TTabSheet
-        ExplicitLeft = 4
-        ExplicitTop = 6
         ExplicitWidth = 1105
-        ExplicitHeight = 75
         inherited BitBtn2: TBitBtn
           Left = 996
           Width = 106
@@ -253,7 +250,7 @@ inherited LabAmostraAss: TLabAmostraAss
               ExplicitWidth = 193
             end
             inherited CCalendarDiff1: TCCalendarDiff
-              Date = 44012.535176828710000000
+              Date = 44215.096839548610000000
               DisplayInterval = Label1
               OnChange = actQueryProcessExecute
             end
@@ -310,7 +307,6 @@ inherited LabAmostraAss: TLabAmostraAss
         ExplicitLeft = 4
         ExplicitTop = 6
         ExplicitWidth = 1105
-        ExplicitHeight = 75
       end
     end
   end
@@ -326,8 +322,6 @@ inherited LabAmostraAss: TLabAmostraAss
       ExplicitHeight = 391
       inherited TabSheet1: TTabSheet
         Caption = 'Laudos Aguardando Assinatura'
-        ExplicitLeft = 4
-        ExplicitTop = 26
         ExplicitWidth = 1109
         ExplicitHeight = 361
         inherited DBGrid1: TDBGrid
@@ -343,39 +337,6 @@ inherited LabAmostraAss: TLabAmostraAss
     inherited ToolBar1: TToolBar
       Width = 902
       ExplicitWidth = 902
-      inherited ToolButton2: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited ToolButton5: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited ToolButton9: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited ToolButton6: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited ToolButton1: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited ToolButton8: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited ToolButton3: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited tbOrder: TToolButton
-        ExplicitWidth = 76
-      end
-      inherited tbReport: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited tbOpcao: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited ToolButton10: TToolButton
-        ExplicitWidth = 32
-      end
     end
   end
   inherited alDef: TActionList
@@ -434,7 +395,9 @@ inherited LabAmostraAss: TLabAmostraAss
       
         '       e.familia, a.tag, e.tensao_un, e.potencia_un, se.sigla, s' +
         'e.nome, se.regional, se.reg_nome,'
-      '       cast(Initcap(f.nome) as varchar(60)) nome, f.crq'
+      
+        '       cast(Initcap(f.nome) as varchar(60)) nome, f.crq, r.anali' +
+        'sta'
       '  from labamostras_rel r'
       '       join labrel re'
       '         on re.recno = r.relato_recno'
@@ -469,7 +432,7 @@ inherited LabAmostraAss: TLabAmostraAss
       '   and r.assinatura is null')
     Sequence = ZSequence1
     SequenceField = 'recno'
-    Left = 184
+    Left = 160
     Top = 152
     object IBrwSrcrecno: TIntegerField
       DisplayLabel = 'Laudo'
@@ -801,12 +764,15 @@ inherited LabAmostraAss: TLabAmostraAss
       Visible = False
       Size = 3
     end
+    object IBrwSrcanalista: TIntegerField
+      FieldName = 'analista'
+      Visible = False
+    end
   end
   inherited pmOpcao: TPopupMenu
     Left = 489
     Top = 153
     object Registro2: TMenuItem
-      Action = actReg
       Caption = 'Gerar Revis'#227'o do Laudo...'
     end
   end
@@ -822,10 +788,11 @@ inherited LabAmostraAss: TLabAmostraAss
       '  labdiag_recno = :labdiag_recno,'
       '  labrec_recno = :labrec_recno,'
       '  pcoleta = :pcoleta,'
-      '  idcodigo = :idcodigo '
+      '  idcodigo = :idcodigo,'
+      '  analista = :analista '
       'WHERE'
       '  labamostras_rel.recno = :OLD_recno')
-    Left = 128
+    Left = 104
     Top = 152
     ParamData = <
       item
@@ -880,6 +847,11 @@ inherited LabAmostraAss: TLabAmostraAss
       end
       item
         DataType = ftUnknown
+        Name = 'analista'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
         Name = 'OLD_recno'
         ParamType = ptUnknown
       end>
@@ -897,7 +869,7 @@ inherited LabAmostraAss: TLabAmostraAss
         Name = 'tipolaudo'
         ParamType = ptUnknown
       end>
-    Left = 184
+    Left = 160
     Top = 200
     ParamData = <
       item
@@ -932,7 +904,7 @@ inherited LabAmostraAss: TLabAmostraAss
   object ZSequence1: TZSequence
     Connection = DM.Design
     SequenceName = 'public.labamostras_rel_recno_seq'
-    Left = 72
+    Left = 48
     Top = 152
   end
   object qCrit: TZQuery
@@ -947,7 +919,7 @@ inherited LabAmostraAss: TLabAmostraAss
         Name = 'tipolaudo'
         ParamType = ptUnknown
       end>
-    Left = 184
+    Left = 160
     Top = 248
     ParamData = <
       item
@@ -996,7 +968,7 @@ inherited LabAmostraAss: TLabAmostraAss
         Name = 'diag'
         ParamType = ptUnknown
       end>
-    Left = 184
+    Left = 160
     Top = 296
     ParamData = <
       item
@@ -1027,35 +999,62 @@ inherited LabAmostraAss: TLabAmostraAss
       FieldName = 'recno'
     end
   end
-  object qCRQ: TZQuery
+  object qResponsavel: TZQuery
     Connection = DM.Design
     SQL.Strings = (
-      'select idcodigo, cast(Initcap(nome) as varchar(60)) as nome, crq'
+      
+        'select idcodigo, cast(Initcap(trim(nome)) || coalesce('#39' '#39' || con' +
+        'selho || '#39': '#39' || crq, '#39#39') as varchar(60)) nome'
       '  from tbfuncionarios '
       ' where crq is not null'
       '   and situacao = '#39'Ativo'#39
       ' order by 2;')
     Params = <>
-    Left = 184
+    Left = 160
     Top = 344
-    object qCRQidcodigo: TIntegerField
+    object qResponsavelidcodigo: TIntegerField
       FieldName = 'idcodigo'
       Required = True
     end
-    object qCRQnome: TStringField
+    object qResponsavelnome: TStringField
       FieldName = 'nome'
       ReadOnly = True
       Size = 60
     end
-    object qCRQcrq: TStringField
-      FieldName = 'crq'
-      Size = 15
-    end
   end
-  object dsCRQ: TDataSource
+  object dsResponsavel: TDataSource
     AutoEdit = False
-    DataSet = qCRQ
+    DataSet = qResponsavel
     Left = 240
     Top = 344
+  end
+  object qAnalista: TZQuery
+    Connection = DM.Design
+    SQL.Strings = (
+      
+        'select idcodigo, cast(Initcap(trim(nome)) || coalesce('#39' '#39' || con' +
+        'selho || '#39': '#39' || crq, '#39#39') as varchar(60)) nome'
+      '  from tbfuncionarios '
+      ' where crq is not null'
+      '   and situacao = '#39'Ativo'#39
+      ' order by 2;')
+    Params = <>
+    Left = 160
+    Top = 400
+    object IntegerField1: TIntegerField
+      FieldName = 'idcodigo'
+      Required = True
+    end
+    object StringField1: TStringField
+      FieldName = 'nome'
+      ReadOnly = True
+      Size = 60
+    end
+  end
+  object dsAnalista: TDataSource
+    AutoEdit = False
+    DataSet = qAnalista
+    Left = 240
+    Top = 400
   end
 end

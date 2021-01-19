@@ -6,69 +6,58 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uIBrowse, DB, ZAbstractRODataset, ZAbstractDataset, ZDataset, Menus,
   XPMan, ActnList, Grids, DBGrids, ComCtrls, StdCtrls, Buttons, Mask, ExtCtrls,
-  ToolWin, ZSqlUpdate;
+  ToolWin, ZSqlUpdate, ZSequence, JvExMask, JvToolEdit, JvBaseEdits;
 
 type
   TColaboradores = class(TIDefBrowse)
     IBrwSrcidcodigo: TIntegerField;
     IBrwSrcnome: TStringField;
     IBrwSrccargo: TStringField;
-    IBrwSrctelramal: TStringField;
     IBrwSrctelcelular: TStringField;
     IBrwSrcrg: TStringField;
     IBrwSrccpf: TStringField;
-    IBrwSrcctps: TStringField;
-    IBrwSrcserie: TStringField;
     IBrwSrcendereco: TStringField;
     IBrwSrcbairro: TStringField;
     IBrwSrccep: TStringField;
     IBrwSrccidade: TStringField;
     IBrwSrcestado: TStringField;
-    IBrwSrccbo: TStringField;
-    IBrwSrcmensalistahorista: TStringField;
-    IBrwSrcsalmensal: TFloatField;
-    IBrwSrcqtdehorasmensais: TIntegerField;
-    IBrwSrcsalhora: TFloatField;
-    IBrwSrccomsemregistro: TStringField;
     IBrwSrccontabanco: TStringField;
     IBrwSrccontaagencia: TStringField;
     IBrwSrccontanumero: TStringField;
     IBrwSrctelresidencia: TStringField;
-    IBrwSrctelradio: TStringField;
-    IBrwSrcvaletransporte: TStringField;
-    IBrwSrcvalerefeicao: TStringField;
-    IBrwSrcmanhaentrada: TStringField;
-    IBrwSrcmanhasaida: TStringField;
-    IBrwSrctardeentrada: TStringField;
-    IBrwSrctardesaida: TStringField;
-    IBrwSrcqtdemunicipal: TIntegerField;
-    IBrwSrcqtdemetro: TIntegerField;
-    IBrwSrcqtdetrem: TIntegerField;
-    IBrwSrcqtdeintermunicipal: TIntegerField;
-    IBrwSrcdiasegunda: TStringField;
-    IBrwSrcdiaterca: TStringField;
-    IBrwSrcdiaquarta: TStringField;
-    IBrwSrcdiaquinta: TStringField;
-    IBrwSrcdiasexta: TStringField;
-    IBrwSrcdiasabado: TStringField;
-    IBrwSrcdiadomingo: TStringField;
     IBrwSrcsituacao: TStringField;
     IBrwSrcdtadmissao: TDateTimeField;
     IBrwSrcdtdemissao: TDateTimeField;
-    IBrwSrcdiarista_hs_meio_periodo: TFloatField;
-    IBrwSrcdiarista_hs_meio_periodo_vlr: TFloatField;
-    IBrwSrcdiarista_integral: TFloatField;
-    IBrwSrcdiarista_integral_vlr: TFloatField;
-    IBrwSrcdiarista_vlr_hora_adicional: TFloatField;
     IBrwSrccrq: TStringField;
     IBrwSrcusername: TStringField;
-    ZUpdateSQL1: TZUpdateSQL;
     IBrwSrcrecno: TIntegerField;
     IBrwSrcassinatura: TStringField;
+    sIBrwSrc: TZSequence;
+    TabSheet2: TTabSheet;
+    TabSheet3: TTabSheet;
+    qConselhos: TZReadOnlyQuery;
+    qConselhossigla: TStringField;
+    qConselhosdescri: TStringField;
+    qConselhosrecno: TIntegerField;
+    dsConselhos: TDataSource;
+    IBrwSrcconselho: TStringField;
+    Panel5: TPanel;
+    Label3: TLabel;
+    edCodigo: TJvCalcEdit;
+    Panel6: TPanel;
+    Label1: TLabel;
+    cbStatus: TComboBox;
     procedure IBrwSrcAfterInsert(DataSet: TDataSet);
     procedure FormCreate(Sender: TObject);
     procedure IBrwSrcAfterScroll(DataSet: TDataSet);
     procedure IBrwSrcBeforePost(DataSet: TDataSet);
+    procedure FormActivate(Sender: TObject);
+    procedure DBGridDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn;
+      State: TGridDrawState);
+    procedure PageControl1Change(Sender: TObject);
+    procedure cbStatusChange(Sender: TObject);
+    procedure actQueryProcessExecute(Sender: TObject);
+    procedure edCodigoChange(Sender: TObject);
   private
     function getImgDir: string;
     procedure OnEdit; override;
@@ -81,11 +70,104 @@ var
 
 implementation
 
+uses uDM, uColaboradoresM, jpeg, uIUtils, mcutils, uResources;
+
 {$R *.dfm}
 
-uses uDM, uColaboradoresM, jpeg, uIUtils, mcutils;
+procedure TColaboradores.actQueryProcessExecute(Sender: TObject);
+var
+  sWhere : string;
+begin
+  inherited;
+  if not Assigned(DataSet) or (DataSet <> IBrwSrc) then
+    Exit;
 
-{ TColaboradores }
+  with DataSet do
+  begin
+    if cbStatus.ItemIndex > 0 then
+      sWhere := 'c.situacao = :situacao ';
+
+    if Trim(edCodigo.Text) <> EmptyStr then
+    begin
+      if swhere <> EmptyStr then
+        swhere := swhere + 'and ';
+
+      swhere := swhere + 'c.idcodigo = :codigo ';
+    end;
+
+
+    if sWhere <> EmptyStr then
+      SQL.Add('where ' + sWhere);
+
+    if Assigned(Params.FindParam('codigo')) then
+      Params.ParamByName('codigo').AsInteger := Round(edCodigo.Value);
+
+    if Assigned(Params.FindParam('situacao')) then
+      Params.ParamByName('situacao').AsString := cbStatus.Items[cbStatus.ItemIndex];
+  end;
+
+  G.RefreshDataSet(DataSet);
+  RefreshCtrl;
+end;
+
+procedure TColaboradores.cbStatusChange(Sender: TObject);
+begin
+  actQueryProcess.Enabled := True;
+  with PageControl1 do
+  begin
+    DBGrid1.SetFocus;
+    ActivePageIndex := cbStatus.ItemIndex;
+    inherited PageControl1Change(PageControl1);
+  end;
+
+  actQueryProcessExecute(actQueryProcess);
+end;
+
+procedure TColaboradores.DBGridDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn;
+  State: TGridDrawState);
+var
+  fBitMap: TBitmap;
+begin
+  if (Column.Index <> 0) then
+    inherited DBGridDrawColumnCell(Sender, Rect, DataCol, Column, State)
+  else
+    with TDBGrid(Sender) do
+    try
+      fBitMap:= TBitmap.Create;
+      fBitMap.Transparent:= True;
+
+      with Resources do
+      begin
+        small_n.GetBitmap(209, fBitMap); //Inválido
+        if IBrwSrcsituacao.AsString <> '' then
+          case IBrwSrcsituacao.AsString[1] of
+            'A': small_n.GetBitmap(208, fBitMap); //Ativo
+            'D': small_n.GetBitmap(213, fBitMap); //Demitido
+          end;
+      end;
+
+      if Column.Width <> fBitMap.Width + 2 then
+        Column.Width:= fBitMap.Width + 2;
+
+      {Desenha o status da remessa}
+      Canvas.Draw(Rect.Left + 1, Rect.Top + 1, fBitMap);
+    finally
+      fBitMap.Free;
+    end;
+end;
+
+procedure TColaboradores.edCodigoChange(Sender: TObject);
+begin
+  inherited;
+  actQueryProcess.Enabled := True;
+end;
+
+procedure TColaboradores.FormActivate(Sender: TObject);
+begin
+  inherited;
+  G.RefreshDataSet(qConselhos);
+  DBGrid1.SetFocus;
+end;
 
 procedure TColaboradores.FormCreate(Sender: TObject);
 begin
@@ -95,25 +177,13 @@ end;
 
 function TColaboradores.getImgDir: string;
 begin
-  Result := U.Path.Images; 
+  Result := U.Path.Images;
 end;
 
 procedure TColaboradores.IBrwSrcAfterInsert(DataSet: TDataSet);
 begin
   inherited;
-  IBrwSrcdiasegunda.AsString:= 'S';
-  IBrwSrcdiaterca.AsString:= 'S';
-  IBrwSrcdiaquarta.AsString:= 'S';
-  IBrwSrcdiaquinta.AsString:= 'S';
-  IBrwSrcdiasexta.AsString:= 'S';
-  IBrwSrcdiasabado.AsString:= 'N';
-  IBrwSrcdiadomingo.AsString:= 'N';
-  IBrwSrcmanhaentrada.AsString:= '07:30';
-  IBrwSrcmanhasaida.AsString:= '12:00';
-  IBrwSrctardeentrada.AsString:= '13:00';
-  IBrwSrctardesaida.AsString:= '17:30';
   IBrwSrcsituacao.AsString:= 'Ativo';
-  IBrwSrcmensalistahorista.AsString:= 'M';
 end;
 
 procedure TColaboradores.IBrwSrcAfterScroll(DataSet: TDataSet);
@@ -153,8 +223,21 @@ begin
   ColaboradoresM.ShowModal;
 end;
 
+procedure TColaboradores.PageControl1Change(Sender: TObject);
+begin
+  inherited;
+  if cbStatus.ItemIndex <> PageControl1.ActivePageIndex then
+  begin
+    cbStatus.ItemIndex := PageControl1.ActivePageIndex;
+    cbStatusChange(cbStatus);
+  end;
+end;
+
 initialization
   RegisterClass(TColaboradores);
+
+finalization
+  UnRegisterClass(TColaboradores);
 
 end.
 

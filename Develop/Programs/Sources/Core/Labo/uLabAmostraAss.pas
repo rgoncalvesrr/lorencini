@@ -88,11 +88,10 @@ type
     qRecrecomenda: TMemoField;
     qRecrecno: TIntegerField;
     IBrwSrcobs: TMemoField;
-    qCRQ: TZQuery;
-    dsCRQ: TDataSource;
-    qCRQidcodigo: TIntegerField;
-    qCRQnome: TStringField;
-    qCRQcrq: TStringField;
+    qResponsavel: TZQuery;
+    dsResponsavel: TDataSource;
+    qResponsavelidcodigo: TIntegerField;
+    qResponsavelnome: TStringField;
     IBrwSrcidcodigo: TIntegerField;
     IBrwSrcnome_1: TStringField;
     IBrwSrccrq: TStringField;
@@ -125,6 +124,11 @@ type
     Panel8: TPanel;
     Panel9: TPanel;
     IBrwSrccomodato: TIntegerField;
+    qAnalista: TZQuery;
+    IntegerField1: TIntegerField;
+    StringField1: TStringField;
+    dsAnalista: TDataSource;
+    IBrwSrcanalista: TIntegerField;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure IBrwSrcAfterScroll(DataSet: TDataSet);
@@ -241,7 +245,8 @@ end;
 procedure TLabAmostraAss.FormActivate(Sender: TObject);
 begin
   inherited;
-  G.RefreshDataSet(qCRQ);
+  G.RefreshDataSet(qResponsavel);
+  G.RefreshDataSet(qAnalista);
 end;
 
 procedure TLabAmostraAss.FormCreate(Sender: TObject);

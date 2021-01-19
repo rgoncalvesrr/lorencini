@@ -8,7 +8,7 @@ uses
   JvExMask, JvToolEdit, JvDBControls, StdCtrls, DBCtrls, Buttons, Mask,
   uLabLaudoCl, JvExStdCtrls, JvCombobox, JvDBCombobox, DBCGrids, DB,
   ZAbstractRODataset, ZAbstractDataset, ZDataset, uLabLaudoUI, JvExDBGrids,
-  JvDBGrid, TeEngine, Series, TeeProcs, Chart, DBChart;
+  JvDBGrid, TeEngine, Series, TeeProcs, Chart, DBChart, JvExControls, JvDBLookup;
 
 type
   TLabAmostraAssM = class(TIDefBrowseEdit)
@@ -55,7 +55,6 @@ type
     JvDBDateEdit1: TJvDBDateEdit;
     Panel25: TPanel;
     Label50: TLabel;
-    JvDBComboBox4: TJvDBComboBox;
     GroupBox2: TGroupBox;
     qHist: TZQuery;
     qHistemissao: TDateTimeField;
@@ -63,7 +62,6 @@ type
     dsHist: TDataSource;
     JvDBGrid1: TJvDBGrid;
     DBChart1: TDBChart;
-    Series1: TFastLineSeries;
     Splitter1: TSplitter;
     Panel12: TPanel;
     Panel19: TPanel;
@@ -200,6 +198,12 @@ type
     Panel6: TPanel;
     Label2: TLabel;
     DBEdit2: TDBEdit;
+    Series1: TLineSeries;
+    Panel18: TPanel;
+    Label43: TLabel;
+    Panel17: TPanel;
+    JvDBLookupCombo1: TJvDBLookupCombo;
+    JvDBLookupCombo2: TJvDBLookupCombo;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure DBEdit39Exit(Sender: TObject);
@@ -207,6 +211,7 @@ type
     procedure actSignExecute(Sender: TObject);
     procedure Panel32Resize(Sender: TObject);
     procedure TabSheet1Resize(Sender: TObject);
+    procedure Panel17Resize(Sender: TObject);
   private
     FLaudo: TLaudo;
     FLastRow: Integer;
@@ -324,10 +329,17 @@ begin
   WindowState := wsMaximized;
 end;
 
+procedure TLabAmostraAssM.Panel17Resize(Sender: TObject);
+begin
+  inherited;
+  Panel18.ClientWidth := Panel17.ClientWidth div 2;
+end;
+
 procedure TLabAmostraAssM.Panel32Resize(Sender: TObject);
 begin
   inherited;
-  Panel33.ClientWidth := Round(Panel32.ClientWidth * 0.4);
+  Panel33.ClientWidth := Round(Panel32.ClientWidth * 0.33);
+  Panel35.ClientWidth := Round(Panel32.ClientWidth * 0.33);
 end;
 
 procedure TLabAmostraAssM.RefreshControls;
