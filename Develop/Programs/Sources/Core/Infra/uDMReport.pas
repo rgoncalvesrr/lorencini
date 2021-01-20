@@ -272,11 +272,8 @@ type
     R00014familia: TStringField;
     R00014tag: TStringField;
     R00014sigla: TStringField;
-    R00014nome: TStringField;
     R00014regional: TIntegerField;
     R00014reg_nome: TStringField;
-    R00014nome_1: TStringField;
-    R00014crq: TStringField;
     R00014emissao: TDateTimeField;
     R00014etiqueta: TMemoField;
     R00014assinatura: TStringField;
@@ -302,7 +299,6 @@ type
     R00014av5: TFloatField;
     R00014av6: TFloatField;
     R00014localizacao: TStringField;
-    R00014nome_2: TStringField;
     R00014funcao: TStringField;
     R00014telefone_1: TStringField;
     R00014celular: TStringField;
@@ -341,14 +337,12 @@ type
     R00016codserv: TIntegerField;
     R00016servico: TStringField;
     R00016qtd: TLargeintField;
-    R00014ass_arquivo: TStringField;
     R00014endereco: TStringField;
     R00014bairro: TStringField;
     R00014cidade: TStringField;
     R00014estado: TStringField;
     R00014cep: TStringField;
     R00014email_1: TStringField;
-    R00014cargo: TStringField;
     R00014apontado: TDateTimeField;
     R00017: TZQuery;
     frxR00017: TfrxDBDataset;
@@ -787,6 +781,18 @@ type
     R00017localizacao: TStringField;
     R00014aincerteza: TFloatField;
     R00014dec_conf: TBooleanField;
+    R00014resp_assinatura: TStringField;
+    R00014resp_cargo: TStringField;
+    R00014analista_assinatura: TStringField;
+    R00014analista_cargo: TStringField;
+    R00014resp_nome: TStringField;
+    R00014resp_crq: TStringField;
+    R00014analista_nome: TStringField;
+    R00014analista_crq: TStringField;
+    R00014resp_conselho: TStringField;
+    R00014analista_conselho: TStringField;
+    R00014nomese: TStringField;
+    R00014nomecont: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure R00011CalcFields(DataSet: TDataSet);
     procedure R00014CalcFields(DataSet: TDataSet);
@@ -944,12 +950,12 @@ begin
   if R00014sigla.AsString <> EmptyStr then
     slocal := R00014sigla.AsString;
 
-  if R00014nome.AsString <> EmptyStr then
+  if R00014nomese.AsString <> EmptyStr then
   begin
      if slocal <> EmptyStr then
         slocal:= slocal + ' - ';
 
-     slocal:= slocal + R00014nome.AsString + '. ';
+     slocal:= slocal + R00014nomese.AsString + '. ';
   end;
 
   if R00014reg_nome.AsString <> EmptyStr then
