@@ -1,0 +1,66 @@
+set session authorization lorencini;
+
+alter table labamostras_rel 
+	add analista integer,
+	add constraint fk_labamostras_rel_5 foreign key(analista)
+		references tbfuncionarios(idcodigo) on update cascade on delete restrict;
+
+create table conselhos (
+	sigla varchar(5) not null,
+	descri descri_ not null,
+	recno serial not null,
+	constraint pk_conselhos primary key(sigla),
+	constraint uk_conselhos_1 unique(recno));
+
+insert into conselhos(sigla, descri) values 
+  ('CREA', 'Conselho Regional de Engenharia e Arquitetura'),
+  ('CRQ', 'Conselho Regional de Química');
+
+alter table tbfuncionarios 
+	add conselho varchar(5),
+	add constraint fk_tbfuncionarios_1 foreign key(conselho)
+		references conselhos(sigla) on update cascade on delete restrict;
+
+update tbfuncionarios set conselho = 'CRQ' where idcodigo in (108, 23, 106, 41, 90); 
+update tbfuncionarios set conselho = 'CREA' where idcodigo in (4);
+update tbfuncionarios set cep = sys_iif(trim(regexp_replace(cep, '-', '')) = '', null, regexp_replace(cep, '-', ''));
+update tbfuncionarios set crq = null where trim(crq) = '';
+
+alter table tbfuncionarios 
+	alter cep type varchar(9).
+	alter estado type varchar(2);
+
+alter table tbfuncionarios 
+	drop telramal,
+	drop cbo,
+	drop mensalistahorista,
+	drop salmensal,
+	drop qtdehorasmensais,
+	drop salhora,
+	drop comsemregistro,
+	drop telradio,
+	drop valetransporte,
+	drop valerefeicao,
+	drop manhaentrada,
+	drop manhasaida,
+	drop tardeentrada,
+	drop tardesaida,
+	drop qtdemunicipal,
+	drop qtdemetro,
+	drop qtdetrem,
+	drop qtdeintermunicipal,
+	drop diasegunda,
+	drop diaterca,
+	drop diaquarta,
+	drop diaquinta,
+	drop diasexta,
+	drop diasabado,
+	drop diadomingo,
+	drop diarista_hs_meio_periodo,
+	drop diarista_hs_meio_periodo_vlr,
+	drop diarista_integral,
+	drop diarista_integral_vlr,
+	drop diarista_vlr_hora_adicional,
+   drop ctps,
+   drop serie,
+   drop img_assinatura;

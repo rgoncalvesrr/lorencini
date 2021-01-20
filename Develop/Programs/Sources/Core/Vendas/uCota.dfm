@@ -22,10 +22,7 @@ inherited Cota: TCota
       Width = 1081
       ExplicitWidth = 1081
       inherited tsQuery: TTabSheet
-        ExplicitLeft = 4
-        ExplicitTop = 6
         ExplicitWidth = 1073
-        ExplicitHeight = 75
         object Label4: TLabel [0]
           Left = 173
           Top = 48
@@ -105,14 +102,14 @@ inherited Cota: TCota
             ExplicitWidth = 156
           end
           inherited CCalendarDiff1: TCCalendarDiff
-            Date = 44212.642789976850000000
+            Date = 44215.086149756940000000
             DisplayInterval = Label4
             OnChange = FrameData1CCalendarDiff1Change
           end
         end
         object cbStatus: TComboBox
           Left = 148
-          Top = 23
+          Top = 24
           Width = 107
           Height = 23
           Style = csDropDownList
@@ -183,7 +180,7 @@ inherited Cota: TCota
         end
         object edCota: TJvCalcEdit
           Left = 3
-          Top = 23
+          Top = 24
           Width = 51
           Height = 23
           DecimalPlaces = 0
@@ -212,7 +209,6 @@ inherited Cota: TCota
         ExplicitLeft = 4
         ExplicitTop = 6
         ExplicitWidth = 1073
-        ExplicitHeight = 75
       end
     end
   end
@@ -231,7 +227,6 @@ inherited Cota: TCota
       inherited TabSheet1: TTabSheet
         Caption = 'Todas'
         ImageIndex = -1
-        ExplicitLeft = 4
         ExplicitTop = 33
         ExplicitWidth = 1077
         ExplicitHeight = 368
@@ -346,39 +341,6 @@ inherited Cota: TCota
     inherited ToolBar1: TToolBar
       Width = 942
       ExplicitWidth = 942
-      inherited ToolButton2: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited ToolButton5: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited ToolButton9: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited ToolButton6: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited ToolButton1: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited ToolButton8: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited ToolButton3: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited tbOrder: TToolButton
-        ExplicitWidth = 76
-      end
-      inherited tbReport: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited tbOpcao: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited ToolButton10: TToolButton
-        ExplicitWidth = 32
-      end
     end
   end
   inherited alDef: TActionList

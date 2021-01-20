@@ -1,18 +1,18 @@
 inherited LabAmostraAssM: TLabAmostraAssM
   BorderStyle = bsSizeable
   Caption = 'Encerramento do Laudo'
-  ClientHeight = 661
-  ClientWidth = 1070
+  ClientHeight = 768
+  ClientWidth = 1136
   Constraints.MinWidth = 691
   KeyPreview = False
-  ExplicitWidth = 1086
-  ExplicitHeight = 700
+  ExplicitWidth = 1152
+  ExplicitHeight = 807
   PixelsPerInch = 96
   TextHeight = 15
   inherited Panel1: TPanel
     Top = 44
-    Width = 1070
-    Height = 617
+    Width = 1136
+    Height = 724
     ExplicitTop = 44
     ExplicitWidth = 1070
     ExplicitHeight = 617
@@ -71,8 +71,8 @@ inherited LabAmostraAssM: TLabAmostraAssM
     end
     inherited PageControl1: TPageControl
       Top = 60
-      Width = 1064
-      Height = 554
+      Width = 1130
+      Height = 661
       ExplicitLeft = 3
       ExplicitTop = 60
       ExplicitWidth = 1064
@@ -86,8 +86,8 @@ inherited LabAmostraAssM: TLabAmostraAssM
         ExplicitHeight = 524
         object Splitter2: TSplitter
           Left = 0
-          Top = 384
-          Width = 1056
+          Top = 447
+          Width = 1122
           Height = 6
           Cursor = crVSplit
           Align = alBottom
@@ -97,30 +97,34 @@ inherited LabAmostraAssM: TLabAmostraAssM
         object GroupBox6: TGroupBox
           AlignWithMargins = True
           Left = 3
-          Top = 111
-          Width = 1050
-          Height = 270
+          Top = 143
+          Width = 1116
+          Height = 301
           Align = alClient
           Caption = ' Resultados '
           Padding.Left = 5
           Padding.Top = 5
           Padding.Right = 5
           TabOrder = 0
+          ExplicitTop = 111
+          ExplicitWidth = 1050
+          ExplicitHeight = 377
         end
         object GroupBox2: TGroupBox
           AlignWithMargins = True
           Left = 3
-          Top = 393
-          Width = 1050
-          Height = 128
+          Top = 456
+          Width = 1116
+          Height = 172
           Align = alBottom
           Caption = ' Hist'#243'rico '
           TabOrder = 1
+          ExplicitWidth = 1050
           object JvDBGrid1: TJvDBGrid
             Left = 2
             Top = 17
             Width = 222
-            Height = 109
+            Height = 153
             Align = alLeft
             BorderStyle = bsNone
             DataSource = dsHist
@@ -143,8 +147,8 @@ inherited LabAmostraAssM: TLabAmostraAssM
           object DBChart1: TDBChart
             Left = 224
             Top = 17
-            Width = 824
-            Height = 109
+            Width = 890
+            Height = 153
             Title.Text.Strings = (
               'TDBChart')
             Title.Visible = False
@@ -154,19 +158,25 @@ inherited LabAmostraAssM: TLabAmostraAssM
             View3DWalls = False
             Align = alClient
             TabOrder = 1
+            ExplicitLeft = 223
+            ExplicitWidth = 824
             object Splitter1: TSplitter
               Left = 1
               Top = 1
               Width = 6
-              Height = 107
+              Height = 151
               ExplicitHeight = 109
             end
-            object Series1: TFastLineSeries
+            object Series1: TLineSeries
               Marks.Callout.Brush.Color = clBlack
               Marks.Visible = False
               DataSource = qHist
+              SeriesColor = 16744448
               XLabelsSource = 'emissao'
-              LinePen.Color = clRed
+              LinePen.Color = 16744448
+              Pointer.InflateMargins = True
+              Pointer.Style = psRectangle
+              Pointer.Visible = False
               XValues.DateTime = True
               XValues.Name = 'X'
               XValues.Order = loAscending
@@ -181,30 +191,33 @@ inherited LabAmostraAssM: TLabAmostraAssM
           AlignWithMargins = True
           Left = 3
           Top = 3
-          Width = 1050
-          Height = 102
+          Width = 1116
+          Height = 134
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 2
           OnResize = Panel32Resize
+          ExplicitWidth = 1050
           object Panel33: TPanel
             Left = 0
             Top = 0
             Width = 370
-            Height = 102
+            Height = 134
             Align = alLeft
             BevelOuter = bvNone
             TabOrder = 0
+            ExplicitLeft = -3
             object DBMemo1: TDBMemo
               AlignWithMargins = True
               Left = 3
               Top = 53
               Width = 364
-              Height = 46
+              Height = 78
               Align = alClient
               DataField = 'diagnostico'
               DataSource = LabAmostraAss.DataSource1
               TabOrder = 1
+              ExplicitHeight = 46
             end
             object Panel36: TPanel
               Left = 0
@@ -215,27 +228,30 @@ inherited LabAmostraAssM: TLabAmostraAssM
               BevelOuter = bvNone
               TabOrder = 0
               object Panel24: TPanel
-                Left = 169
+                Left = 132
                 Top = 0
-                Width = 201
+                Width = 238
                 Height = 50
                 Align = alClient
                 BevelOuter = bvNone
                 TabOrder = 1
+                ExplicitLeft = 169
+                ExplicitWidth = 201
                 object Label45: TLabel
                   AlignWithMargins = True
                   Left = 3
                   Top = 3
-                  Width = 63
+                  Width = 232
                   Height = 15
                   Align = alTop
-                  Caption = 'Diagn'#243'stico'
+                  Caption = 'Indica'#231#227'o'
+                  ExplicitWidth = 51
                 end
                 object JvDBComboBox1: TJvDBComboBox
                   AlignWithMargins = True
                   Left = 3
                   Top = 24
-                  Width = 195
+                  Width = 232
                   Height = 23
                   Align = alClient
                   DataField = 'labdiag_recno'
@@ -250,30 +266,34 @@ inherited LabAmostraAssM: TLabAmostraAssM
                   ListSettings.KeyField = 'recno'
                   ListSettings.DisplayField = 'descri'
                   ListSettings.DataSource = LabAmostraAss.dsDiag
+                  ExplicitWidth = 195
                 end
               end
               object Panel15: TPanel
                 Left = 0
                 Top = 0
-                Width = 169
+                Width = 132
                 Height = 50
                 Align = alLeft
                 BevelOuter = bvNone
                 TabOrder = 0
+                ExplicitLeft = -3
+                ExplicitTop = -3
                 object Label22: TLabel
                   AlignWithMargins = True
                   Left = 3
                   Top = 3
-                  Width = 57
+                  Width = 126
                   Height = 15
                   Align = alTop
                   Caption = 'Criticidade'
+                  ExplicitWidth = 57
                 end
                 object JvDBComboBox2: TJvDBComboBox
                   AlignWithMargins = True
                   Left = 3
                   Top = 24
-                  Width = 163
+                  Width = 126
                   Height = 23
                   Align = alClient
                   DataField = 'labcrit_recno'
@@ -288,6 +308,7 @@ inherited LabAmostraAssM: TLabAmostraAssM
                   ListSettings.KeyField = 'recno'
                   ListSettings.DisplayField = 'descri'
                   ListSettings.DataSource = LabAmostraAss.dsCrit
+                  ExplicitWidth = 163
                 end
               end
             end
@@ -295,52 +316,59 @@ inherited LabAmostraAssM: TLabAmostraAssM
           object Panel34: TPanel
             Left = 370
             Top = 0
-            Width = 427
-            Height = 102
+            Width = 402
+            Height = 134
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 1
+            ExplicitLeft = 373
+            ExplicitWidth = 432
             object DBMemo2: TDBMemo
               AlignWithMargins = True
               Left = 3
               Top = 53
-              Width = 421
-              Height = 46
+              Width = 396
+              Height = 78
               Align = alClient
               DataField = 'recomendacao'
               DataSource = LabAmostraAss.DataSource1
               TabOrder = 1
+              ExplicitWidth = 421
+              ExplicitHeight = 46
             end
             object Panel37: TPanel
               Left = 0
               Top = 0
-              Width = 427
+              Width = 402
               Height = 50
               Align = alTop
               BevelOuter = bvNone
               TabOrder = 0
+              ExplicitWidth = 427
               object Panel16: TPanel
                 Left = 0
                 Top = 0
-                Width = 284
+                Width = 259
                 Height = 50
                 Align = alClient
                 BevelOuter = bvNone
                 TabOrder = 0
+                ExplicitWidth = 284
                 object Label48: TLabel
                   AlignWithMargins = True
                   Left = 3
                   Top = 3
-                  Width = 82
+                  Width = 253
                   Height = 15
                   Align = alTop
                   Caption = 'Recomenda'#231#227'o'
+                  ExplicitWidth = 82
                 end
                 object JvDBComboBox3: TJvDBComboBox
                   AlignWithMargins = True
                   Left = 3
                   Top = 24
-                  Width = 278
+                  Width = 253
                   Height = 23
                   Align = alClient
                   DataField = 'labrec_recno'
@@ -355,25 +383,28 @@ inherited LabAmostraAssM: TLabAmostraAssM
                   ListSettings.KeyField = 'recno'
                   ListSettings.DisplayField = 'descri'
                   ListSettings.DataSource = LabAmostraAss.dsRec
+                  ExplicitWidth = 278
                 end
               end
               object Panel23: TPanel
-                Left = 284
+                Left = 259
                 Top = 0
                 Width = 34
                 Height = 50
                 Align = alRight
                 BevelOuter = bvNone
                 TabOrder = 1
+                ExplicitLeft = 284
                 object Label46: TLabel
                   AlignWithMargins = True
                   Left = 3
                   Top = 3
-                  Width = 22
+                  Width = 28
                   Height = 15
                   Align = alTop
                   Caption = 'Dias'
                   FocusControl = DBEdit47
+                  ExplicitWidth = 22
                 end
                 object DBEdit47: TDBEdit
                   AlignWithMargins = True
@@ -390,21 +421,24 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 end
               end
               object Panel22: TPanel
-                Left = 318
+                Left = 293
                 Top = 0
                 Width = 109
                 Height = 50
                 Align = alRight
                 BevelOuter = bvNone
                 TabOrder = 2
+                ExplicitLeft = 320
+                ExplicitTop = -3
                 object Label47: TLabel
                   AlignWithMargins = True
                   Left = 3
                   Top = 3
-                  Width = 81
+                  Width = 103
                   Height = 15
                   Align = alTop
                   Caption = 'Pr'#243'xima Coleta'
+                  ExplicitWidth = 81
                 end
                 object JvDBDateEdit1: TJvDBDateEdit
                   AlignWithMargins = True
@@ -423,10 +457,10 @@ inherited LabAmostraAssM: TLabAmostraAssM
             end
           end
           object Panel35: TPanel
-            Left = 797
+            Left = 772
             Top = 0
-            Width = 253
-            Height = 102
+            Width = 344
+            Height = 134
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 2
@@ -434,49 +468,107 @@ inherited LabAmostraAssM: TLabAmostraAssM
               AlignWithMargins = True
               Left = 3
               Top = 53
-              Width = 247
-              Height = 46
+              Width = 338
+              Height = 78
               Align = alClient
               DataField = 'obs'
               DataSource = LabAmostraAss.DataSource1
-              TabOrder = 1
+              TabOrder = 0
+              ExplicitWidth = 247
+              ExplicitHeight = 46
             end
-            object Panel25: TPanel
+            object Panel17: TPanel
               Left = 0
               Top = 0
-              Width = 253
+              Width = 344
               Height = 50
               Align = alTop
               BevelOuter = bvNone
-              TabOrder = 0
-              object Label50: TLabel
-                AlignWithMargins = True
-                Left = 3
-                Top = 3
-                Width = 133
-                Height = 15
-                Align = alTop
-                Caption = 'Engenheiro / Observa'#231#227'o'
-              end
-              object JvDBComboBox4: TJvDBComboBox
-                AlignWithMargins = True
-                Left = 3
-                Top = 24
-                Width = 247
-                Height = 23
-                Align = alClient
-                DataField = 'idcodigo'
-                DataSource = LabAmostraAss.DataSource1
+              TabOrder = 1
+              OnResize = Panel17Resize
+              ExplicitLeft = 64
+              ExplicitTop = 48
+              ExplicitWidth = 185
+              object Panel18: TPanel
+                Left = 0
+                Top = 0
+                Width = 177
+                Height = 50
+                Align = alLeft
+                BevelOuter = bvNone
                 TabOrder = 0
-                UpdateFieldImmediatelly = True
-                ListSettings.OutfilteredValueFont.Charset = DEFAULT_CHARSET
-                ListSettings.OutfilteredValueFont.Color = clRed
-                ListSettings.OutfilteredValueFont.Height = -11
-                ListSettings.OutfilteredValueFont.Name = 'Tahoma'
-                ListSettings.OutfilteredValueFont.Style = []
-                ListSettings.KeyField = 'idcodigo'
-                ListSettings.DisplayField = 'nome'
-                ListSettings.DataSource = LabAmostraAss.dsCRQ
+                ExplicitLeft = -3
+                ExplicitTop = -3
+                object Label43: TLabel
+                  AlignWithMargins = True
+                  Left = 3
+                  Top = 3
+                  Width = 171
+                  Height = 15
+                  Align = alTop
+                  Caption = 'Respons'#225'vel'
+                  ExplicitWidth = 65
+                end
+                object JvDBLookupCombo1: TJvDBLookupCombo
+                  AlignWithMargins = True
+                  Left = 3
+                  Top = 24
+                  Width = 171
+                  Height = 23
+                  Align = alClient
+                  DataField = 'idcodigo'
+                  DataSource = LabAmostraAss.DataSource1
+                  DisplayEmpty = 'Nenhum'
+                  LookupField = 'idcodigo'
+                  LookupDisplay = 'nome'
+                  LookupSource = LabAmostraAss.dsResponsavel
+                  RightTrimmedLookup = True
+                  TabOrder = 0
+                  ExplicitLeft = 32
+                  ExplicitWidth = 145
+                  ExplicitHeight = 22
+                end
+              end
+              object Panel25: TPanel
+                Left = 177
+                Top = 0
+                Width = 167
+                Height = 50
+                Align = alClient
+                BevelOuter = bvNone
+                TabOrder = 1
+                ExplicitLeft = 155
+                ExplicitTop = -3
+                ExplicitWidth = 162
+                object Label50: TLabel
+                  AlignWithMargins = True
+                  Left = 3
+                  Top = 3
+                  Width = 161
+                  Height = 15
+                  Align = alTop
+                  Caption = 'Analista'
+                  ExplicitWidth = 42
+                end
+                object JvDBLookupCombo2: TJvDBLookupCombo
+                  AlignWithMargins = True
+                  Left = 3
+                  Top = 24
+                  Width = 161
+                  Height = 23
+                  Align = alClient
+                  DataField = 'analista'
+                  DataSource = LabAmostraAss.DataSource1
+                  DisplayEmpty = 'Nenhum'
+                  LookupField = 'idcodigo'
+                  LookupDisplay = 'nome'
+                  LookupSource = LabAmostraAss.dsAnalista
+                  RightTrimmedLookup = True
+                  TabOrder = 0
+                  ExplicitLeft = 32
+                  ExplicitWidth = 145
+                  ExplicitHeight = 22
+                end
               end
             end
           end
@@ -485,40 +577,41 @@ inherited LabAmostraAssM: TLabAmostraAssM
       object TabSheet3: TTabSheet
         Caption = 'Informa'#231#245'es Adicionais'
         ImageIndex = 2
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
+        ExplicitWidth = 1056
+        ExplicitHeight = 524
         object Panel12: TPanel
           Left = 0
           Top = 0
-          Width = 1056
+          Width = 1122
           Height = 50
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 0
+          ExplicitWidth = 1056
           object Panel19: TPanel
             Left = 226
             Top = 0
-            Width = 830
+            Width = 896
             Height = 50
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 0
+            ExplicitWidth = 830
             object Label40: TLabel
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 63
+              Width = 890
               Height = 15
               Align = alTop
               Caption = 'Destinat'#225'rio'
+              ExplicitWidth = 63
             end
             object DBEdit39: TDBEdit
               AlignWithMargins = True
               Left = 3
               Top = 24
-              Width = 824
+              Width = 890
               Height = 23
               TabStop = False
               Align = alClient
@@ -527,6 +620,7 @@ inherited LabAmostraAssM: TLabAmostraAssM
               ReadOnly = True
               TabOrder = 0
               OnExit = DBEdit39Exit
+              ExplicitWidth = 824
             end
           end
           object Panel21: TPanel
@@ -541,11 +635,12 @@ inherited LabAmostraAssM: TLabAmostraAssM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 51
+              Width = 161
               Height = 15
               Align = alTop
               Caption = 'Descri'#231#227'o'
               FocusControl = DBEdit24
+              ExplicitWidth = 51
             end
             object DBEdit24: TDBEdit
               AlignWithMargins = True
@@ -573,11 +668,12 @@ inherited LabAmostraAssM: TLabAmostraAssM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 23
+              Width = 53
               Height = 15
               Align = alTop
               Caption = 'Tipo'
               FocusControl = DBEdit23
+              ExplicitWidth = 23
             end
             object DBEdit23: TDBEdit
               AlignWithMargins = True
@@ -597,11 +693,12 @@ inherited LabAmostraAssM: TLabAmostraAssM
         object Panel27: TPanel
           Left = 0
           Top = 50
-          Width = 1056
+          Width = 1122
           Height = 75
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 1
+          ExplicitWidth = 1056
           object GroupBox1: TGroupBox
             AlignWithMargins = True
             Left = 3
@@ -623,7 +720,7 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 24
+                Width = 45
                 Height = 14
                 Align = alTop
                 Caption = 'Tipo'
@@ -635,6 +732,7 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 Font.Pitch = fpVariable
                 Font.Style = [fsBold]
                 ParentFont = False
+                ExplicitWidth = 24
               end
               object DBEdit9: TDBEdit
                 AlignWithMargins = True
@@ -663,11 +761,12 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 51
+                Width = 366
                 Height = 15
                 Align = alTop
                 Caption = 'Descri'#231#227'o'
                 FocusControl = DBEdit10
+                ExplicitWidth = 51
               end
               object DBEdit10: TDBEdit
                 AlignWithMargins = True
@@ -688,11 +787,12 @@ inherited LabAmostraAssM: TLabAmostraAssM
             AlignWithMargins = True
             Left = 436
             Top = 3
-            Width = 617
+            Width = 683
             Height = 69
             Align = alClient
             Caption = ' Informa'#231#245'es da Coleta '
             TabOrder = 1
+            ExplicitWidth = 617
             object Panel26: TPanel
               Left = 2
               Top = 17
@@ -705,11 +805,12 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 34
+                Width = 93
                 Height = 15
                 Align = alTop
                 Caption = 'Coleta'
                 FocusControl = JvDBDateEdit2
+                ExplicitWidth = 34
               end
               object JvDBDateEdit2: TJvDBDateEdit
                 AlignWithMargins = True
@@ -729,51 +830,56 @@ inherited LabAmostraAssM: TLabAmostraAssM
             object Panel29: TPanel
               Left = 101
               Top = 17
-              Width = 247
+              Width = 313
               Height = 50
               Align = alClient
               BevelOuter = bvNone
               TabOrder = 1
+              ExplicitWidth = 247
               object Label30: TLabel
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 63
+                Width = 307
                 Height = 15
                 Align = alTop
                 Caption = 'Amostrador'
                 FocusControl = DBEdit28
+                ExplicitWidth = 63
               end
               object DBEdit28: TDBEdit
                 AlignWithMargins = True
                 Left = 3
                 Top = 24
-                Width = 241
+                Width = 307
                 Height = 23
                 Align = alClient
                 DataField = 'amostrador'
                 DataSource = LabAmostraAss.DataSource1
                 ReadOnly = True
                 TabOrder = 0
+                ExplicitWidth = 241
               end
             end
             object Panel38: TPanel
-              Left = 348
+              Left = 414
               Top = 17
               Width = 60
               Height = 50
               Align = alRight
               BevelOuter = bvNone
               TabOrder = 2
+              ExplicitLeft = 348
               object Label31: TLabel
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 64
+                Width = 54
                 Height = 15
                 Align = alTop
                 Caption = 'T. Ambiente'
                 FocusControl = DBEdit29
+                ExplicitWidth = 64
               end
               object DBEdit29: TDBEdit
                 AlignWithMargins = True
@@ -789,22 +895,24 @@ inherited LabAmostraAssM: TLabAmostraAssM
               end
             end
             object Panel39: TPanel
-              Left = 408
+              Left = 474
               Top = 17
               Width = 60
               Height = 50
               Align = alRight
               BevelOuter = bvNone
               TabOrder = 3
+              ExplicitLeft = 408
               object Label32: TLabel
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 37
+                Width = 54
                 Height = 15
                 Align = alTop
                 Caption = 'T. '#211'leo'
                 FocusControl = DBEdit30
+                ExplicitWidth = 37
               end
               object DBEdit30: TDBEdit
                 AlignWithMargins = True
@@ -820,22 +928,24 @@ inherited LabAmostraAssM: TLabAmostraAssM
               end
             end
             object Panel40: TPanel
-              Left = 468
+              Left = 534
               Top = 17
               Width = 60
               Height = 50
               Align = alRight
               BevelOuter = bvNone
               TabOrder = 4
+              ExplicitLeft = 468
               object Label33: TLabel
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 48
+                Width = 54
                 Height = 15
                 Align = alTop
                 Caption = 'Umidade'
                 FocusControl = DBEdit31
+                ExplicitWidth = 48
               end
               object DBEdit31: TDBEdit
                 AlignWithMargins = True
@@ -851,22 +961,24 @@ inherited LabAmostraAssM: TLabAmostraAssM
               end
             end
             object Panel41: TPanel
-              Left = 528
+              Left = 594
               Top = 17
               Width = 87
               Height = 50
               Align = alRight
               BevelOuter = bvNone
               TabOrder = 5
+              ExplicitLeft = 528
               object Label34: TLabel
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 36
+                Width = 81
                 Height = 15
                 Align = alTop
                 Caption = 'Tens'#227'o'
                 FocusControl = DBEdit32
+                ExplicitWidth = 36
               end
               object Panel42: TPanel
                 Left = 0
@@ -911,19 +1023,21 @@ inherited LabAmostraAssM: TLabAmostraAssM
           AlignWithMargins = True
           Left = 3
           Top = 128
-          Width = 1050
+          Width = 1116
           Height = 177
           Align = alTop
           Caption = ' Equipamento '
           TabOrder = 2
+          ExplicitWidth = 1050
           object Panel43: TPanel
             Left = 2
             Top = 17
-            Width = 1046
+            Width = 1112
             Height = 50
             Align = alTop
             BevelOuter = bvNone
             TabOrder = 0
+            ExplicitWidth = 1046
             object Panel44: TPanel
               Left = 0
               Top = 0
@@ -936,11 +1050,12 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 71
+                Width = 74
                 Height = 15
                 Align = alTop
                 Caption = 'Equipamento'
                 FocusControl = DBEdit11
+                ExplicitWidth = 71
               end
               object DBEdit11: TDBEdit
                 AlignWithMargins = True
@@ -959,25 +1074,27 @@ inherited LabAmostraAssM: TLabAmostraAssM
             object Panel45: TPanel
               Left = 80
               Top = 0
-              Width = 327
+              Width = 393
               Height = 50
               Align = alClient
               BevelOuter = bvNone
               TabOrder = 1
+              ExplicitWidth = 327
               object Label13: TLabel
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 23
+                Width = 387
                 Height = 15
                 Align = alTop
                 Caption = 'Tipo'
+                ExplicitWidth = 23
               end
               object DBEdit12: TDBEdit
                 AlignWithMargins = True
                 Left = 3
                 Top = 24
-                Width = 321
+                Width = 387
                 Height = 23
                 TabStop = False
                 Align = alClient
@@ -985,24 +1102,27 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 DataSource = LabAmostraAss.DataSource1
                 ReadOnly = True
                 TabOrder = 0
+                ExplicitWidth = 321
               end
             end
             object Panel46: TPanel
-              Left = 407
+              Left = 473
               Top = 0
               Width = 156
               Height = 50
               Align = alRight
               BevelOuter = bvNone
               TabOrder = 2
+              ExplicitLeft = 407
               object Label16: TLabel
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 41
+                Width = 150
                 Height = 15
                 Align = alTop
                 Caption = 'Isolante'
+                ExplicitWidth = 41
               end
               object DBEdit15: TDBEdit
                 AlignWithMargins = True
@@ -1019,21 +1139,23 @@ inherited LabAmostraAssM: TLabAmostraAssM
               end
             end
             object Panel47: TPanel
-              Left = 563
+              Left = 629
               Top = 0
               Width = 153
               Height = 50
               Align = alRight
               BevelOuter = bvNone
               TabOrder = 3
+              ExplicitLeft = 563
               object Label19: TLabel
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 25
+                Width = 147
                 Height = 15
                 Align = alTop
                 Caption = 'S'#233'rie'
+                ExplicitWidth = 25
               end
               object DBEdit17: TDBEdit
                 AlignWithMargins = True
@@ -1050,21 +1172,23 @@ inherited LabAmostraAssM: TLabAmostraAssM
               end
             end
             object Panel48: TPanel
-              Left = 716
+              Left = 782
               Top = 0
               Width = 168
               Height = 50
               Align = alRight
               BevelOuter = bvNone
               TabOrder = 4
+              ExplicitLeft = 716
               object Label38: TLabel
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 160
+                Width = 162
                 Height = 15
                 Align = alTop
                 Caption = 'S'#233'rie Cliente (Tag, NCia, Ativo)'
+                ExplicitWidth = 160
               end
               object DBEdit36: TDBEdit
                 AlignWithMargins = True
@@ -1081,21 +1205,23 @@ inherited LabAmostraAssM: TLabAmostraAssM
               end
             end
             object Panel49: TPanel
-              Left = 884
+              Left = 950
               Top = 0
               Width = 162
               Height = 50
               Align = alRight
               BevelOuter = bvNone
               TabOrder = 5
+              ExplicitLeft = 884
               object Label14: TLabel
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 55
+                Width = 156
                 Height = 15
                 Align = alTop
                 Caption = 'Fabricante'
+                ExplicitWidth = 55
               end
               object DBEdit13: TDBEdit
                 AlignWithMargins = True
@@ -1115,11 +1241,12 @@ inherited LabAmostraAssM: TLabAmostraAssM
           object Panel50: TPanel
             Left = 2
             Top = 67
-            Width = 1046
+            Width = 1112
             Height = 50
             Align = alTop
             BevelOuter = bvNone
             TabOrder = 1
+            ExplicitWidth = 1046
             object Panel51: TPanel
               Left = 0
               Top = 0
@@ -1132,10 +1259,11 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 57
+                Width = 58
                 Height = 15
                 Align = alTop
                 Caption = 'Fabrica'#231#227'o'
+                ExplicitWidth = 57
               end
               object DBEdit19: TDBEdit
                 AlignWithMargins = True
@@ -1163,11 +1291,12 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 23
+                Width = 109
                 Height = 15
                 Align = alTop
                 Caption = 'Lote'
                 FocusControl = DBEdit20
+                ExplicitWidth = 23
               end
               object DBEdit20: TDBEdit
                 AlignWithMargins = True
@@ -1229,11 +1358,12 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 36
+                Width = 88
                 Height = 15
                 Align = alTop
                 Caption = 'Tens'#227'o'
                 FocusControl = DBEdit16
+                ExplicitWidth = 36
               end
               object Panel57: TPanel
                 Left = 0
@@ -1285,11 +1415,12 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 46
+                Width = 88
                 Height = 15
                 Align = alTop
                 Caption = 'Pot'#234'ncia'
                 FocusControl = DBEdit18
+                ExplicitWidth = 46
               end
               object Panel58: TPanel
                 Left = 0
@@ -1375,11 +1506,12 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 37
+                Width = 38
                 Height = 15
                 Align = alTop
                 Caption = 'Drenos'
                 FocusControl = DBEdit25
+                ExplicitWidth = 37
               end
               object DBEdit25: TDBEdit
                 AlignWithMargins = True
@@ -1407,11 +1539,12 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 40
+                Width = 44
                 Height = 15
                 Align = alTop
                 Caption = 'Volume'
                 FocusControl = DBEdit26
+                ExplicitWidth = 40
               end
               object DBEdit26: TDBEdit
                 AlignWithMargins = True
@@ -1439,11 +1572,12 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 38
+                Width = 135
                 Height = 15
                 Align = alTop
                 Caption = 'Fam'#237'lia'
                 FocusControl = DBEdit35
+                ExplicitWidth = 38
               end
               object DBEdit35: TDBEdit
                 AlignWithMargins = True
@@ -1462,26 +1596,28 @@ inherited LabAmostraAssM: TLabAmostraAssM
             object Panel62: TPanel
               Left = 704
               Top = 0
-              Width = 342
+              Width = 408
               Height = 50
               Align = alClient
               BevelOuter = bvNone
               TabOrder = 9
+              ExplicitWidth = 342
               object Label28: TLabel
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 51
+                Width = 402
                 Height = 15
                 Align = alTop
                 Caption = 'Descri'#231#227'o'
                 FocusControl = DBEdit27
+                ExplicitWidth = 51
               end
               object DBEdit27: TDBEdit
                 AlignWithMargins = True
                 Left = 3
                 Top = 24
-                Width = 336
+                Width = 402
                 Height = 23
                 TabStop = False
                 Align = alClient
@@ -1489,17 +1625,19 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 DataSource = LabAmostraAss.DataSource1
                 ReadOnly = True
                 TabOrder = 0
+                ExplicitWidth = 336
               end
             end
           end
           object Panel63: TPanel
             Left = 2
             Top = 117
-            Width = 1046
+            Width = 1112
             Height = 50
             Align = alTop
             BevelOuter = bvNone
             TabOrder = 2
+            ExplicitWidth = 1046
             object Panel64: TPanel
               Left = 0
               Top = 0
@@ -1512,11 +1650,12 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 61
+                Width = 63
                 Height = 15
                 Align = alTop
                 Caption = 'Localiza'#231#227'o'
                 FocusControl = DBEdit33
+                ExplicitWidth = 61
               end
               object DBEdit33: TDBEdit
                 AlignWithMargins = True
@@ -1544,11 +1683,12 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 25
+                Width = 44
                 Height = 15
                 Align = alTop
                 Caption = 'Sigla'
                 FocusControl = DBEdit34
+                ExplicitWidth = 25
               end
               object DBEdit34: TDBEdit
                 AlignWithMargins = True
@@ -1576,11 +1716,12 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 46
+                Width = 169
                 Height = 15
                 Align = alTop
                 Caption = 'Regional'
                 FocusControl = DBEdit37
+                ExplicitWidth = 46
               end
               object DBEdit37: TDBEdit
                 AlignWithMargins = True
@@ -1608,11 +1749,12 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 33
+                Width = 148
                 Height = 15
                 Align = alTop
                 Caption = 'Nome'
                 FocusControl = DBEdit38
+                ExplicitWidth = 33
               end
               object DBEdit38: TDBEdit
                 AlignWithMargins = True
@@ -1640,11 +1782,12 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 33
+                Width = 172
                 Height = 15
                 Align = alTop
                 Caption = 'Nome'
                 FocusControl = DBEdit45
+                ExplicitWidth = 33
               end
               object DBEdit45: TDBEdit
                 AlignWithMargins = True
@@ -1663,32 +1806,35 @@ inherited LabAmostraAssM: TLabAmostraAssM
             object Panel69: TPanel
               Left = 626
               Top = 0
-              Width = 420
+              Width = 486
               Height = 50
               Align = alClient
               BevelOuter = bvNone
               TabOrder = 5
+              ExplicitWidth = 420
               object Label49: TLabel
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 28
+                Width = 480
                 Height = 15
                 Align = alTop
                 Caption = 'Local'
                 FocusControl = DBEdit46
+                ExplicitWidth = 28
               end
               object DBEdit46: TDBEdit
                 AlignWithMargins = True
                 Left = 3
                 Top = 24
-                Width = 414
+                Width = 480
                 Height = 23
                 Align = alClient
                 DataField = 'local'
                 DataSource = LabAmostraAss.DataSource1
                 ReadOnly = True
                 TabOrder = 0
+                ExplicitWidth = 414
               end
             end
           end
@@ -1699,20 +1845,22 @@ inherited LabAmostraAssM: TLabAmostraAssM
       AlignWithMargins = True
       Left = 3
       Top = 3
-      Width = 1064
+      Width = 1130
       Height = 51
       Align = alTop
       BevelOuter = bvNone
       TabOrder = 3
+      ExplicitWidth = 1064
       object Panel4: TPanel
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 1058
+        Width = 1124
         Height = 50
         Align = alTop
         BevelOuter = bvNone
         TabOrder = 0
+        ExplicitWidth = 1058
         object Panel5: TPanel
           Left = 160
           Top = 0
@@ -1725,10 +1873,11 @@ inherited LabAmostraAssM: TLabAmostraAssM
             AlignWithMargins = True
             Left = 3
             Top = 3
-            Width = 45
+            Width = 74
             Height = 15
             Align = alTop
             Caption = 'Amostra'
+            ExplicitWidth = 45
           end
           object DBEdit1: TDBEdit
             AlignWithMargins = True
@@ -1745,22 +1894,24 @@ inherited LabAmostraAssM: TLabAmostraAssM
           end
         end
         object Panel7: TPanel
-          Left = 826
+          Left = 892
           Top = 0
           Width = 116
           Height = 50
           Align = alRight
           BevelOuter = bvNone
           TabOrder = 2
+          ExplicitLeft = 826
           object Label5: TLabel
             AlignWithMargins = True
             Left = 3
             Top = 3
-            Width = 40
+            Width = 110
             Height = 15
             Align = alTop
             Caption = 'C.N.P.J.'
             FocusControl = DBEdit5
+            ExplicitWidth = 40
           end
           object DBEdit5: TDBEdit
             AlignWithMargins = True
@@ -1779,26 +1930,28 @@ inherited LabAmostraAssM: TLabAmostraAssM
         object Panel8: TPanel
           Left = 493
           Top = 0
-          Width = 217
+          Width = 283
           Height = 50
           Align = alClient
           BevelOuter = bvNone
           TabOrder = 3
+          ExplicitWidth = 217
           object Label4: TLabel
             AlignWithMargins = True
             Left = 3
             Top = 3
-            Width = 69
+            Width = 277
             Height = 15
             Align = alTop
             Caption = 'Raz'#227'o/Nome'
             FocusControl = DBEdit4
+            ExplicitWidth = 69
           end
           object DBEdit4: TDBEdit
             AlignWithMargins = True
             Left = 3
             Top = 24
-            Width = 211
+            Width = 277
             Height = 23
             TabStop = False
             Align = alClient
@@ -1806,6 +1959,7 @@ inherited LabAmostraAssM: TLabAmostraAssM
             DataSource = LabAmostraAss.DataSource1
             ReadOnly = True
             TabOrder = 0
+            ExplicitWidth = 211
           end
         end
         object Panel9: TPanel
@@ -1820,11 +1974,12 @@ inherited LabAmostraAssM: TLabAmostraAssM
             AlignWithMargins = True
             Left = 3
             Top = 3
-            Width = 37
+            Width = 51
             Height = 15
             Align = alTop
             Caption = 'Cliente'
             FocusControl = DBEdit3
+            ExplicitWidth = 37
           end
           object DBEdit3: TDBEdit
             AlignWithMargins = True
@@ -1852,11 +2007,12 @@ inherited LabAmostraAssM: TLabAmostraAssM
             AlignWithMargins = True
             Left = 3
             Top = 3
-            Width = 40
+            Width = 110
             Height = 15
             Align = alTop
             Caption = 'Entrada'
             FocusControl = DBEdit8
+            ExplicitWidth = 40
           end
           object DBEdit8: TDBEdit
             AlignWithMargins = True
@@ -1873,22 +2029,24 @@ inherited LabAmostraAssM: TLabAmostraAssM
           end
         end
         object Panel11: TPanel
-          Left = 710
+          Left = 776
           Top = 0
           Width = 116
           Height = 50
           Align = alRight
           BevelOuter = bvNone
           TabOrder = 6
+          ExplicitLeft = 710
           object Label7: TLabel
             AlignWithMargins = True
             Left = 3
             Top = 3
-            Width = 44
+            Width = 110
             Height = 15
             Align = alTop
             Caption = 'Telefone'
             FocusControl = DBEdit7
+            ExplicitWidth = 44
           end
           object DBEdit7: TDBEdit
             AlignWithMargins = True
@@ -1905,22 +2063,24 @@ inherited LabAmostraAssM: TLabAmostraAssM
           end
         end
         object Panel13: TPanel
-          Left = 942
+          Left = 1008
           Top = 0
           Width = 116
           Height = 50
           Align = alRight
           BevelOuter = bvNone
           TabOrder = 7
+          ExplicitLeft = 942
           object Label6: TLabel
             AlignWithMargins = True
             Left = 3
             Top = 3
-            Width = 30
+            Width = 110
             Height = 15
             Align = alTop
             Caption = 'C.P.F.'
             FocusControl = DBEdit6
+            ExplicitWidth = 30
           end
           object DBEdit6: TDBEdit
             AlignWithMargins = True
@@ -1948,11 +2108,12 @@ inherited LabAmostraAssM: TLabAmostraAssM
             AlignWithMargins = True
             Left = 3
             Top = 3
-            Width = 37
+            Width = 74
             Height = 15
             Align = alTop
             Caption = 'Pedido'
             FocusControl = DBEdit21
+            ExplicitWidth = 37
           end
           object DBEdit21: TDBEdit
             AlignWithMargins = True
@@ -1980,10 +2141,11 @@ inherited LabAmostraAssM: TLabAmostraAssM
             AlignWithMargins = True
             Left = 3
             Top = 3
-            Width = 33
+            Width = 74
             Height = 15
             Align = alTop
             Caption = 'Laudo'
+            ExplicitWidth = 33
           end
           object DBEdit48: TDBEdit
             AlignWithMargins = True
@@ -2011,11 +2173,12 @@ inherited LabAmostraAssM: TLabAmostraAssM
             AlignWithMargins = True
             Left = 3
             Top = 3
-            Width = 43
+            Width = 74
             Height = 15
             Align = alTop
             Caption = 'Etiqueta'
             FocusControl = DBEdit2
+            ExplicitWidth = 43
           end
           object DBEdit2: TDBEdit
             AlignWithMargins = True
@@ -2035,7 +2198,7 @@ inherited LabAmostraAssM: TLabAmostraAssM
     end
   end
   inherited ControlBar1: TControlBar
-    Width = 1064
+    Width = 1130
     Height = 38
     ExplicitLeft = 3
     ExplicitTop = 3

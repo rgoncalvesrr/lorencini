@@ -42,7 +42,7 @@ object DMReport: TDMReport
     PrintOptions.Printer = 'Padr'#227'o'
     PrintOptions.PrintOnSheet = 0
     ReportOptions.CreateDate = 39757.585007557900000000
-    ReportOptions.LastChange = 44071.009155844900000000
+    ReportOptions.LastChange = 44215.866122789350000000
     ScriptLanguage = 'PascalScript'
     StoreInDFM = False
     OnReportPrint = 'ReportBaseOnReportPrint'
@@ -1993,10 +1993,19 @@ object DMReport: TDMReport
       
         '  e.volume,          e.drenos,        cast(e.familia as varchar(' +
         '100)) as familia, a.tag,'
-      '  se.sigla,          se.nome,         se.regional,  se.reg_nome,'
-      '  cast(Initcap(f.nome) as varchar(60)) as nome, f.crq,'
-      '  co.nome,       co.funcao,  co.telefone, co.celular,'
-      '  co.email,      f.assinatura as ass_arquivo, f.cargo,'
+      
+        '  se.sigla,          se.nome nomese,         se.regional,  se.re' +
+        'g_nome,'
+      '  co.nome nomecont,       co.funcao,  co.telefone, co.celular,'
+      '  co.email,'
+      
+        '  cast(Initcap(f.nome) as varchar(60)) as resp_nome, f.crq resp_' +
+        'crq, f.assinatura resp_assinatura, f.cargo resp_cargo,'
+      '  f.conselho resp_conselho,'
+      
+        '  cast(Initcap(an.nome) as varchar(60)) as analista_nome, an.crq' +
+        ' analista_crq, an.assinatura analista_assinatura,'
+      '  an.cargo analista_cargo, an.conselho analista_conselho,'
       '  o.idos,  p.dec_conf'
       '  from labamostras_rel r'
       '       join labrel re'
@@ -2034,8 +2043,11 @@ object DMReport: TDMReport
       '        and rec.recno = r.labrec_recno'
       '       left join tbfuncionarios f'
       '         on f.idcodigo = r.idcodigo'
+      '       left join tbfuncionarios an'
+      '         on an.idcodigo = r.analista'
       ' where r.status >= 3'
-      '   and r.assinatura is not null')
+      '   and r.assinatura is not null'
+      '')
     Params = <>
     FetchRow = 50
     IndexFieldNames = 'recno Asc'
@@ -2245,8 +2257,8 @@ object DMReport: TDMReport
       FieldName = 'sigla'
       Size = 3
     end
-    object R00014nome: TStringField
-      FieldName = 'nome'
+    object R00014nomese: TStringField
+      FieldName = 'nomese'
       Size = 60
     end
     object R00014regional: TIntegerField
@@ -2255,15 +2267,6 @@ object DMReport: TDMReport
     object R00014reg_nome: TStringField
       FieldName = 'reg_nome'
       Size = 60
-    end
-    object R00014nome_1: TStringField
-      FieldName = 'nome_1'
-      ReadOnly = True
-      Size = 60
-    end
-    object R00014crq: TStringField
-      FieldName = 'crq'
-      Size = 15
     end
     object R00014emissao: TDateTimeField
       FieldName = 'emissao'
@@ -2311,9 +2314,9 @@ object DMReport: TDMReport
       Size = 100
       Calculated = True
     end
-    object R00014nome_2: TStringField
-      FieldName = 'nome_2'
-      Size = 60
+    object R00014nomecont: TStringField
+      FieldName = 'nomecont'
+      Size = 150
     end
     object R00014funcao: TStringField
       FieldName = 'funcao'
@@ -2345,10 +2348,6 @@ object DMReport: TDMReport
       ReadOnly = True
       Size = 30
     end
-    object R00014ass_arquivo: TStringField
-      FieldName = 'ass_arquivo'
-      Size = 60
-    end
     object R00014endereco: TStringField
       FieldName = 'endereco'
       Size = 85
@@ -2372,10 +2371,6 @@ object DMReport: TDMReport
     object R00014email_1: TStringField
       FieldName = 'email_1'
       Size = 100
-    end
-    object R00014cargo: TStringField
-      FieldName = 'cargo'
-      Size = 60
     end
     object R00014apontado: TDateTimeField
       FieldName = 'apontado'
@@ -2411,6 +2406,48 @@ object DMReport: TDMReport
     object R00014dec_conf: TBooleanField
       FieldName = 'dec_conf'
       Required = True
+    end
+    object R00014resp_nome: TStringField
+      FieldName = 'resp_nome'
+      ReadOnly = True
+      Size = 60
+    end
+    object R00014resp_assinatura: TStringField
+      FieldName = 'resp_assinatura'
+      Size = 50
+    end
+    object R00014resp_cargo: TStringField
+      FieldName = 'resp_cargo'
+      Size = 60
+    end
+    object R00014resp_conselho: TStringField
+      FieldName = 'resp_conselho'
+      Size = 5
+    end
+    object R00014resp_crq: TStringField
+      FieldName = 'resp_crq'
+      Size = 15
+    end
+    object R00014analista_nome: TStringField
+      FieldName = 'analista_nome'
+      ReadOnly = True
+      Size = 60
+    end
+    object R00014analista_assinatura: TStringField
+      FieldName = 'analista_assinatura'
+      Size = 50
+    end
+    object R00014analista_cargo: TStringField
+      FieldName = 'analista_cargo'
+      Size = 60
+    end
+    object R00014analista_conselho: TStringField
+      FieldName = 'analista_conselho'
+      Size = 5
+    end
+    object R00014analista_crq: TStringField
+      FieldName = 'analista_crq'
+      Size = 15
     end
   end
   object frxR00014: TfrxDBDataset
@@ -2473,11 +2510,9 @@ object DMReport: TDMReport
       'familia=familia'
       'tag=tag'
       'sigla=sigla'
-      'nome=nome'
+      'nomese=nomese'
       'regional=regional'
       'reg_nome=reg_nome'
-      'nome_1=nome_1'
-      'crq=crq'
       'emissao=emissao'
       'etiqueta=etiqueta'
       'assinatura=assinatura'
@@ -2489,7 +2524,7 @@ object DMReport: TDMReport
       'd5=d5'
       'd6=d6'
       'localizacao=localizacao'
-      'nome_2=nome_2'
+      'nomecont=nomecont'
       'funcao=funcao'
       'telefone_1=telefone_1'
       'celular=celular'
@@ -2497,14 +2532,12 @@ object DMReport: TDMReport
       'idos=idos'
       'destinatario=destinatario'
       'cor=cor'
-      'ass_arquivo=ass_arquivo'
       'endereco=endereco'
       'bairro=bairro'
       'cidade=cidade'
       'estado=estado'
       'cep=cep'
       'email_1=email_1'
-      'cargo=cargo'
       'apontado=apontado'
       'pedido=pedido'
       'tensao_un=tensao_un'
@@ -2513,7 +2546,17 @@ object DMReport: TDMReport
       'inmetro=inmetro'
       'revisao=revisao'
       'tequip=tequip'
-      'dec_conf=dec_conf')
+      'dec_conf=dec_conf'
+      'resp_nome=resp_nome'
+      'resp_assinatura=resp_assinatura'
+      'resp_cargo=resp_cargo'
+      'resp_conselho=resp_conselho'
+      'resp_crq=resp_crq'
+      'analista_nome=analista_nome'
+      'analista_assinatura=analista_assinatura'
+      'analista_cargo=analista_cargo'
+      'analista_conselho=analista_conselho'
+      'analista_crq=analista_crq')
     DataSet = R00014
     BCDToCurrency = False
     Left = 280
