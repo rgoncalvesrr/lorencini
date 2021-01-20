@@ -42,7 +42,7 @@ object DMReport: TDMReport
     PrintOptions.Printer = 'Padr'#227'o'
     PrintOptions.PrintOnSheet = 0
     ReportOptions.CreateDate = 39757.585007557900000000
-    ReportOptions.LastChange = 44215.159073877320000000
+    ReportOptions.LastChange = 44215.866122789350000000
     ScriptLanguage = 'PascalScript'
     StoreInDFM = False
     OnReportPrint = 'ReportBaseOnReportPrint'
@@ -2044,7 +2044,7 @@ object DMReport: TDMReport
       '       left join tbfuncionarios f'
       '         on f.idcodigo = r.idcodigo'
       '       left join tbfuncionarios an'
-      '         on f.idcodigo = r.analista'
+      '         on an.idcodigo = r.analista'
       ' where r.status >= 3'
       '   and r.assinatura is not null'
       '')
