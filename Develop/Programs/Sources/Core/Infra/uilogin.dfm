@@ -114,7 +114,7 @@ inherited ILogin: TILogin
     end
     object edPassword: TJvEdit
       Left = 220
-      Top = 145
+      Top = 149
       Width = 173
       Height = 25
       ThemedPassword = True
