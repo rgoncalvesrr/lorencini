@@ -74,7 +74,8 @@ BEGIN
 
          update labamostras_rel
             set status = _ST_LAUDO_DIGIT
-          where amostra = new.recno;  
+          where amostra = new.recno
+            and revisao is null;  
       end if;
 
       -- Validação da amostra
