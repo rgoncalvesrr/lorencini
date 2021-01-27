@@ -14,34 +14,29 @@ create or replace function a_labrel()
 $$
 begin
    if tg_op = 'UPDATE' then
-      if exists(
-         select 1
-           from api.reports_assays
-          where reporttype = new.recno
-            and assays <> new.ensaios)
-      then
-         if new.ativo and new.ativo <> old.ativo then
-            delete 
-              from api.reports_assays
-             where reporttype = new.recno;
+      if new.ativo and new.ativo <> old.ativo then
+         delete 
+            from api.reports_assays
+            where reporttype = new.recno;
 
-            insert into api.reports_assays(report, reporttype, hash, assays, titles, results)
-              select g.laudo, g.relato_recno, md5(string_agg(g.ensaio_recno::text, '|')), array_agg(g.ensaio_recno), array_agg(g.nome), array_agg(g.valor)
-                from (select r.laudo, r.relato_recno, r.ensaio_recno, e.nome, ensaio_mascara(r.ensaio_recno, r.valor) valor
-                        from labamostras_res r
-                             join labrel_ens le 
-                               on le.relato_recno = r.relato_recno 
-                              and le.ensaio_recno = r.ensaio_recno
-                             join labamostras_rel l                   
-                               on l.recno = r.laudo 
-                              and l.relato_recno = r.relato_recno 
-                              and l.status = 3
-                              and l.revisao is null
-                              and l.assinatura is not null
-                        where r.relato_recno = new.recno
-                        order by r.laudo, le.ordem, le.ensaio_recno) g
-               group by g.laudo;
-         end if;
+         insert into api.reports_assays(report, reporttype, hash, assays, titles, results)
+            select g.laudo, new.recno, md5(string_agg(g.ensaio_recno::text, '|')), array_agg(g.ensaio_recno), array_agg(g.nome), array_agg(g.valor)
+               from (select r.laudo, r.ensaio_recno, e.nome, ensaio_mascara(r.ensaio_recno, r.valor) valor
+                     from labamostras_res r
+                           join labrel_ens le 
+                              on le.relato_recno = r.relato_recno 
+                           and le.ensaio_recno = r.ensaio_recno
+                           join ensaios e
+                              on e.recno = r.ensaio_recno
+                           join labamostras_rel l                   
+                              on l.recno = r.laudo 
+                           and l.relato_recno = r.relato_recno 
+                           and l.status = 3
+                           and l.revisao is null
+                           and l.assinatura is not null
+                     where r.relato_recno = new.recno
+                     order by r.laudo, le.ordem, le.ensaio_recno) g
+            group by g.laudo;
       end if;
    end if;
 
