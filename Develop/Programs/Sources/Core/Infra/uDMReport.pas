@@ -793,6 +793,8 @@ type
     R00014analista_conselho: TStringField;
     R00014nomese: TStringField;
     R00014nomecont: TStringField;
+    R00014legendas: TMemoField;
+    R00014regras: TMemoField;
     procedure DataModuleCreate(Sender: TObject);
     procedure R00011CalcFields(DataSet: TDataSet);
     procedure R00014CalcFields(DataSet: TDataSet);

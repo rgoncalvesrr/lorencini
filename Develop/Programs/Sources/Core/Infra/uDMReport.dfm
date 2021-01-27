@@ -42,7 +42,7 @@ object DMReport: TDMReport
     PrintOptions.Printer = 'Padr'#227'o'
     PrintOptions.PrintOnSheet = 0
     ReportOptions.CreateDate = 39757.585007557900000000
-    ReportOptions.LastChange = 44215.866122789350000000
+    ReportOptions.LastChange = 44222.783396539350000000
     ScriptLanguage = 'PascalScript'
     StoreInDFM = False
     OnReportPrint = 'ReportBaseOnReportPrint'
@@ -2006,7 +2006,7 @@ object DMReport: TDMReport
         '  cast(Initcap(an.nome) as varchar(60)) as analista_nome, an.crq' +
         ' analista_crq, an.assinatura analista_assinatura,'
       '  an.cargo analista_cargo, an.conselho analista_conselho,'
-      '  o.idos,  p.dec_conf'
+      '  o.idos,  p.dec_conf, re.legendas, re.regras'
       '  from labamostras_rel r'
       '       join labrel re'
       '         on re.recno = r.relato_recno'
@@ -2046,8 +2046,7 @@ object DMReport: TDMReport
       '       left join tbfuncionarios an'
       '         on an.idcodigo = r.analista'
       ' where r.status >= 3'
-      '   and r.assinatura is not null'
-      '')
+      '   and r.assinatura is not null')
     Params = <>
     FetchRow = 50
     IndexFieldNames = 'recno Asc'
@@ -2449,6 +2448,14 @@ object DMReport: TDMReport
       FieldName = 'analista_crq'
       Size = 15
     end
+    object R00014legendas: TMemoField
+      FieldName = 'legendas'
+      BlobType = ftMemo
+    end
+    object R00014regras: TMemoField
+      FieldName = 'regras'
+      BlobType = ftMemo
+    end
   end
   object frxR00014: TfrxDBDataset
     Description = 'Laudo'
@@ -2556,7 +2563,9 @@ object DMReport: TDMReport
       'analista_assinatura=analista_assinatura'
       'analista_cargo=analista_cargo'
       'analista_conselho=analista_conselho'
-      'analista_crq=analista_crq')
+      'analista_crq=analista_crq'
+      'legendas=legendas'
+      'regras=regras')
     DataSet = R00014
     BCDToCurrency = False
     Left = 280

@@ -20,7 +20,10 @@ inherited Ped: TPed
       Width = 1109
       ExplicitWidth = 1109
       inherited tsQuery: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 6
         ExplicitWidth = 1101
+        ExplicitHeight = 75
         object Panel5: TPanel [0]
           Left = 0
           Top = 0
@@ -29,8 +32,6 @@ inherited Ped: TPed
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 1
-          ExplicitLeft = -3
-          ExplicitTop = 1
           object Label3: TLabel
             AlignWithMargins = True
             Left = 3
@@ -69,8 +70,6 @@ inherited Ped: TPed
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 2
-          ExplicitLeft = 51
-          ExplicitTop = 1
           object Label1: TLabel
             AlignWithMargins = True
             Left = 3
@@ -158,6 +157,8 @@ inherited Ped: TPed
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 4
+          ExplicitLeft = 525
+          ExplicitTop = 1
           object Label5: TLabel
             AlignWithMargins = True
             Left = 3
@@ -208,7 +209,7 @@ inherited Ped: TPed
             end
             inherited CCalendarDiff1: TCCalendarDiff
               Interval = diMonthly
-              Date = 44215.064175300930000000
+              Date = 44222.867537604160000000
               DisplayInterval = Label6
               OnChange = FrameData1CCalendarDiff1Change
             end
@@ -216,7 +217,10 @@ inherited Ped: TPed
         end
       end
       inherited tsFind: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 6
         ExplicitWidth = 1101
+        ExplicitHeight = 75
       end
     end
   end
@@ -229,12 +233,12 @@ inherited Ped: TPed
       Width = 1113
       Height = 486
       Images = Resources.medium_n
-      ExplicitTop = 2
       ExplicitWidth = 1113
       ExplicitHeight = 486
       inherited TabSheet1: TTabSheet
         Caption = 'Todos'
         ImageIndex = -1
+        ExplicitLeft = 4
         ExplicitTop = 33
         ExplicitWidth = 1105
         ExplicitHeight = 449
@@ -347,17 +351,46 @@ inherited Ped: TPed
     Width = 1113
     ExplicitWidth = 1113
     inherited ToolBar1: TToolBar
+      inherited ToolButton2: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton5: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton9: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton6: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton1: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton8: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton3: TToolButton
+        ExplicitWidth = 32
+      end
       inherited ToolButton4: TToolButton
         Enabled = False
       end
       inherited tbOrder: TToolButton
         Enabled = False
+        ExplicitWidth = 76
+      end
+      inherited tbReport: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited tbOpcao: TToolButton
+        ExplicitWidth = 32
       end
       inherited ToolButton11: TToolButton
         Enabled = False
       end
       inherited ToolButton10: TToolButton
         Enabled = False
+        ExplicitWidth = 32
       end
     end
   end

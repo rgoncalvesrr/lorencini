@@ -47,6 +47,8 @@ type
     IBrwSrcinmetro: TBooleanField;
     IBrwSrcacreditacao: TDateField;
     IBrwSrcsigla: TStringField;
+    IBrwSrclegendas: TMemoField;
+    IBrwSrcregras: TMemoField;
     procedure IBrwSrcAfterScroll(DataSet: TDataSet);
     procedure zEnsaiosAfterInsert(DataSet: TDataSet);
     procedure qCritAfterInsert(DataSet: TDataSet);
