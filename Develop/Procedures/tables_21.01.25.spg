@@ -1,0 +1,11 @@
+set session authorization lorencini;
+
+alter table labrel
+	add legendas text,
+	add regras text;
+
+alter table labrel disable trigger all;
+update labrel 
+   set legendas = 'LQ - Limite de quantificação. / <2 - Resultado abaixo do limite de quantificação. / U - Incerteza expandida de medição relatada em valor, declarada como a incerteza padrão de medição multiplicada pelo fator de abrangência k=2, de tal forma que a probabilidade de abrangência corresponda a aproximadamente 95%.',
+       regras = 'O laboratório químico adota como regra de decisão a somatória da somatória da estimativa de incerteza. Todos os resultados neste relatório consideram esta regra.';
+alter table labrel enable trigger all;
