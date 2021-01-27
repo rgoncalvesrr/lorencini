@@ -33,6 +33,10 @@ type
     Panel9: TPanel;
     Label3: TLabel;
     DBEdit3: TDBEdit;
+    GroupBox1: TGroupBox;
+    GroupBox2: TGroupBox;
+    DBMemo1: TDBMemo;
+    DBMemo2: TDBMemo;
   private
     procedure OnEdit; override;
     procedure RefreshControls; override;

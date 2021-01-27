@@ -301,7 +301,8 @@ uses
   uSysSchedulerM in '..\..\Sources\Core\Sys\uSysSchedulerM.pas' {SysSchedulerM},
   uSysLog in '..\..\Sources\Core\Sys\uSysLog.pas' {SysLog},
   uEntidadesDeClasse in '..\..\Sources\Core\Cad\uEntidadesDeClasse.pas' {EntidadesDeClasse},
-  uEntidadesDeClasseM in '..\..\Sources\Core\Cad\uEntidadesDeClasseM.pas' {EntidadesDeClasseM};
+  uEntidadesDeClasseM in '..\..\Sources\Core\Cad\uEntidadesDeClasseM.pas' {EntidadesDeClasseM},
+  uGestaoEntradas in '..\..\Sources\Core\Dash\uGestaoEntradas.pas' {GestaoEntradas};
 
 {$R *.res}
 begin
