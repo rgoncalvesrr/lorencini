@@ -22,10 +22,7 @@ inherited OS: TOS
       Width = 1116
       ExplicitWidth = 1116
       inherited tsQuery: TTabSheet
-        ExplicitLeft = 4
-        ExplicitTop = 6
         ExplicitWidth = 1108
-        ExplicitHeight = 75
         inherited BitBtn2: TBitBtn
           Left = 1007
           TabOrder = 7
@@ -126,7 +123,7 @@ inherited OS: TOS
             Height = 15
             Align = alTop
             AutoSize = False
-            Caption = '01/05/2020 a 31/05/2020'
+            Caption = '01/01/2021 a 31/01/2021'
             Transparent = True
             ExplicitLeft = 29
             ExplicitTop = 26
@@ -139,21 +136,25 @@ inherited OS: TOS
             Width = 147
             Height = 23
             Align = alTop
+            AutoSize = True
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Segoe UI'
+            Font.Pitch = fpVariable
+            Font.Style = []
+            ParentFont = False
             TabOrder = 0
             ExplicitLeft = 3
             ExplicitTop = 24
             ExplicitWidth = 147
-            ExplicitHeight = 23
             inherited ComboBox1: TComboBox
               Width = 147
-              Height = 23
-              ItemHeight = 15
               ExplicitWidth = 147
-              ExplicitHeight = 23
             end
             inherited CCalendarDiff1: TCCalendarDiff
               Interval = diMonthly
-              Date = 43965.103972662040000000
+              Date = 44224.020841446760000000
               DisplayInterval = Label4
               OnChange = actQueryProcessExecute
             end
@@ -282,10 +283,7 @@ inherited OS: TOS
         end
       end
       inherited tsFind: TTabSheet
-        ExplicitLeft = 4
-        ExplicitTop = 6
         ExplicitWidth = 1108
-        ExplicitHeight = 75
       end
     end
   end
@@ -296,34 +294,22 @@ inherited OS: TOS
     ExplicitTop = 133
     ExplicitWidth = 1126
     ExplicitHeight = 553
-    object Splitter1: TSplitter [0]
-      Left = 0
-      Top = 303
-      Width = 1126
-      Height = 7
-      Cursor = crVSplit
-      Align = alBottom
-      Beveled = True
-      ExplicitTop = 275
-      ExplicitWidth = 868
-    end
     inherited PageControl1: TPageControl
       Width = 1120
-      Height = 297
+      Height = 547
       Images = Resources.medium_n
       ExplicitWidth = 1120
       ExplicitHeight = 297
       inherited TabSheet1: TTabSheet
         Caption = 'Todos'
         ImageIndex = -1
-        ExplicitLeft = 4
         ExplicitTop = 33
         ExplicitWidth = 1112
         ExplicitHeight = 260
         inherited DBGrid1: TDBGrid
           Top = 47
           Width = 1106
-          Height = 210
+          Height = 460
         end
         object ControlBar1: TControlBar
           AlignWithMargins = True
@@ -402,184 +388,32 @@ inherited OS: TOS
       object TabSheet8: TTabSheet
         Caption = 'Aprovados'
         ImageIndex = 205
+        ExplicitHeight = 260
       end
       object TabSheet5: TTabSheet
         Caption = 'Executando'
         ImageIndex = 210
+        ExplicitHeight = 260
       end
       object TabSheet9: TTabSheet
         Caption = 'Finalizados'
         ImageIndex = 213
+        ExplicitHeight = 260
       end
       object TabSheet10: TTabSheet
         Caption = 'Faturados'
         ImageIndex = 208
+        ExplicitHeight = 260
       end
       object TabSheet3: TTabSheet
         Caption = 'Antecipados'
         ImageIndex = 211
+        ExplicitHeight = 260
       end
       object TabSheet13: TTabSheet
         Caption = 'Cancelados'
         ImageIndex = 209
-      end
-    end
-    object PageControl2: TPageControl
-      AlignWithMargins = True
-      Left = 3
-      Top = 313
-      Width = 1120
-      Height = 237
-      ActivePage = TabSheet6
-      Align = alBottom
-      TabOrder = 1
-      OnChange = PageControl2Change
-      OnResize = PageControl2Resize
-      object TabSheet6: TTabSheet
-        Caption = 'Call Center'
-        ImageIndex = 2
-        object Splitter3: TSplitter
-          Left = 720
-          Top = 0
-          Width = 7
-          Height = 207
-          Align = alRight
-          Beveled = True
-          ExplicitLeft = 465
-          ExplicitHeight = 211
-        end
-        object DBGrid2: TDBGrid
-          Left = 0
-          Top = 0
-          Width = 720
-          Height = 207
-          Align = alClient
-          BorderStyle = bsNone
-          DataSource = DM.dsCallCenter
-          Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
-          ReadOnly = True
-          TabOrder = 0
-          TitleFont.Charset = ANSI_CHARSET
-          TitleFont.Color = clWindowText
-          TitleFont.Height = -12
-          TitleFont.Name = 'Segoe UI'
-          TitleFont.Pitch = fpVariable
-          TitleFont.Style = []
-          OnDrawColumnCell = DBGrid2DrawColumnCell
-          OnEnter = DBGridEnter
-        end
-        object Panel5: TPanel
-          Left = 727
-          Top = 0
-          Width = 385
-          Height = 207
-          Align = alRight
-          BevelOuter = bvNone
-          Padding.Left = 2
-          Padding.Right = 2
-          Padding.Bottom = 2
-          TabOrder = 1
-          object GroupBox3: TGroupBox
-            Left = 2
-            Top = 0
-            Width = 381
-            Height = 205
-            Align = alClient
-            Caption = ' Descri'#231#227'o '
-            Padding.Left = 5
-            Padding.Top = 2
-            Padding.Right = 5
-            Padding.Bottom = 5
-            TabOrder = 0
-            object DBMemo3: TDBMemo
-              Left = 7
-              Top = 19
-              Width = 367
-              Height = 179
-              Align = alClient
-              BorderStyle = bsNone
-              DataField = 'descri'
-              DataSource = DM.dsCallCenter
-              TabOrder = 0
-            end
-          end
-        end
-      end
-      object TabSheet14: TTabSheet
-        Caption = 'Motivo de Cancelamento'
-        ImageIndex = 4
-        TabVisible = False
-        object DBMemo4: TDBMemo
-          Left = 0
-          Top = 0
-          Width = 1112
-          Height = 207
-          Align = alClient
-          DataField = 'motivo'
-          ReadOnly = True
-          TabOrder = 0
-        end
-      end
-      object tsHist: TTabSheet
-        Caption = 'Hist'#243'rico de Altera'#231#245'es'
-        ImageIndex = 5
-        object Splitter4: TSplitter
-          Left = 686
-          Top = 0
-          Width = 6
-          Height = 207
-          Align = alRight
-          Beveled = True
-          ExplicitLeft = 431
-          ExplicitHeight = 211
-        end
-        object DBGrid3: TDBGrid
-          Left = 0
-          Top = 0
-          Width = 686
-          Height = 207
-          Align = alClient
-          BorderStyle = bsNone
-          DataSource = dsOSh
-          Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
-          ReadOnly = True
-          TabOrder = 0
-          TitleFont.Charset = ANSI_CHARSET
-          TitleFont.Color = clWindowText
-          TitleFont.Height = -12
-          TitleFont.Name = 'Segoe UI'
-          TitleFont.Pitch = fpVariable
-          TitleFont.Style = []
-          OnDrawColumnCell = DBGrid2DrawColumnCell
-          OnEnter = DBGridEnter
-        end
-        object GroupBox1: TGroupBox
-          Left = 692
-          Top = 0
-          Width = 420
-          Height = 207
-          Align = alRight
-          Caption = ' Conte'#250'do '
-          TabOrder = 1
-          object DBMemo6: TDBMemo
-            Left = 2
-            Top = 104
-            Width = 416
-            Height = 101
-            Align = alClient
-            DataField = 'h_velho'
-            TabOrder = 0
-          end
-          object DBMemo5: TDBMemo
-            Left = 2
-            Top = 17
-            Width = 416
-            Height = 87
-            Align = alTop
-            DataField = 'h_novo'
-            TabOrder = 1
-          end
-        end
+        ExplicitHeight = 260
       end
     end
   end
@@ -594,39 +428,6 @@ inherited OS: TOS
       BorderWidth = 2
       ExplicitWidth = 849
       ExplicitHeight = 38
-      inherited ToolButton2: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited ToolButton5: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited ToolButton9: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited ToolButton6: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited ToolButton1: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited ToolButton8: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited ToolButton3: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited tbOrder: TToolButton
-        ExplicitWidth = 76
-      end
-      inherited tbReport: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited tbOpcao: TToolButton
-        ExplicitWidth = 32
-      end
-      inherited ToolButton10: TToolButton
-        ExplicitWidth = 32
-      end
     end
   end
   inherited alDef: TActionList

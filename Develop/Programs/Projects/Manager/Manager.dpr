@@ -302,7 +302,8 @@ uses
   uSysLog in '..\..\Sources\Core\Sys\uSysLog.pas' {SysLog},
   uEntidadesDeClasse in '..\..\Sources\Core\Cad\uEntidadesDeClasse.pas' {EntidadesDeClasse},
   uEntidadesDeClasseM in '..\..\Sources\Core\Cad\uEntidadesDeClasseM.pas' {EntidadesDeClasseM},
-  uGestaoEntradas in '..\..\Sources\Core\Dash\uGestaoEntradas.pas' {GestaoEntradas};
+  uGestaoEntradas in '..\..\Sources\Core\Dash\uGestaoEntradas.pas' {GestaoEntradas},
+  uGestaoEntradasDocs in '..\..\Sources\Core\Dash\uGestaoEntradasDocs.pas' {GestaoEntradasDocs};
 
 {$R *.res}
 begin
