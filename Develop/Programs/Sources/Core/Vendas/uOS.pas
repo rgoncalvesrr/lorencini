@@ -13,17 +13,9 @@ uses
 
 type
   TOS = class(TIDefBrowse)
-    Splitter1: TSplitter;
-    PageControl2: TPageControl;
-    TabSheet6: TTabSheet;
-    Splitter3: TSplitter;
-    DBGrid2: TDBGrid;
     TabSheet8: TTabSheet;
     TabSheet9: TTabSheet;
     TabSheet10: TTabSheet;
-    Panel5: TPanel;
-    GroupBox3: TGroupBox;
-    DBMemo3: TDBMemo;
     actCli: TAction;
     Clientes1: TMenuItem;
     AprovarOramento1: TMenuItem;
@@ -33,14 +25,6 @@ type
     TabSheet13: TTabSheet;
     actCancelOS: TAction;
     Cancelamento1: TMenuItem;
-    TabSheet14: TTabSheet;
-    DBMemo4: TDBMemo;
-    tsHist: TTabSheet;
-    Splitter4: TSplitter;
-    DBGrid3: TDBGrid;
-    GroupBox1: TGroupBox;
-    DBMemo6: TDBMemo;
-    DBMemo5: TDBMemo;
     actMarkup: TAction;
     Label10: TLabel;
     edPedido: TJvCalcEdit;
@@ -244,14 +228,12 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure IBrwSrcAfterScroll(DataSet: TDataSet);
-    procedure PageControl2Resize(Sender: TObject);
     procedure DBGridDrawColumnCell(Sender: TObject; const Rect: TRect;
       DataCol: Integer; Column: TColumn; State: TGridDrawState);
     procedure PageControl1Change(Sender: TObject);
     procedure actCliExecute(Sender: TObject);
     procedure DBGrid2DrawColumnCell(Sender: TObject; const Rect: TRect;
       DataCol: Integer; Column: TColumn; State: TGridDrawState);
-    procedure PageControl2Change(Sender: TObject);
     procedure actQueryProcessExecute(Sender: TObject);
     procedure actCancelOSExecute(Sender: TObject);
     procedure actMarkupExecute(Sender: TObject);
@@ -290,6 +272,7 @@ type
     procedure OnPrint(Sender: TReport; var Continue: Boolean); override;
     function GetTabela: string; override;
     function GetTabelaOrigem: Integer; override;
+    procedure OnLog(var TableName: string; var Recno: Integer); override;
   public
     { Public declarations }
   end;
@@ -697,6 +680,13 @@ begin
   end;
 end;
 
+procedure TOS.OnLog(var TableName: string; var Recno: Integer);
+begin
+  inherited;
+  TableName := 'tb_orcamentos';
+  Recno := IBrwSrcrecno.AsInteger;
+end;
+
 procedure TOS.OnPrint(Sender: TReport; var Continue: Boolean);
 begin
   inherited;
@@ -721,20 +711,6 @@ begin
   inherited;
   ControlBar1.Parent := PageControl1.ActivePage;
   actQueryProcessExecute(actQueryProcess);
-end;
-
-procedure TOS.PageControl2Change(Sender: TObject);
-begin
-  inherited;
-  case PageControl2.ActivePageIndex of
-    5: IBrwSrcAfterScroll(qOSh); // Guia que exibe os dados da aprovação do orçamento
-  end;
-end;
-
-procedure TOS.PageControl2Resize(Sender: TObject);
-begin
-  inherited;
-  Panel5.Width:= Round(TabSheet1.ClientWidth * 0.4);
 end;
 
 procedure TOS.qDespAfterDelete(DataSet: TDataSet);
@@ -900,14 +876,7 @@ begin
   // Habilita a configuração
   actCancelOS.Enabled := (IBrwSrc.RecordCount > 0) and (IBrwSrcstatus.AsInteger in [1..3]);
   actAntecipacao.Enabled := not IBrwSrc.IsEmpty and (IBrwSrcstatus.AsInteger = 3);
-  // Exibe guia com o motivo do cancelamento
-  TabSheet14.TabVisible := IBrwSrcstatus.AsInteger = 6;
-
-  if (PageControl2.ActivePage = tsHist) then
-  begin
-    qOSh.ParamByName('os').AsInteger := IBrwSrcos.AsInteger;
-    G.RefreshDataSet(qOSh);
-  end;
+  actLog.Enabled := not IBrwSrc.IsEmpty and (IBrwSrc.State = dsBrowse);
 end;
 
 initialization
