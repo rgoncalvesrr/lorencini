@@ -220,14 +220,14 @@ type
     procedure IBrwSrcCalcFields(DataSet: TDataSet);
     procedure actQueryProcessExecute(Sender: TObject);
     procedure FrameData1CCalendarDiff1Change(Sender: TObject);
-    procedure IBrwSrcAfterScroll(DataSet: TDataSet);
     procedure qDiariaCalcFields(DataSet: TDataSet);
     procedure PageControl1Change(Sender: TObject);
-    procedure qFrascosAfterScroll(DataSet: TDataSet);
-    procedure qSeringasAfterScroll(DataSet: TDataSet);
     procedure PageControl1Resize(Sender: TObject);
     procedure qDocumentosCalcFields(DataSet: TDataSet);
     procedure actViewDocsExecute(Sender: TObject);
+    procedure IBrwSrcAfterRefresh(DataSet: TDataSet);
+    procedure qFrascosAfterRefresh(DataSet: TDataSet);
+    procedure qSeringasAfterRefresh(DataSet: TDataSet);
   private
     { Private declarations }
     procedure RefreshCtrl; override;
@@ -276,6 +276,7 @@ begin
   G.RefreshDataSet(IBrwSrc);
   G.RefreshDataSet(qFrascos);
   G.RefreshDataSet(qSeringas);
+
   RefreshCtrl;
 end;
 
@@ -297,7 +298,7 @@ begin
   actQueryProcessExecute(actQueryProcess);
 end;
 
-procedure TGestaoEntradas.IBrwSrcAfterScroll(DataSet: TDataSet);
+procedure TGestaoEntradas.IBrwSrcAfterRefresh(DataSet: TDataSet);
 begin
   inherited;
   qDiaria.ParamByName('emissaode').AsDate := IBrwSrcemissaode.AsDateTime;
@@ -337,9 +338,9 @@ end;
 procedure TGestaoEntradas.PageControl1Resize(Sender: TObject);
 begin
   inherited;
-  PageControl2.Height := Round(PageControl2.Parent.ClientHeight * 0.6);
-  PageControl3.Height := Round(PageControl3.Parent.ClientHeight * 0.6);
-  PageControl4.Height := Round(PageControl4.Parent.ClientHeight * 0.6);
+  PageControl2.Height := Round(PageControl2.Parent.ClientHeight * 0.8);
+  PageControl3.Height := Round(PageControl3.Parent.ClientHeight * 0.8);
+  PageControl4.Height := Round(PageControl4.Parent.ClientHeight * 0.8);
 end;
 
 procedure TGestaoEntradas.qDiariaCalcFields(DataSet: TDataSet);
@@ -396,7 +397,7 @@ begin
   end;
 end;
 
-procedure TGestaoEntradas.qFrascosAfterScroll(DataSet: TDataSet);
+procedure TGestaoEntradas.qFrascosAfterRefresh(DataSet: TDataSet);
 begin
   inherited;
   qDFrascos.ParamByName('emissaode').AsDate := qFrascosemissaode.AsDateTime;
@@ -404,7 +405,7 @@ begin
   G.RefreshDataSet(qDFrascos);
 end;
 
-procedure TGestaoEntradas.qSeringasAfterScroll(DataSet: TDataSet);
+procedure TGestaoEntradas.qSeringasAfterRefresh(DataSet: TDataSet);
 begin
   inherited;
   qDSeringas.ParamByName('emissaode').AsDate := qSeringasemissaode.AsDateTime;
