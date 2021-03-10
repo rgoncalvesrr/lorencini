@@ -39,7 +39,7 @@ BEGIN
       new.expirado := r.validade < current_date;
 
       if new.expirado then
-         perform log(mdef || ' recebido com prazo de esterilização expirado.', 4);
+         perform log_warning(mdef || ' recebido com prazo de esterilização expirado.');
       end if;
 
       -- Verifica se a amostra existe
