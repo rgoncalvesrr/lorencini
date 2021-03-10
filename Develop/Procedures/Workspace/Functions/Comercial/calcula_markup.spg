@@ -152,7 +152,7 @@ Begin
    -- Processa markup de materiais -- =========================================================
    if in_tabela = sys_origem('tb_orcamentos') then
       Open xCur for
-         select cast(qtd as qtd_) qtd, cast(unitario as numeric(15, 2)) custo, sys_iif(rIdx.regime = 2, rIdx.icms, coalesce(icms_compra, 0)) picms, recno
+         select cast(qtd as qtd$) qtd, cast(unitario as numeric(15, 2)) custo, sys_iif(rIdx.regime = 2, rIdx.icms, coalesce(icms_compra, 0)) picms, recno
            from orca_mat
           where os = rCab.numero_orc;
    elsif in_tabela = sys_origem('cota') then
@@ -249,7 +249,7 @@ Begin
 
    if in_tabela = sys_origem('tb_orcamentos') then
       open xcur for
-         select cast(unitario as moeda_) custo, qtde qtd, recno
+         select cast(unitario as moeda$) custo, qtde qtd, recno
            from tb_orcamentos_lucratividade_lorencini
           where os = rCab.numero_orc;
    elsif in_tabela = sys_origem('cota') then
@@ -303,21 +303,21 @@ Begin
    -- Processa markup de serviços (naturezas) -- =========================================================
    if in_tabela = sys_origem('tb_orcamentos') then
       Open xCur for
-         select cast(a.qtd as qtd_) qtd, cast(a.valor as moeda_) custo, b.tipo, a.recno
+         select cast(a.qtd as qtd$) qtd, cast(a.valor as moeda$) custo, b.tipo, a.recno
            from servicos_os a
                 join servicos b
                   on b.codserv = a.codserv
           where os = rCab.numero_orc;
    elsif in_tabela = sys_origem('cota') then
       Open xCur for
-         select cast(a.qtd as qtd_) qtd, cast(a.unitario as moeda_) custo, b.tipo, a.recno
+         select cast(a.qtd as qtd$) qtd, cast(a.unitario as moeda$) custo, b.tipo, a.recno
            from cota_serv a
                 join servicos b
                   on b.codserv = a.servico
           where a.cotacao = rCab.numero_orc;
    elsif in_tabela = sys_origem('pedido') then
       Open xCur for
-         select cast(a.qtd as qtd_) qtd, cast(a.unitario as moeda_) custo, b.tipo, a.recno
+         select cast(a.qtd as qtd$) qtd, cast(a.unitario as moeda$) custo, b.tipo, a.recno
            from pedido_serv a
                 join servicos b
                   on b.codserv = a.codserv
