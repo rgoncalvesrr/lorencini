@@ -24,6 +24,9 @@ type
   public
     constructor Create;
     destructor Destroy; override;
+
+    function LevelToText: string;
+
     property Description: string read FDescription write SetDescription;
     property History: TStrings read FHistorico;
     property LogType: TDbLogType read FLogType write SetLogType;
@@ -64,6 +67,22 @@ destructor TDbLog.Destroy;
 begin
   FreeAndNil(FHistorico);
   inherited;
+end;
+
+function TDbLog.LevelToText: string;
+begin
+  case FLogLevel of
+    llInfo:
+      result := 'info';
+    llWarning:
+      result := 'warn';
+    llError:
+      result := 'error';
+    llDebug:
+      result := 'debug';
+  else
+    result := 'trace';
+  end;
 end;
 
 procedure TDbLog.SetDescription(const Value: string);
