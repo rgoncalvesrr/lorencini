@@ -183,6 +183,7 @@ type
     procedure SetSaldo(const Value: Double);
     procedure RefreshCtrl; override;
     procedure OnEdit; override;
+    procedure OnLog(var TableName: string; var Recno: Integer); override;
   public
     { Public declarations }
     property Codigo: Integer read FCodigo write SetCodigo;
@@ -493,6 +494,13 @@ begin
 
 end;
 
+procedure TAmostras.OnLog(var TableName: string; var Recno: Integer);
+begin
+  inherited;
+  TableName := 'labamostras';
+  Recno := IBrwSrcrecno.AsInteger;
+end;
+
 procedure TAmostras.PageControl1Change(Sender: TObject);
 begin
   inherited;
@@ -540,7 +548,8 @@ procedure TAmostras.RefreshCtrl;
 begin
   inherited;
   actEdit.Enabled := actEdit.Enabled and (IBrwSrcestado.AsInteger in [50, 60]);
-  actView.Enabled := actEdit.Enabled;   
+  actView.Enabled := actEdit.Enabled;
+  actLog.Enabled := not IBrwSrc.IsEmpty and (IBrwSrc.State = dsBrowse); 
 end;
 
 procedure TAmostras.SetCodigo(const Value: Integer);

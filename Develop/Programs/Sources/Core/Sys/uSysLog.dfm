@@ -81,7 +81,6 @@ inherited SysLog: TSysLog
     Padding.Left = 5
     Padding.Right = 5
     TabOrder = 1
-    ExplicitWidth = 837
     object pctlFind: TPageControl
       Left = 5
       Top = 0
@@ -90,14 +89,9 @@ inherited SysLog: TSysLog
       ActivePage = tsQuery
       Align = alClient
       TabOrder = 0
-      ExplicitWidth = 1176
       object tsQuery: TTabSheet
         Caption = 'Filtrar'
         TabVisible = False
-        ExplicitLeft = 5
-        ExplicitTop = 27
-        ExplicitWidth = 1168
-        ExplicitHeight = 55
         object BitBtn2: TBitBtn
           AlignWithMargins = True
           Left = 889
@@ -145,8 +139,7 @@ inherited SysLog: TSysLog
             0A009A3B0B00983B0E00973B0F00A65B3600FF00FF00FF00FF00FF00FF00FF00
             FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
             FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00}
-          ExplicitLeft = 718
-          ExplicitHeight = 43
+          ExplicitTop = 11
         end
         object Panel2: TPanel
           Left = 129
@@ -156,8 +149,6 @@ inherited SysLog: TSysLog
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 1
-          ExplicitLeft = -6
-          ExplicitTop = 1
           object Label1: TLabel
             AlignWithMargins = True
             Left = 3
@@ -166,7 +157,7 @@ inherited SysLog: TSysLog
             Height = 15
             Align = alTop
             Caption = 'Ocorr'#234'ncia'
-            ExplicitLeft = 0
+            ExplicitWidth = 58
           end
           object Label2: TLabel
             AlignWithMargins = True
@@ -193,13 +184,15 @@ inherited SysLog: TSysLog
             Font.Style = []
             ParentFont = False
             TabOrder = 0
-            ExplicitLeft = 32
-            ExplicitTop = 40
+            ExplicitLeft = 3
+            ExplicitTop = 24
+            ExplicitWidth = 179
             inherited ComboBox1: TComboBox
               Width = 179
+              ExplicitWidth = 179
             end
             inherited CCalendarDiff1: TCCalendarDiff
-              Date = 44181.014010532410000000
+              Date = 44260.959068171290000000
               DisplayInterval = Label2
             end
           end
@@ -251,8 +244,6 @@ inherited SysLog: TSysLog
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 3
-          ExplicitLeft = 317
-          ExplicitTop = 1
         end
         object Panel5: TPanel
           Left = 499
@@ -262,8 +253,6 @@ inherited SysLog: TSysLog
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 4
-          ExplicitLeft = 505
-          ExplicitTop = 1
         end
       end
     end
@@ -276,8 +265,6 @@ inherited SysLog: TSysLog
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 2
-    ExplicitLeft = 3
-    ExplicitTop = 401
     object GroupBox1: TGroupBox
       AlignWithMargins = True
       Left = 3
@@ -287,7 +274,6 @@ inherited SysLog: TSysLog
       Align = alTop
       Caption = ' Log '
       TabOrder = 0
-      ExplicitTop = 0
       object Panel6: TPanel
         Left = 2
         Top = 17
@@ -305,8 +291,6 @@ inherited SysLog: TSysLog
           Align = alTop
           Caption = 'Tipo'
           FocusControl = DBEdit1
-          ExplicitLeft = 16
-          ExplicitTop = 8
           ExplicitWidth = 23
         end
         object DBEdit1: TDBEdit
@@ -316,12 +300,10 @@ inherited SysLog: TSysLog
           Width = 113
           Height = 23
           Align = alClient
-          DataField = 'tipo'
+          DataField = 'level'
           DataSource = dsLog
           ReadOnly = True
           TabOrder = 0
-          ExplicitLeft = 9
-          ExplicitWidth = 229
         end
       end
       object Panel7: TPanel
@@ -332,8 +314,6 @@ inherited SysLog: TSysLog
         Align = alRight
         BevelOuter = bvNone
         TabOrder = 1
-        ExplicitLeft = 118
-        ExplicitTop = 19
         object DBCheckBox1: TDBCheckBox
           AlignWithMargins = True
           Left = 3
@@ -343,7 +323,7 @@ inherited SysLog: TSysLog
           Margins.Top = 23
           Align = alClient
           Caption = 'Rotacionar'
-          DataField = 'rotacionar'
+          DataField = 'rotate'
           DataSource = dsLog
           ReadOnly = True
           TabOrder = 0
@@ -360,9 +340,6 @@ inherited SysLog: TSysLog
         Align = alClient
         BevelOuter = bvNone
         TabOrder = 2
-        ExplicitLeft = 212
-        ExplicitTop = 16
-        ExplicitWidth = 185
         object Label5: TLabel
           AlignWithMargins = True
           Left = 3
@@ -372,8 +349,6 @@ inherited SysLog: TSysLog
           Align = alTop
           Caption = 'Descri'#231#227'o'
           FocusControl = DBEdit2
-          ExplicitLeft = 0
-          ExplicitTop = 0
           ExplicitWidth = 51
         end
         object DBEdit2: TDBEdit
@@ -383,13 +358,10 @@ inherited SysLog: TSysLog
           Width = 785
           Height = 23
           Align = alClient
-          DataField = 'descri'
+          DataField = 'title'
           DataSource = dsLog
           ReadOnly = True
           TabOrder = 0
-          ExplicitLeft = 40
-          ExplicitTop = 29
-          ExplicitWidth = 1129
         end
       end
     end
@@ -402,8 +374,6 @@ inherited SysLog: TSysLog
       Align = alTop
       Caption = ' Usu'#225'rio '
       TabOrder = 1
-      ExplicitLeft = 9
-      ExplicitTop = 179
       object Panel10: TPanel
         Left = 2
         Top = 17
@@ -421,8 +391,6 @@ inherited SysLog: TSysLog
           Align = alTop
           Caption = 'Usu'#225'rio'
           FocusControl = DBEdit3
-          ExplicitLeft = 24
-          ExplicitTop = 11
           ExplicitWidth = 40
         end
         object DBEdit3: TDBEdit
@@ -432,12 +400,10 @@ inherited SysLog: TSysLog
           Width = 170
           Height = 23
           Align = alClient
-          DataField = 'username'
+          DataField = 'account'
           DataSource = dsLog
           ReadOnly = True
           TabOrder = 0
-          ExplicitLeft = 24
-          ExplicitWidth = 304
         end
       end
       object Panel11: TPanel
@@ -448,8 +414,6 @@ inherited SysLog: TSysLog
         Align = alClient
         BevelOuter = bvNone
         TabOrder = 1
-        ExplicitLeft = 124
-        ExplicitWidth = 185
         object Label8: TLabel
           AlignWithMargins = True
           Left = 3
@@ -459,8 +423,7 @@ inherited SysLog: TSysLog
           Align = alTop
           Caption = 'Nome'
           FocusControl = DBEdit5
-          ExplicitLeft = 0
-          ExplicitWidth = 562
+          ExplicitWidth = 33
         end
         object DBEdit5: TDBEdit
           AlignWithMargins = True
@@ -469,12 +432,10 @@ inherited SysLog: TSysLog
           Width = 505
           Height = 23
           Align = alClient
-          DataField = 'name'
+          DataField = 'nome'
           DataSource = dsLog
           ReadOnly = True
           TabOrder = 0
-          ExplicitLeft = 72
-          ExplicitWidth = 604
         end
       end
       object Panel12: TPanel
@@ -485,8 +446,6 @@ inherited SysLog: TSysLog
         Align = alRight
         BevelOuter = bvNone
         TabOrder = 2
-        ExplicitLeft = 312
-        ExplicitTop = 16
         object Label7: TLabel
           AlignWithMargins = True
           Left = 3
@@ -496,7 +455,7 @@ inherited SysLog: TSysLog
           Align = alTop
           Caption = 'E-mail'
           FocusControl = DBEdit4
-          ExplicitLeft = 6
+          ExplicitWidth = 34
         end
         object DBEdit4: TDBEdit
           AlignWithMargins = True
@@ -509,9 +468,6 @@ inherited SysLog: TSysLog
           DataSource = dsLog
           ReadOnly = True
           TabOrder = 0
-          ExplicitLeft = -293
-          ExplicitTop = 27
-          ExplicitWidth = 604
         end
       end
     end
@@ -524,10 +480,6 @@ inherited SysLog: TSysLog
       Align = alClient
       Caption = ' Hist'#243'rico '
       TabOrder = 2
-      ExplicitLeft = 296
-      ExplicitTop = 200
-      ExplicitWidth = 185
-      ExplicitHeight = 105
       object DBMemo1: TDBMemo
         AlignWithMargins = True
         Left = 5
@@ -535,14 +487,10 @@ inherited SysLog: TSysLog
         Width = 992
         Height = 140
         Align = alClient
-        DataField = 'historico'
+        DataField = 'detail'
         DataSource = dsLog
         ReadOnly = True
         TabOrder = 0
-        ExplicitLeft = 3
-        ExplicitTop = 153
-        ExplicitWidth = 1002
-        ExplicitHeight = 165
       end
     end
   end
@@ -554,9 +502,6 @@ inherited SysLog: TSysLog
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 3
-    ExplicitLeft = 8
-    ExplicitTop = 316
-    ExplicitHeight = 321
     object PageControl1: TPageControl
       AlignWithMargins = True
       Left = 3
@@ -568,12 +513,9 @@ inherited SysLog: TSysLog
       Images = Resources.medium_n
       TabOrder = 0
       OnChange = PageControl1Change
-      ExplicitTop = 132
-      ExplicitHeight = 273
       object TabSheet1: TTabSheet
         Caption = 'Todos'
         ImageIndex = -1
-        ExplicitHeight = 236
         object DBGrid1: TDBGrid
           Tag = 1
           AlignWithMargins = True
@@ -601,22 +543,18 @@ inherited SysLog: TSysLog
       object TabSheet2: TTabSheet
         Caption = 'Informa'#231#227'o'
         ImageIndex = 191
-        ExplicitHeight = 236
       end
       object TabSheet3: TTabSheet
         Caption = 'Aten'#231#227'o'
         ImageIndex = 12
-        ExplicitHeight = 236
       end
       object TabSheet4: TTabSheet
         Caption = 'Cr'#237'tico'
         ImageIndex = 121
-        ExplicitHeight = 236
       end
       object TabSheet5: TTabSheet
         Caption = 'Depura'#231#227'o'
         ImageIndex = 257
-        ExplicitHeight = 236
       end
     end
   end
@@ -637,17 +575,17 @@ inherited SysLog: TSysLog
   end
   object qLog: TZReadOnlyQuery
     Connection = DM.Design
-    SortedFields = 'data'
+    SortedFields = 'registred'
     SortType = stDescending
     SQL.Strings = (
       
-        'select l.recno, l.data, l.descri, l.historico, l.username, u."na' +
-        'me", u.email, l.tipo, l.rotacionar, l.nivel '
-      '  from sys_log l '
-      '       join sys_users u'
-      '         on u.username = l.username '
-      ' where l.origem = :origem'
-      '   and l.origem_recno = :recno')
+        'select l.recno, l.registred, l.title, l.detail, l.account, a.nom' +
+        'e, a.email, l.rotate, l."level" '
+      '  from sys_logs l'
+      '       join vaccounts a'
+      '         on a.account = l.account '
+      ' where l.source_table = :origem'
+      '   and l.source_recno = :recno')
     Params = <
       item
         DataType = ftUnknown
@@ -659,7 +597,7 @@ inherited SysLog: TSysLog
         Name = 'recno'
         ParamType = ptUnknown
       end>
-    IndexFieldNames = 'data Desc'
+    IndexFieldNames = 'registred Desc'
     Left = 176
     Top = 192
     ParamData = <
@@ -673,66 +611,58 @@ inherited SysLog: TSysLog
         Name = 'recno'
         ParamType = ptUnknown
       end>
-    object qLogrecno: TIntegerField
+    object qLogrecno: TLargeintField
       DisplayLabel = 'Registro'
       FieldName = 'recno'
-      Visible = False
-    end
-    object qLognivel: TIntegerField
-      DisplayLabel = ' '
-      FieldName = 'nivel'
       Required = True
     end
-    object qLogdata: TDateTimeField
+    object qLogregistred: TDateTimeField
       DisplayLabel = 'Data'
-      DisplayWidth = 25
-      FieldName = 'data'
+      FieldName = 'registred'
       Required = True
-      DisplayFormat = 'dd/mm/yyyy hh:nn:ss:zzz'
+      DisplayFormat = 'dd/mm/yyy hh:nn:ss'
     end
-    object qLoghistorico: TMemoField
-      DisplayLabel = 'Hist'#243'rico'
-      FieldName = 'historico'
-      Visible = False
-      BlobType = ftMemo
-    end
-    object qLogdescri: TStringField
-      DisplayLabel = 'Log'
-      DisplayWidth = 75
-      FieldName = 'descri'
+    object qLogtitle: TStringField
+      DisplayLabel = 'T'#237'tulo'
+      DisplayWidth = 60
+      FieldName = 'title'
       Required = True
       Size = 255
     end
-    object qLogusername: TStringField
-      DisplayLabel = 'Usu'#225'rio'
-      FieldName = 'username'
+    object qLogdetail: TMemoField
+      DisplayLabel = 'Hist'#243'rico'
+      FieldName = 'detail'
+      Visible = False
+      BlobType = ftMemo
+    end
+    object qLogaccount: TLargeintField
+      DisplayLabel = 'Conta'
+      FieldName = 'account'
       Required = True
       Visible = False
     end
-    object qLogname: TStringField
-      DisplayLabel = 'Nome'
-      FieldName = 'name'
-      Required = True
-      Size = 40
+    object qLognome: TStringField
+      DisplayLabel = 'Usu'#225'rio'
+      DisplayWidth = 25
+      FieldName = 'nome'
+      Size = 150
     end
     object qLogemail: TStringField
-      DisplayLabel = 'E-mail'
+      DisplayLabel = 'E-Mail'
+      DisplayWidth = 40
       FieldName = 'email'
-      Visible = False
-      Size = 40
+      Size = 150
     end
-    object qLogtipo: TIntegerField
-      DisplayLabel = 'Tipo'
-      DisplayWidth = 15
-      FieldName = 'tipo'
+    object qLogrotate: TBooleanField
+      DisplayLabel = 'Rotacionar'
+      FieldName = 'rotate'
+    end
+    object qLoglevel: TStringField
+      DisplayLabel = 'N'#237'vel'
+      FieldName = 'level'
       Required = True
       Visible = False
-      OnGetText = qLogtipoGetText
-    end
-    object qLogrotacionar: TBooleanField
-      DisplayLabel = 'Rotacionar'
-      FieldName = 'rotacionar'
-      Visible = False
+      Size = 255
     end
   end
   object dsLog: TDataSource

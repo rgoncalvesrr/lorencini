@@ -31,7 +31,7 @@ Declare
    LF             text;
    irecno         tb_orcamentos.recno%type;
    ldelcorreio    boolean;
-   xlog           rlog;
+   xlog           log$;
    iremessa       labproc.recno%type;
 BEGIN
    LF := chr(13)||chr(10);

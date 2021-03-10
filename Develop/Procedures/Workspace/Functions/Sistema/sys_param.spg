@@ -9,7 +9,7 @@
   				sysflag para in_table_ e in_recno informados
 */
 Create or Replace Function sys_paramv(
-	in in_pname varchar(100))
+	in in_pname varchar)
 Returns varchar As
 $$
 BEGIN
@@ -19,7 +19,7 @@ $$
 language plpgsql;
 
 Create or Replace Function sys_parami(
-	in in_pname varchar(100))
+	in in_pname varchar)
 Returns integer As
 $$
 BEGIN
@@ -29,7 +29,7 @@ $$
 language plpgsql;
 
 Create or Replace Function sys_paramn(
-	in in_pname varchar(100))
+	in in_pname varchar)
 Returns numeric As
 $$
 BEGIN
@@ -39,7 +39,7 @@ $$
 language plpgsql;
 
 Create or Replace Function sys_paramd(
-	in in_pname varchar(100))
+	in in_pname varchar)
 Returns date As
 $$
 BEGIN
@@ -49,7 +49,7 @@ $$
 language plpgsql;
 
 Create or Replace Function sys_paramt(
-	in in_pname varchar(100))
+	in in_pname varchar)
 Returns timestamp As
 $$
 BEGIN
@@ -60,7 +60,7 @@ language plpgsql;
 
 
 Create or Replace Function sys_paramb(
-	in in_pname varchar(100))
+	in in_pname varchar)
 Returns boolean As
 $$
 BEGIN
@@ -70,12 +70,13 @@ $$
 language plpgsql;
 
 Create or Replace Function sys_param(
-	in in_pname varchar(100))
+	in in_pname varchar)
 Returns text As
 $$
 Declare
-   ret   text;
-   r     record;
+   ret      text;
+   r        record;
+   account_ account$ := sys_account();
 BEGIN
    ret := null;
    
@@ -83,7 +84,7 @@ BEGIN
      into ret
      from sys_cfgusr
     where pname = in_pname
-      and username = sys_user();
+      and account = account_;
    
    if ret is null then
       select pvalue

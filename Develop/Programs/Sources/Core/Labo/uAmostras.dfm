@@ -276,7 +276,7 @@ inherited Amostras: TAmostras
             Width = 179
             Height = 15
             Align = alTop
-            Caption = '01/09/2020 a 30/09/2020'
+            Caption = '01/03/2021 a 31/03/2021'
             ExplicitWidth = 128
           end
           object Label9: TLabel
@@ -318,7 +318,7 @@ inherited Amostras: TAmostras
             end
             inherited CCalendarDiff1: TCCalendarDiff
               Interval = diMonthly
-              Date = 44075.747090486110000000
+              Date = 44264.005316898150000000
               DisplayInterval = Label8
             end
           end
@@ -1641,11 +1641,11 @@ inherited Amostras: TAmostras
     OnCalcFields = qHistCalcFields
     SQL.Strings = (
       
-        'select h.amostra, h.estado, h.ocorrencia, h.historico, u."name",' +
-        ' u.email'
+        'select h.amostra, h.estado, h.ocorrencia, h.historico, u.nome as' +
+        ' name, u.email'
       '  from labamostras_hist h'
-      '       left join sys_users u'
-      '         on u.username = h.username'
+      '       left join vaccounts u'
+      '         on u.account = h.account'
       ' where h.amostra = :amostra')
     Params = <
       item
