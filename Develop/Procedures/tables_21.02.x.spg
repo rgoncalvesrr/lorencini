@@ -1,0 +1,826 @@
+set session authorization lorencini;
+
+alter domain session rename to session$;
+alter domain descri_ rename to descri$;
+alter domain email_ rename to email$;
+alter domain form_ rename to form$;
+alter domain moeda_ rename to moeda$;
+alter domain password_ rename to password$;
+alter domain percent_ rename to percent$;
+alter domain qtd_ rename to qtd$;
+alter domain session$ drop not null;
+
+create domain account$ bigint;
+
+drop table if exists sys_forms_update;
+drop table if exists tb_entrada_amostra_envio;   
+
+create extension "uuid-ossp";
+
+do $$declare 
+   r          record;
+	lastemail  varchar := '';
+begin  
+	for r in (
+   	select c.email, c.recno
+         from contatos c
+              join (select email 
+    	                from contatos 
+    	 	            where email is not null 
+   		           group by email 
+                   having count(*) > 1) cg 
+                on cg.email = c.email
+        order by email, situacao desc)
+   loop 
+      if r.email <> lastemail then
+         lastemail := r.email;
+         continue;
+      end if;
+      
+      update contatos
+         set email = null
+       where recno = r.recno;  
+   end loop;
+end$$;
+  
+alter table contatos
+   add constraint uk_contatos_1 unique(recno),
+   add constraint uk_contatos_2 unique(email);
+
+delete from sys_tables where tabela ~ '^job';
+
+create table sys_accounts (
+   recno bigserial not null,     
+   password varchar(32) not null,
+   changepass boolean default(false) not null,
+   status integer default(1) not null,
+   role integer,
+   constraint pk_sys_accounts primary key(recno),
+   constraint fk_sys_accounts_1 foreign key(role)
+      references sys_roles(recno) 
+      on update cascade on delete cascade);
+
+insert into sys_tables
+	(tabela, descri)
+values
+ 	('sys_accounts', 'sys_accounts');
+
+alter table sys_users 
+   add account account$,
+   add constraint fk_sys_users_1 foreign key(account)
+      references sys_accounts(recno)
+      on update cascade on delete cascade;
+
+create index idx_sys_users_1 on sys_users(account);
+
+alter table contatos  
+   add account account$,
+   add constraint fk_contatos_1 foreign key(account)
+      references sys_accounts(recno)
+      on update cascade on delete cascade;      
+
+create index idx_contatos_2 on contatos(account);      
+
+do $$declare 
+   r record;
+   account_ account$;
+   obs_     text := 'Criado pelo sistema a partir do cadastro de usuários em ' || to_char(current_date, 'dd/mm/yyyy');
+   xlog     rlog;
+begin
+   xlog.origem := sys_origem('sys_accounts');   
+
+   for r in (
+      select username, password, active, role, email, name
+        from sys_users
+       order by active desc, email desc)
+   loop
+         insert into sys_accounts 
+         (password, status, role)
+      values
+         (r.password, sys_iif(r.active, 2, 3), r.role)
+      returning recno into account_;
+
+      xlog.origem_recno := account_;
+      xlog.descri := 'Conta de acesso criada automaticamente';
+      xlog.historico := 'Processo de implantação do controle de contas de usuários';
+      xlog.tipo := 1;
+      perform log(xlog);
+      
+      update sys_users
+         set account = account_
+       where username = r.username;
+      
+      if exists(
+         select 1
+           from contatos
+          where email = r.email)
+      then
+         r.email := null;
+      end if;
+
+      insert into contatos 
+         (nome, email, situacao, account, obs)        
+      values
+         (r.name, r.email, sys_iif(r.active, 1, 0), account_, obs_);
+   end loop;
+end$$;
+
+do $$declare 
+   r        record;
+   account_ account$;
+   xlog     rlog;
+begin
+	xlog.origem := sys_origem('sys_accounts');
+	for r in (
+		select email
+		  from contatos
+		 where email is not null
+		   and situacao = 1
+		   and account is null
+		 group by email)
+	loop
+		insert into sys_accounts 
+			(password, status)
+		values
+			(md5('123456a.'), 2)
+		returning recno into account_;
+	
+		xlog.origem_recno := account_;
+      xlog.descri := 'Conta de acesso criada automaticamente';
+      xlog.historico := 'Processo de implantação do controle de contas de usuários';
+      xlog.tipo := 1;
+      perform log(xlog);
+     
+	   update contatos 
+	      set account = account_
+	    where email = r.email;  
+	end loop;
+end$$;
+
+alter table sys_users 
+	drop password,
+	drop name cascade,
+	drop active cascade,
+	drop changepass cascade,
+	drop email cascade;
+
+create type log_level as enum ('trace', 'debug', 'info', 'warn', 'error');
+
+create table sys_logs(
+   recno bigserial not null,
+   registred timestamp default(pg_catalog.clock_timestamp()) not null,
+   title varchar(255) not null,
+   detail text,
+   level log_level default('info'::log_level) not null,
+   rotate boolean default(true),
+   source_table integer,
+   source_recno integer,
+   status_code integer,
+   account account$ not null,
+   constraint pk_sys_logs primary key(recno),
+   constraint fk_sys_logs_1 foreign key(account)
+      references sys_accounts(recno)
+      on update cascade on delete cascade,
+   constraint fk_sys_logs_2 foreign key(source_table)
+      references sys_tables(recno)
+      on update cascade on delete restrict);
+	
+create index idx_sys_logs_1 on sys_logs(source_table, source_recno);
+	
+insert into sys_logs (registred, title, detail, level, rotate, source_table, source_recno, account)
+select data, descri, historico,
+cast(case when nivel = 1 then 'info'
+  when nivel = 2 then 'warn'
+ when nivel = 3 then 'error'
+else 'debug' end as log_level),
+ rotacionar, origem, origem_recno, u.account 
+  from sys_log l
+       join sys_users u
+         on u.username = l.username; 
+
+drop type rlog cascade;    
+
+CREATE TYPE log$ AS (
+   recno bigint,
+   registred timestamp,
+   title varchar(255),
+   detail text,
+   level log_level,
+   rotate boolean,
+   source_table integer,
+   source_recno integer,
+   status_code integer,
+   account account$);
+
+alter table labamostras_hist
+   drop constraint fk_labamostras_hist_2;
+
+alter table labamostras_hist 
+   add account account$,
+   add constraint fk_labamostras_hist_2 foreign key(account)
+      references sys_accounts(recno)
+      on update cascade;
+   
+alter table labamostras_hist disable trigger all;
+
+update labamostras_hist h 
+   set account = u.account
+  from sys_users u
+ where u.username = h.username; 
+ 
+alter table labamostras_hist enable trigger all; 
+
+alter table labamostras_hist
+   drop username,
+   alter account set not null;
+
+alter table labamostras_res
+   drop constraint fk_labamostras_res;
+
+alter table labamostras_res 
+   add account account$,
+   add constraint fk_labamostras_res_3 foreign key(account)
+      references sys_accounts(recno)
+      on update cascade;
+   
+alter table labamostras_res disable trigger all;
+
+update labamostras_res h 
+   set account = u.account
+  from sys_users u
+ where u.username = h.username; 
+ 
+alter table labamostras_res enable trigger all; 
+
+alter table labamostras_res
+   drop username;   
+
+alter table labamostras_res_ativos 
+   drop constraint fk_labamostras_res_ativos_3;
+
+alter table labamostras_res_ativos 
+   add account account$,
+   add constraint fk_labamostras_res_ativos_3 foreign key(account)
+      references sys_accounts(recno)
+      on update cascade;
+   
+alter table labamostras_res_ativos disable trigger all;
+
+update labamostras_res_ativos h 
+   set account = u.account
+  from sys_users u
+ where u.username = h.username; 
+ 
+alter table labamostras_res_ativos enable trigger all; 
+
+alter table labamostras_res_ativos 
+   drop username,
+   alter account set not null;
+
+alter table labamostras_res_sol 
+   drop constraint fk_labamostras_res_sol_3;
+
+alter table labamostras_res_sol
+   add account account$,
+   add constraint fk_labamostras_res_sol_3 foreign key(account)
+      references sys_accounts(recno)
+      on update cascade;
+   
+alter table labamostras_res_sol disable trigger all;
+
+update labamostras_res_sol h 
+   set account = u.account
+  from sys_users u
+ where u.username = h.username; 
+ 
+alter table labamostras_res_sol enable trigger all; 
+
+alter table labamostras_res_sol 
+   drop username,
+   alter account set not null;   
+
+alter table tbfuncionarios 
+   drop constraint fk_tbfuncionarios;
+
+alter table tbfuncionarios
+   add account account$,
+   add constraint fk_tbfuncionarios_2 foreign key(account)
+      references sys_accounts(recno)
+      on update cascade;
+   
+alter table tbfuncionarios disable trigger all;
+
+update tbfuncionarios h 
+   set account = u.account
+  from sys_users u
+ where u.username = h.username; 
+ 
+alter table tbfuncionarios enable trigger all; 
+
+alter table tbfuncionarios
+   drop username;
+
+alter table call_atividade 
+   drop constraint fk_call_atividade_1;
+
+alter table call_atividade
+   add account account$,
+   add constraint fk_call_atividade_1 foreign key(account)
+      references sys_accounts(recno)
+      on update cascade;
+   
+alter table call_atividade disable trigger all;
+
+update call_atividade h 
+   set account = u.account
+  from sys_users u
+ where u.username = h.username; 
+ 
+alter table call_atividade enable trigger all; 
+
+alter table call_atividade
+   drop username,
+   alter account set not null;
+
+alter table call_chamados 
+   drop constraint fk_call_chamados_1;
+
+alter table call_chamados
+   add account account$,
+   add constraint fk_call_chamados_1 foreign key(account)
+      references sys_accounts(recno)
+      on update cascade;
+   
+alter table call_chamados disable trigger all;
+
+update call_chamados h 
+   set account = u.account
+  from sys_users u
+ where u.username = h.username; 
+ 
+alter table call_chamados enable trigger all; 
+
+alter table call_chamados
+   drop username,
+   alter account set not null;
+
+alter table callcenter 
+   drop constraint fk_callcenter_username;
+
+alter table callcenter
+   add account account$,
+   add constraint fk_callcenter_1 foreign key(account)
+      references sys_accounts(recno)
+      on update cascade;
+   
+alter table callcenter disable trigger all;
+
+update callcenter h 
+   set account = u.account
+  from sys_users u
+ where u.username = h.username; 
+ 
+alter table callcenter enable trigger all; 
+
+alter table callcenter
+   drop username,
+   alter account set not null;         
+
+alter table cota_aprov 
+   drop constraint fkcota_aprov_1;
+
+alter table cota_aprov 
+   add account account$,
+   add constraint fkcota_aprov_1 foreign key(account)
+      references sys_accounts(recno)
+      on update cascade;
+   
+alter table cota_aprov disable trigger all;
+
+update cota_aprov h 
+   set account = u.account
+  from sys_users u
+ where u.username = h.username; 
+ 
+alter table cota_aprov enable trigger all; 
+
+alter table cota_aprov 
+   drop username,
+   alter account set not null;
+
+drop table if exists sys_session cascade;   
+drop table if exists sys_sessions cascade;
+
+alter table sys_rlusers
+   drop constraint pk_sys_rlusers,
+   drop constraint fk_sys_rlusers_1;
+
+alter table sys_rlusers
+   add account account$, 
+   add constraint fk_sys_rlusers_1 foreign key(account)
+      references sys_accounts(recno)
+      on update cascade;
+   
+alter table sys_rlusers disable trigger all;
+
+update sys_rlusers h 
+   set account = u.account
+  from sys_users u
+ where u.username = h.username; 
+ 
+alter table sys_rlusers enable trigger all; 
+
+alter table sys_rlusers    
+   add constraint pk_sys_rlusers primary key(account, role);
+
+alter table sys_rlusers
+   drop username,
+   alter account set not null;   
+
+create table sys_sessions (
+   session session$ not null,
+   registred timestamp default clock_timestamp() not null,
+   account account$ not null,  
+   "role" integer,
+   customer integer,
+   chpass bool null default false,
+   heartbeat timestamp not null, 
+   recno serial not null,
+   constraint pk_sys_sessions primary key (session),
+   constraint fk_sys_sessions_1 foreign key (account, role) references sys_rlusers(account, role) on update cascade on delete cascade,
+   constraint fk_sys_sessions_2 foreign key (account) references sys_accounts(recno) on update cascade on delete cascade,
+   constraint fk_sys_sessions_3 foreign key (customer) references tbclientes(codigo) on update cascade on delete set null,
+   constraint uk_sys_sessions_1 unique (account),
+   constraint uk_sys_sessions_2 unique (recno)
+);
+create index idx_sys_sessions_1 on sys_sessions(account, role);
+
+drop table if exists sys_flag cascade;
+drop table if exists sys_flags cascade;
+
+create table sys_flags (
+   session session$ default(sys_session()) not null,
+   table_ integer not null,
+   recno integer not null,
+   constraint pk_sys_flags primary key (session, table_, recno),
+   constraint fk_sys_flags_1 foreign key(session) references sys_sessions(session)
+      on update cascade on delete cascade,
+   constraint fk_sys_flags_2 foreign key(table_) references sys_tables(recno)
+      on update cascade on delete cascade
+);
+
+drop table if exists sys_mark cascade;
+drop table if exists sys_marks cascade;
+
+create table sys_marks (
+   session session$ not null,
+   table_ integer not null,
+   recno integer not null,
+   mark boolean not null default false,
+   constraint pk_sys_marks primary key (session, table_, recno),
+   constraint fk_sys_masks_1 foreign key(session) references sys_sessions(session)
+      on update cascade on delete cascade,
+   constraint fk_sys_masks_2 foreign key(table_) references sys_tables(recno)
+      on update cascade on delete cascade
+);
+
+-- Aplicar procedures antes de continuar
+
+alter table fin_caixa 
+   drop constraint fk_fin_caixa_6,
+   drop constraint fk_fin_caixa_7;
+
+alter table fin_caixa  
+   add account_i account$ default sys_account(),
+   add account_u account$,
+   add constraint fk_fin_caixa_6 foreign key(account_i)
+      references sys_accounts(recno)
+      on update cascade,
+   add constraint fk_fin_caixa_7 foreign key(account_u)
+      references sys_accounts(recno)
+      on update cascade;
+   
+alter table fin_caixa disable trigger all;
+
+update fin_caixa h 
+   set account_i = u.account
+  from sys_users u
+ where u.username = h.user_i; 
+ 
+update fin_caixa h 
+   set account_u = u.account
+  from sys_users u
+ where u.username = h.user_u; 
+ 
+alter table fin_caixa enable trigger all; 
+
+alter table fin_caixa 
+   drop user_i,
+   drop user_u,
+   alter account_i set not null;
+
+alter table labacidez 
+   drop constraint fk_labacidez_username;
+
+alter table labacidez  
+   add account account$,
+   add constraint fk_labacidez_1 foreign key(account)
+      references sys_accounts(recno)
+      on update cascade;
+   
+alter table labacidez disable trigger all;
+
+update labacidez h 
+   set account = u.account
+  from sys_users u
+ where u.username = h.username; 
+ 
+alter table labacidez enable trigger all; 
+
+alter table labacidez 
+   drop username,
+   alter account set not null;
+
+alter table labinstcert 
+   drop constraint fk_labinstcert_username;
+
+alter table labinstcert
+   add account account$,
+   add constraint fk_labinstcert_1 foreign key(account)
+      references sys_accounts(recno)
+      on update cascade;
+   
+alter table labinstcert disable trigger all;
+
+update labinstcert h 
+   set account = u.account
+  from sys_users u
+ where u.username = h.username; 
+ 
+alter table labinstcert enable trigger all; 
+
+alter table labinstcert
+   drop username,
+   alter account set not null;
+
+alter table labvol 
+   drop constraint fk_labvol_username;
+
+alter table labvol
+   add account account$,
+   add constraint fk_labvol_1 foreign key(account)
+      references sys_accounts(recno)
+      on update cascade;
+   
+alter table labvol disable trigger all;
+
+update labvol h 
+   set account = u.account
+  from sys_users u
+ where u.username = h.username; 
+ 
+alter table labvol enable trigger all; 
+
+alter table labvol
+   drop username,
+   alter account set not null;
+
+insert into sys_logs (registred, source_table, source_recno, title, account)
+select datahora, 111, recno_nf, historico, u.account 
+  from nf_historico h
+       join sys_users u
+         on u.username = h.username;
+
+drop table nf_historico cascade;
+
+insert into sys_logs (registred, source_table, source_recno, title, detail, account)
+select oh.datahora, 9, o.recno, substring(oh.h_novo, 1, 255), oh.h_novo, u.account 
+  from orca_hist oh
+       join tb_orcamentos o
+         on o.os = oh.os
+       join sys_users u
+         on oh.username = u.username;
+
+drop table orca_hist cascade;
+
+DROP TABLE public.sys_cfgusr;
+
+CREATE TABLE public.sys_cfgusr (
+	pname varchar(100) NOT NULL,
+	account account$ NOT NULL,
+	pvalue text NOT NULL,
+	recno serial NOT NULL,
+	CONSTRAINT pksys_cfgusr PRIMARY KEY (pname, account),
+	CONSTRAINT fksys_cfgusr_1 FOREIGN KEY (pname) REFERENCES sys_cfg(pname) ON UPDATE CASCADE ON DELETE CASCADE,
+	CONSTRAINT fksys_cfgusr_2 FOREIGN KEY (account) REFERENCES sys_accounts(recno) ON UPDATE CASCADE ON DELETE RESTRICT
+);
+
+DROP TABLE public.sys_schedules_setup cascade;
+
+CREATE TABLE public.sys_schedules_setup (
+   recno serial NOT NULL,
+   descri varchar(100) NOT NULL,
+   fn varchar(100) NOT NULL,
+   agendamento varchar(150) NOT NULL,
+   inicio date NOT NULL,
+   expiracao date NULL,
+   habilitado bool NOT NULL DEFAULT false,
+   min _int4 NULL,
+   hor _int4 NULL,
+   dia _int4 NULL,
+   mes _int4 NULL,
+   sem _int4 NULL,
+   "data" timestamp NOT NULL DEFAULT clock_timestamp(),
+   account account$ NOT NULL,
+   CONSTRAINT pk_sys_schedule_setup PRIMARY KEY (recno),
+   CONSTRAINT fk_sys_schedule_setup_1 FOREIGN KEY (fn) REFERENCES sys_fn(fn) ON UPDATE CASCADE ON DELETE RESTRICT,
+   CONSTRAINT fk_sys_schedule_setup_2 FOREIGN KEY (account) REFERENCES sys_accounts(recno) ON UPDATE CASCADE ON DELETE RESTRICT
+);
+
+-- Table Triggers
+
+create trigger a_sys_schedules_setup after
+insert
+    or
+delete
+    or
+update
+    on
+    public.sys_schedules_setup for each row execute function a_sys_schedules_setup();
+create trigger b_sys_schedules_setup before
+insert
+    or
+delete
+    or
+update
+    on
+    public.sys_schedules_setup for each row execute function b_sys_schedules_setup();
+
+ALTER TABLE public.sys_schedules ADD CONSTRAINT fk_sys_schedules_1 FOREIGN KEY (agendamento) REFERENCES sys_schedules_setup(recno) ON UPDATE CASCADE ON DELETE cascade;
+
+alter table sys_tasks_phases
+   drop constraint fk_sys_tasks_phases_3;
+
+alter table sys_tasks_phases
+   add account account$, 
+   add constraint fk_sys_sys_tasks_phases_3 foreign key(account)
+      references sys_accounts(recno)
+      on update cascade;
+   
+alter table sys_tasks_phases disable trigger all;
+
+update sys_tasks_phases h 
+   set account = u.account
+  from sys_users u
+ where u.username = h.username; 
+ 
+alter table sys_tasks_phases enable trigger all; 
+
+alter table sys_tasks_phases
+   drop username,
+   alter account set not null;
+
+drop table sys_log;
+
+alter table tb_vendedores 
+   drop constraint fk_tb_vendedores;
+
+alter table tb_vendedores 
+   add account account$, 
+   add constraint fk_tb_vendedores foreign key(account)
+      references sys_accounts(recno)
+      on update cascade;
+   
+alter table tb_vendedores disable trigger all;
+
+update tb_vendedores h 
+   set account = u.account
+  from sys_users u
+ where u.username = h.username; 
+ 
+alter table tb_vendedores enable trigger all; 
+
+alter table tb_vendedores 
+   drop username;
+
+alter table sys_agenda_ativ 
+   drop constraint pk_sys_agenda_ativ,
+   drop constraint fk_sys_agenda_ativ_1;
+
+alter table sys_agenda_ativ
+   add account account$, 
+   add constraint fk_sys_agenda_ativ_1 foreign key(account)
+      references sys_accounts(recno)
+      on update cascade;
+   
+alter table sys_agenda_ativ disable trigger all;
+
+update sys_agenda_ativ h 
+   set account = u.account
+  from sys_users u
+ where u.username = h.username; 
+ 
+alter table sys_agenda_ativ enable trigger all; 
+
+alter table sys_agenda_ativ 
+   add constraint pk_sys_agenda_ativ primary key(recno_agenda, account);
+
+alter table sys_agenda_ativ  
+   drop username,
+   alter account set not null;
+
+alter table sys_agenda_para 
+   drop constraint pk_sys_agenda_para,
+   drop constraint fk_sys_agenda_para_1;
+
+alter table sys_agenda_para
+   add account account$, 
+   add constraint fk_sys_agenda_para_1 foreign key(account)
+      references sys_accounts(recno)
+      on update cascade;
+   
+alter table sys_agenda_para disable trigger all;
+
+update sys_agenda_para h 
+   set account = u.account
+  from sys_users u
+ where u.username = h.username; 
+ 
+alter table sys_agenda_para enable trigger all; 
+
+alter table sys_agenda_para 
+   add constraint pk_sys_agenda_para primary key(recno_agenda, account);
+
+alter table sys_agenda_para
+   drop username,
+   alter account set not null;      
+
+drop table wusers;   
+
+alter table sys_agenda    
+   drop constraint fk_sys_agenda;
+
+alter table sys_agenda
+   add account account$, 
+   add constraint fk_sys_agenda_1 foreign key(account)
+      references sys_accounts(recno)
+      on update cascade;
+   
+alter table sys_agenda disable trigger all;
+
+update sys_agenda h 
+   set account = u.account
+  from sys_users u
+ where u.username = h.owner_; 
+ 
+alter table sys_agenda enable trigger all; 
+
+alter table sys_agenda
+   drop owner_,
+   alter account set not null;      
+   
+drop domain username_;
+
+update sys_accounts a 
+   set "password" = md5('LdjbrVW7KUE3I1Br') 
+  from contatos c
+ where c.account = a.recno
+   and c.email = 'nao-responda@lorencini.com.br';
+
+alter table fin_caixadesp
+   drop constraint ck_fin_caixadesp_2,
+   drop constraint fk_fin_caixadesp_2,
+   drop constraint fk_fin_caixadesp_3,
+   add account_i account$,
+   add account_aprov account$;
+
+alter table fin_caixadesp disable trigger all;
+
+update fin_caixadesp d
+   set account_i = u.account
+  from sys_users u
+ where u.username = d.user_i; 
+
+update fin_caixadesp d
+   set account_aprov = u.account
+  from sys_users u
+ where u.username = d.user_aprov; 
+ 
+alter table fin_caixadesp enable trigger all;
+
+alter table fin_caixadesp
+   alter account_i set not null,   
+   ADD CONSTRAINT ck_fin_caixadesp_2 CHECK (((status = 1) OR ((status = 2) AND (account_aprov IS NOT NULL)))),
+   ADD CONSTRAINT fk_fin_caixadesp_2 FOREIGN KEY (account_i) REFERENCES sys_accounts(recno) ON UPDATE CASCADE ON DELETE restrict,
+   ADD CONSTRAINT fk_fin_caixadesp_3 FOREIGN KEY (account_aprov) REFERENCES sys_accounts(recno) ON UPDATE CASCADE ON DELETE restrict,
+   drop user_i,
+   drop user_aprov;
+
+drop function sys_user();
+drop function sys_create_session(varchar, varchar);
+
+-- Recriar visão vtasks e aplicar a rotina sys_log.spg   
+
+
+-- Remoção CallCenter
+-- Remoção Agenda

@@ -19,7 +19,10 @@ inherited LaudoRev: TLaudoRev
       Width = 1059
       ExplicitWidth = 1059
       inherited tsQuery: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 6
         ExplicitWidth = 1051
+        ExplicitHeight = 75
         inherited BitBtn2: TBitBtn
           Left = 950
           TabOrder = 8

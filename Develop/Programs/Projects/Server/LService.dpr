@@ -25,13 +25,14 @@ uses
   uResources in '..\..\Sources\Common\uResources.pas' {Resources: TDataModule},
   uDM in '..\..\Sources\Core\Infra\uDM.pas' {DM: TDataModule},
   uIBrowseQry in '..\..\Sources\Core\Infra\uIBrowseQry.pas' {IDefBrowseQry},
-  uSysCompromisso in '..\..\Sources\Core\Sys\uSysCompromisso.pas' {SysCompromisso},
   uidefeditform in '..\..\Sources\Core\Infra\uidefeditform.pas' {IDefEditForm},
   uIBrowseSQL in '..\..\Sources\Core\Infra\uIBrowseSQL.pas' {IDefBrowseSQL},
   uDMReport in '..\..\Sources\Core\Infra\uDMReport.pas' {DMReport: TDataModule},
   CCore in '..\..\Sources\Packages\CCore\CCore.pas',
   CMsg in '..\..\Sources\Packages\CCore\CMsg.pas',
-  SecurityIntf in '..\..\Sources\Core\Class\SecurityIntf.pas';
+  SecurityIntf in '..\..\Sources\Core\Class\SecurityIntf.pas',
+  uSysLog in '..\..\Sources\Core\Sys\uSysLog.pas' {SysLog},
+  uFrameData in '..\..\Sources\Common\uFrameData.pas' {FrameData: TFrame};
 
 {$R *.RES}
 
@@ -58,19 +59,18 @@ begin
     // by Application.Initialize. TServiceApplication.DelayInitialize allows
     // Application.Initialize to be called from TService.Main (after
     // StartServiceCtrlDispatcher has been called).
-    //
     // Delayed initialization of the Application object may affect
     // events which then occur prior to initialization, such as
     // TService.OnCreate. It is only recommended if the ServiceApplication
     // registers a class object with OLE and is intended for use with
     // Windows 2003 Server.
-    //
     // Application.DelayInitialize := True;
-    //
+
     if not SvcMgr.Application.DelayInitialize or SvcMgr.Application.Installing then
       SvcMgr.Application.Initialize;
 
     SvcMgr.Application.CreateForm(TManagerService, ManagerService);
+    SvcMgr.Application.CreateForm(TSysLog, SysLog);
     SvcMgr.Application.Run;
   end
   else
