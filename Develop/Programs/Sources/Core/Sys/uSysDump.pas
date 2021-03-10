@@ -78,8 +78,8 @@ begin
 
       Script.Add(
         'CREATE TABLE sys_forms ( '+
-          'form form_ NOT NULL, '+
-          'descri descri_ NULL, '+
+          'form form$ NOT NULL, '+
+          'descri descri$ NULL, '+
           'recno serial NOT NULL, '+
           'modification timestamp NOT NULL DEFAULT clock_timestamp(), '+
           'CONSTRAINT pk_forms PRIMARY KEY (form));');
@@ -103,7 +103,7 @@ begin
           'descri varchar(150) NOT NULL, '+
           '"level" int4 NOT NULL DEFAULT 0, '+
           'parent int4 NULL, '+
-          'form form_ NULL, '+
+          'form form$ NULL, '+
           'order_ int4 NOT NULL, '+
           'recno serial NOT NULL, '+
           'report int4 NULL, '+
