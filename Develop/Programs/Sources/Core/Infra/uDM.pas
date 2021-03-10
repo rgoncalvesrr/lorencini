@@ -53,17 +53,7 @@ type
     qVendedoresemail: TStringField;
     qVendedorescnpj: TStringField;
     qVendedoresinscrestadual: TStringField;
-    qVendedoresusername: TStringField;
     dsVendedores: TDataSource;
-    qSysUsers: TZQuery;
-    dsSysUsers: TDataSource;
-    qSysUsersusername: TStringField;
-    qSysUserspassword: TStringField;
-    qSysUsersname: TStringField;
-    qSysUsersactive: TBooleanField;
-    qSysUsersemail: TStringField;
-    qSysUserschangepass: TBooleanField;
-    qVendedoresNomeUsuario: TStringField;
     uVendedores: TZUpdateSQL;
     qAtividades: TZQuery;
     qAtividadescodativ: TIntegerField;
@@ -124,24 +114,6 @@ type
     qProdutosdescricao_2: TStringField;
     dsUnidade: TDataSource;
     qNatuprnsecserv: TBooleanField;
-    qCallCenter: TZQuery;
-    dsCallCenter: TDataSource;
-    uCallCenter: TZUpdateSQL;
-    qCallCenterid: TIntegerField;
-    qCallCentercodigo: TIntegerField;
-    qCallCenterdata: TDateTimeField;
-    qCallCenterusername: TStringField;
-    qCallCentercontato: TIntegerField;
-    qCallCenterdescri: TMemoField;
-    qCallCenteros: TIntegerField;
-    qCallCenterempresa: TStringField;
-    qCallCenternome_chave: TStringField;
-    qCallCentername: TStringField;
-    qCallCenternome: TStringField;
-    qCallCenterfuncao: TStringField;
-    qCallCentertelefone: TStringField;
-    qCallCentercelular: TStringField;
-    qCallCenteremail: TStringField;
     qSysReports: TZQuery;
     uSysReports: TZUpdateSQL;
     dsSysReports: TDataSource;
@@ -206,11 +178,9 @@ type
     procedure uNatuBeforeInsertSQL(Sender: TObject);
     procedure qNatuCalcFields(DataSet: TDataSet);
     procedure qNatuAfterInsert(DataSet: TDataSet);
-    procedure dsVendedoresStateChange(Sender: TObject);
     procedure qVendedoresAfterInsert(DataSet: TDataSet);
     procedure uSGruposBeforeInsertSQL(Sender: TObject);
     procedure qProdutosgrupoChange(Sender: TField);
-    procedure qCallCenterBeforePost(DataSet: TDataSet);
     procedure qSysReportsformChange(Sender: TField);
     procedure qFornAfterInsert(DataSet: TDataSet);
     procedure qOSFatutipoGetText(Sender: TField; var Text: string;
@@ -295,11 +265,6 @@ begin
   inherited;
 end;
 
-procedure TDM.dsVendedoresStateChange(Sender: TObject);
-begin
-  qSysUsers.Filtered := (qVendedores.State in [dsInsert, dsEdit]);
-end;
-
 procedure TDM.FillDep(DataSet: TDataSet; DataSetList: TList);
 var
   Field: TField;
@@ -359,17 +324,6 @@ begin
       DataSetList[i]:= nil;
 
     FreeAndNil(DataSetList);
-  end;
-end;
-
-procedure TDM.qCallCenterBeforePost(DataSet: TDataSet);
-begin
-  if DataSet.State = dsInsert then
-  begin
-    qCallCenterusername.AsString := U.Info.UserName;
-     { TODO -oRicardo -cComercial : Revisar o evento de gravação do call center }
-//    qCallCentercodigo.AsInteger := qClientescodigo.AsInteger;
-
   end;
 end;
 
@@ -510,10 +464,6 @@ end;
 
 procedure TDM.TasksTimer(Sender: TObject);
 begin
-  // Limpeza de cotações expiradas
-  if U.Info.UserName = EmptyStr then
-    Exit;
-    
   if DaysBetween(Now, FTaskLimpaCota) > 1 then
   begin
     U.Data.ExecSQL('update cota set status = 7 where validade < current_date and status = 4');
