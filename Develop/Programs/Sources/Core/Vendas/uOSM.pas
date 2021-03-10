@@ -654,10 +654,9 @@ begin
   actEdit.Enabled := actEdit.Enabled and (PageControl3.ActivePageIndex <> 3);
   actDespVinc.Enabled := (PageControl3.ActivePageIndex = 3);
   
-  JvDBComboBox7.Enabled := (U.Info.UserName = 'DAGOBERTO') or
-    (U.Info.UserName = 'RICARDO');
-  TabSheet9.TabVisible := (U.Info.UserName = 'DAGOBERTO') or
-    (U.Info.UserName = 'RICARDO');
+  JvDBComboBox7.Enabled := (U.Info.User = 'DAGOBERTO') or
+    (U.Info.User = 'RICARDO');
+  TabSheet9.TabVisible := JvDBComboBox7.Enabled;
 
   // Atualiza informações de faturamento e financeiras
   RefreshFatuFin;

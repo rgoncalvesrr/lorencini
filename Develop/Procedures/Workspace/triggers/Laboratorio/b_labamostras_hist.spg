@@ -33,7 +33,7 @@ Begin
          raise '[[A amostra % já passou pelo estado "% - %".]]', new.amostra, new.estado, new.historico;
       end if;
 
-      new.username := sys_user();      
+      new.account := sys_account();
    end if;
 
    return new;

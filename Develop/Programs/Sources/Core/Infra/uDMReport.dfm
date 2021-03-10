@@ -3042,7 +3042,7 @@ object DMReport: TDMReport
         'recno,'
       ''
       '  a.codigo,          c.empresa,       c.nome_chave, c.cnpj,'
-      #9'c.cpf,             c.telefone,      c.endereco,   c.bairro,'
+      '   c.cpf,             c.telefone,      c.endereco,   c.bairro,'
       '  c.cidade,          c.estado,        c.cep,        c.email,'
       '  c.logo,'
       '  a.destinatario,    r.pedido,'
@@ -3125,40 +3125,40 @@ object DMReport: TDMReport
       '         on f.idcodigo = r.idcodigo'
       '       left join ('
       
-        #9'        select pe.amostra, p.remessa rem_dh, u.name rem_usrname' +
-        ', po.nf envnf, po.nf_serie envnf_serie, po.emissao envnf_emissao' +
-        ', '
+        '           select pe.amostra, p.remessa rem_dh, u.nome rem_usrna' +
+        'me, po.nf envnf, po.nf_serie envnf_serie, po.emissao envnf_emiss' +
+        'ao, '
       
-        #9#9'           po.tipo envtipo_port, po.tipo_outros envtipo_outros' +
-        ', po.cnpj envcnpj, po.empresa envempresa, po.obs envobs'
-      ' '#9#9'      from labprocxequip pe'
-      #9#9#9'       join labproc p'
-      #9#9#9'         on p.recno = pe.labproc_recno '
-      #9#9#9'       join labport po'
-      #9#9#9'         on po.labproc_recno = pe.labproc_recno '
-      #9#9#9'        and po.operac = 1'
-      #9#9#9'       join labamostras_hist ah'
-      #9#9#9'         on ah.amostra = pe.amostra '
-      #9#9#9'        and ah.estado = 30'
-      #9#9#9'       join sys_users u'
-      #9#9#9'         on u.username = ah.username) le'
-      #9'     on le.amostra = a.recno'
-      #9'   left join ('
+        '                 po.tipo envtipo_port, po.tipo_outros envtipo_ou' +
+        'tros, po.cnpj envcnpj, po.empresa envempresa, po.obs envobs'
+      '            from labprocxequip pe'
+      '                join labproc p'
+      '                  on p.recno = pe.labproc_recno '
+      '                join labport po'
+      '                  on po.labproc_recno = pe.labproc_recno '
+      '                 and po.operac = 1'
+      '                join labamostras_hist ah'
+      '                  on ah.amostra = pe.amostra '
+      '                 and ah.estado = 30'
+      '                join vaccounts u'
+      '                  on u.account = ah.account) le'
+      '        on le.amostra = a.recno'
+      '      left join ('
       
-        #9'        select pe.amostra, u.name ret_usrname, po.nf pednf, po.' +
-        'nf_serie pednf_serie, po.emissao pednf_emissao, '
+        '           select pe.amostra, u.nome ret_usrname, po.nf pednf, p' +
+        'o.nf_serie pednf_serie, po.emissao pednf_emissao, '
       '                   po.nf_valor pednf_valor'
       '              from labret pe'
-      #9#9#9'       join labport po'
-      #9#9#9'         on po.recno = pe.labport_recno'
-      #9#9#9'        and po.operac = 2'
-      #9#9#9'       join labamostras_hist ah'
-      #9#9#9'         on ah.amostra = pe.amostra '
-      #9#9#9'        and ah.estado = 40'
-      #9#9#9'       join sys_users u'
-      #9#9#9'         on u.username = ah.username) pr'
-      #9#9' on pr.amostra = a.recno      '
-      #9'   left join pedido p'
+      '                join labport po'
+      '                  on po.recno = pe.labport_recno'
+      '                 and po.operac = 2'
+      '                join labamostras_hist ah'
+      '                  on ah.amostra = pe.amostra '
+      '                 and ah.estado = 40'
+      '                join vaccounts u'
+      '                  on u.account = ah.account) pr'
+      '       on pr.amostra = a.recno      '
+      '      left join pedido p'
       '         on p.recno = r.pedido  '
       '       left join markup mk'
       '         on mk.recno = p.markup '
@@ -3769,15 +3769,15 @@ object DMReport: TDMReport
       
         '       e.metodo, r.ref_tipo, r.ref_valor, r.valor, le.ordem, e.d' +
         'ec, e.arred, e.sezerotxt,'
-      '        r.ensaio_recno,    r.registro, u.name'
+      '        r.ensaio_recno,    r.registro, u.nome as name'
       '  from labamostras_res r'
       '       join labrel_ens le'
       '         on le.relato_recno = r.relato_recno'
       '        and le.ensaio_recno = r.ensaio_recno'
       '       join vensaios e'
       '         on e.recno = r.ensaio_recno'
-      '       left join sys_users u'
-      '         on u.username = r.username'
+      '       left join vaccounts u'
+      '         on u.account = r.account'
       'where r.laudo = :laudo'
       '   and r.relato_recno = :tplaudo'
       ' order by r.laudo, r.relato_recno, le.ordem')
@@ -3897,13 +3897,14 @@ object DMReport: TDMReport
   object R00017b: TZQuery
     Connection = DM.Design
     SQL.Strings = (
-      'select r.laudo, r.relato_recno, r.ensaio_recno, r.ativo,'
-      '       r.username, r.recno, a.descri, u.name '
+      
+        'select r.laudo, r.relato_recno, r.ensaio_recno, r.ativo, r.accou' +
+        'nt as username, r.recno, a.descri, u.nome as name'
       '  from labamostras_res_ativos r'
       '       join ativos a'
       '         on a.id = r.ativo'
-      '       join sys_users u'
-      '         on u.username = r.username'
+      '       join vaccounts u'
+      '         on u.account = r.account'
       ' where r.laudo = :laudo'
       '   and r.relato_recno = :tplaudo'
       '   and r.ensaio_recno = :ensaio'
@@ -3959,10 +3960,6 @@ object DMReport: TDMReport
       FieldName = 'ativo'
       Required = True
     end
-    object R00017busername: TStringField
-      FieldName = 'username'
-      Required = True
-    end
     object R00017brecno: TIntegerField
       FieldName = 'recno'
       Required = True
@@ -3987,7 +3984,6 @@ object DMReport: TDMReport
       'relato_recno=relato_recno'
       'ensaio_recno=ensaio_recno'
       'ativo=ativo'
-      'username=username'
       'recno=recno'
       'descri=descri'
       'name=name')
@@ -4004,8 +4000,9 @@ object DMReport: TDMReport
   object R00017c: TZQuery
     Connection = DM.Design
     SQL.Strings = (
-      'select r.laudo, r.relato_recno, r.ensaio_recno,'
-      '       r.solucao, r.qtd, u.name, s.tipo, s.codigo, s.lotefor,'
+      
+        'select r.laudo, r.relato_recno, r.ensaio_recno, r.solucao, r.qtd' +
+        ', u.nome as name, s.tipo, s.codigo, s.lotefor,'
       '       s.validade, st.descri, f.empresa'
       '  from labamostras_res_sol r'
       '       join labsol s'
@@ -4014,8 +4011,8 @@ object DMReport: TDMReport
       '         on f.codigo = s.codigo'
       '       join labsoltipo st'
       '         on st.recno = s.tipo'
-      '       join sys_users u'
-      '         on u.username = r.username'
+      '       join vaccounts u'
+      '         on u.account = r.account'
       ' where r.laudo = :laudo'
       '   and r.relato_recno = :tplaudo'
       '   and r.ensaio_recno = :ensaio'

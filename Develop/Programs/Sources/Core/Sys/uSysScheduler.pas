@@ -15,11 +15,11 @@ type
     IBrwSrcdescri_1: TStringField;
     IBrwSrcagendamento: TStringField;
     IBrwSrchabilitado: TBooleanField;
-    IBrwSrcusername: TStringField;
-    IBrwSrcname: TStringField;
     sIBrwSrc: TZSequence;
     IBrwSrcinicio: TDateField;
     IBrwSrcexpiracao: TDateField;
+    IBrwSrcnome: TStringField;
+    IBrwSrcaccount: TLargeintField;
     procedure IBrwSrcAfterInsert(DataSet: TDataSet);
   private
     procedure OnEdit; override;
@@ -40,8 +40,8 @@ procedure TSysScheduler.IBrwSrcAfterInsert(DataSet: TDataSet);
 begin
   inherited;
   IBrwSrchabilitado.AsBoolean := False;
-  IBrwSrcusername.AsString := U.Info.UserName;
-  IBrwSrcname.AsString := U.Info.Name;
+  IBrwSrcaccount.AsLargeInt := U.Info.Account;
+  IBrwSrcnome.AsString := U.Info.Name;
   IBrwSrcinicio.AsDateTime := Now;
 end;
 

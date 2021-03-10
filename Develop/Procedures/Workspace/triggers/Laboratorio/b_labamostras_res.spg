@@ -23,7 +23,7 @@ Declare
    ra       record;
    rinst    record;
    fvalor   float;
-   xlog     rlog;
+   xlog     log$;
 BEGIN
    if tg_op <> 'DELETE' then
       -- Obtem informações do laudo
@@ -55,8 +55,8 @@ BEGIN
       end if;
        
       if ra.assinatura is null then
-         new.username := sys_user();
-         new.registro := localtimestamp;
+         new.account := sys_account();
+         new.registro := clock_timestamp();
       end if;
 
       -- Seleciona o certificado adequado
@@ -77,14 +77,12 @@ BEGIN
               from labinst
              where recno = new.labinst_recno;
 
-            xlog.descri := 'Impossível localizar certificado';
-            xlog.historico := format('Não foi possível localizar certificado de aferição para o instrumento %s - %s%s%s para data %s', 
+            xlog.title := 'Impossível localizar certificado';
+            xlog.detail := format('Não foi possível localizar certificado de aferição para o instrumento %s - %s%s%s para data %s', 
                new.labinst_recno, r.descri, coalesce(', série '|| r.serie, ''), coalesce(', modelo '||r.modelo, ''), to_char(ra.criacao, 'DD/MM/YYYY'));
-            xlog.origem := sys_origem('labamostras_res');
-            xlog.origem_recno := new.recno;
-            xlog.nivel := 1;
-            xlog.tipo = 2;
-
+            xlog.source_table := sys_origem('labamostras_res');
+            xlog.source_recno := new.recno;
+            xlog.level := 'warn';
             perform log(xlog);
          end if;
       end if;

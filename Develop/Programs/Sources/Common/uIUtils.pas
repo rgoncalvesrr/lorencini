@@ -76,9 +76,10 @@ type
     property Temp: string read GetTemp;
   end;
 
+  TAccount = Longint;
+
   TInfo = Class(TPersistent)
   private
-    fUserName: string;
     fPassWord: string;
     FConnected: boolean;
     fUserId: Integer;
@@ -90,12 +91,15 @@ type
     FIdVendor: Integer;
     FRole: Integer;
     FSession: string;
+    FAccount: TAccount;
+    FUser: string;
     procedure SetName(const Value: String);
     function GetEmployeeID: integer;
     function GetEmployeeIDSQL: String;
     procedure FillEmployeeData;
     function GetEmployeeName: String;
     procedure SetSession(const Value: string);
+    procedure SetAccount(const Value: TAccount);
   public
     constructor Create;
 
@@ -107,10 +111,9 @@ type
     property EmployeeName: String read GetEmployeeName;
     property Name: String read FName write SetName;
     property Role: Integer read FRole;
-    property Session: string read FSession write SetSession;
-    property UserID: Integer read fUserId write fUserId;
-    property UserName: string read fUserName write fUserName;
-
+    property Session: string read FSession;
+    property Account: TAccount read FAccount;
+    property User: string read FUser;
   end;
 
   {Classe com informações de conexão com o banco de dados}
@@ -1108,9 +1111,9 @@ begin
     SQL.Text:=
     'select idcodigo, nome '+
       'from tbfuncionarios '+
-     'where username = :username ';
+     'where account = :account ';
 
-    ParamByName('username').AsString := UserName;
+    ParamByName('account').AsInteger := Account;
 
     Open;
 
@@ -1149,17 +1152,23 @@ begin
   with U.Data.Query do
   try
     SQL.Text :=
-    'select username, role '+
-      'from sys_session '+
+    'select username, role, account '+
+      'from vsessions '+
      'where session = sys_session() ';
 
     Open;
 
-    fUserName := FieldByName('username').AsString;
+    FUser := FieldByName('username').AsString;
+    FAccount := FieldByName('account').AsInteger;
     FRole := FieldByName('role').AsInteger;
   finally
     Close;
   end;
+end;
+
+procedure TInfo.SetAccount(const Value: TAccount);
+begin
+  FAccount := Value;
 end;
 
 procedure TInfo.SetName(const Value: String);

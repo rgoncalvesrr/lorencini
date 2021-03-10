@@ -13,7 +13,7 @@ CREATE OR REPLACE FUNCTION a_labens()
   RETURNS trigger AS
 $$
 declare
-   xlog  rlog;
+   xlog  log$;
 BEGIN
    if tg_op = 'UPDATE' then
       if new.incerteza <> old.incerteza then
