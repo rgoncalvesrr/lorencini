@@ -34,10 +34,16 @@ uses mcUtils, uIUtils;
 
 procedure TSysSecurityChangePass.actOkExecute(Sender: TObject);
 begin
-  U.ExecuteSQL(
-    'update sys_users '+
-       'set password = ''%s'', changepass = false '+
-     'where username = ''%s''', [mcMD5(edPass.Text), U.Info.UserName]);
+  with U.Query do
+  begin
+    SQL.Text :=
+      'update sys_accounts '+
+         'set password = :pass '+
+       'where recno = :account ';
+    ParamByName('pass').AsString := mcMD5(edPass.Text);
+    ParamByName('account').AsInteger := U.Info.Account;
+    ExecSQL;
+  end;
 
   inherited;
   Close;

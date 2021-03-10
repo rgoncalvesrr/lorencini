@@ -116,7 +116,7 @@ begin
   FThreadList.Clear;
   FreeAndNil(FThreadList);
 
-  zQry.SQL.Text := 'select sys_release_session()';
+  zQry.SQL.Text := 'select sys_session_release()';
   zQry.ExecSQL;
 end;
 
@@ -269,14 +269,13 @@ begin
   oQry.Connection := pgConn;
   try
     oQry.SQL.Text := Format(
-      'select sys_create_session(%s, %s)',
-        [QuotedStr('MANAGER'), QuotedStr(mcMD5('m4n4g3r.@'))]);
+      'select sys_login(%s, %s)',
+        [QuotedStr('sistema@lorencinibrasil.com.br'), QuotedStr(mcMD5('m4n4g3r.@'))]);
     oQry.ExecSQL;
 
     oQry.SQL.Text := 'select current_user';
     oQry.Open;
-    
-    U.Info.Session := oQry.Fields[0].AsString;
+
     U.Info.RefreshSessionFromDB;
   finally
     oQry.Close;

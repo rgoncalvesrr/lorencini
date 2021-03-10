@@ -1,0 +1,10 @@
+set session authorization lorencini;
+create or replace view vsessions as
+select s."session", s.registred, s.account, u.username, c.nome, c.email, c.situacao, s.heartbeat, s."role", r.descri  
+  from sys_sessions s
+       left join sys_users u
+         on u.account = s.account
+       left join sys_roles r
+         on r.recno = s."role"
+       left join contatos c
+         on c.account = s.account;

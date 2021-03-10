@@ -1,0 +1,54 @@
+/**
+   Cria uma sessão no sistema
+
+	@author    Ricardo Gonçalves
+	@date      20/07/2017 21:34
+	@trigger	
+   
+   @param in_user nome do usuário
+   @param in_pass senha do usuário
+	
+	@return sessão criada ou erro
+
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso   
+*/
+create or replace function sys_session_select(
+   in session_ session$)
+returns session$ as
+$$
+declare   
+   old_session session$ := sys_session();   
+begin      
+   if not exists(
+      select 1
+        from pg_catalog.pg_roles 
+       where rolname = session_)
+   then
+      raise '[[Sessão % não existe no banco de dados.]]', session_;
+   end if;
+
+   execute format('set session authorization "%s"', session_);
+   
+   return old_session;
+end;
+$$
+language plpgsql;
+
+create or replace function sys_session_select(
+   in account_ account$)
+returns session$ as
+$$
+declare   
+   old_session session$;
+begin      
+   select sys_session_select(session)
+     into old_session
+     from sys_sessions
+    where account = account_; 
+   
+   return old_session;
+end;
+$$
+language plpgsql;   

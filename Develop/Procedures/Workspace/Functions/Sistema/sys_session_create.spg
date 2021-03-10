@@ -1,0 +1,72 @@
+/**
+   Cria uma sessão no sistema
+
+	@author    Ricardo Gonçalves
+	@date      20/07/2017 21:34
+	@trigger	
+   
+   @param in_user nome do usuário
+   @param in_pass senha do usuário
+	
+	@return sessão criada ou erro
+
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso   
+*/
+create or replace function sys_session_create(
+   in account_ account$)
+returns session$ as
+$$
+declare
+   r              record;
+   new_session    session$;
+   saved_session  session$;
+   stack_         text;
+begin   
+   saved_session := sys_session_select('postgres');
+   
+   select a.password, a.status, a.changepass, a.role 
+     into r
+     from sys_accounts a                    
+    where a.recno = account_;
+   
+   if not FOUND then
+      GET DIAGNOSTICS stack_ = PG_CONTEXT;
+      raise '[[Conta não existe\n%]]', stack_;
+   end if;
+   
+   delete
+     from sys_sessions
+    where account = account_
+      and heartbeat + interval '3 min' < clock_timestamp();
+      
+   new_session := md5(cast(account_ as varchar));
+      
+   if not exists(
+      select 1
+        from pg_catalog.pg_roles 
+       where rolname = new_session)
+   then
+      execute format('create role "%s" login in role %s valid until %s', new_session, 'lorencini', quote_literal('infinity'));   
+   end if;
+   
+   perform sys_session_select(new_session);
+
+   GET DIAGNOSTICS stack_ = PG_CONTEXT;
+   begin      
+      insert into sys_sessions
+         (session, account, role, chpass, heartbeat)
+      values
+         (new_session, account_, r.role, r.changepass, clock_timestamp());
+   exception
+      when unique_violation then         
+         raise 'Sessão está ativa. Tente acessar novamente em 3 minutos.\n%', stack_;
+   end;  
+
+   perform sys_session_select(saved_session);
+   
+   return new_session;
+end;
+$$
+language plpgsql;   

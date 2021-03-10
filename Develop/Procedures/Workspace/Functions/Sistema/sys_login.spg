@@ -1,0 +1,41 @@
+/**
+   Faz o login no sistema validando e ativando a sessão
+
+   @author    Ricardo Gonçalves
+   @date      03/03/2021
+   @trigger
+
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+create or replace function sys_login(
+   in user_ varchar, 
+   in pass_ varchar)
+returns boolean as
+$$
+declare   
+   account_ sys_accounts.recno%type;   
+   message_ text;
+   xlog     log$;
+begin
+   begin
+      account_ := sys_auth(user_, pass_);
+      perform sys_session_select(sys_session_create(account_));
+      xlog.title := 'Login permitido';
+      xlog.detail := format('Acesso concedido ao usuário "%s"', user_);
+      perform log(xlog);
+
+      return true;
+   exception when raise_exception then
+      xlog.title := format('Falha na autenticação do usuário "%s"', user_);
+      xlog.level := 'error';
+      xlog.rotate := false;
+      GET STACKED DIAGNOSTICS message_ = MESSAGE_TEXT;
+   end;   
+   xlog.detail := message_;
+   perform log(xlog);
+   return false;   
+end;
+$$
+language plpgsql;
