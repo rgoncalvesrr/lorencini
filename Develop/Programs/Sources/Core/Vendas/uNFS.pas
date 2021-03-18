@@ -43,13 +43,6 @@ type
     qItensvalor: TFloatField;
     qItensidos: TStringField;
     qItensdata: TDateField;
-    qHistorico: TZQuery;
-    dsHistorico: TDataSource;
-    qHistoricorecno_nf: TIntegerField;
-    qHistoricodatahora: TDateTimeField;
-    qHistoricousername: TStringField;
-    qHistoriconame: TStringField;
-    qHistoricohistorico: TStringField;
     qItenscom_srv: TFloatField;
     qItensvlsrv: TFloatField;
     qItenscom_mat: TFloatField;
@@ -90,6 +83,7 @@ type
     fInternalCalc: Boolean;
     procedure OnEdit; override;
     procedure SetDataSet(const Value: TZQuery); override;
+    procedure OnLog(var TableName: string; var Recno: Integer); virtual;
   public
     { Public declarations }
   end;
@@ -179,8 +173,6 @@ begin
   begin
     qItens.ParamByName('recno').AsInteger := IBrwSrcrecno.AsInteger;
     G.RefreshDataSet(qItens);
-    qHistorico.ParamByName('recno').AsInteger := IBrwSrcrecno.AsInteger;
-    G.RefreshDataSet(qHistorico);
   end;
 end;
 
@@ -240,6 +232,12 @@ begin
   NFSM.ScreenType := stMasterDetail;
   NFSM.DataSet := DataSet;
   NFSM.ShowModal;
+end;
+
+procedure TNFS.OnLog(var TableName: string; var Recno: Integer);
+begin
+  TableName := 'nf';
+  Recno := IBrwSrcrecno.AsInteger;
 end;
 
 procedure TNFS.qItensAfterInsert(DataSet: TDataSet);

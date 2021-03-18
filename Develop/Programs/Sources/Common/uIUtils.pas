@@ -1152,12 +1152,13 @@ begin
   with U.Data.Query do
   try
     SQL.Text :=
-    'select username, role, account '+
+    'select username, role, account, session '+
       'from vsessions '+
      'where session = sys_session() ';
 
     Open;
 
+    FSession := FieldByName('session').AsString;
     FUser := FieldByName('username').AsString;
     FAccount := FieldByName('account').AsInteger;
     FRole := FieldByName('role').AsInteger;

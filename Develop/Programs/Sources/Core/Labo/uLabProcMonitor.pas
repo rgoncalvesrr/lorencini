@@ -45,7 +45,6 @@ type
     tsEtiquetas: TTabSheet;
     dsEtiquetas: TDataSource;
     zEtiquetas: TZQuery;
-    zVolumesusername: TStringField;
     zVolumesname: TStringField;
     DBGrid3: TDBGrid;
     zEtiquetasrecno: TIntegerField;
@@ -55,13 +54,10 @@ type
     zEtiquetasdataprog: TDateField;
     zEtiquetasetiq_proc: TStringField;
     zEtiquetasemi_dh: TDateTimeField;
-    zEtiquetasemi_usr: TStringField;
     zEtiquetasname: TStringField;
     zEtiquetasimp_dh: TDateTimeField;
-    zEtiquetasimp_usr: TStringField;
     zEtiquetasname_1: TStringField;
     zEtiquetasrem_dh: TDateTimeField;
-    zEtiquetasrem_usr: TStringField;
     zEtiquetasname_2: TStringField;
     Label18: TLabel;
     ComboBox1: TComboBox;

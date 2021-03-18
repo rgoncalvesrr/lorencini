@@ -157,8 +157,6 @@ inherited Ped: TPed
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 4
-          ExplicitLeft = 525
-          ExplicitTop = 1
           object Label5: TLabel
             AlignWithMargins = True
             Left = 3
@@ -177,7 +175,7 @@ inherited Ped: TPed
             Width = 185
             Height = 15
             Align = alTop
-            Caption = '01/01/2021 a 31/01/2021'
+            Caption = '01/03/2021 a 31/03/2021'
             Transparent = True
             ExplicitWidth = 128
           end
@@ -209,7 +207,7 @@ inherited Ped: TPed
             end
             inherited CCalendarDiff1: TCCalendarDiff
               Interval = diMonthly
-              Date = 44222.867537604160000000
+              Date = 44265.754530729170000000
               DisplayInterval = Label6
               OnChange = FrameData1CCalendarDiff1Change
             end
@@ -232,6 +230,7 @@ inherited Ped: TPed
     inherited PageControl1: TPageControl
       Width = 1113
       Height = 486
+      ActivePage = TabSheet2
       Images = Resources.medium_n
       ExplicitWidth = 1113
       ExplicitHeight = 486

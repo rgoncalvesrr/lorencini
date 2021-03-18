@@ -42,40 +42,6 @@ inherited NFSM: TNFSM
             DataSource = NFS.dsqItens
           end
         end
-        object TabSheet2: TTabSheet
-          Caption = 'Hist'#243'rico'
-          ImageIndex = 1
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
-          object DBGrid2: TDBGrid
-            Tag = 1
-            Left = 0
-            Top = 0
-            Width = 731
-            Height = 118
-            Align = alClient
-            BorderStyle = bsNone
-            Ctl3D = False
-            DataSource = NFS.dsHistorico
-            DefaultDrawing = False
-            Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
-            ParentCtl3D = False
-            ReadOnly = True
-            TabOrder = 0
-            TitleFont.Charset = ANSI_CHARSET
-            TitleFont.Color = clWindowText
-            TitleFont.Height = -12
-            TitleFont.Name = 'Segoe UI'
-            TitleFont.Pitch = fpVariable
-            TitleFont.Style = []
-            OnDrawColumnCell = ChildGridDrawColumnCell
-            OnDblClick = ChildGridDblClick
-            OnEnter = ChildGridEnter
-            OnKeyPress = ChildGridKeyPress
-          end
-        end
       end
       inherited ControlBar2: TControlBar
         Width = 739

@@ -19,12 +19,14 @@ declare
    account_ sys_accounts.recno%type;
    r        record;
    stack_   text;
+   usertmp_ varchar;
 begin
    if contato_ then
+      usertmp_ := lower(user_);
       select account, situacao
         into r
         from contatos
-       where email = user_;
+       where email = usertmp_;
 
       if not found then
          GET DIAGNOSTICS stack_ = PG_CONTEXT;
