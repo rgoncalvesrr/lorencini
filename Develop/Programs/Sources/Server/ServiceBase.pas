@@ -135,11 +135,12 @@ begin
   try
     with Qry do
     begin
-      SQL.Add('select log(:desc, :log, :table_, :recno_, false, 4, 3)');
+      SQL.Add('select log(:desc, :log, :table_, :recno_, false, :nivel)');
       Params[0].AsString := FDescription;
       Params[1].AsMemo := FLog;
       Params[2].AsInteger := FTable_;
       Params[3].AsInteger := FRecno_;
+      Params[4].AsString := 'info';
 
       ExecSQL;
     end;

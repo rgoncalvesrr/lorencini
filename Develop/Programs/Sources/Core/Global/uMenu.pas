@@ -311,7 +311,7 @@ begin
     Checked := True;
     tbRole.Caption := 'Papel: ' + Caption;
 
-    U.ExecuteSQL('update sys_session set role = %d where session = sys_session()',
+    U.ExecuteSQL('update sys_sessions set role = %d where session = sys_session()',
       [Tag]);
   finally
     LoadMenu;

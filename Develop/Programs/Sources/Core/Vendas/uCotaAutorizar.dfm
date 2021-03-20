@@ -21,7 +21,7 @@ inherited CotaAutorizar: TCotaAutorizar
     end
     inherited Image1: TImage
       Width = 32
-      Height = 32
+      Height = 64
       Picture.Data = {
         055449636F6E0000010001003030000001000800A80E00001600000028000000
         3000000060000000010008000000000000090000000000000000000000000000
@@ -151,12 +151,13 @@ inherited CotaAutorizar: TCotaAutorizar
       ExplicitLeft = 45
       ExplicitWidth = 1052
       inherited Label1: TLabel
-        Width = 175
+        Width = 1046
         Caption = 'Gerar Pedido de Venda'
         ExplicitWidth = 175
       end
       inherited Label2: TLabel
-        Width = 291
+        Width = 1039
+        Height = 33
         Caption = 'Gera'#231#227'o da remessa de vidrarias / Ordem de Servi'#231'o'
         ExplicitWidth = 291
       end
@@ -182,11 +183,12 @@ inherited CotaAutorizar: TCotaAutorizar
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 44
+        Width = 59
         Height = 15
         Align = alTop
         Caption = 'Cota'#231#227'o'
         FocusControl = DBEdit1
+        ExplicitWidth = 44
       end
       object DBEdit1: TDBEdit
         AlignWithMargins = True
@@ -214,11 +216,12 @@ inherited CotaAutorizar: TCotaAutorizar
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 50
+        Width = 1026
         Height = 15
         Align = alTop
         Caption = 'Atividade'
         FocusControl = DBEdit2
+        ExplicitWidth = 50
       end
       object DBEdit2: TDBEdit
         AlignWithMargins = True
@@ -437,11 +440,12 @@ inherited CotaAutorizar: TCotaAutorizar
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 39
+        Width = 59
         Height = 15
         Align = alTop
         Caption = 'Frascos'
         FocusControl = DBEdit8
+        ExplicitWidth = 39
       end
       object DBEdit8: TDBEdit
         AlignWithMargins = True
@@ -469,10 +473,11 @@ inherited CotaAutorizar: TCotaAutorizar
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 77
+        Width = 340
         Height = 15
         Align = alTop
         Caption = 'Pedido Cliente'
+        ExplicitWidth = 77
       end
       object edPedCli: TEdit
         AlignWithMargins = True
@@ -497,11 +502,12 @@ inherited CotaAutorizar: TCotaAutorizar
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 44
+        Width = 59
         Height = 15
         Align = alTop
         Caption = 'Seringas'
         FocusControl = DBEdit22
+        ExplicitWidth = 44
       end
       object DBEdit22: TDBEdit
         AlignWithMargins = True
@@ -615,11 +621,12 @@ inherited CotaAutorizar: TCotaAutorizar
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 26
+        Width = 81
         Height = 15
         Align = alTop
         Caption = 'Frete'
         FocusControl = DBEdit9
+        ExplicitWidth = 26
       end
       object DBEdit9: TDBEdit
         AlignWithMargins = True
@@ -761,10 +768,6 @@ inherited CotaAutorizar: TCotaAutorizar
       OnChange = PageControl1Change
       object TabSheet1: TTabSheet
         Caption = 'Servi'#231'os'
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object DBGrid1: TDBGrid
           Tag = 1
           AlignWithMargins = True
@@ -857,26 +860,14 @@ inherited CotaAutorizar: TCotaAutorizar
       object TabSheet2: TTabSheet
         Caption = 'Materiais'
         ImageIndex = 1
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object TabSheet3: TTabSheet
         Caption = 'M'#227'o-de-Obra'
         ImageIndex = 2
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object TabSheet4: TTabSheet
         Caption = 'Despesas'
         ImageIndex = 3
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
     end
     object Panel29: TPanel
@@ -1177,10 +1168,11 @@ inherited CotaAutorizar: TCotaAutorizar
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 48
+              Width = 100
               Height = 15
               Align = alTop
               Caption = 'Materiais'
+              ExplicitWidth = 48
             end
             object DBEdit10: TDBEdit
               AlignWithMargins = True
@@ -1217,10 +1209,11 @@ inherited CotaAutorizar: TCotaAutorizar
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 43
+              Width = 100
               Height = 15
               Align = alTop
               Caption = 'M. Obra'
+              ExplicitWidth = 43
             end
             object DBEdit11: TDBEdit
               AlignWithMargins = True
@@ -1257,10 +1250,11 @@ inherited CotaAutorizar: TCotaAutorizar
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 43
+              Width = 100
               Height = 15
               Align = alTop
               Caption = 'Servi'#231'os'
+              ExplicitWidth = 43
             end
             object DBEdit12: TDBEdit
               AlignWithMargins = True
@@ -1297,10 +1291,11 @@ inherited CotaAutorizar: TCotaAutorizar
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 48
+              Width = 100
               Height = 15
               Align = alTop
               Caption = 'Despesas'
+              ExplicitWidth = 48
             end
             object DBEdit13: TDBEdit
               AlignWithMargins = True
@@ -1337,10 +1332,11 @@ inherited CotaAutorizar: TCotaAutorizar
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 25
+              Width = 100
               Height = 15
               Align = alTop
               Caption = 'Total'
+              ExplicitWidth = 25
             end
             object DBEdit14: TDBEdit
               AlignWithMargins = True

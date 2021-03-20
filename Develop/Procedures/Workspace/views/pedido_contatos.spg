@@ -1,0 +1,10 @@
+set session authorization lorencini;
+create view pedido_contatos as         
+select p.recno pedido, cc.cliente, c.recno, c.nome, c.email, c.celular, c.telefone, c.ramal, c.situacao status, cc.funcao, 
+        cc.situacao, cc.padrao, cc.obs, c.account 
+  from tbclientes_contatos cc       
+       join contatos c
+         on c.recno = cc.contato 
+       join pedido p
+          on p.cliente = cc.cliente   
+ where cc.enviar_pedido_venda;
