@@ -17,7 +17,7 @@ begin
    open xcur for 
       select a.fn, a.stmt
         from sys_fn a
-             join sys_flag b
+             join sys_flags b
                on b.session = sys_session()
               and b.recno = a.recno
        where a.status = 2;

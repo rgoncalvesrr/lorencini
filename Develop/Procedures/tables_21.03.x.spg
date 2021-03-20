@@ -1,0 +1,6 @@
+set session authorization lorencini;
+
+alter table tbclientes_contatos
+   add enviar_os boolean default(false) not null;
+
+update tbclientes_contatos set enviar_os = true where enviar_pedido_venda;   

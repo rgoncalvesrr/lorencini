@@ -16,6 +16,7 @@ $$
 Declare
    r     record;
    msg   text;
+   xlog  log$;
 BEGIN
    if tg_op = 'UPDATE' then
       -- Liberação do envio da mensagem
@@ -35,7 +36,13 @@ BEGIN
 
          if msg <> '' then
             msg := 'Pedido de autorização enviado para: ' || msg;
-            perform log('Solicitação de autorização.', msg, 4, new.table_, new.recno_);
+
+            xlog.title := 'Solicitação de autorização.';
+            xlog.detail := msg;
+            xlog.source_table := new.table_;
+            xlog.source_recno := new.recno_;
+
+            perform log(xlog);
          end if;
 
          perform sys_task_schedule(1, localtimestamp, new.recno);

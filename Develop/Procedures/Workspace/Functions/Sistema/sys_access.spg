@@ -21,7 +21,7 @@ BEGIN
    return exists(
       select 1
         from sys_role_grant rg
-             join sys_session s
+             join sys_sessions s
                on s.role = rg.role
               and s.session = csession
        where rg.grant_ = lower(perm));

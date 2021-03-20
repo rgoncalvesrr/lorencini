@@ -15,7 +15,7 @@ $$
 BEGIN
    if tg_op <> 'DELETE' then
       if tg_op = 'INSERT' then
-         new.username := sys_user();
+         new.account := sys_account();
       end if;
 
       return new;

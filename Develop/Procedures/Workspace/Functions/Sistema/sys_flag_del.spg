@@ -14,14 +14,15 @@
 Create or Replace Function sys_flag_del(
 	in in_table_ varchar,
 	in in_recno integer )
-Returns Boolean
-as
+Returns boolean as
 $$
-BEGIN
+declare
+   table_id   sys_tables.recno%type := sys_origem(in_table_);
+begin   
 	delete
-	  from sys_flag
+	  from sys_flags
     where session = sys_session()
-      and table_ = in_table_
+      and table_ = table_id
       and recno = in_recno;
 
    return Found;

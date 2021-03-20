@@ -17,11 +17,11 @@ BEGIN
       return old;
    end if;
    
-   new.user_i := coalesce(new.user_i, sys_user());
+   new.account_i := coalesce(new.account_i, sys_account(), sys_account_def());
 
    -- Aprovação do lançamento
    if new.status = 2 then
-      new.user_aprov := coalesce(new.user_aprov, sys_user());
+      new.user_aprov := coalesce(new.user_aprov, sys_account(), sys_account_def());
    end if;
 
    return new;

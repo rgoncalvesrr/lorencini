@@ -367,7 +367,6 @@ type
     R00017brelato_recno: TIntegerField;
     R00017bensaio_recno: TIntegerField;
     R00017bativo: TIntegerField;
-    R00017busername: TStringField;
     R00017brecno: TIntegerField;
     R00017bdescri: TMemoField;
     R00017bname: TStringField;

@@ -58,10 +58,10 @@ begin
   try
     SQL.Text :=
     'select count(*) '+
-      'from sys_flag '+
+      'from sys_flags '+
      'where session = sys_session() '+
-       'and table_ = :table';
-       
+       'and table_ = sys_origem(:table)';
+
     ParamByName('table').AsString := FTable;
 
     Open;

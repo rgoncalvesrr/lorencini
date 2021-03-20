@@ -56,8 +56,6 @@ type
     DBEdit16: TDBEdit;
     Label20: TLabel;
     DBComboBox1: TDBComboBox;
-    TabSheet2: TTabSheet;
-    DBGrid2: TDBGrid;
     actLocSerie: TAction;
     actLocCliente: TAction;
     actlocNatureza: TAction;
@@ -90,8 +88,7 @@ var
 
 implementation
 
-uses uNFS, uIUtils, mcUtils, uFinNaturezas, uNFSSerie, uClientes, uDM,
-  uNFSMItens;
+uses uNFS, uIUtils, mcUtils, uFinNaturezas, uNFSSerie, uClientes, uDM, uNFSMItens;
 
 {$R *.dfm}
 

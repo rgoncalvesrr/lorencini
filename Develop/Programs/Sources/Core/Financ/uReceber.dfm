@@ -119,7 +119,7 @@ inherited Receber: TReceber
               ExplicitWidth = 157
             end
             inherited CCalendarDiff1: TCCalendarDiff
-              Date = 43984.706190393520000000
+              Date = 44266.720073148150000000
               DisplayInterval = Label4
               OnChange = FrameData1CCalendarDiff1Change
             end
@@ -207,6 +207,8 @@ inherited Receber: TReceber
       object TabSheet2: TTabSheet
         Caption = 'T'#237'tulo em Aberto'
         ImageIndex = 205
+        ExplicitLeft = 2
+        ExplicitTop = 37
       end
       object TabSheet3: TTabSheet
         Caption = 'T'#237'tulos Recebidos'

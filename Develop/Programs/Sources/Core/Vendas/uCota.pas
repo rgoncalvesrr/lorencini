@@ -241,6 +241,7 @@ type
     procedure InitServ;
     procedure InitMObra;
     procedure OnPrint(Sender: TReport; var Continue: Boolean); override;
+    procedure OnLog(var TableName: string; var Recno: Integer); override;
     function GetTabela: string; override;
     function GetTabelaOrigem: Integer; override;
   public
@@ -834,6 +835,13 @@ begin
   cbStatusChange(cbStatus);
 end;
 
+procedure TCota.OnLog(var TableName: string; var Recno: Integer);
+begin
+  inherited;
+  TableName := GetTabela;
+  Recno := GetTabelaOrigem;
+end;
+
 procedure TCota.OnPrint(Sender: TReport; var Continue: Boolean);
 begin
   inherited;
@@ -1078,6 +1086,8 @@ begin
     ToolBar2.Visible := actModelo.Visible or actMarkup.Visible or
       actSolAprov.Visible or actAutorizar.Visible or actCancelarCotacao.Visible or
       actRevalidar.Visible;
+      
+    actLog.Enabled := not IBrwSrc.IsEmpty and (IBrwSrc.State = dsBrowse);
   end;
 end;
 

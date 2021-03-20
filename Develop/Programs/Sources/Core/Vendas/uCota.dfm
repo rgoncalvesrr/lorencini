@@ -1,10 +1,8 @@
 inherited Cota: TCota
-  Action = actAgenda
   Caption = 'Cota'#231#227'o'
   ClientHeight = 570
   ClientWidth = 1091
   Constraints.MinWidth = 974
-  OnClick = actAgendaExecute
   ExplicitWidth = 1107
   ExplicitHeight = 609
   PixelsPerInch = 96
@@ -102,7 +100,7 @@ inherited Cota: TCota
             ExplicitWidth = 156
           end
           inherited CCalendarDiff1: TCCalendarDiff
-            Date = 44215.086149756940000000
+            Date = 44263.923908194450000000
             DisplayInterval = Label4
             OnChange = FrameData1CCalendarDiff1Change
           end
@@ -308,30 +306,58 @@ inherited Cota: TCota
       object TabSheet3: TTabSheet
         Caption = 'Em Aprova'#231#227'o'
         ImageIndex = 213
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
       object TabSheet4: TTabSheet
         Caption = 'Aprovadas'
         ImageIndex = 211
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
       object TabSheet5: TTabSheet
         Caption = 'Em Estudo'
         ImageIndex = 208
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
       object TabSheet6: TTabSheet
         Caption = 'Autorizadas'
         ImageIndex = 205
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
       object TabSheet9: TTabSheet
         Caption = 'Executadas'
         ImageIndex = 210
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
       object TabSheet7: TTabSheet
         Caption = 'Expiradas'
         ImageIndex = 204
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
       object TabSheet8: TTabSheet
         Caption = 'Canceladas'
         ImageIndex = 209
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
     end
   end
@@ -783,10 +809,10 @@ inherited Cota: TCota
   inherited pmOpcao: TPopupMenu
     Left = 528
     Top = 56
-    object Markup1: TMenuItem [5]
+    object Markup1: TMenuItem
       Action = actMarkup
     end
-    object Modelo1: TMenuItem [6]
+    object Modelo1: TMenuItem
       Action = actModelo
     end
   end

@@ -16,7 +16,8 @@ Returns void As
 $$
 Declare
    r           record;
-   itabela     integer;
+   table_      varchar := 'fin_receber';
+   itabela     integer  := sys_origem(table_);
    bproc       boolean;
    vHistorico  fin_caixa.historico%type;
    irecno      fin_caixa.recno%type;
@@ -51,7 +52,7 @@ Begin
       (codigo,     data,      docto,     historico,     valor,          _tabela,
        _recno,     titulo,    cobrar, emissao)
    values
-      (r.codigo,   r.vencimento_real, r.docto, r.historico, -1 * fvalorcx, sys_origem('fin_receber'),
+      (r.codigo,   r.vencimento_real, r.docto, r.historico, -1 * fvalorcx, itabela,
        in_titulo,  in_titulo, false, r.vencimento_real);
 
    if r.baixa is not null then
@@ -87,7 +88,7 @@ Begin
       end if;
    end if;
 
-   perform sys_flag_del(itabela::varchar, in_titulo);
+   perform sys_flag_del(table_, in_titulo);
 End;
 $$
 language plpgsql;

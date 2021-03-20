@@ -80,6 +80,10 @@ BEGIN
                raise '[[Banco de dados de notas não disponível. Conxão: (%)]]', conexao;
             end if;
          end if;
+      else
+         if new.status = 2 and new.entrada is null then
+            new.entrada := clock_timestamp();
+         end if;
       end if;
 
       return new;

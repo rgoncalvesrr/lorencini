@@ -24,13 +24,16 @@ Declare
    rOrc        record;
    ititulo     integer;
    i           integer;
+   xlog        log$;
 Begin
+   xlog.source_table := sys_origem('nf');
    if tg_op = 'DELETE' then
       return old;
    else
+      xlog.source_recno := new.recno;
       if tg_op = 'INSERT' then
-         insert into nf_historico (recno_nf, historico)
-              values              (new.recno, 'Criação da Nota Fiscal');
+         xlog.title := 'Criação da Nota Fiscal';
+         perform log(xlog);
       end if;
 
       if tg_op = 'UPDATE' then
@@ -67,9 +70,9 @@ Begin
 
             if vobs <> '' then
                vobs := 'OS(s) com status alterado para Finalizado: ' || vobs;
-
-               insert into nf_historico (recno_nf, historico)
-                    values              (new.recno, substring(vobs, 1, 150));
+               xlog.title := 'Ordens finalizadas';
+               xlog.detail := vobs;
+               perform log(xlog);
             end if;
 
             -- Atualiza os orçamentos envolvidos com o número da NF gerada
@@ -94,8 +97,8 @@ Begin
                perform sys_flag_del('tb_orcamentos', rNF_Itens.recno);
             End Loop;
 
-            insert into nf_historico (recno_nf, historico)
-                 values              (new.recno, 'Título do contas a receber apagado. Troca de status Faturado para Digitação.');
+            xlog.title := 'Título do contas a receber apagado. Troca de status Faturado para Digitação.';            
+            perform log(xlog);
          end if;
 
          -- Exclui as OS da nota caso o código do cliente ou série seja trocado
@@ -167,16 +170,7 @@ Begin
                VALUES (
                   new.natureza, new.codigo, vsernf, new.emissao, dvencto, dvencto, fvalor,
                   vobs || ' Parcela '||i||'/'||ipqtd, new.recno, ititulo, new.historico, i, ipqtd);
-
-               -- Gera as fichas de comissão
---                INSERT INTO comissoes (idvendedor,  titulo,  os,   recno_nf,  vencimento, valor,   vlcom)
---                               select b.idvendedor, ititulo, a.os, new.recno, dvencto, cast(a.valor / ipqtd as numeric(12, 2)),
---                                      cast(a.vlcom / ipqtd as numeric(12, 2))
---                                 from nf_itens a
---                                      join tb_orcamentos b
---                                        on b.os = a.os
---                                where recno_nf = new.recno;
-
+               
                dvencto := new.vencto + new.pdias * i;
             end loop;
          end if;

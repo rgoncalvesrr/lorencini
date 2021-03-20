@@ -26,7 +26,7 @@ Port=5412
 HostName=127.0.0.1
 Database=lorencini_prod
 User_Name=postgres
-Password=postgres.
+Password=C0nc31th0.@
 Protocol=postgresql-8
 Port=5432
 
@@ -35,7 +35,7 @@ Port=5432
 HostName=172.16.0.5
 Database=lorencini
 User_Name=postgres
-Password=postgres.
+Password=C0nc31th0.
 Protocol=postgresql-8
 Port=5432
 
@@ -52,4 +52,4 @@ PanelCols=1
 AlphaBlend=0
 
 [Service]
-DBConnection=Localhost_desenvolvimento
+DBConnection=Lorencini Remoto

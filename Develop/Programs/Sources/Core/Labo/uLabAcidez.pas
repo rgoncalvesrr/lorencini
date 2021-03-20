@@ -11,8 +11,6 @@ uses
 type
   TLabAcidez = class(TIDefBrowse)
     IBrwSrcrecno: TIntegerField;
-    IBrwSrcusername: TStringField;
-    IBrwSrcname: TStringField;
     IBrwSrcvigencia: TDateField;
     IBrwSrcbiftalato_a: TFloatField;
     IBrwSrcbiftalato_b: TFloatField;
@@ -23,6 +21,8 @@ type
     IBrwSrccon_b: TFloatField;
     IBrwSrcmedia: TFloatField;
     ZSequence1: TZSequence;
+    IBrwSrcnome: TStringField;
+    IBrwSrcaccount: TLargeintField;
     procedure IBrwSrcAfterInsert(DataSet: TDataSet);
   private
     { Private declarations }
@@ -45,8 +45,8 @@ uses uDM, uLabAcidezM, uIUtils;
 procedure TLabAcidez.IBrwSrcAfterInsert(DataSet: TDataSet);
 begin
   inherited;
-  IBrwSrcusername.AsString := U.Info.UserName;
-  IBrwSrcname.AsString := U.Info.Name;
+  IBrwSrcaccount.AsLargeInt := U.Info.Account;
+  IBrwSrcnome.AsString := U.Info.Name;
   IBrwSrcvigencia.AsDateTime := Now;
 end;
 

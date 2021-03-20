@@ -2,7 +2,7 @@ unit uOSClass;
 
 interface
 
-uses uIUtils, uIConst, classes, db, sysutils, windows, dateutils, ZDataSet;
+uses uIUtils, classes, db, sysutils, windows, dateutils, ZDataSet;
 
 type
   TOSClass = class;

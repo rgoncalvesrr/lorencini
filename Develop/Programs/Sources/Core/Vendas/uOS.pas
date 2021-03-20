@@ -188,15 +188,6 @@ type
     sDesp: TZSequence;
     IBrwSrcvlsrv: TFloatField;
     IBrwSrcvltotal: TFloatField;
-    qOSh: TZQuery;
-    qOShrecno: TIntegerField;
-    qOShos: TIntegerField;
-    qOShdatahora: TDateTimeField;
-    qOShh_novo: TMemoField;
-    qOShh_velho: TMemoField;
-    qOShusername: TStringField;
-    qOShname: TStringField;
-    dsOSh: TDataSource;
     Panel3: TPanel;
     Panel6: TPanel;
     Panel7: TPanel;
@@ -284,8 +275,7 @@ implementation
 
 {$R *.dfm}
 
-uses uDM, DateUtils, uOSM, uCallCenterM, uContatoF, ccalendardiff,
-  uOSMCancelamento, uResources, uMarkup, uDMReport, uDoc;
+uses uDM, DateUtils, uOSM, uContatoF, ccalendardiff, uOSMCancelamento, uResources, uMarkup, uDMReport, uDoc;
 
 { TOrcamentos }
 
@@ -561,22 +551,6 @@ begin
   OS := Self;
   FLoad := True;
 
-  with DM.qCallCenter do
-    SQL.Text:=
-    'select a.id,       a.codigo, d.empresa,  d.nome_chave, a.data, '+
-           'a.username, c.name,   a.descri,   a.os,         a.contato, '+
-           'b.nome,     b.funcao, b.telefone, b.celular,    b.email '+
-      'from callcenter a '+
-           'left join tbclientes_contatos b '+
-             'on b.cliente = a.codigo '+
-            'and b.item = a.contato '+
-           'join sys_users c '+
-             'on c.username = a.username '+
-           'join tbclientes d '+
-             'on d.codigo = a.codigo '+
-     'where a.codigo = :cliente '+
-       'and a.os = :os ';
-
   FrameData1.ComboBox1.ItemIndex := 2;
   FrameData1.ComboBox1Change(FrameData1.ComboBox1);
 end;
@@ -664,19 +638,6 @@ begin
       OSM.ChildDataSet := qServ;
       OSM.ShowModal;
     end;
-
-    if DataSet = qCallCenter then
-    begin
-      Application.CreateForm(TCallCenterM, CallCenterM);
-      CallCenterM.DataSet := qCallCenter;
-      CallCenterM.Cliente := IBrwSrcidcliente.AsInteger;
-      CallCenterM.Os := IBrwSrcos.AsInteger;
-      CallCenterM.ShowModal;
-
-      //if CallCenterM.Execute then
-       // qCallCenter.Refresh;
-    end;
-
   end;
 end;
 

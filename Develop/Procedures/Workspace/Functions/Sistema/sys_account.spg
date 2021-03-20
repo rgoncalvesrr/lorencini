@@ -1,0 +1,26 @@
+/**
+   Retorno a conta logada no sistema pela sessão atual
+
+	@author    Ricardo Gonçalves
+	@date      09/03/2011 17:47:35
+	@trigger
+
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+CREATE OR REPLACE FUNCTION sys_account()
+  RETURNS account$ AS
+$$
+Declare
+   account_    sys_accounts.recno%type;
+BEGIN
+   select account
+     into account_
+     from sys_sessions
+    where session = sys_session();
+
+   return account_;
+END;
+$$
+  LANGUAGE 'plpgsql' VOLATILE;

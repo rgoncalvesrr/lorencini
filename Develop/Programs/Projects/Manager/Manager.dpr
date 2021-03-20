@@ -27,12 +27,7 @@ uses
   uSysFormsEdit in '..\..\Sources\Core\Sys\uSysFormsEdit.pas' {SysFormsEdit},
   uSysMenuEditor in '..\..\Sources\Core\Sys\uSysMenuEditor.pas' {SysMenuEditor},
   uSysMenuEditorItem in '..\..\Sources\Core\Sys\uSysMenuEditorItem.pas' {SysMenuEditorItem},
-  uIConst in '..\..\Sources\Core\Infra\uIConst.pas',
   uSysSecurityChangePass in '..\..\Sources\Core\Sys\uSysSecurityChangePass.pas' {SysSecurityChangePass},
-  uCallCenter in '..\..\Sources\Core\Vendas\uCallCenter.pas' {CallCenter},
-  uCallCenterM in '..\..\Sources\Core\Vendas\uCallCenterM.pas' {CallCenterM},
-  uSysAgenda in '..\..\Sources\Core\Sys\uSysAgenda.pas' {SysAgenda},
-  uSysCompromisso in '..\..\Sources\Core\Sys\uSysCompromisso.pas' {SysCompromisso},
   uOSClass in '..\..\Sources\Core\Vendas\uOSClass.pas',
   uOS in '..\..\Sources\Core\Vendas\uOS.pas' {OS},
   uColaboradores in '..\..\Sources\Core\RH\uColaboradores.pas' {Colaboradores},
@@ -45,7 +40,6 @@ uses
   uAtivos in '..\..\Sources\Core\Cad\uAtivos.pas' {Ativos},
   uAtivosM in '..\..\Sources\Core\Cad\uAtivosM.pas' {AtivosM},
   iTypes in '..\..\Sources\Core\Infra\iTypes.pas',
-  uCallCenterAttach in '..\..\Sources\Core\Vendas\uCallCenterAttach.pas' {CallCenterAttach},
   uVendedores in '..\..\Sources\Core\Cad\uVendedores.pas' {Vendedores},
   uVendedoresM in '..\..\Sources\Core\Cad\uVendedoresM.pas' {VendedoresM},
   uOSM in '..\..\Sources\Core\Vendas\uOSM.pas' {OSM},
@@ -209,7 +203,6 @@ uses
   uClientesGrupoMClientes in '..\..\Sources\Core\Cad\uClientesGrupoMClientes.pas' {ClientesGrupoMClientes},
   uLabFrete in '..\..\Sources\Core\Labo\uLabFrete.pas' {LabFrete},
   uLabFreteM in '..\..\Sources\Core\Labo\uLabFreteM.pas' {LabFreteM},
-  uLabAmostraCorr in '..\..\Sources\Core\Labo\uLabAmostraCorr.pas' {LabAmostraCorr},
   uResources in '..\..\Sources\Common\uResources.pas' {Resources: TDataModule},
   uLabProcSol in '..\..\Sources\Core\Labo\uLabProcSol.pas' {LabProcSol},
   uLabProcSolM in '..\..\Sources\Core\Labo\uLabProcSolM.pas' {LabProcSolM},
@@ -323,7 +316,7 @@ begin
     if ILogin.Execute then
       Application.Run;
   finally
-    U.ExecuteSQL('delete from sys_session where session = ' + U.SessionSQL);
+    U.ExecuteSQL('select sys_session_release();');
     FreeAndNil(DM);
     FreeAndNil(DMReport);
     FreeAndNil(Main);

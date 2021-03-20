@@ -32,7 +32,7 @@ Begin
    end if;
 
    if tg_op = 'UPDATE' then
-      new.user_u := sys_user();
+      new.account_u := sys_account();
    end if;
    
    return new;

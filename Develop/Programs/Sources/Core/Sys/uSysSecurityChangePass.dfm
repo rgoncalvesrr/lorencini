@@ -1,41 +1,41 @@
 inherited SysSecurityChangePass: TSysSecurityChangePass
   BorderStyle = bsDialog
   Caption = ''
-  ClientHeight = 277
-  ClientWidth = 408
+  ClientHeight = 208
+  ClientWidth = 306
   ExplicitWidth = 312
   ExplicitHeight = 237
-  PixelsPerInch = 120
-  TextHeight = 20
+  PixelsPerInch = 96
+  TextHeight = 15
   object Label3: TLabel [0]
-    Left = 12
-    Top = 121
-    Width = 79
-    Height = 20
+    Left = 9
+    Top = 91
+    Width = 63
+    Height = 15
     Caption = 'Nova Senha'
   end
   object Label4: TLabel [1]
-    Left = 12
-    Top = 167
-    Width = 144
-    Height = 20
+    Left = 9
+    Top = 125
+    Width = 113
+    Height = 15
     Caption = 'Redigitar Nova Senha'
   end
   object Bevel1: TBevel [2]
-    Left = 12
-    Top = 197
-    Width = 389
-    Height = 11
+    Left = 9
+    Top = 148
+    Width = 292
+    Height = 8
     Shape = bsTopLine
   end
   inherited bvDiv: TBevel
-    Width = 408
-    ExplicitWidth = 408
+    Width = 306
+    ExplicitWidth = 306
   end
   object edPass: TEdit [4]
-    Left = 195
-    Top = 111
-    Width = 206
+    Left = 146
+    Top = 83
+    Width = 155
     Height = 23
     CharCase = ecUpperCase
     MaxLength = 20
@@ -44,9 +44,9 @@ inherited SysSecurityChangePass: TSysSecurityChangePass
     OnChange = edPassChange
   end
   object edRePass: TEdit [5]
-    Left = 195
-    Top = 156
-    Width = 206
+    Left = 146
+    Top = 117
+    Width = 155
     Height = 23
     CharCase = ecUpperCase
     MaxLength = 20
@@ -55,10 +55,10 @@ inherited SysSecurityChangePass: TSysSecurityChangePass
     OnChange = edPassChange
   end
   object BitBtn1: TBitBtn [6]
-    Left = 269
-    Top = 216
-    Width = 128
-    Height = 43
+    Left = 202
+    Top = 162
+    Width = 96
+    Height = 32
     Action = actCancel
     Caption = 'Cancelar'
     TabOrder = 4
@@ -139,10 +139,10 @@ inherited SysSecurityChangePass: TSysSecurityChangePass
       FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00}
   end
   object BitBtn2: TBitBtn [7]
-    Left = 132
-    Top = 216
-    Width = 128
-    Height = 43
+    Left = 99
+    Top = 162
+    Width = 96
+    Height = 32
     Action = actOk
     Caption = 'Trocar'
     TabOrder = 3
@@ -223,14 +223,16 @@ inherited SysSecurityChangePass: TSysSecurityChangePass
       FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00}
   end
   inherited Panel1: TPanel
-    Width = 408
-    ExplicitWidth = 408
+    Width = 306
+    ExplicitWidth = 306
     inherited Shape1: TShape
-      Width = 336
-      ExplicitWidth = 336
+      Width = 252
+      ExplicitLeft = 61
+      ExplicitTop = 0
+      ExplicitWidth = 252
+      ExplicitHeight = 70
     end
     inherited Image1: TImage
-      Height = 48
       Picture.Data = {
         07544269746D6170361B0000424D361B00000000000036000000280000003000
         0000300000000100180000000000001B0000120B0000120B0000000000000000
@@ -451,19 +453,24 @@ inherited SysSecurityChangePass: TSysSecurityChangePass
         FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
         FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
         00FF}
+      ExplicitLeft = 8
+      ExplicitTop = 3
+      ExplicitHeight = 36
     end
     inherited pnTitle: TPanel
-      Width = 336
-      ExplicitWidth = 336
+      Width = 252
+      ExplicitWidth = 252
       inherited Label1: TLabel
-        Width = 198
+        Width = 148
         Caption = 'Altera'#231#227'o de Senha'
-        ExplicitWidth = 198
+        ExplicitWidth = 148
       end
       inherited Label2: TLabel
-        Width = 284
+        Width = 187
+        Height = 30
         Caption = 'Altera'#231#227'o de senha de acesso ao programa'
-        ExplicitWidth = 284
+        ExplicitWidth = 187
+        ExplicitHeight = 30
       end
     end
   end

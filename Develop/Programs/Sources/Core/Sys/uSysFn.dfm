@@ -68,7 +68,7 @@ inherited SysFn: TSysFn
               ExplicitWidth = 147
             end
             inherited CCalendarDiff1: TCCalendarDiff
-              Date = 44132.069420381940000000
+              Date = 44264.087962372690000000
               DisplayInterval = Label5
               OnChange = FrameData1CCalendarDiff1Change
             end
@@ -191,9 +191,6 @@ inherited SysFn: TSysFn
               Width = 798
               ButtonWidth = 109
               ExplicitWidth = 798
-              inherited ToolButton13: TToolButton
-                ExplicitWidth = 79
-              end
               inherited ToolButton12: TToolButton
                 ExplicitWidth = 113
               end
@@ -310,10 +307,10 @@ inherited SysFn: TSysFn
       '  from sys_fn f'
       '       left join sys_tables t'
       '         on t.recno = f.table_recno'
-      '       left join sys_flag m'
+      '       left join sys_flags m'
       '         on m.recno = f.recno'
       '        and m.session = sys_session()'
-      '        and m.table_ = '#39'sys_fn'#39' ')
+      '        and m.table_ = sys_origem('#39'sys_fn'#39') ')
     IndexFieldNames = 'fn Asc'
     Left = 136
     Top = 232
@@ -421,13 +418,13 @@ inherited SysFn: TSysFn
   inherited pmOpcao: TPopupMenu
     Left = 456
     Top = 240
-    object Sincronizar1: TMenuItem [6]
+    object Sincronizar1: TMenuItem
       Action = actSync
     end
-    object CarregarAtualizarRotinas1: TMenuItem [7]
+    object CarregarAtualizarRotinas1: TMenuItem
       Action = actFilesLoad
     end
-    object N2: TMenuItem [8]
+    object N2: TMenuItem
       Caption = '-'
     end
   end

@@ -9,20 +9,23 @@ inherited GestaoEntradas: TGestaoEntradas
   inherited StatusBar1: TStatusBar
     Top = 702
     Width = 1002
-    ExplicitTop = 670
-    ExplicitWidth = 973
+    ExplicitTop = 702
+    ExplicitWidth = 1002
   end
   inherited Panel1: TPanel
     Width = 1008
-    ExplicitWidth = 979
+    ExplicitWidth = 1008
     inherited pctlFind: TPageControl
       Width = 998
-      ExplicitWidth = 969
+      ExplicitWidth = 998
       inherited tsQuery: TTabSheet
-        ExplicitWidth = 961
+        ExplicitLeft = 4
+        ExplicitTop = 6
+        ExplicitWidth = 990
+        ExplicitHeight = 75
         inherited BitBtn2: TBitBtn
           Left = 889
-          ExplicitLeft = 860
+          ExplicitLeft = 889
         end
         object Panel8: TPanel
           Left = 0
@@ -50,7 +53,7 @@ inherited GestaoEntradas: TGestaoEntradas
             Width = 185
             Height = 15
             Align = alTop
-            Caption = '01/01/2021 a 31/01/2021'
+            Caption = '01/02/2021 a 28/02/2021'
             Transparent = True
             ExplicitWidth = 128
           end
@@ -81,7 +84,7 @@ inherited GestaoEntradas: TGestaoEntradas
             end
             inherited CCalendarDiff1: TCCalendarDiff
               Interval = diMonthly
-              Date = 44223.867909444450000000
+              Date = 44244.926457430560000000
               DisplayInterval = Label6
               OnChange = FrameData1CCalendarDiff1Change
             end
@@ -89,25 +92,30 @@ inherited GestaoEntradas: TGestaoEntradas
         end
       end
       inherited tsFind: TTabSheet
-        ExplicitWidth = 961
+        ExplicitLeft = 4
+        ExplicitTop = 6
+        ExplicitWidth = 990
+        ExplicitHeight = 75
       end
     end
   end
   inherited Panel2: TPanel
     Width = 1008
     Height = 570
-    ExplicitWidth = 979
-    ExplicitHeight = 217
+    ExplicitWidth = 1008
+    ExplicitHeight = 570
     inherited PageControl1: TPageControl
       Width = 1002
       Height = 564
       OnResize = PageControl1Resize
-      ExplicitWidth = 973
-      ExplicitHeight = 532
+      ExplicitWidth = 1002
+      ExplicitHeight = 564
       inherited TabSheet1: TTabSheet
         Caption = 'Entradas'
-        ExplicitWidth = 965
-        ExplicitHeight = 502
+        ExplicitLeft = 4
+        ExplicitTop = 26
+        ExplicitWidth = 994
+        ExplicitHeight = 534
         inherited DBGrid1: TDBGrid
           Width = 988
           Height = 151
@@ -124,11 +132,8 @@ inherited GestaoEntradas: TGestaoEntradas
           TabStop = False
           OnChange = PageControl1Change
           OnMouseDown = PageControl1MouseDown
-          ExplicitTop = 128
           object TabSheet8: TTabSheet
             Caption = 'Movimenta'#231#227'o'
-            ExplicitWidth = 951
-            ExplicitHeight = 145
             object DBGrid5: TDBGrid
               Tag = 1
               AlignWithMargins = True
@@ -161,8 +166,6 @@ inherited GestaoEntradas: TGestaoEntradas
           object TabSheet11: TTabSheet
             Caption = 'Documentos'
             ImageIndex = 3
-            ExplicitWidth = 951
-            ExplicitHeight = 276
             object DBGrid2: TDBGrid
               Tag = 1
               AlignWithMargins = True
@@ -250,7 +253,6 @@ inherited GestaoEntradas: TGestaoEntradas
                 Align = alTop
                 Caption = ' Nota Fiscal de Entrada '
                 TabOrder = 0
-                ExplicitWidth = 790
                 object Panel9: TPanel
                   AlignWithMargins = True
                   Left = 5
@@ -260,7 +262,6 @@ inherited GestaoEntradas: TGestaoEntradas
                   Align = alTop
                   BevelOuter = bvNone
                   TabOrder = 0
-                  ExplicitWidth = 780
                   object Panel10: TPanel
                     Left = 0
                     Top = 0
@@ -396,7 +397,6 @@ inherited GestaoEntradas: TGestaoEntradas
                 Align = alTop
                 Caption = ' Frascos '
                 TabOrder = 1
-                ExplicitWidth = 790
                 object Panel14: TPanel
                   Left = 2
                   Top = 17
@@ -405,7 +405,6 @@ inherited GestaoEntradas: TGestaoEntradas
                   Align = alTop
                   BevelOuter = bvNone
                   TabOrder = 0
-                  ExplicitWidth = 786
                   object Panel15: TPanel
                     Left = 0
                     Top = 0
@@ -603,7 +602,6 @@ inherited GestaoEntradas: TGestaoEntradas
                 Align = alTop
                 Caption = ' Seringas '
                 TabOrder = 2
-                ExplicitWidth = 790
                 object Panel21: TPanel
                   Left = 2
                   Top = 17
@@ -612,7 +610,6 @@ inherited GestaoEntradas: TGestaoEntradas
                   Align = alTop
                   BevelOuter = bvNone
                   TabOrder = 0
-                  ExplicitWidth = 786
                   object Panel22: TPanel
                     Left = 0
                     Top = 0
@@ -810,7 +807,6 @@ inherited GestaoEntradas: TGestaoEntradas
                 Align = alTop
                 Caption = ' Totais '
                 TabOrder = 3
-                ExplicitWidth = 790
                 object Panel28: TPanel
                   Left = 2
                   Top = 17
@@ -819,7 +815,6 @@ inherited GestaoEntradas: TGestaoEntradas
                   Align = alTop
                   BevelOuter = bvNone
                   TabOrder = 0
-                  ExplicitWidth = 786
                   object Panel29: TPanel
                     Left = 0
                     Top = 0
@@ -1015,8 +1010,6 @@ inherited GestaoEntradas: TGestaoEntradas
       object TabSheet3: TTabSheet
         Caption = 'Entradas de Frascos no Per'#237'odo'
         ImageIndex = 1
-        ExplicitWidth = 965
-        ExplicitHeight = 181
         object PageControl2: TPageControl
           AlignWithMargins = True
           Left = 3
@@ -1029,12 +1022,9 @@ inherited GestaoEntradas: TGestaoEntradas
           TabStop = False
           OnChange = PageControl1Change
           OnMouseDown = PageControl1MouseDown
-          ExplicitTop = 193
-          ExplicitWidth = 959
           object TabSheet5: TTabSheet
             Caption = 'Frascos'
             ImageIndex = 1
-            ExplicitWidth = 951
             object DBGrid3: TDBGrid
               Tag = 1
               AlignWithMargins = True
@@ -1069,10 +1059,6 @@ inherited GestaoEntradas: TGestaoEntradas
       object TabSheet4: TTabSheet
         Caption = 'Entradas de Seringas no Per'#237'odo'
         ImageIndex = 2
-        ExplicitLeft = 6
-        ExplicitTop = 30
-        ExplicitWidth = 965
-        ExplicitHeight = 502
         object PageControl4: TPageControl
           AlignWithMargins = True
           Left = 3
@@ -1085,12 +1071,9 @@ inherited GestaoEntradas: TGestaoEntradas
           TabStop = False
           OnChange = PageControl1Change
           OnMouseDown = PageControl1MouseDown
-          ExplicitTop = 193
-          ExplicitWidth = 959
           object TabSheet7: TTabSheet
             Caption = 'Seringas'
             ImageIndex = 2
-            ExplicitWidth = 951
             object DBGrid6: TDBGrid
               Tag = 1
               AlignWithMargins = True
@@ -1126,9 +1109,42 @@ inherited GestaoEntradas: TGestaoEntradas
   end
   inherited ctrlBarTop: TControlBar
     Width = 1002
-    ExplicitLeft = -2
-    ExplicitTop = 6
     ExplicitWidth = 1002
+    inherited ToolBar1: TToolBar
+      inherited ToolButton2: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton5: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton9: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton6: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton1: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton8: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton3: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited tbOrder: TToolButton
+        ExplicitWidth = 76
+      end
+      inherited tbReport: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited tbOpcao: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton10: TToolButton
+        ExplicitWidth = 32
+      end
+    end
   end
   inherited alDef: TActionList
     Top = 64
@@ -1156,7 +1172,8 @@ inherited GestaoEntradas: TGestaoEntradas
   end
   inherited IBrwSrc: TZQuery
     Connection = DM.Design
-    AfterScroll = IBrwSrcAfterScroll
+    AfterRefresh = IBrwSrcAfterRefresh
+    AfterScroll = IBrwSrcAfterRefresh
     OnCalcFields = IBrwSrcCalcFields
     SQL.Strings = (
       
@@ -1401,7 +1418,8 @@ inherited GestaoEntradas: TGestaoEntradas
   end
   object qFrascos: TZQuery
     Connection = DM.Design
-    AfterScroll = qFrascosAfterScroll
+    AfterRefresh = qFrascosAfterRefresh
+    AfterScroll = qFrascosAfterRefresh
     OnCalcFields = IBrwSrcCalcFields
     UpdateObject = zIBrwSrc
     SQL.Strings = (
@@ -1536,7 +1554,8 @@ inherited GestaoEntradas: TGestaoEntradas
   end
   object qSeringas: TZQuery
     Connection = DM.Design
-    AfterScroll = qSeringasAfterScroll
+    AfterRefresh = qSeringasAfterRefresh
+    AfterScroll = qSeringasAfterRefresh
     OnCalcFields = IBrwSrcCalcFields
     UpdateObject = zIBrwSrc
     SQL.Strings = (
