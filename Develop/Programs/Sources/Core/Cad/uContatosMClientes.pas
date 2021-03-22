@@ -38,9 +38,6 @@ type
     DBCheckBox3: TDBCheckBox;
     DBCheckBox4: TDBCheckBox;
     DBCheckBox5: TDBCheckBox;
-    DBCheckBox6: TDBCheckBox;
-    DBCheckBox7: TDBCheckBox;
-    DBCheckBox8: TDBCheckBox;
     Panel9: TPanel;
     ControlBar3: TControlBar;
     ToolBar2: TToolBar;
@@ -51,12 +48,12 @@ type
     Panel10: TPanel;
     Panel13: TPanel;
     DBCheckBox9: TDBCheckBox;
-    DBCheckBox10: TDBCheckBox;
     Panel14: TPanel;
     Label6: TLabel;
     DBEdit5: TDBEdit;
     Label7: TLabel;
     DBMemo1: TDBMemo;
+    DBCheckBox10: TDBCheckBox;
     procedure FrameCliente1SpeedButton1Click(Sender: TObject);
     procedure actCheckExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -91,9 +88,7 @@ begin
     qContClienviar_laudo_atencao.AsBoolean := bMark;
     qContClienviar_laudo_critico.AsBoolean := bMark;
     qContClienviar_laudo_normal.AsBoolean := bMark;
-    qContClienviar_laudo_retorno_atencao.AsBoolean := bMark;
-    qContClienviar_laudo_retorno_critico.AsBoolean := bMark;
-    qContClienviar_laudo_retorno_normal.AsBoolean := bMark;
+    qContClienviar_os.AsBoolean := bMark;
   end;
 end;
 

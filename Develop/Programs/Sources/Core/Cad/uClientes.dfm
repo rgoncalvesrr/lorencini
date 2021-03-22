@@ -27,7 +27,6 @@ inherited Clientes: TClientes
         inherited BitBtn2: TBitBtn
           Left = 995
           ExplicitLeft = 995
-          ExplicitTop = 11
         end
         object Panel4: TPanel
           Left = 0
@@ -172,8 +171,6 @@ inherited Clientes: TClientes
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 5
-          ExplicitLeft = 450
-          ExplicitTop = -2
           object Label6: TLabel
             AlignWithMargins = True
             Left = 3
@@ -1205,11 +1202,8 @@ inherited Clientes: TClientes
         '       a.enviar_pedido_venda, a.enviar_cotacao_venda, a.enviar_l' +
         'audo_critico, a.enviar_laudo_atencao,'
       
-        '       a.enviar_laudo_normal, a.enviar_laudo_retorno_critico, a.' +
-        'enviar_laudo_retorno_atencao,'
-      
-        '       a.enviar_laudo_retorno_normal, a.portal_acessivel, a.port' +
-        'al_senha, a.obs, c.ramal'
+        '       a.enviar_laudo_normal, a.enviar_os, a.portal_acessivel, a' +
+        '.portal_senha, a.obs, c.ramal'
       '  from tbclientes_contatos a'
       '       join contatos c'
       '         on c.recno = a.contato'
@@ -1307,6 +1301,10 @@ inherited Clientes: TClientes
       FieldName = 'enviar_cotacao_venda'
       Required = True
     end
+    object qContatosenviar_os: TBooleanField
+      FieldName = 'enviar_os'
+      Required = True
+    end
     object qContatosenviar_laudo_critico: TBooleanField
       DisplayLabel = 'Laudo Cr'#237'tico'
       FieldName = 'enviar_laudo_critico'
@@ -1320,21 +1318,6 @@ inherited Clientes: TClientes
     object qContatosenviar_laudo_normal: TBooleanField
       DisplayLabel = 'Laudo Normal'
       FieldName = 'enviar_laudo_normal'
-      Required = True
-    end
-    object qContatosenviar_laudo_retorno_critico: TBooleanField
-      DisplayLabel = 'Laudo Retorno Cr'#237'tico'
-      FieldName = 'enviar_laudo_retorno_critico'
-      Required = True
-    end
-    object qContatosenviar_laudo_retorno_atencao: TBooleanField
-      DisplayLabel = 'Laudo Retorno Aten'#231#227'o'
-      FieldName = 'enviar_laudo_retorno_atencao'
-      Required = True
-    end
-    object qContatosenviar_laudo_retorno_normal: TBooleanField
-      DisplayLabel = 'Laudo Retorno Normal'
-      FieldName = 'enviar_laudo_retorno_normal'
       Required = True
     end
     object qContatosrecno: TIntegerField
@@ -1363,25 +1346,17 @@ inherited Clientes: TClientes
       'INSERT INTO tbclientes_contatos'
       
         '  (cliente, funcao, recno, situacao, enviar_pedido_venda, enviar' +
-        '_cotacao_venda, '
+        '_cotacao_venda, enviar_laudo_critico,'
       
-        '   enviar_laudo_critico, enviar_laudo_atencao, enviar_laudo_norm' +
-        'al, enviar_laudo_retorno_critico, '
-      
-        '   enviar_laudo_retorno_atencao, enviar_laudo_retorno_normal, pa' +
-        'drao, contato, portal_acessivel, portal_senha,'
-      '   obs)'
+        '   enviar_laudo_atencao, enviar_laudo_normal, enviar_os, padrao,' +
+        ' contato, portal_acessivel, portal_senha, obs)'
       'VALUES'
       
         '  (:cliente, :funcao, :recno, :situacao, :enviar_pedido_venda, :' +
-        'enviar_cotacao_venda,'
+        'enviar_cotacao_venda, :enviar_laudo_critico,'
       
-        '   :enviar_laudo_critico, :enviar_laudo_atencao, :enviar_laudo_n' +
-        'ormal,'
-      
-        '   :enviar_laudo_retorno_critico, :enviar_laudo_retorno_atencao,' +
-        ' :enviar_laudo_retorno_normal,'
-      '   :padrao, :contato, :portal_acessivel, :portal_senha, :obs)')
+        '   :enviar_laudo_atencao, :enviar_laudo_normal, :enviar_os, :pad' +
+        'rao, :contato, :portal_acessivel, :portal_senha, :obs)')
     ModifySQL.Strings = (
       'UPDATE tbclientes_contatos SET'
       '  cliente = :cliente,'
@@ -1393,9 +1368,7 @@ inherited Clientes: TClientes
       '  enviar_laudo_critico = :enviar_laudo_critico,'
       '  enviar_laudo_atencao = :enviar_laudo_atencao,'
       '  enviar_laudo_normal = :enviar_laudo_normal,'
-      '  enviar_laudo_retorno_critico = :enviar_laudo_retorno_critico,'
-      '  enviar_laudo_retorno_atencao = :enviar_laudo_retorno_atencao,'
-      '  enviar_laudo_retorno_normal = :enviar_laudo_retorno_normal,'
+      '  enviar_os = :enviar_os,'
       '  padrao = :padrao,'
       '  contato = :contato,'
       '  portal_acessivel = :portal_acessivel,'
@@ -1455,17 +1428,7 @@ inherited Clientes: TClientes
       end
       item
         DataType = ftUnknown
-        Name = 'enviar_laudo_retorno_critico'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'enviar_laudo_retorno_atencao'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'enviar_laudo_retorno_normal'
+        Name = 'enviar_os'
         ParamType = ptUnknown
       end
       item

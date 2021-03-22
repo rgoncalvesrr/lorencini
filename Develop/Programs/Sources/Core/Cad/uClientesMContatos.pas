@@ -56,20 +56,16 @@ type
     DBCheckBox3: TDBCheckBox;
     DBCheckBox5: TDBCheckBox;
     DBCheckBox4: TDBCheckBox;
-    Panel13: TPanel;
-    DBCheckBox12: TDBCheckBox;
-    DBCheckBox13: TDBCheckBox;
-    DBCheckBox14: TDBCheckBox;
     Panel14: TPanel;
     DBCheckBox6: TDBCheckBox;
     DBCheckBox7: TDBCheckBox;
     DBCheckBox1: TDBCheckBox;
-    DBCheckBox2: TDBCheckBox;
     Panel15: TPanel;
     Label8: TLabel;
     DBEdit7: TDBEdit;
     Label9: TLabel;
     DBMemo1: TDBMemo;
+    DBCheckBox2: TDBCheckBox;
     procedure actCheckExecute(Sender: TObject);
     procedure DBEdit1Exit(Sender: TObject);
     procedure actFindContatoExecute(Sender: TObject);
@@ -104,9 +100,7 @@ begin
     qContatosenviar_laudo_atencao.AsBoolean := bMark;
     qContatosenviar_laudo_critico.AsBoolean := bMark;
     qContatosenviar_laudo_normal.AsBoolean := bMark;
-    qContatosenviar_laudo_retorno_atencao.AsBoolean := bMark;
-    qContatosenviar_laudo_retorno_critico.AsBoolean := bMark;
-    qContatosenviar_laudo_retorno_normal.AsBoolean := bMark;
+    qContatosenviar_os.AsBoolean := bMark;
   end;
 
 end;

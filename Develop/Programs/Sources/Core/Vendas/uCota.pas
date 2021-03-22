@@ -113,11 +113,6 @@ type
     actModelo: TAction;
     Modelo1: TMenuItem;
     IBrwSrcdescricao: TMemoField;
-    IBrwSrccontato: TIntegerField;
-    IBrwSrccontato_nome: TStringField;
-    IBrwSrccontato_telefone: TStringField;
-    IBrwSrccontato_celular: TStringField;
-    IBrwSrccontato_email: TStringField;
     zsCota: TZSequence;
     zsCotaMat: TZSequence;
     zsServ: TZSequence;
@@ -148,16 +143,6 @@ type
     Label7: TLabel;
     edPedcli: TJvCalcEdit;
     IBrwSrcsituacaoenvio: TIntegerField;
-    IBrwSrccontato_fin: TIntegerField;
-    IBrwSrccontatofin_nome: TStringField;
-    IBrwSrccontatofin_telefone: TStringField;
-    IBrwSrccontatofin_celular: TStringField;
-    IBrwSrccontatofin_email: TStringField;
-    IBrwSrccontato_tec: TIntegerField;
-    IBrwSrccontatotec_nome: TStringField;
-    IBrwSrccontatotec_telefone: TStringField;
-    IBrwSrccontatotec_celular: TStringField;
-    IBrwSrccontatotec_email: TStringField;
     ControlBar1: TControlBar;
     IBrwSrccidade: TStringField;
     IBrwSrcestado: TStringField;
@@ -178,6 +163,16 @@ type
     zDesp: TZUpdateSQL;
     IBrwSrccondicaopg: TStringField;
     IBrwSrcdec_conf: TBooleanField;
+    qContatos: TZQuery;
+    dsContatos: TDataSource;
+    qContatoscliente: TIntegerField;
+    qContatosnome: TStringField;
+    qContatoscelular: TStringField;
+    qContatostelefone: TStringField;
+    qContatosramal: TStringField;
+    qContatosemail: TStringField;
+    qContatospadrao: TBooleanField;
+    qContatosrecno: TIntegerField;
     procedure DBGridDrawColumnCell(Sender: TObject; const Rect: TRect;
       DataCol: Integer; Column: TColumn; State: TGridDrawState);
     procedure cbStatusChange(Sender: TObject);
@@ -209,7 +204,6 @@ type
     procedure actMarkupExecute(Sender: TObject);
     procedure actModeloExecute(Sender: TObject);
     procedure IBrwSrcAfterEdit(DataSet: TDataSet);
-    procedure IBrwSrccontatoChange(Sender: TField);
     procedure IBrwSrcenvioGetText(Sender: TField; var Text: string;
       DisplayText: Boolean);
     procedure IBrwSrcenvioSetText(Sender: TField; const Text: string);
@@ -221,8 +215,6 @@ type
     procedure FormShow(Sender: TObject);
     procedure IBrwSrcsituacaoenvioGetText(Sender: TField; var Text: string;
       DisplayText: Boolean);
-    procedure IBrwSrccontato_finChange(Sender: TField);
-    procedure IBrwSrccontato_tecChange(Sender: TField);
     procedure actRevalidarExecute(Sender: TObject);
     procedure qDespCalcFields(DataSet: TDataSet);
     procedure qMatAfterPost(DataSet: TDataSet);
@@ -643,10 +635,12 @@ begin
     qServ.ParamByName('cotacao').AsInteger := IBrwSrcrecno.AsInteger;
     qMObra.ParamByName('cotacao').AsInteger := IBrwSrcrecno.AsInteger;
     qDesp.ParamByName('cotacao').AsInteger := IBrwSrcrecno.AsInteger;
+    qContatos.ParamByName('cliente').AsInteger := IBrwSrccliente.AsInteger;
     G.RefreshDataSet(qMat);
     G.RefreshDataSet(qServ);
     G.RefreshDataSet(qMObra);
     G.RefreshDataSet(qDesp);
+    G.RefreshDataSet(qContatos);
   finally
     RefreshCtrl;
   end;
@@ -680,36 +674,6 @@ begin
   IBrwSrcnome_chave.SetData(nil);
   IBrwSrccnpj.SetData(nil);
   IBrwSrccpf.SetData(nil);
-  IBrwSrccontato.SetData(nil);
-  IBrwSrccontato_fin.SetData(nil);
-  IBrwSrccontato_tec.SetData(nil);
-end;
-
-procedure TCota.IBrwSrccontatoChange(Sender: TField);
-begin
-  inherited;
-  IBrwSrccontato_nome.SetData(nil);
-  IBrwSrccontato_telefone.SetData(nil);
-  IBrwSrccontato_celular.SetData(nil);
-  IBrwSrccontato_email.SetData(nil);
-end;
-
-procedure TCota.IBrwSrccontato_finChange(Sender: TField);
-begin
-  inherited;
-  IBrwSrccontatofin_nome.SetData(nil);
-  IBrwSrccontatofin_telefone.SetData(nil);
-  IBrwSrccontatofin_celular.SetData(nil);
-  IBrwSrccontatofin_email.SetData(nil);
-end;
-
-procedure TCota.IBrwSrccontato_tecChange(Sender: TField);
-begin
-  inherited;
-  IBrwSrccontatotec_nome.SetData(nil);
-  IBrwSrccontatotec_telefone.SetData(nil);
-  IBrwSrccontatotec_celular.SetData(nil);
-  IBrwSrccontatotec_email.SetData(nil);
 end;
 
 procedure TCota.IBrwSrcenvioChange(Sender: TField);

@@ -13,7 +13,7 @@ inherited ContatosMClientes: TContatosMClientes
     Height = 578
     ExplicitTop = 44
     ExplicitWidth = 934
-    ExplicitHeight = 474
+    ExplicitHeight = 578
     inherited Panel3: TPanel
       Top = 206
       Align = alNone
@@ -73,13 +73,13 @@ inherited ContatosMClientes: TContatosMClientes
       ExplicitLeft = 3
       ExplicitTop = 3
       ExplicitWidth = 928
-      ExplicitHeight = 468
+      ExplicitHeight = 572
       inherited TabSheet1: TTabSheet
         Caption = 'Clientes por Contato'
         ExplicitLeft = 4
         ExplicitTop = 26
         ExplicitWidth = 920
-        ExplicitHeight = 438
+        ExplicitHeight = 542
         object Label7: TLabel
           AlignWithMargins = True
           Left = 3
@@ -282,8 +282,6 @@ inherited ContatosMClientes: TContatosMClientes
               Width = 910
               ExplicitWidth = 910
               inherited Panel2: TPanel
-                ExplicitLeft = -3
-                ExplicitTop = -3
                 ExplicitHeight = 50
                 inherited Label9: TLabel
                   Width = 70
@@ -417,8 +415,6 @@ inherited ContatosMClientes: TContatosMClientes
           Align = alClient
           Caption = ' Configura'#231#245'es '
           TabOrder = 3
-          ExplicitTop = 207
-          ExplicitHeight = 228
           object Panel7: TPanel
             AlignWithMargins = True
             Left = 5
@@ -429,7 +425,6 @@ inherited ContatosMClientes: TContatosMClientes
             Alignment = taLeftJustify
             BevelOuter = bvNone
             TabOrder = 0
-            ExplicitHeight = 203
             object Panel8: TPanel
               Left = 0
               Top = 0
@@ -545,7 +540,6 @@ inherited ContatosMClientes: TContatosMClientes
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 1
-            ExplicitHeight = 203
             object ControlBar3: TControlBar
               AlignWithMargins = True
               Left = 3
@@ -597,7 +591,6 @@ inherited ContatosMClientes: TContatosMClientes
               Align = alLeft
               BevelOuter = bvNone
               TabOrder = 1
-              ExplicitHeight = 153
               object DBCheckBox1: TDBCheckBox
                 AlignWithMargins = True
                 Left = 3
@@ -616,7 +609,7 @@ inherited ContatosMClientes: TContatosMClientes
               object DBCheckBox2: TDBCheckBox
                 AlignWithMargins = True
                 Left = 3
-                Top = 72
+                Top = 49
                 Width = 256
                 Height = 17
                 Align = alTop
@@ -626,11 +619,12 @@ inherited ContatosMClientes: TContatosMClientes
                 TabOrder = 1
                 ValueChecked = 'True'
                 ValueUnchecked = 'False'
+                ExplicitLeft = 6
               end
               object DBCheckBox9: TDBCheckBox
                 AlignWithMargins = True
                 Left = 3
-                Top = 49
+                Top = 26
                 Width = 256
                 Height = 17
                 Align = alTop
@@ -640,20 +634,23 @@ inherited ContatosMClientes: TContatosMClientes
                 TabOrder = 2
                 ValueChecked = 'True'
                 ValueUnchecked = 'False'
+                ExplicitTop = 49
               end
               object DBCheckBox10: TDBCheckBox
                 AlignWithMargins = True
                 Left = 3
-                Top = 26
+                Top = 72
                 Width = 256
                 Height = 17
                 Align = alTop
-                Caption = 'Portal do Cliente'
-                DataField = 'portal_acessivel'
+                Caption = 'Enviar Ordem de Servi'#231'o'
+                DataField = 'enviar_os'
                 DataSource = Contatos.dsContCli
                 TabOrder = 3
                 ValueChecked = 'True'
                 ValueUnchecked = 'False'
+                ExplicitLeft = 6
+                ExplicitTop = 95
               end
             end
             object Panel13: TPanel
@@ -665,7 +662,6 @@ inherited ContatosMClientes: TContatosMClientes
               Align = alClient
               BevelOuter = bvNone
               TabOrder = 2
-              ExplicitHeight = 153
               object DBCheckBox3: TDBCheckBox
                 AlignWithMargins = True
                 Left = 3
@@ -693,11 +689,13 @@ inherited ContatosMClientes: TContatosMClientes
                 TabOrder = 1
                 ValueChecked = 'True'
                 ValueUnchecked = 'False'
+                ExplicitLeft = 0
+                ExplicitTop = 25
               end
               object DBCheckBox5: TDBCheckBox
                 AlignWithMargins = True
                 Left = 3
-                Top = 72
+                Top = 49
                 Width = 393
                 Height = 17
                 Align = alTop
@@ -707,48 +705,7 @@ inherited ContatosMClientes: TContatosMClientes
                 TabOrder = 2
                 ValueChecked = 'True'
                 ValueUnchecked = 'False'
-              end
-              object DBCheckBox6: TDBCheckBox
-                AlignWithMargins = True
-                Left = 3
-                Top = 118
-                Width = 393
-                Height = 17
-                Align = alTop
-                Caption = 'Enviar laudo de retorno em n'#237'vel normal'
-                DataField = 'enviar_laudo_retorno_normal'
-                DataSource = Contatos.dsContCli
-                TabOrder = 3
-                ValueChecked = 'True'
-                ValueUnchecked = 'False'
-              end
-              object DBCheckBox7: TDBCheckBox
-                AlignWithMargins = True
-                Left = 3
-                Top = 95
-                Width = 393
-                Height = 17
-                Align = alTop
-                Caption = 'Enviar laudo de retorno em n'#237'vel de aten'#231#227'o'
-                DataField = 'enviar_laudo_retorno_atencao'
-                DataSource = Contatos.dsContCli
-                TabOrder = 4
-                ValueChecked = 'True'
-                ValueUnchecked = 'False'
-              end
-              object DBCheckBox8: TDBCheckBox
-                AlignWithMargins = True
-                Left = 3
-                Top = 49
-                Width = 393
-                Height = 17
-                Align = alTop
-                Caption = 'Enviar laudo de retorno em n'#237'vel de cr'#237'tico'
-                DataField = 'enviar_laudo_retorno_critico'
-                DataSource = Contatos.dsContCli
-                TabOrder = 5
-                ValueChecked = 'True'
-                ValueUnchecked = 'False'
+                ExplicitTop = 72
               end
             end
           end

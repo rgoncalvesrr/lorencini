@@ -15,21 +15,21 @@ inherited PedM: TPedM
     ExplicitWidth = 1132
     ExplicitHeight = 599
     inherited Panel3: TPanel
-      Top = 361
+      Top = 347
       Width = 1132
-      Height = 238
+      Height = 252
       Alignment = taLeftJustify
-      ExplicitTop = 361
+      ExplicitTop = 347
       ExplicitWidth = 1132
-      ExplicitHeight = 238
+      ExplicitHeight = 252
       inherited PageControl3: TPageControl
         Top = 47
         Width = 1126
-        Height = 188
+        Height = 202
         ExplicitLeft = 3
         ExplicitTop = 47
         ExplicitWidth = 1126
-        ExplicitHeight = 188
+        ExplicitHeight = 202
         inherited tsDet: TTabSheet
           Caption = 'Servi'#231'os'
           ExplicitLeft = 4
@@ -38,19 +38,20 @@ inherited PedM: TPedM
           ExplicitHeight = 158
           inherited DBGrid1: TDBGrid
             Width = 1118
-            Height = 158
+            Height = 172
             DataSource = Ped.dsServ
           end
         end
         object TabSheet2: TTabSheet
           Caption = 'Materiais'
           ImageIndex = 1
+          ExplicitHeight = 158
           object DBGrid2: TDBGrid
             Tag = 1
             Left = 0
             Top = 0
             Width = 1118
-            Height = 158
+            Height = 172
             Align = alClient
             BorderStyle = bsNone
             Ctl3D = False
@@ -76,12 +77,13 @@ inherited PedM: TPedM
         object TabSheet3: TTabSheet
           Caption = 'M'#227'o-de-Obra'
           ImageIndex = 2
+          ExplicitHeight = 158
           object DBGrid3: TDBGrid
             Tag = 1
             Left = 0
             Top = 0
             Width = 1118
-            Height = 158
+            Height = 172
             Align = alClient
             BorderStyle = bsNone
             Ctl3D = False
@@ -107,12 +109,13 @@ inherited PedM: TPedM
         object TabSheet7: TTabSheet
           Caption = 'Despesas'
           ImageIndex = 3
+          ExplicitHeight = 158
           object DBGrid4: TDBGrid
             Tag = 1
             Left = 0
             Top = 0
             Width = 710
-            Height = 158
+            Height = 172
             Align = alClient
             BorderStyle = bsNone
             Ctl3D = False
@@ -138,10 +141,11 @@ inherited PedM: TPedM
             Left = 710
             Top = 0
             Width = 408
-            Height = 158
+            Height = 172
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 1
+            ExplicitHeight = 158
             object Label44: TLabel
               AlignWithMargins = True
               Left = 3
@@ -158,12 +162,44 @@ inherited PedM: TPedM
               Left = 3
               Top = 24
               Width = 402
-              Height = 131
+              Height = 145
               Align = alClient
               DataField = 'historico'
               DataSource = Ped.dsDesp
               TabOrder = 0
+              ExplicitHeight = 131
             end
+          end
+        end
+        object TabSheet4: TTabSheet
+          Caption = 'Contatos'
+          ImageIndex = 4
+          object DBGrid5: TDBGrid
+            Tag = 1
+            Left = 0
+            Top = 0
+            Width = 1118
+            Height = 172
+            Align = alClient
+            BorderStyle = bsNone
+            Ctl3D = False
+            DataSource = Ped.dsContatos
+            DefaultDrawing = False
+            Enabled = False
+            Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
+            ParentCtl3D = False
+            ReadOnly = True
+            TabOrder = 0
+            TitleFont.Charset = ANSI_CHARSET
+            TitleFont.Color = clWindowText
+            TitleFont.Height = -12
+            TitleFont.Name = 'Segoe UI'
+            TitleFont.Pitch = fpVariable
+            TitleFont.Style = []
+            OnDrawColumnCell = ChildGridDrawColumnCell
+            OnDblClick = ChildGridDblClick
+            OnEnter = ChildGridEnter
+            OnKeyPress = ChildGridKeyPress
           end
         end
       end
@@ -204,11 +240,11 @@ inherited PedM: TPedM
     end
     inherited PageControl1: TPageControl
       Width = 1126
-      Height = 355
+      Height = 341
       ExplicitLeft = 3
-      ExplicitTop = 3
+      ExplicitTop = 5
       ExplicitWidth = 1126
-      ExplicitHeight = 355
+      ExplicitHeight = 341
       inherited TabSheet1: TTabSheet
         Caption = 'Pedido de Servi'#231'o'
         ExplicitLeft = 4
@@ -1464,7 +1500,6 @@ inherited PedM: TPedM
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 0
-            ExplicitWidth = 1112
             object Label8: TLabel
               AlignWithMargins = True
               Left = 3
@@ -1486,7 +1521,6 @@ inherited PedM: TPedM
               DataField = 'destinatario'
               DataSource = Ped.DataSource1
               TabOrder = 0
-              ExplicitWidth = 1106
             end
           end
           object Panel62: TPanel
@@ -1497,8 +1531,6 @@ inherited PedM: TPedM
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 1
-            ExplicitLeft = 872
-            ExplicitTop = 3
             object Label45: TLabel
               AlignWithMargins = True
               Left = 3
@@ -1534,798 +1566,10 @@ inherited PedM: TPedM
           end
         end
       end
-      object TabSheet4: TTabSheet
-        Caption = 'Contatos'
-        ImageIndex = 1
-        object GroupBox1: TGroupBox
-          AlignWithMargins = True
-          Left = 3
-          Top = 81
-          Width = 1112
-          Height = 72
-          Align = alTop
-          Caption = ' Contato Financeiro '
-          Padding.Bottom = 3
-          TabOrder = 1
-          object Panel37: TPanel
-            Left = 2
-            Top = 17
-            Width = 57
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 0
-            object Label26: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 51
-              Height = 15
-              Align = alTop
-              Caption = 'C'#243'digo'
-              ExplicitWidth = 39
-            end
-            object DBEdit21: TDBEdit
-              Tag = 1
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 54
-              Height = 23
-              Margins.Right = 0
-              Align = alClient
-              DataField = 'contato_fin'
-              DataSource = Ped.DataSource1
-              TabOrder = 0
-              OnExit = DBEdit49Exit
-            end
-          end
-          object Panel38: TPanel
-            Left = 59
-            Top = 17
-            Width = 29
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 1
-            object SpeedButton2: TSpeedButton
-              AlignWithMargins = True
-              Left = 0
-              Top = 24
-              Width = 26
-              Height = 23
-              Margins.Left = 0
-              Margins.Top = 24
-              Action = actFindCliContFin
-              Align = alClient
-              Glyph.Data = {
-                36040000424D3604000000000000360000002800000010000000100000000100
-                2000000000000004000000000000000000000000000000000000FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF000A0A
-                0A000A0A0A000A0A0A000A0A0A000A0A0A000A0A0A00FF00FF00FF00FF000A0A
-                0A000A0A0A000A0A0A000A0A0A000A0A0A000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00121212001E1E1E000B0B0B000A0A0A000A0A0A00FF00FF00FF00FF000A0A
-                0A0015151500222222000B0B0B000A0A0A000A0A0A00FF00FF00FF00FF007549
-                4900A0725E00EFE1D200EBC8A3009F674D0070414000FF00FF00FF00FF007549
-                4900A0725E00EFE1D200EBC8A3009F674D0070414000FF00FF00FF00FF008461
-                610085554C00F5E5D400EAC5A000865043007D565500FF00FF00FF00FF008461
-                610085554C00F5E5D400EAC5A000865043007D565500FF00FF00FF00FF009A82
-                820074444000F5E4D300E1B488007443400093777700FF00FF00FF00FF009A82
-                820074444000F5E4D300E1B488007443400093777700FF00FF00FF00FF00B7AE
-                AE006C3C3C00E9C8A800D19669006C3C3C00B2A7A700FF00FF00FF00FF00B7AE
-                AE006C3C3C00E9C8A800D19669006C3C3C00B2A7A700FF00FF00FF00FF00FF00
-                FF006E3E3E00734444006B3B3B006B3B3B000B0B0B000A0A0A000A0A0A000E0D
-                0D006C3C3C006B3B3B006B3B3B006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF006C3B3B00F1D8BE00E8BF9300C78657000A0A0A00C4C4C400696969001010
-                1000F9DEB700E2B38600BD7B51006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF006C3B3B00F6E6D600E9BF9500C88759000A0A0A00C4C4C400696969000C0C
-                0C00E3C6A900CA9B7600A5694B006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF006D3D3D00724343006B3B3B006B3B3B00141010000A0A0A000A0A0A002416
-                14006C3B3B006C3B3B006C3B3B006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF000A0A0A00C4C4C400696969000A0A0A00FF00FF00FF00FF000A0A
-                0A00C4C4C400696969000A0A0A00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF000A0A0A000A0A0A000A0A0A001D1D1D00FF00FF00FF00FF000A0A
-                0A000A0A0A000A0A0A001D1D1D00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00}
-              ExplicitTop = 21
-              ExplicitWidth = 22
-            end
-          end
-          object Panel39: TPanel
-            Left = 88
-            Top = 17
-            Width = 208
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 2
-            object Label27: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 202
-              Height = 15
-              Align = alTop
-              Caption = 'Nome'
-              ExplicitWidth = 33
-            end
-            object DBEdit22: TDBEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 202
-              Height = 23
-              TabStop = False
-              Align = alClient
-              DataField = 'contatofin_nome'
-              DataSource = Ped.DataSource1
-              ReadOnly = True
-              TabOrder = 0
-            end
-          end
-          object Panel40: TPanel
-            Left = 296
-            Top = 17
-            Width = 137
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 3
-            object Label28: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 131
-              Height = 15
-              Align = alTop
-              Caption = 'Cargo'
-              ExplicitWidth = 32
-            end
-            object DBEdit23: TDBEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 131
-              Height = 23
-              TabStop = False
-              Align = alClient
-              DataField = 'contatofin_funcao'
-              DataSource = Ped.DataSource1
-              ReadOnly = True
-              TabOrder = 0
-            end
-          end
-          object Panel41: TPanel
-            Left = 433
-            Top = 17
-            Width = 102
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 4
-            object Label29: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 96
-              Height = 15
-              Align = alTop
-              Caption = 'Telefone'
-              ExplicitWidth = 44
-            end
-            object DBEdit24: TDBEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 96
-              Height = 23
-              TabStop = False
-              Align = alClient
-              DataField = 'contatofin_telefone'
-              DataSource = Ped.DataSource1
-              ReadOnly = True
-              TabOrder = 0
-            end
-          end
-          object Panel42: TPanel
-            Left = 535
-            Top = 17
-            Width = 114
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 5
-            object Label30: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 108
-              Height = 15
-              Align = alTop
-              Caption = 'Celular'
-              ExplicitWidth = 37
-            end
-            object DBEdit25: TDBEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 108
-              Height = 23
-              TabStop = False
-              Align = alClient
-              DataField = 'contatofin_celular'
-              DataSource = Ped.DataSource1
-              ReadOnly = True
-              TabOrder = 0
-            end
-          end
-          object Panel43: TPanel
-            Left = 649
-            Top = 17
-            Width = 461
-            Height = 50
-            Align = alClient
-            BevelOuter = bvNone
-            TabOrder = 6
-            object Label31: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 455
-              Height = 15
-              Align = alTop
-              Caption = 'Email'
-              ExplicitWidth = 29
-            end
-            object DBEdit26: TDBEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 455
-              Height = 23
-              TabStop = False
-              Align = alClient
-              CharCase = ecLowerCase
-              DataField = 'contatofin_email'
-              DataSource = Ped.DataSource1
-              ReadOnly = True
-              TabOrder = 0
-            end
-          end
-        end
-        object GroupBox4: TGroupBox
-          AlignWithMargins = True
-          Left = 3
-          Top = 159
-          Width = 1112
-          Height = 72
-          Align = alTop
-          Caption = ' Contato T'#233'cnico '
-          Padding.Bottom = 3
-          TabOrder = 2
-          object Panel44: TPanel
-            Left = 2
-            Top = 17
-            Width = 57
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 0
-            object Label32: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 51
-              Height = 15
-              Align = alTop
-              Caption = 'C'#243'digo'
-              ExplicitWidth = 39
-            end
-            object DBEdit27: TDBEdit
-              Tag = 2
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 54
-              Height = 23
-              Margins.Right = 0
-              Align = alClient
-              DataField = 'contato_tec'
-              DataSource = Ped.DataSource1
-              TabOrder = 0
-              OnExit = DBEdit49Exit
-            end
-          end
-          object Panel45: TPanel
-            Left = 59
-            Top = 17
-            Width = 29
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 1
-            object SpeedButton3: TSpeedButton
-              AlignWithMargins = True
-              Left = 0
-              Top = 24
-              Width = 26
-              Height = 23
-              Margins.Left = 0
-              Margins.Top = 24
-              Action = actFindCliContTec
-              Align = alClient
-              Glyph.Data = {
-                36040000424D3604000000000000360000002800000010000000100000000100
-                2000000000000004000000000000000000000000000000000000FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF000A0A
-                0A000A0A0A000A0A0A000A0A0A000A0A0A000A0A0A00FF00FF00FF00FF000A0A
-                0A000A0A0A000A0A0A000A0A0A000A0A0A000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00121212001E1E1E000B0B0B000A0A0A000A0A0A00FF00FF00FF00FF000A0A
-                0A0015151500222222000B0B0B000A0A0A000A0A0A00FF00FF00FF00FF007549
-                4900A0725E00EFE1D200EBC8A3009F674D0070414000FF00FF00FF00FF007549
-                4900A0725E00EFE1D200EBC8A3009F674D0070414000FF00FF00FF00FF008461
-                610085554C00F5E5D400EAC5A000865043007D565500FF00FF00FF00FF008461
-                610085554C00F5E5D400EAC5A000865043007D565500FF00FF00FF00FF009A82
-                820074444000F5E4D300E1B488007443400093777700FF00FF00FF00FF009A82
-                820074444000F5E4D300E1B488007443400093777700FF00FF00FF00FF00B7AE
-                AE006C3C3C00E9C8A800D19669006C3C3C00B2A7A700FF00FF00FF00FF00B7AE
-                AE006C3C3C00E9C8A800D19669006C3C3C00B2A7A700FF00FF00FF00FF00FF00
-                FF006E3E3E00734444006B3B3B006B3B3B000B0B0B000A0A0A000A0A0A000E0D
-                0D006C3C3C006B3B3B006B3B3B006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF006C3B3B00F1D8BE00E8BF9300C78657000A0A0A00C4C4C400696969001010
-                1000F9DEB700E2B38600BD7B51006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF006C3B3B00F6E6D600E9BF9500C88759000A0A0A00C4C4C400696969000C0C
-                0C00E3C6A900CA9B7600A5694B006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF006D3D3D00724343006B3B3B006B3B3B00141010000A0A0A000A0A0A002416
-                14006C3B3B006C3B3B006C3B3B006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF000A0A0A00C4C4C400696969000A0A0A00FF00FF00FF00FF000A0A
-                0A00C4C4C400696969000A0A0A00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF000A0A0A000A0A0A000A0A0A001D1D1D00FF00FF00FF00FF000A0A
-                0A000A0A0A000A0A0A001D1D1D00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00}
-              ExplicitTop = 21
-              ExplicitWidth = 22
-            end
-          end
-          object Panel46: TPanel
-            Left = 88
-            Top = 17
-            Width = 208
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 2
-            object Label33: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 202
-              Height = 15
-              Align = alTop
-              Caption = 'Nome'
-              ExplicitWidth = 33
-            end
-            object DBEdit28: TDBEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 202
-              Height = 23
-              TabStop = False
-              Align = alClient
-              DataField = 'contatotec_nome'
-              DataSource = Ped.DataSource1
-              ReadOnly = True
-              TabOrder = 0
-            end
-          end
-          object Panel47: TPanel
-            Left = 296
-            Top = 17
-            Width = 137
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 3
-            object Label34: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 131
-              Height = 15
-              Align = alTop
-              Caption = 'Cargo'
-              ExplicitWidth = 32
-            end
-            object DBEdit29: TDBEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 131
-              Height = 23
-              TabStop = False
-              Align = alClient
-              DataField = 'contatotec_funcao'
-              DataSource = Ped.DataSource1
-              ReadOnly = True
-              TabOrder = 0
-            end
-          end
-          object Panel48: TPanel
-            Left = 433
-            Top = 17
-            Width = 102
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 4
-            object Label35: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 96
-              Height = 15
-              Align = alTop
-              Caption = 'Telefone'
-              ExplicitWidth = 44
-            end
-            object DBEdit30: TDBEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 96
-              Height = 23
-              TabStop = False
-              Align = alClient
-              DataField = 'contatotec_telefone'
-              DataSource = Ped.DataSource1
-              ReadOnly = True
-              TabOrder = 0
-            end
-          end
-          object Panel49: TPanel
-            Left = 535
-            Top = 17
-            Width = 114
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 5
-            object Label36: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 108
-              Height = 15
-              Align = alTop
-              Caption = 'Celular'
-              ExplicitWidth = 37
-            end
-            object DBEdit31: TDBEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 108
-              Height = 23
-              TabStop = False
-              Align = alClient
-              DataField = 'contatotec_celular'
-              DataSource = Ped.DataSource1
-              ReadOnly = True
-              TabOrder = 0
-            end
-          end
-          object Panel50: TPanel
-            Left = 649
-            Top = 17
-            Width = 461
-            Height = 50
-            Align = alClient
-            BevelOuter = bvNone
-            TabOrder = 6
-            object Label37: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 455
-              Height = 15
-              Align = alTop
-              Caption = 'Email'
-              ExplicitWidth = 29
-            end
-            object DBEdit32: TDBEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 455
-              Height = 23
-              TabStop = False
-              Align = alClient
-              CharCase = ecLowerCase
-              DataField = 'contatotec_email'
-              DataSource = Ped.DataSource1
-              ReadOnly = True
-              TabOrder = 0
-            end
-          end
-        end
-        object GroupBox3: TGroupBox
-          AlignWithMargins = True
-          Left = 3
-          Top = 3
-          Width = 1112
-          Height = 72
-          Align = alTop
-          Caption = ' Contato '
-          Padding.Bottom = 3
-          TabOrder = 0
-          object Panel17: TPanel
-            Left = 2
-            Top = 17
-            Width = 57
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 0
-            object Label51: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 51
-              Height = 15
-              Align = alTop
-              Caption = 'C'#243'digo'
-              ExplicitWidth = 39
-            end
-            object DBEdit49: TDBEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 54
-              Height = 23
-              Margins.Right = 0
-              Align = alClient
-              DataField = 'contato'
-              DataSource = Ped.DataSource1
-              TabOrder = 0
-              OnExit = DBEdit49Exit
-            end
-          end
-          object Panel18: TPanel
-            Left = 59
-            Top = 17
-            Width = 29
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 1
-            object SpeedButton5: TSpeedButton
-              AlignWithMargins = True
-              Left = 0
-              Top = 24
-              Width = 26
-              Height = 23
-              Margins.Left = 0
-              Margins.Top = 24
-              Action = actFindCliCont
-              Align = alClient
-              Glyph.Data = {
-                36040000424D3604000000000000360000002800000010000000100000000100
-                2000000000000004000000000000000000000000000000000000FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF000A0A
-                0A000A0A0A000A0A0A000A0A0A000A0A0A000A0A0A00FF00FF00FF00FF000A0A
-                0A000A0A0A000A0A0A000A0A0A000A0A0A000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00121212001E1E1E000B0B0B000A0A0A000A0A0A00FF00FF00FF00FF000A0A
-                0A0015151500222222000B0B0B000A0A0A000A0A0A00FF00FF00FF00FF007549
-                4900A0725E00EFE1D200EBC8A3009F674D0070414000FF00FF00FF00FF007549
-                4900A0725E00EFE1D200EBC8A3009F674D0070414000FF00FF00FF00FF008461
-                610085554C00F5E5D400EAC5A000865043007D565500FF00FF00FF00FF008461
-                610085554C00F5E5D400EAC5A000865043007D565500FF00FF00FF00FF009A82
-                820074444000F5E4D300E1B488007443400093777700FF00FF00FF00FF009A82
-                820074444000F5E4D300E1B488007443400093777700FF00FF00FF00FF00B7AE
-                AE006C3C3C00E9C8A800D19669006C3C3C00B2A7A700FF00FF00FF00FF00B7AE
-                AE006C3C3C00E9C8A800D19669006C3C3C00B2A7A700FF00FF00FF00FF00FF00
-                FF006E3E3E00734444006B3B3B006B3B3B000B0B0B000A0A0A000A0A0A000E0D
-                0D006C3C3C006B3B3B006B3B3B006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF006C3B3B00F1D8BE00E8BF9300C78657000A0A0A00C4C4C400696969001010
-                1000F9DEB700E2B38600BD7B51006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF006C3B3B00F6E6D600E9BF9500C88759000A0A0A00C4C4C400696969000C0C
-                0C00E3C6A900CA9B7600A5694B006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF006D3D3D00724343006B3B3B006B3B3B00141010000A0A0A000A0A0A002416
-                14006C3B3B006C3B3B006C3B3B006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF000A0A0A00C4C4C400696969000A0A0A00FF00FF00FF00FF000A0A
-                0A00C4C4C400696969000A0A0A00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF000A0A0A000A0A0A000A0A0A001D1D1D00FF00FF00FF00FF000A0A
-                0A000A0A0A000A0A0A001D1D1D00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00}
-              ExplicitTop = 21
-              ExplicitWidth = 22
-            end
-          end
-          object Panel19: TPanel
-            Left = 88
-            Top = 17
-            Width = 208
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 2
-            object Label47: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 202
-              Height = 15
-              Align = alTop
-              Caption = 'Nome'
-              ExplicitWidth = 33
-            end
-            object DBEdit45: TDBEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 202
-              Height = 23
-              TabStop = False
-              Align = alClient
-              DataField = 'nome'
-              DataSource = Ped.DataSource1
-              ReadOnly = True
-              TabOrder = 0
-            end
-          end
-          object Panel20: TPanel
-            Left = 296
-            Top = 17
-            Width = 137
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 3
-            object Label48: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 131
-              Height = 15
-              Align = alTop
-              Caption = 'Cargo'
-              ExplicitWidth = 32
-            end
-            object DBEdit48: TDBEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 131
-              Height = 23
-              TabStop = False
-              Align = alClient
-              DataField = 'funcao'
-              DataSource = Ped.DataSource1
-              ReadOnly = True
-              TabOrder = 0
-            end
-          end
-          object Panel21: TPanel
-            Left = 433
-            Top = 17
-            Width = 102
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 4
-            object Label49: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 96
-              Height = 15
-              Align = alTop
-              Caption = 'Telefone'
-              ExplicitWidth = 44
-            end
-            object DBEdit47: TDBEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 96
-              Height = 23
-              TabStop = False
-              Align = alClient
-              DataField = 'telefone_1'
-              DataSource = Ped.DataSource1
-              ReadOnly = True
-              TabOrder = 0
-            end
-          end
-          object Panel22: TPanel
-            Left = 535
-            Top = 17
-            Width = 114
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 5
-            object Label50: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 108
-              Height = 15
-              Align = alTop
-              Caption = 'Celular'
-              ExplicitWidth = 37
-            end
-            object DBEdit46: TDBEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 108
-              Height = 23
-              TabStop = False
-              Align = alClient
-              DataField = 'celular'
-              DataSource = Ped.DataSource1
-              ReadOnly = True
-              TabOrder = 0
-            end
-          end
-          object Panel23: TPanel
-            Left = 649
-            Top = 17
-            Width = 461
-            Height = 50
-            Align = alClient
-            BevelOuter = bvNone
-            TabOrder = 6
-            object Label52: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 455
-              Height = 15
-              Align = alTop
-              Caption = 'Email'
-              ExplicitWidth = 29
-            end
-            object DBEdit50: TDBEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 455
-              Height = 23
-              TabStop = False
-              Align = alClient
-              CharCase = ecLowerCase
-              DataField = 'email_1'
-              DataSource = Ped.DataSource1
-              ReadOnly = True
-              TabOrder = 0
-            end
-          end
-        end
-      end
       object TabSheet5: TTabSheet
         Caption = 'Observa'#231#245'es'
         ImageIndex = 2
+        ExplicitHeight = 325
         object GroupBox5: TGroupBox
           AlignWithMargins = True
           Left = 3
@@ -2372,6 +1616,7 @@ inherited PedM: TPedM
       object TabSheet6: TTabSheet
         Caption = 'Cliente do Laudo'
         ImageIndex = 3
+        ExplicitHeight = 325
         object GroupBox7: TGroupBox
           AlignWithMargins = True
           Left = 3
@@ -2635,10 +1880,6 @@ inherited PedM: TPedM
     inherited actNew: TAction
       Caption = 'Novo...'
     end
-    object actFindCliCont: TAction
-      ImageIndex = 332
-      OnExecute = actFindCliContExecute
-    end
     object actFindCli: TAction
       ImageIndex = 332
       OnExecute = actFindCliExecute
@@ -2656,16 +1897,6 @@ inherited PedM: TPedM
     object actDespVinc: TAction
       ImageIndex = 336
       OnExecute = actDespVincExecute
-    end
-    object actFindCliContFin: TAction
-      Tag = 1
-      ImageIndex = 332
-      OnExecute = actFindCliContExecute
-    end
-    object actFindCliContTec: TAction
-      Tag = 2
-      ImageIndex = 332
-      OnExecute = actFindCliContExecute
     end
     object actFindGrupo: TAction
       OnExecute = actFindGrupoExecute

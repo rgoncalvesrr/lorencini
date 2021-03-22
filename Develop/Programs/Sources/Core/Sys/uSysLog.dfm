@@ -139,7 +139,6 @@ inherited SysLog: TSysLog
             0A009A3B0B00983B0E00973B0F00A65B3600FF00FF00FF00FF00FF00FF00FF00
             FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
             FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00}
-          ExplicitTop = 11
         end
         object Panel2: TPanel
           Left = 129
@@ -192,7 +191,7 @@ inherited SysLog: TSysLog
               ExplicitWidth = 179
             end
             inherited CCalendarDiff1: TCCalendarDiff
-              Date = 44260.959068171290000000
+              Date = 44276.033050902780000000
               DisplayInterval = Label2
             end
           end
@@ -329,7 +328,6 @@ inherited SysLog: TSysLog
           TabOrder = 0
           ValueChecked = 'True'
           ValueUnchecked = 'False'
-          ExplicitTop = 28
         end
       end
       object Panel8: TPanel
@@ -543,6 +541,8 @@ inherited SysLog: TSysLog
       object TabSheet2: TTabSheet
         Caption = 'Informa'#231#227'o'
         ImageIndex = 191
+        ExplicitLeft = 3
+        ExplicitTop = 34
       end
       object TabSheet3: TTabSheet
         Caption = 'Aten'#231#227'o'
@@ -611,8 +611,15 @@ inherited SysLog: TSysLog
         Name = 'recno'
         ParamType = ptUnknown
       end>
+    object qLoglevel: TStringField
+      DisplayLabel = ' '
+      FieldName = 'level'
+      Required = True
+      Size = 255
+    end
     object qLogrecno: TLargeintField
       DisplayLabel = 'Registro'
+      DisplayWidth = 10
       FieldName = 'recno'
       Required = True
     end
@@ -656,13 +663,6 @@ inherited SysLog: TSysLog
     object qLogrotate: TBooleanField
       DisplayLabel = 'Rotacionar'
       FieldName = 'rotate'
-    end
-    object qLoglevel: TStringField
-      DisplayLabel = 'N'#237'vel'
-      FieldName = 'level'
-      Required = True
-      Visible = False
-      Size = 255
     end
   end
   object dsLog: TDataSource

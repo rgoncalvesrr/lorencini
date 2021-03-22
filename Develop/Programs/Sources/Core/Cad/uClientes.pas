@@ -117,9 +117,6 @@ type
     qContatosenviar_laudo_critico: TBooleanField;
     qContatosenviar_laudo_atencao: TBooleanField;
     qContatosenviar_laudo_normal: TBooleanField;
-    qContatosenviar_laudo_retorno_critico: TBooleanField;
-    qContatosenviar_laudo_retorno_atencao: TBooleanField;
-    qContatosenviar_laudo_retorno_normal: TBooleanField;
     qContatoscontato: TIntegerField;
     sContatos: TZSequence;
     qVendedores: TZQuery;
@@ -133,6 +130,7 @@ type
     qContatosportal_senha: TStringField;
     qContatosobs: TMemoField;
     qContatosramal: TStringField;
+    qContatosenviar_os: TBooleanField;
     procedure FormCreate(Sender: TObject);
     procedure actOrcaExecute(Sender: TObject);
     procedure DBGrid2DrawColumnCell(Sender: TObject; const Rect: TRect;
@@ -501,9 +499,7 @@ begin
     qContatosenviar_laudo_normal.AsBoolean := qContatosenviar_pedido_venda.AsBoolean;
     qContatosenviar_laudo_atencao.AsBoolean := qContatosenviar_pedido_venda.AsBoolean;
     qContatosenviar_laudo_critico.AsBoolean := qContatosenviar_pedido_venda.AsBoolean;
-    qContatosenviar_laudo_retorno_normal.AsBoolean := qContatosenviar_pedido_venda.AsBoolean;
-    qContatosenviar_laudo_retorno_atencao.AsBoolean := qContatosenviar_pedido_venda.AsBoolean;
-    qContatosenviar_laudo_retorno_critico.AsBoolean := qContatosenviar_pedido_venda.AsBoolean;
+    qContatosenviar_os.AsBoolean := qContatosenviar_pedido_venda.AsBoolean;
   end;
 end;
 

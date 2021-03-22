@@ -21,7 +21,7 @@ object DM: TDM
     Port = 5432
     Database = 'lorencini'
     User = 'postgres'
-    Password = 'C0nc31th0.'
+    Password = 'postgres.'
     Protocol = 'postgresql'
     LibraryLocation = 'D:\Projetos\Lorencini\Lib\libpq.dll'
     Left = 88

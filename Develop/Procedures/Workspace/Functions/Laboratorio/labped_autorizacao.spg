@@ -14,41 +14,38 @@ Create or Replace Function labped_autorizacao(
 Returns text As
 $$
 Declare
+   r     record;
    rc    record;
    html  text;
    imsg  integer;
 Begin
-   select p.criado, c.email, c.empresa, ct.email email1, ct.nome, c.email as contato_mail, p.contato
+   select p.criado, c.email, c.empresa, p.codigo
      into rc
      from pedido p
           join tbclientes c
             on c.codigo = p.codigo
-          left join vclientes_contatos ct
-            on ct.cliente = p.codigo
-           and ct.contato = p.contato
      where p.recno = in_pedido;
 
-
    html := '<html ><head><title>Autoriza&ccedil;&atilde;o para Execu&ccedil;&atilde;o</title></head>';
-   html := html || '<meta charset="utf-8">';
-   html := html || '<body style="font-family: sans-serif; font-size: 0.9em;"> ';
-   html := html || '<table style="margin-left: 5px; margin-right: 5px; width: 100%; font-family: sans-serif; font-size: 0.9em;">';
-   html := html || '<tr><td></td><td>';
-   html := html || 'LORENCINI BRASIL COM. MANUT. MONT. EQ.IND. LTDA <br />';
-   html := html || '04.824.941/0001-09 <br />';
-   html := html || 'RUA RAYMUNDO CIRINO 65 CEP 09890-510  SBCAMPO-SP <br />';
-   html := html || 'DAGOBERTO LORENCINI / LABORATORIO <br />';
-   html := html || '11-4399-3132 / 4341-3110 <br />';
-   html := html || '</td></tr>';
-   html := html || '</table>';
-   html := html || '<p><strong>CARO CLIENTE, CONFIRA ATENTAMENTE TODAS AS INFORMA&Ccedil;&Otilde;ES DO PEDIDO ANEXO. CASO HAJA ALGUMA DIVERG&Ecirc;NCIA, ' ||
-                   'ENTRE EM CONTATO COM NOSSO LABORAT&Oacute;RIO AT&Eacute; '||to_char(rc.criado + interval '24 hour', 'DD/MM/YYYY HH24:MI')||'. AP&Oacute;S ESTE PRAZO ' ||
-                   'SEU PEDIDO ENTRAR&Aacute; EM PRODU&Ccedil;&Atilde;O AUTOMATICAMENTE E N&Atilde;O SER&Aacute; POSS&Iacute;VEL CORRIGIR OU CANCELAR O PEDIDO BEM COMO ' ||
-                   'SOLICITAR O CANCELAMENTO DA NF DE SERVI&Ccedil;OS / VENDAS. </strong></p><p><strong>'||
+   html := html + '<meta charset="utf-8">';
+   html := html + '<body style="font-family: sans-serif; font-size: 0.9em;"> ';
+   html := html + '<table style="margin-left: 5px; margin-right: 5px; width: 100%; font-family: sans-serif; font-size: 0.9em;">';
+   html := html + '<tr><td></td><td>';
+   html := html + 'LORENCINI BRASIL COM. MANUT. MONT. EQ.IND. LTDA <br />';
+   html := html + '04.824.941/0001-09 <br />';
+   html := html + 'RUA RAYMUNDO CIRINO 65 CEP 09890-510  SBCAMPO-SP <br />';
+   html := html + 'DAGOBERTO LORENCINI / LABORATORIO <br />';
+   html := html + '11-4399-3132 / 4341-3110 <br />';
+   html := html + '</td></tr>';
+   html := html + '</table>';
+   html := html + '<p><strong>CARO CLIENTE, CONFIRA ATENTAMENTE TODAS AS INFORMA&Ccedil;&Otilde;ES DO PEDIDO ANEXO. CASO HAJA ALGUMA DIVERG&Ecirc;NCIA, ' +
+                   'ENTRE EM CONTATO COM NOSSO LABORAT&Oacute;RIO AT&Eacute; '+to_char(rc.criado + interval '24 hour', 'DD/MM/YYYY HH24:MI')+'. AP&Oacute;S ESTE PRAZO ' +
+                   'SEU PEDIDO ENTRAR&Aacute; EM PRODU&Ccedil;&Atilde;O AUTOMATICAMENTE E N&Atilde;O SER&Aacute; POSS&Iacute;VEL CORRIGIR OU CANCELAR O PEDIDO BEM COMO ' +
+                   'SOLICITAR O CANCELAMENTO DA NF DE SERVI&Ccedil;OS / VENDAS. </strong></p><p><strong>'+
                    'ACIMA VOC&Ecirc; ENCONTRAR&Aacute; OS TELEFONES, E-MAILS E CONTATOS</strong></p>';
-   html := html || '<br /><p>NF de Servi&ccedil;o emitida com o CNAE: <strong>1401/14.01.3/168027/1521 - CONSERTO - RESTAURA&Ccedil;&Atilde;O - MANUTEN&Ccedil;&Atilde;O - CONSERVA&Ccedil;&Atilde;O DE EQUIPAMENTOS.</strong></p>';
-   html := html || '<p>NF de Servi&ccedil;o emitida no munic&iacute;pio de S&atilde;o Bernardo do Campo tem o prazo m&aacute;ximo de cancelamento de 24 horas contadas a partir da emiss&atilde;o</p><br />';
-   html := html || '</body></html>';
+   html := html + '<br /><p>NF de Servi&ccedil;o emitida com o CNAE: <strong>1401/14.01.3/168027/1521 - CONSERTO - RESTAURA&Ccedil;&Atilde;O - MANUTEN&Ccedil;&Atilde;O - CONSERVA&Ccedil;&Atilde;O DE EQUIPAMENTOS.</strong></p>';
+   html := html + '<p>NF de Servi&ccedil;o emitida no munic&iacute;pio de S&atilde;o Bernardo do Campo tem o prazo m&aacute;ximo de cancelamento de 24 horas contadas a partir da emiss&atilde;o</p><br />';
+   html := html + '</body></html>';
    
    -- Memorizando autorização no pedido
    update pedido
@@ -60,25 +57,33 @@ Begin
         values           ('Autorização do Pedido ' || in_pedido, html, sys_origem('pedido'), in_pedido)
       returning recno into imsg;
 
-   -- adiciona destinat&aacute;rios
+   -- adiciona destinatários
    if rc.email is not null then
-      insert into sys_emailto (message, to_, to_name)
-           values             (imsg, rc.email, rc.empresa);
+      insert into sys_emailto 
+         (message, to_, to_name)
+      values             
+         (imsg, rc.email, rc.empresa);
    end if;
 
-   if rc.email1 is not null and coalesce(rc.email, '') <> coalesce(rc.email1, '') then
-      insert into sys_emailto (message, to_, to_name)
-           values             (imsg, rc.email1, rc.nome);
-   end if;
+   for r in (
+      select nome, email
+        from clientes_contatos
+       where cliente = rc.codigo
+         and enviar_pedido_venda
+         and ativo
+         and email is not null)
+   loop
+      insert into sys_emailto 
+         (message, to_, to_name)
+      values             
+         (imsg, r.email, r.nome);
+   end loop;
 
-   if rc.contato_mail is not null and (coalesce(rc.email, '') <> coalesce(rc.contato_mail, '')) and (coalesce(rc.contato_mail, '') <> coalesce(rc.email1, '')) then
-      insert into sys_emailto (message, to_, to_name)
-           values             (imsg, rc.contato_mail, rc.contato);
-   end if;
-
-   -- Cópia oculta
-   insert into sys_emailatach (message, contenttype, attach_name)
-        values                (imsg,  'application/pdf', in_anexo);
+   -- Anexo
+   insert into sys_emailatach 
+      (message, contenttype, attach_name)
+   values                
+      (imsg,  'application/pdf', in_anexo);
 
    -- dispara envio do email
    update sys_email

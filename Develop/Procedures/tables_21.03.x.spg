@@ -3,4 +3,23 @@ set session authorization lorencini;
 alter table tbclientes_contatos
    add enviar_os boolean default(false) not null;
 
-update tbclientes_contatos set enviar_os = true where enviar_pedido_venda;   
+update tbclientes_contatos set enviar_os = true where enviar_pedido_venda;
+
+alter table tbclientes_contatos
+   drop enviar_laudo_retorno_normal cascade,
+   drop enviar_laudo_retorno_atencao cascade,
+   drop enviar_laudo_retorno_critico cascade;
+
+-- Recriar visão vclientes_contatos
+
+ alter table cota 
+   drop contato cascade,
+   drop contato_fin cascade,
+   drop contato_tec cascade;
+
+ alter table pedido 
+   drop contato cascade,
+   drop contato_fin cascade,
+   drop contato_tec cascade;   
+
+-- Recriar visão vdoc_cab e vclientes_contatos

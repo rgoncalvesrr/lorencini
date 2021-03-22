@@ -52,9 +52,6 @@ type
     qContClienviar_laudo_atencao: TBooleanField;
     qContClienviar_laudo_critico: TBooleanField;
     qContClienviar_laudo_normal: TBooleanField;
-    qContClienviar_laudo_retorno_atencao: TBooleanField;
-    qContClienviar_laudo_retorno_critico: TBooleanField;
-    qContClienviar_laudo_retorno_normal: TBooleanField;
     qContClisituacao: TIntegerField;
     qContClipadrao: TBooleanField;
     qContClifuncao: TStringField;
@@ -68,6 +65,7 @@ type
     qContCliobs: TMemoField;
     IBrwSrcramal: TStringField;
     IBrwSrcobs: TMemoField;
+    qContClienviar_os: TBooleanField;
     procedure IBrwSrcsituacaoGetText(Sender: TField; var Text: string; DisplayText: Boolean);
     procedure IBrwSrcsituacaoSetText(Sender: TField; const Text: string);
     procedure DBGridDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn;
@@ -323,9 +321,7 @@ begin
   qContClienviar_laudo_atencao.AsBoolean := not IBrwSrcemail.IsNull;
   qContClienviar_laudo_critico.AsBoolean := not IBrwSrcemail.IsNull;
   qContClienviar_laudo_normal.AsBoolean := not IBrwSrcemail.IsNull;
-  qContClienviar_laudo_retorno_atencao.AsBoolean := not IBrwSrcemail.IsNull;
-  qContClienviar_laudo_retorno_critico.AsBoolean := not IBrwSrcemail.IsNull;
-  qContClienviar_laudo_retorno_normal.AsBoolean := not IBrwSrcemail.IsNull;
+  qContClienviar_os.AsBoolean := not IBrwSrcemail.IsNull;
   qContClisituacao.AsInteger := IBrwSrcsituacao.AsInteger;
   qContClipadrao.AsBoolean := False;
 end;

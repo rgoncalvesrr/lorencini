@@ -1,8 +1,10 @@
 set session authorization lorencini;
-CREATE OR REPLACE VIEW public.vclientes_contatos
+drop view if exists public.vclientes_contatos;
+CREATE OR REPLACE VIEW public.clientes_contatos
 AS SELECT c.recno,
     c.nome,
     c.telefone,
+    c.ramal,
     c.celular,
     c.email,
     c.data,
@@ -13,13 +15,12 @@ AS SELECT c.recno,
     tc.enviar_laudo_normal,
     tc.enviar_laudo_atencao,
     tc.enviar_laudo_critico,
-    tc.enviar_laudo_retorno_normal,
-    tc.enviar_laudo_retorno_atencao,
-    tc.enviar_laudo_retorno_critico,
+    tc.enviar_os,
     tc.cliente,
     tc.situacao AS situacao_cliente,
     tc.funcao,
-    tc.padrao
+    tc.padrao,
+    tc.situacao = 1 and c.situacao = 1 as ativo
      FROM contatos c
           JOIN tbclientes_contatos tc 
             ON tc.contato = c.recno

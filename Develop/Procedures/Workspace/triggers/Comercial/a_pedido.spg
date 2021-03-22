@@ -108,12 +108,10 @@ BEGIN
          -- Registra a OS como aprovada status = 1
          insert into tb_orcamentos (
             data,            idcliente,       descricao,          os,          status,
-            type_,           grupo,           item,               pedido,      contato,
-            contato_fin,     contato_tec,     pedidocliente,      indice,      condicaopg)
+            type_,           grupo,           item,               pedido,      pedidocliente,      indice,      condicaopg)
          Values (
             current_date,    new.codigo,      tdescricao,         ios,         sys_iif(new.laboratorio, 2, 3),
-            0,               new.grupo,       98,                 new.recno,   new.contato,
-            new.contato_fin, new.contato_tec, new.pedido_cliente, new.indice,  new.condicaopg)
+            0,               new.grupo,       98,                 new.recno,   new.pedido_cliente, new.indice,  new.condicaopg)
          returning recno into irecno;
 
          -- Inserindo materiais
