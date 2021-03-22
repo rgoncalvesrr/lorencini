@@ -22,4 +22,6 @@ alter table tbclientes_contatos
    drop contato_fin cascade,
    drop contato_tec cascade;   
 
+-- teste de commit gitmoji
+
 -- Recriar visão vdoc_cab e vclientes_contatos
