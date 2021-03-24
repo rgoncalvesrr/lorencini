@@ -57,7 +57,7 @@ BEGIN
               into new.solicitante
               from clientes_contatos
              where cliente = new.codigo
-               and enviar_pedido_venda
+               and contato_pedido
                and ativo 
                and email is not null
              order by padrao desc, nome

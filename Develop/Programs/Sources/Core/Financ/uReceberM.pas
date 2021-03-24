@@ -93,11 +93,12 @@ type
     procedure DBEdit7Exit(Sender: TObject);
     procedure findNatuExecute(Sender: TObject);
     procedure findCliExecute(Sender: TObject);
+    procedure FormResize(Sender: TObject);
   private
     FParcelamento: TParcelamento;
     procedure OnBeforeDataSet; override;
     procedure AfterPost(Sender: TObject; DataSet: TZQuery);
-    procedure OnEdit; override;
+    procedure OnLoad; override;
   public
     { Public declarations }
     procedure RefreshControls; override;
@@ -108,7 +109,7 @@ var
 
 implementation
 
-uses uIUtils, mcUtils, uFinNaturezas, DB, uReceber, uDM, ZSqlProcessor, uReceberContatosM, uClientes;
+uses uIUtils, mcUtils, uFinNaturezas, DB, uReceber, uDM, ZSqlProcessor, uClientes;
 
 {$R *.dfm}
 
@@ -202,6 +203,12 @@ begin
   end;
 end;
 
+procedure TReceberM.FormResize(Sender: TObject);
+begin
+  inherited;
+  Panel3.Height := ClientHeight - (PageControl1.Top + 450); 
+end;
+
 procedure TReceberM.AfterPost(Sender: TObject; DataSet: TZQuery);
 var
   ExecQuery: TZSQLProcessor;
@@ -254,25 +261,19 @@ begin
   U.FillDBComboBox(DBComboBox1, 'cc', 'cc');
 end;
 
-procedure TReceberM.OnEdit;
+procedure TReceberM.OnLoad;
 begin
-  ReceberContatosM := TReceberContatosM.Create(nil);
-  try
-    ReceberContatosM.DataSet := ChildDataSet;
-    ReceberContatosM.ShowModal;
-  finally
-    FreeAndNil(ReceberContatosM);
-  end;
-
+  inherited;
+  WindowState := wsMaximized;
 end;
 
 procedure TReceberM.RefreshControls;
 begin
   inherited;
-  
+
   if not Assigned(DataSet) then
     Exit;
-    
+
   findNatu.Enabled := DataSet.State in [dsEdit, dsInsert];
   findCli.Enabled := DataSet.State in [dsEdit, dsInsert];
   deBaixa.Enabled := DataSet.State = dsEdit;

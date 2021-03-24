@@ -613,8 +613,8 @@ inherited ContatosMClientes: TContatosMClientes
                 Width = 256
                 Height = 17
                 Align = alTop
-                Caption = 'Enviar Pedido'
-                DataField = 'enviar_pedido_venda'
+                Caption = 'Contato para Pedido'
+                DataField = 'contato_pedido'
                 DataSource = Contatos.dsContCli
                 TabOrder = 1
                 ValueChecked = 'True'
@@ -628,29 +628,45 @@ inherited ContatosMClientes: TContatosMClientes
                 Width = 256
                 Height = 17
                 Align = alTop
-                Caption = 'Enviar Cota'#231#227'o'
-                DataField = 'enviar_cotacao_venda'
+                Caption = 'Contato para Cota'#231#227'o'
+                DataField = 'contato_cotacao'
                 DataSource = Contatos.dsContCli
                 TabOrder = 2
                 ValueChecked = 'True'
                 ValueUnchecked = 'False'
-                ExplicitTop = 49
+                ExplicitLeft = 6
+                ExplicitTop = 25
               end
               object DBCheckBox10: TDBCheckBox
+                AlignWithMargins = True
+                Left = 3
+                Top = 95
+                Width = 256
+                Height = 17
+                Align = alTop
+                Caption = 'Contato Financeiro'
+                DataField = 'contato_financeiro'
+                DataSource = Contatos.dsContCli
+                TabOrder = 3
+                ValueChecked = 'True'
+                ValueUnchecked = 'False'
+                ExplicitLeft = 6
+                ExplicitTop = 72
+              end
+              object DBCheckBox6: TDBCheckBox
                 AlignWithMargins = True
                 Left = 3
                 Top = 72
                 Width = 256
                 Height = 17
                 Align = alTop
-                Caption = 'Enviar Ordem de Servi'#231'o'
-                DataField = 'enviar_os'
+                Caption = 'Contato para Ordem de Servi'#231'o'
+                DataField = 'contato_os'
                 DataSource = Contatos.dsContCli
-                TabOrder = 3
+                TabOrder = 4
                 ValueChecked = 'True'
                 ValueUnchecked = 'False'
                 ExplicitLeft = 6
-                ExplicitTop = 95
               end
             end
             object Panel13: TPanel
@@ -669,12 +685,13 @@ inherited ContatosMClientes: TContatosMClientes
                 Width = 393
                 Height = 17
                 Align = alTop
-                Caption = 'Enviar laudo em n'#237'vel normal'
-                DataField = 'enviar_laudo_normal'
+                Caption = 'Contato para Laudo Normal'
+                DataField = 'contato_laudo_normal'
                 DataSource = Contatos.dsContCli
                 TabOrder = 0
                 ValueChecked = 'True'
                 ValueUnchecked = 'False'
+                ExplicitLeft = 0
               end
               object DBCheckBox4: TDBCheckBox
                 AlignWithMargins = True
@@ -683,14 +700,13 @@ inherited ContatosMClientes: TContatosMClientes
                 Width = 393
                 Height = 17
                 Align = alTop
-                Caption = 'Enviar laudo em n'#237'vel de aten'#231#227'o'
-                DataField = 'enviar_laudo_atencao'
+                Caption = 'Contato para Laudo em Aten'#231#227'o'
+                DataField = 'contato_laudo_atencao'
                 DataSource = Contatos.dsContCli
                 TabOrder = 1
                 ValueChecked = 'True'
                 ValueUnchecked = 'False'
                 ExplicitLeft = 0
-                ExplicitTop = 25
               end
               object DBCheckBox5: TDBCheckBox
                 AlignWithMargins = True
@@ -699,13 +715,13 @@ inherited ContatosMClientes: TContatosMClientes
                 Width = 393
                 Height = 17
                 Align = alTop
-                Caption = 'Enviar laudo em n'#237'vel de cr'#237'tico'
-                DataField = 'enviar_laudo_critico'
+                Caption = 'Contato para Laudo Cr'#237'tico'
+                DataField = 'contato_laudo_critico'
                 DataSource = Contatos.dsContCli
                 TabOrder = 2
                 ValueChecked = 'True'
                 ValueUnchecked = 'False'
-                ExplicitTop = 72
+                ExplicitLeft = 0
               end
             end
           end

@@ -207,7 +207,7 @@ inherited Ped: TPed
             end
             inherited CCalendarDiff1: TCCalendarDiff
               Interval = diMonthly
-              Date = 44275.665472175930000000
+              Date = 44278.993733587970000000
               DisplayInterval = Label6
               OnChange = FrameData1CCalendarDiff1Change
             end
@@ -250,8 +250,6 @@ inherited Ped: TPed
       object TabSheet2: TTabSheet
         Caption = 'Em Digita'#231#227'o'
         ImageIndex = 213
-        ExplicitLeft = 6
-        ExplicitTop = 37
         object ControlBar1: TControlBar
           AlignWithMargins = True
           Left = 3
@@ -2312,7 +2310,7 @@ inherited Ped: TPed
         'ecno'
       '  from clientes_contatos'
       ' where cliente = :cliente'
-      '   and enviar_pedido_venda'
+      '   and contato_pedido'
       '   and ativo')
     Params = <
       item

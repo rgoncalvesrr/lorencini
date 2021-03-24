@@ -108,7 +108,6 @@ uses
   uParcelamento in '..\..\Sources\Core\Financ\uParcelamento.pas' {Parcelamento},
   uOrcaGrupos in '..\..\Sources\Core\Cad\uOrcaGrupos.pas' {OrcaGrupos},
   uOrcaGruposM in '..\..\Sources\Core\Cad\uOrcaGruposM.pas' {OrcaGruposM},
-  uReceberContatosM in '..\..\Sources\Core\Financ\uReceberContatosM.pas' {ReceberContatosM},
   uOSMCancelamento in '..\..\Sources\Core\Vendas\uOSMCancelamento.pas' {OSMCancelamento},
   uLabFabricantes in '..\..\Sources\Core\Labo\uLabFabricantes.pas' {LabFabricantes},
   uLabFabricantesM in '..\..\Sources\Core\Labo\uLabFabricantesM.pas' {LabFabricantesM},

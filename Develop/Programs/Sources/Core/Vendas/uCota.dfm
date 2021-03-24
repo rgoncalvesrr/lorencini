@@ -103,7 +103,7 @@ inherited Cota: TCota
             ExplicitWidth = 156
           end
           inherited CCalendarDiff1: TCCalendarDiff
-            Date = 44275.552895289350000000
+            Date = 44278.992246805550000000
             DisplayInterval = Label4
             OnChange = FrameData1CCalendarDiff1Change
           end
@@ -241,8 +241,6 @@ inherited Cota: TCota
       object TabSheet2: TTabSheet
         Caption = 'Digita'#231#227'o'
         ImageIndex = 214
-        ExplicitLeft = 6
-        ExplicitTop = 37
         object ControlBar1: TControlBar
           AlignWithMargins = True
           Left = 3
@@ -1843,7 +1841,7 @@ inherited Cota: TCota
         'ecno'
       '  from clientes_contatos'
       ' where cliente = :cliente'
-      '   and enviar_cotacao_venda'
+      '   and contato_cotacao'
       '   and ativo')
     Params = <
       item

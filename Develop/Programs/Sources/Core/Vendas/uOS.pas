@@ -72,24 +72,6 @@ type
     IBrwSrcdescri_grupo: TStringField;
     IBrwSrcatividade: TStringField;
     IBrwSrccotacao: TIntegerField;
-    IBrwSrccontato: TIntegerField;
-    IBrwSrccontato_nome: TStringField;
-    IBrwSrccontato_funcao: TStringField;
-    IBrwSrccontato_celular: TStringField;
-    IBrwSrccontato_telefone: TStringField;
-    IBrwSrccontato_email: TStringField;
-    IBrwSrccontato_fin: TIntegerField;
-    IBrwSrccontatofin_nome: TStringField;
-    IBrwSrccontatofin_funcao: TStringField;
-    IBrwSrccontatofin_celular: TStringField;
-    IBrwSrccontatofin_telefone: TStringField;
-    IBrwSrccontatofin_email: TStringField;
-    IBrwSrccontato_tec: TIntegerField;
-    IBrwSrccontatotec_nome: TStringField;
-    IBrwSrccontatotec_funcao: TStringField;
-    IBrwSrccontatotec_celular: TStringField;
-    IBrwSrccontatotec_telefone: TStringField;
-    IBrwSrccontatotec_email: TStringField;
     sOS: TZSequence;
     qServ: TZQuery;
     qServos: TIntegerField;
@@ -216,6 +198,16 @@ type
     actAntecipacao: TAction;
     IBrwSrcstatus: TIntegerField;
     IBrwSrccondicaopg: TStringField;
+    qContatos: TZQuery;
+    qContatoscliente: TIntegerField;
+    qContatospadrao: TBooleanField;
+    qContatosrecno: TIntegerField;
+    qContatosnome: TStringField;
+    qContatoscelular: TStringField;
+    qContatostelefone: TStringField;
+    qContatosramal: TStringField;
+    qContatosemail: TStringField;
+    dsContatos: TDataSource;
     procedure FormCreate(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure IBrwSrcAfterScroll(DataSet: TDataSet);
@@ -580,12 +572,14 @@ begin
   qMObra.ParamByName('os').AsInteger := IBrwSrcos.AsInteger;
   qFatu.ParamByName('os').AsInteger := IBrwSrcos.AsInteger;
   qDesp.ParamByName('os').AsInteger := IBrwSrcos.AsInteger;
+  qContatos.ParamByName('cliente').AsInteger := IBrwSrcidcliente.AsInteger;
 
   G.RefreshDataSet(qServ);
   G.RefreshDataSet(qMat);
   G.RefreshDataSet(qMObra);
   G.RefreshDataSet(qFatu);
   G.RefreshDataSet(qDesp);
+  G.RefreshDataSet(qContatos);
 
   RefreshCtrl;
 end;

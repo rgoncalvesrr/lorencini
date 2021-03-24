@@ -69,7 +69,7 @@ Begin
       select nome, email
         from clientes_contatos
        where cliente = rc.codigo
-         and enviar_pedido_venda
+         and contato_pedido
          and ativo
          and email is not null)
    loop

@@ -157,7 +157,7 @@ inherited OS: TOS
             end
             inherited CCalendarDiff1: TCCalendarDiff
               Interval = diMonthly
-              Date = 44263.921463032410000000
+              Date = 44278.995022118060000000
               DisplayInterval = Label4
               OnChange = actQueryProcessExecute
             end
@@ -543,22 +543,7 @@ inherited OS: TOS
       
         '       c.nome_chave, c.empresa, a.motivo, c.observacao, a.pedido' +
         ', g.descri descri_grupo,'
-      
-        '       cast(atv.ativdescri as varchar(150)) atividade, a.cotacao' +
-        ', a.contato, ct.nome contato_nome, '
-      
-        '       ct.funcao contato_funcao, ct.celular contato_celular,  ct' +
-        '.telefone contato_telefone, ct.email contato_email,       '
-      
-        '       a.contato_fin, cf.nome contatofin_nome, cf.funcao contato' +
-        'fin_funcao, cf.celular contatofin_celular,'
-      
-        '       cf.telefone contatofin_telefone, cf.email contatofin_emai' +
-        'l, a.contato_tec, cte.nome contatotec_nome, '
-      
-        '       cte.funcao contatotec_funcao, cte.celular contatotec_celu' +
-        'lar, cte.telefone contatotec_telefone, cte.email contatotec_emai' +
-        'l       '
+      '       cast(atv.ativdescri as varchar(150)) atividade, a.cotacao'
       '  from tb_orcamentos a'
       '       join orca_grupo g'
       '         on a.grupo = g.recno'
@@ -566,15 +551,6 @@ inherited OS: TOS
       '         on atv.item = g.atividade'
       '       join tbclientes c'
       '         on c.codigo = a.idcliente'
-      '       join vclientes_contatos ct  '
-      '         on ct.cliente = a.idcliente'
-      '        and ct.contato = a.contato '
-      '       join vclientes_contatos cf'
-      '         on cf.cliente = a.idcliente'
-      '        and cf.contato = a.contato_fin  '
-      '       join vclientes_contatos cte'
-      '         on cte.cliente = a.idcliente'
-      '        and cte.contato = a.contato_tec   '
       '       left join markup m'
       '         on m.recno = a.markup')
     IndexFieldNames = 'os Desc'
@@ -778,94 +754,6 @@ inherited OS: TOS
       ReadOnly = True
       Visible = False
     end
-    object IBrwSrccontato: TIntegerField
-      FieldName = 'contato'
-      Required = True
-      Visible = False
-    end
-    object IBrwSrccontato_nome: TStringField
-      FieldName = 'contato_nome'
-      Visible = False
-      Size = 60
-    end
-    object IBrwSrccontato_funcao: TStringField
-      FieldName = 'contato_funcao'
-      Visible = False
-      Size = 54
-    end
-    object IBrwSrccontato_celular: TStringField
-      FieldName = 'contato_celular'
-      Visible = False
-      Size = 100
-    end
-    object IBrwSrccontato_telefone: TStringField
-      FieldName = 'contato_telefone'
-      Visible = False
-      Size = 100
-    end
-    object IBrwSrccontato_email: TStringField
-      FieldName = 'contato_email'
-      Visible = False
-      Size = 100
-    end
-    object IBrwSrccontato_fin: TIntegerField
-      FieldName = 'contato_fin'
-      Visible = False
-    end
-    object IBrwSrccontatofin_nome: TStringField
-      FieldName = 'contatofin_nome'
-      Visible = False
-      Size = 60
-    end
-    object IBrwSrccontatofin_funcao: TStringField
-      FieldName = 'contatofin_funcao'
-      Visible = False
-      Size = 54
-    end
-    object IBrwSrccontatofin_celular: TStringField
-      FieldName = 'contatofin_celular'
-      Visible = False
-      Size = 100
-    end
-    object IBrwSrccontatofin_telefone: TStringField
-      FieldName = 'contatofin_telefone'
-      Visible = False
-      Size = 100
-    end
-    object IBrwSrccontatofin_email: TStringField
-      FieldName = 'contatofin_email'
-      Visible = False
-      Size = 100
-    end
-    object IBrwSrccontato_tec: TIntegerField
-      FieldName = 'contato_tec'
-      Visible = False
-    end
-    object IBrwSrccontatotec_nome: TStringField
-      FieldName = 'contatotec_nome'
-      Visible = False
-      Size = 60
-    end
-    object IBrwSrccontatotec_funcao: TStringField
-      FieldName = 'contatotec_funcao'
-      Visible = False
-      Size = 54
-    end
-    object IBrwSrccontatotec_celular: TStringField
-      FieldName = 'contatotec_celular'
-      Visible = False
-      Size = 100
-    end
-    object IBrwSrccontatotec_telefone: TStringField
-      FieldName = 'contatotec_telefone'
-      Visible = False
-      Size = 100
-    end
-    object IBrwSrccontatotec_email: TStringField
-      FieldName = 'contatotec_email'
-      Visible = False
-      Size = 100
-    end
     object IBrwSrccondicaopg: TStringField
       DisplayLabel = 'Condi'#231#227'o de Pagamento'
       FieldName = 'condicaopg'
@@ -896,17 +784,13 @@ inherited OS: TOS
       'INSERT INTO tb_orcamentos'
       
         '  (data,        ano,         idcliente,    vlrprevisto,  descric' +
-        'ao,  contato,  status,  type_,  item,  origem,  recno,'
-      
-        '   grupo,       idvendedor,  contato_fin,  contato_tec,  condica' +
-        'opg)'
+        'ao,  status,  type_,  item,  origem,  recno,'
+      '   grupo,       idvendedor,  condicaopg)'
       'VALUES'
       
         '  (:data,       :ano,        :idcliente,   :vlrprevisto, :descri' +
-        'cao, :contato, :status, :type_, :item, :origem, :recno,'
-      
-        '   :grupo,      :idvendedor, :contato_fin, :contato_tec, :condic' +
-        'aopg)')
+        'cao, :status, :type_, :item, :origem, :recno,'
+      '   :grupo,      :idvendedor, :condicaopg)')
     ModifySQL.Strings = (
       'UPDATE tb_orcamentos SET'
       '  data = :data,'
@@ -915,7 +799,6 @@ inherited OS: TOS
       '  vlrprevisto = :vlrprevisto,'
       '  descricao = :descricao,'
       '  telefone = :telefone,'
-      '  contato = :contato,'
       '  status = :status,'
       '  type_ = :type_,'
       '  item = :item,'
@@ -923,9 +806,7 @@ inherited OS: TOS
       '  grupo = :grupo,'
       '  idvendedor = :idvendedor,'
       '  motivo = :motivo,'
-      '  contato_fin = :contato_fin,'
-      '  contato_tec = :contato_tec,'
-      '  condicaopg = :condicaopg '
+      '  condicaopg = :condicaopg'
       'WHERE'
       '  os = :OLD_os')
     Left = 112
@@ -963,11 +844,6 @@ inherited OS: TOS
       end
       item
         DataType = ftUnknown
-        Name = 'contato'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
         Name = 'status'
         ParamType = ptUnknown
       end
@@ -999,16 +875,6 @@ inherited OS: TOS
       item
         DataType = ftUnknown
         Name = 'motivo'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'contato_fin'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'contato_tec'
         ParamType = ptUnknown
       end
       item
@@ -2314,5 +2180,81 @@ inherited OS: TOS
     SequenceName = 'public.fin_caixa_recno_seq'
     Left = 504
     Top = 320
+  end
+  object qContatos: TZQuery
+    Connection = DM.Design
+    SortedFields = 'nome'
+    SQL.Strings = (
+      
+        'select cliente, nome, celular, telefone, ramal, email, padrao, r' +
+        'ecno'
+      '  from clientes_contatos'
+      ' where cliente = :cliente'
+      '   and contato_os'
+      '   and ativo')
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'cliente'
+        ParamType = ptUnknown
+      end>
+    FetchRow = 50
+    IndexFieldNames = 'nome Asc'
+    Left = 40
+    Top = 416
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'cliente'
+        ParamType = ptUnknown
+      end>
+    object qContatoscliente: TIntegerField
+      FieldName = 'cliente'
+      Visible = False
+    end
+    object qContatospadrao: TBooleanField
+      DisplayLabel = 'Padr'#227'o'
+      FieldName = 'padrao'
+    end
+    object qContatosrecno: TIntegerField
+      DisplayLabel = 'Contato'
+      FieldName = 'recno'
+    end
+    object qContatosnome: TStringField
+      DisplayLabel = 'Nome'
+      DisplayWidth = 35
+      FieldName = 'nome'
+      Size = 150
+    end
+    object qContatoscelular: TStringField
+      DisplayLabel = 'Celular'
+      DisplayWidth = 15
+      FieldName = 'celular'
+      EditMask = '(99) 9.9999-9999;0;'
+      Size = 25
+    end
+    object qContatostelefone: TStringField
+      DisplayLabel = 'Fixo'
+      DisplayWidth = 15
+      FieldName = 'telefone'
+      EditMask = '(99) 9999-9999;0;'
+      Size = 25
+    end
+    object qContatosramal: TStringField
+      DisplayLabel = 'Ramal'
+      FieldName = 'ramal'
+      Size = 6
+    end
+    object qContatosemail: TStringField
+      DisplayLabel = 'E-mail'
+      FieldName = 'email'
+      Size = 150
+    end
+  end
+  object dsContatos: TDataSource
+    AutoEdit = False
+    DataSet = qContatos
+    Left = 256
+    Top = 416
   end
 end

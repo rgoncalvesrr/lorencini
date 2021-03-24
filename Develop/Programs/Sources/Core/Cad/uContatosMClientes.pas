@@ -54,6 +54,7 @@ type
     Label7: TLabel;
     DBMemo1: TDBMemo;
     DBCheckBox10: TDBCheckBox;
+    DBCheckBox6: TDBCheckBox;
     procedure FrameCliente1SpeedButton1Click(Sender: TObject);
     procedure actCheckExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -83,12 +84,13 @@ begin
   with Contatos do
   begin
     qContClipadrao.AsBoolean := bMark;
-    qContClienviar_cotacao_venda.AsBoolean := bMark;
-    qContClienviar_pedido_venda.AsBoolean := bMark;
-    qContClienviar_laudo_atencao.AsBoolean := bMark;
-    qContClienviar_laudo_critico.AsBoolean := bMark;
-    qContClienviar_laudo_normal.AsBoolean := bMark;
-    qContClienviar_os.AsBoolean := bMark;
+    qContClicontato_cotacao.AsBoolean := bMark;
+    qContClicontato_pedido.AsBoolean := bMark;
+    qContClicontato_laudo_normal.AsBoolean := bMark;
+    qContClicontato_laudo_atencao.AsBoolean := bMark;
+    qContClicontato_laudo_critico.AsBoolean := bMark;
+    qContClicontato_os.AsBoolean := bMark;
+    qContClicontato_financeiro.AsBoolean := bMark;
   end;
 end;
 
