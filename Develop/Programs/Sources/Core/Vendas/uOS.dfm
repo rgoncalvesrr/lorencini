@@ -157,7 +157,7 @@ inherited OS: TOS
             end
             inherited CCalendarDiff1: TCCalendarDiff
               Interval = diMonthly
-              Date = 44278.995022118060000000
+              Date = 44280.082932893520000000
               DisplayInterval = Label4
               OnChange = actQueryProcessExecute
             end

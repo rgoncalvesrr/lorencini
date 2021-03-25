@@ -83,7 +83,7 @@ inherited NFS: TNFS
             ExplicitWidth = 156
           end
           inherited CCalendarDiff1: TCCalendarDiff
-            Date = 44265.780613773150000000
+            Date = 44280.083783206020000000
             DisplayInterval = Label4
             OnChange = actQueryProcessExecute
           end
@@ -114,7 +114,7 @@ inherited NFS: TNFS
           end
           inherited CCalendarDiff1: TCCalendarDiff
             Interval = diMonthly
-            Date = 44265.780613773150000000
+            Date = 44280.083783206020000000
             DisplayInterval = Label6
             OnChange = actQueryProcessExecute
           end
