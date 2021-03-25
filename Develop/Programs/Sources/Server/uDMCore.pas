@@ -245,10 +245,10 @@ begin
       oMail.OnLog := FOnLogSMTP;
       oMail.OnTerminate := ProcessoFinalizado;
       oMail.Recno := zQry.Fields[0].AsInteger;
+      oMail.Table_ := zQry.Fields[1].AsInteger;
       oMail.Recno_ := zQry.Fields[2].AsInteger;
       oMail.SMTP.Assign(TServiceCFG.GetInstance.Smtp);
-      oMail.Table_ := zQry.Fields[1].AsInteger;
-
+      
       FThreadList.Add(oMail);
 
       zQry.Next;
