@@ -127,11 +127,9 @@ type
     qContatosramal: TStringField;
     qContatoscontato_pedido: TBooleanField;
     qContatoscontato_cotacao: TBooleanField;
-    qContatoscontato_laudo_critico: TBooleanField;
-    qContatoscontato_laudo_atencao: TBooleanField;
-    qContatoscontato_laudo_normal: TBooleanField;
     qContatoscontato_os: TBooleanField;
     qContatoscontato_financeiro: TBooleanField;
+    qContatoscontato_tecnico: TBooleanField;
     procedure FormCreate(Sender: TObject);
     procedure actOrcaExecute(Sender: TObject);
     procedure DBGrid2DrawColumnCell(Sender: TObject; const Rect: TRect;
@@ -497,9 +495,7 @@ begin
   begin
     qContatoscontato_pedido.AsBoolean := (qContatossituacao.AsInteger = 1) and (qContatosemail.AsString <> EmptyStr);
     qContatoscontato_cotacao.AsBoolean := qContatoscontato_pedido.AsBoolean;
-    qContatoscontato_laudo_normal.AsBoolean := qContatoscontato_pedido.AsBoolean;
-    qContatoscontato_laudo_atencao.AsBoolean := qContatoscontato_pedido.AsBoolean;
-    qContatoscontato_laudo_critico.AsBoolean := qContatoscontato_pedido.AsBoolean;
+    qContatoscontato_tecnico.AsBoolean := qContatoscontato_pedido.AsBoolean;
     qContatoscontato_os.AsBoolean := qContatoscontato_pedido.AsBoolean;
     qContatoscontato_financeiro.AsBoolean := qContatoscontato_pedido.AsBoolean;
   end;

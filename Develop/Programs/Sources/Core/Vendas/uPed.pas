@@ -798,9 +798,6 @@ begin
   inherited;
   with DMReport do
   try
-//    R00018.ParamByName('origem').AsInteger := 187;
-//    R00018.ParamByName('recno').AsInteger := IBrwSrcrecno.AsInteger;
-//    G.RefreshDataSet(R00018);
     R00020.ParamByName('pedido').AsInteger := IBrwSrcrecno.AsInteger;
     G.RefreshDataSet(R00020);
 

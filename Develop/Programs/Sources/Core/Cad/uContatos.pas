@@ -62,11 +62,9 @@ type
     IBrwSrcobs: TMemoField;
     qContClicontato_pedido: TBooleanField;
     qContClicontato_cotacao: TBooleanField;
-    qContClicontato_laudo_normal: TBooleanField;
-    qContClicontato_laudo_atencao: TBooleanField;
-    qContClicontato_laudo_critico: TBooleanField;
     qContClicontato_os: TBooleanField;
     qContClicontato_financeiro: TBooleanField;
+    qContClicontato_tecnico: TBooleanField;
     procedure IBrwSrcsituacaoGetText(Sender: TField; var Text: string; DisplayText: Boolean);
     procedure IBrwSrcsituacaoSetText(Sender: TField; const Text: string);
     procedure DBGridDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn;
@@ -319,9 +317,7 @@ begin
   qContClicontato.AsInteger := IBrwSrcrecno.AsInteger;
   qContClicontato_cotacao.AsBoolean := not IBrwSrcemail.IsNull;
   qContClicontato_pedido.AsBoolean := not IBrwSrcemail.IsNull;
-  qContClicontato_laudo_atencao.AsBoolean := not IBrwSrcemail.IsNull;
-  qContClicontato_laudo_critico.AsBoolean := not IBrwSrcemail.IsNull;
-  qContClicontato_laudo_normal.AsBoolean := not IBrwSrcemail.IsNull;
+  qContClicontato_tecnico.AsBoolean := not IBrwSrcemail.IsNull;
   qContClicontato_os.AsBoolean := not IBrwSrcemail.IsNull;
   qContClicontato_financeiro.AsBoolean := not IBrwSrcemail.IsNull;
   qContClisituacao.AsInteger := IBrwSrcsituacao.AsInteger;

@@ -299,10 +299,6 @@ type
     R00014av5: TFloatField;
     R00014av6: TFloatField;
     R00014localizacao: TStringField;
-    R00014funcao: TStringField;
-    R00014telefone_1: TStringField;
-    R00014celular: TStringField;
-    R00014email: TStringField;
     R00014idos: TStringField;
     R00014destinatario: TStringField;
     R00015: TZReadOnlyQuery;
@@ -342,7 +338,6 @@ type
     R00014cidade: TStringField;
     R00014estado: TStringField;
     R00014cep: TStringField;
-    R00014email_1: TStringField;
     R00014apontado: TDateTimeField;
     R00017: TZQuery;
     frxR00017: TfrxDBDataset;
@@ -418,10 +413,6 @@ type
     R00018btipo: TIntegerField;
     R00018brecno: TIntegerField;
     R00018bvtotal: TFloatField;
-    R00018contato_nome: TStringField;
-    R00018contato_celular: TStringField;
-    R00018contato_telefone: TStringField;
-    R00018contato_email: TStringField;
     R00018c: TZQuery;
     R00018corigem: TIntegerField;
     R00018cdoc: TIntegerField;
@@ -791,9 +782,21 @@ type
     R00014resp_conselho: TStringField;
     R00014analista_conselho: TStringField;
     R00014nomese: TStringField;
-    R00014nomecont: TStringField;
     R00014legendas: TMemoField;
     R00014regras: TMemoField;
+    R00014c: TZQuery;
+    frxR00014c: TfrxDBDataset;
+    R00014cnome: TStringField;
+    R00014cfuncao: TStringField;
+    R00014ctelefone: TStringField;
+    R00014cemail: TStringField;
+    R00014email: TStringField;
+    R00018g: TZQuery;
+    frxDR00018g: TfrxDBDataset;
+    R00018gnome: TStringField;
+    R00018gcelular: TStringField;
+    R00018gtelefone: TStringField;
+    R00018gemail: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure R00011CalcFields(DataSet: TDataSet);
     procedure R00014CalcFields(DataSet: TDataSet);
@@ -939,7 +942,9 @@ procedure TDMReport.R00014AfterScroll(DataSet: TDataSet);
 begin
   R00014a.ParamByName('laudo').AsInteger := R00014recno.AsInteger; // laudo
   R00014a.ParamByName('tipo').AsInteger := R00014relato_recno.AsInteger; // tipo de laudo
+  R00014c.ParamByName('cliente').AsInteger := R00014codigo.AsInteger; // tipo de laudo
   G.RefreshDataSet(R00014a);
+  G.RefreshDataSet(R00014c);
 end;
 
 procedure TDMReport.R00014CalcFields(DataSet: TDataSet);
@@ -1019,11 +1024,13 @@ begin
   R00018e.ParamByName('origem').AsInteger := R00018origem.AsInteger;
   R00018e.ParamByName('doc').AsInteger := R00018doc.AsInteger;
   R00018f.ParamByName('cotacao').AsInteger := R00018recno.AsInteger;
+  R00018g.ParamByName('cliente').AsInteger := R00018cliente.AsInteger;
   G.RefreshDataSet(R00018a);
   G.RefreshDataSet(R00018b);
   G.RefreshDataSet(R00018d);
   G.RefreshDataSet(R00018e);
   G.RefreshDataSet(R00018f);
+  G.RefreshDataSet(R00018g);
 end;
 
 procedure TDMReport.R00018bAfterScroll(DataSet: TDataSet);

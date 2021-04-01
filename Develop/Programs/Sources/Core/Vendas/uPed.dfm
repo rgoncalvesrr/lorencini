@@ -175,7 +175,7 @@ inherited Ped: TPed
             Width = 185
             Height = 15
             Align = alTop
-            Caption = '01/03/2021 a 31/03/2021'
+            Caption = '01/04/2021 a 30/04/2021'
             Transparent = True
             ExplicitWidth = 128
           end
@@ -207,7 +207,7 @@ inherited Ped: TPed
             end
             inherited CCalendarDiff1: TCCalendarDiff
               Interval = diMonthly
-              Date = 44278.993733587970000000
+              Date = 44287.088349444440000000
               DisplayInterval = Label6
               OnChange = FrameData1CCalendarDiff1Change
             end

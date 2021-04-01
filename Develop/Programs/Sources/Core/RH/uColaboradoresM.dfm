@@ -1000,7 +1000,6 @@ inherited ColaboradoresM: TColaboradoresM
                 DataField = 'cargo'
                 DataSource = Colaboradores.DataSource1
                 TabOrder = 0
-                ExplicitWidth = 179
               end
             end
             object Panel39: TPanel
@@ -1011,8 +1010,6 @@ inherited ColaboradoresM: TColaboradoresM
               Align = alClient
               BevelOuter = bvNone
               TabOrder = 1
-              ExplicitLeft = 187
-              ExplicitWidth = 271
               object Label12: TLabel
                 AlignWithMargins = True
                 Left = 3
@@ -1038,7 +1035,6 @@ inherited ColaboradoresM: TColaboradoresM
                 LookupDisplay = 'descri'
                 LookupSource = Colaboradores.dsConselhos
                 TabOrder = 0
-                ExplicitWidth = 265
               end
             end
             object Panel40: TPanel
@@ -1049,7 +1045,6 @@ inherited ColaboradoresM: TColaboradoresM
               Align = alRight
               BevelOuter = bvNone
               TabOrder = 2
-              ExplicitLeft = 458
               object Label35: TLabel
                 AlignWithMargins = True
                 Left = 3
@@ -1083,8 +1078,6 @@ inherited ColaboradoresM: TColaboradoresM
             Align = alClient
             Caption = ' Integra'#231#227'o c/ Sistema '
             TabOrder = 1
-            ExplicitLeft = 583
-            ExplicitWidth = 221
             object Label42: TLabel
               AlignWithMargins = True
               Left = 5
@@ -1103,7 +1096,7 @@ inherited ColaboradoresM: TColaboradoresM
               Width = 147
               Height = 23
               Align = alClient
-              DataField = 'username'
+              DataField = 'account'
               DataSource = Colaboradores.DataSource1
               TabOrder = 0
               ListSettings.OutfilteredValueFont.Charset = DEFAULT_CHARSET
@@ -1111,7 +1104,7 @@ inherited ColaboradoresM: TColaboradoresM
               ListSettings.OutfilteredValueFont.Height = -11
               ListSettings.OutfilteredValueFont.Name = 'Tahoma'
               ListSettings.OutfilteredValueFont.Style = []
-              ExplicitWidth = 211
+              ExplicitLeft = 3
             end
           end
         end

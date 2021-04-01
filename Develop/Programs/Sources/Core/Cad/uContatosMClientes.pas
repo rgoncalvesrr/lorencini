@@ -36,8 +36,6 @@ type
     DBCheckBox1: TDBCheckBox;
     DBCheckBox2: TDBCheckBox;
     DBCheckBox3: TDBCheckBox;
-    DBCheckBox4: TDBCheckBox;
-    DBCheckBox5: TDBCheckBox;
     Panel9: TPanel;
     ControlBar3: TControlBar;
     ToolBar2: TToolBar;
@@ -86,9 +84,7 @@ begin
     qContClipadrao.AsBoolean := bMark;
     qContClicontato_cotacao.AsBoolean := bMark;
     qContClicontato_pedido.AsBoolean := bMark;
-    qContClicontato_laudo_normal.AsBoolean := bMark;
-    qContClicontato_laudo_atencao.AsBoolean := bMark;
-    qContClicontato_laudo_critico.AsBoolean := bMark;
+    qContClicontato_tecnico.AsBoolean := bMark;
     qContClicontato_os.AsBoolean := bMark;
     qContClicontato_financeiro.AsBoolean := bMark;
   end;
