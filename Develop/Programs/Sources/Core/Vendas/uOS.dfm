@@ -157,7 +157,7 @@ inherited OS: TOS
             end
             inherited CCalendarDiff1: TCCalendarDiff
               Interval = diMonthly
-              Date = 44280.082932893520000000
+              Date = 44280.096642418980000000
               DisplayInterval = Label4
               OnChange = actQueryProcessExecute
             end
@@ -175,11 +175,10 @@ inherited OS: TOS
             AlignWithMargins = True
             Left = 3
             Top = 3
-            Width = 206
+            Width = 79
             Height = 15
             Align = alTop
             Caption = 'Nome Fantasia'
-            ExplicitWidth = 79
           end
           object edEmpresa: TEdit
             AlignWithMargins = True
@@ -204,11 +203,10 @@ inherited OS: TOS
             AlignWithMargins = True
             Left = 3
             Top = 3
-            Width = 263
+            Width = 97
             Height = 15
             Align = alTop
             Caption = 'Nome Empresarial'
-            ExplicitWidth = 97
           end
           object edRazao: TEdit
             AlignWithMargins = True
@@ -267,11 +265,10 @@ inherited OS: TOS
             AlignWithMargins = True
             Left = 3
             Top = 3
-            Width = 94
+            Width = 11
             Height = 15
             Align = alTop
             Caption = 'ID'
-            ExplicitWidth = 11
           end
           object edID: TEdit
             AlignWithMargins = True
@@ -395,26 +392,50 @@ inherited OS: TOS
       object TabSheet8: TTabSheet
         Caption = 'Aprovados'
         ImageIndex = 205
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
       object TabSheet5: TTabSheet
         Caption = 'Executando'
         ImageIndex = 210
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
       object TabSheet9: TTabSheet
         Caption = 'Finalizados'
         ImageIndex = 213
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
       object TabSheet10: TTabSheet
         Caption = 'Faturados'
         ImageIndex = 208
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
       object TabSheet3: TTabSheet
         Caption = 'Antecipados'
         ImageIndex = 211
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
       object TabSheet13: TTabSheet
         Caption = 'Cancelados'
         ImageIndex = 209
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
     end
   end

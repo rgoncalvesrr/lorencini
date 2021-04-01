@@ -29,7 +29,6 @@ type
     IBrwSrcdtadmissao: TDateTimeField;
     IBrwSrcdtdemissao: TDateTimeField;
     IBrwSrccrq: TStringField;
-    IBrwSrcusername: TStringField;
     IBrwSrcrecno: TIntegerField;
     IBrwSrcassinatura: TStringField;
     sIBrwSrc: TZSequence;
@@ -47,6 +46,7 @@ type
     Panel6: TPanel;
     Label1: TLabel;
     cbStatus: TComboBox;
+    IBrwSrcaccount: TLargeintField;
     procedure IBrwSrcAfterInsert(DataSet: TDataSet);
     procedure FormCreate(Sender: TObject);
     procedure IBrwSrcAfterScroll(DataSet: TDataSet);

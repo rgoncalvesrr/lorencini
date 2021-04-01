@@ -54,8 +54,6 @@ type
     ToolButton15: TToolButton;
     Panel12: TPanel;
     DBCheckBox3: TDBCheckBox;
-    DBCheckBox5: TDBCheckBox;
-    DBCheckBox4: TDBCheckBox;
     Panel14: TPanel;
     DBCheckBox6: TDBCheckBox;
     DBCheckBox7: TDBCheckBox;
@@ -98,9 +96,7 @@ begin
     qContatospadrao.AsBoolean := bMark;
     qContatoscontato_cotacao.AsBoolean := bMark;
     qContatoscontato_pedido.AsBoolean := bMark;
-    qContatoscontato_laudo_atencao.AsBoolean := bMark;
-    qContatoscontato_laudo_critico.AsBoolean := bMark;
-    qContatoscontato_laudo_normal.AsBoolean := bMark;
+    qContatoscontato_tecnico.AsBoolean := bMark;
     qContatoscontato_os.AsBoolean := bMark;
     qContatoscontato_financeiro.AsBoolean := bMark;
   end;

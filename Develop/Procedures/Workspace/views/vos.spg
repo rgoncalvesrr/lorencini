@@ -1,0 +1,27 @@
+set session authorization lorencini;
+CREATE OR REPLACE VIEW public.vos
+AS SELECT o.os,
+    o.idos,
+    o.data,
+    o.ano,
+    o.idcliente,
+    o.idvendedor,
+    o.descricao,
+    o.telefone,
+    o.status AS status_,
+    o.type_,
+    o.pedidocliente,
+    o.grupo,    
+    m.vlsrvfixo,
+    m.vlsrvvar,
+    m.vlmobra,
+    m.vldespe,
+    m.vlsrvfixo + m.vlsrvvar + m.vlmobra + m.vldespe::numeric AS vlsrv,
+    m.vlmat,
+    o.nf_srv,
+    o.vlnfsrv,
+    o.nf_mat,
+    o.vlnfmat,
+    o.recno
+   FROM tb_orcamentos o
+     LEFT JOIN markup m ON m.recno = o.markup;

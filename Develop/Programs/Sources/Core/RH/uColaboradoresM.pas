@@ -178,17 +178,19 @@ begin
     Values.Clear;
 
     SQL.Text:=
-    'select username, name '+
-      'from sys_users '+
-     'where active = true '+
+    'select account, nome '+
+      'from vaccounts '+
+     'where status = 2 '+
+       'and situacao = 1 '+
+       'and username is not null '+
      'order by 2';
 
     Open;
 
     while not Eof do
     begin
-      Items.Add(FieldByName('name').AsString);
-      Values.Add(FieldByName('username').AsString);
+      Items.Add(FieldByName('nome').AsString);
+      Values.Add(FieldByName('account').AsString);
       Next;
     end;
 

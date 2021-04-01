@@ -22,7 +22,10 @@ inherited Colaboradores: TColaboradores
       Width = 771
       ExplicitWidth = 771
       inherited tsQuery: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 6
         ExplicitWidth = 763
+        ExplicitHeight = 75
         inherited BitBtn2: TBitBtn
           Left = 662
           ExplicitLeft = 662
@@ -103,6 +106,7 @@ inherited Colaboradores: TColaboradores
         ExplicitLeft = 4
         ExplicitTop = 6
         ExplicitWidth = 763
+        ExplicitHeight = 75
       end
     end
   end
@@ -120,6 +124,7 @@ inherited Colaboradores: TColaboradores
       inherited TabSheet1: TTabSheet
         Caption = 'Todos'
         ImageIndex = -1
+        ExplicitLeft = 4
         ExplicitTop = 33
         ExplicitWidth = 767
         ExplicitHeight = 252
@@ -144,11 +149,44 @@ inherited Colaboradores: TColaboradores
     inherited ToolBar1: TToolBar
       Width = 617
       ExplicitWidth = 617
+      inherited ToolButton2: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton5: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton9: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton6: TToolButton
+        ExplicitWidth = 32
+      end
       inherited ToolButton7: TToolButton
         ExplicitHeight = 36
       end
+      inherited ToolButton1: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton8: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton3: TToolButton
+        ExplicitWidth = 32
+      end
       inherited ToolButton4: TToolButton
         ExplicitHeight = 36
+      end
+      inherited tbOrder: TToolButton
+        ExplicitWidth = 76
+      end
+      inherited tbReport: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited tbOpcao: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton10: TToolButton
+        ExplicitWidth = 32
       end
     end
   end
@@ -183,7 +221,7 @@ inherited Colaboradores: TColaboradores
         'cidade, c.estado, c.cep, c.telresidencia, c.telcelular,'
       
         '       c.contabanco, c.contaagencia, c.contanumero, c.situacao, ' +
-        'c.dtadmissao, c.dtdemissao, c.cargo, c.crq, c.username,'
+        'c.dtadmissao, c.dtdemissao, c.cargo, c.crq, c.account,'
       '       c.conselho, c.assinatura, c.recno'
       '  from tbfuncionarios c ')
     IndexFieldNames = 'nome Asc'
@@ -293,13 +331,13 @@ inherited Colaboradores: TColaboradores
       Visible = False
       Size = 15
     end
-    object IBrwSrcusername: TStringField
-      FieldName = 'username'
-      Visible = False
-    end
     object IBrwSrcrecno: TIntegerField
       FieldName = 'recno'
       Required = True
+    end
+    object IBrwSrcaccount: TLargeintField
+      FieldName = 'account'
+      Visible = False
     end
     object IBrwSrcassinatura: TStringField
       FieldName = 'assinatura'
@@ -325,23 +363,18 @@ inherited Colaboradores: TColaboradores
       'INSERT INTO tbfuncionarios'
       
         '  (idcodigo, nome, cargo, telcelular, rg, cpf, endereco, bairro,' +
-        ' cep, cidade, '
+        ' cep, cidade, estado, contabanco, contaagencia,'
       
-        '   estado, contabanco, contaagencia, contanumero, telresidencia,' +
-        ' situacao, '
-      
-        '   dtadmissao, dtdemissao, recno, crq, username, assinatura, con' +
-        'selho)'
+        '   contanumero, telresidencia, situacao, dtadmissao, dtdemissao,' +
+        ' recno, crq, account, assinatura,'
+      '   conselho)'
       'VALUES'
       
         '  (:idcodigo, :nome, :cargo, :telcelular, :rg, :cpf, :endereco, ' +
-        ':bairro, '
+        ':bairro, :cep, :cidade, :estado, :contabanco,'
       
-        '   :cep, :cidade, :estado, :contabanco, :contaagencia, :contanum' +
-        'ero, :telresidencia, '
-      
-        '   :situacao, :dtadmissao, :dtdemissao, :recno, :crq, :username,' +
-        ' :assinatura, '
+        '   :contaagencia, :contanumero, :telresidencia, :situacao, :dtad' +
+        'missao, :dtdemissao, :recno, :crq, :account, :assinatura,'
       '   :conselho)')
     ModifySQL.Strings = (
       'UPDATE tbfuncionarios SET'
@@ -365,7 +398,7 @@ inherited Colaboradores: TColaboradores
       '  dtdemissao = :dtdemissao,'
       '  recno = :recno,'
       '  crq = :crq,'
-      '  username = :username,'
+      '  account = :account,'
       '  assinatura = :assinatura,'
       '  conselho = :conselho'
       'WHERE'
@@ -475,7 +508,7 @@ inherited Colaboradores: TColaboradores
       end
       item
         DataType = ftUnknown
-        Name = 'username'
+        Name = 'account'
         ParamType = ptUnknown
       end
       item
