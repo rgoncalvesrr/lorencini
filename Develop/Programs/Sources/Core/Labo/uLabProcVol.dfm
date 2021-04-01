@@ -387,7 +387,6 @@ inherited LabProcVol: TLabProcVol
               Align = alLeft
               Caption = 'Volume Fechado'
               Layout = tlCenter
-              ExplicitLeft = 166
               ExplicitHeight = 15
             end
             object lbLeg3: TLabel
@@ -399,7 +398,6 @@ inherited LabProcVol: TLabProcVol
               Align = alLeft
               Caption = 'Volume Rastreado'
               Layout = tlCenter
-              ExplicitLeft = 300
               ExplicitHeight = 15
             end
             object JvImage3: TJvImage
@@ -492,6 +490,7 @@ inherited LabProcVol: TLabProcVol
             TitleFont.Color = clWindowText
             TitleFont.Height = -12
             TitleFont.Name = 'Segoe UI'
+            TitleFont.Pitch = fpVariable
             TitleFont.Style = []
             OnDrawColumnCell = DBGrid1DrawColumnCell
           end
@@ -527,6 +526,7 @@ inherited LabProcVol: TLabProcVol
           TitleFont.Color = clWindowText
           TitleFont.Height = -12
           TitleFont.Name = 'Segoe UI'
+          TitleFont.Pitch = fpVariable
           TitleFont.Style = []
           OnDrawColumnCell = DBGrid1DrawColumnCell
         end
@@ -593,6 +593,7 @@ inherited LabProcVol: TLabProcVol
           TitleFont.Color = clWindowText
           TitleFont.Height = -12
           TitleFont.Name = 'Segoe UI'
+          TitleFont.Pitch = fpVariable
           TitleFont.Style = []
           OnDrawColumnCell = DBGrid1DrawColumnCell
         end
@@ -757,10 +758,10 @@ inherited LabProcVol: TLabProcVol
     OnCalcFields = zVolumesCalcFields
     SQL.Strings = (
       'select v.volume, v.criacao, v.rastreio, v.frascos, v.seringas,'
-      '       v.username, u.name, v.recno, v.status'
+      '       u.username, u.nome as name, v.recno, v.status'
       '  from labvol v '
-      '       join sys_users u'
-      '         on u.username = v.username'
+      '       join vaccounts u'
+      '         on u.account = v.account'
       ' where v.labproc_recno = :remessa')
     Params = <
       item

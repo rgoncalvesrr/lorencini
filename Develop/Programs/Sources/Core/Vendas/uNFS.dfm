@@ -42,7 +42,7 @@ inherited NFS: TNFS
           Top = 46
           Width = 128
           Height = 15
-          Caption = '01/12/2019 a 31/12/2019'
+          Caption = '01/03/2021 a 31/03/2021'
         end
         object JvComboBox1: TJvComboBox
           Left = 4
@@ -65,6 +65,14 @@ inherited NFS: TNFS
           Top = 18
           Width = 156
           Height = 24
+          AutoSize = True
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = 'Segoe UI'
+          Font.Pitch = fpVariable
+          Font.Style = []
+          ParentFont = False
           TabOrder = 2
           ExplicitLeft = 111
           ExplicitTop = 18
@@ -72,13 +80,10 @@ inherited NFS: TNFS
           ExplicitHeight = 24
           inherited ComboBox1: TComboBox
             Width = 156
-            Height = 23
-            ItemHeight = 15
             ExplicitWidth = 156
-            ExplicitHeight = 23
           end
           inherited CCalendarDiff1: TCCalendarDiff
-            Date = 43801.467762905090000000
+            Date = 44265.780613773150000000
             DisplayInterval = Label4
             OnChange = actQueryProcessExecute
           end
@@ -88,6 +93,14 @@ inherited NFS: TNFS
           Top = 18
           Width = 156
           Height = 24
+          AutoSize = True
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = 'Segoe UI'
+          Font.Pitch = fpVariable
+          Font.Style = []
+          ParentFont = False
           TabOrder = 3
           ExplicitLeft = 274
           ExplicitTop = 18
@@ -95,16 +108,13 @@ inherited NFS: TNFS
           ExplicitHeight = 24
           inherited ComboBox1: TComboBox
             Width = 156
-            Height = 23
-            ItemHeight = 15
             ItemIndex = 1
             Text = 'Mensalmente'
             ExplicitWidth = 156
-            ExplicitHeight = 23
           end
           inherited CCalendarDiff1: TCCalendarDiff
             Interval = diMonthly
-            Date = 43801.467762905090000000
+            Date = 44265.780613773150000000
             DisplayInterval = Label6
             OnChange = actQueryProcessExecute
           end
@@ -607,64 +617,6 @@ inherited NFS: TNFS
         Name = 'recno'
         ParamType = ptUnknown
       end>
-  end
-  object qHistorico: TZQuery
-    Connection = DM.Design
-    SQL.Strings = (
-      'select a.recno_nf, a.datahora, a.username, b.name, a.historico '
-      '  from nf_historico a'
-      '       join sys_users b'
-      '         on b.username = a.username'
-      ' where a.recno_nf = :recno')
-    Params = <
-      item
-        DataType = ftUnknown
-        Name = 'recno'
-        ParamType = ptUnknown
-      end>
-    Left = 208
-    Top = 216
-    ParamData = <
-      item
-        DataType = ftUnknown
-        Name = 'recno'
-        ParamType = ptUnknown
-      end>
-    object qHistoricorecno_nf: TIntegerField
-      FieldName = 'recno_nf'
-      Visible = False
-    end
-    object qHistoricodatahora: TDateTimeField
-      DisplayLabel = 'Data'
-      FieldName = 'datahora'
-      Required = True
-      DisplayFormat = 'dd/mm/yyyy hh:nn:ss'
-    end
-    object qHistoricousername: TStringField
-      DisplayLabel = 'Usu'#225'rio'
-      DisplayWidth = 10
-      FieldName = 'username'
-      Required = True
-    end
-    object qHistoriconame: TStringField
-      DisplayLabel = 'Nome'
-      DisplayWidth = 15
-      FieldName = 'name'
-      Required = True
-      Size = 40
-    end
-    object qHistoricohistorico: TStringField
-      DisplayLabel = 'Hist'#243'rico'
-      DisplayWidth = 100
-      FieldName = 'historico'
-      Required = True
-      Size = 150
-    end
-  end
-  object dsHistorico: TDataSource
-    DataSet = qHistorico
-    Left = 264
-    Top = 216
   end
   object sIBrwSrc: TZSequence
     Connection = DM.Design

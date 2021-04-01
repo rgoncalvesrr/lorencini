@@ -44,10 +44,6 @@ type
     actView: TAction;
     tbOpcao: TToolButton;
     pmOpcao: TPopupMenu;
-    actAgenda: TAction;
-    actCompro: TAction;
-    Agenda1: TMenuItem;
-    Compromisso1: TMenuItem;
     pctlFind: TPageControl;
     tsQuery: TTabSheet;
     tsFind: TTabSheet;
@@ -91,8 +87,6 @@ type
       DataCol: Integer; Column: TColumn; State: TGridDrawState);
     procedure actDelExecute(Sender: TObject);
     procedure actManExecute(Sender: TObject);
-    procedure actAgendaExecute(Sender: TObject);
-    procedure actComproExecute(Sender: TObject);
     procedure actQueryProcessExecute(Sender: TObject);
     procedure actShowSQLExecute(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -163,7 +157,7 @@ implementation
 
 {$R *.dfm}
 
-uses uDM, mcUtils, uIBrowseQry, uSysCompromisso, uIBrowseSQL, uDMReport, frxClass, uResources, uSysLog;
+uses uDM, mcUtils, uIBrowseQry, uIBrowseSQL, uDMReport, frxClass, uResources, uSysLog;
 
 procedure TIDefBrowse.actRefreshExecute(Sender: TObject);
 var
@@ -318,7 +312,7 @@ begin
       // Configura o nome do usuário
       if Assigned(ReportBase.FindObject('username')) then
         TfrxMemoView(ReportBase.FindObject('username')).Text := 'Usuário: ' +
-          U.Info.UserName;
+          U.Info.Name;
 
       if Rpt.PrintToDevice then
         ReportBase.ShowReport;
@@ -406,8 +400,6 @@ begin
     end;
 
   actRGrid.Enabled := true;
-  actAgenda.Enabled:= True;
-  actCompro.Enabled:= True;
   actOk.Enabled := FDisplayMode = dmQuery;
   actOk.Visible := actOk.Enabled;
   ToolButton11.Visible := actOk.Visible;
@@ -841,19 +833,6 @@ begin
   if Assigned(Sender) and Assigned(FActiveDBGrid.DataSource) and
     Assigned(FActiveDBGrid.DataSource.DataSet) then
     DataSet:= TZQuery(FActiveDBGrid.DataSource.DataSet);
-end;
-
-procedure TIDefBrowse.actAgendaExecute(Sender: TObject);
-begin
-  U.Out.ShowForm('TSYSAGENDA');
-end;
-
-procedure TIDefBrowse.actComproExecute(Sender: TObject);
-begin
-  application.CreateForm( TSysCompromisso, SysCompromisso );
-  SysCompromisso.State:= dsInsert;
-  SysCompromisso.ShowModal;
-  SysCompromisso.Free;
 end;
 
 procedure TIDefBrowse.actDelExecute(Sender: TObject);

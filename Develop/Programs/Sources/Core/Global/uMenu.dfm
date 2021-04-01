@@ -112,20 +112,8 @@ object Main: TMain
         ImageIndex = 389
         Style = tbsTextButton
       end
-      object ToolButton8: TToolButton
-        Left = 127
-        Top = 0
-        Action = actAgenda
-        Style = tbsTextButton
-      end
-      object ToolButton9: TToolButton
-        Left = 214
-        Top = 0
-        Action = actCompromisso
-        Style = tbsTextButton
-      end
       object ToolButton12: TToolButton
-        Left = 331
+        Left = 127
         Top = 0
         Width = 8
         Caption = 'ToolButton12'
@@ -133,25 +121,25 @@ object Main: TMain
         Style = tbsSeparator
       end
       object ToolButton10: TToolButton
-        Left = 339
+        Left = 135
         Top = 0
         Action = actChangePass
         Style = tbsTextButton
       end
       object ToolButton1: TToolButton
-        Left = 461
+        Left = 257
         Top = 0
         Action = actFichaFinDesp
         Caption = 'Registro de Despesas'
         Style = tbsTextButton
       end
       object ToolButton11: TToolButton
-        Left = 618
+        Left = 414
         Top = 0
         Action = actVersion
       end
       object ToolButton13: TToolButton
-        Left = 658
+        Left = 454
         Top = 0
         Width = 8
         Caption = 'ToolButton13'
@@ -159,7 +147,7 @@ object Main: TMain
         Style = tbsSeparator
       end
       object ToolButton14: TToolButton
-        Left = 666
+        Left = 462
         Top = 0
         Action = actClose
       end
@@ -186,18 +174,6 @@ object Main: TMain
       Hint = 'Trocar Senha...'
       ImageIndex = 199
       OnExecute = actChangePassExecute
-    end
-    object actAgenda: TAction
-      Caption = 'Agenda'
-      Hint = 'Compromissos Agendados'
-      ImageIndex = 15
-      OnExecute = actAgendaExecute
-    end
-    object actCompromisso: TAction
-      Caption = 'Compromisso'
-      Hint = 'Agendamento R'#225'pido'
-      ImageIndex = 16
-      OnExecute = actCompromissoExecute
     end
     object actVersion: TAction
       Caption = 'Vers'#227'o...'

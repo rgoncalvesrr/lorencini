@@ -20,7 +20,7 @@ Begin
          sys_origem('orca_grupo'), new.grupo,
          sys_origem('cota'), new.recno);
 
-      perform log('Criação da cotação', 1, sys_origem('cota'), new.recno);
+      perform log('Criação da cotação', sys_origem('cota'), new.recno);
 
       -- Vincular despesas a cotação
       perform fin_caixaVincularCotacao(new.cliente, new.recno);
@@ -49,10 +49,10 @@ Begin
          end case;
 
          perform log('Mudança de status', format('A cotação mudou saiu do status "%s" para "%s"',oldStatus, newStatus),
-            2, sys_origem('cota'), new.recno);
+            sys_origem('cota'), new.recno);
       end if;
    else
-      perform log('Exclusão da cotação', 3, sys_origem('cota'), old.recno);
+      perform log('Exclusão da cotação', sys_origem('cota'), old.recno);
    end if;
 
    return null;

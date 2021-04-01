@@ -1,16 +1,18 @@
 inherited VendedoresM: TVendedoresM
   Caption = 'Manuten'#231#227'o de Registro'
-  ClientHeight = 444
+  ClientHeight = 412
   ClientWidth = 711
   ExplicitWidth = 717
-  ExplicitHeight = 473
+  ExplicitHeight = 441
   PixelsPerInch = 96
   TextHeight = 15
   inherited Panel1: TPanel
+    Top = 44
     Width = 711
-    Height = 400
+    Height = 368
+    ExplicitTop = 35
     ExplicitWidth = 711
-    ExplicitHeight = 400
+    ExplicitHeight = 409
     inherited Panel3: TPanel
       Top = 164
       Width = 701
@@ -18,33 +20,72 @@ inherited VendedoresM: TVendedoresM
       ExplicitTop = 164
       ExplicitWidth = 701
       inherited PageControl3: TPageControl
+        Top = 47
         Width = 695
+        Height = 185
+        ExplicitLeft = 3
+        ExplicitTop = 38
         ExplicitWidth = 695
+        ExplicitHeight = 194
         inherited tsDet: TTabSheet
+          ExplicitLeft = 4
+          ExplicitTop = 26
           ExplicitWidth = 687
+          ExplicitHeight = 164
           inherited DBGrid1: TDBGrid
             Width = 687
+            Height = 155
           end
         end
       end
       inherited ControlBar2: TControlBar
         Width = 695
+        Height = 38
+        ExplicitLeft = 3
+        ExplicitTop = 3
         ExplicitWidth = 695
+        ExplicitHeight = 38
         inherited ToolBar3: TToolBar
           Width = 654
+          ButtonWidth = 129
           ExplicitWidth = 654
+          inherited ToolButton10: TToolButton
+            ExplicitWidth = 32
+          end
+          inherited ToolButton11: TToolButton
+            ExplicitWidth = 32
+          end
+          inherited ToolButton17: TToolButton
+            ExplicitWidth = 32
+          end
+          inherited ToolButton12: TToolButton
+            ExplicitWidth = 32
+          end
+          inherited ToolButton13: TToolButton
+            ExplicitWidth = 32
+          end
+          inherited tbSQLDet: TToolButton
+            ExplicitWidth = 32
+          end
+          inherited tbRefazGrid: TToolButton
+            ExplicitWidth = 32
+          end
         end
       end
     end
     inherited PageControl1: TPageControl
       Width = 705
-      Height = 394
+      Height = 362
+      ExplicitLeft = 3
+      ExplicitTop = 3
       ExplicitWidth = 705
-      ExplicitHeight = 394
+      ExplicitHeight = 403
       inherited TabSheet1: TTabSheet
         Caption = 'Vendedor'
+        ExplicitLeft = 4
+        ExplicitTop = 26
         ExplicitWidth = 697
-        ExplicitHeight = 364
+        ExplicitHeight = 373
         object Label1: TLabel
           Left = 3
           Top = 9
@@ -64,6 +105,7 @@ inherited VendedoresM: TVendedoresM
           Font.Color = clWindowText
           Font.Height = -12
           Font.Name = 'Arial'
+          Font.Pitch = fpVariable
           Font.Style = [fsBold]
           ParentFont = False
         end
@@ -213,7 +255,7 @@ inherited VendedoresM: TVendedoresM
           object Label9: TLabel
             Left = 12
             Top = 26
-            Width = 45
+            Width = 44
             Height = 15
             Caption = 'Telefone'
             FocusControl = DBEdit9
@@ -301,13 +343,6 @@ inherited VendedoresM: TVendedoresM
             Caption = 'Ajuda de Custo'
             FocusControl = DBEdit15
           end
-          object Label16: TLabel
-            Left = 12
-            Top = 94
-            Width = 30
-            Height = 15
-            Caption = 'Login'
-          end
           object DBEdit12: TDBEdit
             Left = 78
             Top = 26
@@ -344,28 +379,54 @@ inherited VendedoresM: TVendedoresM
             DataSource = DM.dsVendedores
             TabOrder = 3
           end
-          object DBLookupComboBox1: TDBLookupComboBox
-            Left = 78
-            Top = 86
-            Width = 257
-            Height = 23
-            DataField = 'username'
-            DataSource = DM.dsVendedores
-            KeyField = 'username'
-            ListField = 'name'
-            ListSource = DM.dsSysUsers
-            TabOrder = 4
-          end
         end
       end
     end
   end
   inherited ControlBar1: TControlBar
     Width = 705
+    Height = 38
+    ExplicitLeft = 3
+    ExplicitTop = 3
     ExplicitWidth = 705
+    ExplicitHeight = 38
     inherited ToolBar1: TToolBar
       Width = 664
+      ButtonWidth = 115
       ExplicitWidth = 664
+      inherited ToolButton6: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton4: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton7: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton1: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton2: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton8: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton9: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton14: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton16: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited tbSQL: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited tbClose: TToolButton
+        ExplicitWidth = 32
+      end
     end
   end
   inherited alDef: TActionList

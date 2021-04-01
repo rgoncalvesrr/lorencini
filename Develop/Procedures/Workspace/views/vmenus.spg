@@ -1,0 +1,17 @@
+set session authorization lorencini;
+create or replace view vmenus as
+select m.id, m.descri, m.level, m.parent, m.form, m.order_, 
+       m.report, r.descri as rdescri, r.form as rform, r.recno 
+  from sys_menu m 
+       join sys_role_grant rg 
+         on rg.grant_ = lower(m.form) 
+       join sys_sessions s 
+         on s.role = rg.role 
+        and s.session = sys_session() 
+       left join sys_reports r 
+         on r.report = m.report 
+union all 
+select m.id, m.descri, m.level, m.parent, m.form, m.order_, 
+       m.report, null as rdescri, null as rform, null 
+  from sys_menu m 
+ where m.form is null;

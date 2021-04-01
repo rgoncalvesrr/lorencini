@@ -135,8 +135,6 @@ inherited Colaboradores: TColaboradores
       object TabSheet3: TTabSheet
         Caption = 'Demitido'
         ImageIndex = 213
-        ExplicitLeft = 6
-        ExplicitTop = 37
       end
     end
   end

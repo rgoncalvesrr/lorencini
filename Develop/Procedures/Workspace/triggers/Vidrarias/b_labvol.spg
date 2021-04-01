@@ -18,7 +18,7 @@ Declare
 BEGIN
    if tg_op <> 'DELETE' then
       if tg_op = 'INSERT' then
-         new.username := coalesce(new.username, sys_user());
+         new.account := coalesce(new.account, sys_account(), sys_account_def());
 
          -- Verifica se volume pode ser criado. Conta o nº de etiquetas disponíveis
          -- Contando volumes vazios

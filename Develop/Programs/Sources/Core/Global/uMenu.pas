@@ -17,14 +17,10 @@ type
     actClose: TAction;
     actChangePass: TAction;
     Action1: TAction;
-    actAgenda: TAction;
-    actCompromisso: TAction;
     actVersion: TAction;
     actSysDump: TAction;
     ControlBar1: TControlBar;
     ToolBar2: TToolBar;
-    ToolButton8: TToolButton;
-    ToolButton9: TToolButton;
     ToolButton10: TToolButton;
     ToolButton11: TToolButton;
     ToolButton12: TToolButton;
@@ -37,13 +33,11 @@ type
     procedure FormShow(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
     procedure FormActivate(Sender: TObject);
-    procedure actAgendaExecute(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormResize(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure actCloseExecute(Sender: TObject);
     procedure actChangePassExecute(Sender: TObject);
-    procedure actCompromissoExecute(Sender: TObject);
     procedure actVersionExecute(Sender: TObject);
     procedure actSysDumpExecute(Sender: TObject);
     procedure actFichaFinDespExecute(Sender: TObject);
@@ -62,7 +56,6 @@ type
       var AllowShow: Boolean);
   public
     { Public declarations }
-    procedure VerificarAgenda;
     procedure LoadMenu;
     procedure UnLoadMenu;
     procedure LoadRoles;
@@ -76,7 +69,7 @@ var
 implementation
 
 uses
-  uFuncoes, uIUtils, mcUtils, uSysAgenda, uSysSecurityChangePass, uSysCompromisso, uSysVersions, uVendedores, uDM,
+  uFuncoes, uIUtils, mcUtils, uSysSecurityChangePass, uSysVersions, uVendedores, uDM,
   uReceber, uPagar, uMovtoBancario, uSysReports, uIDefReport, uNFS, uSysDump, uReport, uDMReport, frxClass, uResources,
   uFichaFinPos, uFichaFinDespM;
 
@@ -92,7 +85,7 @@ begin
 
   with StatusBar1 do
   begin
-    Panels[1].Text:= U.Info.UserName;
+    Panels[1].Text:= U.Info.Name;
     Panels[3].Text:= FormatDateTime('dd/mm/yyyy hh:nn:ss', Now);
     Panels[5].Text:= U.Data.HostName;
     Panels[7].Text:= U.Data.Database;
@@ -112,32 +105,8 @@ begin
     Panels[3].Text:= FormatDateTime('dd/mm/yyyy hh:nn:ss', Now);
 end;
 
-procedure TMain.VerificarAgenda;
-begin
-  with U.Query do
-  try
-    SQL.Text:=
-    'select id_agenda '+
-      'from tb_agenda '+
-     'where id_usuario = :userid '+
-       'and data = :data '+
-       'and visualizado <> ''S'' ';
-
-    ParamByName('userid').AsInteger := U.Info.UserID;
-    ParamByName('data').AsString := mcDateSql(Now);
-
-    Open;
-
-    if not IsEmpty then
-      actAgendaExecute(actAgenda);
-  finally
-    Close;
-  end;
-end;
-
 procedure TMain.FormActivate(Sender: TObject);
 begin
-  VerificarAgenda;
   if fLoad then
   begin
     Top:= 0;
@@ -146,15 +115,6 @@ begin
     Height:= Screen.WorkAreaHeight;
     fLoad:= False;
   end;
-end;
-
-procedure TMain.actAgendaExecute(Sender: TObject);
-begin
-  if not Assigned(Application.FindComponent('SysAgenda')) then
-    application.CreateForm( TSysAgenda, SysAgenda );
-
-  SysAgenda.Show;
-  SysAgenda.WindowState:= wsMaximized;
 end;
 
 procedure TMain.LoadMenu;
@@ -168,22 +128,9 @@ begin
   fDsMenu:= U.Query;
   with fDsMenu do
   try
-    SQL.Text:=                                                         
-    'select m.id, m.descri, m.level, m.parent, m.form, m.order_, '+
-           'm.report, r.descri as rdescri, r.form as rform, r.recno '+
-      'from sys_menu m '+
-           'join sys_role_grant rg '+
-           'on rg.grant_ = lower(m.form) '+
-         'join sys_session s '+
-             'on s.role = rg.role '+
-            'and s.session = sys_session() '+
-           'left join sys_reports r '+
-                 'on r.report = m.report '+
-    'union all '+
-    'select m.id, m.descri, m.level, m.parent, m.form, m.order_, '+
-           'm.report, null as rdescri, null as rform, null '+
-      'from sys_menu m '+
-     'where m.form is null '+
+    SQL.Text:=
+    'select id, descri, level, parent, form, order_, report, rdescri, rform, recno '+
+      'from vmenus '+
      'order by level, parent, order_ ';
 
     Open;
@@ -235,11 +182,11 @@ begin
     'select r.recno, r.descri '+
       'from sys_roles r '+
            'join sys_rlusers u '+
-           'on u.username = :username '+
+           'on u.account = :account '+
         'and u.role = r.recno '+
         'and u.enabled ';
 
-    ParamByName('username').AsString := U.Info.UserName;
+    ParamByName('account').AsInteger := U.Info.Account;
 
     Open;
 
@@ -364,7 +311,7 @@ begin
     Checked := True;
     tbRole.Caption := 'Papel: ' + Caption;
 
-    U.ExecuteSQL('update sys_session set role = %d where session = sys_session()',
+    U.ExecuteSQL('update sys_sessions set role = %d where session = sys_session()',
       [Tag]);
   finally
     LoadMenu;
@@ -437,7 +384,7 @@ begin
       // Configura o nome do usuário
       if Assigned(ReportBase.FindObject('username')) then
         TfrxMemoView(ReportBase.FindObject('username')).Text := 'Usuário: ' +
-          U.Info.UserName;
+          U.Info.Name;
 
       ReportBase.ShowReport;
     end;
@@ -454,14 +401,6 @@ procedure TMain.actCloseExecute(Sender: TObject);
 begin
   Close;
 end;
-
-procedure TMain.actCompromissoExecute(Sender: TObject);
-begin
-  application.CreateForm( TSysCompromisso, SysCompromisso );
-  SysCompromisso.State:= dsInsert;
-  SysCompromisso.ShowModal;
-  SysCompromisso.Free;
-end;                                                     
 
 procedure TMain.actFichaFinDespExecute(Sender: TObject);
 begin

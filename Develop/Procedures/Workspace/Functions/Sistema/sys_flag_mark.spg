@@ -10,15 +10,14 @@
 Create or Replace Function sys_flag_mark(
 	in in_table_ varchar,
 	in in_recno integer )
-Returns void
-as
+Returns void as
 $$
-BEGIN
-	if not sys_flag(in_table_, in_recno) then
-		insert into sys_flag
-         (session,       table_,    recno)
-		values         
-         (sys_session(), in_table_, in_recno);
+declare
+   table_id   sys_tables.recno%type := sys_origem(in_table_);
+begin
+   if not sys_flag(in_table_, in_recno) then
+		insert into sys_flags (table_,    recno)
+		values                (table_id, in_recno);
 	end if;
 END;
 $$

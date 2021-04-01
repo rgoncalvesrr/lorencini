@@ -13,12 +13,14 @@ Create or Replace Function sys_flag(
 	in in_recno integer)
 Returns Boolean as
 $$
+declare
+   table_id   sys_tables.recno%type := sys_origem(in_table_);
 begin
    return exists(
       select 1                     
-        from sys_flag
+        from sys_flags
        where session = sys_session()
-         and table_ = in_table_
+         and table_ = table_id
          and recno = in_recno);
 end;
 $$

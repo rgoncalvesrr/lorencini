@@ -9,17 +9,17 @@
 	---------------------------------------------------------------------------------------------------------------------
    Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso   
 */
-create or replace function sys_release_session()
+create or replace function sys_session_release()
 returns void as
 $$
 declare
-   csessao  varchar;
+   session_  session$;
 begin   
-   csessao := sys_session();
+   session_ := sys_session();
    
    delete
-     from sys_session
-    where session = csessao;
+     from sys_sessions
+    where session = session_;
       
    execute format('set session authorization "postgres"');
 end;

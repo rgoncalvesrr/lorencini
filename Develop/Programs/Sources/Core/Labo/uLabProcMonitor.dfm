@@ -25,7 +25,7 @@ inherited LabProcMonitor: TLabProcMonitor
         ExplicitLeft = 4
         ExplicitTop = 6
         ExplicitWidth = 1093
-        ExplicitHeight = 65
+        ExplicitHeight = 75
         object Label1: TLabel [0]
           Left = 109
           Top = 3
@@ -56,9 +56,9 @@ inherited LabProcMonitor: TLabProcMonitor
           Caption = 'Cota'#231#227'o'
         end
         inherited BitBtn2: TBitBtn
-          Left = 716
+          Left = 992
           TabOrder = 4
-          ExplicitLeft = 716
+          ExplicitLeft = 992
         end
         object cbStatus: TComboBox
           Left = 109
@@ -137,34 +137,31 @@ inherited LabProcMonitor: TLabProcMonitor
         ExplicitLeft = 4
         ExplicitTop = 6
         ExplicitWidth = 1093
-        ExplicitHeight = 65
+        ExplicitHeight = 75
       end
     end
   end
   inherited Panel2: TPanel
     Width = 1111
-    Height = 413
+    Height = 403
     ExplicitWidth = 1111
-    ExplicitHeight = 413
+    ExplicitHeight = 403
     inherited PageControl1: TPageControl
       Width = 1105
-      Height = 407
+      Height = 397
       Images = Resources.medium_n
       ExplicitWidth = 1105
-      ExplicitHeight = 407
+      ExplicitHeight = 397
       inherited TabSheet1: TTabSheet
         Caption = 'Todas'
         ImageIndex = -1
         ExplicitLeft = 4
         ExplicitTop = 33
         ExplicitWidth = 1097
-        ExplicitHeight = 370
+        ExplicitHeight = 360
         inherited DBGrid1: TDBGrid
-          AlignWithMargins = True
-          Left = 3
-          Top = 3
           Width = 1091
-          Height = 364
+          Height = 354
           OnDrawColumnCell = DBGrid1DrawColumnCell
         end
       end
@@ -185,7 +182,7 @@ inherited LabProcMonitor: TLabProcMonitor
         ImageIndex = 214
         object Splitter1: TSplitter
           Left = 0
-          Top = 140
+          Top = 130
           Width = 1097
           Height = 6
           Cursor = crVSplit
@@ -196,7 +193,7 @@ inherited LabProcMonitor: TLabProcMonitor
         object PageControl2: TPageControl
           AlignWithMargins = True
           Left = 3
-          Top = 149
+          Top = 139
           Width = 1091
           Height = 218
           ActivePage = tsVolumes
@@ -225,6 +222,7 @@ inherited LabProcMonitor: TLabProcMonitor
               TitleFont.Color = clWindowText
               TitleFont.Height = -12
               TitleFont.Name = 'Segoe UI'
+              TitleFont.Pitch = fpVariable
               TitleFont.Style = []
               OnDrawColumnCell = DBGrid2DrawColumnCell
               OnDblClick = DBGridDblClick
@@ -501,6 +499,7 @@ inherited LabProcMonitor: TLabProcMonitor
               TitleFont.Color = clWindowText
               TitleFont.Height = -12
               TitleFont.Name = 'Segoe UI'
+              TitleFont.Pitch = fpVariable
               TitleFont.Style = []
               OnDrawColumnCell = DBGridDrawColumnCell
               OnDblClick = DBGridDblClick
@@ -606,7 +605,6 @@ inherited LabProcMonitor: TLabProcMonitor
     Left = 394
   end
   inherited DataSource1: TDataSource
-    Left = 256
     Top = 248
   end
   inherited IBrwSrc: TZQuery
@@ -719,6 +717,7 @@ inherited LabProcMonitor: TLabProcMonitor
     Left = 456
   end
   inherited zIBrwSrc: TZUpdateSQL
+    Left = 136
     Top = 248
   end
   object zVolumes: TZQuery
@@ -727,12 +726,11 @@ inherited LabProcMonitor: TLabProcMonitor
     OnCalcFields = zVolumesCalcFields
     SQL.Strings = (
       
-        'select v.volume, v.criacao, v.rastreio, v.username, u.name, v.re' +
-        'cno,'
-      '       v.frascos, v.seringas, v.status, v.exp_dh'
+        'select v.volume, v.criacao, v.rastreio, u.nome as name, v.recno,' +
+        ' v.frascos, v.seringas, v.status, v.exp_dh'
       '  from labvol v'
-      '       join sys_users u'
-      '         on u.username = v.username'
+      '       join vaccounts u'
+      '         on u.account = v.account'
       ' where v.labproc_recno = :remessa')
     Params = <
       item
@@ -792,15 +790,8 @@ inherited LabProcMonitor: TLabProcMonitor
       DisplayLabel = 'Seringas'
       FieldName = 'seringas'
     end
-    object zVolumesusername: TStringField
-      DisplayLabel = 'Usu'#225'rio'
-      DisplayWidth = 15
-      FieldName = 'username'
-      Required = True
-      Size = 25
-    end
     object zVolumesname: TStringField
-      DisplayLabel = 'Nome'
+      DisplayLabel = 'Usu'#225'rio'
       DisplayWidth = 25
       FieldName = 'name'
       Required = True
@@ -831,15 +822,14 @@ inherited LabProcMonitor: TLabProcMonitor
     UpdateObject = zIBrwSrc
     SQL.Strings = (
       
-        'select pe.recno,    c.codigo,  pe.tipo,       pe.validade, pe.da' +
-        'taprog,    pe.labproc_recno,'
+        'select pe.recno, c.codigo, pe.tipo, pe.validade, pe.dataprog, pe' +
+        '.labproc_recno, pe.amostra, pe.volume, c.equip_recno,'
       
-        '       pe.amostra,  pe.volume, c.equip_recno, ce.tag,      ce.se' +
-        'rie,       ce.tipo tipo_e,'
-      '       ce.reg_nome, ce.sigla,  ce.nome,       c.comodato,'
-      '       ue.ocorrencia emi_dh,  ue.username emi_usr,  ueu.name,'
-      '       ui.ocorrencia imp_dh,  ui.username imp_usr,  uiu.name,'
-      '       ur.ocorrencia rem_dh,  ur.username rem_usr,  uru.name'
+        '       ce.tag, ce.serie, ce.tipo tipo_e, ce.reg_nome, ce.sigla, ' +
+        'ce.nome, c.comodato, ue.ocorrencia emi_dh,  ueu.nome as name,'
+      
+        '       ui.ocorrencia imp_dh,  uiu.nome as name, ur.ocorrencia re' +
+        'm_dh,  uru.nome as name'
       '  from labprocxequip pe'
       '       left join labamostras c'
       '         on c.recno = pe.amostra'
@@ -849,18 +839,18 @@ inherited LabProcMonitor: TLabProcMonitor
       '       left join labamostras_hist ue'
       '         on ue.amostra = pe.amostra'
       '        and ue.estado = 20'
-      '       left join sys_users ueu'
-      #9'       on ueu.username = ue.username'
+      '       left join vaccounts ueu'
+      #9'       on ueu.account = ue.account'
       '       left join labamostras_hist ui'
       '         on ui.amostra = pe.amostra'
       '        and ui.estado = 10'
-      '       left join sys_users uiu'
-      '         on uiu.username = ui.username'
+      '       left join vaccounts uiu'
+      '         on uiu.account = ui.account'
       '       left join labamostras_hist ur'
       '         on ur.amostra = pe.amostra'
       '        and ur.estado = 30'
-      '       left join sys_users uru'
-      '         on uru.username = ur.username'
+      '       left join vaccounts uru'
+      '         on uru.account = ur.account'
       ' where pe.labproc_recno = :remessa')
     Params = <
       item
@@ -929,12 +919,6 @@ inherited LabProcMonitor: TLabProcMonitor
       Required = True
       DisplayFormat = 'dd/mm/yyyy hh:nn:ss'
     end
-    object zEtiquetasemi_usr: TStringField
-      DisplayLabel = 'Usu'#225'rio'
-      DisplayWidth = 15
-      FieldName = 'emi_usr'
-      Required = True
-    end
     object zEtiquetasname: TStringField
       DisplayLabel = 'Nome'
       DisplayWidth = 25
@@ -947,11 +931,6 @@ inherited LabProcMonitor: TLabProcMonitor
       FieldName = 'imp_dh'
       DisplayFormat = 'dd/mm/yyyy hh:nn:ss'
     end
-    object zEtiquetasimp_usr: TStringField
-      DisplayLabel = 'Usu'#225'rio'
-      DisplayWidth = 15
-      FieldName = 'imp_usr'
-    end
     object zEtiquetasname_1: TStringField
       DisplayLabel = 'Nome'
       DisplayWidth = 25
@@ -963,11 +942,6 @@ inherited LabProcMonitor: TLabProcMonitor
       DisplayLabel = 'Despacho'
       FieldName = 'rem_dh'
       DisplayFormat = 'dd/mm/yyyy hh:nn:ss'
-    end
-    object zEtiquetasrem_usr: TStringField
-      DisplayLabel = 'Usu'#225'rio'
-      DisplayWidth = 15
-      FieldName = 'rem_usr'
     end
     object zEtiquetasname_2: TStringField
       DisplayLabel = 'Nome'

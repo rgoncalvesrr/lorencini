@@ -269,8 +269,7 @@ begin
   DBLookupComboBox1.Enabled:= True; //not U.Info.IsVendor;
 
   if Assigned(DataSet) then
-    JvDBDateEdit1.Enabled := (U.Info.UserName = 'DAGOBERTO') or
-      (DataSet.State = dsInsert);
+    JvDBDateEdit1.Enabled := (DataSet.State = dsInsert);
 end;
 
 end.

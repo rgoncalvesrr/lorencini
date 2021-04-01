@@ -42,9 +42,7 @@ type
     DBEdit14: TDBEdit;
     Label15: TLabel;
     DBEdit15: TDBEdit;
-    Label16: TLabel;
     Label17: TLabel;
-    DBLookupComboBox1: TDBLookupComboBox;
   private
     { Private declarations }
   public

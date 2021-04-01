@@ -71,7 +71,7 @@ begin
       // Configura o nome do usuário
       if Assigned(ReportBase.FindObject('username')) then
         TfrxMemoView(ReportBase.FindObject('username')).Text := 'Usuário:' +
-          U.Info.UserName;
+          U.Info.Name;
 
       ReportBase.ShowReport;
     end;

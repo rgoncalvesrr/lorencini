@@ -72,13 +72,13 @@ inherited SysScheduler: TSysScheduler
     SQL.Strings = (
       
         'select s.recno, s.descri, s.fn, f.descri, s.agendamento, s.inici' +
-        'o, s.expiracao, s.habilitado, s.username, u."name"'
+        'o, s.expiracao, s.habilitado, a.account, a.nome'
       '  from sys_schedules_setup s'
       '       join sys_fn f'
       '         on f.fn = s.fn'
       '        and f.tipo = 1'
-      '       join sys_users u'
-      '         on u.username = s.username')
+      '       join vaccounts a'
+      '         on a.account = s.account')
     Sequence = sIBrwSrc
     SequenceField = 'recno'
     object IBrwSrcrecno: TIntegerField
@@ -128,14 +128,15 @@ inherited SysScheduler: TSysScheduler
       FieldName = 'expiracao'
       DisplayFormat = 'dd/mm/yyyy'
     end
-    object IBrwSrcusername: TStringField
-      DisplayLabel = 'Usu'#225'rio'
-      FieldName = 'username'
+    object IBrwSrcaccount: TLargeintField
+      DisplayLabel = 'Conta'
+      FieldName = 'account'
+      Visible = False
     end
-    object IBrwSrcname: TStringField
-      DisplayLabel = 'Nome'
-      FieldName = 'name'
-      Size = 40
+    object IBrwSrcnome: TStringField
+      DisplayLabel = 'Usu'#225'rio'
+      FieldName = 'nome'
+      Size = 150
     end
   end
   inherited zIBrwSrc: TZUpdateSQL
@@ -147,12 +148,11 @@ inherited SysScheduler: TSysScheduler
       'INSERT INTO sys_schedules_setup'
       
         '  (recno, descri, fn, agendamento, inicio, expiracao, habilitado' +
-        ', username)'
+        ', account)'
       'VALUES'
       
         '  (:recno, :descri, :fn, :agendamento, :inicio, :expiracao, :hab' +
-        'ilitado, '
-      '   :username)')
+        'ilitado, :account)')
     ModifySQL.Strings = (
       'UPDATE sys_schedules_setup SET'
       '  recno = :recno,'
@@ -162,7 +162,7 @@ inherited SysScheduler: TSysScheduler
       '  inicio = :inicio,'
       '  expiracao = :expiracao,'
       '  habilitado = :habilitado,'
-      '  username = :username'
+      '  account = :account'
       'WHERE'
       '  sys_schedules_setup.recno = :OLD_recno')
     ParamData = <
@@ -203,7 +203,7 @@ inherited SysScheduler: TSysScheduler
       end
       item
         DataType = ftUnknown
-        Name = 'username'
+        Name = 'account'
         ParamType = ptUnknown
       end
       item

@@ -33,9 +33,9 @@ begin
 
       if newPhase then
          insert into sys_tasks_phases 
-            (task,      phase,     date,           username)
+            (task,      phase,     date,           account)
          values
-            (new.recno, new.phase, new.phase_date, coalesce(sys_user(), sys_user_def()));
+            (new.recno, new.phase, new.phase_date, coalesce(sys_account(), sys_account_def()));
       end if;         
    end if;
 

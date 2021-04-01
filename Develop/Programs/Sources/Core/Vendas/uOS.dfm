@@ -22,7 +22,10 @@ inherited OS: TOS
       Width = 1116
       ExplicitWidth = 1116
       inherited tsQuery: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 6
         ExplicitWidth = 1108
+        ExplicitHeight = 75
         inherited BitBtn2: TBitBtn
           Left = 1007
           TabOrder = 7
@@ -123,7 +126,7 @@ inherited OS: TOS
             Height = 15
             Align = alTop
             AutoSize = False
-            Caption = '01/01/2021 a 31/01/2021'
+            Caption = '01/03/2021 a 31/03/2021'
             Transparent = True
             ExplicitLeft = 29
             ExplicitTop = 26
@@ -154,7 +157,7 @@ inherited OS: TOS
             end
             inherited CCalendarDiff1: TCCalendarDiff
               Interval = diMonthly
-              Date = 44224.020841446760000000
+              Date = 44263.921463032410000000
               DisplayInterval = Label4
               OnChange = actQueryProcessExecute
             end
@@ -283,7 +286,10 @@ inherited OS: TOS
         end
       end
       inherited tsFind: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 6
         ExplicitWidth = 1108
+        ExplicitHeight = 75
       end
     end
   end
@@ -299,13 +305,14 @@ inherited OS: TOS
       Height = 547
       Images = Resources.medium_n
       ExplicitWidth = 1120
-      ExplicitHeight = 297
+      ExplicitHeight = 547
       inherited TabSheet1: TTabSheet
         Caption = 'Todos'
         ImageIndex = -1
+        ExplicitLeft = 4
         ExplicitTop = 33
         ExplicitWidth = 1112
-        ExplicitHeight = 260
+        ExplicitHeight = 510
         inherited DBGrid1: TDBGrid
           Top = 47
           Width = 1106
@@ -388,32 +395,26 @@ inherited OS: TOS
       object TabSheet8: TTabSheet
         Caption = 'Aprovados'
         ImageIndex = 205
-        ExplicitHeight = 260
       end
       object TabSheet5: TTabSheet
         Caption = 'Executando'
         ImageIndex = 210
-        ExplicitHeight = 260
       end
       object TabSheet9: TTabSheet
         Caption = 'Finalizados'
         ImageIndex = 213
-        ExplicitHeight = 260
       end
       object TabSheet10: TTabSheet
         Caption = 'Faturados'
         ImageIndex = 208
-        ExplicitHeight = 260
       end
       object TabSheet3: TTabSheet
         Caption = 'Antecipados'
         ImageIndex = 211
-        ExplicitHeight = 260
       end
       object TabSheet13: TTabSheet
         Caption = 'Cancelados'
         ImageIndex = 209
-        ExplicitHeight = 260
       end
     end
   end
@@ -428,6 +429,39 @@ inherited OS: TOS
       BorderWidth = 2
       ExplicitWidth = 849
       ExplicitHeight = 38
+      inherited ToolButton2: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton5: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton9: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton6: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton1: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton8: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton3: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited tbOrder: TToolButton
+        ExplicitWidth = 76
+      end
+      inherited tbReport: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited tbOpcao: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton10: TToolButton
+        ExplicitWidth = 32
+      end
     end
   end
   inherited alDef: TActionList
@@ -840,16 +874,16 @@ inherited OS: TOS
     end
   end
   inherited pmOpcao: TPopupMenu
-    Left = 944
+    Left = 960
     Top = 224
-    object Clientes1: TMenuItem [6]
+    object Clientes1: TMenuItem
       Action = actCli
     end
-    object AprovarOramento1: TMenuItem [7]
+    object AprovarOramento1: TMenuItem
       Caption = 'Aprovar Ordem de Servi'#231'o...'
       ImageIndex = 365
     end
-    object Cancelamento1: TMenuItem [8]
+    object Cancelamento1: TMenuItem
       Action = actCancelOS
     end
   end
@@ -2280,84 +2314,5 @@ inherited OS: TOS
     SequenceName = 'public.fin_caixa_recno_seq'
     Left = 504
     Top = 320
-  end
-  object qOSh: TZQuery
-    Connection = DM.Design
-    SortedFields = 'datahora'
-    SortType = stDescending
-    SQL.Strings = (
-      
-        'select h.recno, h.os, h.datahora, h.h_novo, h.h_velho, h.usernam' +
-        'e, u.name'
-      '  from orca_hist h'
-      '       join sys_users u'
-      '         on u.username = h.username'
-      ' where h.os = :os'
-      ' order by h.datahora desc')
-    Params = <
-      item
-        DataType = ftUnknown
-        Name = 'os'
-        ParamType = ptUnknown
-      end>
-    MasterFields = 'os'
-    MasterSource = DataSource1
-    LinkedFields = 'os'
-    IndexFieldNames = 'datahora Desc'
-    Options = [doCalcDefaults, doAlwaysDetailResync]
-    SequenceField = 'recno'
-    Left = 656
-    Top = 216
-    ParamData = <
-      item
-        DataType = ftUnknown
-        Name = 'os'
-        ParamType = ptUnknown
-      end>
-    object qOShrecno: TIntegerField
-      FieldName = 'recno'
-      Required = True
-      Visible = False
-    end
-    object qOShos: TIntegerField
-      FieldName = 'os'
-      Required = True
-      Visible = False
-    end
-    object qOShdatahora: TDateTimeField
-      DisplayLabel = 'Ocorr'#234'ncia'
-      FieldName = 'datahora'
-      Required = True
-      DisplayFormat = 'dd/mm/yyy hh:nn:ss:zzz'
-    end
-    object qOShh_novo: TMemoField
-      FieldName = 'h_novo'
-      ReadOnly = True
-      Visible = False
-      BlobType = ftMemo
-    end
-    object qOShh_velho: TMemoField
-      FieldName = 'h_velho'
-      ReadOnly = True
-      Visible = False
-      BlobType = ftMemo
-    end
-    object qOShusername: TStringField
-      DisplayLabel = 'Usu'#225'rio'
-      FieldName = 'username'
-      Required = True
-    end
-    object qOShname: TStringField
-      DisplayLabel = 'Nome'
-      FieldName = 'name'
-      Required = True
-      Size = 40
-    end
-  end
-  object dsOSh: TDataSource
-    AutoEdit = False
-    DataSet = qOSh
-    Left = 656
-    Top = 312
   end
 end

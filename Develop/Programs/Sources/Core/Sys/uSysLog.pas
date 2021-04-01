@@ -15,16 +15,6 @@ type
     ctrlBarTop: TControlBar;
     ToolBar1: TToolBar;
     ToolButton2: TToolButton;
-    qLogrecno: TIntegerField;
-    qLogdata: TDateTimeField;
-    qLogdescri: TStringField;
-    qLoghistorico: TMemoField;
-    qLogusername: TStringField;
-    qLogname: TStringField;
-    qLogemail: TStringField;
-    qLogtipo: TIntegerField;
-    qLogrotacionar: TBooleanField;
-    qLognivel: TIntegerField;
     ToolButton1: TToolButton;
     ToolButton3: TToolButton;
     actRefresh: TAction;
@@ -72,9 +62,17 @@ type
     DBEdit5: TDBEdit;
     DBMemo1: TDBMemo;
     GroupBox3: TGroupBox;
+    qLogrecno: TLargeintField;
+    qLogregistred: TDateTimeField;
+    qLogtitle: TStringField;
+    qLogdetail: TMemoField;
+    qLogaccount: TLargeintField;
+    qLognome: TStringField;
+    qLogemail: TStringField;
+    qLogrotate: TBooleanField;
+    qLoglevel: TStringField;
     procedure DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn;
       State: TGridDrawState);
-    procedure qLogtipoGetText(Sender: TField; var Text: string; DisplayText: Boolean);
     procedure FormShow(Sender: TObject);
     procedure actRefreshExecute(Sender: TObject);
     procedure actQueryExecute(Sender: TObject);
@@ -114,7 +112,7 @@ begin
   sql := FSQL;
   try
     if cbNivel.ItemIndex > 0 then
-      sql := sql + ' and l.nivel = :nivel';
+      sql := sql + ' and l.level = :level';
 
   finally
     qLog.SQL.Clear;
@@ -122,8 +120,13 @@ begin
     qLog.ParamByName('origem').AsInteger := FOrigem;
     qLog.ParamByName('recno').AsInteger := FRecno;
 
-    if Assigned(qLog.Params.FindParam('nivel')) then
-      qLog.ParamByName('nivel').AsInteger := cbNivel.ItemIndex;
+    if Assigned(qLog.Params.FindParam('level')) then
+      case cbNivel.ItemIndex of
+        1: qLog.ParamByName('level').AsString := 'info';
+        2: qLog.ParamByName('level').AsString := 'warn';
+        3: qLog.ParamByName('level').AsString := 'error';
+        4: qLog.ParamByName('level').AsString := 'debug';
+      end;
 
     G.RefreshDataSet(qLog);
   end;
@@ -173,12 +176,18 @@ begin
         Bmp.Transparent:= True;
 
         with Resources do
-          case qLognivel.AsInteger of
-            1: small_n.GetBitmap(191, Bmp); //Informação
-            2: small_n.GetBitmap(12, Bmp); //Atenção
-            3: small_n.GetBitmap(121, Bmp); //Crítico
-            4: small_n.GetBitmap(257, Bmp); //Debug
-          end;
+        begin
+            small_n.GetBitmap(191, Bmp); //Debug
+            if not qLoglevel.IsNull then
+              case qLoglevel.AsString[1] of
+                'i': small_n.GetBitmap(191, Bmp); //Informação
+                'w': small_n.GetBitmap(12, Bmp); //Atenção
+                'e': small_n.GetBitmap(121, Bmp); //Crítico
+                'd': small_n.GetBitmap(257, Bmp); //Debug
+              else
+                small_n.GetBitmap(257, Bmp); //Debug
+              end;
+        end;
 
         if Column.Width <> Bmp.Width + 2 then
           Column.Width:= Bmp.Width + 2;
@@ -215,12 +224,12 @@ procedure TSysLog.FormCreate(Sender: TObject);
 begin
   inherited;
   FSQL :=
-  'select l.recno, l.data, l.descri, l.historico, l.username, u."name", u.email, l.tipo, l.rotacionar, l.nivel '+
-    'from sys_log l '+
-         'join sys_users u '+
-           'on u.username = l.username '+
-   'where l.origem = :origem '+
-     'and l.origem_recno = :recno ';
+  'select l.recno, l.registred, l.title, l.detail, l.account, a.nome, a.email, l.rotate, l."level" '+
+    'from sys_logs l '+
+         'join vaccounts a '+
+           'on a.account = l.account '+
+   'where l.source_table = :origem '+
+     'and l.source_recno = :recno ';
 end;
 
 procedure TSysLog.FormShow(Sender: TObject);
@@ -234,17 +243,6 @@ begin
   inherited;
   cbNivel.ItemIndex := PageControl1.ActivePageIndex;
   cbNivelChange(cbNivel);
-end;
-
-procedure TSysLog.qLogtipoGetText(Sender: TField; var Text: string; DisplayText: Boolean);
-begin
-  inherited;
-  case Sender.AsInteger of
-    1: Text := 'Criação';
-    2: Text := 'Alteração';
-    3: Text := 'Exclusão';
-    4: Text := 'Outros';
-  end;
 end;
 
 procedure TSysLog.SetRecno(const Value: Integer);

@@ -14,7 +14,7 @@ CREATE OR REPLACE FUNCTION b_labamostras_res_sol()
 $$
 BEGIN
    if tg_op <> 'DELETE' then
-      new.username := sys_user();
+      new.account := sys_account();
       
       return new;
    else

@@ -66,13 +66,13 @@ begin
 
   with U.Query do
   try
-    try
-      U.ExecuteSQL('select sys_create_session(%s, %s)',
-        [QuotedStr(edUserName.Text), QuotedStr(mcMD5(edPassword.Text))]);
-    except
-      on E:Exception do
-        raise ELogin.Create(U.Out.TranslateMSG(E.Message));
-    end;
+    SQL.Text := 'select sys_login(:user, :pass)';
+    ParamByName('user').AsString := edUserName.Text;
+    ParamByName('pass').AsString := mcMD5(edPassword.Text);
+    Open;
+
+    if not Fields.Fields[0].AsBoolean then
+      raise ELogin.Create('Dados inválidos. Tente novamente em 3 minutos.');
 
     SQL.Text := 'select sys_chpass()';
 
@@ -84,7 +84,7 @@ begin
       SysSecurityChangePass.ShowModal;
       if SysSecurityChangePass.ExecCount <= 0 then
       begin
-        U.ExecuteSQL('select sys_release_session()');
+        U.ExecuteSQL('select sys_session_release()');
         Abort;
       end;
     end;

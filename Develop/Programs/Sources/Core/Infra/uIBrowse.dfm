@@ -66,6 +66,10 @@ inherited IDefBrowse: TIDefBrowse
       object tsQuery: TTabSheet
         Caption = 'Filtrar'
         TabVisible = False
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object BitBtn2: TBitBtn
           AlignWithMargins = True
           Left = 718
@@ -119,8 +123,10 @@ inherited IDefBrowse: TIDefBrowse
         Caption = 'Pesquisar'
         ImageIndex = 1
         TabVisible = False
-        ExplicitLeft = 3
-        ExplicitTop = 7
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object Label2: TLabel
           Left = 3
           Top = 3
@@ -223,6 +229,10 @@ inherited IDefBrowse: TIDefBrowse
       OnMouseDown = PageControl1MouseDown
       object TabSheet1: TTabSheet
         Caption = 'Colaboradores'
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object DBGrid1: TDBGrid
           Tag = 1
           AlignWithMargins = True
@@ -468,23 +478,13 @@ inherited IDefBrowse: TIDefBrowse
       ShortCut = 119
       OnExecute = actManExecute
     end
-    object actAgenda: TAction [12]
-      Caption = 'Agenda...'
-      ImageIndex = 15
-      OnExecute = actAgendaExecute
-    end
-    object actCompro: TAction [13]
-      Caption = 'Compromisso...'
-      ImageIndex = 16
-      OnExecute = actComproExecute
-    end
-    object actShowSQL: TAction [14]
+    object actShowSQL: TAction [12]
       Caption = 'Inspe'#231#227'o SQL...'
       ImageIndex = 398
       ShortCut = 16496
       OnExecute = actShowSQLExecute
     end
-    object actRGrid: TAction [15]
+    object actRGrid: TAction [13]
       Caption = 'Redimensionar Grade'
       ImageIndex = 194
       OnExecute = actRGridExecute
@@ -545,12 +545,6 @@ inherited IDefBrowse: TIDefBrowse
     Images = Resources.medium_n
     Left = 512
     Top = 136
-    object Agenda1: TMenuItem
-      Action = actAgenda
-    end
-    object Compromisso1: TMenuItem
-      Action = actCompro
-    end
     object Inspecionar1: TMenuItem
       Action = actLog
     end

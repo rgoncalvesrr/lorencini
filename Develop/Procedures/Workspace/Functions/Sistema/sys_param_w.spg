@@ -182,10 +182,10 @@ BEGIN
          update sys_cfgusr
             set pvalue = in_pvalue
           where pname = lower(in_pname)
-            and username = sys_user();
+            and account = sys_account();
       else
-         insert into sys_cfgusr (pname, username, pvalue)
-              values            (in_pname, sys_user(), in_pvalue);
+         insert into sys_cfgusr (pname, account, pvalue)
+              values            (in_pname, sys_account(), in_pvalue);
       end if;
  	end if;
 

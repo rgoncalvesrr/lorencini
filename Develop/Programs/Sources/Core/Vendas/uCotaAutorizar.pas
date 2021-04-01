@@ -280,9 +280,9 @@ begin
       Script.Clear;
       Script.Add(
         'insert into cota_aprov '+
-          '(recno, frete, frascos, seringas, vlmat, vlserv, vlmobra, pedido_cliente, historico, cotacao, username, status) '+
+          '(recno, frete, frascos, seringas, vlmat, vlserv, vlmobra, pedido_cliente, historico, cotacao, account, status) '+
         'values '+
-          '(:recno, :frete, :frascos, :seringas, :vlmat, :vlserv, :vlmobra, :pedido_cliente, :historico, :cotacao, sys_user(), 0); ');
+          '(:recno, :frete, :frascos, :seringas, :vlmat, :vlserv, :vlmobra, :pedido_cliente, :historico, :cotacao, sys_account(), 0); ');
 
       FLoteAprov := sCotaAprov.GetNextValue;
       

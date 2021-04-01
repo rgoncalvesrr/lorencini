@@ -1,0 +1,11 @@
+set session authorization lorencini;
+
+alter table labret
+	add entrada timestamp default(pg_catalog.clock_timestamp());
+	
+alter table labport 
+    add entrada timestamp;
+
+alter table labport disable trigger all;   
+update labport set entrada = emissao where status = 2;
+alter table labport enable trigger all;

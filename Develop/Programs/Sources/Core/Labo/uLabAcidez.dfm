@@ -1,57 +1,21 @@
 inherited LabAcidez: TLabAcidez
   Caption = 'Registro de Fator de Acidez'
+  Constraints.MinWidth = 853
   PixelsPerInch = 96
-  TextHeight = 14
-  inherited ToolBar1: TToolBar
-    inherited ToolButton2: TToolButton
-      ExplicitWidth = 32
-    end
-    inherited ToolButton5: TToolButton
-      ExplicitWidth = 32
-    end
-    inherited ToolButton9: TToolButton
-      ExplicitWidth = 32
-    end
-    inherited ToolButton6: TToolButton
-      ExplicitWidth = 32
-    end
-    inherited ToolButton1: TToolButton
-      ExplicitWidth = 32
-    end
-    inherited ToolButton8: TToolButton
-      ExplicitWidth = 32
-    end
-    inherited ToolButton3: TToolButton
-      ExplicitWidth = 32
-    end
-    inherited tbOrder: TToolButton
-      ExplicitWidth = 71
-    end
-    inherited tbReport: TToolButton
-      ExplicitWidth = 32
-    end
-    inherited tbOpcao: TToolButton
-      ExplicitWidth = 32
-    end
-    inherited ToolButton10: TToolButton
-      ExplicitWidth = 32
-    end
-  end
+  TextHeight = 15
   inherited Panel1: TPanel
     inherited pctlFind: TPageControl
       inherited tsQuery: TTabSheet
-        inherited BitBtn2: TBitBtn
-          Glyph.Data = {00000000}
-        end
+        ExplicitLeft = 4
+        ExplicitTop = 6
+        ExplicitWidth = 819
+        ExplicitHeight = 75
       end
       inherited tsFind: TTabSheet
         ExplicitLeft = 4
         ExplicitTop = 6
-        ExplicitWidth = 833
-        ExplicitHeight = 60
-        inherited BitBtn1: TBitBtn
-          Glyph.Data = {00000000}
-        end
+        ExplicitWidth = 819
+        ExplicitHeight = 75
       end
     end
   end
@@ -59,6 +23,47 @@ inherited LabAcidez: TLabAcidez
     inherited PageControl1: TPageControl
       inherited TabSheet1: TTabSheet
         Caption = 'Fator de Acidez'
+        ExplicitLeft = 4
+        ExplicitTop = 26
+        ExplicitWidth = 823
+        ExplicitHeight = 147
+      end
+    end
+  end
+  inherited ctrlBarTop: TControlBar
+    inherited ToolBar1: TToolBar
+      inherited ToolButton2: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton5: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton9: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton6: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton1: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton8: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton3: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited tbOrder: TToolButton
+        ExplicitWidth = 76
+      end
+      inherited tbReport: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited tbOpcao: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton10: TToolButton
+        ExplicitWidth = 32
       end
     end
   end
@@ -66,13 +71,13 @@ inherited LabAcidez: TLabAcidez
     Connection = DM.Design
     AfterInsert = IBrwSrcAfterInsert
     SQL.Strings = (
-      'SELECT a.recno, a.username, u.name, a.vigencia, '
-      '       a.biftalato_a, a.biftalato_b, a.volume_a, '
-      '       a.volume_b, a.agua, a.con_a, a.con_b, '
-      '       a.media'
+      
+        'SELECT a.recno, a.account, u.nome, a.vigencia, a.biftalato_a, a.' +
+        'biftalato_b, a.volume_a,'
+      '       a.volume_b, a.agua, a.con_a, a.con_b, a.media'
       '  FROM labacidez a'
-      '       join sys_users u'
-      '         on u.username = a.username')
+      '       join vaccounts u'
+      '         on u.account = a.account')
     Sequence = ZSequence1
     SequenceField = 'recno'
     object IBrwSrcrecno: TIntegerField
@@ -80,16 +85,16 @@ inherited LabAcidez: TLabAcidez
       FieldName = 'recno'
       Required = True
     end
-    object IBrwSrcusername: TStringField
-      DisplayLabel = 'T'#233'cnico'
-      DisplayWidth = 15
-      FieldName = 'username'
+    object IBrwSrcnome: TStringField
+      DisplayLabel = 'Usu'#225'rio'
+      FieldName = 'nome'
+      Size = 150
     end
-    object IBrwSrcname: TStringField
-      DisplayLabel = 'Nome'
-      DisplayWidth = 15
-      FieldName = 'name'
-      Size = 40
+    object IBrwSrcaccount: TLargeintField
+      DisplayLabel = 'Conta'
+      FieldName = 'account'
+      Required = True
+      Visible = False
     end
     object IBrwSrcvigencia: TDateField
       DisplayLabel = 'Vig'#234'ncia'
@@ -143,11 +148,11 @@ inherited LabAcidez: TLabAcidez
   inherited zIBrwSrc: TZUpdateSQL
     InsertSQL.Strings = (
       'INSERT INTO labacidez '
-      '  (recno, biftalato_a, biftalato_b, volume_a, volume_b, '
-      '   agua)'
+      '  (recno, biftalato_a, biftalato_b, volume_a, volume_b, agua)'
       'VALUES'
-      '  (:recno, :biftalato_a, :biftalato_b, :volume_a, '
-      '   :volume_b, :agua)')
+      
+        '  (:recno, :biftalato_a, :biftalato_b, :volume_a, :volume_b, :ag' +
+        'ua)')
     ParamData = <
       item
         DataType = ftUnknown

@@ -41,10 +41,7 @@ Declare
    _ST_LAUDO_CANCE   constant integer := 4;
 
    rrow        record;
-   vusername   sys_users.username%type;
 BEGIN
-   vusername := sys_user();
-
    if tg_op <> 'DELETE' then
       new.saldo := new.qtd - new.consumido - new.descartado;
       new.comodato := coalesce(new.comodato, new.recno);

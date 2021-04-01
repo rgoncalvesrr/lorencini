@@ -13,7 +13,7 @@ create or replace function sys_pulse()
 returns void as
 $$
 begin   
-   update sys_session
+   update sys_sessions
       set heartbeat = clock_timestamp()
     where session = sys_session();  
 end;

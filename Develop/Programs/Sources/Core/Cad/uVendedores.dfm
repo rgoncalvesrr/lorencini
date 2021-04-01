@@ -81,8 +81,8 @@ inherited Vendedores: TVendedores
         'select idvendedor, nome, cpf, rg, cnpj, inscrestadual, cep, ende' +
         'reco, bairro, cidade, estado,'
       
-        '       telefone, celular, comissao, ajudacusto, email, senha, us' +
-        'ername, ativo, recno'
+        '       telefone, celular, comissao, ajudacusto, email, senha, at' +
+        'ivo, recno'
       '  from tb_vendedores')
     IndexFieldNames = 'NOME Asc'
     object IBrwSrcidvendedor: TIntegerField

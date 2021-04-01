@@ -19,7 +19,7 @@ BEGIN
    
    return exists(
       select 1
-        from sys_session          
+        from sys_sessions
        where session = csession
          and chpass);
 END;

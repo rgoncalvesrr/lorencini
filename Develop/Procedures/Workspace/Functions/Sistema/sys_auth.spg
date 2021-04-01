@@ -1,0 +1,95 @@
+/**
+   Verifica se o usuário tem autorização para acessar o sistema
+
+   @author    Ricardo Gonçalves
+   @date      03/03/2021
+   @trigger
+
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+create or replace function sys_auth(
+   in user_ varchar, 
+   in pass_ varchar)
+returns account$ as
+$$
+declare
+   contato_ constant boolean := user_ ~ '@';
+   account_ sys_accounts.recno%type;
+   r        record;
+   stack_   text;
+   usertmp_ varchar;
+begin
+   if contato_ then
+      usertmp_ := lower(user_);
+      select account, situacao
+        into r
+        from contatos
+       where email = usertmp_;
+
+      if not found then
+         GET DIAGNOSTICS stack_ = PG_CONTEXT;
+         raise 'Autenticação falhou porque o e-mail % não foi localizado.\n%', user_, stack_;
+      end if; 
+
+      if r.account is null then
+         GET DIAGNOSTICS stack_ = PG_CONTEXT;
+         raise 'Autenticação falhou porque não há conta associada ao e-mail %.\n%', user_, stack_;
+      end if; 
+
+      if r.situacao <> 1 then
+         GET DIAGNOSTICS stack_ = PG_CONTEXT;
+         raise 'Autenticação falhou porque o e-mail % está inativo.\n%', user_, stack_;
+      end if; 
+
+      account_ := r.account;
+   else
+      select account
+        into account_
+        from sys_users
+       where username = user_;
+   end if;
+
+   return sys_auth(account_, pass_);
+end;
+$$
+language plpgsql;   
+
+create or replace function sys_auth(
+   in account_ account$, 
+   in pass_ varchar)
+returns account$ as
+$$
+declare   
+   r  record;
+begin
+   if account_ is null then
+      raise 'Autenticação falhou porque a conta informada é nula.';
+   end if;
+
+   if pass_ is null then
+      raise 'Autenticação falhou porque a senha informada é nula.';
+   end if;
+
+   select password, status
+     into r
+     from sys_accounts
+    where recno = account_; 
+
+   if not found then
+      raise 'Autenticação falhou porque a conta informada não foi localizada.';
+   end if;
+
+   if pass_ <> r.password then
+      raise 'Autenticação falhou porque a senha informada é incorreta.';
+   end if;
+
+   if r.status <> 2 then
+      raise 'Autenticação falhou porque a conta informada está inativa.';
+   end if;
+
+   return account_;
+end;
+$$
+language plpgsql;   

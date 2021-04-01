@@ -44,7 +44,7 @@ object FrameData: TFrameData
   end
   object CCalendarDiff1: TCCalendarDiff
     Interval = diNone
-    Date = 43965.948563229170000000
+    Date = 44264.948305972220000000
     DateInput = diAuto
     Left = 112
     Top = 65535

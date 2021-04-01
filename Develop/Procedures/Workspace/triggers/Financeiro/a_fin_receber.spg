@@ -18,13 +18,13 @@
       [*] Remoção do tratamento de parcelas por título.
  */
 Create or Replace Function a_fin_receber()
-Returns trigger
-As
+Returns trigger As
 $$
 Declare
    chistorico     fin_banco.historico%type;
    cidos          tb_orcamentos.idos%type;
    bReprocessa    boolean;
+   table_         varchar := 'fin_receber';
 Begin
    bReprocessa := tg_op <> 'UPDATE';
 
@@ -36,14 +36,15 @@ Begin
       if tg_op <> 'INSERT' then
          -- Estornando movimento bancário
          if old.baixa is not null and old.valor_baixado > 0 then
-            perform sys_flag_mark(sys_origem('fin_receber')::varchar, old.recno);
+            perform sys_flag_mark(table_, old.recno);
 
             delete
               from fin_banco
-             where origem = sys_origem('fin_receber')
+             where origem = sys_origem(table_)
                and origem_recno = old.recno;
 
-            perform sys_flag_del(sys_origem('fin_receber')::varchar, old.recno);
+            -- raise '[[Tabela %]]', table_;
+            perform sys_flag_del(table_, old.recno);
 
             -- Estorna comissão
             update comissoes
@@ -65,7 +66,7 @@ Begin
                 origem, origem_recno, cc )
             values
                (new.baixa, new.natureza, new.docto, new.historico, 'E', new.valor_baixado, true,
-                sys_origem('fin_receber'), new.recno, new.cc );
+                sys_origem(table_), new.recno, new.cc );
          end if;
       end if;
    end if;
@@ -74,7 +75,7 @@ Begin
    if tg_op <> 'DELETE' then
       if tg_op = 'UPDATE' then
          if breprocessa or new.vencimento_real != old.vencimento_real then
-            perform fin_caixaEstornar(sys_origem('fin_receber'), old.recno);
+            perform fin_caixaEstornar(sys_origem(table_), old.recno);
             perform fin_caixaReceber(new.recno);
          end if;
       end if;
