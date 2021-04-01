@@ -482,11 +482,6 @@ type
     R00019descricao: TMemoField;
     R00019pedidocliente: TStringField;
     R00019controle: TMemoField;
-    R00019contatofin_nome: TStringField;
-    R00019contatofin_funcao: TStringField;
-    R00019contatofin_telefone: TStringField;
-    R00019contatofin_celular: TStringField;
-    R00019contatofin_email: TStringField;
     R00017blaudo: TIntegerField;
     R00017alaudo: TIntegerField;
     R00017claudo: TIntegerField;
@@ -797,6 +792,12 @@ type
     R00018gcelular: TStringField;
     R00018gtelefone: TStringField;
     R00018gemail: TStringField;
+    R00019b: TZQuery;
+    StringField16: TStringField;
+    StringField20: TStringField;
+    StringField21: TStringField;
+    StringField22: TStringField;
+    frxR00019b: TfrxDBDataset;
     procedure DataModuleCreate(Sender: TObject);
     procedure R00011CalcFields(DataSet: TDataSet);
     procedure R00014CalcFields(DataSet: TDataSet);
@@ -1044,6 +1045,9 @@ end;
 procedure TDMReport.R00019AfterScroll(DataSet: TDataSet);
 begin
   R00019a.ParamByName('os').AsInteger := R00019os.AsInteger;
+  R00019b.ParamByName('cliente').AsInteger := R00019idcliente.AsInteger;
+  G.RefreshDataSet(R00019a);
+  G.RefreshDataSet(R00019b);
 end;
 
 procedure TDMReport.R00020aAfterScroll(DataSet: TDataSet);

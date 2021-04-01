@@ -42,7 +42,7 @@ object DMReport: TDMReport
     PrintOptions.Printer = 'Padr'#227'o'
     PrintOptions.PrintOnSheet = 0
     ReportOptions.CreateDate = 42781.714010347200000000
-    ReportOptions.LastChange = 44287.096607048610000000
+    ReportOptions.LastChange = 44287.500994953710000000
     ScriptLanguage = 'PascalScript'
     StoreInDFM = False
     OnReportPrint = 'ReportBaseOnReportPrint'
@@ -4683,17 +4683,10 @@ object DMReport: TDMReport
       
         '   c.empresa, c.nome_chave, c.endereco, c.bairro, c.cep, c.cidad' +
         'e, c.estado,'
-      '   c.cnpj, c.cpf, c.inscricao, c.telefone, md5(o.idos) controle,'
-      
-        '   ct.nome contatofin_nome, ct.funcao contatofin_funcao, ct.tele' +
-        'fone contatofin_telefone,'
-      '   ct.celular contatofin_celular, ct.email contatofin_email'
+      '   c.cnpj, c.cpf, c.inscricao, c.telefone, md5(o.idos) controle'
       '  from vos o'
       '       join tbclientes c'
       '         on c.codigo = o.idcliente'
-      '       join vclientes_contatos ct'
-      '         on ct.cliente = o.idcliente'
-      '        and ct.recno = o.contato_fin'
       ' where o.os = :os')
     Params = <
       item
@@ -4808,31 +4801,6 @@ object DMReport: TDMReport
       ReadOnly = True
       BlobType = ftMemo
     end
-    object R00019contatofin_nome: TStringField
-      FieldName = 'contatofin_nome'
-      ReadOnly = True
-      Size = 60
-    end
-    object R00019contatofin_funcao: TStringField
-      FieldName = 'contatofin_funcao'
-      ReadOnly = True
-      Size = 54
-    end
-    object R00019contatofin_telefone: TStringField
-      FieldName = 'contatofin_telefone'
-      ReadOnly = True
-      Size = 100
-    end
-    object R00019contatofin_celular: TStringField
-      FieldName = 'contatofin_celular'
-      ReadOnly = True
-      Size = 100
-    end
-    object R00019contatofin_email: TStringField
-      FieldName = 'contatofin_email'
-      ReadOnly = True
-      Size = 100
-    end
   end
   object frxR00019: TfrxDBDataset
     Description = 'Cota'#231#227'o/Ordem de Fatura'
@@ -4858,12 +4826,7 @@ object DMReport: TDMReport
       'vlmat=vlmat'
       'descricao=descricao'
       'pedidocliente=pedidocliente'
-      'controle=controle'
-      'contatofin_nome=contatofin_nome'
-      'contatofin_funcao=contatofin_funcao'
-      'contatofin_telefone=contatofin_telefone'
-      'contatofin_celular=contatofin_celular'
-      'contatofin_email=contatofin_email')
+      'controle=controle')
     DataSet = R00019
     BCDToCurrency = False
     Left = 488
@@ -5112,7 +5075,7 @@ object DMReport: TDMReport
       end>
     IndexFieldNames = 'recno Asc'
     Left = 424
-    Top = 224
+    Top = 272
     ParamData = <
       item
         DataType = ftString
@@ -5338,12 +5301,12 @@ object DMReport: TDMReport
     DataSet = R00020
     BCDToCurrency = False
     Left = 488
-    Top = 224
+    Top = 272
   end
   object dsR00020: TDataSource
     DataSet = R00020
     Left = 552
-    Top = 224
+    Top = 272
   end
   object R00020a: TZQuery
     Connection = DM.Design
@@ -5366,7 +5329,7 @@ object DMReport: TDMReport
       end>
     IndexFieldNames = 'descri Asc'
     Left = 424
-    Top = 272
+    Top = 320
     ParamData = <
       item
         DataType = ftString
@@ -5423,7 +5386,7 @@ object DMReport: TDMReport
     DataSet = R00020a
     BCDToCurrency = False
     Left = 488
-    Top = 272
+    Top = 320
   end
   object R00020b: TZQuery
     Connection = DM.Design
@@ -5450,7 +5413,7 @@ object DMReport: TDMReport
       end>
     IndexFieldNames = 'descri Asc'
     Left = 424
-    Top = 320
+    Top = 368
     ParamData = <
       item
         DataType = ftString
@@ -5478,7 +5441,7 @@ object DMReport: TDMReport
     DataSet = R00020b
     BCDToCurrency = False
     Left = 488
-    Top = 320
+    Top = 368
   end
   object R00020c: TZQuery
     Connection = DM.Design
@@ -5500,7 +5463,7 @@ object DMReport: TDMReport
       end>
     IndexFieldNames = 'descricao Asc'
     Left = 424
-    Top = 368
+    Top = 416
     ParamData = <
       item
         DataType = ftString
@@ -5549,7 +5512,7 @@ object DMReport: TDMReport
     DataSet = R00020c
     BCDToCurrency = False
     Left = 488
-    Top = 368
+    Top = 416
   end
   object R00020d: TZQuery
     Connection = DM.Design
@@ -5573,7 +5536,7 @@ object DMReport: TDMReport
       end>
     IndexFieldNames = 'descricao Asc'
     Left = 424
-    Top = 416
+    Top = 464
     ParamData = <
       item
         DataType = ftString
@@ -5631,7 +5594,7 @@ object DMReport: TDMReport
     DataSet = R00020d
     BCDToCurrency = False
     Left = 488
-    Top = 416
+    Top = 464
   end
   object R00018f: TZQuery
     Connection = DM.Design
@@ -5718,7 +5681,7 @@ object DMReport: TDMReport
       end>
     IndexFieldNames = 'historico Asc'
     Left = 424
-    Top = 464
+    Top = 512
     ParamData = <
       item
         DataType = ftString
@@ -5770,7 +5733,7 @@ object DMReport: TDMReport
     DataSet = R00020e
     BCDToCurrency = False
     Left = 488
-    Top = 464
+    Top = 512
   end
   object R00021: TZQuery
     Connection = DM.Design
@@ -5811,7 +5774,7 @@ object DMReport: TDMReport
       end>
     IndexFieldNames = 'emissao Asc'
     Left = 424
-    Top = 512
+    Top = 560
     ParamData = <
       item
         DataType = ftDate
@@ -5976,7 +5939,7 @@ object DMReport: TDMReport
     DataSet = R00021
     BCDToCurrency = False
     Left = 488
-    Top = 512
+    Top = 560
   end
   object R00014c: TZQuery
     Connection = DM.Design
@@ -6084,5 +6047,60 @@ object DMReport: TDMReport
     BCDToCurrency = False
     Left = 672
     Top = 416
+  end
+  object R00019b: TZQuery
+    Connection = DM.Design
+    SQL.Strings = (
+      'select nome, celular, telefone, email '
+      '  from clientes_contatos '
+      ' where cliente = :cliente'
+      '   and contato_financeiro'
+      '   and ativo')
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'cliente'
+        ParamType = ptUnknown
+      end>
+    Left = 424
+    Top = 224
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'cliente'
+        ParamType = ptUnknown
+      end>
+    object StringField16: TStringField
+      FieldName = 'nome'
+      Size = 150
+    end
+    object StringField20: TStringField
+      FieldName = 'celular'
+      EditMask = '(99) 9.9999-9999;0;'
+      Size = 25
+    end
+    object StringField21: TStringField
+      FieldName = 'telefone'
+      EditMask = '(99) 9999-9999;0;'
+      Size = 25
+    end
+    object StringField22: TStringField
+      FieldName = 'email'
+      Size = 150
+    end
+  end
+  object frxR00019b: TfrxDBDataset
+    Description = 'Contatos Nota de D'#233'bito'
+    UserName = 'R00019b'
+    CloseDataSource = True
+    FieldAliases.Strings = (
+      'nome=nome'
+      'celular=celular'
+      'telefone=telefone'
+      'email=email')
+    DataSet = R00019b
+    BCDToCurrency = False
+    Left = 488
+    Top = 224
   end
 end
