@@ -1,0 +1,34 @@
+set session authorization lorencini;
+CREATE OR REPLACE VIEW public.vdoc_cab
+AS SELECT 198 AS origem,
+    cota.recno,
+    cota.recno AS doc,
+    cota.cliente,
+    cota.emissao,
+    cota.markup,
+    cota.descricao,    
+    cota.grupo,
+    cota.condicaopg
+   FROM cota
+UNION ALL
+ SELECT 9 AS origem,
+    tb_orcamentos.recno,
+    tb_orcamentos.os AS doc,
+    tb_orcamentos.idcliente AS cliente,
+    tb_orcamentos.data AS emissao,
+    tb_orcamentos.markup,
+    tb_orcamentos.descricao,    
+    tb_orcamentos.grupo,
+    tb_orcamentos.condicaopg
+   FROM tb_orcamentos
+UNION ALL
+ SELECT 187 AS origem,
+    pedido.recno,
+    pedido.recno AS doc,
+    pedido.codigo AS cliente,
+    pedido.emitido AS emissao,
+    pedido.markup,
+    pedido.obs AS descricao,    
+    pedido.grupo,
+    pedido.condicaopg
+   FROM pedido;

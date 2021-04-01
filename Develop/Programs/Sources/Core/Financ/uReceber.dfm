@@ -119,7 +119,7 @@ inherited Receber: TReceber
               ExplicitWidth = 157
             end
             inherited CCalendarDiff1: TCCalendarDiff
-              Date = 44266.720073148150000000
+              Date = 44278.970515543980000000
               DisplayInterval = Label4
               OnChange = FrameData1CCalendarDiff1Change
             end
@@ -289,12 +289,13 @@ inherited Receber: TReceber
     UpdateObject = ZUpdateSQL1
     AfterInsert = IBrwSrcAfterInsert
     SQL.Strings = (
-      'select a.recno, a.natureza, c.descri, c.tipo,'
-      '       a.id_cli, b.nome_chave, b.cnpj, b.telefone,'
-      '       a.docto, a.criacao, a.emissao, a.vencimento,'
-      '       a.vencimento_real, a.baixa, a.valor,'
-      '       a.valor_baixado, a.obs, a.cc, a.historico,'
-      '       a.juros, a.multa, a.descto'
+      
+        'select a.recno, a.natureza, c.descri, c.tipo, a.id_cli, b.nome_c' +
+        'have, b.cnpj, b.telefone, a.docto, a.criacao, a.emissao,'
+      
+        '       a.vencimento, a.vencimento_real, a.baixa, a.valor, a.valo' +
+        'r_baixado, a.obs, a.cc, a.historico, a.juros, a.multa,'
+      '       a.descto'
       '  from fin_receber a'
       '       join tbclientes b'
       '         on b.codigo = a.id_cli'
@@ -626,93 +627,6 @@ inherited Receber: TReceber
     Left = 64
     Top = 256
   end
-  object dsContatos: TDataSource
-    AutoEdit = False
-    DataSet = qContatos
-    Left = 264
-    Top = 304
-  end
-  object qContatos: TZQuery
-    Connection = DM.Design
-    UpdateObject = zContatos
-    AfterInsert = qContatosAfterInsert
-    SQL.Strings = (
-      
-        'select con.cliente, con.nome, con.funcao, con.telefone, con.celu' +
-        'lar, '
-      '       con.email, con.recno, con.contato, cli.empresa'
-      '  from vclientes_contatos con'
-      '       join tbclientes cli'
-      '         on cli.codigo = con.cliente'
-      ' where con.cliente = :cliente')
-    Params = <
-      item
-        DataType = ftUnknown
-        Name = 'cliente'
-        ParamType = ptUnknown
-      end>
-    Sequence = sContatos
-    SequenceField = 'recno'
-    Left = 200
-    Top = 304
-    ParamData = <
-      item
-        DataType = ftUnknown
-        Name = 'cliente'
-        ParamType = ptUnknown
-      end>
-    object qContatoscliente: TIntegerField
-      FieldName = 'cliente'
-      Required = True
-      Visible = False
-    end
-    object qContatosrecno: TIntegerField
-      FieldName = 'recno'
-      Required = True
-      Visible = False
-    end
-    object qContatosnome: TStringField
-      DisplayLabel = 'Nome'
-      DisplayWidth = 20
-      FieldName = 'nome'
-      Size = 60
-    end
-    object qContatosfuncao: TStringField
-      DisplayLabel = 'Fun'#231#227'o'
-      DisplayWidth = 15
-      FieldName = 'funcao'
-      Size = 54
-    end
-    object qContatostelefone: TStringField
-      DisplayLabel = 'Telefone'
-      DisplayWidth = 15
-      FieldName = 'telefone'
-      Size = 100
-    end
-    object qContatoscelular: TStringField
-      DisplayLabel = 'Celular'
-      DisplayWidth = 15
-      FieldName = 'celular'
-      Size = 100
-    end
-    object qContatosemail: TStringField
-      DisplayLabel = 'Email'
-      DisplayWidth = 30
-      FieldName = 'email'
-      Size = 100
-    end
-    object qContatosempresa: TStringField
-      DisplayLabel = 'Empresa'
-      DisplayWidth = 25
-      FieldName = 'empresa'
-      Visible = False
-      Size = 100
-    end
-    object qContatoscontato: TIntegerField
-      DisplayLabel = 'Contato'
-      FieldName = 'contato'
-    end
-  end
   object sContatos: TZSequence
     Connection = DM.Design
     SequenceName = 'public.tbclientes_contatos_recno_seq'
@@ -798,5 +712,81 @@ inherited Receber: TReceber
         Name = 'OLD_item'
         ParamType = ptUnknown
       end>
+  end
+  object qContatos: TZQuery
+    Connection = DM.Design
+    SortedFields = 'nome'
+    SQL.Strings = (
+      
+        'select cliente, nome, celular, telefone, ramal, email, padrao, r' +
+        'ecno'
+      '  from clientes_contatos'
+      ' where cliente = :cliente'
+      '   and contato_financeiro'
+      '   and ativo')
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'cliente'
+        ParamType = ptUnknown
+      end>
+    FetchRow = 50
+    IndexFieldNames = 'nome Asc'
+    Left = 200
+    Top = 304
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'cliente'
+        ParamType = ptUnknown
+      end>
+    object qContatoscliente: TIntegerField
+      FieldName = 'cliente'
+      Visible = False
+    end
+    object qContatospadrao: TBooleanField
+      DisplayLabel = 'Padr'#227'o'
+      FieldName = 'padrao'
+    end
+    object qContatosrecno: TIntegerField
+      DisplayLabel = 'Contato'
+      FieldName = 'recno'
+    end
+    object qContatosnome: TStringField
+      DisplayLabel = 'Nome'
+      DisplayWidth = 35
+      FieldName = 'nome'
+      Size = 150
+    end
+    object qContatoscelular: TStringField
+      DisplayLabel = 'Celular'
+      DisplayWidth = 15
+      FieldName = 'celular'
+      EditMask = '(99) 9.9999-9999;0;'
+      Size = 25
+    end
+    object qContatostelefone: TStringField
+      DisplayLabel = 'Fixo'
+      DisplayWidth = 15
+      FieldName = 'telefone'
+      EditMask = '(99) 9999-9999;0;'
+      Size = 25
+    end
+    object qContatosramal: TStringField
+      DisplayLabel = 'Ramal'
+      FieldName = 'ramal'
+      Size = 6
+    end
+    object qContatosemail: TStringField
+      DisplayLabel = 'E-mail'
+      FieldName = 'email'
+      Size = 150
+    end
+  end
+  object dsContatos: TDataSource
+    AutoEdit = False
+    DataSet = qContatos
+    Left = 264
+    Top = 304
   end
 end

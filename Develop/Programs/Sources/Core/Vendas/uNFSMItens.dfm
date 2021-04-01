@@ -10,9 +10,9 @@ inherited NFSMItens: TNFSMItens
     Top = 44
     Width = 783
     Height = 407
-    ExplicitTop = 35
+    ExplicitTop = 44
     ExplicitWidth = 783
-    ExplicitHeight = 416
+    ExplicitHeight = 407
     inherited Panel3: TPanel
       Align = alNone
       ExplicitTop = 204
@@ -20,14 +20,14 @@ inherited NFSMItens: TNFSMItens
         Top = 47
         Height = 185
         ExplicitLeft = 3
-        ExplicitTop = 38
+        ExplicitTop = 47
         ExplicitWidth = 633
-        ExplicitHeight = 194
+        ExplicitHeight = 185
         inherited tsDet: TTabSheet
           ExplicitLeft = 4
           ExplicitTop = 26
           ExplicitWidth = 625
-          ExplicitHeight = 164
+          ExplicitHeight = 155
           inherited DBGrid1: TDBGrid
             Width = 625
             Height = 155
@@ -72,13 +72,13 @@ inherited NFSMItens: TNFSMItens
       ExplicitLeft = 3
       ExplicitTop = 3
       ExplicitWidth = 777
-      ExplicitHeight = 410
+      ExplicitHeight = 401
       inherited TabSheet1: TTabSheet
         Caption = 'Item'
         ExplicitLeft = 4
         ExplicitTop = 26
         ExplicitWidth = 769
-        ExplicitHeight = 380
+        ExplicitHeight = 371
         object Label1: TLabel
           Left = 3
           Top = 9
@@ -277,6 +277,7 @@ inherited NFSMItens: TNFSMItens
             TitleFont.Color = clWindowText
             TitleFont.Height = -12
             TitleFont.Name = 'Segoe UI'
+            TitleFont.Pitch = fpVariable
             TitleFont.Style = []
             OnDrawColumnCell = ChildGridDrawColumnCell
             OnDblClick = DBGrid2DblClick

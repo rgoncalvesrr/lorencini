@@ -17,7 +17,6 @@ type
     TabSheet5: TTabSheet;
     IBrwSrcrecno: TIntegerField;
     IBrwSrccodigo: TIntegerField;
-    IBrwSrccontato: TIntegerField;
     IBrwSrccriado: TDateTimeField;
     IBrwSrcemitido: TDateTimeField;
     IBrwSrcautorizado: TDateTimeField;
@@ -45,11 +44,6 @@ type
     ComboBox1: TComboBox;
     Label3: TLabel;
     edPedido: TJvCalcEdit;
-    IBrwSrcnome: TStringField;
-    IBrwSrcfuncao: TStringField;
-    IBrwSrctelefone_1: TStringField;
-    IBrwSrccelular: TStringField;
-    IBrwSrcemail_1: TStringField;
     actPedEmitir: TAction;
     actPedProduzir: TAction;
     dsAmostras: TDataSource;
@@ -74,18 +68,6 @@ type
     qDesp: TZQuery;
     dsDesp: TDataSource;
     sIBrwSrc: TZSequence;
-    IBrwSrccontato_fin: TIntegerField;
-    IBrwSrccontatofin_nome: TStringField;
-    IBrwSrccontatofin_funcao: TStringField;
-    IBrwSrccontatofin_telefone: TStringField;
-    IBrwSrccontatofin_celular: TStringField;
-    IBrwSrccontatofin_email: TStringField;
-    IBrwSrccontato_tec: TIntegerField;
-    IBrwSrccontatotec_nome: TStringField;
-    IBrwSrccontatotec_telefone: TStringField;
-    IBrwSrccontatotec_celular: TStringField;
-    IBrwSrccontatotec_email: TStringField;
-    IBrwSrccontatotec_funcao: TStringField;
     qAmostrasServpedido: TIntegerField;
     qAmostrasServcomodato_recno: TIntegerField;
     qAmostrasServrecno: TIntegerField;
@@ -228,6 +210,16 @@ type
     Panel7: TPanel;
     Panel8: TPanel;
     IBrwSrcdec_conf: TBooleanField;
+    qContatos: TZQuery;
+    qContatoscliente: TIntegerField;
+    qContatospadrao: TBooleanField;
+    qContatosrecno: TIntegerField;
+    qContatosnome: TStringField;
+    qContatoscelular: TStringField;
+    qContatostelefone: TStringField;
+    qContatosramal: TStringField;
+    qContatosemail: TStringField;
+    dsContatos: TDataSource;
     procedure IBrwSrcaprovadoGetText(Sender: TField; var Text: string;
       DisplayText: Boolean);
     procedure IBrwSrcaprovadoSetText(Sender: TField; const Text: string);
@@ -240,7 +232,6 @@ type
     procedure IBrwSrcAfterScroll(DataSet: TDataSet);
     procedure IBrwSrcstatusGetText(Sender: TField; var Text: string;
       DisplayText: Boolean);
-    procedure IBrwSrccontatoChange(Sender: TField);
     procedure actPedEmitirExecute(Sender: TObject);
     procedure actPedProduzirExecute(Sender: TObject);
     procedure qAmostrastipoGetText(Sender: TField; var Text: string;
@@ -252,9 +243,6 @@ type
     procedure IBrwSrcAfterInsert(DataSet: TDataSet);
     procedure qAmostrasCalcFields(DataSet: TDataSet);
     procedure actPedLiberarExecute(Sender: TObject);
-    procedure IBrwSrccontato_finChange(Sender: TField);
-    procedure IBrwSrccontato_tecChange(Sender: TField);
-    procedure IBrwSrccodigoChange(Sender: TField);
     procedure qAmostrasAfterScroll(DataSet: TDataSet);
     procedure qAmostrasServAfterInsert(DataSet: TDataSet);
     procedure qMatAfterInsert(DataSet: TDataSet);
@@ -317,6 +305,7 @@ var
   oPedido: TReport;
 begin
   inherited;
+  oPedido := nil;
   if not Assigned(DataSet) then
     Exit;
 
@@ -652,11 +641,12 @@ begin
   qMat.ParamByName('pedido').AsInteger := IBrwSrcrecno.AsInteger;
   qServ.ParamByName('pedido').AsInteger := IBrwSrcrecno.AsInteger;
   qMObra.ParamByName('pedido').AsInteger := IBrwSrcrecno.AsInteger;
-//  G.RefreshDataSet(qAmostras);
+  qContatos.ParamByName('cliente').AsInteger := IBrwSrccliente.AsInteger;
   G.RefreshDataSet(qDesp);
   G.RefreshDataSet(qMat);
   G.RefreshDataSet(qServ);
   G.RefreshDataSet(qMObra);
+  G.RefreshDataSet(qContatos);
   RefreshCtrl;
 end;
 
@@ -693,50 +683,6 @@ begin
   IBrwSrcvlsrv.AsFloat := IBrwSrcvlsrvvar.AsFloat + IBrwSrcvlsrvfixo.AsFloat;
   IBrwSrcvltotal.AsFloat := IBrwSrcvlmat.AsFloat + IBrwSrcvlsrv.AsFloat +
     IBrwSrcvlmobra.AsFloat + IBrwSrcvldespe.AsFloat;
-end;
-
-procedure TPed.IBrwSrccodigoChange(Sender: TField);
-begin
-  inherited;
-  IBrwSrccontato.Clear;
-  IBrwSrccontato_fin.Clear;
-  IBrwSrccontato_tec.Clear;
-end;
-
-procedure TPed.IBrwSrccontatoChange(Sender: TField);
-begin
-  inherited;
-  if not (DataSet.State in [dsEdit, dsInsert]) then
-    Exit;
-
-  IBrwSrcnome.Clear;
-  IBrwSrcfuncao.Clear;
-  IBrwSrctelefone_1.Clear;
-  IBrwSrcemail_1.Clear;
-end;
-
-procedure TPed.IBrwSrccontato_finChange(Sender: TField);
-begin
-  inherited;
-  if not (DataSet.State in [dsEdit, dsInsert]) then
-    Exit;
-
-  IBrwSrccontatofin_nome.Clear;
-  IBrwSrccontatofin_funcao.Clear;
-  IBrwSrccontatofin_telefone.Clear;
-  IBrwSrccontatofin_email.Clear;
-end;
-
-procedure TPed.IBrwSrccontato_tecChange(Sender: TField);
-begin
-  inherited;
-    if not (DataSet.State in [dsEdit, dsInsert]) then
-    Exit;
-
-  IBrwSrccontatotec_nome.Clear;
-  IBrwSrccontatotec_funcao.Clear;
-  IBrwSrccontatotec_telefone.Clear;
-  IBrwSrccontatofin_email.Clear;
 end;
 
 procedure TPed.IBrwSrcenvioGetText(Sender: TField; var Text: string;
@@ -852,9 +798,6 @@ begin
   inherited;
   with DMReport do
   try
-//    R00018.ParamByName('origem').AsInteger := 187;
-//    R00018.ParamByName('recno').AsInteger := IBrwSrcrecno.AsInteger;
-//    G.RefreshDataSet(R00018);
     R00020.ParamByName('pedido').AsInteger := IBrwSrcrecno.AsInteger;
     G.RefreshDataSet(R00020);
 

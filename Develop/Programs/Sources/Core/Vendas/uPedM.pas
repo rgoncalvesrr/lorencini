@@ -23,22 +23,8 @@ type
     Label13: TLabel;
     DBEdit12: TDBEdit;
     GroupBox2: TGroupBox;
-    GroupBox3: TGroupBox;
     DBEdit19: TDBEdit;
     Label14: TLabel;
-    Label51: TLabel;
-    DBEdit49: TDBEdit;
-    SpeedButton5: TSpeedButton;
-    Label47: TLabel;
-    DBEdit45: TDBEdit;
-    Label48: TLabel;
-    DBEdit48: TDBEdit;
-    Label49: TLabel;
-    DBEdit47: TDBEdit;
-    Label50: TLabel;
-    DBEdit46: TDBEdit;
-    Label52: TLabel;
-    DBEdit50: TDBEdit;
     Panel2: TPanel;
     Panel4: TPanel;
     Panel5: TPanel;
@@ -47,14 +33,6 @@ type
     Panel8: TPanel;
     Panel9: TPanel;
     Panel10: TPanel;
-    Panel17: TPanel;
-    Panel18: TPanel;
-    Panel19: TPanel;
-    Panel20: TPanel;
-    Panel21: TPanel;
-    Panel22: TPanel;
-    Panel23: TPanel;
-    actFindCliCont: TAction;
     Panel24: TPanel;
     Panel25: TPanel;
     Label15: TLabel;
@@ -83,51 +61,6 @@ type
     Selecionada1: TMenuItem;
     odas1: TMenuItem;
     actDespVinc: TAction;
-    TabSheet4: TTabSheet;
-    GroupBox1: TGroupBox;
-    Panel37: TPanel;
-    Label26: TLabel;
-    DBEdit21: TDBEdit;
-    Panel38: TPanel;
-    SpeedButton2: TSpeedButton;
-    Panel39: TPanel;
-    Label27: TLabel;
-    DBEdit22: TDBEdit;
-    Panel40: TPanel;
-    Label28: TLabel;
-    DBEdit23: TDBEdit;
-    Panel41: TPanel;
-    Label29: TLabel;
-    DBEdit24: TDBEdit;
-    Panel42: TPanel;
-    Label30: TLabel;
-    DBEdit25: TDBEdit;
-    Panel43: TPanel;
-    Label31: TLabel;
-    DBEdit26: TDBEdit;
-    GroupBox4: TGroupBox;
-    Panel44: TPanel;
-    Label32: TLabel;
-    DBEdit27: TDBEdit;
-    Panel45: TPanel;
-    SpeedButton3: TSpeedButton;
-    Panel46: TPanel;
-    Label33: TLabel;
-    DBEdit28: TDBEdit;
-    Panel47: TPanel;
-    Label34: TLabel;
-    DBEdit29: TDBEdit;
-    Panel48: TPanel;
-    Label35: TLabel;
-    DBEdit30: TDBEdit;
-    Panel49: TPanel;
-    Label36: TLabel;
-    DBEdit31: TDBEdit;
-    Panel50: TPanel;
-    Label37: TLabel;
-    DBEdit32: TDBEdit;
-    actFindCliContFin: TAction;
-    actFindCliContTec: TAction;
     TabSheet2: TTabSheet;
     DBGrid2: TDBGrid;
     TabSheet3: TTabSheet;
@@ -209,8 +142,8 @@ type
     Panel62: TPanel;
     Label45: TLabel;
     JvDBComboBox1: TJvDBComboBox;
-    procedure actFindCliContExecute(Sender: TObject);
-    procedure DBEdit49Exit(Sender: TObject);
+    TabSheet4: TTabSheet;
+    DBGrid5: TDBGrid;
     procedure DBEdit8Exit(Sender: TObject);
     procedure actFindCliExecute(Sender: TObject);
     procedure actPrintAllExecute(Sender: TObject);
@@ -224,6 +157,7 @@ type
     procedure FrameCliente1DBEdit8Exit(Sender: TObject);
     procedure PageControl3Change(Sender: TObject);
     procedure FrameCliente1SpeedButton1Click(Sender: TObject);
+    procedure FormResize(Sender: TObject);
   private
     { Private declarations }
     procedure RefreshLookupFilter;
@@ -279,32 +213,6 @@ begin
     Close;
     G.RefreshDataSet(Ped.qDesp);
     RefreshControls;
-  end;
-end;
-
-procedure TPedM.actFindCliContExecute(Sender: TObject);
-var
-  oDbEdit: TDBEdit;
-begin
-  inherited;
-  ContatoF := TContatoF.Create(nil);
-  try
-    ContatoF.Situacao := csAtivos;
-    ContatoF.Cliente := DataSet.FieldByName('codigo').AsInteger;
-    ContatoF.ShowModal;
-    if ContatoF.Execute then
-    with DM do
-    begin
-      case TAction(Sender).Tag of
-        0: oDbEdit := DBEdit49;
-        1: oDbEdit := DBEdit21;
-        2: oDbEdit := DBEdit27;
-      end;
-      DataSet.FieldByName(oDbEdit.Field.FieldName).AsInteger := ContatoF.IBrwSrccontato.AsInteger;
-      DBEdit49Exit(oDbEdit);
-    end;
-  finally
-    FreeAndNil(ContatoF);
   end;
 end;
 
@@ -391,76 +299,6 @@ begin
   ImprimirEtiqueta;
 end;
 
-procedure TPedM.DBEdit49Exit(Sender: TObject);
-var
-  fLkp: TStringList;
-  fnome, ffuncao, ftel, fcel, femail: string;
-begin
-  inherited;
-  try
-    if mcEmpty(TDBEdit(Sender).Text) or not (DataSet.State in [dsEdit, dsInsert])  then
-      Exit;
-
-    fLkp:= TStringList.Create;
-    fLkp.Add('nome');
-    fLkp.Add('funcao');
-    fLkp.Add('telefone');
-    fLkp.Add('celular');
-    fLkp.Add('email');
-
-    if U.Data.CheckFK('vclientes_contatos', 'recno', TDBEdit(Sender).Text, fLkp,
-      Format(' cliente = %d ', [DBEdit8.Field.AsInteger])) then
-    begin
-      case TDBEdit(sender).Tag of
-        0:
-        begin
-          fnome := 'nome';
-          ffuncao := 'funcao';
-          ftel := 'telefone_1';
-          fcel := 'celular';
-          femail := 'email_1';
-        end;
-        1:
-        begin
-          fnome := 'contatofin_nome';
-          ffuncao := 'contatofin_funcao';
-          ftel := 'contatofin_telefone';
-          fcel := 'contatofin_celular';
-          femail := 'contatofin_email';
-        end;
-        2:
-        begin
-          fnome := 'contatotec_nome';
-          ffuncao := 'contatotec_funcao';
-          ftel := 'contatotec_telefone';
-          fcel := 'contatotec_celular';
-          femail := 'contatotec_email';
-        end;
-      end;
-
-
-      DataSet.FieldByName(fnome).AsString := fLkp[0];
-      DataSet.FieldByName(ffuncao).AsString := fLkp[1];
-      DataSet.FieldByName(ftel).AsString := fLkp[2];
-      DataSet.FieldByName(fcel).AsString := fLkp[3];
-      DataSet.FieldByName(femail).AsString := fLkp[4];
-
-      if DataSet.FieldByName('solicitante').AsString = EmptyStr then
-        DataSet.FieldByName('solicitante').AsString := fLkp[0];
-      if DataSet.FieldByName('solicitante_dep').AsString = EmptyStr then
-        DataSet.FieldByName('solicitante_dep').AsString := fLkp[1];
-    end
-    else
-    begin
-      U.Out.ShowErro('Contato não cadastrado.');
-      TDBEdit(Sender).SetFocus;
-    end;
-  finally
-    if Assigned(fLkp) then
-      FreeAndNil(fLkp);
-  end;
-end;
-
 procedure TPedM.DBEdit7Exit(Sender: TObject);
 var
   fLkp: TStringList;
@@ -530,6 +368,12 @@ begin
   Row := mcStuff('@2', Row, 'Recepiente Cliente');
   Row := mcStuff('@3', Row, Format('Pedido: %s', [Ped.qAmostraspedido.DisplayText]));
   Row := mcStuff('@4', Row, Format('Tipo: %s', [Ped.qAmostrastipo.DisplayText]));
+end;
+
+procedure TPedM.FormResize(Sender: TObject);
+begin
+  inherited;
+  Panel3.Height := ClientHeight - (PageControl1.Top + 380);
 end;
 
 procedure TPedM.FrameCliente1DBEdit8Exit(Sender: TObject);
@@ -673,7 +517,6 @@ end;
 procedure TPedM.RefreshControls;
 begin
   inherited;
-  actFindCliCont.Enabled := False;
   actFindCli.Enabled := False;
   actFindGrupo.Enabled := False;
   actFreteCorreio.Enabled := False;
@@ -688,11 +531,8 @@ begin
   if not Assigned(DataSet) then
     Exit;
 
-  actFindCliCont.Enabled := DataSet.State in [dsEdit, dsInsert];
-  actFindCliContFin.Enabled := actFindCliCont.Enabled;
-  actFindCliContTec.Enabled := actFindCliCont.Enabled;
-  actFindGrupo.Enabled := actFindCliCont.Enabled;
-  actFindCli.Enabled := actFindCliCont.Enabled;
+  actFindGrupo.Enabled := DataSet.State in [dsEdit, dsInsert];
+  actFindCli.Enabled := DataSet.State in [dsEdit, dsInsert];
 
   cbEnvio.Enabled := cbRemessa.ItemIndex = 0;
   cbFrete.Enabled := cbEnvio.Enabled;
@@ -703,7 +543,7 @@ begin
   actEditMaster.Enabled := Ped.actEdit.Enabled;
   actDelMaster.Enabled := Ped.actDel.Enabled;
 
-  actFreteCorreio.Enabled := actFindCliCont.Enabled and cbEnvio.Enabled;
+  actFreteCorreio.Enabled := (DataSet.State in [dsEdit, dsInsert]) and cbEnvio.Enabled;
   FrameCliente1.actFindCli.Enabled := DataSet.State in [dsEdit, dsInsert];
 
   if not Assigned(ChildDataSet) then
@@ -722,9 +562,9 @@ begin
 
     actDespVinc.Enabled := (ChildDataSet.State = dsBrowse) and (ActivePage = Self.TabSheet7) and
       (IBrwSrcstatus.AsInteger = 10);
-    Self.actEdit.Enabled := Self.actEdit.Enabled and (ActivePage <> Self.TabSheet7);
-    Self.actView.Enabled := Self.actView.Enabled and (ActivePage <> Self.TabSheet7);
-    Self.actDel.Enabled := Self.actDel.Enabled and ((ActivePage <> Self.TabSheet7) or actDespVinc.Enabled);
+    Self.actEdit.Enabled := Self.actEdit.Enabled and (ActivePageIndex < 3);
+    Self.actView.Enabled := Self.actView.Enabled and (ActivePageIndex < 3);
+    Self.actDel.Enabled := Self.actDel.Enabled and ((ActivePageIndex < 3) or actDespVinc.Enabled);
   end;
 end;
 

@@ -175,7 +175,7 @@ inherited Ped: TPed
             Width = 185
             Height = 15
             Align = alTop
-            Caption = '01/03/2021 a 31/03/2021'
+            Caption = '01/04/2021 a 30/04/2021'
             Transparent = True
             ExplicitWidth = 128
           end
@@ -207,7 +207,7 @@ inherited Ped: TPed
             end
             inherited CCalendarDiff1: TCCalendarDiff
               Interval = diMonthly
-              Date = 44265.754530729170000000
+              Date = 44287.088349444440000000
               DisplayInterval = Label6
               OnChange = FrameData1CCalendarDiff1Change
             end
@@ -451,14 +451,14 @@ inherited Ped: TPed
     AfterInsert = IBrwSrcAfterInsert
     SQL.Strings = (
       
-        'select p.recno, p.codigo, p.contato, p.criado, p.emitido, p.auto' +
-        'rizado, p.aprovado, p.status, p.remessa, p.laboratorio,'
+        'select p.recno, p.codigo, p.criado, p.emitido, p.autorizado, p.a' +
+        'provado, p.status, p.remessa, p.laboratorio,'
       
         '   p.obs, p.solicitante, p.solicitante_dep, p.condicaopg, p.pedi' +
         'do_cliente,    p.grupo, p.markup, p.correio, '
       
-        '   m.vlmat, m.vlsrvvar, m.vlsrvfixo, m.vlmobra,    m.vldespe, p.' +
-        'frete, p.frascos, p.seringas, p.envio, p.coleta, '
+        '   m.vlmat, m.vlsrvvar, m.vlsrvfixo, m.vlmobra, m.vldespe, p.fre' +
+        'te, p.frascos, p.seringas, p.envio, p.coleta, '
       
         '   p.destinatario, p.obs_remessa, p.cliente, p.lote_aprov, og.de' +
         'scri, og.reqsrv, og.reqmat, og.reqmo,'
@@ -467,36 +467,16 @@ inherited Ped: TPed
         'e, c.estado, c.cnpj, c.cpf, c.telefone, c.email,'
       
         '   cl.empresa cliente_empresa, cl.nome_chave cliente_nome_chave,' +
-        '    cl.cnpj cliente_cnpj, cl.cpf cliente_cpf, '
+        ' cl.cnpj cliente_cnpj, cl.cpf cliente_cpf, '
       
         '   cl.email cliente_email, cl.cidade cliente_cidade, cl.estado c' +
         'liente_estado, cl.telefone cliente_telefone,'
-      
-        '   ct.nome, ct.funcao, ct.telefone, ct.celular, ct.email, p.cont' +
-        'ato_fin, ctf.nome contatofin_nome, '
-      
-        '   ctf.funcao contatofin_funcao, ctf.telefone contatofin_telefon' +
-        'e, ctf.celular contatofin_celular, '
-      
-        '   ctf.email contatofin_email, p.contato_tec, ctt.nome contatote' +
-        'c_nome, ctt.funcao contatotec_funcao, '
-      
-        '   ctt.telefone contatotec_telefone, ctt.celular contatotec_celu' +
-        'lar, ctt.email contatotec_email, p.dec_conf'
+      '   p.dec_conf'
       '  from pedido p'
       '       join tbclientes c'
       '         on c.codigo = p.codigo'
       '       join tbclientes cl'
       '         on cl.codigo = p.cliente'
-      '       join vclientes_contatos ct'
-      '         on ct.cliente = p.codigo'
-      '        and ct.contato = p.contato'
-      '       join vclientes_contatos ctf'
-      '         on ctf.cliente = p.codigo'
-      '        and ctf.contato = p.contato_fin'
-      '       join vclientes_contatos ctt'
-      '         on ctt.cliente = p.codigo'
-      '        and ctt.contato = p.contato_tec'
       '       left join markup m'
       '         on m.recno = p.markup'
       '       join orca_grupo og'
@@ -526,13 +506,6 @@ inherited Ped: TPed
       DisplayLabel = 'Entrada'
       FieldName = 'criado'
       DisplayFormat = 'dd/mm/yyy hh:nn'
-    end
-    object IBrwSrccontato: TIntegerField
-      DisplayLabel = 'Contato'
-      FieldName = 'contato'
-      Required = True
-      Visible = False
-      OnChange = IBrwSrccontatoChange
     end
     object IBrwSrcemitido: TDateTimeField
       DisplayLabel = 'Emiss'#227'o'
@@ -636,7 +609,6 @@ inherited Ped: TPed
       DisplayLabel = 'Cliente'
       FieldName = 'codigo'
       Required = True
-      OnChange = IBrwSrccodigoChange
     end
     object IBrwSrcempresa: TStringField
       DisplayLabel = 'Nome Empresarial'
@@ -708,91 +680,6 @@ inherited Ped: TPed
       DisplayLabel = 'EMail'
       DisplayWidth = 25
       FieldName = 'email'
-      Size = 100
-    end
-    object IBrwSrcnome: TStringField
-      FieldName = 'nome'
-      Visible = False
-      Size = 60
-    end
-    object IBrwSrcfuncao: TStringField
-      FieldName = 'funcao'
-      Visible = False
-      Size = 54
-    end
-    object IBrwSrctelefone_1: TStringField
-      FieldName = 'telefone_1'
-      Visible = False
-      Size = 100
-    end
-    object IBrwSrccelular: TStringField
-      FieldName = 'celular'
-      Visible = False
-      Size = 100
-    end
-    object IBrwSrcemail_1: TStringField
-      FieldName = 'email_1'
-      Visible = False
-      Size = 100
-    end
-    object IBrwSrccontato_fin: TIntegerField
-      FieldName = 'contato_fin'
-      Visible = False
-      OnChange = IBrwSrccontato_finChange
-    end
-    object IBrwSrccontatofin_nome: TStringField
-      FieldName = 'contatofin_nome'
-      Visible = False
-      Size = 60
-    end
-    object IBrwSrccontatofin_funcao: TStringField
-      FieldName = 'contatofin_funcao'
-      Visible = False
-      Size = 54
-    end
-    object IBrwSrccontatofin_telefone: TStringField
-      FieldName = 'contatofin_telefone'
-      Visible = False
-      Size = 100
-    end
-    object IBrwSrccontatofin_celular: TStringField
-      FieldName = 'contatofin_celular'
-      Visible = False
-      Size = 100
-    end
-    object IBrwSrccontatofin_email: TStringField
-      FieldName = 'contatofin_email'
-      Visible = False
-      Size = 100
-    end
-    object IBrwSrccontato_tec: TIntegerField
-      FieldName = 'contato_tec'
-      Visible = False
-      OnChange = IBrwSrccontato_tecChange
-    end
-    object IBrwSrccontatotec_nome: TStringField
-      FieldName = 'contatotec_nome'
-      Visible = False
-      Size = 60
-    end
-    object IBrwSrccontatotec_funcao: TStringField
-      FieldName = 'contatotec_funcao'
-      Visible = False
-      Size = 54
-    end
-    object IBrwSrccontatotec_telefone: TStringField
-      FieldName = 'contatotec_telefone'
-      Visible = False
-      Size = 100
-    end
-    object IBrwSrccontatotec_celular: TStringField
-      FieldName = 'contatotec_celular'
-      Visible = False
-      Size = 100
-    end
-    object IBrwSrccontatotec_email: TStringField
-      FieldName = 'contatotec_email'
-      Visible = False
       Size = 100
     end
     object IBrwSrcgrupo: TIntegerField
@@ -916,30 +803,25 @@ inherited Ped: TPed
       '  pedido.recno = :OLD_recno')
     InsertSQL.Strings = (
       'INSERT INTO pedido'
-      '  (recno,    codigo, contato, criado, emitido, autorizado,'
-      '   aprovado, status, obs, solicitante, solicitante_dep,'
       
-        '   condicaopg, pedido_cliente, contato_fin, contato_tec, grupo, ' +
-        'markup,'
+        '  (recno,    codigo, criado, emitido, autorizado, aprovado, stat' +
+        'us, obs, solicitante, solicitante_dep,'
       
-        '   correio, envio, coleta, frascos, seringas, frete, remessa, de' +
-        'stinatario,'
+        '   condicaopg, pedido_cliente, grupo, markup, correio, envio, co' +
+        'leta, frascos, seringas, frete, remessa, destinatario,'
       '   obs_remessa, cliente, dec_conf)'
       'VALUES'
-      '  (:recno, :codigo, :contato, :criado, :emitido, :autorizado,'
-      '   :aprovado, :status, :obs, :solicitante, :solicitante_dep,'
       
-        '   :condicaopg, :pedido_cliente, :contato_fin, :contato_tec, :gr' +
-        'upo, :markup,'
+        '  (:recno, :codigo, :criado, :emitido, :autorizado, :aprovado, :' +
+        'status, :obs, :solicitante, :solicitante_dep,'
       
-        '   :correio, :envio, :coleta, :frascos, :seringas, :frete, :reme' +
-        'ssa, :destinatario,'
-      '   :obs_remessa, :cliente, :dec_conf)')
+        '   :condicaopg, :pedido_cliente, :grupo, :markup, :correio, :env' +
+        'io, :coleta, :frascos, :seringas, :frete, :remessa,'
+      '   :destinatario, :obs_remessa, :cliente, :dec_conf)')
     ModifySQL.Strings = (
       'UPDATE pedido SET'
       '  recno = :recno,'
       '  codigo = :codigo,'
-      '  contato = :contato,'
       '  criado = :criado,'
       '  emitido = :emitido,'
       '  autorizado = :autorizado,'
@@ -950,8 +832,6 @@ inherited Ped: TPed
       '  solicitante_dep = :solicitante_dep,'
       '  condicaopg = :condicaopg,'
       '  pedido_cliente = :pedido_cliente,'
-      '  contato_fin = :contato_fin,'
-      '  contato_tec = :contato_tec,'
       '  grupo = :grupo,'
       '  markup = :markup,'
       '  correio = :correio,'
@@ -978,11 +858,6 @@ inherited Ped: TPed
       item
         DataType = ftUnknown
         Name = 'codigo'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'contato'
         ParamType = ptUnknown
       end
       item
@@ -1033,16 +908,6 @@ inherited Ped: TPed
       item
         DataType = ftUnknown
         Name = 'pedido_cliente'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'contato_fin'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'contato_tec'
         ParamType = ptUnknown
       end
       item
@@ -2435,5 +2300,81 @@ inherited Ped: TPed
         Name = 'OLD_despesa'
         ParamType = ptUnknown
       end>
+  end
+  object qContatos: TZQuery
+    Connection = DM.Design
+    SortedFields = 'nome'
+    SQL.Strings = (
+      
+        'select cliente, nome, celular, telefone, ramal, email, padrao, r' +
+        'ecno'
+      '  from clientes_contatos'
+      ' where cliente = :cliente'
+      '   and contato_pedido'
+      '   and ativo')
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'cliente'
+        ParamType = ptUnknown
+      end>
+    FetchRow = 50
+    IndexFieldNames = 'nome Asc'
+    Left = 448
+    Top = 456
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'cliente'
+        ParamType = ptUnknown
+      end>
+    object qContatoscliente: TIntegerField
+      FieldName = 'cliente'
+      Visible = False
+    end
+    object qContatospadrao: TBooleanField
+      DisplayLabel = 'Padr'#227'o'
+      FieldName = 'padrao'
+    end
+    object qContatosrecno: TIntegerField
+      DisplayLabel = 'Contato'
+      FieldName = 'recno'
+    end
+    object qContatosnome: TStringField
+      DisplayLabel = 'Nome'
+      DisplayWidth = 35
+      FieldName = 'nome'
+      Size = 150
+    end
+    object qContatoscelular: TStringField
+      DisplayLabel = 'Celular'
+      DisplayWidth = 15
+      FieldName = 'celular'
+      EditMask = '(99) 9.9999-9999;0;'
+      Size = 25
+    end
+    object qContatostelefone: TStringField
+      DisplayLabel = 'Fixo'
+      DisplayWidth = 15
+      FieldName = 'telefone'
+      EditMask = '(99) 9999-9999;0;'
+      Size = 25
+    end
+    object qContatosramal: TStringField
+      DisplayLabel = 'Ramal'
+      FieldName = 'ramal'
+      Size = 6
+    end
+    object qContatosemail: TStringField
+      DisplayLabel = 'E-mail'
+      FieldName = 'email'
+      Size = 150
+    end
+  end
+  object dsContatos: TDataSource
+    AutoEdit = False
+    DataSet = qContatos
+    Left = 520
+    Top = 456
   end
 end

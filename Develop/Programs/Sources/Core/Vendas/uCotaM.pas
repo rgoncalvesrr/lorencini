@@ -70,25 +70,6 @@ type
     DBGrid3: TDBGrid;
     Label16: TLabel;
     DBMemo1: TDBMemo;
-    Panel19: TPanel;
-    Panel24: TPanel;
-    Label17: TLabel;
-    DBEdit15: TDBEdit;
-    Panel25: TPanel;
-    SpeedButton2: TSpeedButton;
-    Panel27: TPanel;
-    Label19: TLabel;
-    DBEdit17: TDBEdit;
-    Panel28: TPanel;
-    Label20: TLabel;
-    DBEdit18: TDBEdit;
-    Panel29: TPanel;
-    Label21: TLabel;
-    DBEdit19: TDBEdit;
-    Panel26: TPanel;
-    Label18: TLabel;
-    DBEdit16: TDBEdit;
-    actFindContato: TAction;
     ToolButton5: TToolButton;
     ToolButton15: TToolButton;
     Panel30: TPanel;
@@ -115,47 +96,6 @@ type
     Panel37: TPanel;
     Label28: TLabel;
     cbFrete: TJvDBComboBox;
-    TabSheet4: TTabSheet;
-    GroupBox1: TGroupBox;
-    Panel38: TPanel;
-    Panel39: TPanel;
-    Label29: TLabel;
-    DBEdit24: TDBEdit;
-    Panel40: TPanel;
-    SpeedButton5: TSpeedButton;
-    Panel41: TPanel;
-    Label30: TLabel;
-    DBEdit25: TDBEdit;
-    Panel42: TPanel;
-    Label31: TLabel;
-    DBEdit26: TDBEdit;
-    Panel43: TPanel;
-    Label32: TLabel;
-    DBEdit27: TDBEdit;
-    Panel44: TPanel;
-    Label33: TLabel;
-    DBEdit28: TDBEdit;
-    GroupBox2: TGroupBox;
-    Panel45: TPanel;
-    Panel46: TPanel;
-    Label34: TLabel;
-    DBEdit29: TDBEdit;
-    Panel47: TPanel;
-    SpeedButton6: TSpeedButton;
-    Panel48: TPanel;
-    Label35: TLabel;
-    DBEdit30: TDBEdit;
-    Panel49: TPanel;
-    Label36: TLabel;
-    DBEdit31: TDBEdit;
-    Panel50: TPanel;
-    Label37: TLabel;
-    DBEdit32: TDBEdit;
-    Panel51: TPanel;
-    Label38: TLabel;
-    DBEdit33: TDBEdit;
-    actFindContatoFin: TAction;
-    actFindContatoTec: TAction;
     Panel52: TPanel;
     Label39: TLabel;
     DBEdit34: TDBEdit;
@@ -181,13 +121,13 @@ type
     Panel59: TPanel;
     Label44: TLabel;
     JvDBComboBox1: TJvDBComboBox;
+    TabSheet4: TTabSheet;
+    DBGrid5: TDBGrid;
     procedure DBEdit7Exit(Sender: TObject);
     procedure actFindTipoExecute(Sender: TObject);
     procedure DBEdit9Exit(Sender: TObject);
     procedure actFindCliExecute(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure DBEdit15Exit(Sender: TObject);
-    procedure actFindContatoExecute(Sender: TObject);
     procedure actSedexExecute(Sender: TObject);
     procedure cbEnvioChange(Sender: TObject);
     procedure cbRemessaChange(Sender: TObject);
@@ -196,6 +136,7 @@ type
     procedure edFrascosExit(Sender: TObject);
     procedure edSeringasExit(Sender: TObject);
     procedure edFreteExit(Sender: TObject);
+    procedure FormResize(Sender: TObject);
   private
     { Private declarations }
     procedure OnLoad; override;
@@ -265,32 +206,6 @@ begin
   end;
 end;
 
-procedure TCotaM.actFindContatoExecute(Sender: TObject);
-var
-  oDbEdit: TDBEdit;
-begin
-  inherited;
-  ContatoF := TContatoF.Create(nil);
-  oDbEdit := nil;
-  try
-    ContatoF.Situacao := csAtivos;
-    ContatoF.Cliente := DataSet.FieldByName('cliente').AsInteger;
-    ContatoF.ShowModal;
-    if ContatoF.Execute then
-    begin
-      case TAction(Sender).Tag of
-        0: oDbEdit := DBEdit15;
-        1: oDbEdit := DBEdit24;
-        2: oDbEdit := DBEdit29;
-      end;
-      DataSet.FieldByName(oDbEdit.Field.FieldName).AsInteger := ContatoF.IBrwSrccontato.AsInteger;
-      DBEdit15Exit(oDbEdit);
-    end;
-  finally
-    FreeAndNil(ContatoF);
-  end;
-end;
-
 procedure TCotaM.actFindTipoExecute(Sender: TObject);
 begin
   inherited;
@@ -335,64 +250,6 @@ procedure TCotaM.cbRemessaChange(Sender: TObject);
 begin
   inherited;
   RefreshControls;
-end;
-
-procedure TCotaM.DBEdit15Exit(Sender: TObject);
-var
-  fLkp: TStringList;
-  fnome, ftel, fcel, femail: string;
-begin
-  inherited;
-  if mcEmpty(TDBEdit(Sender).Text) or not (DataSet.State in [dsEdit, dsInsert])  then
-    Exit;
-
-  fLkp:= TStringList.Create;
-  try
-    fLkp.Add('nome');
-    fLkp.Add('telefone');
-    fLkp.Add('celular');
-    fLkp.Add('email');
-
-    if U.Data.CheckFK('vclientes_contatos', 'recno', QuotedStr(TDBEdit(Sender).Text), fLkp, 'cliente = ' + DataSet.FieldByName('cliente').AsString) then
-    begin
-      case TDBEdit(sender).Tag of
-        0:
-        begin
-          fnome := 'contato_nome';
-          ftel := 'contato_telefone';
-          fcel := 'contato_celular';
-          femail := 'contato_email';
-        end;
-        1:
-        begin
-          fnome := 'contatofin_nome';
-          ftel := 'contatofin_telefone';
-          fcel := 'contatofin_celular';
-          femail := 'contatofin_email';
-        end;
-        2:
-        begin
-          fnome := 'contatotec_nome';
-          ftel := 'contatotec_telefone';
-          fcel := 'contatotec_celular';
-          femail := 'contatotec_email';
-        end;
-      end;
-
-
-      DataSet.FieldByName(fnome).AsString := fLkp[0];
-      DataSet.FieldByName(ftel).AsString := fLkp[1];
-      DataSet.FieldByName(fcel).AsString := fLkp[2];
-      DataSet.FieldByName(femail).AsString := fLkp[3];
-    end
-    else
-    begin
-      U.Out.ShowErro('Contato não cadastrado.');
-      TDBEdit(Sender).SetFocus;
-    end;
-  finally
-    fLkp.Free;
-  end;
 end;
 
 procedure TCotaM.DBEdit7Exit(Sender: TObject);
@@ -485,6 +342,12 @@ begin
   RefreshControls;
 end;
 
+procedure TCotaM.FormResize(Sender: TObject);
+begin
+  inherited;
+  Panel3.Height := ClientHeight - (PageControl1.Top + 380);
+end;
+
 procedure TCotaM.FormShow(Sender: TObject);
 begin
   inherited;
@@ -568,24 +431,28 @@ begin
   cbEnvio.Enabled := False;
   actDespVinc.Enabled := False;
   try
-    if not Assigned(DataSet) then
+    if not Assigned(DataSet) or not Assigned(ChildDataSet) then
       Exit;
 
-    with DataSet do
+    with DataSet, PageControl3 do
     begin
       actFindTipo.Enabled := (State <> dsBrowse);
       actFindCli.Enabled := (State <> dsBrowse);
-      actFindContato.Enabled := (State <> dsBrowse);
-      actFindContatoFin.Enabled := (State <> dsBrowse);
-      actFindContatoTec.Enabled := (State <> dsBrowse);
       actEditMaster.Enabled := actEditMaster.Enabled and (FieldByName('status').AsInteger < 5);
       actDelMaster.Enabled := actDelMaster.Enabled and (FieldByName('status').AsInteger < 3);
+
+      Self.actNew.Enabled := (ChildDataSet.State = dsBrowse) and
+      actEditMaster.Enabled and
+      (((ActivePageIndex = 0) and (Cota.IBrwSrcreqsrv.AsBoolean)) or
+       ((ActivePageIndex = 1) and (Cota.IBrwSrcreqmat.AsBoolean)) or
+       ((ActivePageIndex = 2) and (Cota.IBrwSrcreqmo.AsBoolean)));
 
       cbEnvio.Enabled := cbRemessa.ItemIndex = 0;
       actDespVinc.Enabled := (FieldByName('status').AsInteger < 3);
       actSedex.Enabled := (State in [dsEdit, dsInsert]) and cbEnvio.Enabled;
-      actEdit.Enabled := actEdit.Enabled and (PageControl3.ActivePage <> TabSheet5);
-      actView.Enabled := actView.Enabled and (PageControl3.ActivePage <> TabSheet5);
+      actEdit.Enabled := actEdit.Enabled and (ActivePageIndex < 3);
+      actView.Enabled := actView.Enabled and (ActivePageIndex < 3);
+      actDel.Enabled := actDel.Enabled and ((ActivePageIndex < 3) or actDespVinc.Enabled);
     end;
   finally
     cbFrete.Enabled := cbEnvio.Enabled;

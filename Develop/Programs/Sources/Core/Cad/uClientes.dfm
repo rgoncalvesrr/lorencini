@@ -27,7 +27,6 @@ inherited Clientes: TClientes
         inherited BitBtn2: TBitBtn
           Left = 995
           ExplicitLeft = 995
-          ExplicitTop = 11
         end
         object Panel4: TPanel
           Left = 0
@@ -172,8 +171,6 @@ inherited Clientes: TClientes
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 5
-          ExplicitLeft = 450
-          ExplicitTop = -2
           object Label6: TLabel
             AlignWithMargins = True
             Left = 3
@@ -1202,14 +1199,9 @@ inherited Clientes: TClientes
         'select a.cliente, a.contato, c.nome, a.funcao, c.telefone, c.cel' +
         'ular, c.email, a.situacao, a.recno, a.padrao,'
       
-        '       a.enviar_pedido_venda, a.enviar_cotacao_venda, a.enviar_l' +
-        'audo_critico, a.enviar_laudo_atencao,'
-      
-        '       a.enviar_laudo_normal, a.enviar_laudo_retorno_critico, a.' +
-        'enviar_laudo_retorno_atencao,'
-      
-        '       a.enviar_laudo_retorno_normal, a.portal_acessivel, a.port' +
-        'al_senha, a.obs, c.ramal'
+        '       a.contato_pedido, a.contato_cotacao, a.contato_tecnico, a' +
+        '.contato_os, a.contato_financeiro, a.portal_acessivel,'
+      '       a.portal_senha, a.obs, c.ramal'
       '  from tbclientes_contatos a'
       '       join contatos c'
       '         on c.recno = a.contato'
@@ -1292,49 +1284,31 @@ inherited Clientes: TClientes
       OnChange = qContatossituacaoChange
       Size = 100
     end
+    object qContatoscontato_pedido: TBooleanField
+      DisplayLabel = 'Pedido'
+      FieldName = 'contato_pedido'
+    end
+    object qContatoscontato_cotacao: TBooleanField
+      DisplayLabel = 'Cota'#231#227'o'
+      FieldName = 'contato_cotacao'
+    end
+    object qContatoscontato_tecnico: TBooleanField
+      DisplayLabel = 'T'#233'cnico'
+      FieldName = 'contato_tecnico'
+    end
+    object qContatoscontato_os: TBooleanField
+      DisplayLabel = 'Ordem de Servi'#231'o'
+      FieldName = 'contato_os'
+      Required = True
+    end
+    object qContatoscontato_financeiro: TBooleanField
+      DisplayLabel = 'Financeiro'
+      FieldName = 'contato_financeiro'
+      Required = True
+    end
     object qContatosportal_acessivel: TBooleanField
       DisplayLabel = 'Acesso ao Portal'
       FieldName = 'portal_acessivel'
-      Required = True
-    end
-    object qContatosenviar_pedido_venda: TBooleanField
-      DisplayLabel = 'Pedido'
-      FieldName = 'enviar_pedido_venda'
-      Required = True
-    end
-    object qContatosenviar_cotacao_venda: TBooleanField
-      DisplayLabel = 'Cota'#231#227'o'
-      FieldName = 'enviar_cotacao_venda'
-      Required = True
-    end
-    object qContatosenviar_laudo_critico: TBooleanField
-      DisplayLabel = 'Laudo Cr'#237'tico'
-      FieldName = 'enviar_laudo_critico'
-      Required = True
-    end
-    object qContatosenviar_laudo_atencao: TBooleanField
-      DisplayLabel = 'Laudo Aten'#231#227'o'
-      FieldName = 'enviar_laudo_atencao'
-      Required = True
-    end
-    object qContatosenviar_laudo_normal: TBooleanField
-      DisplayLabel = 'Laudo Normal'
-      FieldName = 'enviar_laudo_normal'
-      Required = True
-    end
-    object qContatosenviar_laudo_retorno_critico: TBooleanField
-      DisplayLabel = 'Laudo Retorno Cr'#237'tico'
-      FieldName = 'enviar_laudo_retorno_critico'
-      Required = True
-    end
-    object qContatosenviar_laudo_retorno_atencao: TBooleanField
-      DisplayLabel = 'Laudo Retorno Aten'#231#227'o'
-      FieldName = 'enviar_laudo_retorno_atencao'
-      Required = True
-    end
-    object qContatosenviar_laudo_retorno_normal: TBooleanField
-      DisplayLabel = 'Laudo Retorno Normal'
-      FieldName = 'enviar_laudo_retorno_normal'
       Required = True
     end
     object qContatosrecno: TIntegerField
@@ -1362,40 +1336,27 @@ inherited Clientes: TClientes
     InsertSQL.Strings = (
       'INSERT INTO tbclientes_contatos'
       
-        '  (cliente, funcao, recno, situacao, enviar_pedido_venda, enviar' +
-        '_cotacao_venda, '
-      
-        '   enviar_laudo_critico, enviar_laudo_atencao, enviar_laudo_norm' +
-        'al, enviar_laudo_retorno_critico, '
-      
-        '   enviar_laudo_retorno_atencao, enviar_laudo_retorno_normal, pa' +
-        'drao, contato, portal_acessivel, portal_senha,'
-      '   obs)'
+        '  (cliente, funcao, recno, situacao, contato_pedido_venda, conta' +
+        'to_cotacao_venda, contato_tecnico,'
+      '   contato_os, contato_financeiro, padrao, contato,'
+      '   portal_acessivel, portal_senha, obs)'
       'VALUES'
       
-        '  (:cliente, :funcao, :recno, :situacao, :enviar_pedido_venda, :' +
-        'enviar_cotacao_venda,'
-      
-        '   :enviar_laudo_critico, :enviar_laudo_atencao, :enviar_laudo_n' +
-        'ormal,'
-      
-        '   :enviar_laudo_retorno_critico, :enviar_laudo_retorno_atencao,' +
-        ' :enviar_laudo_retorno_normal,'
-      '   :padrao, :contato, :portal_acessivel, :portal_senha, :obs)')
+        '  (:cliente, :funcao, :recno, :situacao, :contato_pedido_venda, ' +
+        ':contato_cotacao_venda, :contato_tecnico,'
+      '   :contato_os, :contato_financeiro, :padrao, :contato,'
+      '   :portal_acessivel, :portal_senha, :obs)')
     ModifySQL.Strings = (
       'UPDATE tbclientes_contatos SET'
       '  cliente = :cliente,'
       '  funcao = :funcao,'
       '  recno = :recno,'
       '  situacao = :situacao,'
-      '  enviar_pedido_venda = :enviar_pedido_venda,'
-      '  enviar_cotacao_venda = :enviar_cotacao_venda,'
-      '  enviar_laudo_critico = :enviar_laudo_critico,'
-      '  enviar_laudo_atencao = :enviar_laudo_atencao,'
-      '  enviar_laudo_normal = :enviar_laudo_normal,'
-      '  enviar_laudo_retorno_critico = :enviar_laudo_retorno_critico,'
-      '  enviar_laudo_retorno_atencao = :enviar_laudo_retorno_atencao,'
-      '  enviar_laudo_retorno_normal = :enviar_laudo_retorno_normal,'
+      '  contato_pedido = :contato_pedido,'
+      '  contato_cotacao = :contato_cotacao,'
+      '  contato_tecnico = :contato_tecnico,'
+      '  contato_os = :contato_os,'
+      '  contato_financeiro = :contato_financeiro,'
       '  padrao = :padrao,'
       '  contato = :contato,'
       '  portal_acessivel = :portal_acessivel,'
@@ -1430,42 +1391,27 @@ inherited Clientes: TClientes
       end
       item
         DataType = ftUnknown
-        Name = 'enviar_pedido_venda'
+        Name = 'contato_pedido'
         ParamType = ptUnknown
       end
       item
         DataType = ftUnknown
-        Name = 'enviar_cotacao_venda'
+        Name = 'contato_cotacao'
         ParamType = ptUnknown
       end
       item
         DataType = ftUnknown
-        Name = 'enviar_laudo_critico'
+        Name = 'contato_tecnico'
         ParamType = ptUnknown
       end
       item
         DataType = ftUnknown
-        Name = 'enviar_laudo_atencao'
+        Name = 'contato_os'
         ParamType = ptUnknown
       end
       item
         DataType = ftUnknown
-        Name = 'enviar_laudo_normal'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'enviar_laudo_retorno_critico'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'enviar_laudo_retorno_atencao'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'enviar_laudo_retorno_normal'
+        Name = 'contato_financeiro'
         ParamType = ptUnknown
       end
       item
@@ -1501,6 +1447,16 @@ inherited Clientes: TClientes
       item
         DataType = ftUnknown
         Name = 'OLD_contato'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'contato_pedido_venda'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'contato_cotacao_venda'
         ParamType = ptUnknown
       end>
   end
