@@ -19,14 +19,10 @@ Begin
 
       -- Geração do pedido
       if new.status = 1 and old.status = 0 then
-         select a.cliente, a.coleta, a.status, a.markup,  a.validade, a.grupo, a.contato, a.contato_fin,
-                a.contato_tec, a.remessa, a.laboratorio, c.nome, a.envio, a.correio, a.indice, a.condicaopg,
-                a.dec_conf
+         select a.cliente, a.coleta, a.status, a.markup,  a.validade, a.grupo, a.remessa, a.laboratorio, a.envio, 
+                a.correio, a.indice, a.condicaopg, a.dec_conf
            into r
-           from cota a
-                join vclientes_contatos c
-                  on c.cliente = a.cliente
-                 and c.contato = a.contato 
+           from cota a                
           where a.recno = new.cotacao;
 
          if r.status != 4 then            
@@ -39,12 +35,11 @@ Begin
 
          -- Registra a OS como aprovada status = 1
          insert into pedido (
-            codigo, grupo, pedido_cliente, contato, contato_fin, contato_tec, frete,   frascos, seringas, remessa, 
-            laboratorio, lote_aprov, solicitante, envio, correio, coleta, indice, condicaopg, dec_conf)
+            codigo, grupo, pedido_cliente, frete, frascos, seringas, remessa, laboratorio, lote_aprov,  envio, correio, coleta, 
+            indice, condicaopg, dec_conf)
          Values (
-            r.cliente, r.grupo,  new.pedido_cliente, r.contato, r.contato_fin, r.contato_tec, new.frete, new.frascos, 
-            new.seringas, r.remessa, r.laboratorio, new.recno, r.nome, r.envio, r.correio, r.coleta, r.indice, 
-            r.condicaopg, r.dec_conf)
+            r.cliente, r.grupo,  new.pedido_cliente, new.frete, new.frascos, new.seringas, r.remessa, r.laboratorio, new.recno, r.envio, r.correio, r.coleta, 
+            r.indice, r.condicaopg, r.dec_conf)
          returning recno into ipedido;
 
          -- Inserindo materiais

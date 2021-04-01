@@ -177,8 +177,9 @@ begin
 
         with Resources do
         begin
-            small_n.GetBitmap(191, Bmp); //Debug
-            if not qLoglevel.IsNull then
+            if qLoglevel.IsNull then
+              small_n.GetBitmap(191, Bmp) //Debug
+            else
               case qLoglevel.AsString[1] of
                 'i': small_n.GetBitmap(191, Bmp); //Informação
                 'w': small_n.GetBitmap(12, Bmp); //Atenção

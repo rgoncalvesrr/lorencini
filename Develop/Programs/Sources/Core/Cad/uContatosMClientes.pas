@@ -36,11 +36,6 @@ type
     DBCheckBox1: TDBCheckBox;
     DBCheckBox2: TDBCheckBox;
     DBCheckBox3: TDBCheckBox;
-    DBCheckBox4: TDBCheckBox;
-    DBCheckBox5: TDBCheckBox;
-    DBCheckBox6: TDBCheckBox;
-    DBCheckBox7: TDBCheckBox;
-    DBCheckBox8: TDBCheckBox;
     Panel9: TPanel;
     ControlBar3: TControlBar;
     ToolBar2: TToolBar;
@@ -51,12 +46,13 @@ type
     Panel10: TPanel;
     Panel13: TPanel;
     DBCheckBox9: TDBCheckBox;
-    DBCheckBox10: TDBCheckBox;
     Panel14: TPanel;
     Label6: TLabel;
     DBEdit5: TDBEdit;
     Label7: TLabel;
     DBMemo1: TDBMemo;
+    DBCheckBox10: TDBCheckBox;
+    DBCheckBox6: TDBCheckBox;
     procedure FrameCliente1SpeedButton1Click(Sender: TObject);
     procedure actCheckExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -86,14 +82,11 @@ begin
   with Contatos do
   begin
     qContClipadrao.AsBoolean := bMark;
-    qContClienviar_cotacao_venda.AsBoolean := bMark;
-    qContClienviar_pedido_venda.AsBoolean := bMark;
-    qContClienviar_laudo_atencao.AsBoolean := bMark;
-    qContClienviar_laudo_critico.AsBoolean := bMark;
-    qContClienviar_laudo_normal.AsBoolean := bMark;
-    qContClienviar_laudo_retorno_atencao.AsBoolean := bMark;
-    qContClienviar_laudo_retorno_critico.AsBoolean := bMark;
-    qContClienviar_laudo_retorno_normal.AsBoolean := bMark;
+    qContClicontato_cotacao.AsBoolean := bMark;
+    qContClicontato_pedido.AsBoolean := bMark;
+    qContClicontato_tecnico.AsBoolean := bMark;
+    qContClicontato_os.AsBoolean := bMark;
+    qContClicontato_financeiro.AsBoolean := bMark;
   end;
 end;
 

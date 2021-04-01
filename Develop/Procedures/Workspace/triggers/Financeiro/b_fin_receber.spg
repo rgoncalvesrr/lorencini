@@ -18,19 +18,23 @@
       
    12/08/2016 11:34:16  v2    Ricardo Gonçalves
       [+] Inclusão de ratreamento da origem do lançamento
+      
+   25/03/2021  Ricardo Gonçalves
+      [-] Correçã da exclusão de lançamento do caixa
  */
 Create or Replace Function b_fin_receber()
-Returns trigger
-As
+Returns trigger As
 $$
+declare
+   origem   integer := sys_origem('fin_receber');
 Begin
    if tg_op = 'DELETE' then
-      perform sys_flag_mark(sys_origem('fin_receber')::varchar, old.recno);
+      perform sys_flag_mark('fin_receber', old.recno);
       delete
         from fin_caixa
-       where _tabela = sys_origem('fin_receber')
+       where _tabela = origem
          and _recno = old.recno;
-      perform sys_flag_del(sys_origem('fin_receber')::varchar, old.recno);
+      perform sys_flag_del('fin_receber', old.recno);
       return old;
    else
       -- Totaliza a parcela

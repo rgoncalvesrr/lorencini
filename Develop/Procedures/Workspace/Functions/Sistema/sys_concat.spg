@@ -1,0 +1,108 @@
+/**
+  Concatena dois textos
+
+   Autor	      Ricardo Gonçalves
+   Data        21/03/2021
+
+   Parâmetro   cnpj  número a validar.
+
+	Histórico
+	------------------------------------------------------------------      
+*/
+create or replace function sys_concat(
+   in in_text1 text,
+   in in_text2 text)
+returns text as
+$$
+begin
+   return in_text1 || in_text2;
+end
+$$
+language plpgsql;   
+
+create or replace function sys_concat(
+   in in_text1 varchar,
+   in in_text2 varchar)
+returns varchar as
+$$
+begin
+   return in_text1 || in_text2;
+end
+$$
+language plpgsql;
+
+create or replace function sys_concat(
+   in in_text1 varchar,
+   in in_text2 integer)
+returns varchar as
+$$
+begin
+   return in_text1 || to_char(in_text2, 'FM9999999999999');
+end
+$$
+language plpgsql;
+
+create or replace function sys_concat(
+   in in_text1 integer,
+   in in_text2 varchar)
+returns varchar as
+$$
+begin
+   return to_char(in_text1, 'FM9999999999999') || in_text2;
+end
+$$
+language plpgsql;
+
+create or replace function sys_concat(
+   in in_text1 text,
+   in in_text2 integer)
+returns text as
+$$
+begin
+   return in_text1 || to_char(in_text2, 'FM9999999999999');
+end
+$$
+language plpgsql;
+
+create or replace function sys_concat(
+   in in_text1 integer,
+   in in_text2 text)
+returns text as
+$$
+begin
+   return to_char(in_text1, 'FM9999999999999') || in_text2;
+end
+$$
+language plpgsql;
+
+/*
+create operator + (
+   leftarg = text,
+   rightarg = text,
+   function= sys_concat);
+
+create operator + (
+   leftarg = varchar,
+   rightarg = varchar,
+   function= sys_concat);
+
+create operator + (
+   leftarg = varchar,
+   rightarg = integer,
+   function= sys_concat);
+   
+create operator + (
+   leftarg = integer,
+   rightarg = varchar,
+   function= sys_concat);   
+
+create operator + (
+   leftarg = text,
+   rightarg = integer,
+   function= sys_concat);
+   
+create operator + (
+   leftarg = integer,
+   rightarg = text,
+   function= sys_concat);
+*/   

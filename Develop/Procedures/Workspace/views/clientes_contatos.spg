@@ -1,0 +1,28 @@
+set session authorization lorencini;
+drop view if exists public.vclientes_contatos;
+drop view if exists public.clientes_contatos;
+CREATE OR REPLACE VIEW public.clientes_contatos
+AS SELECT c.recno,
+    c.nome,
+    c.telefone,
+    c.ramal,
+    c.celular,
+    c.email,
+    c.data,
+    c.situacao,
+    tc.contato,
+    tc.contato_cotacao,
+    tc.contato_pedido,
+    tc.contato_tecnico,
+    tc.contato_os,
+    tc.contato_financeiro,
+    tc.cliente,
+    tc.situacao AS situacao_cliente,
+    tc.funcao,
+    tc.padrao,
+    tc.situacao = 1 and c.situacao = 1 as ativo
+     FROM contatos c
+          JOIN tbclientes_contatos tc 
+            ON tc.contato = c.recno
+          left join sys_accounts a
+            on a.recno = c.account;

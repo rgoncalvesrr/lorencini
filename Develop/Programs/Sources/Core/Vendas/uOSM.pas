@@ -150,73 +150,6 @@ type
     Label35: TLabel;
     DBEdit37: TDBEdit;
     ToolButton5: TToolButton;
-    GroupBox3: TGroupBox;
-    Panel25: TPanel;
-    Label51: TLabel;
-    DBEdit49: TDBEdit;
-    Panel26: TPanel;
-    SpeedButton5: TSpeedButton;
-    Panel27: TPanel;
-    Label8: TLabel;
-    DBEdit45: TDBEdit;
-    Panel28: TPanel;
-    Label9: TLabel;
-    DBEdit48: TDBEdit;
-    Panel32: TPanel;
-    Label19: TLabel;
-    DBEdit47: TDBEdit;
-    Panel35: TPanel;
-    Label20: TLabel;
-    DBEdit46: TDBEdit;
-    Panel36: TPanel;
-    Label52: TLabel;
-    DBEdit50: TDBEdit;
-    actFindCont: TAction;
-    actFindContFin: TAction;
-    actFindContTec: TAction;
-    TabSheet5: TTabSheet;
-    GroupBox1: TGroupBox;
-    Panel37: TPanel;
-    Label53: TLabel;
-    DBEdit2: TDBEdit;
-    Panel38: TPanel;
-    SpeedButton1: TSpeedButton;
-    Panel39: TPanel;
-    Label54: TLabel;
-    DBEdit3: TDBEdit;
-    Panel40: TPanel;
-    Label55: TLabel;
-    DBEdit36: TDBEdit;
-    Panel41: TPanel;
-    Label56: TLabel;
-    DBEdit38: TDBEdit;
-    Panel42: TPanel;
-    Label57: TLabel;
-    DBEdit39: TDBEdit;
-    Panel43: TPanel;
-    Label58: TLabel;
-    DBEdit40: TDBEdit;
-    GroupBox2: TGroupBox;
-    Panel44: TPanel;
-    Label59: TLabel;
-    DBEdit41: TDBEdit;
-    Panel45: TPanel;
-    SpeedButton3: TSpeedButton;
-    Panel46: TPanel;
-    Label60: TLabel;
-    DBEdit42: TDBEdit;
-    Panel47: TPanel;
-    Label61: TLabel;
-    DBEdit43: TDBEdit;
-    Panel48: TPanel;
-    Label62: TLabel;
-    DBEdit44: TDBEdit;
-    Panel49: TPanel;
-    Label63: TLabel;
-    DBEdit51: TDBEdit;
-    Panel50: TPanel;
-    Label64: TLabel;
-    DBEdit52: TDBEdit;
     Panel19: TPanel;
     Label5: TLabel;
     DBEdit53: TDBEdit;
@@ -224,6 +157,8 @@ type
     Panel6: TPanel;
     Label6: TLabel;
     DBEdit16: TDBEdit;
+    TabSheet3: TTabSheet;
+    DBGrid4: TDBGrid;
     procedure FormCreate(Sender: TObject);
     procedure actLucraExecute(Sender: TObject);
     procedure actOkExecute(Sender: TObject);
@@ -237,8 +172,7 @@ type
     procedure actDespVincExecute(Sender: TObject);
     procedure DBEdit7Exit(Sender: TObject);
     procedure actFindTipoExecute(Sender: TObject);
-    procedure DBEdit49Exit(Sender: TObject);
-    procedure actFindContExecute(Sender: TObject);
+    procedure FormResize(Sender: TObject);
   private
     { Private declarations }
     procedure RefreshControls; override;
@@ -297,71 +231,6 @@ begin
     end;
   finally
     fLkp.Free;
-  end;
-end;
-
-procedure TOSM.DBEdit49Exit(Sender: TObject);
-var
-  fLkp: TStringList;
-  fnome, ffuncao, ftel, fcel, femail: string;
-begin
-  inherited;
-  
-  if mcEmpty(TDBEdit(Sender).Text) or not (DataSet.State in [dsEdit, dsInsert])  then
-    Exit;
-
-  fLkp:= TStringList.Create;
-  try
-    fLkp.Add('nome');
-    fLkp.Add('funcao');
-    fLkp.Add('telefone');
-    fLkp.Add('celular');
-    fLkp.Add('email');
-
-    if U.Data.CheckFK('vclientes_contatos', 'contato', TDBEdit(Sender).Text, fLkp,
-      Format(' cliente = %d ', [DBEdit27.Field.AsInteger])) then
-    begin
-      case TDBEdit(sender).Tag of
-        0:
-        begin
-          fnome := 'contato_nome';
-          ffuncao := 'contato_funcao';
-          ftel := 'contato_telefone';
-          fcel := 'contato_celular';
-          femail := 'contato_email';
-        end;
-        1:
-        begin
-          fnome := 'contatofin_nome';
-          ffuncao := 'contatofin_funcao';
-          ftel := 'contatofin_telefone';
-          fcel := 'contatofin_celular';
-          femail := 'contatofin_email';
-        end;
-        2:
-        begin
-          fnome := 'contatotec_nome';
-          ffuncao := 'contatotec_funcao';
-          ftel := 'contatotec_telefone';
-          fcel := 'contatotec_celular';
-          femail := 'contatotec_email';
-        end;
-      end;
-
-
-      DataSet.FieldByName(fnome).AsString := fLkp[0];
-      DataSet.FieldByName(ffuncao).AsString := fLkp[1];
-      DataSet.FieldByName(ftel).AsString := fLkp[2];
-      DataSet.FieldByName(fcel).AsString := fLkp[3];
-      DataSet.FieldByName(femail).AsString := fLkp[4];
-    end
-    else
-    begin
-      U.Out.ShowErro('Contato não cadastrado.');
-      TDBEdit(Sender).SetFocus;
-    end;
-  finally
-    FreeAndNil(fLkp);
   end;
 end;
 
@@ -438,32 +307,6 @@ begin
   end;
 end;
 
-procedure TOSM.actFindContExecute(Sender: TObject);
-var
-  oDbEdit: TDBEdit;
-begin
-  inherited;
-  ContatoF := TContatoF.Create(nil);
-  try
-    ContatoF.Situacao := csAtivos;
-    ContatoF.Cliente := DataSet.FieldByName('idcliente').AsInteger;
-    ContatoF.ShowModal;
-    if ContatoF.Execute then
-    with DM do
-    begin
-      case TAction(Sender).Tag of
-        0: oDbEdit := DBEdit49;
-        1: oDbEdit := DBEdit2;
-        2: oDbEdit := DBEdit41;
-      end;
-      DataSet.FieldByName(oDbEdit.Field.FieldName).AsInteger := ContatoF.IBrwSrccontato.AsInteger;
-      DBEdit49Exit(oDbEdit);
-    end;
-  finally
-    FreeAndNil(ContatoF);
-  end;
-end;
-
 procedure TOSM.actFindTipoExecute(Sender: TObject);
 begin
   inherited;
@@ -511,6 +354,12 @@ procedure TOSM.FormCreate(Sender: TObject);
 begin
   inherited;
   OSM:= Self;
+end;
+
+procedure TOSM.FormResize(Sender: TObject);
+begin
+  inherited;
+  Panel3.Height := ClientHeight - (PageControl1.Top + 380);
 end;
 
 procedure TOSM.FormShow(Sender: TObject);
@@ -641,19 +490,18 @@ begin
   begin
     JvDBDatePickerEdit1.Enabled:= (State = dsInsert);
     actFindCli.Enabled := (State in [dsEdit, dsInsert]);
-    actFindCont.Enabled := (State in [dsEdit, dsInsert]);
-    actFindContFin.Enabled := (State in [dsEdit, dsInsert]);
-    actFindContTec.Enabled := (State in [dsEdit, dsInsert]);
     actFindTipo.Enabled := (State in [dsEdit, dsInsert]);
     actLkpContatos.Enabled := (State in [dsEdit, dsInsert]);
   end;
 
   // Atualiza Lucratividade
   actLucra.Enabled:= True;
-  actNew.Enabled := actNew.Enabled and (PageControl3.ActivePageIndex <> 3);
-  actEdit.Enabled := actEdit.Enabled and (PageControl3.ActivePageIndex <> 3);
+  actNew.Enabled := actNew.Enabled and (PageControl3.ActivePageIndex < 3);
+  actEdit.Enabled := actEdit.Enabled and (PageControl3.ActivePageIndex < 3);
+  actDel.Enabled := actDel.Enabled and ((PageControl3.ActivePageIndex < 3) or actDespVinc.Enabled);
+  actView.Enabled := actView.Enabled and (PageControl3.ActivePageIndex < 3);
   actDespVinc.Enabled := (PageControl3.ActivePageIndex = 3);
-  
+
   JvDBComboBox7.Enabled := (U.Info.User = 'DAGOBERTO') or
     (U.Info.User = 'RICARDO');
   TabSheet9.TabVisible := JvDBComboBox7.Enabled;

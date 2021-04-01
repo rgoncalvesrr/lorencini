@@ -16,20 +16,20 @@ inherited OSM: TOSM
     ExplicitWidth = 1295
     ExplicitHeight = 706
     inherited Panel3: TPanel
-      Top = 438
+      Top = 344
       Width = 1295
-      Height = 268
-      ExplicitTop = 438
+      Height = 362
+      ExplicitTop = 344
       ExplicitWidth = 1295
-      ExplicitHeight = 268
+      ExplicitHeight = 362
       inherited PageControl3: TPageControl
         Top = 47
         Width = 1289
-        Height = 218
+        Height = 312
         ExplicitLeft = 3
         ExplicitTop = 47
         ExplicitWidth = 1289
-        ExplicitHeight = 218
+        ExplicitHeight = 312
         inherited tsDet: TTabSheet
           Caption = 'Servi'#231'os'
           ExplicitLeft = 4
@@ -38,19 +38,23 @@ inherited OSM: TOSM
           ExplicitHeight = 188
           inherited DBGrid1: TDBGrid
             Width = 1281
-            Height = 188
+            Height = 282
             DataSource = OS.dsServ
           end
         end
         object TabSheet2: TTabSheet
           Caption = 'Materiais'
           ImageIndex = 1
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 188
           object DBGrid2: TDBGrid
             Tag = 1
             Left = 0
             Top = 0
             Width = 1281
-            Height = 188
+            Height = 282
             Align = alClient
             BorderStyle = bsNone
             Ctl3D = False
@@ -75,12 +79,16 @@ inherited OSM: TOSM
         object TabSheet4: TTabSheet
           Caption = 'M'#227'o-de-Obra'
           ImageIndex = 3
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 188
           object DBGrid3: TDBGrid
             Tag = 1
             Left = 0
             Top = 0
             Width = 1281
-            Height = 188
+            Height = 282
             Align = alClient
             BorderStyle = bsNone
             Ctl3D = False
@@ -105,12 +113,16 @@ inherited OSM: TOSM
         object TabSheet10: TTabSheet
           Caption = 'Despesas'
           ImageIndex = 4
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 188
           object DBGrid7: TDBGrid
             Tag = 1
             Left = 0
             Top = 0
             Width = 873
-            Height = 188
+            Height = 282
             Align = alClient
             BorderStyle = bsNone
             Ctl3D = False
@@ -135,31 +147,67 @@ inherited OSM: TOSM
             Left = 873
             Top = 0
             Width = 408
-            Height = 188
+            Height = 282
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 1
+            ExplicitHeight = 188
             object Label50: TLabel
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 402
+              Width = 48
               Height = 15
               Align = alTop
               Caption = 'Hist'#243'rico'
               FocusControl = DBMemo4
-              ExplicitWidth = 48
             end
             object DBMemo4: TDBMemo
               AlignWithMargins = True
               Left = 3
               Top = 24
               Width = 402
-              Height = 161
+              Height = 255
               Align = alClient
               DataField = 'historico'
               TabOrder = 0
+              ExplicitHeight = 161
             end
+          end
+        end
+        object TabSheet3: TTabSheet
+          Caption = 'Contatos'
+          ImageIndex = 4
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
+          object DBGrid4: TDBGrid
+            Tag = 1
+            Left = 0
+            Top = 0
+            Width = 1281
+            Height = 282
+            Align = alClient
+            BorderStyle = bsNone
+            Ctl3D = False
+            DataSource = OS.dsContatos
+            DefaultDrawing = False
+            Enabled = False
+            Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
+            ParentCtl3D = False
+            ReadOnly = True
+            TabOrder = 0
+            TitleFont.Charset = ANSI_CHARSET
+            TitleFont.Color = clWindowText
+            TitleFont.Height = -12
+            TitleFont.Name = 'Segoe UI'
+            TitleFont.Pitch = fpVariable
+            TitleFont.Style = []
+            OnDrawColumnCell = ChildGridDrawColumnCell
+            OnDblClick = ChildGridDblClick
+            OnEnter = ChildGridEnter
+            OnKeyPress = ChildGridKeyPress
           end
         end
       end
@@ -200,10 +248,10 @@ inherited OSM: TOSM
     end
     inherited PageControl1: TPageControl
       Width = 1289
-      Height = 432
+      Height = 338
       OnChange = PageControl1Change
       ExplicitLeft = 3
-      ExplicitTop = 3
+      ExplicitTop = 5
       ExplicitWidth = 1289
       ExplicitHeight = 432
       inherited TabSheet1: TTabSheet
@@ -211,11 +259,11 @@ inherited OSM: TOSM
         ExplicitLeft = 4
         ExplicitTop = 26
         ExplicitWidth = 1281
-        ExplicitHeight = 402
+        ExplicitHeight = 308
         object Label10: TLabel
           AlignWithMargins = True
           Left = 3
-          Top = 231
+          Top = 153
           Width = 1275
           Height = 15
           Align = alTop
@@ -226,13 +274,15 @@ inherited OSM: TOSM
         object DBMemo1: TDBMemo
           AlignWithMargins = True
           Left = 3
-          Top = 252
+          Top = 174
           Width = 1275
-          Height = 147
+          Height = 131
           Align = alClient
           DataField = 'descricao'
           DataSource = OS.DataSource1
           TabOrder = 0
+          ExplicitTop = 252
+          ExplicitHeight = 147
         end
         object Panel4: TPanel
           Left = 0
@@ -262,12 +312,11 @@ inherited OSM: TOSM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 64
+                Width = 15
                 Height = 15
                 Align = alTop
                 Caption = 'OS'
                 FocusControl = DBEdit1
-                ExplicitWidth = 15
               end
               object DBEdit1: TDBEdit
                 AlignWithMargins = True
@@ -294,12 +343,11 @@ inherited OSM: TOSM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 48
+                Width = 37
                 Height = 15
                 Align = alTop
                 Caption = 'Pedido'
                 FocusControl = DBEdit4
-                ExplicitWidth = 37
               end
               object DBEdit4: TDBEdit
                 AlignWithMargins = True
@@ -359,11 +407,10 @@ inherited OSM: TOSM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 138
+                Width = 50
                 Height = 15
                 Align = alTop
                 Caption = 'Vendedor'
-                ExplicitWidth = 50
               end
               object JvDBComboBox7: TJvDBComboBox
                 AlignWithMargins = True
@@ -394,12 +441,11 @@ inherited OSM: TOSM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 89
+                Width = 48
                 Height = 15
                 Align = alTop
                 Caption = 'Materiais'
                 FocusControl = DBEdit5
-                ExplicitWidth = 48
               end
               object DBEdit5: TDBEdit
                 AlignWithMargins = True
@@ -427,12 +473,11 @@ inherited OSM: TOSM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 89
+                Width = 43
                 Height = 15
                 Align = alTop
                 Caption = 'Servi'#231'os'
                 FocusControl = DBEdit6
-                ExplicitWidth = 43
               end
               object DBEdit6: TDBEdit
                 AlignWithMargins = True
@@ -461,12 +506,11 @@ inherited OSM: TOSM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 34
+                Width = 23
                 Height = 15
                 Align = alTop
                 Caption = 'Tipo'
                 FocusControl = DBEdit7
-                ExplicitWidth = 23
               end
               object DBEdit7: TDBEdit
                 AlignWithMargins = True
@@ -553,12 +597,11 @@ inherited OSM: TOSM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 317
+                Width = 51
                 Height = 15
                 Align = alTop
                 Caption = 'Descri'#231#227'o'
                 FocusControl = DBEdit8
-                ExplicitWidth = 51
               end
               object DBEdit8: TDBEdit
                 AlignWithMargins = True
@@ -586,12 +629,11 @@ inherited OSM: TOSM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 89
+                Width = 43
                 Height = 15
                 Align = alTop
                 Caption = 'M. Obra'
                 FocusControl = DBEdit9
-                ExplicitWidth = 43
               end
               object DBEdit9: TDBEdit
                 AlignWithMargins = True
@@ -619,12 +661,11 @@ inherited OSM: TOSM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 89
+                Width = 48
                 Height = 15
                 Align = alTop
                 Caption = 'Despesas'
                 FocusControl = DBEdit10
-                ExplicitWidth = 48
               end
               object DBEdit10: TDBEdit
                 AlignWithMargins = True
@@ -652,12 +693,11 @@ inherited OSM: TOSM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 89
+                Width = 25
                 Height = 15
                 Align = alTop
                 Caption = 'Total'
                 FocusControl = DBEdit18
-                ExplicitWidth = 25
               end
               object DBEdit18: TDBEdit
                 AlignWithMargins = True
@@ -685,12 +725,11 @@ inherited OSM: TOSM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 48
+                Width = 44
                 Height = 15
                 Align = alTop
                 Caption = 'Cota'#231#227'o'
                 FocusControl = DBEdit35
-                ExplicitWidth = 44
               end
               object DBEdit35: TDBEdit
                 AlignWithMargins = True
@@ -729,7 +768,7 @@ inherited OSM: TOSM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 67
+              Width = 39
               Height = 15
               Align = alTop
               Caption = 'Cliente'
@@ -741,7 +780,6 @@ inherited OSM: TOSM
               Font.Pitch = fpVariable
               Font.Style = [fsBold]
               ParentFont = False
-              ExplicitWidth = 39
             end
             object DBEdit27: TDBEdit
               AlignWithMargins = True
@@ -769,12 +807,11 @@ inherited OSM: TOSM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 793
+              Width = 69
               Height = 15
               Align = alTop
               Caption = 'Nome Chave'
               FocusControl = DBEdit33
-              ExplicitWidth = 69
             end
             object DBEdit33: TDBEdit
               AlignWithMargins = True
@@ -802,11 +839,10 @@ inherited OSM: TOSM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 114
+              Width = 40
               Height = 15
               Align = alTop
               Caption = 'C.N.P.J.'
-              ExplicitWidth = 40
             end
             object DBEdit17: TDBEdit
               AlignWithMargins = True
@@ -833,11 +869,10 @@ inherited OSM: TOSM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 67
+              Width = 46
               Height = 15
               Align = alTop
               Caption = 'Controle'
-              ExplicitWidth = 46
             end
             object DBEdit34: TDBEdit
               AlignWithMargins = True
@@ -924,11 +959,10 @@ inherited OSM: TOSM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 181
+              Width = 37
               Height = 15
               Align = alTop
               Caption = 'Pedido'
-              ExplicitWidth = 37
             end
             object DBEdit53: TDBEdit
               AlignWithMargins = True
@@ -947,12 +981,13 @@ inherited OSM: TOSM
         end
         object Panel31: TPanel
           Left = 0
-          Top = 178
+          Top = 100
           Width = 1281
           Height = 50
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 3
+          ExplicitTop = 178
           object Panel33: TPanel
             Left = 0
             Top = 0
@@ -965,12 +1000,11 @@ inherited OSM: TOSM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 1026
+              Width = 50
               Height = 15
               Align = alTop
               Caption = 'Atividade'
               FocusControl = DBEdit37
-              ExplicitWidth = 50
             end
             object DBEdit37: TDBEdit
               AlignWithMargins = True
@@ -998,12 +1032,11 @@ inherited OSM: TOSM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 243
+              Width = 115
               Height = 15
               Align = alTop
               Caption = 'Condi'#231#227'o Pagamento'
               FocusControl = DBEdit16
-              ExplicitWidth = 115
             end
             object DBEdit16: TDBEdit
               AlignWithMargins = True
@@ -1018,819 +1051,19 @@ inherited OSM: TOSM
             end
           end
         end
-        object GroupBox3: TGroupBox
-          AlignWithMargins = True
-          Left = 3
-          Top = 103
-          Width = 1275
-          Height = 72
-          Align = alTop
-          Caption = ' Contato '
-          Padding.Bottom = 3
-          TabOrder = 4
-          object Panel25: TPanel
-            Left = 2
-            Top = 17
-            Width = 57
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 0
-            object Label51: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 51
-              Height = 15
-              Align = alTop
-              Caption = 'C'#243'digo'
-              ExplicitWidth = 39
-            end
-            object DBEdit49: TDBEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 51
-              Height = 23
-              Align = alClient
-              DataField = 'contato'
-              DataSource = OS.DataSource1
-              TabOrder = 0
-              OnExit = DBEdit49Exit
-            end
-          end
-          object Panel26: TPanel
-            Left = 59
-            Top = 17
-            Width = 24
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            Padding.Top = 24
-            Padding.Bottom = 3
-            TabOrder = 1
-            object SpeedButton5: TSpeedButton
-              Left = 0
-              Top = 24
-              Width = 24
-              Height = 23
-              Action = actFindCont
-              Align = alClient
-              Glyph.Data = {
-                36040000424D3604000000000000360000002800000010000000100000000100
-                2000000000000004000000000000000000000000000000000000FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF000A0A
-                0A000A0A0A000A0A0A000A0A0A000A0A0A000A0A0A00FF00FF00FF00FF000A0A
-                0A000A0A0A000A0A0A000A0A0A000A0A0A000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00121212001E1E1E000B0B0B000A0A0A000A0A0A00FF00FF00FF00FF000A0A
-                0A0015151500222222000B0B0B000A0A0A000A0A0A00FF00FF00FF00FF007549
-                4900A0725E00EFE1D200EBC8A3009F674D0070414000FF00FF00FF00FF007549
-                4900A0725E00EFE1D200EBC8A3009F674D0070414000FF00FF00FF00FF008461
-                610085554C00F5E5D400EAC5A000865043007D565500FF00FF00FF00FF008461
-                610085554C00F5E5D400EAC5A000865043007D565500FF00FF00FF00FF009A82
-                820074444000F5E4D300E1B488007443400093777700FF00FF00FF00FF009A82
-                820074444000F5E4D300E1B488007443400093777700FF00FF00FF00FF00B7AE
-                AE006C3C3C00E9C8A800D19669006C3C3C00B2A7A700FF00FF00FF00FF00B7AE
-                AE006C3C3C00E9C8A800D19669006C3C3C00B2A7A700FF00FF00FF00FF00FF00
-                FF006E3E3E00734444006B3B3B006B3B3B000B0B0B000A0A0A000A0A0A000E0D
-                0D006C3C3C006B3B3B006B3B3B006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF006C3B3B00F1D8BE00E8BF9300C78657000A0A0A00C4C4C400696969001010
-                1000F9DEB700E2B38600BD7B51006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF006C3B3B00F6E6D600E9BF9500C88759000A0A0A00C4C4C400696969000C0C
-                0C00E3C6A900CA9B7600A5694B006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF006D3D3D00724343006B3B3B006B3B3B00141010000A0A0A000A0A0A002416
-                14006C3B3B006C3B3B006C3B3B006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF000A0A0A00C4C4C400696969000A0A0A00FF00FF00FF00FF000A0A
-                0A00C4C4C400696969000A0A0A00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF000A0A0A000A0A0A000A0A0A001D1D1D00FF00FF00FF00FF000A0A
-                0A000A0A0A000A0A0A001D1D1D00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00}
-              ExplicitLeft = 39
-              ExplicitTop = 17
-              ExplicitWidth = 25
-              ExplicitHeight = 24
-            end
-          end
-          object Panel27: TPanel
-            Left = 83
-            Top = 17
-            Width = 209
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 2
-            object Label8: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 203
-              Height = 15
-              Align = alTop
-              Caption = 'Nome'
-              FocusControl = DBEdit4
-              ExplicitWidth = 33
-            end
-            object DBEdit45: TDBEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 203
-              Height = 23
-              TabStop = False
-              Align = alClient
-              DataField = 'contato_nome'
-              DataSource = OS.DataSource1
-              ReadOnly = True
-              TabOrder = 0
-            end
-          end
-          object Panel28: TPanel
-            Left = 292
-            Top = 17
-            Width = 136
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 3
-            object Label9: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 130
-              Height = 15
-              Align = alTop
-              Caption = 'Cargo'
-              FocusControl = DBEdit5
-              ExplicitWidth = 32
-            end
-            object DBEdit48: TDBEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 130
-              Height = 23
-              TabStop = False
-              Align = alClient
-              DataField = 'contato_funcao'
-              DataSource = OS.DataSource1
-              ReadOnly = True
-              TabOrder = 0
-            end
-          end
-          object Panel32: TPanel
-            Left = 428
-            Top = 17
-            Width = 102
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 4
-            object Label19: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 96
-              Height = 15
-              Align = alTop
-              Caption = 'Telefone'
-              FocusControl = DBEdit6
-              ExplicitWidth = 44
-            end
-            object DBEdit47: TDBEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 96
-              Height = 23
-              TabStop = False
-              Align = alClient
-              DataField = 'contato_telefone'
-              DataSource = OS.DataSource1
-              ReadOnly = True
-              TabOrder = 0
-            end
-          end
-          object Panel35: TPanel
-            Left = 530
-            Top = 17
-            Width = 114
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 5
-            object Label20: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 108
-              Height = 15
-              Align = alTop
-              Caption = 'Celular'
-              FocusControl = DBEdit7
-              ExplicitWidth = 37
-            end
-            object DBEdit46: TDBEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 108
-              Height = 23
-              TabStop = False
-              Align = alClient
-              DataField = 'contato_celular'
-              DataSource = OS.DataSource1
-              ReadOnly = True
-              TabOrder = 0
-            end
-          end
-          object Panel36: TPanel
-            Left = 644
-            Top = 17
-            Width = 629
-            Height = 50
-            Align = alClient
-            BevelOuter = bvNone
-            TabOrder = 6
-            object Label52: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 623
-              Height = 15
-              Align = alTop
-              Caption = 'Email'
-              FocusControl = DBEdit7
-              ExplicitWidth = 29
-            end
-            object DBEdit50: TDBEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 623
-              Height = 23
-              TabStop = False
-              Align = alClient
-              CharCase = ecLowerCase
-              DataField = 'contato_email'
-              DataSource = OS.DataSource1
-              ReadOnly = True
-              TabOrder = 0
-            end
-          end
-        end
-      end
-      object TabSheet5: TTabSheet
-        Caption = 'Contatos'
-        ImageIndex = 3
-        object GroupBox1: TGroupBox
-          AlignWithMargins = True
-          Left = 3
-          Top = 3
-          Width = 1275
-          Height = 72
-          Align = alTop
-          Caption = ' Contato Financeiro '
-          Padding.Bottom = 3
-          TabOrder = 0
-          object Panel37: TPanel
-            Left = 2
-            Top = 17
-            Width = 57
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 0
-            object Label53: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 51
-              Height = 15
-              Align = alTop
-              Caption = 'C'#243'digo'
-              ExplicitWidth = 39
-            end
-            object DBEdit2: TDBEdit
-              Tag = 1
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 51
-              Height = 23
-              Align = alClient
-              DataField = 'contato_fin'
-              DataSource = OS.DataSource1
-              TabOrder = 0
-              OnExit = DBEdit49Exit
-            end
-          end
-          object Panel38: TPanel
-            Left = 59
-            Top = 17
-            Width = 24
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            Padding.Top = 24
-            Padding.Bottom = 3
-            TabOrder = 1
-            object SpeedButton1: TSpeedButton
-              Left = 0
-              Top = 24
-              Width = 24
-              Height = 23
-              Action = actFindContFin
-              Align = alClient
-              Glyph.Data = {
-                36040000424D3604000000000000360000002800000010000000100000000100
-                2000000000000004000000000000000000000000000000000000FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF000A0A
-                0A000A0A0A000A0A0A000A0A0A000A0A0A000A0A0A00FF00FF00FF00FF000A0A
-                0A000A0A0A000A0A0A000A0A0A000A0A0A000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00121212001E1E1E000B0B0B000A0A0A000A0A0A00FF00FF00FF00FF000A0A
-                0A0015151500222222000B0B0B000A0A0A000A0A0A00FF00FF00FF00FF007549
-                4900A0725E00EFE1D200EBC8A3009F674D0070414000FF00FF00FF00FF007549
-                4900A0725E00EFE1D200EBC8A3009F674D0070414000FF00FF00FF00FF008461
-                610085554C00F5E5D400EAC5A000865043007D565500FF00FF00FF00FF008461
-                610085554C00F5E5D400EAC5A000865043007D565500FF00FF00FF00FF009A82
-                820074444000F5E4D300E1B488007443400093777700FF00FF00FF00FF009A82
-                820074444000F5E4D300E1B488007443400093777700FF00FF00FF00FF00B7AE
-                AE006C3C3C00E9C8A800D19669006C3C3C00B2A7A700FF00FF00FF00FF00B7AE
-                AE006C3C3C00E9C8A800D19669006C3C3C00B2A7A700FF00FF00FF00FF00FF00
-                FF006E3E3E00734444006B3B3B006B3B3B000B0B0B000A0A0A000A0A0A000E0D
-                0D006C3C3C006B3B3B006B3B3B006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF006C3B3B00F1D8BE00E8BF9300C78657000A0A0A00C4C4C400696969001010
-                1000F9DEB700E2B38600BD7B51006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF006C3B3B00F6E6D600E9BF9500C88759000A0A0A00C4C4C400696969000C0C
-                0C00E3C6A900CA9B7600A5694B006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF006D3D3D00724343006B3B3B006B3B3B00141010000A0A0A000A0A0A002416
-                14006C3B3B006C3B3B006C3B3B006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF000A0A0A00C4C4C400696969000A0A0A00FF00FF00FF00FF000A0A
-                0A00C4C4C400696969000A0A0A00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF000A0A0A000A0A0A000A0A0A001D1D1D00FF00FF00FF00FF000A0A
-                0A000A0A0A000A0A0A001D1D1D00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00}
-              ExplicitLeft = 39
-              ExplicitTop = 17
-              ExplicitWidth = 25
-              ExplicitHeight = 24
-            end
-          end
-          object Panel39: TPanel
-            Left = 83
-            Top = 17
-            Width = 209
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 2
-            object Label54: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 203
-              Height = 15
-              Align = alTop
-              Caption = 'Nome'
-              FocusControl = DBEdit4
-              ExplicitWidth = 33
-            end
-            object DBEdit3: TDBEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 203
-              Height = 23
-              TabStop = False
-              Align = alClient
-              DataField = 'contatofin_nome'
-              DataSource = OS.DataSource1
-              ReadOnly = True
-              TabOrder = 0
-            end
-          end
-          object Panel40: TPanel
-            Left = 292
-            Top = 17
-            Width = 136
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 3
-            object Label55: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 130
-              Height = 15
-              Align = alTop
-              Caption = 'Cargo'
-              FocusControl = DBEdit5
-              ExplicitWidth = 32
-            end
-            object DBEdit36: TDBEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 130
-              Height = 23
-              TabStop = False
-              Align = alClient
-              DataField = 'contatofin_funcao'
-              DataSource = OS.DataSource1
-              ReadOnly = True
-              TabOrder = 0
-            end
-          end
-          object Panel41: TPanel
-            Left = 428
-            Top = 17
-            Width = 102
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 4
-            object Label56: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 96
-              Height = 15
-              Align = alTop
-              Caption = 'Telefone'
-              FocusControl = DBEdit6
-              ExplicitWidth = 44
-            end
-            object DBEdit38: TDBEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 96
-              Height = 23
-              TabStop = False
-              Align = alClient
-              DataField = 'contatofin_telefone'
-              DataSource = OS.DataSource1
-              ReadOnly = True
-              TabOrder = 0
-            end
-          end
-          object Panel42: TPanel
-            Left = 530
-            Top = 17
-            Width = 114
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 5
-            object Label57: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 108
-              Height = 15
-              Align = alTop
-              Caption = 'Celular'
-              FocusControl = DBEdit7
-              ExplicitWidth = 37
-            end
-            object DBEdit39: TDBEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 108
-              Height = 23
-              TabStop = False
-              Align = alClient
-              DataField = 'contatofin_celular'
-              DataSource = OS.DataSource1
-              ReadOnly = True
-              TabOrder = 0
-            end
-          end
-          object Panel43: TPanel
-            Left = 644
-            Top = 17
-            Width = 629
-            Height = 50
-            Align = alClient
-            BevelOuter = bvNone
-            TabOrder = 6
-            object Label58: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 623
-              Height = 15
-              Align = alTop
-              Caption = 'Email'
-              FocusControl = DBEdit7
-              ExplicitWidth = 29
-            end
-            object DBEdit40: TDBEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 623
-              Height = 23
-              TabStop = False
-              Align = alClient
-              CharCase = ecLowerCase
-              DataField = 'contatofin_email'
-              DataSource = OS.DataSource1
-              ReadOnly = True
-              TabOrder = 0
-            end
-          end
-        end
-        object GroupBox2: TGroupBox
-          AlignWithMargins = True
-          Left = 3
-          Top = 81
-          Width = 1275
-          Height = 72
-          Align = alTop
-          Caption = ' Contato T'#233'cnico '
-          Padding.Bottom = 3
-          TabOrder = 1
-          object Panel44: TPanel
-            Left = 2
-            Top = 17
-            Width = 57
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 0
-            object Label59: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 51
-              Height = 15
-              Align = alTop
-              Caption = 'C'#243'digo'
-              ExplicitWidth = 39
-            end
-            object DBEdit41: TDBEdit
-              Tag = 2
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 51
-              Height = 23
-              Align = alClient
-              DataField = 'contato_tec'
-              DataSource = OS.DataSource1
-              TabOrder = 0
-              OnExit = DBEdit49Exit
-            end
-          end
-          object Panel45: TPanel
-            Left = 59
-            Top = 17
-            Width = 24
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            Padding.Top = 24
-            Padding.Bottom = 3
-            TabOrder = 1
-            object SpeedButton3: TSpeedButton
-              Left = 0
-              Top = 24
-              Width = 24
-              Height = 23
-              Action = actFindContTec
-              Align = alClient
-              Glyph.Data = {
-                36040000424D3604000000000000360000002800000010000000100000000100
-                2000000000000004000000000000000000000000000000000000FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF000A0A
-                0A000A0A0A000A0A0A000A0A0A000A0A0A000A0A0A00FF00FF00FF00FF000A0A
-                0A000A0A0A000A0A0A000A0A0A000A0A0A000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00121212001E1E1E000B0B0B000A0A0A000A0A0A00FF00FF00FF00FF000A0A
-                0A0015151500222222000B0B0B000A0A0A000A0A0A00FF00FF00FF00FF007549
-                4900A0725E00EFE1D200EBC8A3009F674D0070414000FF00FF00FF00FF007549
-                4900A0725E00EFE1D200EBC8A3009F674D0070414000FF00FF00FF00FF008461
-                610085554C00F5E5D400EAC5A000865043007D565500FF00FF00FF00FF008461
-                610085554C00F5E5D400EAC5A000865043007D565500FF00FF00FF00FF009A82
-                820074444000F5E4D300E1B488007443400093777700FF00FF00FF00FF009A82
-                820074444000F5E4D300E1B488007443400093777700FF00FF00FF00FF00B7AE
-                AE006C3C3C00E9C8A800D19669006C3C3C00B2A7A700FF00FF00FF00FF00B7AE
-                AE006C3C3C00E9C8A800D19669006C3C3C00B2A7A700FF00FF00FF00FF00FF00
-                FF006E3E3E00734444006B3B3B006B3B3B000B0B0B000A0A0A000A0A0A000E0D
-                0D006C3C3C006B3B3B006B3B3B006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF006C3B3B00F1D8BE00E8BF9300C78657000A0A0A00C4C4C400696969001010
-                1000F9DEB700E2B38600BD7B51006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF006C3B3B00F6E6D600E9BF9500C88759000A0A0A00C4C4C400696969000C0C
-                0C00E3C6A900CA9B7600A5694B006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF006D3D3D00724343006B3B3B006B3B3B00141010000A0A0A000A0A0A002416
-                14006C3B3B006C3B3B006C3B3B006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF000A0A0A00C4C4C400696969000A0A0A00FF00FF00FF00FF000A0A
-                0A00C4C4C400696969000A0A0A00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF000A0A0A000A0A0A000A0A0A001D1D1D00FF00FF00FF00FF000A0A
-                0A000A0A0A000A0A0A001D1D1D00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00}
-              ExplicitLeft = 39
-              ExplicitTop = 17
-              ExplicitWidth = 25
-              ExplicitHeight = 24
-            end
-          end
-          object Panel46: TPanel
-            Left = 83
-            Top = 17
-            Width = 209
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 2
-            object Label60: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 203
-              Height = 15
-              Align = alTop
-              Caption = 'Nome'
-              FocusControl = DBEdit4
-              ExplicitWidth = 33
-            end
-            object DBEdit42: TDBEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 203
-              Height = 23
-              TabStop = False
-              Align = alClient
-              DataField = 'contatotec_nome'
-              DataSource = OS.DataSource1
-              ReadOnly = True
-              TabOrder = 0
-            end
-          end
-          object Panel47: TPanel
-            Left = 292
-            Top = 17
-            Width = 136
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 3
-            object Label61: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 130
-              Height = 15
-              Align = alTop
-              Caption = 'Cargo'
-              FocusControl = DBEdit5
-              ExplicitWidth = 32
-            end
-            object DBEdit43: TDBEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 130
-              Height = 23
-              TabStop = False
-              Align = alClient
-              DataField = 'contatotec_funcao'
-              DataSource = OS.DataSource1
-              ReadOnly = True
-              TabOrder = 0
-            end
-          end
-          object Panel48: TPanel
-            Left = 428
-            Top = 17
-            Width = 102
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 4
-            object Label62: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 96
-              Height = 15
-              Align = alTop
-              Caption = 'Telefone'
-              FocusControl = DBEdit6
-              ExplicitWidth = 44
-            end
-            object DBEdit44: TDBEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 96
-              Height = 23
-              TabStop = False
-              Align = alClient
-              DataField = 'contatotec_telefone'
-              DataSource = OS.DataSource1
-              ReadOnly = True
-              TabOrder = 0
-            end
-          end
-          object Panel49: TPanel
-            Left = 530
-            Top = 17
-            Width = 114
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 5
-            object Label63: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 108
-              Height = 15
-              Align = alTop
-              Caption = 'Celular'
-              FocusControl = DBEdit7
-              ExplicitWidth = 37
-            end
-            object DBEdit51: TDBEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 108
-              Height = 23
-              TabStop = False
-              Align = alClient
-              DataField = 'contatotec_celular'
-              DataSource = OS.DataSource1
-              ReadOnly = True
-              TabOrder = 0
-            end
-          end
-          object Panel50: TPanel
-            Left = 644
-            Top = 17
-            Width = 629
-            Height = 50
-            Align = alClient
-            BevelOuter = bvNone
-            TabOrder = 6
-            object Label64: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 623
-              Height = 15
-              Align = alTop
-              Caption = 'Email'
-              FocusControl = DBEdit7
-              ExplicitWidth = 29
-            end
-            object DBEdit52: TDBEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 623
-              Height = 23
-              TabStop = False
-              Align = alClient
-              CharCase = ecLowerCase
-              DataField = 'contatotec_email'
-              DataSource = OS.DataSource1
-              ReadOnly = True
-              TabOrder = 0
-            end
-          end
-        end
       end
       object TabSheet9: TTabSheet
         Caption = 'Informa'#231#245'es de Faturamento/Financeiras'
         ImageIndex = 3
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 402
         object Bevel6: TBevel
           Left = 486
           Top = 0
           Width = 7
-          Height = 402
+          Height = 308
           Align = alLeft
           Shape = bsSpacer
           ExplicitHeight = 231
@@ -1839,19 +1072,20 @@ inherited OSM: TOSM
           Left = 0
           Top = 0
           Width = 486
-          Height = 402
+          Height = 308
           Align = alLeft
           Caption = ' Notas Fiscais '
           Padding.Left = 5
           Padding.Right = 5
           Padding.Bottom = 5
           TabOrder = 0
+          ExplicitHeight = 402
           object DBGrid5: TDBGrid
             Tag = 1
             Left = 7
             Top = 17
             Width = 472
-            Height = 270
+            Height = 176
             Align = alClient
             BorderStyle = bsNone
             Ctl3D = False
@@ -1874,12 +1108,13 @@ inherited OSM: TOSM
           end
           object GroupBox9: TGroupBox
             Left = 7
-            Top = 287
+            Top = 193
             Width = 472
             Height = 108
             Align = alBottom
             Caption = ' Detalhes '
             TabOrder = 1
+            ExplicitTop = 287
             object Label4: TLabel
               Left = 13
               Top = 17
@@ -2022,19 +1257,20 @@ inherited OSM: TOSM
           Left = 493
           Top = 0
           Width = 788
-          Height = 402
+          Height = 308
           Align = alClient
           Caption = ' T'#237'tulos Financeiros '
           Padding.Left = 5
           Padding.Right = 5
           Padding.Bottom = 5
           TabOrder = 1
+          ExplicitHeight = 402
           object DBGrid6: TDBGrid
             Tag = 1
             Left = 7
             Top = 17
             Width = 602
-            Height = 378
+            Height = 284
             Align = alClient
             BorderStyle = bsNone
             Ctl3D = False
@@ -2059,10 +1295,11 @@ inherited OSM: TOSM
             Left = 609
             Top = 17
             Width = 172
-            Height = 378
+            Height = 284
             Align = alRight
             Caption = ' Detalhes do T'#237'tulo '
             TabOrder = 1
+            ExplicitHeight = 378
             object Label43: TLabel
               Left = 26
               Top = 26
@@ -2263,20 +1500,6 @@ inherited OSM: TOSM
     object actFindTipo: TAction
       ImageIndex = 332
       OnExecute = actFindTipoExecute
-    end
-    object actFindCont: TAction
-      ImageIndex = 332
-      OnExecute = actFindContExecute
-    end
-    object actFindContFin: TAction
-      Tag = 1
-      ImageIndex = 332
-      OnExecute = actFindContExecute
-    end
-    object actFindContTec: TAction
-      Tag = 2
-      ImageIndex = 332
-      OnExecute = actFindContExecute
     end
   end
   object qOrigem: TZQuery

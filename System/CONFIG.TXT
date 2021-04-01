@@ -52,4 +52,4 @@ PanelCols=1
 AlphaBlend=0
 
 [Service]
-DBConnection=Lorencini Remoto
+DBConnection=Localhost_desenvolvimento

@@ -46,22 +46,21 @@ type
     IBrwSrcmulta: TFloatField;
     IBrwSrcdescto: TFloatField;
     IBrwSrctotal: TFloatField;
-    dsContatos: TDataSource;
-    qContatos: TZQuery;
-    qContatoscliente: TIntegerField;
-    qContatosnome: TStringField;
-    qContatosfuncao: TStringField;
-    qContatostelefone: TStringField;
-    qContatoscelular: TStringField;
-    qContatosemail: TStringField;
-    qContatosrecno: TIntegerField;
     sContatos: TZSequence;
     zContatos: TZUpdateSQL;
-    qContatosempresa: TStringField;
-    qContatoscontato: TIntegerField;
     Panel3: TPanel;
     Panel4: TPanel;
     Panel5: TPanel;
+    qContatos: TZQuery;
+    qContatoscliente: TIntegerField;
+    qContatospadrao: TBooleanField;
+    qContatosrecno: TIntegerField;
+    qContatosnome: TStringField;
+    qContatoscelular: TStringField;
+    qContatostelefone: TStringField;
+    qContatosramal: TStringField;
+    qContatosemail: TStringField;
+    dsContatos: TDataSource;
     procedure IBrwSrcAfterInsert(DataSet: TDataSet);
     procedure IBrwSrctipoGetText(Sender: TField; var Text: string;
       DisplayText: Boolean);
@@ -78,7 +77,6 @@ type
     procedure ComboBox1Change(Sender: TObject);
     procedure IBrwSrcbaixaChange(Sender: TField);
     procedure IBrwSrcAfterScroll(DataSet: TDataSet);
-    procedure qContatosAfterInsert(DataSet: TDataSet);
   private
     { Private declarations }
     FCBClientes: TComboList;
@@ -331,13 +329,6 @@ begin
     cbStatus.ItemIndex := PageControl1.ActivePageIndex;
     cbStatusChange(cbStatus);
   end;
-end;
-
-procedure TReceber.qContatosAfterInsert(DataSet: TDataSet);
-begin
-  inherited;
-  qContatoscliente.AsInteger := IBrwSrcid_cli.AsInteger;
-  qContatosempresa.AsString := IBrwSrcnome_chave.AsString;
 end;
 
 initialization

@@ -1,10 +1,10 @@
 inherited ReceberM: TReceberM
   Caption = 'T'#237'tulo a Receber'
-  ClientHeight = 672
-  ClientWidth = 798
+  ClientHeight = 653
+  ClientWidth = 1046
   Constraints.MinWidth = 691
-  ExplicitWidth = 804
-  ExplicitHeight = 701
+  ExplicitWidth = 1052
+  ExplicitHeight = 682
   PixelsPerInch = 96
   TextHeight = 15
   object SpeedButton1: TSpeedButton [0]
@@ -15,45 +15,45 @@ inherited ReceberM: TReceberM
   end
   inherited Panel1: TPanel
     Top = 44
-    Width = 798
-    Height = 628
+    Width = 1046
+    Height = 609
     ExplicitTop = 44
-    ExplicitWidth = 745
-    ExplicitHeight = 553
+    ExplicitWidth = 1046
+    ExplicitHeight = 609
     inherited Panel3: TPanel
-      Top = 401
-      Width = 798
+      Top = 382
+      Width = 1046
       Height = 227
-      ExplicitTop = 368
-      ExplicitWidth = 903
+      ExplicitTop = 382
+      ExplicitWidth = 1046
       ExplicitHeight = 227
       inherited PageControl3: TPageControl
         Top = 47
-        Width = 792
+        Width = 1040
         Height = 177
         ExplicitLeft = 3
         ExplicitTop = 47
-        ExplicitWidth = 739
-        ExplicitHeight = 133
+        ExplicitWidth = 1040
+        ExplicitHeight = 177
         inherited tsDet: TTabSheet
           Caption = 'Contatos'
           ExplicitLeft = 4
           ExplicitTop = 26
-          ExplicitWidth = 731
-          ExplicitHeight = 103
+          ExplicitWidth = 1032
+          ExplicitHeight = 147
           inherited DBGrid1: TDBGrid
-            Width = 784
+            Width = 1032
             Height = 147
             DataSource = Receber.dsContatos
           end
         end
       end
       inherited ControlBar2: TControlBar
-        Width = 792
+        Width = 1040
         Height = 38
         ExplicitLeft = 3
         ExplicitTop = 3
-        ExplicitWidth = 739
+        ExplicitWidth = 1040
         ExplicitHeight = 38
         inherited ToolBar3: TToolBar
           Width = 718
@@ -84,76 +84,69 @@ inherited ReceberM: TReceberM
       end
     end
     inherited PageControl1: TPageControl
-      Width = 792
-      Height = 395
+      Width = 1040
+      Height = 376
       ExplicitLeft = 3
       ExplicitTop = 3
-      ExplicitWidth = 739
-      ExplicitHeight = 364
+      ExplicitWidth = 1040
+      ExplicitHeight = 376
       inherited TabSheet1: TTabSheet
         Caption = 'T'#237'tulo a Receber'
         ExplicitLeft = 4
-        ExplicitTop = 27
-        ExplicitWidth = 889
-        ExplicitHeight = 468
+        ExplicitTop = 26
+        ExplicitWidth = 1032
+        ExplicitHeight = 346
         object Label18: TLabel
           AlignWithMargins = True
           Left = 3
           Top = 253
-          Width = 778
+          Width = 1026
           Height = 15
           Align = alTop
           Caption = 'Observa'#231#245'es'
           FocusControl = DBMemo1
-          ExplicitTop = 239
           ExplicitWidth = 67
         end
         object Label3: TLabel
           AlignWithMargins = True
           Left = 3
           Top = 203
-          Width = 778
+          Width = 1026
           Height = 15
           Align = alTop
           Caption = 'Hist'#243'rico'
           FocusControl = DBEdit3
-          ExplicitTop = 194
           ExplicitWidth = 48
         end
         object DBMemo1: TDBMemo
           Left = 0
           Top = 271
-          Width = 784
-          Height = 94
+          Width = 1032
+          Height = 75
           Align = alClient
           DataField = 'obs'
           DataSource = Receber.DataSource1
           TabOrder = 1
-          ExplicitTop = 272
         end
         object DBEdit3: TDBEdit
           AlignWithMargins = True
           Left = 3
           Top = 224
-          Width = 778
+          Width = 1026
           Height = 23
           Align = alTop
           DataField = 'historico'
           DataSource = Receber.DataSource1
           TabOrder = 0
-          ExplicitTop = 214
-          ExplicitWidth = 712
         end
         object Panel2: TPanel
           Left = 0
           Top = 0
-          Width = 784
+          Width = 1032
           Height = 50
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 2
-          ExplicitTop = 370
-          ExplicitWidth = 889
           object Panel4: TPanel
             Left = 0
             Top = 0
@@ -162,9 +155,6 @@ inherited ReceberM: TReceberM
             Align = alLeft
             BevelOuter = bvNone
             TabOrder = 0
-            ExplicitLeft = -6
-            ExplicitTop = -6
-            ExplicitHeight = 48
             object Label1: TLabel
               AlignWithMargins = True
               Left = 3
@@ -174,7 +164,6 @@ inherited ReceberM: TReceberM
               Align = alTop
               Caption = 'T'#237'tulo'
               FocusControl = DBEdit1
-              ExplicitTop = 8
               ExplicitWidth = 30
             end
             object DBEdit1: TDBEdit
@@ -190,8 +179,6 @@ inherited ReceberM: TReceberM
               Enabled = False
               ReadOnly = True
               TabOrder = 0
-              ExplicitTop = 25
-              ExplicitWidth = 42
             end
           end
           object Panel5: TPanel
@@ -202,7 +189,6 @@ inherited ReceberM: TReceberM
             Align = alLeft
             BevelOuter = bvNone
             TabOrder = 1
-            ExplicitHeight = 48
             object Label2: TLabel
               AlignWithMargins = True
               Left = 3
@@ -212,8 +198,6 @@ inherited ReceberM: TReceberM
               Align = alTop
               Caption = 'Documento'
               FocusControl = DBEdit2
-              ExplicitLeft = 50
-              ExplicitTop = 8
               ExplicitWidth = 63
             end
             object DBEdit2: TDBEdit
@@ -226,9 +210,6 @@ inherited ReceberM: TReceberM
               DataField = 'docto'
               DataSource = Receber.DataSource1
               TabOrder = 0
-              ExplicitLeft = 2
-              ExplicitTop = 25
-              ExplicitWidth = 111
             end
           end
           object Panel6: TPanel
@@ -239,8 +220,6 @@ inherited ReceberM: TReceberM
             Align = alLeft
             BevelOuter = bvNone
             TabOrder = 2
-            ExplicitLeft = 186
-            ExplicitHeight = 48
             object Label19: TLabel
               AlignWithMargins = True
               Left = 3
@@ -249,8 +228,6 @@ inherited ReceberM: TReceberM
               Height = 15
               Align = alTop
               Caption = 'Conta'
-              ExplicitLeft = 104
-              ExplicitTop = 8
               ExplicitWidth = 32
             end
             object DBComboBox1: TDBComboBox
@@ -265,9 +242,6 @@ inherited ReceberM: TReceberM
               DataSource = Receber.DataSource1
               ItemHeight = 15
               TabOrder = 0
-              ExplicitLeft = 28
-              ExplicitTop = 25
-              ExplicitWidth = 108
             end
           end
           object Panel7: TPanel
@@ -278,8 +252,6 @@ inherited ReceberM: TReceberM
             Align = alLeft
             BevelOuter = bvNone
             TabOrder = 3
-            ExplicitLeft = 322
-            ExplicitTop = -6
             object Label4: TLabel
               AlignWithMargins = True
               Left = 3
@@ -296,8 +268,6 @@ inherited ReceberM: TReceberM
               Font.Pitch = fpVariable
               Font.Style = [fsBold]
               ParentFont = False
-              ExplicitLeft = 19
-              ExplicitTop = 4
               ExplicitWidth = 51
             end
             object DBEdit4: TDBEdit
@@ -312,9 +282,6 @@ inherited ReceberM: TReceberM
               DataSource = Receber.DataSource1
               TabOrder = 0
               OnExit = DBEdit4Exit
-              ExplicitLeft = 19
-              ExplicitTop = 25
-              ExplicitWidth = 51
             end
           end
           object Panel8: TPanel
@@ -378,31 +345,27 @@ inherited ReceberM: TReceberM
           object Panel9: TPanel
             Left = 418
             Top = 0
-            Width = 296
+            Width = 544
             Height = 50
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 5
-            ExplicitLeft = 421
-            ExplicitWidth = 401
             object Label5: TLabel
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 290
+              Width = 538
               Height = 15
               Align = alTop
               Caption = 'Descri'#231#227'o'
               FocusControl = DBEdit5
-              ExplicitLeft = 350
-              ExplicitTop = 4
               ExplicitWidth = 51
             end
             object DBEdit5: TDBEdit
               AlignWithMargins = True
               Left = 3
               Top = 24
-              Width = 290
+              Width = 538
               Height = 23
               TabStop = False
               Align = alClient
@@ -410,20 +373,16 @@ inherited ReceberM: TReceberM
               DataSource = Receber.DataSource1
               ReadOnly = True
               TabOrder = 0
-              ExplicitLeft = 109
-              ExplicitWidth = 292
             end
           end
           object Panel10: TPanel
-            Left = 714
+            Left = 962
             Top = 0
             Width = 70
             Height = 50
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 6
-            ExplicitLeft = 535
-            ExplicitTop = -6
             object Label6: TLabel
               AlignWithMargins = True
               Left = 3
@@ -433,8 +392,6 @@ inherited ReceberM: TReceberM
               Align = alTop
               Caption = 'Tipo'
               FocusControl = DBEdit6
-              ExplicitLeft = 47
-              ExplicitTop = 8
               ExplicitWidth = 23
             end
             object DBEdit6: TDBEdit
@@ -449,22 +406,17 @@ inherited ReceberM: TReceberM
               DataSource = Receber.DataSource1
               ReadOnly = True
               TabOrder = 0
-              ExplicitLeft = 14
-              ExplicitTop = 25
-              ExplicitWidth = 56
             end
           end
         end
         object Panel11: TPanel
           Left = 0
           Top = 50
-          Width = 784
+          Width = 1032
           Height = 50
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 3
-          ExplicitTop = 364
-          ExplicitWidth = 889
           object Panel12: TPanel
             Left = 0
             Top = 0
@@ -473,7 +425,6 @@ inherited ReceberM: TReceberM
             Align = alLeft
             BevelOuter = bvNone
             TabOrder = 0
-            ExplicitHeight = 48
             object Label7: TLabel
               AlignWithMargins = True
               Left = 3
@@ -490,7 +441,6 @@ inherited ReceberM: TReceberM
               Font.Pitch = fpVariable
               Font.Style = [fsBold]
               ParentFont = False
-              ExplicitTop = 33
               ExplicitWidth = 39
             end
             object DBEdit7: TDBEdit
@@ -505,8 +455,6 @@ inherited ReceberM: TReceberM
               DataSource = Receber.DataSource1
               TabOrder = 0
               OnExit = DBEdit7Exit
-              ExplicitLeft = 0
-              ExplicitWidth = 77
             end
           end
           object Panel13: TPanel
@@ -572,32 +520,27 @@ inherited ReceberM: TReceberM
           object Panel14: TPanel
             Left = 112
             Top = 0
-            Width = 393
+            Width = 641
             Height = 50
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 2
-            ExplicitLeft = 115
-            ExplicitTop = -6
-            ExplicitWidth = 637
             object Label8: TLabel
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 387
+              Width = 635
               Height = 15
               Align = alTop
               Caption = 'Raz'#227'o Social'
               FocusControl = DBEdit8
-              ExplicitLeft = 112
-              ExplicitTop = 35
               ExplicitWidth = 65
             end
             object DBEdit8: TDBEdit
               AlignWithMargins = True
               Left = 3
               Top = 24
-              Width = 387
+              Width = 635
               Height = 23
               TabStop = False
               Align = alClient
@@ -605,20 +548,16 @@ inherited ReceberM: TReceberM
               DataSource = Receber.DataSource1
               ReadOnly = True
               TabOrder = 0
-              ExplicitLeft = 109
-              ExplicitTop = 27
-              ExplicitWidth = 380
             end
           end
           object Panel15: TPanel
-            Left = 505
+            Left = 753
             Top = 0
             Width = 150
             Height = 50
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 3
-            ExplicitLeft = 613
             object Label9: TLabel
               AlignWithMargins = True
               Left = 3
@@ -628,8 +567,6 @@ inherited ReceberM: TReceberM
               Align = alTop
               Caption = 'C.N.P.J.'
               FocusControl = DBEdit9
-              ExplicitLeft = 85
-              ExplicitTop = 35
               ExplicitWidth = 40
             end
             object DBEdit9: TDBEdit
@@ -644,20 +581,16 @@ inherited ReceberM: TReceberM
               DataSource = Receber.DataSource1
               ReadOnly = True
               TabOrder = 0
-              ExplicitLeft = 21
-              ExplicitTop = 27
-              ExplicitWidth = 104
             end
           end
           object Panel16: TPanel
-            Left = 655
+            Left = 903
             Top = 0
             Width = 129
             Height = 50
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 4
-            ExplicitLeft = 760
             object Label10: TLabel
               AlignWithMargins = True
               Left = 3
@@ -667,8 +600,6 @@ inherited ReceberM: TReceberM
               Align = alTop
               Caption = 'Telefone'
               FocusControl = DBEdit10
-              ExplicitLeft = 85
-              ExplicitTop = 35
               ExplicitWidth = 44
             end
             object DBEdit10: TDBEdit
@@ -683,22 +614,17 @@ inherited ReceberM: TReceberM
               DataSource = Receber.DataSource1
               ReadOnly = True
               TabOrder = 0
-              ExplicitLeft = 19
-              ExplicitTop = 27
-              ExplicitWidth = 110
             end
           end
         end
         object Panel19: TPanel
           Left = 0
           Top = 100
-          Width = 784
+          Width = 1032
           Height = 50
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 4
-          ExplicitTop = 419
-          ExplicitWidth = 889
           object Panel20: TPanel
             Left = 0
             Top = 0
@@ -707,7 +633,6 @@ inherited ReceberM: TReceberM
             Align = alLeft
             BevelOuter = bvNone
             TabOrder = 0
-            ExplicitTop = -6
             object Label11: TLabel
               AlignWithMargins = True
               Left = 3
@@ -717,7 +642,6 @@ inherited ReceberM: TReceberM
               Align = alTop
               Caption = 'Cria'#231#227'o'
               FocusControl = DBEdit11
-              ExplicitTop = 35
               ExplicitWidth = 40
             end
             object DBEdit11: TDBEdit
@@ -732,9 +656,6 @@ inherited ReceberM: TReceberM
               DataSource = Receber.DataSource1
               ReadOnly = True
               TabOrder = 0
-              ExplicitLeft = -11
-              ExplicitTop = 27
-              ExplicitWidth = 145
             end
           end
           object Panel21: TPanel
@@ -760,8 +681,6 @@ inherited ReceberM: TReceberM
               Font.Pitch = fpVariable
               Font.Style = [fsBold]
               ParentFont = False
-              ExplicitLeft = 85
-              ExplicitTop = 35
               ExplicitWidth = 49
             end
             object JvDBDateEdit1: TJvDBDateEdit
@@ -777,9 +696,6 @@ inherited ReceberM: TReceberM
               ButtonWidth = 23
               ShowNullDate = False
               TabOrder = 0
-              ExplicitLeft = 10
-              ExplicitTop = 27
-              ExplicitWidth = 124
             end
           end
           object Panel22: TPanel
@@ -805,8 +721,6 @@ inherited ReceberM: TReceberM
               Font.Pitch = fpVariable
               Font.Style = [fsBold]
               ParentFont = False
-              ExplicitLeft = 67
-              ExplicitTop = 35
               ExplicitWidth = 67
             end
             object JvDBDateEdit2: TJvDBDateEdit
@@ -822,9 +736,6 @@ inherited ReceberM: TReceberM
               ButtonWidth = 23
               ShowNullDate = False
               TabOrder = 0
-              ExplicitLeft = 11
-              ExplicitTop = 27
-              ExplicitWidth = 123
             end
           end
           object Panel23: TPanel
@@ -850,8 +761,6 @@ inherited ReceberM: TReceberM
               Font.Pitch = fpVariable
               Font.Style = [fsBold]
               ParentFont = False
-              ExplicitLeft = 39
-              ExplicitTop = 35
               ExplicitWidth = 95
             end
             object JvDBDateEdit3: TJvDBDateEdit
@@ -867,22 +776,17 @@ inherited ReceberM: TReceberM
               ButtonWidth = 23
               ShowNullDate = False
               TabOrder = 0
-              ExplicitLeft = 10
-              ExplicitTop = 27
-              ExplicitWidth = 124
             end
           end
         end
         object Panel17: TPanel
           Left = 0
           Top = 150
-          Width = 784
+          Width = 1032
           Height = 50
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 5
-          ExplicitTop = 362
-          ExplicitWidth = 889
           object Panel18: TPanel
             Left = 0
             Top = 0
@@ -891,8 +795,6 @@ inherited ReceberM: TReceberM
             Align = alLeft
             BevelOuter = bvNone
             TabOrder = 0
-            ExplicitLeft = -6
-            ExplicitTop = -6
             object Label16: TLabel
               AlignWithMargins = True
               Left = 3
@@ -908,8 +810,6 @@ inherited ReceberM: TReceberM
               Font.Pitch = fpVariable
               Font.Style = [fsBold]
               ParentFont = False
-              ExplicitLeft = 4
-              ExplicitTop = 35
               ExplicitWidth = 29
             end
             object JvDBCalcEdit1: TJvDBCalcEdit
@@ -925,7 +825,6 @@ inherited ReceberM: TReceberM
               DecimalPlacesAlwaysShown = False
               DataField = 'valor'
               DataSource = Receber.DataSource1
-              ExplicitLeft = 0
             end
           end
           object Panel27: TPanel
@@ -944,8 +843,6 @@ inherited ReceberM: TReceberM
               Height = 15
               Align = alTop
               Caption = 'Juros'
-              ExplicitLeft = 76
-              ExplicitTop = 35
               ExplicitWidth = 27
             end
             object JvDBCalcEdit2: TJvDBCalcEdit
@@ -962,8 +859,6 @@ inherited ReceberM: TReceberM
               DecimalPlacesAlwaysShown = False
               DataField = 'juros'
               DataSource = Receber.DataSource1
-              ExplicitLeft = 6
-              ExplicitTop = 27
             end
           end
           object Panel28: TPanel
@@ -974,7 +869,6 @@ inherited ReceberM: TReceberM
             Align = alLeft
             BevelOuter = bvNone
             TabOrder = 2
-            ExplicitLeft = 209
             object Label21: TLabel
               AlignWithMargins = True
               Left = 3
@@ -983,8 +877,6 @@ inherited ReceberM: TReceberM
               Height = 15
               Align = alTop
               Caption = 'Multa'
-              ExplicitLeft = 72
-              ExplicitTop = 35
               ExplicitWidth = 31
             end
             object JvDBCalcEdit3: TJvDBCalcEdit
@@ -1001,9 +893,6 @@ inherited ReceberM: TReceberM
               DecimalPlacesAlwaysShown = False
               DataField = 'multa'
               DataSource = Receber.DataSource1
-              ExplicitLeft = 7
-              ExplicitTop = 27
-              ExplicitWidth = 96
             end
           end
           object Panel29: TPanel
@@ -1022,8 +911,6 @@ inherited ReceberM: TReceberM
               Height = 15
               Align = alTop
               Caption = 'Desconto'
-              ExplicitLeft = 53
-              ExplicitTop = 35
               ExplicitWidth = 50
             end
             object JvDBCalcEdit4: TJvDBCalcEdit
@@ -1040,9 +927,6 @@ inherited ReceberM: TReceberM
               DecimalPlacesAlwaysShown = False
               DataField = 'descto'
               DataSource = Receber.DataSource1
-              ExplicitLeft = 7
-              ExplicitTop = 27
-              ExplicitWidth = 96
             end
           end
           object Panel30: TPanel
@@ -1061,8 +945,6 @@ inherited ReceberM: TReceberM
               Height = 15
               Align = alTop
               Caption = 'Total'
-              ExplicitLeft = 78
-              ExplicitTop = 35
               ExplicitWidth = 25
             end
             object JvDBCalcEdit5: TJvDBCalcEdit
@@ -1080,9 +962,6 @@ inherited ReceberM: TReceberM
               DecimalPlacesAlwaysShown = False
               DataField = 'total'
               DataSource = Receber.DataSource1
-              ExplicitLeft = 7
-              ExplicitTop = 27
-              ExplicitWidth = 96
             end
           end
           object Panel31: TPanel
@@ -1101,8 +980,6 @@ inherited ReceberM: TReceberM
               Height = 15
               Align = alTop
               Caption = 'Baixa'
-              ExplicitLeft = 75
-              ExplicitTop = 35
               ExplicitWidth = 28
             end
             object deBaixa: TJvDBDateEdit
@@ -1119,8 +996,6 @@ inherited ReceberM: TReceberM
               ButtonWidth = 23
               ShowNullDate = False
               TabOrder = 0
-              ExplicitTop = 27
-              ExplicitWidth = 100
             end
           end
           object Panel32: TPanel
@@ -1139,8 +1014,6 @@ inherited ReceberM: TReceberM
               Height = 15
               Align = alTop
               Caption = 'Valor Baixado'
-              ExplicitLeft = -1
-              ExplicitTop = 35
               ExplicitWidth = 71
             end
             object ceBaixa: TJvDBCalcEdit
@@ -1157,8 +1030,6 @@ inherited ReceberM: TReceberM
               DecimalPlacesAlwaysShown = False
               DataField = 'valor_baixado'
               DataSource = Receber.DataSource1
-              ExplicitLeft = -27
-              ExplicitTop = 27
             end
           end
         end
@@ -1166,11 +1037,11 @@ inherited ReceberM: TReceberM
     end
   end
   inherited ControlBar1: TControlBar
-    Width = 792
+    Width = 1040
     Height = 38
     ExplicitLeft = 3
     ExplicitTop = 3
-    ExplicitWidth = 739
+    ExplicitWidth = 1040
     ExplicitHeight = 38
     inherited ToolBar1: TToolBar
       Width = 718

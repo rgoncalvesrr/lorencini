@@ -23,7 +23,8 @@ declare
 begin
    docto := null;
 
-   select serie, devicename, devicetypeabbreviation, devicetypename, manufacturer, insulatorname, volume, familyname, local, substation, tag, sys_iif(status = 1, 'energizado', 'desligado') status
+   select serie, devicename, devicetypeabbreviation, devicetypename, manufacturer, insulatorname, volume, familyname, local, substation, 
+          tag, sys_iif(status = 1, 'energizado', 'desligado') status
      into r     
      from api.devicesbycustomers 
     where tenantid = in_cliente

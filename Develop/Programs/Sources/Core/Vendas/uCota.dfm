@@ -20,7 +20,10 @@ inherited Cota: TCota
       Width = 1081
       ExplicitWidth = 1081
       inherited tsQuery: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 6
         ExplicitWidth = 1073
+        ExplicitHeight = 75
         object Label4: TLabel [0]
           Left = 173
           Top = 48
@@ -100,7 +103,7 @@ inherited Cota: TCota
             ExplicitWidth = 156
           end
           inherited CCalendarDiff1: TCCalendarDiff
-            Date = 44263.923908194450000000
+            Date = 44278.992246805550000000
             DisplayInterval = Label4
             OnChange = FrameData1CCalendarDiff1Change
           end
@@ -207,6 +210,7 @@ inherited Cota: TCota
         ExplicitLeft = 4
         ExplicitTop = 6
         ExplicitWidth = 1073
+        ExplicitHeight = 75
       end
     end
   end
@@ -225,6 +229,7 @@ inherited Cota: TCota
       inherited TabSheet1: TTabSheet
         Caption = 'Todas'
         ImageIndex = -1
+        ExplicitLeft = 4
         ExplicitTop = 33
         ExplicitWidth = 1077
         ExplicitHeight = 368
@@ -306,58 +311,30 @@ inherited Cota: TCota
       object TabSheet3: TTabSheet
         Caption = 'Em Aprova'#231#227'o'
         ImageIndex = 213
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object TabSheet4: TTabSheet
         Caption = 'Aprovadas'
         ImageIndex = 211
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object TabSheet5: TTabSheet
         Caption = 'Em Estudo'
         ImageIndex = 208
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object TabSheet6: TTabSheet
         Caption = 'Autorizadas'
         ImageIndex = 205
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object TabSheet9: TTabSheet
         Caption = 'Executadas'
         ImageIndex = 210
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object TabSheet7: TTabSheet
         Caption = 'Expiradas'
         ImageIndex = 204
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object TabSheet8: TTabSheet
         Caption = 'Canceladas'
         ImageIndex = 209
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
     end
   end
@@ -367,6 +344,39 @@ inherited Cota: TCota
     inherited ToolBar1: TToolBar
       Width = 942
       ExplicitWidth = 942
+      inherited ToolButton2: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton5: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton9: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton6: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton1: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton8: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton3: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited tbOrder: TToolButton
+        ExplicitWidth = 76
+      end
+      inherited tbReport: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited tbOpcao: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton10: TToolButton
+        ExplicitWidth = 32
+      end
     end
   end
   inherited alDef: TActionList
@@ -442,26 +452,11 @@ inherited Cota: TCota
         'ave, cl.cnpj, cl.cpf, cl.cidade, cl.estado,'
       
         '       og.descri, og.reqsrv, og.reqmat, og.reqmo, ve.nome, co.ma' +
-        'rkup, co.descricao, co.contato, co.condicaopg,'
-      
-        '       ct.nome contato_nome, ct.telefone contato_telefone, ct.ce' +
-        'lular contato_celular, ct.email contato_email,'
+        'rkup, co.descricao, co.condicaopg,'
       '       co.frascos, co.seringas, co.envio, co.frete, co.correio,'
       
         '       cast(a.ativdescri as varchar(150)) atividade, co.coleta, ' +
         'co.pedcli, lp.situacao situacaoenvio,'
-      
-        '       co.contato_fin, ctf.nome contatofin_nome, ctf.telefone co' +
-        'ntatofin_telefone,'
-      
-        '       ctf.celular contatofin_celular, ctf.email contatofin_emai' +
-        'l,'
-      
-        '       co.contato_tec, ctt.nome contatotec_nome, ctt.telefone co' +
-        'ntatotec_telefone,'
-      
-        '       ctt.celular contatotec_celular, ctt.email contatotec_emai' +
-        'l,'
       '       co.remessa, co.laboratorio, co.dec_conf'
       '  from cota co'
       '       join tbclientes cl'
@@ -474,15 +469,6 @@ inherited Cota: TCota
       '         on ve.idvendedor = co.vendedor'
       '       left join markup m'
       '         on m.recno = co.markup'
-      '       join vclientes_contatos ct'
-      '         on ct.cliente = co.cliente'
-      '        and ct.contato = co.contato'
-      '       join vclientes_contatos ctf'
-      '         on ctf.cliente = co.cliente'
-      '        and ctf.contato = co.contato_fin'
-      '       join vclientes_contatos ctt'
-      '         on ctt.cliente = co.cliente'
-      '        and ctt.contato = co.contato_tec'
       '       left join labproc lp'
       '         on lp.cotacao = co.recno'
       '')
@@ -678,39 +664,6 @@ inherited Cota: TCota
       Visible = False
       BlobType = ftMemo
     end
-    object IBrwSrccontato: TIntegerField
-      DisplayLabel = 'Contato'
-      FieldName = 'contato'
-      Visible = False
-      OnChange = IBrwSrccontatoChange
-    end
-    object IBrwSrccontato_nome: TStringField
-      DisplayLabel = 'Nome'
-      FieldName = 'contato_nome'
-      Visible = False
-      Size = 60
-    end
-    object IBrwSrccontato_telefone: TStringField
-      DisplayLabel = 'Telefone'
-      DisplayWidth = 25
-      FieldName = 'contato_telefone'
-      Visible = False
-      Size = 100
-    end
-    object IBrwSrccontato_celular: TStringField
-      DisplayLabel = 'Celular'
-      DisplayWidth = 25
-      FieldName = 'contato_celular'
-      Visible = False
-      Size = 100
-    end
-    object IBrwSrccontato_email: TStringField
-      DisplayLabel = 'E-mail'
-      DisplayWidth = 25
-      FieldName = 'contato_email'
-      Visible = False
-      Size = 100
-    end
     object IBrwSrcenvio: TIntegerField
       DisplayLabel = 'Tipo de Envio'
       FieldName = 'envio'
@@ -733,56 +686,6 @@ inherited Cota: TCota
     object IBrwSrccoleta: TIntegerField
       FieldName = 'coleta'
       Visible = False
-    end
-    object IBrwSrccontato_fin: TIntegerField
-      FieldName = 'contato_fin'
-      Visible = False
-      OnChange = IBrwSrccontato_finChange
-    end
-    object IBrwSrccontatofin_nome: TStringField
-      FieldName = 'contatofin_nome'
-      Visible = False
-      Size = 60
-    end
-    object IBrwSrccontatofin_telefone: TStringField
-      FieldName = 'contatofin_telefone'
-      Visible = False
-      Size = 100
-    end
-    object IBrwSrccontatofin_celular: TStringField
-      FieldName = 'contatofin_celular'
-      Visible = False
-      Size = 100
-    end
-    object IBrwSrccontatofin_email: TStringField
-      FieldName = 'contatofin_email'
-      Visible = False
-      Size = 100
-    end
-    object IBrwSrccontato_tec: TIntegerField
-      FieldName = 'contato_tec'
-      Visible = False
-      OnChange = IBrwSrccontato_tecChange
-    end
-    object IBrwSrccontatotec_nome: TStringField
-      FieldName = 'contatotec_nome'
-      Visible = False
-      Size = 60
-    end
-    object IBrwSrccontatotec_telefone: TStringField
-      FieldName = 'contatotec_telefone'
-      Visible = False
-      Size = 100
-    end
-    object IBrwSrccontatotec_celular: TStringField
-      FieldName = 'contatotec_celular'
-      Visible = False
-      Size = 100
-    end
-    object IBrwSrccontatotec_email: TStringField
-      FieldName = 'contatotec_email'
-      Visible = False
-      Size = 100
     end
     object IBrwSrcremessa: TBooleanField
       DisplayLabel = 'Remessa?'
@@ -824,20 +727,16 @@ inherited Cota: TCota
     InsertSQL.Strings = (
       'INSERT INTO cota'
       
-        '  (cliente, vendedor, grupo, status, emissao, validade, descrica' +
-        'o, contato,'
-      
-        '   recno, frascos, seringas, envio, frete, correio, coleta, pedc' +
-        'li, contato_fin,'
-      '   contato_tec, remessa, laboratorio, condicaopg, dec_conf)'
+        '   (cliente, vendedor, grupo, status, emissao, validade, descric' +
+        'ao, recno, frascos, seringas, envio, frete, correio,'
+      '   coleta, pedcli, remessa, laboratorio, condicaopg, dec_conf)'
       'VALUES'
       
         '  (:cliente, :vendedor, :grupo, :status, :emissao, :validade, :d' +
-        'escricao, :contato,'
+        'escricao, :recno, :frascos, :seringas, :envio, :frete,'
       
-        '   :recno, :frascos, :seringas, :envio, :frete, :correio, :colet' +
-        'a, :pedcli, :contato_fin,'
-      '   :contato_tec, :remessa, :laboratorio, :condicaopg, :dec_conf)')
+        '   :correio, :coleta, :pedcli, :remessa, :laboratorio, :condicao' +
+        'pg, :dec_conf)')
     ModifySQL.Strings = (
       'UPDATE cota SET'
       '  cliente = :cliente,'
@@ -847,7 +746,6 @@ inherited Cota: TCota
       '  emissao = :emissao,'
       '  validade = :validade,'
       '  descricao = :descricao,'
-      '  contato = :contato,'
       '  frascos = :frascos,'
       '  seringas = :seringas,'
       '  envio = :envio,'
@@ -855,8 +753,6 @@ inherited Cota: TCota
       '  correio = :correio,'
       '  coleta = :coleta,'
       '  pedcli = :pedcli,'
-      '  contato_fin = :contato_fin,'
-      '  contato_tec = :contato_tec,'
       '  remessa = :remessa,'
       '  laboratorio = :laboratorio,'
       '  condicaopg = :condicaopg,'
@@ -903,11 +799,6 @@ inherited Cota: TCota
       end
       item
         DataType = ftUnknown
-        Name = 'contato'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
         Name = 'frascos'
         ParamType = ptUnknown
       end
@@ -939,16 +830,6 @@ inherited Cota: TCota
       item
         DataType = ftUnknown
         Name = 'pedcli'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'contato_fin'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'contato_tec'
         ParamType = ptUnknown
       end
       item
@@ -1950,5 +1831,82 @@ inherited Cota: TCota
         Name = 'OLD_despesa'
         ParamType = ptUnknown
       end>
+  end
+  object qContatos: TZQuery
+    Connection = DM.Design
+    SortedFields = 'nome'
+    SQL.Strings = (
+      
+        'select cliente, nome, celular, telefone, ramal, email, padrao, r' +
+        'ecno'
+      '  from clientes_contatos'
+      ' where cliente = :cliente'
+      '   and contato_cotacao'
+      '   and ativo')
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'cliente'
+        ParamType = ptUnknown
+      end>
+    FetchRow = 50
+    IndexFieldNames = 'nome Asc'
+    Left = 208
+    Top = 480
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'cliente'
+        ParamType = ptUnknown
+      end>
+    object qContatoscliente: TIntegerField
+      FieldName = 'cliente'
+      Visible = False
+    end
+    object qContatospadrao: TBooleanField
+      DisplayLabel = 'Padr'#227'o'
+      FieldName = 'padrao'
+    end
+    object qContatosrecno: TIntegerField
+      DisplayLabel = 'Contato'
+      FieldName = 'recno'
+    end
+    object qContatosnome: TStringField
+      DisplayLabel = 'Nome'
+      DisplayWidth = 35
+      FieldName = 'nome'
+      Size = 150
+    end
+    object qContatoscelular: TStringField
+      DisplayLabel = 'Celular'
+      DisplayWidth = 15
+      FieldName = 'celular'
+      EditMask = '(99) 9.9999-9999;0;'
+      Size = 25
+    end
+    object qContatostelefone: TStringField
+      DisplayLabel = 'Fixo'
+      DisplayWidth = 15
+      FieldName = 'telefone'
+      EditMask = '(99) 9999-9999;0;'
+      Size = 25
+    end
+    object qContatosramal: TStringField
+      DisplayLabel = 'Ramal'
+      FieldName = 'ramal'
+      Size = 6
+    end
+    object qContatosemail: TStringField
+      DisplayLabel = 'E-mail'
+      FieldName = 'email'
+      Size = 150
+    end
+  end
+  object dsContatos: TDataSource
+    AutoEdit = False
+    DataSet = qContatos
+    OnStateChange = DataSource1StateChange
+    Left = 264
+    Top = 480
   end
 end

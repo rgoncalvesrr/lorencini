@@ -14,13 +14,11 @@ inherited CotaAutorizar: TCotaAutorizar
     Width = 1097
     ExplicitWidth = 1097
     inherited Shape1: TShape
-      Left = 45
-      Width = 1052
+      Width = 1036
       ExplicitLeft = 38
       ExplicitWidth = 748
     end
     inherited Image1: TImage
-      Width = 32
       Height = 64
       Picture.Data = {
         055449636F6E0000010001003030000001000800A80E00001600000028000000
@@ -146,20 +144,19 @@ inherited CotaAutorizar: TCotaAutorizar
       ExplicitHeight = 32
     end
     inherited pnTitle: TPanel
-      Left = 45
-      Width = 1052
+      Width = 1036
       ExplicitLeft = 45
       ExplicitWidth = 1052
       inherited Label1: TLabel
-        Width = 1046
+        Width = 1030
         Caption = 'Gerar Pedido de Venda'
         ExplicitWidth = 175
       end
       inherited Label2: TLabel
-        Width = 1039
+        Width = 1023
         Height = 33
         Caption = 'Gera'#231#227'o da remessa de vidrarias / Ordem de Servi'#231'o'
-        ExplicitWidth = 291
+        ExplicitWidth = 1039
       end
     end
   end

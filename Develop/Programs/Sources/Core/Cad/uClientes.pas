@@ -112,14 +112,6 @@ type
     uContatos: TZUpdateSQL;
     IBrwSrcvendedornome: TStringField;
     qContatospadrao: TBooleanField;
-    qContatosenviar_pedido_venda: TBooleanField;
-    qContatosenviar_cotacao_venda: TBooleanField;
-    qContatosenviar_laudo_critico: TBooleanField;
-    qContatosenviar_laudo_atencao: TBooleanField;
-    qContatosenviar_laudo_normal: TBooleanField;
-    qContatosenviar_laudo_retorno_critico: TBooleanField;
-    qContatosenviar_laudo_retorno_atencao: TBooleanField;
-    qContatosenviar_laudo_retorno_normal: TBooleanField;
     qContatoscontato: TIntegerField;
     sContatos: TZSequence;
     qVendedores: TZQuery;
@@ -133,6 +125,11 @@ type
     qContatosportal_senha: TStringField;
     qContatosobs: TMemoField;
     qContatosramal: TStringField;
+    qContatoscontato_pedido: TBooleanField;
+    qContatoscontato_cotacao: TBooleanField;
+    qContatoscontato_os: TBooleanField;
+    qContatoscontato_financeiro: TBooleanField;
+    qContatoscontato_tecnico: TBooleanField;
     procedure FormCreate(Sender: TObject);
     procedure actOrcaExecute(Sender: TObject);
     procedure DBGrid2DrawColumnCell(Sender: TObject; const Rect: TRect;
@@ -496,14 +493,11 @@ begin
   inherited;
   if (Sender.DataSet.State = dsInsert) then
   begin
-    qContatosenviar_pedido_venda.AsBoolean := (qContatossituacao.AsInteger = 1) and (qContatosemail.AsString <> EmptyStr);
-    qContatosenviar_cotacao_venda.AsBoolean := qContatosenviar_pedido_venda.AsBoolean;
-    qContatosenviar_laudo_normal.AsBoolean := qContatosenviar_pedido_venda.AsBoolean;
-    qContatosenviar_laudo_atencao.AsBoolean := qContatosenviar_pedido_venda.AsBoolean;
-    qContatosenviar_laudo_critico.AsBoolean := qContatosenviar_pedido_venda.AsBoolean;
-    qContatosenviar_laudo_retorno_normal.AsBoolean := qContatosenviar_pedido_venda.AsBoolean;
-    qContatosenviar_laudo_retorno_atencao.AsBoolean := qContatosenviar_pedido_venda.AsBoolean;
-    qContatosenviar_laudo_retorno_critico.AsBoolean := qContatosenviar_pedido_venda.AsBoolean;
+    qContatoscontato_pedido.AsBoolean := (qContatossituacao.AsInteger = 1) and (qContatosemail.AsString <> EmptyStr);
+    qContatoscontato_cotacao.AsBoolean := qContatoscontato_pedido.AsBoolean;
+    qContatoscontato_tecnico.AsBoolean := qContatoscontato_pedido.AsBoolean;
+    qContatoscontato_os.AsBoolean := qContatoscontato_pedido.AsBoolean;
+    qContatoscontato_financeiro.AsBoolean := qContatoscontato_pedido.AsBoolean;
   end;
 end;
 
