@@ -165,7 +165,6 @@ type
     IBrwSrcdec_conf: TBooleanField;
     qContatos: TZQuery;
     dsContatos: TDataSource;
-    qContatoscliente: TIntegerField;
     qContatosnome: TStringField;
     qContatoscelular: TStringField;
     qContatostelefone: TStringField;
@@ -173,6 +172,10 @@ type
     qContatosemail: TStringField;
     qContatospadrao: TBooleanField;
     qContatosrecno: TIntegerField;
+    zContatos: TZUpdateSQL;
+    sContatos: TZSequence;
+    qContatoscotacao: TIntegerField;
+    qContatoscontato: TIntegerField;
     procedure DBGridDrawColumnCell(Sender: TObject; const Rect: TRect;
       DataCol: Integer; Column: TColumn; State: TGridDrawState);
     procedure cbStatusChange(Sender: TObject);
@@ -635,7 +638,7 @@ begin
     qServ.ParamByName('cotacao').AsInteger := IBrwSrcrecno.AsInteger;
     qMObra.ParamByName('cotacao').AsInteger := IBrwSrcrecno.AsInteger;
     qDesp.ParamByName('cotacao').AsInteger := IBrwSrcrecno.AsInteger;
-    qContatos.ParamByName('cliente').AsInteger := IBrwSrccliente.AsInteger;
+    qContatos.ParamByName('cotacao').AsInteger := IBrwSrcrecno.AsInteger;
     G.RefreshDataSet(qMat);
     G.RefreshDataSet(qServ);
     G.RefreshDataSet(qMObra);

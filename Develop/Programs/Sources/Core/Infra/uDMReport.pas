@@ -1025,7 +1025,7 @@ begin
   R00018e.ParamByName('origem').AsInteger := R00018origem.AsInteger;
   R00018e.ParamByName('doc').AsInteger := R00018doc.AsInteger;
   R00018f.ParamByName('cotacao').AsInteger := R00018recno.AsInteger;
-  R00018g.ParamByName('cliente').AsInteger := R00018cliente.AsInteger;
+  R00018g.ParamByName('cotacao').AsInteger := R00018recno.AsInteger;
   G.RefreshDataSet(R00018a);
   G.RefreshDataSet(R00018b);
   G.RefreshDataSet(R00018d);

@@ -34,7 +34,6 @@ type
     Label8: TLabel;
     JvDBComboBox2: TJvDBComboBox;
     DBCheckBox1: TDBCheckBox;
-    DBCheckBox2: TDBCheckBox;
     DBCheckBox3: TDBCheckBox;
     Panel9: TPanel;
     ControlBar3: TControlBar;
@@ -52,7 +51,7 @@ type
     Label7: TLabel;
     DBMemo1: TDBMemo;
     DBCheckBox10: TDBCheckBox;
-    DBCheckBox6: TDBCheckBox;
+    DBCheckBox2: TDBCheckBox;
     procedure FrameCliente1SpeedButton1Click(Sender: TObject);
     procedure actCheckExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -82,11 +81,10 @@ begin
   with Contatos do
   begin
     qContClipadrao.AsBoolean := bMark;
-    qContClicontato_cotacao.AsBoolean := bMark;
-    qContClicontato_pedido.AsBoolean := bMark;
+    qContClicontato_comercial.AsBoolean := bMark;
     qContClicontato_tecnico.AsBoolean := bMark;
-    qContClicontato_os.AsBoolean := bMark;
     qContClicontato_financeiro.AsBoolean := bMark;
+    qContCliportal_acessivel.AsBoolean := bMark;
   end;
 end;
 

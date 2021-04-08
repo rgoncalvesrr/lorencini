@@ -478,15 +478,15 @@ inherited Contatos: TContatos
     InsertSQL.Strings = (
       'INSERT INTO tbclientes_contatos'
       
-        '  (cliente, contato, funcao, recno, situacao, contato_pedido, co' +
-        'ntato_cotacao, contato_os, contato_tecnico,'
+        '  (cliente, contato, funcao, recno, situacao, contato_comercial,' +
+        ' contato_tecnico,'
       
         '   padrao, portal_acessivel, portal_senha, obs, contato_financei' +
         'ro)'
       'VALUES'
       
-        '  (:cliente, :contato, :funcao, :recno, :situacao, :contato_pedi' +
-        'do, :contato_cotacao, :contato_os, :contato_tecnico,'
+        '  (:cliente, :contato, :funcao, :recno, :situacao, :contato_come' +
+        'rcial, :contato_tecnico,'
       
         '   :padrao, :portal_acessivel, :portal_senha, :obs, :contato_fin' +
         'anceiro)')
@@ -495,9 +495,7 @@ inherited Contatos: TContatos
       '  funcao = :funcao,'
       '  recno = :recno,'
       '  situacao = :situacao,'
-      '  contato_pedido = :contato_pedido,'
-      '  contato_cotacao = :contato_cotacao,'
-      '  contato_os = :contato_os,'
+      '  contato_comercial = :contato_comercial,'
       '  contato_tecnico = :contato_tecnico,'
       '  contato_financeiro = :contato_financeiro,'
       '  padrao = :padrao,'
@@ -528,17 +526,7 @@ inherited Contatos: TContatos
       end
       item
         DataType = ftUnknown
-        Name = 'contato_pedido'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'contato_cotacao'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'contato_os'
+        Name = 'contato_comercial'
         ParamType = ptUnknown
       end
       item
@@ -600,13 +588,13 @@ inherited Contatos: TContatos
     SQL.Strings = (
       
         'select cc.cliente, c.empresa, c.nome_chave, c.cidade, c.estado, ' +
-        'c.email, c.telefone, cc.contato_pedido,'
+        'c.email, c.telefone, cc.contato_comercial,'
       
-        '       cc.contato_cotacao, cc.contato_tecnico, cc.situacao, cc.p' +
-        'adrao, cc.funcao, cc.recno, c.cnpj, c.cpf, cc.contato,'
+        '       cc.contato_tecnico, cc.situacao, cc.padrao, cc.funcao, cc' +
+        '.recno, c.cnpj, c.cpf, cc.contato,'
       
         '       cc.portal_acessivel, cc.portal_senha, cc.obs, cc.contato_' +
-        'os, cc.contato_financeiro'
+        'financeiro'
       '  from tbclientes_contatos cc'
       '       join tbclientes c'
       '         on c.codigo = cc.cliente'
@@ -700,22 +688,14 @@ inherited Contatos: TContatos
       EditMask = '(99) 9999-9999;0;'
       Size = 100
     end
-    object qContClicontato_pedido: TBooleanField
-      DisplayLabel = 'Pedido'
-      FieldName = 'contato_pedido'
-    end
-    object qContClicontato_cotacao: TBooleanField
-      DisplayLabel = 'Cota'#231#227'o'
-      FieldName = 'contato_cotacao'
+    object qContClicontato_comercial: TBooleanField
+      DisplayLabel = 'Comercial'
+      FieldName = 'contato_comercial'
+      Required = True
     end
     object qContClicontato_tecnico: TBooleanField
       DisplayLabel = 'T'#233'cnico'
       FieldName = 'contato_tecnico'
-    end
-    object qContClicontato_os: TBooleanField
-      DisplayLabel = 'Ordem de Servi'#231'o'
-      FieldName = 'contato_os'
-      Required = True
     end
     object qContClicontato_financeiro: TBooleanField
       DisplayLabel = 'Financeiro'

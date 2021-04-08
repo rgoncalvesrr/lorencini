@@ -606,20 +606,6 @@ inherited ContatosMClientes: TContatosMClientes
                 ValueChecked = 'True'
                 ValueUnchecked = 'False'
               end
-              object DBCheckBox2: TDBCheckBox
-                AlignWithMargins = True
-                Left = 3
-                Top = 49
-                Width = 256
-                Height = 17
-                Align = alTop
-                Caption = 'Contato para Pedido'
-                DataField = 'contato_pedido'
-                DataSource = Contatos.dsContCli
-                TabOrder = 1
-                ValueChecked = 'True'
-                ValueUnchecked = 'False'
-              end
               object DBCheckBox9: TDBCheckBox
                 AlignWithMargins = True
                 Left = 3
@@ -627,12 +613,29 @@ inherited ContatosMClientes: TContatosMClientes
                 Width = 256
                 Height = 17
                 Align = alTop
-                Caption = 'Contato para Cota'#231#227'o'
-                DataField = 'contato_cotacao'
+                Caption = 'Contato Comercial'
+                DataField = 'contato_comercial'
+                DataSource = Contatos.dsContCli
+                TabOrder = 1
+                ValueChecked = 'True'
+                ValueUnchecked = 'False'
+                ExplicitLeft = 6
+              end
+              object DBCheckBox3: TDBCheckBox
+                AlignWithMargins = True
+                Left = 3
+                Top = 49
+                Width = 256
+                Height = 17
+                Align = alTop
+                Caption = 'ContatoT'#233'cnico'
+                DataField = 'contato_tecnico'
                 DataSource = Contatos.dsContCli
                 TabOrder = 2
                 ValueChecked = 'True'
                 ValueUnchecked = 'False'
+                ExplicitLeft = 6
+                ExplicitTop = 72
               end
             end
             object Panel13: TPanel
@@ -644,52 +647,36 @@ inherited ContatosMClientes: TContatosMClientes
               Align = alClient
               BevelOuter = bvNone
               TabOrder = 2
-              object DBCheckBox3: TDBCheckBox
+              object DBCheckBox10: TDBCheckBox
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
                 Width = 393
                 Height = 17
                 Align = alTop
-                Caption = 'ContatoT'#233'cnico'
-                DataField = 'contato_tecnico'
+                Caption = 'Contato Financeiro'
+                DataField = 'contato_financeiro'
                 DataSource = Contatos.dsContCli
                 TabOrder = 0
                 ValueChecked = 'True'
                 ValueUnchecked = 'False'
                 ExplicitLeft = 0
+                ExplicitTop = 0
               end
-              object DBCheckBox10: TDBCheckBox
-                AlignWithMargins = True
-                Left = 3
-                Top = 49
-                Width = 393
-                Height = 17
-                Align = alTop
-                Caption = 'Contato Financeiro'
-                DataField = 'contato_financeiro'
-                DataSource = Contatos.dsContCli
-                TabOrder = 1
-                ValueChecked = 'True'
-                ValueUnchecked = 'False'
-                ExplicitTop = 95
-                ExplicitWidth = 256
-              end
-              object DBCheckBox6: TDBCheckBox
+              object DBCheckBox2: TDBCheckBox
                 AlignWithMargins = True
                 Left = 3
                 Top = 26
                 Width = 393
                 Height = 17
                 Align = alTop
-                Caption = 'Contato para Ordem de Servi'#231'o'
-                DataField = 'contato_os'
+                Caption = 'Acesso ao Portal'
+                DataField = 'portal_acessivel'
                 DataSource = Contatos.dsContCli
-                TabOrder = 2
+                TabOrder = 1
                 ValueChecked = 'True'
                 ValueUnchecked = 'False'
                 ExplicitLeft = 0
-                ExplicitTop = 25
               end
             end
           end

@@ -103,7 +103,7 @@ inherited Cota: TCota
             ExplicitWidth = 156
           end
           inherited CCalendarDiff1: TCCalendarDiff
-            Date = 44278.992246805550000000
+            Date = 44293.927317858800000000
             DisplayInterval = Label4
             OnChange = FrameData1CCalendarDiff1Change
           end
@@ -432,7 +432,7 @@ inherited Cota: TCota
   end
   inherited DataSource1: TDataSource
     OnStateChange = DataSource1StateChange
-    Left = 264
+    Left = 272
     Top = 192
   end
   inherited IBrwSrc: TZQuery
@@ -475,7 +475,7 @@ inherited Cota: TCota
     IndexFieldNames = 'recno Desc'
     Sequence = zsCota
     SequenceField = 'recno'
-    Left = 208
+    Left = 216
     Top = 192
     object IBrwSrcstatus: TIntegerField
       DisplayLabel = ' '
@@ -888,7 +888,7 @@ inherited Cota: TCota
     IndexFieldNames = 'recno Asc'
     Sequence = zsCotaMat
     SequenceField = 'recno'
-    Left = 208
+    Left = 216
     Top = 240
     ParamData = <
       item
@@ -959,7 +959,7 @@ inherited Cota: TCota
     AutoEdit = False
     DataSet = qMat
     OnStateChange = DataSource1StateChange
-    Left = 264
+    Left = 272
     Top = 240
   end
   object zMat: TZUpdateSQL
@@ -1052,7 +1052,7 @@ inherited Cota: TCota
     AutoEdit = False
     DataSet = qServ
     OnStateChange = DataSource1StateChange
-    Left = 264
+    Left = 272
     Top = 288
   end
   object qServ: TZQuery
@@ -1081,7 +1081,7 @@ inherited Cota: TCota
     IndexFieldNames = 'recno Asc'
     Sequence = zsServ
     SequenceField = 'recno'
-    Left = 208
+    Left = 216
     Top = 288
     ParamData = <
       item
@@ -1319,7 +1319,7 @@ inherited Cota: TCota
     IndexFieldNames = 'recno Asc'
     Sequence = zsServDet
     SequenceField = 'recno'
-    Left = 208
+    Left = 216
     Top = 336
     ParamData = <
       item
@@ -1360,7 +1360,7 @@ inherited Cota: TCota
     AutoEdit = False
     DataSet = qServDet
     OnStateChange = DataSource1StateChange
-    Left = 264
+    Left = 272
     Top = 336
   end
   object zMObra: TZUpdateSQL
@@ -1547,7 +1547,7 @@ inherited Cota: TCota
     IndexFieldNames = 'recno Asc'
     Sequence = zsMObra
     SequenceField = 'recno'
-    Left = 208
+    Left = 216
     Top = 384
     ParamData = <
       item
@@ -1674,7 +1674,7 @@ inherited Cota: TCota
     AutoEdit = False
     DataSet = qMObra
     OnStateChange = DataSource1StateChange
-    Left = 264
+    Left = 272
     Top = 384
   end
   object zsCota: TZSequence
@@ -1730,7 +1730,7 @@ inherited Cota: TCota
       end>
     FetchRow = 50
     IndexFieldNames = 'data Asc'
-    Left = 208
+    Left = 216
     Top = 432
     ParamData = <
       item
@@ -1786,7 +1786,7 @@ inherited Cota: TCota
   object dsDesp: TDataSource
     AutoEdit = False
     DataSet = qDesp
-    Left = 264
+    Left = 272
     Top = 432
   end
   object zDesp: TZUpdateSQL
@@ -1835,41 +1835,46 @@ inherited Cota: TCota
   object qContatos: TZQuery
     Connection = DM.Design
     SortedFields = 'nome'
+    UpdateObject = zContatos
     SQL.Strings = (
       
-        'select cliente, nome, celular, telefone, ramal, email, padrao, r' +
-        'ecno'
-      '  from clientes_contatos'
-      ' where cliente = :cliente'
-      '   and contato_cotacao'
-      '   and ativo')
+        'select co.cotacao, co.contato, c.nome, c.celular, c.telefone, c.' +
+        'ramal, c.email, c.padrao, co.recno'
+      '  from cota_contatos co'
+      '      join clientes_contatos  c'
+      '        on c.contato = co.contato '
+      ' where co.cotacao = :cotacao')
     Params = <
       item
         DataType = ftUnknown
-        Name = 'cliente'
+        Name = 'cotacao'
         ParamType = ptUnknown
       end>
     FetchRow = 50
     IndexFieldNames = 'nome Asc'
-    Left = 208
+    Sequence = sContatos
+    SequenceField = 'recno'
+    Left = 216
     Top = 480
     ParamData = <
       item
         DataType = ftUnknown
-        Name = 'cliente'
+        Name = 'cotacao'
         ParamType = ptUnknown
       end>
-    object qContatoscliente: TIntegerField
-      FieldName = 'cliente'
+    object qContatoscotacao: TIntegerField
+      FieldName = 'cotacao'
+      Required = True
       Visible = False
     end
     object qContatospadrao: TBooleanField
       DisplayLabel = 'Padr'#227'o'
       FieldName = 'padrao'
     end
-    object qContatosrecno: TIntegerField
+    object qContatoscontato: TIntegerField
       DisplayLabel = 'Contato'
-      FieldName = 'recno'
+      FieldName = 'contato'
+      Required = True
     end
     object qContatosnome: TStringField
       DisplayLabel = 'Nome'
@@ -1901,12 +1906,71 @@ inherited Cota: TCota
       FieldName = 'email'
       Size = 150
     end
+    object qContatosrecno: TIntegerField
+      DisplayLabel = 'Registro'
+      FieldName = 'recno'
+    end
   end
   object dsContatos: TDataSource
     AutoEdit = False
     DataSet = qContatos
     OnStateChange = DataSource1StateChange
-    Left = 264
+    Left = 272
+    Top = 480
+  end
+  object zContatos: TZUpdateSQL
+    DeleteSQL.Strings = (
+      'DELETE FROM cota_contatos'
+      'WHERE'
+      '  cota_contatos.cotacao = :OLD_cotacao AND'
+      '  cota_contatos.contato = :OLD_contato')
+    InsertSQL.Strings = (
+      'INSERT INTO cota_contatos'
+      '  (cotacao, contato, recno)'
+      'VALUES'
+      '  (:cotacao, :contato, :recno)')
+    ModifySQL.Strings = (
+      'UPDATE cota_contatos SET'
+      '  cotacao = :cotacao,'
+      '  contato = :contato,'
+      '  recno = :recno'
+      'WHERE'
+      '  cota_contatos.cotacao = :OLD_cotacao AND'
+      '  cota_contatos.contato = :OLD_contato')
+    UseSequenceFieldForRefreshSQL = False
+    Left = 160
+    Top = 480
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'cotacao'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'contato'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'recno'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'OLD_cotacao'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'OLD_contato'
+        ParamType = ptUnknown
+      end>
+  end
+  object sContatos: TZSequence
+    Connection = DM.Design
+    SequenceName = 'public.cota_contatos_recno_seq'
+    Left = 104
     Top = 480
   end
 end

@@ -1199,9 +1199,8 @@ inherited Clientes: TClientes
         'select a.cliente, a.contato, c.nome, a.funcao, c.telefone, c.cel' +
         'ular, c.email, a.situacao, a.recno, a.padrao,'
       
-        '       a.contato_pedido, a.contato_cotacao, a.contato_tecnico, a' +
-        '.contato_os, a.contato_financeiro, a.portal_acessivel,'
-      '       a.portal_senha, a.obs, c.ramal'
+        '       a.contato_comercial, a.contato_tecnico, a.contato_finance' +
+        'iro, a.portal_acessivel, a.portal_senha, a.obs, c.ramal'
       '  from tbclientes_contatos a'
       '       join contatos c'
       '         on c.recno = a.contato'
@@ -1284,22 +1283,14 @@ inherited Clientes: TClientes
       OnChange = qContatossituacaoChange
       Size = 100
     end
-    object qContatoscontato_pedido: TBooleanField
-      DisplayLabel = 'Pedido'
-      FieldName = 'contato_pedido'
-    end
-    object qContatoscontato_cotacao: TBooleanField
-      DisplayLabel = 'Cota'#231#227'o'
-      FieldName = 'contato_cotacao'
+    object qContatoscontato_comercial: TBooleanField
+      DisplayLabel = 'Comercial'
+      FieldName = 'contato_comercial'
+      Required = True
     end
     object qContatoscontato_tecnico: TBooleanField
       DisplayLabel = 'T'#233'cnico'
       FieldName = 'contato_tecnico'
-    end
-    object qContatoscontato_os: TBooleanField
-      DisplayLabel = 'Ordem de Servi'#231'o'
-      FieldName = 'contato_os'
-      Required = True
     end
     object qContatoscontato_financeiro: TBooleanField
       DisplayLabel = 'Financeiro'
@@ -1336,15 +1327,13 @@ inherited Clientes: TClientes
     InsertSQL.Strings = (
       'INSERT INTO tbclientes_contatos'
       
-        '  (cliente, funcao, recno, situacao, contato_pedido_venda, conta' +
-        'to_cotacao_venda, contato_tecnico,'
-      '   contato_os, contato_financeiro, padrao, contato,'
+        '  (cliente, funcao, recno, situacao, contato_comercial, contato_' +
+        'tecnico, contato_financeiro, padrao, contato,'
       '   portal_acessivel, portal_senha, obs)'
       'VALUES'
       
-        '  (:cliente, :funcao, :recno, :situacao, :contato_pedido_venda, ' +
-        ':contato_cotacao_venda, :contato_tecnico,'
-      '   :contato_os, :contato_financeiro, :padrao, :contato,'
+        '  (:cliente, :funcao, :recno, :situacao, :contato_comercial, :co' +
+        'ntato_tecnico, :contato_financeiro, :padrao, :contato,'
       '   :portal_acessivel, :portal_senha, :obs)')
     ModifySQL.Strings = (
       'UPDATE tbclientes_contatos SET'
@@ -1352,10 +1341,8 @@ inherited Clientes: TClientes
       '  funcao = :funcao,'
       '  recno = :recno,'
       '  situacao = :situacao,'
-      '  contato_pedido = :contato_pedido,'
-      '  contato_cotacao = :contato_cotacao,'
+      '  contato_comercial = :contato_comercial,'
       '  contato_tecnico = :contato_tecnico,'
-      '  contato_os = :contato_os,'
       '  contato_financeiro = :contato_financeiro,'
       '  padrao = :padrao,'
       '  contato = :contato,'
@@ -1391,22 +1378,12 @@ inherited Clientes: TClientes
       end
       item
         DataType = ftUnknown
-        Name = 'contato_pedido'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'contato_cotacao'
+        Name = 'contato_comercial'
         ParamType = ptUnknown
       end
       item
         DataType = ftUnknown
         Name = 'contato_tecnico'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'contato_os'
         ParamType = ptUnknown
       end
       item
@@ -1447,16 +1424,6 @@ inherited Clientes: TClientes
       item
         DataType = ftUnknown
         Name = 'OLD_contato'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'contato_pedido_venda'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'contato_cotacao_venda'
         ParamType = ptUnknown
       end>
   end
