@@ -42,7 +42,7 @@ object DMReport: TDMReport
     PrintOptions.Printer = 'Padr'#227'o'
     PrintOptions.PrintOnSheet = 0
     ReportOptions.CreateDate = 42781.714010347200000000
-    ReportOptions.LastChange = 44294.049302291660000000
+    ReportOptions.LastChange = 43860.741651446800000000
     ScriptLanguage = 'PascalScript'
     StoreInDFM = False
     OnReportPrint = 'ReportBaseOnReportPrint'
@@ -6001,7 +6001,8 @@ object DMReport: TDMReport
       'select c.nome, c.celular, c.telefone, c.email'
       '  from cota_contatos co'
       '      join clientes_contatos  c'
-      '        on c.contato = co.contato'
+      '        on c.cliente = co.cliente'
+      '       and c.contato = co.contato'
       ' where co.cotacao = :cotacao')
     Params = <
       item
@@ -6053,15 +6054,16 @@ object DMReport: TDMReport
   object R00019b: TZQuery
     Connection = DM.Design
     SQL.Strings = (
-      'select nome, celular, telefone, email '
-      '  from clientes_contatos '
-      ' where cliente = :cliente'
-      '   and contato_financeiro'
-      '   and ativo')
+      'select c.nome, c.celular, c.telefone, c.email'
+      '  from orca_contatos co'
+      '      join clientes_contatos  c'
+      '        on c.cliente = co.cliente'
+      '       and c.contato = co.contato'
+      ' where co.os = :os')
     Params = <
       item
         DataType = ftUnknown
-        Name = 'cliente'
+        Name = 'os'
         ParamType = ptUnknown
       end>
     Left = 424
@@ -6069,7 +6071,7 @@ object DMReport: TDMReport
     ParamData = <
       item
         DataType = ftUnknown
-        Name = 'cliente'
+        Name = 'os'
         ParamType = ptUnknown
       end>
     object StringField16: TStringField

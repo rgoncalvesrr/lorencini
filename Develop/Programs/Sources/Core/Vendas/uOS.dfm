@@ -126,7 +126,7 @@ inherited OS: TOS
             Height = 15
             Align = alTop
             AutoSize = False
-            Caption = '01/03/2021 a 31/03/2021'
+            Caption = '01/04/2021 a 30/04/2021'
             Transparent = True
             ExplicitLeft = 29
             ExplicitTop = 26
@@ -157,7 +157,7 @@ inherited OS: TOS
             end
             inherited CCalendarDiff1: TCCalendarDiff
               Interval = diMonthly
-              Date = 44280.096642418980000000
+              Date = 44294.751736469910000000
               DisplayInterval = Label4
               OnChange = actQueryProcessExecute
             end
@@ -175,10 +175,11 @@ inherited OS: TOS
             AlignWithMargins = True
             Left = 3
             Top = 3
-            Width = 79
+            Width = 206
             Height = 15
             Align = alTop
             Caption = 'Nome Fantasia'
+            ExplicitWidth = 79
           end
           object edEmpresa: TEdit
             AlignWithMargins = True
@@ -203,10 +204,11 @@ inherited OS: TOS
             AlignWithMargins = True
             Left = 3
             Top = 3
-            Width = 97
+            Width = 263
             Height = 15
             Align = alTop
             Caption = 'Nome Empresarial'
+            ExplicitWidth = 97
           end
           object edRazao: TEdit
             AlignWithMargins = True
@@ -265,10 +267,11 @@ inherited OS: TOS
             AlignWithMargins = True
             Left = 3
             Top = 3
-            Width = 11
+            Width = 94
             Height = 15
             Align = alTop
             Caption = 'ID'
+            ExplicitWidth = 11
           end
           object edID: TEdit
             AlignWithMargins = True
@@ -392,50 +395,26 @@ inherited OS: TOS
       object TabSheet8: TTabSheet
         Caption = 'Aprovados'
         ImageIndex = 205
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object TabSheet5: TTabSheet
         Caption = 'Executando'
         ImageIndex = 210
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object TabSheet9: TTabSheet
         Caption = 'Finalizados'
         ImageIndex = 213
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object TabSheet10: TTabSheet
         Caption = 'Faturados'
         ImageIndex = 208
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object TabSheet3: TTabSheet
         Caption = 'Antecipados'
         ImageIndex = 211
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object TabSheet13: TTabSheet
         Caption = 'Cancelados'
         ImageIndex = 209
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
     end
   end
@@ -2205,30 +2184,40 @@ inherited OS: TOS
   object qContatos: TZQuery
     Connection = DM.Design
     SortedFields = 'nome'
+    UpdateObject = uContatos
     SQL.Strings = (
       
-        'select cliente, nome, celular, telefone, ramal, email, padrao, r' +
-        'ecno'
-      '  from clientes_contatos'
-      ' where cliente = :cliente'
-      '   and contato_os'
-      '   and ativo')
+        'select co.os, co.contato, co.cliente, c.nome, c.celular, c.telef' +
+        'one, c.ramal, c.email, c.padrao, co.recno'
+      '  from orca_contatos co'
+      '      join clientes_contatos  c'
+      '        on c.cliente = co.cliente'
+      '       and c.contato = co.contato'
+      ' where co.os = :os'
+      '')
     Params = <
       item
         DataType = ftUnknown
-        Name = 'cliente'
+        Name = 'os'
         ParamType = ptUnknown
       end>
     FetchRow = 50
     IndexFieldNames = 'nome Asc'
+    Sequence = sContatos
+    SequenceField = 'recno'
     Left = 40
     Top = 416
     ParamData = <
       item
         DataType = ftUnknown
-        Name = 'cliente'
+        Name = 'os'
         ParamType = ptUnknown
       end>
+    object qContatosos: TIntegerField
+      FieldName = 'os'
+      Required = True
+      Visible = False
+    end
     object qContatoscliente: TIntegerField
       FieldName = 'cliente'
       Visible = False
@@ -2237,9 +2226,10 @@ inherited OS: TOS
       DisplayLabel = 'Padr'#227'o'
       FieldName = 'padrao'
     end
-    object qContatosrecno: TIntegerField
+    object qContatoscontato: TIntegerField
       DisplayLabel = 'Contato'
-      FieldName = 'recno'
+      FieldName = 'contato'
+      Required = True
     end
     object qContatosnome: TStringField
       DisplayLabel = 'Nome'
@@ -2271,11 +2261,83 @@ inherited OS: TOS
       FieldName = 'email'
       Size = 150
     end
+    object qContatosrecno: TIntegerField
+      DisplayLabel = 'Registro'
+      FieldName = 'recno'
+    end
   end
   object dsContatos: TDataSource
     AutoEdit = False
     DataSet = qContatos
     Left = 256
+    Top = 416
+  end
+  object uContatos: TZUpdateSQL
+    DeleteSQL.Strings = (
+      'DELETE FROM orca_contatos'
+      'WHERE'
+      '  orca_contatos.os = :OLD_os AND'
+      '  orca_contatos.cliente = :OLD_cliente AND'
+      '  orca_contatos.contato = :OLD_contato')
+    InsertSQL.Strings = (
+      'INSERT INTO orca_contatos'
+      '  (os, cliente, contato, recno)'
+      'VALUES'
+      '  (:os, :cliente, :contato, :recno)')
+    ModifySQL.Strings = (
+      'UPDATE orca_contatos SET'
+      '  os = :os,'
+      '  cliente = :cliente,'
+      '  contato = :contato,'
+      '  recno = :recno'
+      'WHERE'
+      '  orca_contatos.os = :OLD_os AND'
+      '  orca_contatos.cliente = :OLD_cliente AND'
+      '  orca_contatos.contato = :OLD_contato')
+    UseSequenceFieldForRefreshSQL = False
+    Left = 112
+    Top = 416
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'os'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'cliente'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'contato'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'recno'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'OLD_os'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'OLD_cliente'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'OLD_contato'
+        ParamType = ptUnknown
+      end>
+  end
+  object sContatos: TZSequence
+    Connection = DM.Design
+    SequenceName = 'public.orca_contatos_recno_seq'
+    Left = 184
     Top = 416
   end
 end

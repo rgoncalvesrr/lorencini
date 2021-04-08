@@ -103,7 +103,7 @@ inherited Cota: TCota
             ExplicitWidth = 156
           end
           inherited CCalendarDiff1: TCCalendarDiff
-            Date = 44293.927317858800000000
+            Date = 44294.662436527770000000
             DisplayInterval = Label4
             OnChange = FrameData1CCalendarDiff1Change
           end
@@ -1838,11 +1838,14 @@ inherited Cota: TCota
     UpdateObject = zContatos
     SQL.Strings = (
       
-        'select co.cotacao, co.contato, c.nome, c.celular, c.telefone, c.' +
-        'ramal, c.email, c.padrao, co.recno'
+        'select co.cotacao, co.cliente, co.contato, c.nome, c.celular, c.' +
+        'telefone, c.ramal, c.email, c.padrao, co.recno'
       '  from cota_contatos co'
-      '      join clientes_contatos  c'
-      '        on c.contato = co.contato '
+      '       join cota ct'
+      '         on ct.recno = co.cotacao'
+      '       join clientes_contatos  c'
+      '         on c.cliente = ct.cliente'
+      '        and c.contato = co.contato'
       ' where co.cotacao = :cotacao')
     Params = <
       item
@@ -1865,6 +1868,10 @@ inherited Cota: TCota
     object qContatoscotacao: TIntegerField
       FieldName = 'cotacao'
       Required = True
+      Visible = False
+    end
+    object qContatoscliente: TIntegerField
+      FieldName = 'cliente'
       Visible = False
     end
     object qContatospadrao: TBooleanField
@@ -1914,7 +1921,6 @@ inherited Cota: TCota
   object dsContatos: TDataSource
     AutoEdit = False
     DataSet = qContatos
-    OnStateChange = DataSource1StateChange
     Left = 272
     Top = 480
   end
@@ -1923,6 +1929,7 @@ inherited Cota: TCota
       'DELETE FROM cota_contatos'
       'WHERE'
       '  cota_contatos.cotacao = :OLD_cotacao AND'
+      '  cota_contatos.cliente = :OLD_cliente AND'
       '  cota_contatos.contato = :OLD_contato')
     InsertSQL.Strings = (
       'INSERT INTO cota_contatos'
@@ -1936,6 +1943,7 @@ inherited Cota: TCota
       '  recno = :recno'
       'WHERE'
       '  cota_contatos.cotacao = :OLD_cotacao AND'
+      '  cota_contatos.cliente = :OLD_cliente AND'
       '  cota_contatos.contato = :OLD_contato')
     UseSequenceFieldForRefreshSQL = False
     Left = 160
@@ -1959,6 +1967,11 @@ inherited Cota: TCota
       item
         DataType = ftUnknown
         Name = 'OLD_cotacao'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'OLD_cliente'
         ParamType = ptUnknown
       end
       item

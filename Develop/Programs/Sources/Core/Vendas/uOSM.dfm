@@ -19,7 +19,7 @@ inherited OSM: TOSM
       Top = 344
       Width = 1295
       Height = 362
-      ExplicitTop = 344
+      ExplicitTop = 347
       ExplicitWidth = 1295
       ExplicitHeight = 362
       inherited PageControl3: TPageControl
@@ -35,7 +35,7 @@ inherited OSM: TOSM
           ExplicitLeft = 4
           ExplicitTop = 26
           ExplicitWidth = 1281
-          ExplicitHeight = 188
+          ExplicitHeight = 282
           inherited DBGrid1: TDBGrid
             Width = 1281
             Height = 282
@@ -45,10 +45,6 @@ inherited OSM: TOSM
         object TabSheet2: TTabSheet
           Caption = 'Materiais'
           ImageIndex = 1
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 188
           object DBGrid2: TDBGrid
             Tag = 1
             Left = 0
@@ -79,10 +75,6 @@ inherited OSM: TOSM
         object TabSheet4: TTabSheet
           Caption = 'M'#227'o-de-Obra'
           ImageIndex = 3
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 188
           object DBGrid3: TDBGrid
             Tag = 1
             Left = 0
@@ -113,10 +105,6 @@ inherited OSM: TOSM
         object TabSheet10: TTabSheet
           Caption = 'Despesas'
           ImageIndex = 4
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 188
           object DBGrid7: TDBGrid
             Tag = 1
             Left = 0
@@ -151,16 +139,16 @@ inherited OSM: TOSM
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 1
-            ExplicitHeight = 188
             object Label50: TLabel
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 48
+              Width = 402
               Height = 15
               Align = alTop
               Caption = 'Hist'#243'rico'
               FocusControl = DBMemo4
+              ExplicitWidth = 48
             end
             object DBMemo4: TDBMemo
               AlignWithMargins = True
@@ -171,17 +159,12 @@ inherited OSM: TOSM
               Align = alClient
               DataField = 'historico'
               TabOrder = 0
-              ExplicitHeight = 161
             end
           end
         end
         object TabSheet3: TTabSheet
           Caption = 'Contatos'
           ImageIndex = 4
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object DBGrid4: TDBGrid
             Tag = 1
             Left = 0
@@ -251,9 +234,9 @@ inherited OSM: TOSM
       Height = 338
       OnChange = PageControl1Change
       ExplicitLeft = 3
-      ExplicitTop = 5
+      ExplicitTop = 3
       ExplicitWidth = 1289
-      ExplicitHeight = 432
+      ExplicitHeight = 338
       inherited TabSheet1: TTabSheet
         Caption = 'Ordem de Servi'#231'o'
         ExplicitLeft = 4
@@ -281,8 +264,6 @@ inherited OSM: TOSM
           DataField = 'descricao'
           DataSource = OS.DataSource1
           TabOrder = 0
-          ExplicitTop = 252
-          ExplicitHeight = 147
         end
         object Panel4: TPanel
           Left = 0
@@ -312,11 +293,12 @@ inherited OSM: TOSM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 15
+                Width = 64
                 Height = 15
                 Align = alTop
                 Caption = 'OS'
                 FocusControl = DBEdit1
+                ExplicitWidth = 15
               end
               object DBEdit1: TDBEdit
                 AlignWithMargins = True
@@ -343,11 +325,12 @@ inherited OSM: TOSM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 37
+                Width = 48
                 Height = 15
                 Align = alTop
                 Caption = 'Pedido'
                 FocusControl = DBEdit4
+                ExplicitWidth = 37
               end
               object DBEdit4: TDBEdit
                 AlignWithMargins = True
@@ -407,10 +390,11 @@ inherited OSM: TOSM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 50
+                Width = 138
                 Height = 15
                 Align = alTop
                 Caption = 'Vendedor'
+                ExplicitWidth = 50
               end
               object JvDBComboBox7: TJvDBComboBox
                 AlignWithMargins = True
@@ -441,11 +425,12 @@ inherited OSM: TOSM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 48
+                Width = 89
                 Height = 15
                 Align = alTop
                 Caption = 'Materiais'
                 FocusControl = DBEdit5
+                ExplicitWidth = 48
               end
               object DBEdit5: TDBEdit
                 AlignWithMargins = True
@@ -473,11 +458,12 @@ inherited OSM: TOSM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 43
+                Width = 89
                 Height = 15
                 Align = alTop
                 Caption = 'Servi'#231'os'
                 FocusControl = DBEdit6
+                ExplicitWidth = 43
               end
               object DBEdit6: TDBEdit
                 AlignWithMargins = True
@@ -506,11 +492,12 @@ inherited OSM: TOSM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 23
+                Width = 34
                 Height = 15
                 Align = alTop
                 Caption = 'Tipo'
                 FocusControl = DBEdit7
+                ExplicitWidth = 23
               end
               object DBEdit7: TDBEdit
                 AlignWithMargins = True
@@ -597,11 +584,12 @@ inherited OSM: TOSM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 51
+                Width = 317
                 Height = 15
                 Align = alTop
                 Caption = 'Descri'#231#227'o'
                 FocusControl = DBEdit8
+                ExplicitWidth = 51
               end
               object DBEdit8: TDBEdit
                 AlignWithMargins = True
@@ -629,11 +617,12 @@ inherited OSM: TOSM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 43
+                Width = 89
                 Height = 15
                 Align = alTop
                 Caption = 'M. Obra'
                 FocusControl = DBEdit9
+                ExplicitWidth = 43
               end
               object DBEdit9: TDBEdit
                 AlignWithMargins = True
@@ -661,11 +650,12 @@ inherited OSM: TOSM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 48
+                Width = 89
                 Height = 15
                 Align = alTop
                 Caption = 'Despesas'
                 FocusControl = DBEdit10
+                ExplicitWidth = 48
               end
               object DBEdit10: TDBEdit
                 AlignWithMargins = True
@@ -693,11 +683,12 @@ inherited OSM: TOSM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 25
+                Width = 89
                 Height = 15
                 Align = alTop
                 Caption = 'Total'
                 FocusControl = DBEdit18
+                ExplicitWidth = 25
               end
               object DBEdit18: TDBEdit
                 AlignWithMargins = True
@@ -725,11 +716,12 @@ inherited OSM: TOSM
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 44
+                Width = 48
                 Height = 15
                 Align = alTop
                 Caption = 'Cota'#231#227'o'
                 FocusControl = DBEdit35
+                ExplicitWidth = 44
               end
               object DBEdit35: TDBEdit
                 AlignWithMargins = True
@@ -768,7 +760,7 @@ inherited OSM: TOSM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 39
+              Width = 67
               Height = 15
               Align = alTop
               Caption = 'Cliente'
@@ -780,6 +772,7 @@ inherited OSM: TOSM
               Font.Pitch = fpVariable
               Font.Style = [fsBold]
               ParentFont = False
+              ExplicitWidth = 39
             end
             object DBEdit27: TDBEdit
               AlignWithMargins = True
@@ -807,11 +800,12 @@ inherited OSM: TOSM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 69
+              Width = 793
               Height = 15
               Align = alTop
               Caption = 'Nome Chave'
               FocusControl = DBEdit33
+              ExplicitWidth = 69
             end
             object DBEdit33: TDBEdit
               AlignWithMargins = True
@@ -839,10 +833,11 @@ inherited OSM: TOSM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 40
+              Width = 114
               Height = 15
               Align = alTop
               Caption = 'C.N.P.J.'
+              ExplicitWidth = 40
             end
             object DBEdit17: TDBEdit
               AlignWithMargins = True
@@ -869,10 +864,11 @@ inherited OSM: TOSM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 46
+              Width = 67
               Height = 15
               Align = alTop
               Caption = 'Controle'
+              ExplicitWidth = 46
             end
             object DBEdit34: TDBEdit
               AlignWithMargins = True
@@ -959,10 +955,11 @@ inherited OSM: TOSM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 37
+              Width = 181
               Height = 15
               Align = alTop
               Caption = 'Pedido'
+              ExplicitWidth = 37
             end
             object DBEdit53: TDBEdit
               AlignWithMargins = True
@@ -987,7 +984,6 @@ inherited OSM: TOSM
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 3
-          ExplicitTop = 178
           object Panel33: TPanel
             Left = 0
             Top = 0
@@ -1000,11 +996,12 @@ inherited OSM: TOSM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 50
+              Width = 1026
               Height = 15
               Align = alTop
               Caption = 'Atividade'
               FocusControl = DBEdit37
+              ExplicitWidth = 50
             end
             object DBEdit37: TDBEdit
               AlignWithMargins = True
@@ -1032,11 +1029,12 @@ inherited OSM: TOSM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 115
+              Width = 243
               Height = 15
               Align = alTop
               Caption = 'Condi'#231#227'o Pagamento'
               FocusControl = DBEdit16
+              ExplicitWidth = 115
             end
             object DBEdit16: TDBEdit
               AlignWithMargins = True
@@ -1055,10 +1053,6 @@ inherited OSM: TOSM
       object TabSheet9: TTabSheet
         Caption = 'Informa'#231#245'es de Faturamento/Financeiras'
         ImageIndex = 3
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 402
         object Bevel6: TBevel
           Left = 486
           Top = 0
@@ -1079,7 +1073,6 @@ inherited OSM: TOSM
           Padding.Right = 5
           Padding.Bottom = 5
           TabOrder = 0
-          ExplicitHeight = 402
           object DBGrid5: TDBGrid
             Tag = 1
             Left = 7
@@ -1114,7 +1107,6 @@ inherited OSM: TOSM
             Align = alBottom
             Caption = ' Detalhes '
             TabOrder = 1
-            ExplicitTop = 287
             object Label4: TLabel
               Left = 13
               Top = 17
@@ -1264,7 +1256,6 @@ inherited OSM: TOSM
           Padding.Right = 5
           Padding.Bottom = 5
           TabOrder = 1
-          ExplicitHeight = 402
           object DBGrid6: TDBGrid
             Tag = 1
             Left = 7
@@ -1299,7 +1290,6 @@ inherited OSM: TOSM
             Align = alRight
             Caption = ' Detalhes do T'#237'tulo '
             TabOrder = 1
-            ExplicitHeight = 378
             object Label43: TLabel
               Left = 26
               Top = 26
@@ -1500,6 +1490,11 @@ inherited OSM: TOSM
     object actFindTipo: TAction
       ImageIndex = 332
       OnExecute = actFindTipoExecute
+    end
+    object actAtuContatos: TAction
+      Caption = 'Atualiza Contatos'
+      ImageIndex = 336
+      OnExecute = actAtuContatosExecute
     end
   end
   object qOrigem: TZQuery

@@ -207,7 +207,7 @@ inherited Ped: TPed
             end
             inherited CCalendarDiff1: TCCalendarDiff
               Interval = diMonthly
-              Date = 44287.088349444440000000
+              Date = 44294.746795798610000000
               DisplayInterval = Label6
               OnChange = FrameData1CCalendarDiff1Change
             end
@@ -2304,41 +2304,52 @@ inherited Ped: TPed
   object qContatos: TZQuery
     Connection = DM.Design
     SortedFields = 'nome'
+    UpdateObject = uContatos
     SQL.Strings = (
       
-        'select cliente, nome, celular, telefone, ramal, email, padrao, r' +
-        'ecno'
-      '  from clientes_contatos'
-      ' where cliente = :cliente'
-      '   and contato_pedido'
-      '   and ativo')
+        'select co.pedido, co.contato, co.cliente, c.nome, c.celular, c.t' +
+        'elefone, c.ramal, c.email, c.padrao, co.recno'
+      '  from pedido_contatos co'
+      '      join clientes_contatos  c'
+      '        on c.cliente = co.cliente'
+      '       and c.contato = co.contato'
+      ' where co.pedido = :pedido')
     Params = <
       item
         DataType = ftUnknown
-        Name = 'cliente'
+        Name = 'pedido'
         ParamType = ptUnknown
       end>
     FetchRow = 50
     IndexFieldNames = 'nome Asc'
+    Sequence = sContatos
+    SequenceField = 'recno'
     Left = 448
     Top = 456
     ParamData = <
       item
         DataType = ftUnknown
-        Name = 'cliente'
+        Name = 'pedido'
         ParamType = ptUnknown
       end>
+    object qContatospedido: TIntegerField
+      FieldName = 'pedido'
+      Required = True
+      Visible = False
+    end
     object qContatoscliente: TIntegerField
       FieldName = 'cliente'
+      Required = True
       Visible = False
     end
     object qContatospadrao: TBooleanField
       DisplayLabel = 'Padr'#227'o'
       FieldName = 'padrao'
     end
-    object qContatosrecno: TIntegerField
+    object qContatoscontato: TIntegerField
       DisplayLabel = 'Contato'
-      FieldName = 'recno'
+      FieldName = 'contato'
+      Required = True
     end
     object qContatosnome: TStringField
       DisplayLabel = 'Nome'
@@ -2370,11 +2381,83 @@ inherited Ped: TPed
       FieldName = 'email'
       Size = 150
     end
+    object qContatosrecno: TIntegerField
+      DisplayLabel = 'Registro'
+      FieldName = 'recno'
+    end
   end
   object dsContatos: TDataSource
     AutoEdit = False
     DataSet = qContatos
     Left = 520
+    Top = 456
+  end
+  object uContatos: TZUpdateSQL
+    DeleteSQL.Strings = (
+      'DELETE FROM pedido_contatos'
+      'WHERE'
+      '  pedido_contatos.pedido = :OLD_pedido AND'
+      '  pedido_contatos.cliente = :OLD_cliente AND'
+      '  pedido_contatos.contato = :OLD_contato')
+    InsertSQL.Strings = (
+      'INSERT INTO pedido_contatos'
+      '  (pedido, cliente, contato, recno)'
+      'VALUES'
+      '  (:pedido, :cliente, :contato, :recno)')
+    ModifySQL.Strings = (
+      'UPDATE pedido_contatos SET'
+      '  pedido = :pedido,'
+      '  cliente = :cliente,'
+      '  contato = :contato,'
+      '  recno = :recno'
+      'WHERE'
+      '  pedido_contatos.pedido = :OLD_pedido AND'
+      '  pedido_contatos.cliente = :OLD_cliente AND'
+      '  pedido_contatos.contato = :OLD_contato')
+    UseSequenceFieldForRefreshSQL = False
+    Left = 384
+    Top = 456
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'pedido'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'cliente'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'contato'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'recno'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'OLD_pedido'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'OLD_cliente'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'OLD_contato'
+        ParamType = ptUnknown
+      end>
+  end
+  object sContatos: TZSequence
+    Connection = DM.Design
+    SequenceName = 'public.pedido_contatos_recno_seq'
+    Left = 320
     Top = 456
   end
 end
