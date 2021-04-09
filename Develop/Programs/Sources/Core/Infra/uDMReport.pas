@@ -1045,7 +1045,7 @@ end;
 procedure TDMReport.R00019AfterScroll(DataSet: TDataSet);
 begin
   R00019a.ParamByName('os').AsInteger := R00019os.AsInteger;
-  R00019b.ParamByName('cliente').AsInteger := R00019idcliente.AsInteger;
+  R00019b.ParamByName('os').AsInteger := R00019os.AsInteger;
   G.RefreshDataSet(R00019a);
   G.RefreshDataSet(R00019b);
 end;

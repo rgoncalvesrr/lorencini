@@ -208,6 +208,10 @@ type
     qContatosramal: TStringField;
     qContatosemail: TStringField;
     dsContatos: TDataSource;
+    qContatosos: TIntegerField;
+    qContatoscontato: TIntegerField;
+    uContatos: TZUpdateSQL;
+    sContatos: TZSequence;
     procedure FormCreate(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure IBrwSrcAfterScroll(DataSet: TDataSet);
@@ -572,7 +576,7 @@ begin
   qMObra.ParamByName('os').AsInteger := IBrwSrcos.AsInteger;
   qFatu.ParamByName('os').AsInteger := IBrwSrcos.AsInteger;
   qDesp.ParamByName('os').AsInteger := IBrwSrcos.AsInteger;
-  qContatos.ParamByName('cliente').AsInteger := IBrwSrcidcliente.AsInteger;
+  qContatos.ParamByName('os').AsInteger := IBrwSrcos.AsInteger;
 
   G.RefreshDataSet(qServ);
   G.RefreshDataSet(qMat);

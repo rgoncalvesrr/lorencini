@@ -159,6 +159,7 @@ type
     DBEdit16: TDBEdit;
     TabSheet3: TTabSheet;
     DBGrid4: TDBGrid;
+    actAtuContatos: TAction;
     procedure FormCreate(Sender: TObject);
     procedure actLucraExecute(Sender: TObject);
     procedure actOkExecute(Sender: TObject);
@@ -173,6 +174,7 @@ type
     procedure DBEdit7Exit(Sender: TObject);
     procedure actFindTipoExecute(Sender: TObject);
     procedure FormResize(Sender: TObject);
+    procedure actAtuContatosExecute(Sender: TObject);
   private
     { Private declarations }
     procedure RefreshControls; override;
@@ -257,6 +259,20 @@ begin
     end;
   finally
     fLkp.Free;
+  end;
+end;
+
+procedure TOSM.actAtuContatosExecute(Sender: TObject);
+begin
+  inherited;
+  with U.Data.Query do
+  try
+    SQL.Text := 'select atualiza_contatos_orca(:os);';
+    ParamByName('os').AsInteger := OS.IBrwSrcos.AsInteger;
+    ExecSQL;
+  finally
+    Close;
+    G.RefreshDataSet(OS.qContatos);
   end;
 end;
 
@@ -468,6 +484,8 @@ begin
 
   if PageControl3.ActivePageIndex = 3 then
     ToolButton10.Action := actDespVinc;
+  if PageControl3.ActivePageIndex = 4 then
+    ToolButton10.Action := actAtuContatos;
 
   RefreshControls;
 end;
@@ -492,13 +510,14 @@ begin
     actFindCli.Enabled := (State in [dsEdit, dsInsert]);
     actFindTipo.Enabled := (State in [dsEdit, dsInsert]);
     actLkpContatos.Enabled := (State in [dsEdit, dsInsert]);
+    actAtuContatos.Enabled := (State = dsBrowse) and not IsEmpty;
   end;
 
   // Atualiza Lucratividade
   actLucra.Enabled:= True;
   actNew.Enabled := actNew.Enabled and (PageControl3.ActivePageIndex < 3);
   actEdit.Enabled := actEdit.Enabled and (PageControl3.ActivePageIndex < 3);
-  actDel.Enabled := actDel.Enabled and ((PageControl3.ActivePageIndex < 3) or actDespVinc.Enabled);
+  actDel.Enabled := actDel.Enabled and ((PageControl3.ActivePageIndex < 3) or actDespVinc.Enabled or actAtuContatos.Enabled);
   actView.Enabled := actView.Enabled and (PageControl3.ActivePageIndex < 3);
   actDespVinc.Enabled := (PageControl3.ActivePageIndex = 3);
 

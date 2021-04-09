@@ -211,7 +211,6 @@ type
     Panel8: TPanel;
     IBrwSrcdec_conf: TBooleanField;
     qContatos: TZQuery;
-    qContatoscliente: TIntegerField;
     qContatospadrao: TBooleanField;
     qContatosrecno: TIntegerField;
     qContatosnome: TStringField;
@@ -220,6 +219,11 @@ type
     qContatosramal: TStringField;
     qContatosemail: TStringField;
     dsContatos: TDataSource;
+    qContatoscontato: TIntegerField;
+    uContatos: TZUpdateSQL;
+    sContatos: TZSequence;
+    qContatospedido: TIntegerField;
+    qContatoscliente: TIntegerField;
     procedure IBrwSrcaprovadoGetText(Sender: TField; var Text: string;
       DisplayText: Boolean);
     procedure IBrwSrcaprovadoSetText(Sender: TField; const Text: string);
@@ -641,7 +645,7 @@ begin
   qMat.ParamByName('pedido').AsInteger := IBrwSrcrecno.AsInteger;
   qServ.ParamByName('pedido').AsInteger := IBrwSrcrecno.AsInteger;
   qMObra.ParamByName('pedido').AsInteger := IBrwSrcrecno.AsInteger;
-  qContatos.ParamByName('cliente').AsInteger := IBrwSrccliente.AsInteger;
+  qContatos.ParamByName('pedido').AsInteger := IBrwSrcrecno.AsInteger;
   G.RefreshDataSet(qDesp);
   G.RefreshDataSet(qMat);
   G.RefreshDataSet(qServ);

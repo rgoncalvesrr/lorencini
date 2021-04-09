@@ -176,6 +176,7 @@ type
     sContatos: TZSequence;
     qContatoscotacao: TIntegerField;
     qContatoscontato: TIntegerField;
+    qContatoscliente: TIntegerField;
     procedure DBGridDrawColumnCell(Sender: TObject; const Rect: TRect;
       DataCol: Integer; Column: TColumn; State: TGridDrawState);
     procedure cbStatusChange(Sender: TObject);
