@@ -798,6 +798,7 @@ type
     StringField21: TStringField;
     StringField22: TStringField;
     frxR00019b: TfrxDBDataset;
+    R00014ccelular: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure R00011CalcFields(DataSet: TDataSet);
     procedure R00014CalcFields(DataSet: TDataSet);
@@ -943,7 +944,7 @@ procedure TDMReport.R00014AfterScroll(DataSet: TDataSet);
 begin
   R00014a.ParamByName('laudo').AsInteger := R00014recno.AsInteger; // laudo
   R00014a.ParamByName('tipo').AsInteger := R00014relato_recno.AsInteger; // tipo de laudo
-  R00014c.ParamByName('cliente').AsInteger := R00014codigo.AsInteger; // tipo de laudo
+  R00014c.ParamByName('laudo').AsInteger := R00014recno.AsInteger; // laudo
   G.RefreshDataSet(R00014a);
   G.RefreshDataSet(R00014c);
 end;
@@ -1025,7 +1026,7 @@ begin
   R00018e.ParamByName('origem').AsInteger := R00018origem.AsInteger;
   R00018e.ParamByName('doc').AsInteger := R00018doc.AsInteger;
   R00018f.ParamByName('cotacao').AsInteger := R00018recno.AsInteger;
-  R00018g.ParamByName('cliente').AsInteger := R00018cliente.AsInteger;
+  R00018g.ParamByName('cotacao').AsInteger := R00018recno.AsInteger;
   G.RefreshDataSet(R00018a);
   G.RefreshDataSet(R00018b);
   G.RefreshDataSet(R00018d);
@@ -1045,7 +1046,7 @@ end;
 procedure TDMReport.R00019AfterScroll(DataSet: TDataSet);
 begin
   R00019a.ParamByName('os').AsInteger := R00019os.AsInteger;
-  R00019b.ParamByName('cliente').AsInteger := R00019idcliente.AsInteger;
+  R00019b.ParamByName('os').AsInteger := R00019os.AsInteger;
   G.RefreshDataSet(R00019a);
   G.RefreshDataSet(R00019b);
 end;

@@ -1,0 +1,94 @@
+set session authorization lorencini;
+
+alter table tbclientes_contatos 
+   add contato_comercial boolean default(false) not null;
+   
+update tbclientes_contatos 
+   set contato_comercial = contato_cotacao or contato_pedido or contato_os;
+   
+alter table tbclientes_contatos
+   drop contato_cotacao cascade,
+   drop contato_pedido cascade,
+   drop contato_os cascade;
+
+-- recriar visão clientes_contatos
+
+create table cota_contatos (
+   cotacao integer not null,
+   cliente integer not null,
+   contato integer not null,
+   recno serial not null,
+   constraint pk_cota_contatos primary key(cotacao,cliente, contato),
+   constraint fk_cota_contatos_1 foreign key(cotacao)
+      references cota(recno) on update cascade on delete cascade,
+   constraint fk_cota_contatos_2 foreign key(cliente, contato)
+      references tbclientes_contatos(cliente, contato) on update cascade on delete restrict,
+   constraint uk_cota_contatos_1 unique(recno));
+   
+insert into cota_contatos (cotacao, cliente, contato)
+select co.recno, co.cliente, c.contato
+  from clientes_contatos c
+       join cota co
+         on co.cliente = c.cliente      
+ where c.contato_comercial
+   and c.ativo;
+   
+create table pedido_contatos (
+   pedido integer not null,
+   cliente integer not null,
+   contato integer not null,
+   recno serial not null,
+   constraint pk_pedido_contatos primary key(pedido, cliente, contato),
+   constraint fk_pedido_contatos_1 foreign key(pedido)
+      references pedido(recno) on update cascade on delete cascade,
+   constraint fk_pedido_contatos_2 foreign key(cliente, contato)
+      references tbclientes_contatos(cliente, contato) on update cascade on delete restrict,
+   constraint uk_pedido_contatos_1 unique(recno));
+   
+insert into pedido_contatos (pedido, cliente, contato)
+select co.recno, co.cliente, c.contato
+  from clientes_contatos c
+       join pedido co
+         on co.cliente = c.cliente      
+ where c.contato_comercial
+   and c.ativo;
+   
+create table orca_contatos (
+   os integer not null,
+   cliente integer not null,
+   contato integer not null,
+   recno serial not null,
+   constraint pk_orca_contatos primary key(os, cliente, contato),
+   constraint fk_orca_contatos_1 foreign key(os)
+      references tb_orcamentos(os) on update cascade on delete cascade,
+   constraint fk_orca_contatos_2 foreign key(cliente, contato)
+      references tbclientes_contatos(cliente, contato) on update cascade on delete restrict,
+   constraint uk_orca_contatos_1 unique(recno));  
+   
+insert into orca_contatos (os, cliente, contato)
+select co.os, c.cliente, c.contato
+  from clientes_contatos c
+       join tb_orcamentos co
+         on co.idcliente = c.cliente      
+ where c.contato_comercial
+   and c.ativo;
+
+create table labamostras_rel_contatos (
+   laudo integer not null,
+   cliente integer not null,
+   contato integer not null,
+   recno serial not null,
+   constraint pk_labamostras_rel_contatos primary key(laudo, cliente, contato),
+   constraint fk_labamostras_rel_contatos_1 foreign key(laudo)
+      references labamostras_rel(recno) on update cascade on delete cascade,
+   constraint fk_labamostras_rel_contatos_2 foreign key(cliente, contato)
+      references tbclientes_contatos(cliente, contato) on update cascade on delete restrict,
+   constraint uk_labamostras_rel_contatos_1 unique(recno));   
+
+insert into labamostras_rel_contatos (laudo, cliente, contato)
+select co.recno, co.cliente, c.contato
+  from clientes_contatos c
+       join labamostras_rel co
+         on co.cliente = c.cliente      
+ where c.contato_tecnico
+   and c.ativo;

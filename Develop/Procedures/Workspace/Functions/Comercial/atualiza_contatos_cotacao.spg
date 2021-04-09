@@ -1,0 +1,33 @@
+/**
+   Atualiza contatos para cotação informada
+
+  @author    Ricardo Gonçalves
+  @date      08/04/2021
+
+  @param in_cotacao número da cotação que será atualizada
+
+  Histórico
+  ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+Create or Replace Function atualiza_contatos_cotacao(
+   in in_cotacao integer)
+Returns void As
+$$
+begin
+   delete 
+     from cota_contatos
+    where cotacao = in_cotacao;
+
+   insert into cota_contatos
+      (cotacao, cliente, contato)      
+   select in_cotacao, cc.cliente, cc.contato
+     from clientes_contatos cc
+          join cota co
+            on co.recno = in_cotacao
+           and co.cliente = cc.cliente 
+    where contato_comercial 
+      and ativo;
+end
+$$
+language plpgsql;

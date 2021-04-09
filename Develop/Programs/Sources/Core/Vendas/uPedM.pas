@@ -144,6 +144,7 @@ type
     JvDBComboBox1: TJvDBComboBox;
     TabSheet4: TTabSheet;
     DBGrid5: TDBGrid;
+    actAtuContatos: TAction;
     procedure DBEdit8Exit(Sender: TObject);
     procedure actFindCliExecute(Sender: TObject);
     procedure actPrintAllExecute(Sender: TObject);
@@ -158,6 +159,7 @@ type
     procedure PageControl3Change(Sender: TObject);
     procedure FrameCliente1SpeedButton1Click(Sender: TObject);
     procedure FormResize(Sender: TObject);
+    procedure actAtuContatosExecute(Sender: TObject);
   private
     { Private declarations }
     procedure RefreshLookupFilter;
@@ -180,6 +182,20 @@ uses uPed, uIUtils, uContatoF, uDM, mcutils, DB, uClientes,
   iTypes, uPedMMO, uOrcaGrupos, uSedex, uSedexCalculos;
 
 {$R *.dfm}
+
+procedure TPedM.actAtuContatosExecute(Sender: TObject);
+begin
+  inherited;
+  with U.Data.Query do
+  try
+    SQL.Text := 'select atualiza_contatos_pedido(:pedido);';
+    ParamByName('pedido').AsInteger := Ped.IBrwSrcrecno.AsInteger;
+    ExecSQL;
+  finally
+    Close;
+    G.RefreshDataSet(Ped.qContatos);
+  end;
+end;
 
 procedure TPedM.actDespVincExecute(Sender: TObject);
 var
@@ -509,6 +525,8 @@ begin
 
     if PageControl3.ActivePage = TabSheet7 then
       ToolButton10.Action := actDespVinc;
+    if PageControl3.ActivePage = TabSheet4 then
+      ToolButton10.Action := actAtuContatos;
   finally
     RefreshControls;
   end;
@@ -562,9 +580,11 @@ begin
 
     actDespVinc.Enabled := (ChildDataSet.State = dsBrowse) and (ActivePage = Self.TabSheet7) and
       (IBrwSrcstatus.AsInteger = 10);
+    actAtuContatos.Enabled := (ChildDataSet.State = dsBrowse) and (ActivePage = Self.TabSheet4) and
+      (IBrwSrcstatus.AsInteger < 40);
     Self.actEdit.Enabled := Self.actEdit.Enabled and (ActivePageIndex < 3);
     Self.actView.Enabled := Self.actView.Enabled and (ActivePageIndex < 3);
-    Self.actDel.Enabled := Self.actDel.Enabled and ((ActivePageIndex < 3) or actDespVinc.Enabled);
+    Self.actDel.Enabled := Self.actDel.Enabled and ((ActivePageIndex < 3) or actDespVinc.Enabled or actAtuContatos.Enabled);
   end;
 end;
 

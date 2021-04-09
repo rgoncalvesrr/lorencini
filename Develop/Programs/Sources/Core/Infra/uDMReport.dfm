@@ -42,7 +42,7 @@ object DMReport: TDMReport
     PrintOptions.Printer = 'Padr'#227'o'
     PrintOptions.PrintOnSheet = 0
     ReportOptions.CreateDate = 42781.714010347200000000
-    ReportOptions.LastChange = 44287.500994953710000000
+    ReportOptions.LastChange = 43860.741651446800000000
     ScriptLanguage = 'PascalScript'
     StoreInDFM = False
     OnReportPrint = 'ReportBaseOnReportPrint'
@@ -5944,15 +5944,17 @@ object DMReport: TDMReport
   object R00014c: TZQuery
     Connection = DM.Design
     SQL.Strings = (
-      'select nome, funcao, telefone, email '
-      '  from clientes_contatos '
-      ' where cliente = :cliente'
-      '   and contato_tecnico'
-      '   and ativo')
+      'select c.nome, c.celular, c.telefone, c.email, c.funcao'
+      '  from labamostras_rel_contatos co'
+      '      join clientes_contatos c'
+      '        on c.cliente = co.cliente'
+      '       and c.contato = co.contato'
+      ' where co.recno = :laudo'
+      '')
     Params = <
       item
         DataType = ftUnknown
-        Name = 'cliente'
+        Name = 'laudo'
         ParamType = ptUnknown
       end>
     FetchRow = 50
@@ -5961,7 +5963,7 @@ object DMReport: TDMReport
     ParamData = <
       item
         DataType = ftUnknown
-        Name = 'cliente'
+        Name = 'laudo'
         ParamType = ptUnknown
       end>
     object R00014cnome: TStringField
@@ -5979,6 +5981,10 @@ object DMReport: TDMReport
     object R00014cemail: TStringField
       FieldName = 'email'
       Size = 150
+    end
+    object R00014ccelular: TStringField
+      FieldName = 'celular'
+      Size = 25
     end
   end
   object frxR00014c: TfrxDBDataset
@@ -5998,15 +6004,16 @@ object DMReport: TDMReport
   object R00018g: TZQuery
     Connection = DM.Design
     SQL.Strings = (
-      'select nome, celular, telefone, email '
-      '  from clientes_contatos '
-      ' where cliente = :cliente'
-      '   and contato_cotacao'
-      '   and ativo')
+      'select c.nome, c.celular, c.telefone, c.email'
+      '  from cota_contatos co'
+      '      join clientes_contatos  c'
+      '        on c.cliente = co.cliente'
+      '       and c.contato = co.contato'
+      ' where co.cotacao = :cotacao')
     Params = <
       item
         DataType = ftUnknown
-        Name = 'cliente'
+        Name = 'cotacao'
         ParamType = ptUnknown
       end>
     Left = 608
@@ -6014,7 +6021,7 @@ object DMReport: TDMReport
     ParamData = <
       item
         DataType = ftUnknown
-        Name = 'cliente'
+        Name = 'cotacao'
         ParamType = ptUnknown
       end>
     object R00018gnome: TStringField
@@ -6023,10 +6030,12 @@ object DMReport: TDMReport
     end
     object R00018gcelular: TStringField
       FieldName = 'celular'
+      EditMask = '(99) 9.9999-9999;0;'
       Size = 25
     end
     object R00018gtelefone: TStringField
       FieldName = 'telefone'
+      EditMask = '(99) 9999-9999;0;'
       Size = 25
     end
     object R00018gemail: TStringField
@@ -6051,15 +6060,16 @@ object DMReport: TDMReport
   object R00019b: TZQuery
     Connection = DM.Design
     SQL.Strings = (
-      'select nome, celular, telefone, email '
-      '  from clientes_contatos '
-      ' where cliente = :cliente'
-      '   and contato_financeiro'
-      '   and ativo')
+      'select c.nome, c.celular, c.telefone, c.email'
+      '  from orca_contatos co'
+      '      join clientes_contatos  c'
+      '        on c.cliente = co.cliente'
+      '       and c.contato = co.contato'
+      ' where co.os = :os')
     Params = <
       item
         DataType = ftUnknown
-        Name = 'cliente'
+        Name = 'os'
         ParamType = ptUnknown
       end>
     Left = 424
@@ -6067,7 +6077,7 @@ object DMReport: TDMReport
     ParamData = <
       item
         DataType = ftUnknown
-        Name = 'cliente'
+        Name = 'os'
         ParamType = ptUnknown
       end>
     object StringField16: TStringField

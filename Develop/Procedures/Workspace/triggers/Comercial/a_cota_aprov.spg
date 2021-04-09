@@ -76,6 +76,12 @@ Begin
            from cota_desp
           where lote_aprov = new.recno;  
 
+         -- Contatos
+         insert into pedido_contatos (pedido, cliente, contato)
+         select ipedido, cliente, contato
+           from cota_contatos
+          where cotacao = new.cotacao; 
+
          update cota
             set status = 5, pedcli = new.pedido_cliente, aprovacao = new.historico
           where recno = new.cotacao;

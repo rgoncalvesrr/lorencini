@@ -56,15 +56,14 @@ type
     DBCheckBox3: TDBCheckBox;
     Panel14: TPanel;
     DBCheckBox6: TDBCheckBox;
-    DBCheckBox7: TDBCheckBox;
     DBCheckBox1: TDBCheckBox;
     Panel15: TPanel;
     Label8: TLabel;
     DBEdit7: TDBEdit;
     Label9: TLabel;
     DBMemo1: TDBMemo;
-    DBCheckBox2: TDBCheckBox;
     DBCheckBox8: TDBCheckBox;
+    DBCheckBox2: TDBCheckBox;
     procedure actCheckExecute(Sender: TObject);
     procedure DBEdit1Exit(Sender: TObject);
     procedure actFindContatoExecute(Sender: TObject);
@@ -94,10 +93,8 @@ begin
   with Clientes do
   begin
     qContatospadrao.AsBoolean := bMark;
-    qContatoscontato_cotacao.AsBoolean := bMark;
-    qContatoscontato_pedido.AsBoolean := bMark;
+    qContatoscontato_comercial.AsBoolean := bMark;
     qContatoscontato_tecnico.AsBoolean := bMark;
-    qContatoscontato_os.AsBoolean := bMark;
     qContatoscontato_financeiro.AsBoolean := bMark;
   end;
 

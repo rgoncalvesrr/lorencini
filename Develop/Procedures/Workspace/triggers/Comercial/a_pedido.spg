@@ -48,6 +48,12 @@ BEGIN
    if tg_op = 'INSERT' then      
       -- Amarrando despesas ao pedido
       perform fin_caixaVincularPedido(new.codigo, new.recno);
+
+      -- Listando contatos
+      if new.lote_aprov is null then
+         perform atualiza_contatos_pedido(new.recno);
+      end if;
+
       xlog.title := 'Pedido colocado';      
       perform log(xlog);
    else      

@@ -125,11 +125,9 @@ type
     qContatosportal_senha: TStringField;
     qContatosobs: TMemoField;
     qContatosramal: TStringField;
-    qContatoscontato_pedido: TBooleanField;
-    qContatoscontato_cotacao: TBooleanField;
-    qContatoscontato_os: TBooleanField;
     qContatoscontato_financeiro: TBooleanField;
     qContatoscontato_tecnico: TBooleanField;
+    qContatoscontato_comercial: TBooleanField;
     procedure FormCreate(Sender: TObject);
     procedure actOrcaExecute(Sender: TObject);
     procedure DBGrid2DrawColumnCell(Sender: TObject; const Rect: TRect;
@@ -480,6 +478,7 @@ begin
   inherited;
   qContatossituacao.AsInteger := 1;
   qContatospadrao.AsBoolean := False;
+  qContatosportal_acessivel.AsBoolean := False;
 end;
 
 procedure TClientes.qContatosBeforePost(DataSet: TDataSet);
@@ -493,11 +492,9 @@ begin
   inherited;
   if (Sender.DataSet.State = dsInsert) then
   begin
-    qContatoscontato_pedido.AsBoolean := (qContatossituacao.AsInteger = 1) and (qContatosemail.AsString <> EmptyStr);
-    qContatoscontato_cotacao.AsBoolean := qContatoscontato_pedido.AsBoolean;
-    qContatoscontato_tecnico.AsBoolean := qContatoscontato_pedido.AsBoolean;
-    qContatoscontato_os.AsBoolean := qContatoscontato_pedido.AsBoolean;
-    qContatoscontato_financeiro.AsBoolean := qContatoscontato_pedido.AsBoolean;
+    qContatoscontato_comercial.AsBoolean := (qContatossituacao.AsInteger = 1) and (qContatosemail.AsString <> EmptyStr);
+    qContatoscontato_tecnico.AsBoolean := qContatoscontato_comercial.AsBoolean;
+    qContatoscontato_financeiro.AsBoolean := qContatoscontato_comercial.AsBoolean;
   end;
 end;
 
