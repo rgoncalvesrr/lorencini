@@ -5944,15 +5944,17 @@ object DMReport: TDMReport
   object R00014c: TZQuery
     Connection = DM.Design
     SQL.Strings = (
-      'select nome, funcao, telefone, email '
-      '  from clientes_contatos '
-      ' where cliente = :cliente'
-      '   and contato_tecnico'
-      '   and ativo')
+      'select c.nome, c.celular, c.telefone, c.email, c.funcao'
+      '  from labamostras_rel_contatos co'
+      '      join clientes_contatos c'
+      '        on c.cliente = co.cliente'
+      '       and c.contato = co.contato'
+      ' where co.recno = :laudo'
+      '')
     Params = <
       item
         DataType = ftUnknown
-        Name = 'cliente'
+        Name = 'laudo'
         ParamType = ptUnknown
       end>
     FetchRow = 50
@@ -5961,7 +5963,7 @@ object DMReport: TDMReport
     ParamData = <
       item
         DataType = ftUnknown
-        Name = 'cliente'
+        Name = 'laudo'
         ParamType = ptUnknown
       end>
     object R00014cnome: TStringField
@@ -5979,6 +5981,10 @@ object DMReport: TDMReport
     object R00014cemail: TStringField
       FieldName = 'email'
       Size = 150
+    end
+    object R00014ccelular: TStringField
+      FieldName = 'celular'
+      Size = 25
     end
   end
   object frxR00014c: TfrxDBDataset
