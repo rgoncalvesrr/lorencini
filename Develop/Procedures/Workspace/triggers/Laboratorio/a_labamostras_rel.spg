@@ -41,6 +41,10 @@ BEGIN
          if ra.descri is not null then
             perform labamostras_res_atu(new.recno);
          end if;
+
+         -- Atualiza lista de contatos do laudo
+         perform atualiza_contatos_laudo(new.recno);
+
       else
          -- Laudo aguardando revisão ainda
          if new.status = 0 and old.status = 0 and ra.descri is not null then

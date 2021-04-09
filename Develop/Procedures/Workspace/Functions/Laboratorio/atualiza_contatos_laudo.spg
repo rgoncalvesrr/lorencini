@@ -1,0 +1,33 @@
+/**
+   Atualiza contatos para laudo informado
+
+  @author    Ricardo Gonçalves
+  @date      08/04/2021
+
+  @param in_lado número da cotação que será atualizada
+
+  Histórico
+  ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+Create or Replace Function atualiza_contatos_laudo(
+   in in_lado integer)
+Returns void As
+$$
+begin
+   delete 
+     from labamostras_rel_contatos
+    where laudo = in_lado;
+
+   insert into labamostras_rel_contatos
+      (laudo, cliente, contato)      
+   select in_lado, cc.cliente, cc.contato
+     from clientes_contatos cc
+          join labamostras_rel co
+            on co.recno = in_lado
+           and co.cliente = cc.cliente 
+    where contato_tecnico
+      and ativo;
+end
+$$
+language plpgsql;
