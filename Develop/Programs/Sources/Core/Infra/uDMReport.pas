@@ -798,6 +798,7 @@ type
     StringField21: TStringField;
     StringField22: TStringField;
     frxR00019b: TfrxDBDataset;
+    R00014ccelular: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure R00011CalcFields(DataSet: TDataSet);
     procedure R00014CalcFields(DataSet: TDataSet);
@@ -943,7 +944,7 @@ procedure TDMReport.R00014AfterScroll(DataSet: TDataSet);
 begin
   R00014a.ParamByName('laudo').AsInteger := R00014recno.AsInteger; // laudo
   R00014a.ParamByName('tipo').AsInteger := R00014relato_recno.AsInteger; // tipo de laudo
-  R00014c.ParamByName('cliente').AsInteger := R00014codigo.AsInteger; // tipo de laudo
+  R00014c.ParamByName('laudo').AsInteger := R00014recno.AsInteger; // laudo
   G.RefreshDataSet(R00014a);
   G.RefreshDataSet(R00014c);
 end;

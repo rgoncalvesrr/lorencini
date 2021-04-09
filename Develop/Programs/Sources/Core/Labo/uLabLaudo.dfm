@@ -1,22 +1,22 @@
 inherited LabLaudo: TLabLaudo
   Caption = 'Emiss'#227'o de Laudos'
   ClientHeight = 505
-  ClientWidth = 1128
-  ExplicitWidth = 1144
+  ClientWidth = 1161
+  ExplicitWidth = 1177
   ExplicitHeight = 544
   PixelsPerInch = 96
   TextHeight = 15
   inherited StatusBar1: TStatusBar
     Top = 478
-    Width = 1122
+    Width = 1155
     ExplicitTop = 478
     ExplicitWidth = 1122
   end
   inherited Panel1: TPanel
-    Width = 1128
+    Width = 1161
     ExplicitWidth = 1128
     inherited pctlFind: TPageControl
-      Width = 1118
+      Width = 1151
       ExplicitWidth = 1118
       inherited tsQuery: TTabSheet
         ExplicitLeft = 4
@@ -24,7 +24,7 @@ inherited LabLaudo: TLabLaudo
         ExplicitWidth = 1110
         ExplicitHeight = 75
         inherited BitBtn2: TBitBtn
-          Left = 1009
+          Left = 1042
           TabOrder = 9
           ExplicitLeft = 1009
         end
@@ -251,7 +251,7 @@ inherited LabLaudo: TLabLaudo
               ExplicitWidth = 134
             end
             inherited CCalendarDiff1: TCCalendarDiff
-              Date = 44156.425518865740000000
+              Date = 44295.042641608790000000
               DisplayInterval = Label11
               OnChange = actQueryProcessExecute
             end
@@ -272,7 +272,7 @@ inherited LabLaudo: TLabLaudo
             Width = 134
             Height = 15
             Align = alTop
-            Caption = '01/11/2020 a 30/11/2020'
+            Caption = '01/04/2021 a 30/04/2021'
             ExplicitWidth = 128
           end
           object Label3: TLabel
@@ -314,7 +314,7 @@ inherited LabLaudo: TLabLaudo
             end
             inherited CCalendarDiff1: TCCalendarDiff
               Interval = diMonthly
-              Date = 44156.425518865740000000
+              Date = 44295.042641608790000000
               DisplayInterval = Label1
               OnChange = actQueryProcessExecute
               Left = 96
@@ -322,13 +322,14 @@ inherited LabLaudo: TLabLaudo
           end
         end
         object Panel10: TPanel
-          Left = 926
+          Left = 959
           Top = 0
           Width = 80
           Height = 75
           Align = alRight
           BevelOuter = bvNone
           TabOrder = 8
+          ExplicitLeft = 926
           object Label8: TLabel
             AlignWithMargins = True
             Left = 3
@@ -351,13 +352,14 @@ inherited LabLaudo: TLabLaudo
           end
         end
         object Panel11: TPanel
-          Left = 846
+          Left = 879
           Top = 0
           Width = 80
           Height = 75
           Align = alRight
           BevelOuter = bvNone
           TabOrder = 7
+          ExplicitLeft = 846
           object Label9: TLabel
             AlignWithMargins = True
             Left = 3
@@ -411,16 +413,17 @@ inherited LabLaudo: TLabLaudo
         object Panel13: TPanel
           Left = 851
           Top = 0
-          Width = 5
+          Width = 28
           Height = 75
           Align = alClient
           BevelOuter = bvNone
           TabOrder = 11
+          ExplicitWidth = 5
           object Label14: TLabel
             AlignWithMargins = True
             Left = 3
             Top = 3
-            Width = -1
+            Width = 22
             Height = 15
             Align = alTop
             Caption = 'Nome Empresarial'
@@ -430,11 +433,12 @@ inherited LabLaudo: TLabLaudo
             AlignWithMargins = True
             Left = 3
             Top = 24
-            Width = 0
+            Width = 22
             Height = 23
             Align = alTop
             TabOrder = 0
             OnChange = CriteriaChange
+            ExplicitWidth = 0
           end
         end
       end
@@ -447,12 +451,12 @@ inherited LabLaudo: TLabLaudo
     end
   end
   inherited Panel2: TPanel
-    Width = 1128
+    Width = 1161
     Height = 346
     ExplicitWidth = 1128
     ExplicitHeight = 346
     inherited PageControl1: TPageControl
-      Width = 1122
+      Width = 1155
       Height = 340
       ExplicitWidth = 1122
       ExplicitHeight = 340
@@ -463,14 +467,14 @@ inherited LabLaudo: TLabLaudo
         ExplicitWidth = 1114
         ExplicitHeight = 310
         inherited DBGrid1: TDBGrid
-          Width = 1108
+          Width = 1141
           Height = 304
         end
       end
     end
   end
   inherited ctrlBarTop: TControlBar
-    Width = 1122
+    Width = 1155
     ExplicitWidth = 1122
     inherited ToolBar1: TToolBar
       Width = 1067
