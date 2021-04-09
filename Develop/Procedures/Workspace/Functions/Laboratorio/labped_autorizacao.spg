@@ -66,12 +66,13 @@ Begin
    end if;
 
    for r in (
-      select nome, email
-        from clientes_contatos
-       where cliente = rc.codigo
-         and contato_pedido
-         and ativo
-         and email is not null)
+      select c.nome, c.email
+        from clientes_contatos c
+             join pedido_contatos pc
+               on pc.recno = in_pedido
+              and pc.cliente = c.cliente 
+              and pc.contato = c.contato
+       where email is not null)
    loop
       insert into sys_emailto 
          (message, to_, to_name)
