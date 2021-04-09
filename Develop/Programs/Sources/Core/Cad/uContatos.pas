@@ -60,11 +60,9 @@ type
     qContCliobs: TMemoField;
     IBrwSrcramal: TStringField;
     IBrwSrcobs: TMemoField;
-    qContClicontato_pedido: TBooleanField;
-    qContClicontato_cotacao: TBooleanField;
-    qContClicontato_os: TBooleanField;
     qContClicontato_financeiro: TBooleanField;
     qContClicontato_tecnico: TBooleanField;
+    qContClicontato_comercial: TBooleanField;
     procedure IBrwSrcsituacaoGetText(Sender: TField; var Text: string; DisplayText: Boolean);
     procedure IBrwSrcsituacaoSetText(Sender: TField; const Text: string);
     procedure DBGridDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn;
@@ -315,13 +313,12 @@ procedure TContatos.qContCliAfterInsert(DataSet: TDataSet);
 begin
   inherited;
   qContClicontato.AsInteger := IBrwSrcrecno.AsInteger;
-  qContClicontato_cotacao.AsBoolean := not IBrwSrcemail.IsNull;
-  qContClicontato_pedido.AsBoolean := not IBrwSrcemail.IsNull;
+  qContClicontato_comercial.AsBoolean := not IBrwSrcemail.IsNull;
   qContClicontato_tecnico.AsBoolean := not IBrwSrcemail.IsNull;
-  qContClicontato_os.AsBoolean := not IBrwSrcemail.IsNull;
   qContClicontato_financeiro.AsBoolean := not IBrwSrcemail.IsNull;
   qContClisituacao.AsInteger := IBrwSrcsituacao.AsInteger;
   qContClipadrao.AsBoolean := False;
+  qContCliportal_acessivel.AsBoolean := False;
 end;
 
 procedure TContatos.qContCliBeforeRefresh(DataSet: TDataSet);

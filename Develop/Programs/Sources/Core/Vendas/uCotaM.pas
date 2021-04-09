@@ -123,6 +123,7 @@ type
     JvDBComboBox1: TJvDBComboBox;
     TabSheet4: TTabSheet;
     DBGrid5: TDBGrid;
+    actAtuContatos: TAction;
     procedure DBEdit7Exit(Sender: TObject);
     procedure actFindTipoExecute(Sender: TObject);
     procedure DBEdit9Exit(Sender: TObject);
@@ -137,6 +138,7 @@ type
     procedure edSeringasExit(Sender: TObject);
     procedure edFreteExit(Sender: TObject);
     procedure FormResize(Sender: TObject);
+    procedure actAtuContatosExecute(Sender: TObject);
   private
     { Private declarations }
     procedure OnLoad; override;
@@ -157,6 +159,20 @@ uses uCota, mcutils, DB, uIUtils, uOrcaGrupos, uClientes, uDM, uCotaMMat,
 {$R *.dfm}
 
 { TCotaM }
+
+procedure TCotaM.actAtuContatosExecute(Sender: TObject);
+begin
+  inherited;
+  with U.Data.Query do
+  try
+    SQL.Text := 'select atualiza_contatos_cotacao(:cotacao);';
+    ParamByName('cotacao').AsInteger := Cota.IBrwSrcrecno.AsInteger;
+    ExecSQL;
+  finally
+    Close;
+    G.RefreshDataSet(Cota.qContatos);
+  end;
+end;
 
 procedure TCotaM.actDespVincExecute(Sender: TObject);
 var
@@ -418,6 +434,8 @@ begin
 
     if PageControl3.ActivePage = TabSheet5 then
       ToolButton10.Action := actDespVinc;
+    if PageControl3.ActivePage = TabSheet4 then
+      ToolButton10.Action := actAtuContatos;
   finally
     RefreshControls;
   end;
@@ -449,10 +467,11 @@ begin
 
       cbEnvio.Enabled := cbRemessa.ItemIndex = 0;
       actDespVinc.Enabled := (FieldByName('status').AsInteger < 3);
+      actAtuContatos.Enabled := (FieldByName('status').AsInteger < 5);
       actSedex.Enabled := (State in [dsEdit, dsInsert]) and cbEnvio.Enabled;
       actEdit.Enabled := actEdit.Enabled and (ActivePageIndex < 3);
       actView.Enabled := actView.Enabled and (ActivePageIndex < 3);
-      actDel.Enabled := actDel.Enabled and ((ActivePageIndex < 3) or actDespVinc.Enabled);
+      actDel.Enabled := actDel.Enabled and ((ActivePageIndex < 3) or actDespVinc.Enabled or actAtuContatos.Enabled);
     end;
   finally
     cbFrete.Enabled := cbEnvio.Enabled;

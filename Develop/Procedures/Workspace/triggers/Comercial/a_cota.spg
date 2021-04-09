@@ -7,6 +7,7 @@
 
 	Histórico
 	-------------------------------------------------------------------------------------------------------------------
+   +  Implementa atualização de contatos na inserção
  */
 Create or Replace Function a_cota()
 Returns trigger As
@@ -24,6 +25,9 @@ Begin
 
       -- Vincular despesas a cotação
       perform fin_caixaVincularCotacao(new.cliente, new.recno);
+
+      -- Listagem dos contatos
+      perform atualiza_contatos_cotacao(new.recno);
    elsif tg_op = 'UPDATE' then
       if new.status <> old.status then
          case

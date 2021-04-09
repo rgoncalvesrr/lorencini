@@ -66,7 +66,7 @@ inherited CotaM: TCotaM
           ExplicitLeft = 4
           ExplicitTop = 26
           ExplicitWidth = 1077
-          ExplicitHeight = 152
+          ExplicitHeight = 193
           inherited DBGrid1: TDBGrid
             AlignWithMargins = True
             Left = 3
@@ -79,10 +79,6 @@ inherited CotaM: TCotaM
         object TabSheet3: TTabSheet
           Caption = 'M'#227'o-de-Obra'
           ImageIndex = 2
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 152
           object DBGrid3: TDBGrid
             Tag = 1
             AlignWithMargins = True
@@ -115,10 +111,6 @@ inherited CotaM: TCotaM
         object TabSheet5: TTabSheet
           Caption = 'Despesas'
           ImageIndex = 3
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 152
           object DBGrid4: TDBGrid
             Tag = 1
             AlignWithMargins = True
@@ -155,16 +147,16 @@ inherited CotaM: TCotaM
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 1
-            ExplicitHeight = 152
             object Label50: TLabel
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 48
+              Width = 402
               Height = 15
               Align = alTop
               Caption = 'Hist'#243'rico'
               FocusControl = DBMemo4
+              ExplicitWidth = 48
             end
             object DBMemo4: TDBMemo
               AlignWithMargins = True
@@ -176,17 +168,12 @@ inherited CotaM: TCotaM
               DataField = 'historico'
               DataSource = Cota.dsDesp
               TabOrder = 0
-              ExplicitHeight = 125
             end
           end
         end
         object TabSheet4: TTabSheet
           Caption = 'Contatos'
           ImageIndex = 4
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 152
           object DBGrid5: TDBGrid
             Tag = 1
             AlignWithMargins = True
@@ -1552,6 +1539,11 @@ inherited CotaM: TCotaM
       Caption = ' '
       ImageIndex = 336
       OnExecute = actDespVincExecute
+    end
+    object actAtuContatos: TAction
+      Caption = 'actAtuContatos'
+      ImageIndex = 336
+      OnExecute = actAtuContatosExecute
     end
   end
 end

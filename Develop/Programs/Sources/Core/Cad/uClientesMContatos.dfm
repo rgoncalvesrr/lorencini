@@ -607,36 +607,20 @@ inherited ClientesMContatos: TClientesMContatos
             Align = alLeft
             BevelOuter = bvNone
             TabOrder = 1
-            object DBCheckBox3: TDBCheckBox
+            object DBCheckBox8: TDBCheckBox
               AlignWithMargins = True
               Left = 3
               Top = 3
               Width = 250
               Height = 17
               Align = alTop
-              Caption = 'Contato T'#233'cnico'
-              DataField = 'contato_tecnico'
+              Caption = 'Contato Financeiro'
+              DataField = 'contato_financeiro'
               DataSource = Clientes.dsContatos
               TabOrder = 0
               ValueChecked = 'True'
               ValueUnchecked = 'False'
               ExplicitLeft = 0
-            end
-            object DBCheckBox8: TDBCheckBox
-              AlignWithMargins = True
-              Left = 3
-              Top = 49
-              Width = 250
-              Height = 17
-              Align = alTop
-              Caption = 'Contato Financeiro'
-              DataField = 'contato_financeiro'
-              DataSource = Clientes.dsContatos
-              TabOrder = 1
-              ValueChecked = 'True'
-              ValueUnchecked = 'False'
-              ExplicitLeft = 0
-              ExplicitTop = 26
             end
             object DBCheckBox2: TDBCheckBox
               AlignWithMargins = True
@@ -645,14 +629,13 @@ inherited ClientesMContatos: TClientesMContatos
               Width = 250
               Height = 17
               Align = alTop
-              Caption = 'Contato para Ordem de Servi'#231'o'
-              DataField = 'contato_os'
+              Caption = 'Acesso ao Portal'
+              DataField = 'portal_acessivel'
               DataSource = Clientes.dsContatos
-              TabOrder = 2
+              TabOrder = 1
               ValueChecked = 'True'
               ValueUnchecked = 'False'
               ExplicitLeft = 0
-              ExplicitTop = 17
             end
           end
           object Panel14: TPanel
@@ -679,20 +662,6 @@ inherited ClientesMContatos: TClientesMContatos
               ValueChecked = 'True'
               ValueUnchecked = 'False'
             end
-            object DBCheckBox7: TDBCheckBox
-              AlignWithMargins = True
-              Left = 3
-              Top = 49
-              Width = 250
-              Height = 17
-              Align = alTop
-              Caption = 'Contato para Pedido'
-              DataField = 'contato_pedido'
-              DataSource = Clientes.dsContatos
-              TabOrder = 2
-              ValueChecked = 'True'
-              ValueUnchecked = 'False'
-            end
             object DBCheckBox1: TDBCheckBox
               AlignWithMargins = True
               Left = 3
@@ -700,12 +669,28 @@ inherited ClientesMContatos: TClientesMContatos
               Width = 250
               Height = 17
               Align = alTop
-              Caption = 'Contato para Cota'#231#227'o'
-              DataField = 'contato_cotacao'
+              Caption = 'Contato Comercial'
+              DataField = 'contato_comercial'
               DataSource = Clientes.dsContatos
               TabOrder = 1
               ValueChecked = 'True'
               ValueUnchecked = 'False'
+            end
+            object DBCheckBox3: TDBCheckBox
+              AlignWithMargins = True
+              Left = 3
+              Top = 49
+              Width = 250
+              Height = 17
+              Align = alTop
+              Caption = 'Contato T'#233'cnico'
+              DataField = 'contato_tecnico'
+              DataSource = Clientes.dsContatos
+              TabOrder = 2
+              ValueChecked = 'True'
+              ValueUnchecked = 'False'
+              ExplicitLeft = -8
+              ExplicitTop = 72
             end
           end
         end
