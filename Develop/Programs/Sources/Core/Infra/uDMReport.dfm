@@ -5949,7 +5949,7 @@ object DMReport: TDMReport
       '      join clientes_contatos c'
       '        on c.cliente = co.cliente'
       '       and c.contato = co.contato'
-      ' where co.recno = :laudo'
+      ' where co.laudo = :laudo'
       '')
     Params = <
       item
