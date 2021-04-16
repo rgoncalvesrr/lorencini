@@ -1,32 +1,32 @@
 inherited LabLaudo: TLabLaudo
   Caption = 'Emiss'#227'o de Laudos'
-  ClientHeight = 505
+  ClientHeight = 773
   ClientWidth = 1161
   ExplicitWidth = 1177
-  ExplicitHeight = 544
+  ExplicitHeight = 812
   PixelsPerInch = 96
   TextHeight = 15
   inherited StatusBar1: TStatusBar
-    Top = 478
+    Top = 746
     Width = 1155
-    ExplicitTop = 478
-    ExplicitWidth = 1122
+    ExplicitTop = 746
+    ExplicitWidth = 1155
   end
   inherited Panel1: TPanel
     Width = 1161
-    ExplicitWidth = 1128
+    ExplicitWidth = 1161
     inherited pctlFind: TPageControl
       Width = 1151
-      ExplicitWidth = 1118
+      ExplicitWidth = 1151
       inherited tsQuery: TTabSheet
         ExplicitLeft = 4
         ExplicitTop = 6
-        ExplicitWidth = 1110
+        ExplicitWidth = 1143
         ExplicitHeight = 75
         inherited BitBtn2: TBitBtn
           Left = 1042
           TabOrder = 9
-          ExplicitLeft = 1009
+          ExplicitLeft = 1042
         end
         object Panel3: TPanel
           Left = 0
@@ -251,7 +251,7 @@ inherited LabLaudo: TLabLaudo
               ExplicitWidth = 134
             end
             inherited CCalendarDiff1: TCCalendarDiff
-              Date = 44295.042641608790000000
+              Date = 44301.914156134260000000
               DisplayInterval = Label11
               OnChange = actQueryProcessExecute
             end
@@ -314,7 +314,7 @@ inherited LabLaudo: TLabLaudo
             end
             inherited CCalendarDiff1: TCCalendarDiff
               Interval = diMonthly
-              Date = 44295.042641608790000000
+              Date = 44301.914156134260000000
               DisplayInterval = Label1
               OnChange = actQueryProcessExecute
               Left = 96
@@ -329,7 +329,6 @@ inherited LabLaudo: TLabLaudo
           Align = alRight
           BevelOuter = bvNone
           TabOrder = 8
-          ExplicitLeft = 926
           object Label8: TLabel
             AlignWithMargins = True
             Left = 3
@@ -359,7 +358,6 @@ inherited LabLaudo: TLabLaudo
           Align = alRight
           BevelOuter = bvNone
           TabOrder = 7
-          ExplicitLeft = 846
           object Label9: TLabel
             AlignWithMargins = True
             Left = 3
@@ -418,7 +416,6 @@ inherited LabLaudo: TLabLaudo
           Align = alClient
           BevelOuter = bvNone
           TabOrder = 11
-          ExplicitWidth = 5
           object Label14: TLabel
             AlignWithMargins = True
             Left = 3
@@ -438,44 +435,168 @@ inherited LabLaudo: TLabLaudo
             Align = alTop
             TabOrder = 0
             OnChange = CriteriaChange
-            ExplicitWidth = 0
           end
         end
       end
       inherited tsFind: TTabSheet
         ExplicitLeft = 4
         ExplicitTop = 6
-        ExplicitWidth = 1110
+        ExplicitWidth = 1143
         ExplicitHeight = 75
       end
     end
   end
   inherited Panel2: TPanel
     Width = 1161
-    Height = 346
-    ExplicitWidth = 1128
-    ExplicitHeight = 346
+    Height = 614
+    ExplicitWidth = 1161
+    ExplicitHeight = 614
     inherited PageControl1: TPageControl
       Width = 1155
-      Height = 340
-      ExplicitWidth = 1122
-      ExplicitHeight = 340
+      Height = 314
+      ExplicitWidth = 1155
+      ExplicitHeight = 314
       inherited TabSheet1: TTabSheet
         Caption = 'Laudos'
         ExplicitLeft = 4
         ExplicitTop = 26
-        ExplicitWidth = 1114
-        ExplicitHeight = 310
+        ExplicitWidth = 1147
+        ExplicitHeight = 284
         inherited DBGrid1: TDBGrid
           Width = 1141
-          Height = 304
+          Height = 278
+        end
+      end
+    end
+    object Panel14: TPanel
+      Left = 0
+      Top = 320
+      Width = 1161
+      Height = 294
+      Align = alBottom
+      BevelOuter = bvNone
+      TabOrder = 1
+      object ControlBar2: TControlBar
+        AlignWithMargins = True
+        Left = 3
+        Top = 3
+        Width = 1155
+        Height = 38
+        Align = alTop
+        AutoSize = True
+        BevelEdges = []
+        BevelKind = bkNone
+        DrawingStyle = dsGradient
+        TabOrder = 0
+        object ToolBar3: TToolBar
+          Left = 12
+          Top = 2
+          Width = 1111
+          Height = 34
+          AutoSize = True
+          BorderWidth = 1
+          ButtonHeight = 30
+          ButtonWidth = 148
+          Caption = 'ToolBar3'
+          DisabledImages = Resources.medium_d
+          DrawingStyle = dsGradient
+          EdgeInner = esNone
+          EdgeOuter = esNone
+          HotImages = Resources.medium_h
+          Images = Resources.medium_n
+          List = True
+          ParentShowHint = False
+          ShowCaptions = True
+          AllowTextButtons = True
+          ShowHint = True
+          TabOrder = 0
+          object ToolButton12: TToolButton
+            Left = 0
+            Top = 0
+            Action = actAtuContatos
+            AutoSize = True
+          end
+          object ToolButton14: TToolButton
+            Left = 32
+            Top = 0
+            Action = actDelContato
+            AutoSize = True
+          end
+          object tbDivDet: TToolButton
+            Left = 64
+            Top = 0
+            Width = 8
+            Caption = 'tbDivDet'
+            ImageIndex = 6
+            Style = tbsSeparator
+          end
+          object ToolButton15: TToolButton
+            Left = 72
+            Top = 0
+            Action = actRefreshContatos
+            AutoSize = True
+          end
+          object ToolButton16: TToolButton
+            Left = 104
+            Top = 0
+            Width = 8
+            Caption = 'ToolButton3'
+            ImageIndex = 42
+            Style = tbsSeparator
+          end
+          object tbRefazGrid: TToolButton
+            Left = 112
+            Top = 0
+            Action = actRGrid
+          end
+        end
+      end
+      object PageControl2: TPageControl
+        AlignWithMargins = True
+        Left = 3
+        Top = 47
+        Width = 1155
+        Height = 244
+        ActivePage = TabSheet2
+        Align = alClient
+        TabOrder = 1
+        object TabSheet2: TTabSheet
+          Caption = 'Contatos'
+          object DBGrid2: TDBGrid
+            Tag = 1
+            AlignWithMargins = True
+            Left = 3
+            Top = 3
+            Width = 1141
+            Height = 208
+            Align = alClient
+            BorderStyle = bsNone
+            Ctl3D = False
+            DataSource = dsContatos
+            DefaultDrawing = False
+            Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
+            ParentCtl3D = False
+            PopupMenu = pmOpcao
+            ReadOnly = True
+            TabOrder = 0
+            TitleFont.Charset = ANSI_CHARSET
+            TitleFont.Color = clWindowText
+            TitleFont.Height = -12
+            TitleFont.Name = 'Segoe UI'
+            TitleFont.Pitch = fpVariable
+            TitleFont.Style = []
+            OnDrawColumnCell = DBGridDrawColumnCell
+            OnDblClick = DBGridDblClick
+            OnEnter = DBGridEnter
+            OnKeyPress = DBGridKeyPress
+          end
         end
       end
     end
   end
   inherited ctrlBarTop: TControlBar
     Width = 1155
-    ExplicitWidth = 1122
+    ExplicitWidth = 1155
     inherited ToolBar1: TToolBar
       Width = 1067
       ExplicitWidth = 1067
@@ -535,9 +656,25 @@ inherited LabLaudo: TLabLaudo
       ImageIndex = 357
       OnExecute = actExportToPDFExecute
     end
-    object Action1: TAction
-      Caption = 'Revis'#227'o do Laudo...'
-      OnExecute = Action1Execute
+    object actAtuContatos: TAction
+      Caption = 'actAtuContatos'
+      ImageIndex = 336
+      OnExecute = actAtuContatosExecute
+    end
+    object actDelContato: TAction
+      Caption = 'actDelContato'
+      ImageIndex = 100
+      OnExecute = actDelContatoExecute
+    end
+    object actRefreshContatos: TAction
+      Caption = 'actRefreshContatos'
+      ImageIndex = 307
+      OnExecute = actRefreshContatosExecute
+    end
+    object actAtuContatosTodos: TAction
+      Caption = 'Atualizar Contatos de Todos os Laudos'
+      ImageIndex = 336
+      OnExecute = actAtuContatosTodosExecute
     end
   end
   inherited pmRel: TPopupMenu
@@ -563,6 +700,7 @@ inherited LabLaudo: TLabLaudo
     Connection = DM.Design
     SortedFields = 'recno'
     BeforeOpen = IBrwSrcBeforeOpen
+    AfterScroll = IBrwSrcAfterScroll
     SQL.Strings = (
       'select'
       
@@ -728,12 +866,159 @@ inherited LabLaudo: TLabLaudo
   inherited pmOpcao: TPopupMenu
     Left = 496
     Top = 120
-    object RevisodoLaudo1: TMenuItem
-      Action = Action1
+    object AtualizarContatosdeTodososLaudos1: TMenuItem
+      Action = actAtuContatosTodos
     end
   end
   inherited zIBrwSrc: TZUpdateSQL
     Left = 112
     Top = 120
+  end
+  object qContatos: TZQuery
+    Connection = DM.Design
+    UpdateObject = uContatos
+    SQL.Strings = (
+      
+        'select co.laudo, co.contato, co.cliente, c.nome, c.celular, c.te' +
+        'lefone, c.ramal, c.email, c.padrao, co.recno'
+      '  from labamostras_rel_contatos co'
+      '      join clientes_contatos c'
+      '        on c.cliente = co.cliente'
+      '       and c.contato = co.contato'
+      ' where co.laudo = :laudo')
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'laudo'
+        ParamType = ptUnknown
+      end>
+    Left = 168
+    Top = 176
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'laudo'
+        ParamType = ptUnknown
+      end>
+    object qContatoslaudo: TIntegerField
+      FieldName = 'laudo'
+      Required = True
+      Visible = False
+    end
+    object qContatoscontato: TIntegerField
+      FieldName = 'contato'
+      Required = True
+      Visible = False
+    end
+    object qContatoscliente: TIntegerField
+      FieldName = 'cliente'
+      Required = True
+      Visible = False
+    end
+    object qContatospadrao: TBooleanField
+      DisplayLabel = 'Padrao'
+      FieldName = 'padrao'
+    end
+    object qContatosnome: TStringField
+      DisplayLabel = 'Nome'
+      DisplayWidth = 70
+      FieldName = 'nome'
+      Size = 150
+    end
+    object qContatoscelular: TStringField
+      DisplayLabel = 'Celular'
+      FieldName = 'celular'
+      EditMask = '(99) 9.9999-9999;0;'
+      Size = 25
+    end
+    object qContatostelefone: TStringField
+      DisplayLabel = 'Telefone'
+      FieldName = 'telefone'
+      EditMask = '(99) 9999-9999;0;'
+      Size = 25
+    end
+    object qContatosramal: TStringField
+      DisplayLabel = 'Ramal'
+      FieldName = 'ramal'
+      Size = 6
+    end
+    object qContatosemail: TStringField
+      DisplayLabel = 'E-mail'
+      DisplayWidth = 70
+      FieldName = 'email'
+      Size = 150
+    end
+    object qContatosrecno: TIntegerField
+      DisplayLabel = 'Registro'
+      FieldName = 'recno'
+      Required = True
+    end
+  end
+  object dsContatos: TDataSource
+    DataSet = qContatos
+    Left = 240
+    Top = 176
+  end
+  object uContatos: TZUpdateSQL
+    DeleteSQL.Strings = (
+      'DELETE FROM labamostras_rel_contatos'
+      'WHERE'
+      '  labamostras_rel_contatos.laudo = :OLD_laudo AND'
+      '  labamostras_rel_contatos.cliente = :OLD_cliente AND'
+      '  labamostras_rel_contatos.contato = :OLD_contato')
+    InsertSQL.Strings = (
+      'INSERT INTO labamostras_rel_contatos'
+      '  (laudo, cliente, contato, recno)'
+      'VALUES'
+      '  (:laudo, :cliente, :contato, :recno)')
+    ModifySQL.Strings = (
+      'UPDATE labamostras_rel_contatos SET'
+      '  laudo = :laudo,'
+      '  cliente = :cliente,'
+      '  contato = :contato,'
+      '  recno = :recno'
+      'WHERE'
+      '  labamostras_rel_contatos.laudo = :OLD_laudo AND'
+      '  labamostras_rel_contatos.cliente = :OLD_cliente AND'
+      '  labamostras_rel_contatos.contato = :OLD_contato')
+    UseSequenceFieldForRefreshSQL = False
+    Left = 112
+    Top = 176
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'laudo'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'cliente'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'contato'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'recno'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'OLD_laudo'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'OLD_cliente'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'OLD_contato'
+        ParamType = ptUnknown
+      end>
   end
 end

@@ -41,8 +41,8 @@ object DMReport: TDMReport
     PreviewOptions.Zoom = 1.000000000000000000
     PrintOptions.Printer = 'Padr'#227'o'
     PrintOptions.PrintOnSheet = 0
-    ReportOptions.CreateDate = 42781.714010347200000000
-    ReportOptions.LastChange = 43860.741651446800000000
+    ReportOptions.CreateDate = 39757.585007557900000000
+    ReportOptions.LastChange = 44300.019422986110000000
     ScriptLanguage = 'PascalScript'
     StoreInDFM = False
     OnReportPrint = 'ReportBaseOnReportPrint'
@@ -5976,6 +5976,7 @@ object DMReport: TDMReport
     end
     object R00014ctelefone: TStringField
       FieldName = 'telefone'
+      EditMask = '(99) 9999-9999;0;'
       Size = 25
     end
     object R00014cemail: TStringField

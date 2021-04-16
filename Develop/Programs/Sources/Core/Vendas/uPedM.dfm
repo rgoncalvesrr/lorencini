@@ -206,8 +206,10 @@ inherited PedM: TPedM
         ExplicitWidth = 1126
         ExplicitHeight = 38
         inherited ToolBar3: TToolBar
+          Left = 12
           Width = 1111
           ButtonWidth = 129
+          ExplicitLeft = 12
           ExplicitWidth = 1111
           inherited ToolButton10: TToolButton
             ExplicitWidth = 32
