@@ -53,8 +53,6 @@ type
     Label11: TLabel;
     actExportToPDF: TAction;
     GerarLaudosemPDF1: TMenuItem;
-    Action1: TAction;
-    RevisodoLaudo1: TMenuItem;
     IBrwSrccomodato: TIntegerField;
     IBrwSrcrelato_recno: TIntegerField;
     Panel3: TPanel;
@@ -75,6 +73,36 @@ type
     Label14: TLabel;
     edRazao: TEdit;
     IBrwSrcsigla: TStringField;
+    qContatos: TZQuery;
+    qContatoslaudo: TIntegerField;
+    qContatoscontato: TIntegerField;
+    qContatoscliente: TIntegerField;
+    qContatosnome: TStringField;
+    qContatoscelular: TStringField;
+    qContatostelefone: TStringField;
+    qContatosramal: TStringField;
+    qContatosemail: TStringField;
+    qContatospadrao: TBooleanField;
+    qContatosrecno: TIntegerField;
+    PageControl2: TPageControl;
+    TabSheet2: TTabSheet;
+    DBGrid2: TDBGrid;
+    dsContatos: TDataSource;
+    ControlBar2: TControlBar;
+    ToolBar3: TToolBar;
+    ToolButton12: TToolButton;
+    ToolButton14: TToolButton;
+    tbDivDet: TToolButton;
+    ToolButton15: TToolButton;
+    ToolButton16: TToolButton;
+    tbRefazGrid: TToolButton;
+    Panel14: TPanel;
+    actAtuContatos: TAction;
+    actDelContato: TAction;
+    actRefreshContatos: TAction;
+    uContatos: TZUpdateSQL;
+    actAtuContatosTodos: TAction;
+    AtualizarContatosdeTodososLaudos1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure actQueryProcessExecute(Sender: TObject);
     procedure FrameData1ComboBox1Change(Sender: TObject);
@@ -84,6 +112,11 @@ type
     procedure CriteriaChange(Sender: TObject);
     procedure actExportToPDFExecute(Sender: TObject);
     procedure Action1Execute(Sender: TObject);
+    procedure IBrwSrcAfterScroll(DataSet: TDataSet);
+    procedure actAtuContatosExecute(Sender: TObject);
+    procedure actDelContatoExecute(Sender: TObject);
+    procedure actRefreshContatosExecute(Sender: TObject);
+    procedure actAtuContatosTodosExecute(Sender: TObject);
   private
     FRefresh: Boolean;
     FR00014SQL: string;
@@ -103,6 +136,53 @@ uses
   uDM, ccalendardiff, uDMReport, uIProgress, ShellAPI;
 
 {$R *.dfm}
+
+procedure TLabLaudo.actAtuContatosExecute(Sender: TObject);
+begin
+  inherited;
+  with U.Data.Query do
+  try
+    SQL.Text := 'select atualiza_contatos_laudo(:laudo);';
+    ParamByName('laudo').AsInteger := IBrwSrcrecno.AsInteger;
+    ExecSQL;
+  finally
+    Close;
+    G.RefreshDataSet(qContatos);
+  end;
+end;
+
+procedure TLabLaudo.actAtuContatosTodosExecute(Sender: TObject);
+var
+  localBookMark: TBookmark;
+begin
+  inherited;
+  IBrwSrc.DisableControls;
+  localBookMark := IBrwSrc.GetBookmark;
+  with U.Data.Query do
+  try
+    IBrwSrc.First;
+    SQL.Text := 'select atualiza_contatos_laudo(:laudo);';
+
+    while not IBrwSrc.Eof do
+    begin
+      ParamByName('laudo').AsInteger := IBrwSrcrecno.AsInteger;
+      ExecSQL;
+      IBrwSrc.Next;
+    end;
+  finally
+    IBrwSrc.GotoBookmark(localBookMark);
+    IBrwSrc.FreeBookmark(localBookMark);
+    IBrwSrc.EnableControls;
+    Close;
+    G.RefreshDataSet(qContatos);
+  end;
+end;
+
+procedure TLabLaudo.actDelContatoExecute(Sender: TObject);
+begin
+  inherited;
+  qContatos.Delete;
+end;
 
 procedure TLabLaudo.actExportToPDFExecute(Sender: TObject);
 var
@@ -340,6 +420,12 @@ begin
   end;
 end;
 
+procedure TLabLaudo.actRefreshContatosExecute(Sender: TObject);
+begin
+  inherited;
+  G.RefreshDataSet(qContatos);
+end;
+
 procedure TLabLaudo.CriteriaChange(Sender: TObject);
 begin
   inherited;
@@ -360,6 +446,13 @@ procedure TLabLaudo.FrameData1ComboBox1Change(Sender: TObject);
 begin
   inherited;
   FrameData1.ComboBox1Change(Sender);
+end;
+
+procedure TLabLaudo.IBrwSrcAfterScroll(DataSet: TDataSet);
+begin
+  inherited;
+  qContatos.ParamByName('laudo').AsInteger := IBrwSrcrecno.AsInteger;
+  G.RefreshDataSet(qContatos);
 end;
 
 procedure TLabLaudo.IBrwSrcBeforeOpen(DataSet: TDataSet);
@@ -400,7 +493,10 @@ procedure TLabLaudo.RefreshCtrl;
 begin
   inherited;
   actExportToPDF.Enabled := IBrwSrc.Active and not IBrwSrc.IsEmpty;
-  Action1.Enabled := True;
+  actAtuContatos.Enabled := not IBrwSrc.IsEmpty;
+  actDelContato.Enabled := not qContatos.IsEmpty;
+  actRefreshContatos.Enabled := not IBrwSrc.IsEmpty;
+  actAtuContatosTodos.Enabled := not IBrwSrc.IsEmpty;
 end;
 
 initialization
