@@ -1,7 +1,8 @@
 inherited ReceberM: TReceberM
+  BorderStyle = bsSizeable
   Caption = 'T'#237'tulo a Receber'
-  ClientHeight = 653
-  ClientWidth = 1046
+  ClientHeight = 643
+  ClientWidth = 1036
   Constraints.MinWidth = 691
   ExplicitWidth = 1052
   ExplicitHeight = 682
@@ -15,21 +16,21 @@ inherited ReceberM: TReceberM
   end
   inherited Panel1: TPanel
     Top = 44
-    Width = 1046
-    Height = 609
+    Width = 1036
+    Height = 599
     ExplicitTop = 44
     ExplicitWidth = 1046
     ExplicitHeight = 609
     inherited Panel3: TPanel
-      Top = 382
-      Width = 1046
+      Top = 372
+      Width = 1036
       Height = 227
       ExplicitTop = 382
       ExplicitWidth = 1046
       ExplicitHeight = 227
       inherited PageControl3: TPageControl
         Top = 47
-        Width = 1040
+        Width = 1030
         Height = 177
         ExplicitLeft = 3
         ExplicitTop = 47
@@ -42,14 +43,14 @@ inherited ReceberM: TReceberM
           ExplicitWidth = 1032
           ExplicitHeight = 147
           inherited DBGrid1: TDBGrid
-            Width = 1032
+            Width = 1022
             Height = 147
             DataSource = Receber.dsContatos
           end
         end
       end
       inherited ControlBar2: TControlBar
-        Width = 1040
+        Width = 1030
         Height = 38
         ExplicitLeft = 3
         ExplicitTop = 3
@@ -60,6 +61,7 @@ inherited ReceberM: TReceberM
           ButtonWidth = 129
           ExplicitWidth = 718
           inherited ToolButton10: TToolButton
+            Action = actAtuContatos
             ExplicitWidth = 32
           end
           inherited ToolButton11: TToolButton
@@ -84,8 +86,8 @@ inherited ReceberM: TReceberM
       end
     end
     inherited PageControl1: TPageControl
-      Width = 1040
-      Height = 376
+      Width = 1030
+      Height = 366
       ExplicitLeft = 3
       ExplicitTop = 3
       ExplicitWidth = 1040
@@ -100,7 +102,7 @@ inherited ReceberM: TReceberM
           AlignWithMargins = True
           Left = 3
           Top = 253
-          Width = 1026
+          Width = 1016
           Height = 15
           Align = alTop
           Caption = 'Observa'#231#245'es'
@@ -111,7 +113,7 @@ inherited ReceberM: TReceberM
           AlignWithMargins = True
           Left = 3
           Top = 203
-          Width = 1026
+          Width = 1016
           Height = 15
           Align = alTop
           Caption = 'Hist'#243'rico'
@@ -121,32 +123,36 @@ inherited ReceberM: TReceberM
         object DBMemo1: TDBMemo
           Left = 0
           Top = 271
-          Width = 1032
-          Height = 75
+          Width = 1022
+          Height = 65
           Align = alClient
           DataField = 'obs'
           DataSource = Receber.DataSource1
           TabOrder = 1
+          ExplicitWidth = 1032
+          ExplicitHeight = 75
         end
         object DBEdit3: TDBEdit
           AlignWithMargins = True
           Left = 3
           Top = 224
-          Width = 1026
+          Width = 1016
           Height = 23
           Align = alTop
           DataField = 'historico'
           DataSource = Receber.DataSource1
           TabOrder = 0
+          ExplicitWidth = 1026
         end
         object Panel2: TPanel
           Left = 0
           Top = 0
-          Width = 1032
+          Width = 1022
           Height = 50
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 2
+          ExplicitWidth = 1032
           object Panel4: TPanel
             Left = 0
             Top = 0
@@ -345,16 +351,17 @@ inherited ReceberM: TReceberM
           object Panel9: TPanel
             Left = 418
             Top = 0
-            Width = 544
+            Width = 534
             Height = 50
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 5
+            ExplicitWidth = 544
             object Label5: TLabel
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 538
+              Width = 528
               Height = 15
               Align = alTop
               Caption = 'Descri'#231#227'o'
@@ -365,7 +372,7 @@ inherited ReceberM: TReceberM
               AlignWithMargins = True
               Left = 3
               Top = 24
-              Width = 538
+              Width = 528
               Height = 23
               TabStop = False
               Align = alClient
@@ -373,16 +380,18 @@ inherited ReceberM: TReceberM
               DataSource = Receber.DataSource1
               ReadOnly = True
               TabOrder = 0
+              ExplicitWidth = 538
             end
           end
           object Panel10: TPanel
-            Left = 962
+            Left = 952
             Top = 0
             Width = 70
             Height = 50
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 6
+            ExplicitLeft = 962
             object Label6: TLabel
               AlignWithMargins = True
               Left = 3
@@ -412,11 +421,12 @@ inherited ReceberM: TReceberM
         object Panel11: TPanel
           Left = 0
           Top = 50
-          Width = 1032
+          Width = 1022
           Height = 50
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 3
+          ExplicitWidth = 1032
           object Panel12: TPanel
             Left = 0
             Top = 0
@@ -520,16 +530,17 @@ inherited ReceberM: TReceberM
           object Panel14: TPanel
             Left = 112
             Top = 0
-            Width = 641
+            Width = 631
             Height = 50
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 2
+            ExplicitWidth = 641
             object Label8: TLabel
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 635
+              Width = 625
               Height = 15
               Align = alTop
               Caption = 'Raz'#227'o Social'
@@ -540,7 +551,7 @@ inherited ReceberM: TReceberM
               AlignWithMargins = True
               Left = 3
               Top = 24
-              Width = 635
+              Width = 625
               Height = 23
               TabStop = False
               Align = alClient
@@ -548,16 +559,18 @@ inherited ReceberM: TReceberM
               DataSource = Receber.DataSource1
               ReadOnly = True
               TabOrder = 0
+              ExplicitWidth = 635
             end
           end
           object Panel15: TPanel
-            Left = 753
+            Left = 743
             Top = 0
             Width = 150
             Height = 50
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 3
+            ExplicitLeft = 753
             object Label9: TLabel
               AlignWithMargins = True
               Left = 3
@@ -584,13 +597,14 @@ inherited ReceberM: TReceberM
             end
           end
           object Panel16: TPanel
-            Left = 903
+            Left = 893
             Top = 0
             Width = 129
             Height = 50
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 4
+            ExplicitLeft = 903
             object Label10: TLabel
               AlignWithMargins = True
               Left = 3
@@ -620,11 +634,12 @@ inherited ReceberM: TReceberM
         object Panel19: TPanel
           Left = 0
           Top = 100
-          Width = 1032
+          Width = 1022
           Height = 50
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 4
+          ExplicitWidth = 1032
           object Panel20: TPanel
             Left = 0
             Top = 0
@@ -782,11 +797,12 @@ inherited ReceberM: TReceberM
         object Panel17: TPanel
           Left = 0
           Top = 150
-          Width = 1032
+          Width = 1022
           Height = 50
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 5
+          ExplicitWidth = 1032
           object Panel18: TPanel
             Left = 0
             Top = 0
@@ -1037,7 +1053,7 @@ inherited ReceberM: TReceberM
     end
   end
   inherited ControlBar1: TControlBar
-    Width = 1040
+    Width = 1030
     Height = 38
     ExplicitLeft = 3
     ExplicitTop = 3
@@ -1094,6 +1110,10 @@ inherited ReceberM: TReceberM
     object findCli: TAction
       ImageIndex = 332
       OnExecute = findCliExecute
+    end
+    object actAtuContatos: TAction
+      ImageIndex = 336
+      OnExecute = actAtuContatosExecute
     end
   end
 end

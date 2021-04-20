@@ -119,7 +119,7 @@ inherited Receber: TReceber
               ExplicitWidth = 157
             end
             inherited CCalendarDiff1: TCCalendarDiff
-              Date = 44278.970515543980000000
+              Date = 44305.905535405090000000
               DisplayInterval = Label4
               OnChange = FrameData1CCalendarDiff1Change
             end
@@ -207,8 +207,6 @@ inherited Receber: TReceber
       object TabSheet2: TTabSheet
         Caption = 'T'#237'tulo em Aberto'
         ImageIndex = 205
-        ExplicitLeft = 2
-        ExplicitTop = 37
       end
       object TabSheet3: TTabSheet
         Caption = 'T'#237'tulos Recebidos'
@@ -629,39 +627,41 @@ inherited Receber: TReceber
   end
   object sContatos: TZSequence
     Connection = DM.Design
-    SequenceName = 'public.tbclientes_contatos_recno_seq'
+    SequenceName = 'public.fin_receber_contatos_recno_seq'
     Left = 64
     Top = 304
   end
-  object zContatos: TZUpdateSQL
+  object uContatos: TZUpdateSQL
     DeleteSQL.Strings = (
-      'DELETE FROM tbclientes_contatos'
+      'DELETE FROM fin_receber_contatos'
       'WHERE'
-      '  tbclientes_contatos.cliente = :OLD_cliente AND'
-      '  tbclientes_contatos.item = :OLD_item')
+      '  fin_receber_contatos.titulo = :OLD_titulo AND'
+      '  fin_receber_contatos.cliente = :OLD_cliente AND'
+      '  fin_receber_contatos.contato = :OLD_contato')
     InsertSQL.Strings = (
-      'INSERT INTO tbclientes_contatos'
-      '  (cliente, nome, funcao, telefone, celular, email, recno)'
+      'INSERT INTO fin_receber_contatos'
+      '  (titulo, cliente, contato, recno)'
       'VALUES'
-      
-        '  (:cliente, :nome, :funcao, :telefone, :celular, :email, :recno' +
-        ')')
+      '  (:titulo, :cliente, :contato, :recno)')
     ModifySQL.Strings = (
-      'UPDATE tbclientes_contatos SET'
+      'UPDATE fin_receber_contatos SET'
+      '  titulo = :titulo,'
       '  cliente = :cliente,'
-      '  nome = :nome,'
-      '  funcao = :funcao,'
-      '  telefone = :telefone,'
-      '  celular = :celular,'
-      '  email = :email,'
+      '  contato = :contato,'
       '  recno = :recno'
       'WHERE'
-      '  tbclientes_contatos.cliente = :OLD_cliente AND'
-      '  tbclientes_contatos.contato = :OLD_contato')
+      '  fin_receber_contatos.titulo = :OLD_titulo AND'
+      '  fin_receber_contatos.cliente = :OLD_cliente AND'
+      '  fin_receber_contatos.contato = :OLD_contato')
     UseSequenceFieldForRefreshSQL = False
     Left = 136
     Top = 304
     ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'titulo'
+        ParamType = ptUnknown
+      end
       item
         DataType = ftUnknown
         Name = 'cliente'
@@ -669,32 +669,17 @@ inherited Receber: TReceber
       end
       item
         DataType = ftUnknown
-        Name = 'nome'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'funcao'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'telefone'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'celular'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'email'
+        Name = 'contato'
         ParamType = ptUnknown
       end
       item
         DataType = ftUnknown
         Name = 'recno'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'OLD_titulo'
         ParamType = ptUnknown
       end
       item
@@ -706,40 +691,44 @@ inherited Receber: TReceber
         DataType = ftUnknown
         Name = 'OLD_contato'
         ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'OLD_item'
-        ParamType = ptUnknown
       end>
   end
   object qContatos: TZQuery
     Connection = DM.Design
     SortedFields = 'nome'
+    UpdateObject = uContatos
     SQL.Strings = (
       
-        'select cliente, nome, celular, telefone, ramal, email, padrao, r' +
-        'ecno'
-      '  from clientes_contatos'
-      ' where cliente = :cliente'
-      '   and contato_financeiro'
-      '   and ativo')
+        'select co.titulo, co.contato, co.cliente, c.nome, c.celular, c.t' +
+        'elefone, c.ramal, c.email, c.padrao, co.recno'
+      '  from fin_receber_contatos co'
+      '      join clientes_contatos  c'
+      '        on c.cliente = co.cliente'
+      '       and c.contato = co.contato'
+      ' where co.titulo = :titulo')
     Params = <
       item
         DataType = ftUnknown
-        Name = 'cliente'
+        Name = 'titulo'
         ParamType = ptUnknown
       end>
     FetchRow = 50
     IndexFieldNames = 'nome Asc'
+    Sequence = sContatos
+    SequenceField = 'recno'
     Left = 200
     Top = 304
     ParamData = <
       item
         DataType = ftUnknown
-        Name = 'cliente'
+        Name = 'titulo'
         ParamType = ptUnknown
       end>
+    object qContatostitulo: TIntegerField
+      FieldName = 'titulo'
+      Required = True
+      Visible = False
+    end
     object qContatoscliente: TIntegerField
       FieldName = 'cliente'
       Visible = False
@@ -748,9 +737,10 @@ inherited Receber: TReceber
       DisplayLabel = 'Padr'#227'o'
       FieldName = 'padrao'
     end
-    object qContatosrecno: TIntegerField
+    object qContatoscontato: TIntegerField
       DisplayLabel = 'Contato'
-      FieldName = 'recno'
+      FieldName = 'contato'
+      Required = True
     end
     object qContatosnome: TStringField
       DisplayLabel = 'Nome'
@@ -781,6 +771,10 @@ inherited Receber: TReceber
       DisplayLabel = 'E-mail'
       FieldName = 'email'
       Size = 150
+    end
+    object qContatosrecno: TIntegerField
+      DisplayLabel = 'Registro'
+      FieldName = 'recno'
     end
   end
   object dsContatos: TDataSource
