@@ -47,7 +47,7 @@ type
     IBrwSrcdescto: TFloatField;
     IBrwSrctotal: TFloatField;
     sContatos: TZSequence;
-    zContatos: TZUpdateSQL;
+    uContatos: TZUpdateSQL;
     Panel3: TPanel;
     Panel4: TPanel;
     Panel5: TPanel;
@@ -61,6 +61,8 @@ type
     qContatosramal: TStringField;
     qContatosemail: TStringField;
     dsContatos: TDataSource;
+    qContatostitulo: TIntegerField;
+    qContatoscontato: TIntegerField;
     procedure IBrwSrcAfterInsert(DataSet: TDataSet);
     procedure IBrwSrctipoGetText(Sender: TField; var Text: string;
       DisplayText: Boolean);
@@ -213,6 +215,7 @@ end;
 procedure TReceber.FormCreate(Sender: TObject);
 begin
   inherited;
+  Receber := Self;
   FCBClientes := TComboList.Create(ComboBox1, 'tbclientes', 'codigo', 'nome_chave');
 
   ComboBox1.Items.Insert(0, '(Todos)');
@@ -246,7 +249,7 @@ end;
 procedure TReceber.IBrwSrcAfterScroll(DataSet: TDataSet);
 begin
   inherited;
-  qContatos.Params.ParamByName('Cliente').AsInteger := IBrwSrcid_cli.AsInteger;
+  qContatos.Params.ParamByName('titulo').AsInteger := IBrwSrcrecno.AsInteger;
   G.RefreshDataSet(qContatos);
 end;
 

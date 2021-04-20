@@ -92,3 +92,23 @@ select co.recno, co.cliente, c.contato
          on co.cliente = c.cliente      
  where c.contato_tecnico
    and c.ativo;
+
+create table fin_receber_contatos (
+   titulo integer not null,
+   cliente integer not null,
+   contato integer not null,
+   recno serial not null,
+   constraint pk_fin_receber_contatos primary key(titulo, cliente, contato),
+   constraint fk_fin_receber_contatos_1 foreign key(titulo)
+      references fin_receber(recno) on update cascade on delete cascade,
+   constraint fk_fin_receber_contatos_2 foreign key(cliente, contato)
+      references tbclientes_contatos(cliente, contato) on update cascade on delete restrict,
+   constraint uk_fin_receber_contatos_1 unique(recno));
+
+insert into fin_receber_contatos (titulo, cliente, contato)
+select co.recno, co.id_cli, c.contato
+  from clientes_contatos c
+       join fin_receber co
+         on co.id_cli = c.cliente      
+ where c.contato_financeiro 
+   and c.ativo;

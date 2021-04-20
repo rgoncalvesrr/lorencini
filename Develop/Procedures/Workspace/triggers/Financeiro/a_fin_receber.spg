@@ -28,6 +28,12 @@ Declare
 Begin
    bReprocessa := tg_op <> 'UPDATE';
 
+   if tg_op = 'INSERT' then
+      -- Insere
+      perform atualiza_contatos_receber(new.recno);
+   end if;
+
+
    if tg_op = 'UPDATE' then
       bReprocessa := new.valor_baixado <> old.valor_baixado or new.valor <> old.valor;
    end if;

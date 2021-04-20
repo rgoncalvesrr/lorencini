@@ -89,11 +89,14 @@ type
     Panel30: TPanel;
     Panel31: TPanel;
     Panel32: TPanel;
+    actAtuContatos: TAction;
     procedure DBEdit4Exit(Sender: TObject);
     procedure DBEdit7Exit(Sender: TObject);
     procedure findNatuExecute(Sender: TObject);
     procedure findCliExecute(Sender: TObject);
     procedure FormResize(Sender: TObject);
+    procedure actAtuContatosExecute(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
   private
     FParcelamento: TParcelamento;
     procedure OnBeforeDataSet; override;
@@ -203,10 +206,30 @@ begin
   end;
 end;
 
+procedure TReceberM.FormActivate(Sender: TObject);
+begin
+  inherited;
+  ToolButton10.Action := actAtuContatos;
+end;
+
 procedure TReceberM.FormResize(Sender: TObject);
 begin
   inherited;
   Panel3.Height := ClientHeight - (PageControl1.Top + 450); 
+end;
+
+procedure TReceberM.actAtuContatosExecute(Sender: TObject);
+begin
+  inherited;
+  with U.Data.Query do
+  try
+    SQL.Text := 'select atualiza_contatos_receber(:titulo);';
+    ParamByName('titulo').AsInteger := Receber.IBrwSrcrecno.AsInteger;
+    ExecSQL;
+  finally
+    Close;
+    G.RefreshDataSet(Receber.qContatos);
+  end;
 end;
 
 procedure TReceberM.AfterPost(Sender: TObject; DataSet: TZQuery);
@@ -271,6 +294,9 @@ procedure TReceberM.RefreshControls;
 begin
   inherited;
 
+  actEdit.Enabled := False;
+  actView.Enabled := False;
+
   if not Assigned(DataSet) then
     Exit;
 
@@ -278,6 +304,8 @@ begin
   findCli.Enabled := DataSet.State in [dsEdit, dsInsert];
   deBaixa.Enabled := DataSet.State = dsEdit;
   ceBaixa.Enabled := DataSet.State = dsEdit;
+  actAtuContatos.Enabled := (DataSet.State = dsBrowse) and not DataSet.IsEmpty;
+  actDel.Enabled := actAtuContatos.Enabled and not Receber.qContatos.IsEmpty;
 end;
 
 end.
