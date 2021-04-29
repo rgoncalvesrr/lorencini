@@ -21,11 +21,13 @@ begin
 
    insert into labamostras_rel_contatos
       (laudo, cliente, contato)      
-   select in_lado, cc.cliente, cc.contato
-     from clientes_contatos cc
+   select in_laudo, cc.cliente, cc.contato
+     from clientes_contatos cc          
           join labamostras_rel co
-            on co.recno = in_lado
-           and co.cliente = cc.cliente 
+            on co.recno = in_laudo
+          join labamostras a
+            on a.recno = co.amostra 
+           and a.codigo = cc.cliente            
     where contato_tecnico
       and ativo;
 end
