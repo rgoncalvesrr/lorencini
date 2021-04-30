@@ -41,17 +41,6 @@ BEGIN
       if new.expirado then
          perform log_warning(mdef || ' recebido com prazo de esterilização expirado.');
       end if;
-
-      -- Verifica se a amostra existe
-      if not exists(
-         select 1
-           from labport
-          where recno = new.labport_recno
-            and codigo = r.codigo)
-      then
-         raise '[[A amostra % não existe ou não está com o cliente % - %]]',
-            new.amostra, r.codigo, r.nome_chave;
-      end if;
       
       if new.status < 3 then
          if new.qtd <= 0 then

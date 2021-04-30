@@ -1,0 +1,4 @@
+set session authorization lorencini;
+
+alter table labret
+   alter labport_recno drop not null;
