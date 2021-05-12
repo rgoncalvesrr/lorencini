@@ -149,6 +149,7 @@ inherited LabProcMonitor: TLabProcMonitor
     inherited PageControl1: TPageControl
       Width = 1105
       Height = 397
+      ActivePage = tsAcao
       Images = Resources.medium_n
       ExplicitWidth = 1105
       ExplicitHeight = 397

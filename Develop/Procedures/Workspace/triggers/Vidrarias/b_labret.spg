@@ -13,10 +13,14 @@ CREATE OR REPLACE FUNCTION b_labret()
   RETURNS trigger AS
 $$
 Declare
+   _S_CONFORME constant integer := 1;
+   _SERINGA constant integer := 2;
+
    r     record;
    mdef  varchar;
 BEGIN
    if tg_op <> 'DELETE' then
+      
       -- Recupera informações do amostra
       select c.recno, c.codigo, c.estado, c.validade, cl.nome_chave,
              h.ocorrencia ret_dh
@@ -33,7 +37,7 @@ BEGIN
       mdef := 'A amostra ' || new.amostra || ' do cliente '|| r.codigo || ' - ' || r.nome_chave;
 
       if r.estado > 30 then
-         raise '[[% já foi baixado em %.]]', mdef, to_char(r.ret_dh, 'dd/mm/yyyy hh24:mi:ss');
+         raise '[[% já foi baixada em %.]]', mdef, to_char(r.ret_dh, 'dd/mm/yyyy hh24:mi:ss');
       end if;
 
       new.expirado := r.validade < current_date;
@@ -41,11 +45,27 @@ BEGIN
       if new.expirado then
          perform log_warning(mdef || ' recebido com prazo de esterilização expirado.');
       end if;
+
+      new.account := sys_account();
+
+      if tg_op = 'INSERT' then
+         new.status := coalesce(new.status, _S_CONFORME);         
+      end if;
       
       if new.status < 3 then
+         new.qtd := 1000; -- Frasco
+
+         select tipo 
+           into r
+           from labprocxequip 
+          where amostra = new.amostra;
+
+         if r.tipo = _SERINGA then
+            new.qtd := 50;
+         end if;
+
          if new.qtd <= 0 then
-            raise '[[A quantidade de fluído para amostra % deve ser maior que zero]]', 
-               new.amostra;
+            raise '[[A quantidade de fluído para amostra % deve ser maior que zero]]', new.amostra;
          end if;
       else
          -- Quebrado ou vazio

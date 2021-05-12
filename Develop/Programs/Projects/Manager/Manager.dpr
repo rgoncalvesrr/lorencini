@@ -295,7 +295,8 @@ uses
   uEntidadesDeClasse in '..\..\Sources\Core\Cad\uEntidadesDeClasse.pas' {EntidadesDeClasse},
   uEntidadesDeClasseM in '..\..\Sources\Core\Cad\uEntidadesDeClasseM.pas' {EntidadesDeClasseM},
   uGestaoEntradas in '..\..\Sources\Core\Dash\uGestaoEntradas.pas' {GestaoEntradas},
-  uGestaoEntradasDocs in '..\..\Sources\Core\Dash\uGestaoEntradasDocs.pas' {GestaoEntradasDocs};
+  uGestaoEntradasDocs in '..\..\Sources\Core\Dash\uGestaoEntradasDocs.pas' {GestaoEntradasDocs},
+  uRecAquisicao in '..\..\Sources\Core\Volume\uRecAquisicao.pas' {RecAquisicao};
 
 {$R *.res}
 begin
