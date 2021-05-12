@@ -11,23 +11,23 @@
    Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
 */
 Create or Replace Function atualiza_contatos_laudo(
-   in in_lado integer)
+   in in_laudo integer)
 Returns void As
 $$
 begin
    delete 
      from labamostras_rel_contatos
-    where laudo = in_lado;
+    where laudo = in_laudo;
 
    insert into labamostras_rel_contatos
       (laudo, cliente, contato)      
    select in_laudo, cc.cliente, cc.contato
      from clientes_contatos cc          
-          join labamostras_rel co
-            on co.recno = in_laudo
           join labamostras a
-            on a.recno = co.amostra 
-           and a.codigo = cc.cliente            
+            on a.codigo = cc.cliente            
+          join labamostras_rel co
+            on co.amostra = a.recno
+           and co.recno = in_laudo
     where contato_tecnico
       and ativo;
 end
