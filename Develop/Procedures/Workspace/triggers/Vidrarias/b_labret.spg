@@ -53,15 +53,17 @@ BEGIN
       end if;
       
       if new.status < 3 then
-         new.qtd := 1000; -- Frasco
+         if new.qtd = 0 then
+            new.qtd := 1000; -- Frasco
 
-         select tipo 
-           into r
-           from labprocxequip 
-          where amostra = new.amostra;
+            select tipo 
+            into r
+            from labprocxequip 
+            where amostra = new.amostra;
 
-         if r.tipo = _SERINGA then
-            new.qtd := 50;
+            if r.tipo = _SERINGA then
+               new.qtd := 50;
+            end if;
          end if;
 
          if new.qtd <= 0 then

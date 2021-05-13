@@ -291,6 +291,7 @@ inherited LabProc: TLabProc
     Connection = DM.Design
     AfterScroll = IBrwSrcAfterScroll
     AfterInsert = IBrwSrcAfterInsert
+    AfterPost = IBrwSrcAfterPost
     SQL.Strings = (
       
         'select p.recno, p.descri, p.criacao, p.emissao, p.remessa, p.ret' +
@@ -445,11 +446,13 @@ inherited LabProc: TLabProc
       '  labproc.recno = :OLD_recno')
     InsertSQL.Strings = (
       'INSERT INTO labproc'
-      '  (recno, descri, criacao, emissao, remessa, '
-      '     retorno, situacao, codigo, os, obs)'
+      
+        '  (recno, descri, criacao, emissao, remessa, retorno, situacao, ' +
+        'codigo, os, obs)'
       'VALUES'
-      '  (:recno, :descri, :criacao, :emissao, :remessa, '
-      '      :retorno, :situacao, :codigo, :os, :obs)')
+      
+        '  (:recno, :descri, :criacao, :emissao, :remessa, :retorno, :sit' +
+        'uacao, :codigo, :os, :obs)')
     ModifySQL.Strings = (
       'UPDATE labproc SET'
       '  descri = :descri,'
@@ -618,11 +621,11 @@ inherited LabProc: TLabProc
       '  labprocxequip.recno = :OLD_recno')
     InsertSQL.Strings = (
       'INSERT INTO labprocxequip'
-      '  (recno, labproc_recno, amostra,'
-      '   tipo, validade, dataprog)'
+      '  (recno, labproc_recno, amostra, tipo, validade, dataprog)'
       'VALUES'
-      '  (:recno, :labproc_recno, :amostra, '
-      '   :tipo, :validade, :dataprog)')
+      
+        '  (:recno, :labproc_recno, :amostra, :tipo, :validade, :dataprog' +
+        ')')
     ModifySQL.Strings = (
       'UPDATE labprocxequip SET'
       '  recno = :recno,'
