@@ -1,0 +1,57 @@
+/**
+   Comando para última etiqueta
+
+   @author    Ricardo Gonçalves
+   @date      11/05/2021
+
+   @param in_cmd código do comando para última etiqueta registrada 
+      c1.Conforme / c2.Não Conforme / c3.Vazio / c4.Quebrado;
+
+   Histórico
+  ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+create or replace function receber_volume_cmd(
+   in in_cmd text)
+returns void as
+$$
+declare
+   _CONFORME      constant integer = 1;
+   _NAOCONFORME   constant integer = 2;
+   _VAZIO         constant integer = 3;
+   _QUEBRADO      constant integer = 4;
+
+   r        record;
+   istatus  labret.status%type;
+begin
+   select recno
+     into r
+     from labret
+    where labport_recno is null
+    order by recno desc
+    limit 1;
+
+   if not Found then
+      raise '[[Não há etiqueta para receber o comando.]]';
+   end if;
+
+   if in_cmd not in ('c1', 'c2', 'c3', 'c4') then
+      raise '[[Comando "%" inválido]]', in_cmd;
+   end if;
+
+   if in_cmd = 'c1' then
+      istatus = _CONFORME;
+   elsif in_cmd = 'c2' then
+      istatus = _NAOCONFORME;
+   elsif in_cmd = 'c3' then
+      istatus = _VAZIO;
+   elsif in_cmd = 'c4' then
+      istatus = _QUEBRADO;
+   end if;
+
+   update labret
+      set status = istatus
+    where recno = r.recno;     
+end;
+$$  
+language plpgsql; 

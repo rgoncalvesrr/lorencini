@@ -69,7 +69,7 @@ Begin
       select c.nome, c.email
         from clientes_contatos c
              join pedido_contatos pc
-               on pc.recno = in_pedido
+               on pc.pedido = in_pedido
               and pc.cliente = c.cliente 
               and pc.contato = c.contato
        where email is not null)

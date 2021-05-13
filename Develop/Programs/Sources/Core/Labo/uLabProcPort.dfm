@@ -627,7 +627,7 @@ inherited LabProcPort: TLabProcPort
   object sPort: TZSequence
     Connection = DM.Design
     SequenceName = 'public.labport_recno_seq'
-    Left = 352
+    Left = 320
     Top = 456
   end
   object uPort: TZUpdateSQL
@@ -672,7 +672,7 @@ inherited LabProcPort: TLabProcPort
       'WHERE'
       '  labport.recno = :OLD_recno')
     UseSequenceFieldForRefreshSQL = False
-    Left = 400
+    Left = 384
     Top = 456
     ParamData = <
       item
@@ -943,13 +943,13 @@ inherited LabProcPort: TLabProcPort
   object dsPort: TDataSource
     AutoEdit = False
     DataSet = qPort
-    Left = 512
+    Left = 528
     Top = 457
   end
   object sPortItens: TZSequence
     Connection = DM.Design
     SequenceName = 'public.labret_recno_seq'
-    Left = 352
+    Left = 320
     Top = 504
   end
   object uPortItens: TZUpdateSQL
@@ -972,7 +972,7 @@ inherited LabProcPort: TLabProcPort
       'WHERE'
       '  labret.recno = :OLD_recno')
     UseSequenceFieldForRefreshSQL = False
-    Left = 400
+    Left = 384
     Top = 504
     ParamData = <
       item
@@ -1107,7 +1107,7 @@ inherited LabProcPort: TLabProcPort
   object dsPortItens: TDataSource
     AutoEdit = False
     DataSet = qPortItens
-    Left = 512
+    Left = 528
     Top = 505
   end
 end

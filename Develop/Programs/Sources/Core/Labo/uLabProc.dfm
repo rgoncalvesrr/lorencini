@@ -23,6 +23,7 @@ inherited LabProc: TLabProc
         ExplicitLeft = 4
         ExplicitTop = 6
         ExplicitWidth = 1137
+        ExplicitHeight = 75
         object Label18: TLabel [0]
           Left = 445
           Top = 3
@@ -58,7 +59,6 @@ inherited LabProc: TLabProc
           Left = 1036
           TabOrder = 4
           ExplicitLeft = 1036
-          ExplicitTop = 10
         end
         object ComboBox1: TComboBox
           Left = 445
@@ -153,22 +153,20 @@ inherited LabProc: TLabProc
         ExplicitWidth = 1141
         ExplicitHeight = 343
         inherited DBGrid1: TDBGrid
-          Width = 1141
-          Height = 343
+          Width = 1135
+          Height = 337
           OnDrawColumnCell = DBGrid1DrawColumnCell
         end
       end
       object TabSheet2: TTabSheet
         Caption = 'Aguardando A'#231#227'o'
         ImageIndex = 213
+        ExplicitLeft = 6
+        ExplicitTop = 37
       end
       object TabSheet3: TTabSheet
         Caption = 'Em Processamento'
         ImageIndex = 210
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object PageControl2: TPageControl
           AlignWithMargins = True
           Left = 3
@@ -178,13 +176,8 @@ inherited LabProc: TLabProc
           ActivePage = TabSheet4
           Align = alBottom
           TabOrder = 0
-          ExplicitTop = 130
           object TabSheet4: TTabSheet
             Caption = 'Etiquetas'
-            ExplicitLeft = 0
-            ExplicitTop = 0
-            ExplicitWidth = 0
-            ExplicitHeight = 0
             object DBGrid3: TDBGrid
               Tag = 1
               Left = 0
@@ -204,6 +197,7 @@ inherited LabProc: TLabProc
               TitleFont.Color = clWindowText
               TitleFont.Height = -12
               TitleFont.Name = 'Segoe UI'
+              TitleFont.Pitch = fpVariable
               TitleFont.Style = []
               OnDrawColumnCell = DBGridDrawColumnCell
               OnDblClick = DBGridDblClick
@@ -297,6 +291,7 @@ inherited LabProc: TLabProc
     Connection = DM.Design
     AfterScroll = IBrwSrcAfterScroll
     AfterInsert = IBrwSrcAfterInsert
+    AfterPost = IBrwSrcAfterPost
     SQL.Strings = (
       
         'select p.recno, p.descri, p.criacao, p.emissao, p.remessa, p.ret' +
@@ -451,11 +446,13 @@ inherited LabProc: TLabProc
       '  labproc.recno = :OLD_recno')
     InsertSQL.Strings = (
       'INSERT INTO labproc'
-      '  (recno, descri, criacao, emissao, remessa, '
-      '     retorno, situacao, codigo, os, obs)'
+      
+        '  (recno, descri, criacao, emissao, remessa, retorno, situacao, ' +
+        'codigo, os, obs)'
       'VALUES'
-      '  (:recno, :descri, :criacao, :emissao, :remessa, '
-      '      :retorno, :situacao, :codigo, :os, :obs)')
+      
+        '  (:recno, :descri, :criacao, :emissao, :remessa, :retorno, :sit' +
+        'uacao, :codigo, :os, :obs)')
     ModifySQL.Strings = (
       'UPDATE labproc SET'
       '  descri = :descri,'
@@ -624,11 +621,11 @@ inherited LabProc: TLabProc
       '  labprocxequip.recno = :OLD_recno')
     InsertSQL.Strings = (
       'INSERT INTO labprocxequip'
-      '  (recno, labproc_recno, amostra,'
-      '   tipo, validade, dataprog)'
+      '  (recno, labproc_recno, amostra, tipo, validade, dataprog)'
       'VALUES'
-      '  (:recno, :labproc_recno, :amostra, '
-      '   :tipo, :validade, :dataprog)')
+      
+        '  (:recno, :labproc_recno, :amostra, :tipo, :validade, :dataprog' +
+        ')')
     ModifySQL.Strings = (
       'UPDATE labprocxequip SET'
       '  recno = :recno,'

@@ -1,0 +1,52 @@
+/**
+   Registra o retorno do volume
+
+   @author    Ricardo Gonçalves
+   @date      11/05/2021
+
+   @param in_etiqueta número da etiqueta que está sendo recebida
+
+   Histórico
+  ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+create or replace function receber_volume(
+   in in_etiqueta integer)
+returns void as
+$$
+declare
+   r  record;
+begin
+   select recno amostra, estado
+     into r
+     from labamostras
+    where comodato = in_etiqueta;
+
+   if exists(
+      select 1
+        from labret
+       where amostra = r.amostra) 
+   then
+      raise '[[Etiqueta % já retornada.]]', in_etiqueta;
+   end if;
+
+   if r.estado in (10,20) then
+      raise '[[Etiqueta % não foi enviada ao cliente]]', in_etiqueta;
+   end if;
+
+   if r.estado in (40,50) then
+      raise '[[Etiqueta % já foi recebida]]', in_etiqueta;
+   end if;
+
+   if r.estado = 60 then
+      raise '[[Etiqueta % já foi recebida e consumida]]', in_etiqueta;
+   end if;
+
+   if r.estado = 70 then
+      raise '[[Etiqueta % está cancelada]]', in_etiqueta;
+   end if;
+
+   insert into labret (amostra) values (r.amostra);
+end;
+$$  
+language plpgsql; 

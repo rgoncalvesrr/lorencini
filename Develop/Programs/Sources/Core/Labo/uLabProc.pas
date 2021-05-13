@@ -84,6 +84,7 @@ type
     procedure IBrwSrcenvioGetText(Sender: TField; var Text: string;
       DisplayText: Boolean);
     procedure edPedidoChange(Sender: TObject);
+    procedure IBrwSrcAfterPost(DataSet: TDataSet);
   private
     FCBClientes: TComboList;
     procedure OnEdit; override;
@@ -273,6 +274,13 @@ procedure TLabProc.IBrwSrcAfterInsert(DataSet: TDataSet);
 begin
   inherited;
   IBrwSrcsituacao.AsInteger := 1;
+end;
+
+procedure TLabProc.IBrwSrcAfterPost(DataSet: TDataSet);
+begin
+  inherited;
+  qPItens.ParamByName('proc').AsInteger := IBrwSrcrecno.AsInteger;
+  G.RefreshDataSet(qPItens);
 end;
 
 procedure TLabProc.IBrwSrcAfterScroll(DataSet: TDataSet);
