@@ -264,8 +264,6 @@ uses
   uSysRoles in '..\..\Sources\Core\RBAC\uSysRoles.pas' {SysRoles},
   uSysRolesM in '..\..\Sources\Core\RBAC\uSysRolesM.pas' {SysRolesM},
   uSysRolesMUsers in '..\..\Sources\Core\RBAC\uSysRolesMUsers.pas' {SysRolesMUsers},
-  uSysUsers in '..\..\Sources\Core\RBAC\uSysUsers.pas' {SysUsers},
-  uSysUsersM in '..\..\Sources\Core\RBAC\uSysUsersM.pas' {SysUsersM},
   uSysRolesMGrants in '..\..\Sources\Core\RBAC\uSysRolesMGrants.pas' {SysRolesMGrants},
   uPedMMat in '..\..\Sources\Core\Vendas\uPedMMat.pas' {PedMMat},
   uPedMServ in '..\..\Sources\Core\Vendas\uPedMServ.pas' {PedMServ},
@@ -296,7 +294,8 @@ uses
   uEntidadesDeClasseM in '..\..\Sources\Core\Cad\uEntidadesDeClasseM.pas' {EntidadesDeClasseM},
   uGestaoEntradas in '..\..\Sources\Core\Dash\uGestaoEntradas.pas' {GestaoEntradas},
   uGestaoEntradasDocs in '..\..\Sources\Core\Dash\uGestaoEntradasDocs.pas' {GestaoEntradasDocs},
-  uRecAquisicao in '..\..\Sources\Core\Volume\uRecAquisicao.pas' {RecAquisicao};
+  uRecAquisicao in '..\..\Sources\Core\Volume\uRecAquisicao.pas' {RecAquisicao},
+  uRecPortador in '..\..\Sources\Core\Volume\uRecPortador.pas' {RecPortador};
 
 {$R *.res}
 begin
@@ -308,11 +307,12 @@ begin
   try
     Application.Title := 'Manager';
     Application.CreateForm(TResources, Resources);
-  Application.CreateForm(TDM, DM);
-  Application.CreateForm(TDMReport, DMReport);
-  Application.CreateForm(TMain, Main);
-  Application.CreateForm(TILogin, ILogin);
-  ILogin.ShowModal;
+    Application.CreateForm(TDM, DM);
+    Application.CreateForm(TDMReport, DMReport);
+    Application.CreateForm(TMain, Main);
+    Application.CreateForm(TILogin, ILogin);
+    ILogin.ShowModal;
+    
     if ILogin.Execute then
       Application.Run;
   finally

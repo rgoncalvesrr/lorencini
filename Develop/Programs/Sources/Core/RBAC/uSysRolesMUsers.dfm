@@ -10,9 +10,9 @@ inherited SysRolesMUsers: TSysRolesMUsers
     Top = 44
     Width = 747
     Height = 162
-    ExplicitTop = 35
+    ExplicitTop = 44
     ExplicitWidth = 747
-    ExplicitHeight = 137
+    ExplicitHeight = 162
     inherited Panel3: TPanel
       Align = alNone
       ExplicitTop = 204
@@ -20,14 +20,14 @@ inherited SysRolesMUsers: TSysRolesMUsers
         Top = 47
         Height = 185
         ExplicitLeft = 3
-        ExplicitTop = 38
+        ExplicitTop = 47
         ExplicitWidth = 633
-        ExplicitHeight = 194
+        ExplicitHeight = 185
         inherited tsDet: TTabSheet
           ExplicitLeft = 4
           ExplicitTop = 26
           ExplicitWidth = 625
-          ExplicitHeight = 164
+          ExplicitHeight = 155
           inherited DBGrid1: TDBGrid
             Width = 625
             Height = 155
@@ -72,12 +72,12 @@ inherited SysRolesMUsers: TSysRolesMUsers
       ExplicitLeft = 3
       ExplicitTop = 3
       ExplicitWidth = 741
-      ExplicitHeight = 131
+      ExplicitHeight = 156
       inherited TabSheet1: TTabSheet
         ExplicitLeft = 4
         ExplicitTop = 26
         ExplicitWidth = 733
-        ExplicitHeight = 101
+        ExplicitHeight = 126
         object Bevel1: TBevel
           AlignWithMargins = True
           Left = 3
@@ -107,7 +107,6 @@ inherited SysRolesMUsers: TSysRolesMUsers
             Align = alLeft
             BevelOuter = bvNone
             TabOrder = 0
-            ExplicitHeight = 45
             object Label1: TLabel
               AlignWithMargins = True
               Left = 3
@@ -117,8 +116,6 @@ inherited SysRolesMUsers: TSysRolesMUsers
               Align = alTop
               Caption = 'Papel'
               FocusControl = DBEdit1
-              ExplicitLeft = 2
-              ExplicitTop = 2
               ExplicitWidth = 29
             end
             object DBEdit1: TDBEdit
@@ -143,7 +140,6 @@ inherited SysRolesMUsers: TSysRolesMUsers
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 1
-            ExplicitHeight = 45
             object Label2: TLabel
               AlignWithMargins = True
               Left = 3
@@ -153,8 +149,6 @@ inherited SysRolesMUsers: TSysRolesMUsers
               Align = alTop
               Caption = 'Descri'#231#227'o'
               FocusControl = DBEdit2
-              ExplicitLeft = 2
-              ExplicitTop = 2
               ExplicitWidth = 51
             end
             object DBEdit2: TDBEdit
@@ -179,7 +173,6 @@ inherited SysRolesMUsers: TSysRolesMUsers
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 2
-            ExplicitHeight = 45
             object DBCheckBox1: TDBCheckBox
               AlignWithMargins = True
               Left = 3
@@ -197,7 +190,6 @@ inherited SysRolesMUsers: TSysRolesMUsers
               TabOrder = 0
               ValueChecked = 'True'
               ValueUnchecked = 'False'
-              ExplicitHeight = 16
             end
           end
         end
@@ -217,7 +209,6 @@ inherited SysRolesMUsers: TSysRolesMUsers
             Align = alLeft
             BevelOuter = bvNone
             TabOrder = 0
-            ExplicitHeight = 45
             object Label3: TLabel
               AlignWithMargins = True
               Left = 3
@@ -227,8 +218,6 @@ inherited SysRolesMUsers: TSysRolesMUsers
               Align = alTop
               Caption = 'Usu'#225'rio'
               FocusControl = DBEdit3
-              ExplicitLeft = 2
-              ExplicitTop = 2
               ExplicitWidth = 40
             end
             object DBEdit3: TDBEdit
@@ -254,7 +243,6 @@ inherited SysRolesMUsers: TSysRolesMUsers
             Align = alLeft
             BevelOuter = bvNone
             TabOrder = 1
-            ExplicitHeight = 45
             object SpeedButton3: TSpeedButton
               AlignWithMargins = True
               Left = 0
@@ -313,7 +301,6 @@ inherited SysRolesMUsers: TSysRolesMUsers
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 2
-            ExplicitHeight = 45
             object Label4: TLabel
               AlignWithMargins = True
               Left = 3
@@ -323,8 +310,6 @@ inherited SysRolesMUsers: TSysRolesMUsers
               Align = alTop
               Caption = 'Nome'
               FocusControl = DBEdit4
-              ExplicitLeft = 2
-              ExplicitTop = 2
               ExplicitWidth = 33
             end
             object DBEdit4: TDBEdit
@@ -349,7 +334,6 @@ inherited SysRolesMUsers: TSysRolesMUsers
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 3
-            ExplicitHeight = 45
             object Label5: TLabel
               AlignWithMargins = True
               Left = 3
@@ -359,8 +343,6 @@ inherited SysRolesMUsers: TSysRolesMUsers
               Align = alTop
               Caption = 'E-Mail'
               FocusControl = DBEdit5
-              ExplicitLeft = 2
-              ExplicitTop = 2
               ExplicitWidth = 34
             end
             object DBEdit5: TDBEdit
@@ -385,7 +367,6 @@ inherited SysRolesMUsers: TSysRolesMUsers
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 4
-            ExplicitHeight = 45
             object DBCheckBox2: TDBCheckBox
               AlignWithMargins = True
               Left = 3
@@ -401,7 +382,6 @@ inherited SysRolesMUsers: TSysRolesMUsers
               TabOrder = 0
               ValueChecked = 'True'
               ValueUnchecked = 'False'
-              ExplicitHeight = 16
             end
           end
         end

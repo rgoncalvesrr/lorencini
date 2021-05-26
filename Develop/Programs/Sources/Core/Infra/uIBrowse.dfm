@@ -68,6 +68,8 @@ inherited IDefBrowse: TIDefBrowse
         TabVisible = False
         ExplicitLeft = 3
         ExplicitTop = 4
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object BitBtn2: TBitBtn
           AlignWithMargins = True
           Left = 718
@@ -121,6 +123,10 @@ inherited IDefBrowse: TIDefBrowse
         Caption = 'Pesquisar'
         ImageIndex = 1
         TabVisible = False
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object Label2: TLabel
           Left = 3
           Top = 3
@@ -223,6 +229,10 @@ inherited IDefBrowse: TIDefBrowse
       OnMouseDown = PageControl1MouseDown
       object TabSheet1: TTabSheet
         Caption = 'Colaboradores'
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object DBGrid1: TDBGrid
           Tag = 1
           AlignWithMargins = True

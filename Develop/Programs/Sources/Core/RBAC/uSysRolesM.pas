@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uIBrowseDet, ActnList, ComCtrls, ToolWin, ExtCtrls, Grids, DBGrids,
-  StdCtrls, DBCtrls, Mask, ZDataset, uSysMenuComum, Menus;
+  StdCtrls, DBCtrls, Mask, ZDataset, uSysMenuComum, Menus, JvExExtCtrls, JvImage;
 
 type
   TSysRolesM = class(TIDefBrowseEdit)
@@ -25,6 +25,13 @@ type
     actUncheckAll: TAction;
     actCheckAll1: TMenuItem;
     actUncheckAll1: TMenuItem;
+    Panel7: TPanel;
+    JvImage1: TJvImage;
+    lbLeg1: TLabel;
+    JvImage2: TJvImage;
+    lbLeg2: TLabel;
+    lbLeg3: TLabel;
+    JvImage3: TJvImage;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -35,6 +42,8 @@ type
     procedure actUncheckAllExecute(Sender: TObject);
     procedure pmGrantsPopup(Sender: TObject);
     procedure PageControl3Change(Sender: TObject);
+    procedure ChildGridDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn;
+      State: TGridDrawState);
   private
     FMenu: TMenuFactory;
     procedure RefreshItemAllowed(DataItem: TDataItem);
@@ -75,6 +84,38 @@ begin
   inherited;
   oDataItem := trMenu.Selected.Data;
   GrantChildNodes(oDataItem, False);
+end;
+
+procedure TSysRolesM.ChildGridDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn;
+  State: TGridDrawState);
+var
+  fBitMap: TBitmap;
+begin
+  if (Column.Index <> 0) then
+    inherited ChildGridDrawColumnCell(Sender, Rect, DataCol, Column, State)
+  else
+    with TDBGrid(Sender) do
+    try
+      fBitMap:= TBitmap.Create;
+      fBitMap.Transparent:= True;
+
+      with Resources do
+        case SysRoles.qAccountsstatus.AsInteger of
+          1: small_n.GetBitmap(215, fBitMap); //Novo
+          2: small_n.GetBitmap(208, fBitMap); //Ativo
+          3: small_n.GetBitmap(209, fBitMap); //Inativo
+        else
+          small_n.GetBitmap(204, fBitMap); //Indefinido  
+        end;
+
+      if Column.Width <> fBitMap.Width + 2 then
+        Column.Width:= fBitMap.Width + 2;
+
+      {Desenha o status da remessa}
+      Canvas.Draw(Rect.Left + 1, Rect.Top + 1, fBitMap);
+    finally
+      fBitMap.Free;
+    end;
 end;
 
 procedure TSysRolesM.CreateItem(Menu: TMenuFactory; DataItem: TDataItem);
@@ -122,16 +163,16 @@ end;
 
 procedure TSysRolesM.OnEdit;
 begin
-  if ChildDataSet = SysRoles.qUsers then
-  begin
-    SysRolesMUsers := TSysRolesMUsers.Create(nil);
-    try
-      SysRolesMUsers.DataSet := SysRoles.qUsers;
-      SysRolesMUsers.ShowModal;
-    finally
-      FreeAndNil(SysRolesMUsers);
-    end;
-  end;
+//  if ChildDataSet = SysRoles.qAccounts then
+//  begin
+//    SysRolesMUsers := TSysRolesMUsers.Create(nil);
+//    try
+//      SysRolesMUsers.DataSet := SysRoles.qUsers;
+//      SysRolesMUsers.ShowModal;
+//    finally
+//      FreeAndNil(SysRolesMUsers);
+//    end;
+//  end;
 
   if ChildDataSet = SysRoles.qGrants then
   begin
