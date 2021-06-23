@@ -27,6 +27,7 @@ inherited LabAmostras: TLabAmostras
         inherited BitBtn2: TBitBtn
           Left = 892
           ExplicitLeft = 892
+          ExplicitTop = 11
         end
         object Panel3: TPanel
           Left = 0
@@ -183,7 +184,7 @@ inherited LabAmostras: TLabAmostras
               ExplicitWidth = 147
             end
             inherited CCalendarDiff1: TCCalendarDiff
-              Date = 44075.747045115740000000
+              Date = 44342.041114039360000000
               DisplayInterval = Label1
               OnChange = FrameData1CCalendarDiff1Change
             end

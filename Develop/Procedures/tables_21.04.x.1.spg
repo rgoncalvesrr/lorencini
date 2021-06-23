@@ -8,3 +8,57 @@ alter table labret
    add account account$,
    add constraint fk_labret_2 foreign key(account)
       references sys_accounts(recno) on update cascade on delete restrict;
+
+alter table labport
+   alter nf drop not null,
+   alter nf_serie drop not null,
+   alter nf_valor drop not null,
+   alter nf_emissao drop not null,
+   alter nf_valor drop not null,
+   drop constraint ck_labport_nf_valor,
+   drop constraint uk_labport_nf;
+
+create table fis_nfe (
+   chave varchar(44) not null,
+   registro timestamp default(clock_timestamp()) not null,
+   frascos integer default(0) not null,
+   frascos_saldo integer default(0) not null,
+   seringas integer default(0) not null,
+   seringas_saldo integer default(0) not null,   
+   tipo integer default(1) not null,
+   status integer default(2) not null,
+   account account$ not null,
+   cliente integer,
+   recno bigserial not null,
+   constraint pk_fis_nfe primary key(chave),
+   constraint fk_fis_nfe_1 foreign key(account) references sys_accounts(recno)
+      on update cascade on delete restrict,
+   constraint fk_fis_nfe_2 foreign key(cliente) references tbclientes(codigo)
+      on update cascade on delete cascade,
+   constraint uk_fis_nfe_1 unique(recno),
+   constraint ck_fis_nfe_1 check(frascos_saldo >= frascos),
+   constraint ck_fis_nfe_2 check(seringas_saldo >= seringas));
+
+create type nfe$ as (
+   chave varchar(44),
+   uf varchar(2),
+   emissao varchar(4),
+   emitente varchar(14),
+   modelo varchar(2),
+   serie varchar(3),
+   numero varchar(9),
+   forma varchar(1),
+   sequencial varchar(8),
+   dv varchar(1));
+
+create table amostras_nfe(
+   chave varchar(44) not null,
+   amostra integer not null,
+   associacao timestamp default(clock_timestamp()) not null,
+   recno serial not null,
+   constraint pk_amostras_nfe primary key(chave, amostra),
+   constraint fk_amostras_nfe_1 foreign key(chave) references fis_nfe(chave)
+      on update cascade on delete cascade,
+   constraint fk_amostras_nfe_2 foreign key(amostra) references labamostras(recno)
+      on update cascade on delete cascade,
+   constraint uk_amostras_nfe unique(recno));

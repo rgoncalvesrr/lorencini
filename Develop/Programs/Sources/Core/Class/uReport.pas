@@ -26,33 +26,29 @@ type
     FPrintToDevice: Boolean;
     FReportName: String;
     FFileName: TFileName;
-    procedure SetID(const Value: integer);
-    function GetReportFile: TFileName;
-    procedure SetCaption(const Value: string);
-    function GetFormParam: IReportParam;
-    procedure SetFormParamName(const Value: String);
-    procedure SetPrintToPDF(const Value: Boolean);
-    procedure SetPrintToDevice(const Value: Boolean);
-    procedure SetName(const Value: String);
-    procedure SetReportName(const Value: String);
-    function GetReportName: String;
-    procedure SetFileName(const Value: TFileName);
-    function GetFileName: TFileName;
-  published
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
-  published
-    property Caption: string read FCaption write SetCaption;
-    property FileName: TFileName read GetFileName write SetFileName;
-    property FormParam: IReportParam read GetFormParam;
-    property FormParamName: String read FFormParamName write SetFormParamName;
-    property ID: integer read FID write SetID;
-    property PrintToDevice: Boolean read FPrintToDevice write SetPrintToDevice;
-    property PrintToPDF: Boolean read FPrintToPDF write SetPrintToPDF;
-    property ReportName: String read GetReportName;
-    property ReportFileName: TFileName read GetReportFile;
+
+    class function New: TReport; overload;
+    class function New(AOwner: TComponent): TReport; overload;
+
+    function Caption: string; overload;
+    function Caption(AValue: string): TReport; overload;
+    function FileName: TFileName; overload;
+    function FileName(AValue: TFileName): TReport; overload;
+    function FormParam: IReportParam;
+    function FormParamName: String; overload;
+    function FormParamName(AValue: String): TReport; overload;
+    function ID: Integer; overload;
+    function ID(AValue: Integer): TReport; overload;
+    function PrintToDevice: Boolean; overload;
+    function PrintToDevice(AValue: Boolean): TReport; overload;
+    function PrintToPDF: Boolean; overload;
+    function PrintToPDF(AValue: Boolean): TReport; overload;
+    function ReportName: string;
+    function ReportFileName: TFileName;
   end;
 
 implementation
@@ -64,6 +60,18 @@ uses mcUtils, uIUtils, Forms, uSysReportsParam;
 {
   Retorna o nome do arquivo de relatório
 }
+function TReport.Caption: string;
+begin
+  Result := FCaption;
+end;
+
+function TReport.Caption(AValue: string): TReport;
+begin
+  Result := Self;
+  inherited Caption := AValue;
+  FCaption := AValue;
+end;
+
 constructor TReport.Create(AOwner: TComponent);
 begin
   inherited;
@@ -78,7 +86,7 @@ begin
   inherited;
 end;
 
-function TReport.GetFileName: TFileName;
+function TReport.FileName: TFileName;
 begin
   Result := FFileName;
 
@@ -86,7 +94,13 @@ begin
     Result := ReportName;
 end;
 
-function TReport.GetFormParam: IReportParam;
+function TReport.FileName(AValue: TFileName): TReport;
+begin
+  Result := Self;
+  FFileName := AValue;
+end;
+
+function TReport.FormParam: IReportParam;
 var
   FormClass : TFormClass;
   Form: TForm;
@@ -115,67 +129,77 @@ begin
   Result := FFormParam;
 end;
 
-{
-  Retorna o nome do arquivo com o caminho (path)
-}
-function TReport.GetReportFile: TFileName;
+function TReport.FormParamName: String;
 begin
-  Result := U.Path.ReportTemplates + Self.ReportName;
+  Result := FFormParamName;
 end;
 
-function TReport.GetReportName: String;
+function TReport.FormParamName(AValue: String): TReport;
 begin
-  Result :=  'r' + mcStrZero(FID, 5) + '.fr3';    
+  Result := Self;
+  FFormParamName := AValue;
+end;
+
+function TReport.ID: Integer;
+begin
+  Result := FID;
+end;
+
+function TReport.ID(AValue: Integer): TReport;
+begin
+  Result := Self;
+  FID := AValue;
+end;
+
+class function TReport.New(AOwner: TComponent): TReport;
+begin
+  Result := TReport.Create(AOwner);
+end;
+
+class function TReport.New: TReport;
+begin
+  Result := TReport.New(nil);
 end;
 
 procedure TReport.Notification(AComponent: TComponent; Operation: TOperation);
 begin
   if (AComponent is TForm) and (Operation = opRemove) then
     FFormParam := nil;
-  
+
   inherited;
 
 end;
 
-procedure TReport.SetCaption(const Value: string);
+function TReport.PrintToDevice: Boolean;
 begin
-  inherited Caption := Value;
-  FCaption := Value;
+  Result := FPrintToDevice;
 end;
 
-procedure TReport.SetFileName(const Value: TFileName);
+function TReport.PrintToDevice(AValue: Boolean): TReport;
 begin
-  FFileName := Value;
+  Result := Self;
+  FPrintToDevice := AValue;
 end;
 
-procedure TReport.SetFormParamName(const Value: String);
+function TReport.PrintToPDF(AValue: Boolean): TReport;
 begin
-  FFormParamName := Value;
+  Result := Self;
+  FPrintToPDF := AValue;
 end;
 
-procedure TReport.SetID(const Value: integer);
+function TReport.PrintToPDF: Boolean;
 begin
-  FID := Value;
+  Result := FPrintToPDF;
 end;
 
-procedure TReport.SetName(const Value: String);
+function TReport.ReportFileName: TFileName;
 begin
-
+  Result := U.Path.ReportTemplates + Self.ReportName;  
 end;
 
-procedure TReport.SetPrintToDevice(const Value: Boolean);
+function TReport.ReportName: string;
 begin
-  FPrintToDevice := Value;
-end;
-
-procedure TReport.SetPrintToPDF(const Value: Boolean);
-begin
-  FPrintToPDF := Value;
-end;
-
-procedure TReport.SetReportName(const Value: String);
-begin
-  FReportName := Value;
+  Result :=  'r' + mcStrZero(FID, 5) + '.fr3';
 end;
 
 end.

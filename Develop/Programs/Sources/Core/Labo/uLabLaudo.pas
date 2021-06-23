@@ -215,9 +215,11 @@ begin
   mark := IBrwSrc.GetBookmark;
   IBrwSrc.DisableControls;
   actExportToPDF.Enabled := False;
-  oLaudo := FindReport(14);
-  oLaudo.PrintToDevice := False;
-  oLaudo.PrintToPDF := True;
+  
+  oLaudo := FindReport(14)
+    .PrintToDevice(False)
+    .PrintToPDF(True);
+
   DMReport.frxPDF.ShowProgress := False;
 
   pathTarget := Format('%s%s', [U.Path.Reports, Trim(IBrwSrcnome_chave.AsString)]);
@@ -261,7 +263,7 @@ begin
       fileName := StringReplace(fileName, '|', EmptyStr, [rfReplaceAll]);
             
 //      fileName := Format('%sLaudo %s - %s', [fileName, IBrwSrcrecno.AsString, IBrwSrctitulo.AsString]);
-      oLaudo.FileName := Format('%s\%s.pdf', [pathTarget, fileName]);
+      oLaudo.FileName(Format('%s\%s.pdf', [pathTarget, fileName]));
       IProgress.Label3.Caption := 'Exportando ' + oLaudo.FileName;
       Sleep(1);
       DoRpt(oLaudo);
@@ -274,9 +276,11 @@ begin
     IBrwSrc.GotoBookmark(mark);
     IBrwSrc.FreeBookmark(mark);
     IBrwSrc.EnableControls;
-    oLaudo.PrintToDevice := True;
-    oLaudo.PrintToPDF := False;
-    oLaudo.FileName := EmptyStr;
+    
+    oLaudo.PrintToDevice(True)
+      .PrintToPDF(False)
+      .FileName(EmptyStr);
+
     FreeAndNil(IProgress);
     actExportToPDF.Enabled := True;
     DMReport.frxPDF.ShowProgress := True;

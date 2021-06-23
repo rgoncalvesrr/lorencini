@@ -41,8 +41,8 @@ object DMReport: TDMReport
     PreviewOptions.Zoom = 1.000000000000000000
     PrintOptions.Printer = 'Padr'#227'o'
     PrintOptions.PrintOnSheet = 0
-    ReportOptions.CreateDate = 39757.585007557900000000
-    ReportOptions.LastChange = 44300.019422986110000000
+    ReportOptions.CreateDate = 42781.714010347200000000
+    ReportOptions.LastChange = 44368.087979571800000000
     ScriptLanguage = 'PascalScript'
     StoreInDFM = False
     OnReportPrint = 'ReportBaseOnReportPrint'
@@ -6113,5 +6113,27 @@ object DMReport: TDMReport
     BCDToCurrency = False
     Left = 488
     Top = 224
+  end
+  object R00022: TZQuery
+    Connection = DM.Design
+    SQL.Strings = (
+      'select 1')
+    Params = <>
+    Left = 424
+    Top = 616
+    object R00022column: TIntegerField
+      FieldName = '?column?'
+      ReadOnly = True
+    end
+  end
+  object frxR00022: TfrxDBDataset
+    UserName = 'R00022'
+    CloseDataSource = True
+    FieldAliases.Strings = (
+      '?column?=?column?')
+    DataSet = R00022
+    BCDToCurrency = False
+    Left = 488
+    Top = 616
   end
 end

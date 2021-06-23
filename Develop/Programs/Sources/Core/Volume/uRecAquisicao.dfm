@@ -22,8 +22,6 @@ inherited RecAquisicao: TRecAquisicao
     object TabSheet3: TTabSheet
       Caption = 'Resumo'
       ImageIndex = -1
-      ExplicitTop = 26
-      ExplicitHeight = 400
       object DBGrid2: TDBGrid
         Tag = 1
         AlignWithMargins = True
@@ -53,9 +51,6 @@ inherited RecAquisicao: TRecAquisicao
     object TabSheet1: TTabSheet
       Caption = 'Etiquetas Lidas'
       ImageIndex = -1
-      ExplicitTop = 26
-      ExplicitWidth = 716
-      ExplicitHeight = 397
       object DBGrid1: TDBGrid
         Tag = 1
         AlignWithMargins = True
@@ -89,12 +84,11 @@ inherited RecAquisicao: TRecAquisicao
         Align = alBottom
         BevelOuter = bvNone
         TabOrder = 1
-        ExplicitTop = 317
         object JvImage1: TJvImage
           AlignWithMargins = True
-          Left = 271
+          Left = 279
           Top = 3
-          Width = 24
+          Width = 32
           Height = 30
           Align = alLeft
           AutoSize = True
@@ -157,21 +151,23 @@ inherited RecAquisicao: TRecAquisicao
             C0000300E0000300E0000700F0000F00F8000F00FC003F00FF007F00FFFFFF00
             FFFFFF00}
           Transparent = True
+          ExplicitLeft = 271
+          ExplicitWidth = 24
         end
         object lbLeg1: TLabel
           AlignWithMargins = True
-          Left = 301
+          Left = 317
           Top = 3
           Width = 53
           Height = 30
           Align = alLeft
           Caption = 'Quebrado'
           Layout = tlCenter
-          ExplicitLeft = 381
+          ExplicitHeight = 15
         end
         object JvImage2: TJvImage
           AlignWithMargins = True
-          Left = 93
+          Left = 101
           Top = 3
           Width = 24
           Height = 30
@@ -255,35 +251,35 @@ inherited RecAquisicao: TRecAquisicao
             FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
             FF00}
           Transparent = True
+          ExplicitLeft = 93
         end
         object lbLeg2: TLabel
           AlignWithMargins = True
-          Left = 123
+          Left = 131
           Top = 3
           Width = 79
           Height = 30
           Align = alLeft
           Caption = 'N'#227'o Conforme'
           Layout = tlCenter
-          ExplicitLeft = 139
           ExplicitHeight = 15
         end
         object lbLeg3: TLabel
           AlignWithMargins = True
-          Left = 33
+          Left = 41
           Top = 3
           Width = 54
           Height = 30
           Align = alLeft
           Caption = 'Conforme'
           Layout = tlCenter
-          ExplicitLeft = 19
+          ExplicitHeight = 15
         end
         object JvImage3: TJvImage
           AlignWithMargins = True
           Left = 3
           Top = 3
-          Width = 24
+          Width = 32
           Height = 30
           Align = alLeft
           AutoSize = True
@@ -346,10 +342,11 @@ inherited RecAquisicao: TRecAquisicao
             C0000300E0000300E0000700F0000F00F8000F00FC003F00FF007F00FFFFFF00
             FFFFFF00}
           Transparent = True
+          ExplicitWidth = 24
         end
         object JvImage4: TJvImage
           AlignWithMargins = True
-          Left = 208
+          Left = 216
           Top = 3
           Width = 24
           Height = 30
@@ -433,17 +430,17 @@ inherited RecAquisicao: TRecAquisicao
             FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
             FF00}
           Transparent = True
+          ExplicitLeft = 208
         end
         object Label1: TLabel
           AlignWithMargins = True
-          Left = 238
+          Left = 246
           Top = 3
           Width = 27
           Height = 30
           Align = alLeft
           Caption = 'Vazio'
           Layout = tlCenter
-          ExplicitLeft = 262
           ExplicitHeight = 15
         end
       end
@@ -463,9 +460,6 @@ inherited RecAquisicao: TRecAquisicao
     object TabSheet2: TTabSheet
       Caption = 'N'#250'mero da Etiqueta ou Comando'
       ImageIndex = -1
-      ExplicitTop = 26
-      ExplicitWidth = 716
-      ExplicitHeight = 32
       object Edit1: TEdit
         AlignWithMargins = True
         Left = 3
@@ -475,7 +469,6 @@ inherited RecAquisicao: TRecAquisicao
         Align = alClient
         TabOrder = 0
         OnKeyPress = Edit1KeyPress
-        ExplicitWidth = 710
       end
       object pnMsg: TPanel
         AlignWithMargins = True

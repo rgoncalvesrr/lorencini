@@ -105,10 +105,8 @@ type
     procedure OnLoad; override;
     procedure SetActiveDBGrid(DBGrid: TDBGrid);
     procedure CopySecurity(Form : ISecurityForm);
-    procedure OnPrint(Sender: TReport; var Continue: Boolean); virtual;
-    procedure OnLog(var TableName: string; var Recno: Integer); virtual;
 
-    procedure DoRpt(Sender: TObject);
+    procedure OnLog(var TableName: string; var Recno: Integer); virtual;
 
     function GetTabela: string; virtual;
     function GetTabelaOrigem: Integer; virtual;
@@ -276,58 +274,6 @@ begin
   FDataSet.Refresh;
   tbOrder.Caption:= fFieldSeek.DisplayLabel;
   edSearch.EditMask:= fFieldSeek.EditMask;
-end;
-
-procedure TIDefBrowse.OnPrint(Sender: TReport; var Continue: Boolean);
-begin
-  inherited;
-end;
-
-procedure TIDefBrowse.DoRpt(Sender: TObject);
-var
-  fExecute: Boolean;
-  Rpt: TReport;
-  bContinue: Boolean;
-begin
-  inherited;
-  bContinue := True;
-  Rpt := TReport(Sender);
-
-  OnPrint(Rpt, bContinue);
-
-  if not bContinue then
-    Exit;
-
-  with DMReport do
-  begin
-    fExecute := true;
-    if not ReportBase.LoadFromFile(U.Path.ReportTemplates + Rpt.ReportName) then
-      raise Exception.CreateFmt('Não consegui carregar o relatório "%s"', [Rpt.ReportName]);
-
-    if Assigned(Rpt.FormParam) then
-       fExecute := Rpt.FormParam.Execute(Rpt);
-
-    if fExecute then
-    begin
-      // Configura o nome do usuário
-      if Assigned(ReportBase.FindObject('username')) then
-        TfrxMemoView(ReportBase.FindObject('username')).Text := 'Usuário: ' +
-          U.Info.Name;
-
-      if Rpt.PrintToDevice then
-        ReportBase.ShowReport;
-
-      if Rpt.PrintToPDF then
-      begin
-        frxPDF.FileName := Rpt.FileName;
-        frxPDF.Background := False;
-        frxPDF.ShowDialog := False;
-        frxPDF.OpenAfterExport := False;
-        ReportBase.PrepareReport;
-        ReportBase.Export(frxPDF);
-      end;
-    end;
-  end;
 end;
 
 procedure TIDefBrowse.edSearchKeyPress(Sender: TObject; var Key: Char);
@@ -610,10 +556,11 @@ begin
 
     while not Eof do
     begin
-      Rpt := TReport.Create(pmRel);
-      Rpt.ID := FieldByName('report').AsInteger;
-      Rpt.Caption := FieldByName('label').AsString;
-      Rpt.FormParamName := FieldByName('form').AsString;
+      Rpt := TReport.New(pmRel)
+        .ID(FieldByName('report').AsInteger)
+        .Caption(FieldByName('label').AsString)
+        .FormParamName(FieldByName('form').AsString);
+
       Rpt.OnClick := DoRpt;
 
       pmRel.Items.Add(Rpt);

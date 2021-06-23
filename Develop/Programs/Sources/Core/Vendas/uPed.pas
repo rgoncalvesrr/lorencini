@@ -329,9 +329,9 @@ begin
       if not Assigned(oPedido) then
         raise Exception.Create('Não foi possível localizar relatório 20 (pedido).');
 
-      oPedido.PrintToDevice := False;
-      oPedido.PrintToPDF := True;
-      oPedido.FileName := Format('%spedido_%s.pdf', [U.Path.Orders, IBrwSrcrecno.AsString]);
+      oPedido.PrintToDevice(False)
+        .PrintToPDF(True)
+        .FileName(Format('%spedido_%s.pdf', [U.Path.Orders, IBrwSrcrecno.AsString]));
 
       DoRpt(oPedido); // Imprimindo relatório
 
@@ -354,9 +354,9 @@ begin
       end;
     end;
   finally
-    oPedido.PrintToDevice := True;
-    oPedido.PrintToPDF := False;
-    oPedido.FileName := EmptyStr;
+    oPedido.PrintToDevice(True)
+      .PrintToPDF(False)
+      .FileName(EmptyStr);
   end;
 end;
 

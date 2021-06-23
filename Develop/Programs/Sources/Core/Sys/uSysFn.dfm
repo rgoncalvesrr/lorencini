@@ -68,7 +68,7 @@ inherited SysFn: TSysFn
               ExplicitWidth = 147
             end
             inherited CCalendarDiff1: TCCalendarDiff
-              Date = 44264.087962372690000000
+              Date = 44342.002799722220000000
               DisplayInterval = Label5
               OnChange = FrameData1CCalendarDiff1Change
             end

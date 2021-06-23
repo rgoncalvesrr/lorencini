@@ -1,0 +1,19 @@
+/**
+   Gera lembretes sobre laudos por expirar
+
+	@author    Ricardo Gonçalves
+	@date      31/05/2021
+	@trigger
+
+	Histórico
+	-------------------------------------------------------------------------------------------------------------------
+ */
+ create or replace function usr_laudo_lembrete(
+    in recno_ integer)
+ returns void as 
+ $$
+ begin
+   
+ end
+ $$
+ language plpgsql;
