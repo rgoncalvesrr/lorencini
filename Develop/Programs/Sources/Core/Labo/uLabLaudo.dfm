@@ -251,7 +251,7 @@ inherited LabLaudo: TLabLaudo
               ExplicitWidth = 134
             end
             inherited CCalendarDiff1: TCCalendarDiff
-              Date = 44301.914156134260000000
+              Date = 44369.075873518520000000
               DisplayInterval = Label11
               OnChange = actQueryProcessExecute
             end
@@ -272,7 +272,7 @@ inherited LabLaudo: TLabLaudo
             Width = 134
             Height = 15
             Align = alTop
-            Caption = '01/04/2021 a 30/04/2021'
+            Caption = '01/06/2021 a 30/06/2021'
             ExplicitWidth = 128
           end
           object Label3: TLabel
@@ -314,7 +314,7 @@ inherited LabLaudo: TLabLaudo
             end
             inherited CCalendarDiff1: TCCalendarDiff
               Interval = diMonthly
-              Date = 44301.914156134260000000
+              Date = 44369.075873518520000000
               DisplayInterval = Label1
               OnChange = actQueryProcessExecute
               Left = 96
@@ -333,11 +333,10 @@ inherited LabLaudo: TLabLaudo
             AlignWithMargins = True
             Left = 3
             Top = 3
-            Width = 74
+            Width = 61
             Height = 15
             Align = alTop
             Caption = 'S'#233'rie Equip.'
-            ExplicitWidth = 61
           end
           object edEquipSerie: TEdit
             AlignWithMargins = True
@@ -362,11 +361,10 @@ inherited LabLaudo: TLabLaudo
             AlignWithMargins = True
             Left = 3
             Top = 3
-            Width = 74
+            Width = 54
             Height = 15
             Align = alTop
             Caption = 'Tag Equip.'
-            ExplicitWidth = 54
           end
           object edEquipTag: TEdit
             AlignWithMargins = True
@@ -391,11 +389,10 @@ inherited LabLaudo: TLabLaudo
             AlignWithMargins = True
             Left = 3
             Top = 3
-            Width = 165
+            Width = 79
             Height = 15
             Align = alTop
             Caption = 'Nome Fantasia'
-            ExplicitWidth = 79
           end
           object edEmpresa: TEdit
             AlignWithMargins = True
@@ -420,11 +417,10 @@ inherited LabLaudo: TLabLaudo
             AlignWithMargins = True
             Left = 3
             Top = 3
-            Width = 22
+            Width = 97
             Height = 15
             Align = alTop
             Caption = 'Nome Empresarial'
-            ExplicitWidth = 97
           end
           object edRazao: TEdit
             AlignWithMargins = True
@@ -562,6 +558,10 @@ inherited LabLaudo: TLabLaudo
         TabOrder = 1
         object TabSheet2: TTabSheet
           Caption = 'Contatos'
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object DBGrid2: TDBGrid
             Tag = 1
             AlignWithMargins = True
