@@ -31,6 +31,7 @@ type
     procedure Initialize; override;
   public
     constructor Create(ConnParam: TServiceCFGConnParams); override;
+    
     property Recno: Integer read FRecno write SetRecno;
     property SMTP: TServiceCFGSmtp read FSMTP;
   end;

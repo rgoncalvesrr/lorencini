@@ -32,12 +32,11 @@ object FrameCliente: TFrameCliente
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 70
+        Width = 39
         Height = 15
         Align = alTop
         Caption = 'C'#243'digo'
         FocusControl = DBEdit8
-        ExplicitWidth = 39
       end
       object DBEdit8: TDBEdit
         AlignWithMargins = True
@@ -129,12 +128,11 @@ object FrameCliente: TFrameCliente
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 457
+        Width = 97
         Height = 15
         Align = alTop
         Caption = 'Nome Empresarial'
         FocusControl = DBEdit9
-        ExplicitWidth = 97
       end
       object DBEdit9: TDBEdit
         AlignWithMargins = True
@@ -165,12 +163,11 @@ object FrameCliente: TFrameCliente
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 243
+        Width = 79
         Height = 15
         Align = alTop
         Caption = 'Nome Fantasia'
         FocusControl = DBEdit10
-        ExplicitWidth = 79
       end
       object DBEdit10: TDBEdit
         AlignWithMargins = True
@@ -201,12 +198,11 @@ object FrameCliente: TFrameCliente
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 154
+        Width = 27
         Height = 15
         Align = alTop
         Caption = 'CNPJ'
         FocusControl = DBEdit11
-        ExplicitWidth = 27
       end
       object DBEdit11: TDBEdit
         AlignWithMargins = True
@@ -237,12 +233,11 @@ object FrameCliente: TFrameCliente
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 125
+        Width = 21
         Height = 15
         Align = alTop
         Caption = 'CPF'
         FocusControl = DBEdit12
-        ExplicitWidth = 21
       end
       object DBEdit12: TDBEdit
         AlignWithMargins = True
@@ -287,12 +282,11 @@ object FrameCliente: TFrameCliente
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 601
+        Width = 37
         Height = 15
         Align = alTop
         Caption = 'Cidade'
         FocusControl = DBEdit1
-        ExplicitWidth = 37
       end
       object DBEdit1: TDBEdit
         AlignWithMargins = True
@@ -323,12 +317,11 @@ object FrameCliente: TFrameCliente
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 46
+        Width = 35
         Height = 15
         Align = alTop
         Caption = 'Estado'
         FocusControl = DBEdit2
-        ExplicitWidth = 35
       end
       object DBEdit2: TDBEdit
         AlignWithMargins = True
@@ -360,12 +353,11 @@ object FrameCliente: TFrameCliente
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 315
+        Width = 29
         Height = 15
         Align = alTop
         Caption = 'Email'
         FocusControl = DBEdit17
-        ExplicitWidth = 29
       end
       object DBEdit17: TDBEdit
         AlignWithMargins = True
@@ -397,12 +389,11 @@ object FrameCliente: TFrameCliente
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 122
+        Width = 44
         Height = 15
         Align = alTop
         Caption = 'Telefone'
         FocusControl = DBEdit3
-        ExplicitWidth = 44
       end
       object DBEdit3: TDBEdit
         AlignWithMargins = True

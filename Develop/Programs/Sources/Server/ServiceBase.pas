@@ -25,11 +25,13 @@ type
     procedure SetDescription(const Value: string);
     procedure DoAfterConnection(Sender: TObject);
   protected
-    function Qry: TZReadOnlyQuery;
+    function Qry: TZReadOnlyQuery; overload;
+    function Qry(const Stmt: string): TZReadOnlyQuery; overload;
+    function Qry(const Stmt: string; const Args: array of const): TZReadOnlyQuery; overload;
     procedure Log(const Msg: string); overload;
     procedure Log(const Msg: string; const Args: array of const); overload;
     procedure Initialize; virtual;
-    procedure DoExec; virtual;
+    procedure DoExec; dynamic; abstract; 
     procedure Execute; override;
 
     property Trash: TObjectList read FTrash;
@@ -124,11 +126,6 @@ begin
   inherited;
 end;
 
-procedure TServiceBase.DoExec;
-begin
-
-end;
-
 procedure TServiceBase.DoLog;
 begin
   if (FTable_ <> -1) and  (FRecno_ <> -1) then
@@ -206,6 +203,17 @@ end;
 procedure TServiceBase.Log(const Msg: string; const Args: array of const);
 begin
   Log(Format(Msg, Args));
+end;
+
+function TServiceBase.Qry(const Stmt: string): TZReadOnlyQuery;
+begin
+  Result := Qry;
+  Result.SQL.Add(Stmt);
+end;
+
+function TServiceBase.Qry(const Stmt: string; const Args: array of const): TZReadOnlyQuery;
+begin
+  Result := Qry(Format(Stmt, Args));
 end;
 
 end.

@@ -799,6 +799,9 @@ type
     StringField22: TStringField;
     frxR00019b: TfrxDBDataset;
     R00014ccelular: TStringField;
+    R00022: TZQuery;
+    frxR00022: TfrxDBDataset;
+    R00022column: TIntegerField;
     procedure DataModuleCreate(Sender: TObject);
     procedure R00011CalcFields(DataSet: TDataSet);
     procedure R00014CalcFields(DataSet: TDataSet);

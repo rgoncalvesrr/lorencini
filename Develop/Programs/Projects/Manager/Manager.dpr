@@ -8,7 +8,6 @@ uses
   uHelpers in '..\..\Sources\Common\uHelpers.pas',
   uMenu in '..\..\Sources\Core\Global\uMenu.pas' {Main},
   uFuncoes in '..\..\Sources\Core\Infra\uFuncoes.pas',
-  uDM in '..\..\Sources\Core\Infra\uDM.pas' {DM: TDataModule},
   uIExcept in '..\..\Sources\Core\Class\uIExcept.pas',
   uIUtils in '..\..\Sources\Common\uIUtils.pas',
   uIForm in '..\..\Sources\Common\uIForm.pas' {IForm},
@@ -294,8 +293,12 @@ uses
   uEntidadesDeClasseM in '..\..\Sources\Core\Cad\uEntidadesDeClasseM.pas' {EntidadesDeClasseM},
   uGestaoEntradas in '..\..\Sources\Core\Dash\uGestaoEntradas.pas' {GestaoEntradas},
   uGestaoEntradasDocs in '..\..\Sources\Core\Dash\uGestaoEntradasDocs.pas' {GestaoEntradasDocs},
-  uRecAquisicao in '..\..\Sources\Core\Volume\uRecAquisicao.pas' {RecAquisicao},
-  uRecPortador in '..\..\Sources\Core\Volume\uRecPortador.pas' {RecPortador};
+  uRecebimentoLeitura in '..\..\Sources\Core\Volume\uRecebimentoLeitura.pas' {RecebimentoLeitura},
+  uRecebimentoLote in '..\..\Sources\Core\Volume\uRecebimentoLote.pas' {RecebimentoLote},
+  uDM in '..\..\Sources\Core\Infra\uDM.pas' {DM: TDataModule},
+  uRecebimentoNFe in '..\..\Sources\Core\Fiscal\uRecebimentoNFe.pas' {RecebimentoNFe},
+  uRecebimentoNFeM in '..\..\Sources\Core\Fiscal\uRecebimentoNFeM.pas' {RecebimentoNFeM},
+  uRecebimentoPortador in '..\..\Sources\Core\Volume\uRecebimentoPortador.pas' {RecebimentoPortador};
 
 {$R *.res}
 begin
@@ -307,11 +310,11 @@ begin
   try
     Application.Title := 'Manager';
     Application.CreateForm(TResources, Resources);
-    Application.CreateForm(TDM, DM);
-    Application.CreateForm(TDMReport, DMReport);
-    Application.CreateForm(TMain, Main);
-    Application.CreateForm(TILogin, ILogin);
-    ILogin.ShowModal;
+  Application.CreateForm(TDM, DM);
+  Application.CreateForm(TDMReport, DMReport);
+  Application.CreateForm(TMain, Main);
+  Application.CreateForm(TILogin, ILogin);
+  ILogin.ShowModal;
     
     if ILogin.Execute then
       Application.Run;

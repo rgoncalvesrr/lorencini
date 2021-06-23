@@ -26,8 +26,8 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.Title := 'Manager Monitor';
-  Application.CreateForm(TResources, Resources);
-  Application.CreateForm(TDM, DM);
+  AApplication.CreateForm(TResources, Resources);
+  AApplication.CreateForm(TDM, DM);
   Application.CreateForm(TMain, Main);
-  Application.Run;
+  plication.Run;
 end.

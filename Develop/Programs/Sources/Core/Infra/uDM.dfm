@@ -11,11 +11,12 @@ object DM: TDM
   end
   object Design: TZConnection
     ControlsCodePage = cGET_ACP
-    AutoEncodeStrings = False
+    AutoEncodeStrings = True
     ClientCodepage = 'LATIN1'
     Properties.Strings = (
       'codepage=LATIN1'
-      'controls_cp=GET_ACP')
+      'controls_cp=GET_ACP'
+      'AutoEncodeStrings=True')
     DesignConnection = True
     HostName = '127.0.0.1'
     Port = 5432

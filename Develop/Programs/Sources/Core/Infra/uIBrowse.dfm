@@ -66,8 +66,8 @@ inherited IDefBrowse: TIDefBrowse
       object tsQuery: TTabSheet
         Caption = 'Filtrar'
         TabVisible = False
-        ExplicitLeft = 3
-        ExplicitTop = 4
+        ExplicitLeft = 0
+        ExplicitTop = 0
         ExplicitWidth = 0
         ExplicitHeight = 0
         object BitBtn2: TBitBtn
