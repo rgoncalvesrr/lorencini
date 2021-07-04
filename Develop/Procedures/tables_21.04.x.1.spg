@@ -3,12 +3,6 @@ set session authorization lorencini;
 alter table labret
    alter labport_recno drop not null;
 
-alter table labret
-   add entrada timestamp default(clock_timestamp()) not null,
-   add account account$,
-   add constraint fk_labret_2 foreign key(account)
-      references sys_accounts(recno) on update cascade on delete restrict;
-
 alter table labport
    alter nf drop not null,
    alter nf_serie drop not null,
