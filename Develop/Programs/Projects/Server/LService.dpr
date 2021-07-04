@@ -32,7 +32,8 @@ uses
   CMsg in '..\..\Sources\Packages\CCore\CMsg.pas',
   SecurityIntf in '..\..\Sources\Core\Class\SecurityIntf.pas',
   uSysLog in '..\..\Sources\Core\Sys\uSysLog.pas' {SysLog},
-  uFrameData in '..\..\Sources\Common\uFrameData.pas' {FrameData: TFrame};
+  uFrameData in '..\..\Sources\Common\uFrameData.pas' {FrameData: TFrame},
+  ServiceTask in '..\..\Sources\Server\ServiceTask.pas';
 
 {$R *.RES}
 

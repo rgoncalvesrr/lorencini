@@ -4,7 +4,7 @@ inherited IDefReport: TIDefReport
   ClientHeight = 496
   ClientWidth = 732
   ExplicitWidth = 748
-  ExplicitHeight = 534
+  ExplicitHeight = 535
   PixelsPerInch = 96
   TextHeight = 15
   inherited bvDiv: TBevel

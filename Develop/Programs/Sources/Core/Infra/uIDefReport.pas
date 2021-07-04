@@ -63,7 +63,7 @@ begin
     fExecute := true;
     ReportBase.LoadFromFile(U.Path.ReportTemplates + ReportActive.ReportName);
 
-    if Assigned(ReportActive.FormParam) then
+    if ReportActive.FormParam <> nil then
        fExecute := ReportActive.FormParam.Execute(ReportActive);
 
     if fExecute then
@@ -174,10 +174,10 @@ begin
 
     while not Eof do
     begin
-      FReport := TReport.Create(nil);
-      FReport.ID := FieldByName('report').AsInteger;
-      FReport.Caption := FieldByName('descri').AsString;
-      FReport.FormParamName := FieldByName('form').AsString;
+      FReport := TReport.New
+        .ID(FieldByName('report').AsInteger)
+        .Caption(FieldByName('descri').AsString)
+        .FormParamName(FieldByName('form').AsString);
 
       row := Items.Add;
       row.Caption := FReport.Caption;

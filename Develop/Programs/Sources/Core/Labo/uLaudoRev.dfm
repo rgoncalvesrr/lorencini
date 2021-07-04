@@ -289,7 +289,10 @@ inherited LaudoRev: TLaudoRev
         end
       end
       inherited tsFind: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 6
         ExplicitWidth = 1051
+        ExplicitHeight = 75
       end
     end
   end
@@ -305,6 +308,8 @@ inherited LaudoRev: TLaudoRev
       ExplicitHeight = 355
       inherited TabSheet1: TTabSheet
         Caption = 'Laudos em Revis'#227'o'
+        ExplicitLeft = 4
+        ExplicitTop = 26
         ExplicitWidth = 1055
         ExplicitHeight = 325
         inherited DBGrid1: TDBGrid
@@ -317,6 +322,41 @@ inherited LaudoRev: TLaudoRev
   inherited ctrlBarTop: TControlBar
     Width = 1063
     ExplicitWidth = 1063
+    inherited ToolBar1: TToolBar
+      inherited ToolButton2: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton5: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton9: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton6: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton1: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton8: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton3: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited tbOrder: TToolButton
+        ExplicitWidth = 76
+      end
+      inherited tbReport: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited tbOpcao: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton10: TToolButton
+        ExplicitWidth = 32
+      end
+    end
   end
   inherited alDef: TActionList
     Left = 248
@@ -353,6 +393,9 @@ inherited LaudoRev: TLaudoRev
         'r.descri, lr.titulo, s.descri servico, l.obs,'
       '       l.criacao, h.ocorrencia entrada, l.status, a.comodato'
       '  from labamostras_rel l'
+      '       join pedido p'
+      '         on p.recno = l.pedido'
+      '        and p.status = 60 '
       '       join labamostras a'
       '         on a.recno = l.amostra'
       '       join tbclientes c'

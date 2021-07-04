@@ -14,15 +14,9 @@ type
     IBrwSrcdescri: TStringField;
     IBrwSrcsys_: TBooleanField;
     sBrwSrc: TZSequence;
-    qUsers: TZQuery;
-    qUsersrole: TIntegerField;
-    qUsersrecno: TIntegerField;
-    qUsersusername: TStringField;
-    qUsersname: TStringField;
-    qUsersactive: TBooleanField;
-    qUsersemail: TStringField;
-    uUsers: TZUpdateSQL;
-    sUsers: TZSequence;
+    qAccounts: TZQuery;
+    uAccounts: TZUpdateSQL;
+    sAccounts: TZSequence;
     dsUsers: TDataSource;
     qGrants: TZQuery;
     qGrantsgrant_: TStringField;
@@ -33,11 +27,19 @@ type
     dsGrants: TDataSource;
     uGrants: TZUpdateSQL;
     sGrants: TZSequence;
+    qAccountsrole: TIntegerField;
+    qAccountsrecno: TIntegerField;
+    qAccountsaccount: TLargeintField;
+    qAccountsnome: TStringField;
+    qAccountssituacao: TIntegerField;
+    qAccountsemail: TStringField;
+    qAccountsstatus: TIntegerField;
     procedure IBrwSrcAfterScroll(DataSet: TDataSet);
-    procedure qUsersAfterInsert(DataSet: TDataSet);
+    procedure qAccountsAfterInsert(DataSet: TDataSet);
     procedure FormCreate(Sender: TObject);
     procedure qGrantsAfterInsert(DataSet: TDataSet);
     procedure qGrantsAfterRefresh(DataSet: TDataSet);
+    procedure qAccountssituacaoGetText(Sender: TField; var Text: string; DisplayText: Boolean);
   private
     { Private declarations }
     procedure OnEdit; override;
@@ -66,9 +68,9 @@ end;
 procedure TSysRoles.IBrwSrcAfterScroll(DataSet: TDataSet);
 begin
   inherited;
-  qUsers.ParamByName('role').AsInteger := IBrwSrcrecno.AsInteger;
+  qAccounts.ParamByName('role').AsInteger := IBrwSrcrecno.AsInteger;
   qGrants.ParamByName('role').AsInteger := IBrwSrcrecno.AsInteger;
-  G.RefreshDataSet(qUsers);
+  G.RefreshDataSet(qAccounts);
   G.RefreshDataSet(qGrants);
 end;
 
@@ -78,7 +80,7 @@ begin
   try
     SysRolesM.ScreenType := stMasterDetail;
     SysRolesM.DataSet := IBrwSrc;
-    SysRolesM.ChildDataSet := qUsers;
+    SysRolesM.ChildDataSet := qAccounts;
     SysRolesM.ShowModal;
   finally
     FreeAndNil(SysRolesM);
@@ -99,10 +101,19 @@ begin
     SysRolesM.RefreshTreeGrants;
 end;
 
-procedure TSysRoles.qUsersAfterInsert(DataSet: TDataSet);
+procedure TSysRoles.qAccountsAfterInsert(DataSet: TDataSet);
 begin
   inherited;
-  qUsersrole.AsInteger := IBrwSrcrecno.AsInteger;
+  qAccountsrole.AsInteger := IBrwSrcrecno.AsInteger;
+end;
+
+procedure TSysRoles.qAccountssituacaoGetText(Sender: TField; var Text: string; DisplayText: Boolean);
+begin
+  inherited;
+  case sender.AsInteger of
+    0: Text := 'Inativo';
+    1: Text := 'Ativo';
+  end;
 end;
 
 initialization

@@ -1,0 +1,51 @@
+/**
+   Processamento dos lançamentos bancários
+
+	@author    Ricardo Gonçalves
+	@date      02/03/2009 17:44:30
+	@trigger   fin_banco AIUD
+
+	Histórico
+	-------------------------------------------------------------------------------------------------------------------
+ */
+Create or Replace Function b_fis_nfe()
+Returns trigger as
+$$
+Declare
+   _CNPJ_LORENCINI   constant varchar := '04824941000109';
+   _TIPO_ENTRADA     constant integer := 1;
+   _TIPO_SAIDA       constant integer := 2;
+   _NFE_VALIDA       constant integer := 1;
+
+   nfe   nfe$;
+Begin
+   if TG_OP = 'DELETE' then
+      return old;
+   end if;
+   
+   if tg_op = 'INSERT' then
+      nfe := fis_chave2nfe(new.chave);
+      new.registro := coalesce(new.registro, clock_timestamp());
+      new.frascos_saldo := sys_iif(new.tipo = _TIPO_SAIDA, 0, new.frascos);
+      new.seringas_saldo := sys_iif(new.tipo = _TIPO_SAIDA, 0, new.seringas);
+      new.account := coalesce(sys_account(), sys_account_def());
+
+      if nfe.emitente <> _CNPJ_LORENCINI and new.tipo = _TIPO_ENTRADA then
+         select codigo
+           into new.cliente
+           from tbclientes
+          where cnpj = nfe.emitente
+            and situacao = 'ATIVO';
+         
+         if not found then
+            raise '[[Não há correspondência entre o CNPJ % e um cliente ativo.]]', nfe.emitente;
+         end if;
+      end if;
+
+      new.status := _NFE_VALIDA;
+   end if;
+
+   return new;
+End;
+$$
+language plpgsql;

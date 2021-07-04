@@ -234,14 +234,14 @@ begin
     {Cria item de menu}
     if not fDsMenu.FieldByName('report').IsNull then
     begin
-      fRpt := TReport.Create(Self);
-      fRpt.ID := fDsMenu.FieldByName('report').AsInteger;
+      fRpt := TReport.New(Self).ID(fDsMenu.FieldByName('report').AsInteger);
+      
       if fDsMenu.FieldByName('rdescri').IsNull then
-        fRpt.Caption := fDsMenu.FieldByName('descri').AsString
+        fRpt.Caption(fDsMenu.FieldByName('descri').AsString)
       else
-        fRpt.Caption := fDsMenu.FieldByName('rdescri').AsString;
+        fRpt.Caption(fDsMenu.FieldByName('rdescri').AsString);
 
-      fRpt.FormParamName := fDsMenu.FieldByName('rform').AsString;
+      fRpt.FormParamName(fDsMenu.FieldByName('rform').AsString);
       fRpt.OnClick := ReportExecute;
 
       fItem := fRpt;
@@ -376,7 +376,7 @@ begin
     fExecute := true;
     ReportBase.LoadFromFile(Rpt.FileName);
 
-    if Assigned(Rpt.FormParam) then
+    if Rpt.FormParam <> nil then
        fExecute := Rpt.FormParam.Execute(Rpt);
 
     if fExecute then

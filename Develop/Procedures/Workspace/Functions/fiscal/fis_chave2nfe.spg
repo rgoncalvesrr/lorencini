@@ -1,0 +1,38 @@
+/**
+   Extrai campos da chave da NFe
+
+	@author    Ricardo Gonçalves
+	@date      14/06/2021
+	@trigger
+
+	@param     in_chave chave da NF-e
+
+	Histórico
+	-------------------------------------------------------------------------------------------------------------------
+ */
+Create or Replace Function fis_chave2nfe(
+   in in_chave varchar)
+Returns nfe$ As
+$$
+Declare
+   nfe         nfe$;   
+Begin
+   if length(trim(in_chave)) <> 44 then
+      raise '[[Chave da nota fiscal eletrônica deve ser composta por 44 caracteres. Chave: "%"]]', in_chave;
+   end if;
+
+   nfe.chave := in_chave;
+   nfe.uf := substring(in_chave from 1 for 2);
+   nfe.emissao := substring(in_chave from 3 for 4);
+   nfe.emitente := substring(in_chave from 7 for 14);
+   nfe.modelo := substring(in_chave from 21 for 2);
+   nfe.serie := substring(in_chave from 23 for 3);
+   nfe.numero := substring(in_chave from 26 for 9);
+   nfe.forma := substring(in_chave from 35 for 1);
+   nfe.sequencial := substring(in_chave from 36 for 8);
+   nfe.dv := substring(in_chave from 44 for 1);
+   
+   return nfe;   
+End;
+$$
+language plpgsql;

@@ -109,6 +109,8 @@ inherited Clientes: TClientes
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 3
+          ExplicitLeft = 202
+          ExplicitTop = -2
           object Label1: TLabel
             AlignWithMargins = True
             Left = 3

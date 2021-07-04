@@ -136,7 +136,7 @@ inherited LabProcPort: TLabProcPort
         end
         object Label11: TLabel
           Left = 137
-          Top = 51
+          Top = 52
           Width = 88
           Height = 15
           Caption = 'Tipo de Portador'
@@ -144,7 +144,7 @@ inherited LabProcPort: TLabProcPort
         end
         object Label12: TLabel
           Left = 256
-          Top = 51
+          Top = 52
           Width = 36
           Height = 15
           Caption = 'Outros'
@@ -340,7 +340,7 @@ inherited LabProcPort: TLabProcPort
         end
         object Label19: TLabel
           Left = 130
-          Top = 97
+          Top = 95
           Width = 28
           Height = 15
           Caption = 'C.P.F.'
@@ -409,7 +409,7 @@ inherited LabProcPort: TLabProcPort
           TabOrder = 6
         end
         object DBEdit11: TDBEdit
-          Left = 256
+          Left = 257
           Top = 69
           Width = 182
           Height = 23
@@ -441,7 +441,7 @@ inherited LabProcPort: TLabProcPort
         end
         object DBComboBox2: TDBComboBox
           Left = 247
-          Top = 116
+          Top = 119
           Width = 503
           Height = 23
           CharCase = ecUpperCase
@@ -454,8 +454,8 @@ inherited LabProcPort: TLabProcPort
         end
         object DBComboBox3: TDBComboBox
           Tag = 1
-          Left = 133
-          Top = 164
+          Left = 130
+          Top = 166
           Width = 618
           Height = 23
           CharCase = ecUpperCase
@@ -466,7 +466,7 @@ inherited LabProcPort: TLabProcPort
           OnExit = DBComboBox3Exit
         end
         object DBMemo1: TDBMemo
-          Left = 2
+          Left = 1
           Top = 214
           Width = 748
           Height = 57
@@ -544,8 +544,8 @@ inherited LabProcPort: TLabProcPort
           DataSource = dsPort
         end
         object DBComboBox4: TDBComboBox
-          Left = 675
-          Top = 23
+          Left = 676
+          Top = 22
           Width = 75
           Height = 23
           Style = csDropDownList
@@ -627,7 +627,7 @@ inherited LabProcPort: TLabProcPort
   object sPort: TZSequence
     Connection = DM.Design
     SequenceName = 'public.labport_recno_seq'
-    Left = 352
+    Left = 320
     Top = 456
   end
   object uPort: TZUpdateSQL
@@ -672,7 +672,7 @@ inherited LabProcPort: TLabProcPort
       'WHERE'
       '  labport.recno = :OLD_recno')
     UseSequenceFieldForRefreshSQL = False
-    Left = 400
+    Left = 384
     Top = 456
     ParamData = <
       item
@@ -943,13 +943,13 @@ inherited LabProcPort: TLabProcPort
   object dsPort: TDataSource
     AutoEdit = False
     DataSet = qPort
-    Left = 512
+    Left = 528
     Top = 457
   end
   object sPortItens: TZSequence
     Connection = DM.Design
     SequenceName = 'public.labret_recno_seq'
-    Left = 352
+    Left = 320
     Top = 504
   end
   object uPortItens: TZUpdateSQL
@@ -972,7 +972,7 @@ inherited LabProcPort: TLabProcPort
       'WHERE'
       '  labret.recno = :OLD_recno')
     UseSequenceFieldForRefreshSQL = False
-    Left = 400
+    Left = 384
     Top = 504
     ParamData = <
       item
@@ -1107,7 +1107,7 @@ inherited LabProcPort: TLabProcPort
   object dsPortItens: TDataSource
     AutoEdit = False
     DataSet = qPortItens
-    Left = 512
+    Left = 528
     Top = 505
   end
 end

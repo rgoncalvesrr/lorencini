@@ -1,0 +1,43 @@
+/**
+   Gerador de senha
+
+	@author    Ricardo Gonçalves
+	@date      14/05/2021
+	@trigger
+
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+create or replace function sys_gen_pass()
+returns text as
+$$
+begin
+   return sys_gen_pass(16);
+end
+$$
+language plpgsql;
+
+create or replace function sys_gen_pass(
+   in length_ integer)
+returns text as
+$$
+declare
+   series   integer[][] := '{{65, 90},{97, 122},{48, 57}}';
+   serie    integer;
+   i        integer;
+   password text := '';
+begin
+   if length_ < 8 then
+      length_ := 8;
+   end if;
+
+   for i in 1..length_ loop
+      serie := sys_random(1, 3);
+      password := password + chr(sys_random(series[serie][1], series[serie][2]));
+   end loop;
+
+   return password;
+end
+$$
+language plpgsql;

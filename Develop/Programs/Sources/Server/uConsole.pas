@@ -22,6 +22,7 @@ type
     procedure actMonitorExecute(Sender: TObject);
   private
     { Private declarations }
+    procedure OnLogSchedule(Sender: TObject; const MsgLog: string);
     procedure OnLogSMTP(Sender: TObject; const MsgLog: string);
     procedure OnLog(Sender: TObject; const MsgLog: string);
   public
@@ -70,11 +71,17 @@ procedure TConsole.OnLoad;
 begin
   inherited;
   WindowState := wsMaximized;
-  dmCore.OnLogSMTP := OnLogSMTP;
   dmCore.OnLog := OnLog;
+  dmCore.OnLogSchedule := OnLog;
+  dmCore.OnLogSMTP := OnLogSMTP;
 end;
 
 procedure TConsole.OnLog(Sender: TObject; const MsgLog: string);
+begin
+  Memo2.Lines.Add(MsgLog);
+end;
+
+procedure TConsole.OnLogSchedule(Sender: TObject; const MsgLog: string);
 begin
   Memo2.Lines.Add(MsgLog);
 end;

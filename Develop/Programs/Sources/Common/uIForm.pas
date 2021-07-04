@@ -4,7 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ActnList, Grids, ZDataSet, ZSequence, ExtCtrls, ToolWin, CCore;
+  Dialogs, ActnList, Grids, ZDataSet, ZSequence, ExtCtrls, ToolWin, CCore,
+  uReport;
 
 type
 
@@ -75,6 +76,8 @@ type
     //procedure RestoreControlsStyle(Control: TComponent);
     procedure OnLoad; virtual;
     procedure ResizeControlBar(Sender: TControlBar);
+    procedure OnPrint(Sender: TReport; var Continue: Boolean); virtual;
+    procedure DoRpt(Sender: TObject);
   public
     procedure RefreshControlsStyle(Control: TComponent);
 
@@ -98,9 +101,8 @@ implementation
 
 {$R *.dfm}
 
-uses StdCtrls, ComCtrls, uIUtils, NetWorks, TypInfo, JvExComCtrls,
-  JvDateTimePicker, JvExMask, JvToolEdit, JvMaskEdit, JvCheckedMaskEdit,
-  JvDatePickerEdit, JvBaseEdits, uResources, mcutils, ZSqlProcessor;
+uses StdCtrls, ComCtrls, uIUtils, NetWorks, TypInfo, JvExComCtrls, JvDateTimePicker, JvExMask, JvToolEdit, JvMaskEdit,
+  JvCheckedMaskEdit, JvDatePickerEdit, JvBaseEdits, uResources, mcutils, ZSqlProcessor, uDMReport, frxClass;
 
 function TIForm.GetExecute: Boolean;
 begin
@@ -165,6 +167,10 @@ begin
 
 end;
 
+procedure TIForm.OnPrint(Sender: TReport; var Continue: Boolean);
+begin
+end;
+
 function TIForm.PersistentClass: TPersistentClass;
 begin
   Result := TPersistentClass(ObjectAddress);
@@ -189,6 +195,54 @@ end;
 function TIForm.ClassName: String;
 begin
   Result := TObject(ObjectAddress).ClassName;
+end;
+
+procedure TIForm.DoRpt(Sender: TObject);
+var
+  fExecute: Boolean;
+  Rpt: TReport;
+  bContinue: Boolean;
+begin
+  inherited;
+  bContinue := True;
+  Rpt := TReport(Sender);
+
+  OnPrint(Rpt, bContinue);
+
+  if not bContinue then
+    Exit;
+
+  with DMReport do
+  begin
+    fExecute := true;
+    if not ReportBase.LoadFromFile(U.Path.ReportTemplates + Rpt.ReportName) then
+      raise Exception.CreateFmt('Não consegui carregar o relatório "%s"', [Rpt.ReportName]);
+
+    if Rpt.FormParam <> nil then
+       fExecute := Rpt.FormParam.Execute(Rpt);
+
+    if fExecute then
+    begin
+      // Configura o nome do usuário
+      if Assigned(ReportBase.FindObject('username')) then
+        TfrxMemoView(ReportBase.FindObject('username')).Text := 'Usuário: ' +
+          U.Info.Name;
+
+      if Rpt.PrintToDevice then
+        ReportBase.ShowReport;
+
+      if Rpt.PrintToPDF then
+      begin
+        frxPDF.FileName := Rpt.FileName;
+        frxPDF.Background := False;
+        frxPDF.ShowDialog := False;
+        frxPDF.OpenAfterExport := False;
+        ReportBase.PrepareReport;
+        ReportBase.Export(frxPDF);
+      end;
+    end;
+  end;
+
 end;
 
 procedure TIForm.actCancelExecute(Sender: TObject);

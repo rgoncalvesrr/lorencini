@@ -141,7 +141,7 @@ inherited LabProcVol: TLabProcVol
           TabOrder = 1
           object ACBrBarCode2: TACBrBarCode
             Left = 17
-            Top = 118
+            Top = 115
             Width = 205
             Height = 49
             Modul = 8

@@ -1,5 +1,5 @@
 inherited LabProcPortM: TLabProcPortM
-  Caption = 'Registro de Itens'
+  Caption = '190554'
   ClientHeight = 454
   ClientWidth = 913
   Constraints.MinWidth = 648
@@ -12,8 +12,8 @@ inherited LabProcPortM: TLabProcPortM
     Width = 913
     Height = 410
     ExplicitTop = 44
-    ExplicitWidth = 748
-    ExplicitHeight = 314
+    ExplicitWidth = 913
+    ExplicitHeight = 410
     inherited Panel3: TPanel
       Align = alNone
       ExplicitTop = 204
@@ -72,14 +72,14 @@ inherited LabProcPortM: TLabProcPortM
       Height = 404
       ExplicitLeft = 3
       ExplicitTop = 3
-      ExplicitWidth = 742
-      ExplicitHeight = 308
+      ExplicitWidth = 907
+      ExplicitHeight = 404
       inherited TabSheet1: TTabSheet
         Caption = 'Retorno de Materiais'
         ExplicitLeft = 4
         ExplicitTop = 26
-        ExplicitWidth = 734
-        ExplicitHeight = 278
+        ExplicitWidth = 899
+        ExplicitHeight = 374
         object Bevel6: TBevel
           AlignWithMargins = True
           Left = 3
@@ -115,8 +115,6 @@ inherited LabProcPortM: TLabProcPortM
           DataSource = LabProcPort.dsPortItens
           ReadOnly = True
           TabOrder = 0
-          ExplicitWidth = 728
-          ExplicitHeight = 144
         end
         object Panel2: TPanel
           Left = 0
@@ -126,7 +124,6 @@ inherited LabProcPortM: TLabProcPortM
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 1
-          ExplicitWidth = 734
           object Panel4: TPanel
             Left = 0
             Top = 0
@@ -168,7 +165,6 @@ inherited LabProcPortM: TLabProcPortM
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 1
-            ExplicitWidth = 415
             object Label8: TLabel
               AlignWithMargins = True
               Left = 3
@@ -192,7 +188,6 @@ inherited LabProcPortM: TLabProcPortM
               DataSource = LabProcPort.dsPort
               ReadOnly = True
               TabOrder = 0
-              ExplicitWidth = 409
             end
           end
           object Panel8: TPanel
@@ -203,7 +198,6 @@ inherited LabProcPortM: TLabProcPortM
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 2
-            ExplicitLeft = 472
             object Label9: TLabel
               AlignWithMargins = True
               Left = 3
@@ -237,7 +231,6 @@ inherited LabProcPortM: TLabProcPortM
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 3
-            ExplicitLeft = 603
             object Label10: TLabel
               AlignWithMargins = True
               Left = 3
@@ -272,7 +265,6 @@ inherited LabProcPortM: TLabProcPortM
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 2
-          ExplicitWidth = 734
           object Panel6: TPanel
             Left = 0
             Top = 0
@@ -303,8 +295,6 @@ inherited LabProcPortM: TLabProcPortM
               DataSource = LabProcPort.dsPortItens
               TabOrder = 0
               OnExit = DBEdit2Exit
-              ExplicitTop = 23
-              ExplicitWidth = 105
             end
           end
           object Panel10: TPanel
@@ -315,7 +305,6 @@ inherited LabProcPortM: TLabProcPortM
             Align = alLeft
             BevelOuter = bvNone
             TabOrder = 3
-            ExplicitLeft = 111
             object Label7: TLabel
               AlignWithMargins = True
               Left = 3
@@ -355,7 +344,6 @@ inherited LabProcPortM: TLabProcPortM
             Align = alLeft
             BevelOuter = bvNone
             TabOrder = 4
-            ExplicitLeft = 233
             object Label3: TLabel
               AlignWithMargins = True
               Left = 3
@@ -389,7 +377,6 @@ inherited LabProcPortM: TLabProcPortM
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 6
-            ExplicitLeft = 472
             object Label5: TLabel
               AlignWithMargins = True
               Left = 3
@@ -446,7 +433,6 @@ inherited LabProcPortM: TLabProcPortM
               DecimalPlacesAlwaysShown = False
               DataField = 'qtd'
               DataSource = LabProcPort.dsPortItens
-              ExplicitWidth = 125
             end
           end
           object Panel12: TPanel
@@ -457,8 +443,6 @@ inherited LabProcPortM: TLabProcPortM
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 5
-            ExplicitLeft = 364
-            ExplicitWidth = 108
             object Label4: TLabel
               AlignWithMargins = True
               Left = 3
@@ -482,7 +466,6 @@ inherited LabProcPortM: TLabProcPortM
               DataSource = LabProcPort.dsPortItens
               ReadOnly = True
               TabOrder = 0
-              ExplicitWidth = 102
             end
           end
           object Panel15: TPanel
@@ -493,8 +476,6 @@ inherited LabProcPortM: TLabProcPortM
             Align = alLeft
             BevelOuter = bvNone
             TabOrder = 1
-            ExplicitLeft = 157
-            ExplicitTop = 3
             object Label12: TLabel
               AlignWithMargins = True
               Left = 3
@@ -519,7 +500,6 @@ inherited LabProcPortM: TLabProcPortM
               ReadOnly = True
               TabOrder = 0
               OnExit = DBEdit2Exit
-              ExplicitTop = 23
             end
           end
         end
@@ -531,7 +511,7 @@ inherited LabProcPortM: TLabProcPortM
     Height = 38
     ExplicitLeft = 3
     ExplicitTop = 3
-    ExplicitWidth = 742
+    ExplicitWidth = 907
     ExplicitHeight = 38
     inherited ToolBar1: TToolBar
       Width = 623

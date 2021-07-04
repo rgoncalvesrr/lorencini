@@ -141,8 +141,7 @@ var
 
 implementation
 
-uses uLabProc, uDM, uClientes, mcUtils, iTypes, uLabProcPortM, uLabProcDespacho, 
-  uConsts;
+uses uLabProc, uDM, uClientes, mcUtils, iTypes, uLabProcPortM, uLabProcDespacho, uConsts;
 
 {$R *.dfm}
 
