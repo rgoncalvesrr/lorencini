@@ -30,6 +30,11 @@ CREATE OR REPLACE FUNCTION a_labport()
   RETURNS trigger AS
 $$
 Declare
+   _OP_REMESSA    constant integer = 1;
+   _OP_RETORNO    constant integer = 2;
+   _ST_DIGITACAO  constant integer = 1;
+   _ST_ENCERRADO  constant integer = 2;
+
    icount      integer;
    -- trem_tr     comodato.rem_tr%type;
    voperac     varchar;
@@ -37,9 +42,12 @@ Declare
    ios         tb_orcamentos.os%type;
    ipedido     pedido.recno%type;
    r           pedido%rowtype;
+
+   session_    session$;
+   src_table   integer;
 BEGIN
    if tg_op <> 'DELETE' then
-      if new.operac = 1 then
+      if new.operac = _OP_REMESSA then
          voperac := 'remessa';
       else
          voperac := 'retorno';
@@ -52,9 +60,9 @@ BEGIN
       -- trem_tr := trem_tr || chr(13)|| chr(10) || 'Portador Agente.: ' || new.cpf || ' - ' || new.portador;
 
       -- Processando remessa
-      if new.operac = 1 then
+      if new.operac = _OP_REMESSA then
          -- Marca operação como encerrada
-         new.status := 2;
+         new.status := _ST_ENCERRADO;
 
          -- Checa se o processo já foi remetido
          if exists(
@@ -117,7 +125,20 @@ BEGIN
 
       if tg_op = 'UPDATE' then
          -- Baixa retorno de materiais
-         if new.operac = 2 and old.status = 1 and new.status = 2 then
+         if new.operac = _OP_RETORNO and old.status = _ST_DIGITACAO and new.status = _ST_ENCERRADO then
+            session_ := sys_session();
+            src_table := sys_origem('labret');
+
+            -- Associa todas as amostras marcadas para retorno deste cliente
+            update labret ret
+               set labport_recno = new.recno
+              from sys_flags f, labamostras a
+             where f.session = session_
+               and f.table_ = src_table
+               and f.recno = ret.recno 
+               and a.recno = ret.amostra 
+               and a.codigo = new.codigo;
+
             if not exists(
                select 1
                  from labret

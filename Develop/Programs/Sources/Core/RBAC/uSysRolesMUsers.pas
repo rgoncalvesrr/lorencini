@@ -50,24 +50,24 @@ implementation
 
 {$R *.dfm}
 
-uses uSysRoles, uIUtils, mcutils, DB, uSysUsers;
+uses uSysRoles, uIUtils, mcutils, DB;
 
 procedure TSysRolesMUsers.actFindUserExecute(Sender: TObject);
 begin
   inherited;
-  SysUsers := TSysUsers.Create(nil);
-  try
-    SysUsers.DisplayMode := dmQuery;
-    SysUsers.ShowModal;
-    if (SysUsers.Execute) then
-    begin
-      DataSet.FieldByName('username').AsString := SysUsers.IBrwSrcusername.AsString;
-      DBEdit3Exit(DBEdit3);
-    end;
-  finally
-    FreeAndNil(SysUsers);
-  end;
-  
+//  SysUsers := TSysUsers.Create(nil);
+//  try
+//    SysUsers.DisplayMode := dmQuery;
+//    SysUsers.ShowModal;
+//    if (SysUsers.Execute) then
+//    begin
+//      DataSet.FieldByName('username').AsString := SysUsers.IBrwSrcusername.AsString;
+//      DBEdit3Exit(DBEdit3);
+//    end;
+//  finally
+//    FreeAndNil(SysUsers);
+//  end;
+
 end;
 
 procedure TSysRolesMUsers.DBEdit3Exit(Sender: TObject);

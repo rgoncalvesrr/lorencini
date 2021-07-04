@@ -18,23 +18,29 @@ type
   private
     FDBError: String;
     FID: string;
-    FThreadList: TList;
+    FTasks: TThreadList;
     FOnLog: TNotifyEventLog;
     FFirstExec: Boolean;
     FOnLogSMTP: TNotifyEventLog;
-    procedure ProcessoFinalizado(Sender: TObject);
+    FOnLogSchedule: TNotifyEventLog;
+    procedure ProcessFinished(Sender: TObject);
     procedure SetDBError(const Value: String);
-    procedure SendNextEMail;
-    procedure Log(const Msg: string); overload;
-    procedure Log(const Msg: string; const Args: array of const); overload;
+    procedure ProcessNextTask;
+    procedure Log(Sender: TObject; const MsgLog: string); overload;
+    procedure Log(Sender: TObject; const MsgLog: string; const Args: array of const); overload;
+    procedure Log(const MsgLog: string); overload;
+    procedure Log(const MsgLog: string; const Args: array of const); overload;
     procedure Initialize;
+    procedure ProcessMailQueue;
+    procedure ProcessScheduleQueue;
   public
     { Public declarations }
     property DBError: String read FDBError write SetDBError;
     property ID: string read FID;
 
-    property OnLogSMTP: TNotifyEventLog read FOnLogSMTP write FOnLogSMTP;
     property OnLog: TNotifyEventLog read FOnLog write FOnLog;
+    property OnLogSchedule: TNotifyEventLog read FOnLogSchedule write FOnLogSchedule;
+    property OnLogSMTP: TNotifyEventLog read FOnLogSMTP write FOnLogSMTP;
   end;
 
 var
@@ -42,8 +48,8 @@ var
 
 implementation
 
-uses ServiceCFG, ActiveX, ComObj, uIUtils, ServiceSMTP, mcutils, IdSSLOpenSSL, 
-  IdExplicitTLSClientServerBase, IdSMTP;
+uses ServiceCFG, ActiveX, ComObj, uIUtils, ServiceSMTP, mcutils, IdSSLOpenSSL,
+  IdExplicitTLSClientServerBase, IdSMTP, ServiceTask;
 
 {$R *.dfm}
 
@@ -53,7 +59,7 @@ var
   appname: string;
   appimage: string;
 begin
-  inherited;  
+  inherited;
   FFirstExec := True;
   appname := ParamStr(0);
   appimage := ExtractFileName(appname);
@@ -101,20 +107,23 @@ begin
       FDBError := e.Message;
   end;
 
-  FThreadList := TList.Create;
+  FTasks := TThreadList.Create;
 end;
 
 procedure TdmCore.DataModuleDestroy(Sender: TObject);
 var
   i: Integer;
+  tasks: TList;
 begin
   Monitor.Enabled := False;
 
-  for i := 0 to FThreadList.Count - 1 do
-    TServiceSMTP(FThreadList[i]).Free;
-
-  FThreadList.Clear;
-  FreeAndNil(FThreadList);
+  tasks := FTasks.LockList;
+  try
+    FTasks.Clear;
+  finally
+    FTasks.UnlockList;
+  end;
+  FreeAndNil(FTasks);
 
   zQry.SQL.Text := 'select sys_session_release()';
   zQry.ExecSQL;
@@ -183,20 +192,28 @@ begin
   FFirstExec := False;
 end;
 
-procedure TdmCore.Log(const Msg: string; const Args: array of const);
+procedure TdmCore.Log(const MsgLog: string);
 begin
-  Log(Format(Msg, Args));
+  Log(Self, MsgLog);
 end;
 
-procedure TdmCore.Log(const Msg: string);
+procedure TdmCore.Log(const MsgLog: string; const Args: array of const);
+begin
+  Log(Self, MsgLog, Args);
+end;
+
+procedure TdmCore.Log(Sender: TObject; const MsgLog: string; const Args: array of const);
+begin
+  Log(Sender, Format(MsgLog, Args));
+end;
+
+procedure TdmCore.Log(Sender: TObject; const MsgLog: string);
 begin
   if Assigned(FOnLog) then
-    FOnLog(Self, FormatDateTime('dd/mm/yyyy hh:nn:ss:zzz', Now) + ' ' + Msg);
+    FOnLog(Self, FormatDateTime('dd/mm/yyyy hh:nn:ss:zzz', Now) + ' | ' + MsgLog);
 end;
 
 procedure TdmCore.MonitorTimer(Sender: TObject);
-var
-  oMail: TServiceSMTP;
 begin
   Monitor.Enabled := False;
 
@@ -210,6 +227,52 @@ begin
     end;
   end;
 
+  ProcessMailQueue;
+  ProcessScheduleQueue;
+
+  ProcessNextTask;
+end;
+
+procedure TdmCore.pgConnAfterConnect(Sender: TObject);
+var
+  oQry: TZReadOnlyQuery;
+begin
+  pgConn.AfterConnect := nil;
+  oQry := TZReadOnlyQuery.Create(nil);
+  oQry.Connection := pgConn;
+  try
+    oQry.SQL.Text := Format(
+      'select sys_login(%s, %s)',
+        [QuotedStr('sistema@lorencinibrasil.com.br'), QuotedStr(mcMD5('m4n4g3r.@'))]);
+    oQry.ExecSQL;
+
+    oQry.SQL.Text := 'select current_user';
+    oQry.Open;
+
+    U.Info.RefreshSessionFromDB;
+  finally
+    oQry.Close;
+    FreeAndNil(oQry);
+    pgConn.AfterConnect := pgConnAfterConnect;
+  end;
+end;
+
+procedure TdmCore.ProcessFinished(Sender: TObject);
+begin
+  try
+    if (TServiceBase(Sender).LastError <> EmptyStr) then
+      Log(TServiceBase(Sender).LastError);
+    
+    FTasks.Remove(Sender);
+  finally
+    ProcessNextTask;
+  end;
+end;
+
+procedure TdmCore.ProcessMailQueue;
+var
+  ThreadMail: TServiceSMTP;
+begin
   try
     {Marcando mensagens}
     zQry.SQL.Text :=
@@ -240,64 +303,77 @@ begin
 
     while not zQry.Eof do
     begin
-      oMail := TServiceSMTP.Create(TServiceCFG.GetInstance.ConnParams);
-      oMail.Description := 'Serviço de envio de e-mail.';
-      oMail.OnLog := FOnLogSMTP;
-      oMail.OnTerminate := ProcessoFinalizado;
-      oMail.Recno := zQry.Fields[0].AsInteger;
-      oMail.Table_ := zQry.Fields[1].AsInteger;
-      oMail.Recno_ := zQry.Fields[2].AsInteger;
-      oMail.SMTP.Assign(TServiceCFG.GetInstance.Smtp);
-      
-      FThreadList.Add(oMail);
+      ThreadMail := TServiceSMTP.Create(TServiceCFG.GetInstance.ConnParams);
+      ThreadMail.Description := 'Serviço de envio de e-mail.';
+      ThreadMail.OnLog := FOnLogSMTP;
+      ThreadMail.OnTerminate := ProcessFinished;
+      ThreadMail.Recno := zQry.Fields[0].AsInteger;
+      ThreadMail.Table_ := zQry.Fields[1].AsInteger;
+      ThreadMail.Recno_ := zQry.Fields[2].AsInteger;
+      ThreadMail.SMTP.Assign(TServiceCFG.GetInstance.Smtp);
+
+      FTasks.Add(ThreadMail);
 
       zQry.Next;
     end;
   finally
     zQry.Close;
   end;
-
-  SendNextEMail;
 end;
 
-procedure TdmCore.pgConnAfterConnect(Sender: TObject);
+procedure TdmCore.ProcessNextTask;
 var
-  oQry: TZReadOnlyQuery;
+  tasks: TList;
 begin
-  pgConn.AfterConnect := nil;
-  oQry := TZReadOnlyQuery.Create(nil);
-  oQry.Connection := pgConn;
+  tasks := FTasks.LockList;
   try
-    oQry.SQL.Text := Format(
-      'select sys_login(%s, %s)',
-        [QuotedStr('sistema@lorencinibrasil.com.br'), QuotedStr(mcMD5('m4n4g3r.@'))]);
-    oQry.ExecSQL;
-
-    oQry.SQL.Text := 'select current_user';
-    oQry.Open;
-
-    U.Info.RefreshSessionFromDB;
+  // Executa próxima thread
+  if tasks.Count > 0 then
+    TThread(tasks.First).Resume
+  else
+    Monitor.Enabled := True;
   finally
-    oQry.Close;
-    FreeAndNil(oQry);
-    pgConn.AfterConnect := pgConnAfterConnect;
+    FTasks.UnlockList;
   end;
 end;
 
-procedure TdmCore.ProcessoFinalizado(Sender: TObject);
+procedure TdmCore.ProcessScheduleQueue;
+const
+  SYS_SCHEDULES: integer = 262;
+var
+  task : TServiceTask;
 begin
-  FThreadList.Remove(Sender);
-  FThreadList.Pack;
-  SendNextEMail;
-end;
+  try
+    zQry.SQL.Text :=
+    'select ss.descri, ss.recno, x.schedule_recno, x.execucao, ss.fn '+
+      'from sys_schedules_setup ss '+
+           'join (select s.agendamento, min(recno) schedule_recno, min(execucao) execucao '+
+                   'from sys_schedules s '+
+                  'where s.status = 0 '+
+                    'and s.execucao <= now() '+
+                  'group by s.agendamento) x '+
+             'on x.agendamento = ss.recno;';
 
-procedure TdmCore.SendNextEMail;
-begin
-  // Executa próxima thread
-  if FThreadList.Count > 0 then
-    TServiceSMTP(FThreadList.First).Resume
-  else
-    Monitor.Enabled := True;
+    zQry.Open;
+
+    while not zQry.Eof do
+    begin
+      task := TServiceTask.Create(TServiceCFG.GetInstance.ConnParams);
+      task.Description := zQry.FieldByName('descri').AsString;
+      task.Routine := zQry.FieldByName('fn').AsString;
+      task.ScheduledTo := zQry.FieldByName('execucao').AsDateTime;
+      task.OnLog := FOnLogSchedule;
+      task.OnTerminate := ProcessFinished;
+      task.Table_ := SYS_SCHEDULES;
+      task.Recno_ := zQry.FieldByName('schedule_recno').AsInteger;
+
+      FTasks.Add(task);
+
+      zQry.Next;
+    end;
+  finally
+    zQry.Close;
+  end;
 end;
 
 procedure TdmCore.SetDBError(const Value: String);

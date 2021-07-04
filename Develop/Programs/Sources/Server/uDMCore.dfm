@@ -2,11 +2,11 @@ object dmCore: TdmCore
   OldCreateOrder = False
   OnCreate = DataModuleCreate
   OnDestroy = DataModuleDestroy
-  Height = 150
-  Width = 215
+  Height = 169
+  Width = 458
   object pgConn: TZConnection
     ControlsCodePage = cGET_ACP
-    AutoEncodeStrings = False
+    AutoEncodeStrings = True
     UseMetadata = False
     Port = 0
     Left = 24

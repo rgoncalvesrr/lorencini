@@ -1,7 +1,6 @@
 object Main: TMain
   Left = 273
   Top = 112
-  Align = alClient
   Caption = 'Lorencini Brasil'
   ClientHeight = 775
   ClientWidth = 1058

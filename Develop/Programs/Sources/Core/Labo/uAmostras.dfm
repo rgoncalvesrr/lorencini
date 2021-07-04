@@ -75,6 +75,8 @@ inherited Amostras: TAmostras
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 1
+          ExplicitLeft = 97
+          ExplicitTop = 1
           object Label1: TLabel
             AlignWithMargins = True
             Left = 3
@@ -276,7 +278,7 @@ inherited Amostras: TAmostras
             Width = 179
             Height = 15
             Align = alTop
-            Caption = '01/03/2021 a 31/03/2021'
+            Caption = '01/05/2021 a 31/05/2021'
             ExplicitWidth = 128
           end
           object Label9: TLabel
@@ -318,7 +320,7 @@ inherited Amostras: TAmostras
             end
             inherited CCalendarDiff1: TCCalendarDiff
               Interval = diMonthly
-              Date = 44264.005316898150000000
+              Date = 44342.024999606480000000
               DisplayInterval = Label8
             end
           end

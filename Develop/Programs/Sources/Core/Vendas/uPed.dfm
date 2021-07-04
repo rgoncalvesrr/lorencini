@@ -175,7 +175,7 @@ inherited Ped: TPed
             Width = 185
             Height = 15
             Align = alTop
-            Caption = '01/04/2021 a 30/04/2021'
+            Caption = '01/06/2021 a 30/06/2021'
             Transparent = True
             ExplicitWidth = 128
           end
@@ -207,7 +207,7 @@ inherited Ped: TPed
             end
             inherited CCalendarDiff1: TCCalendarDiff
               Interval = diMonthly
-              Date = 44294.746795798610000000
+              Date = 44369.074790347220000000
               DisplayInterval = Label6
               OnChange = FrameData1CCalendarDiff1Change
             end
@@ -250,6 +250,10 @@ inherited Ped: TPed
       object TabSheet2: TTabSheet
         Caption = 'Em Digita'#231#227'o'
         ImageIndex = 213
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object ControlBar1: TControlBar
           AlignWithMargins = True
           Left = 3
@@ -319,30 +323,58 @@ inherited Ped: TPed
       object TabSheet7: TTabSheet
         Caption = 'Aprova'#231#227'o de Cr'#233'dito'
         ImageIndex = 214
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
       object TabSheet3: TTabSheet
         Caption = 'Autoriza'#231#227'o para Execu'#231#227'o'
         ImageIndex = 210
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
       object TabSheet8: TTabSheet
         Caption = 'Em Remessa'
         ImageIndex = 211
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
       object TabSheet9: TTabSheet
         Caption = 'Aguardando Amostra'
         ImageIndex = 212
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
       object TabSheet4: TTabSheet
         Caption = 'Em Execu'#231#227'o'
         ImageIndex = 205
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
       object TabSheet5: TTabSheet
         Caption = 'Executado'
         ImageIndex = 208
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
       object TabSheet10: TTabSheet
         Caption = 'Cancelados'
         ImageIndex = 204
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
     end
   end
