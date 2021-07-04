@@ -24,7 +24,7 @@ object DM: TDM
     User = 'postgres'
     Password = 'postgres.'
     Protocol = 'postgresql'
-    LibraryLocation = 'D:\Projetos\Lorencini\Lib\libpq.dll'
+    LibraryLocation = 'D:\Lorencini\Lib\libpq.dll'
     Left = 88
     Top = 8
   end
