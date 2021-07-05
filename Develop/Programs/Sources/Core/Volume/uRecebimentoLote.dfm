@@ -446,6 +446,7 @@ inherited RecebimentoLote: TRecebimentoLote
       FieldName = 'status'
       Required = True
       OnGetText = IBrwSrcstatusGetText
+      OnSetText = IBrwSrcstatusSetText
     end
     object IBrwSrcrecno: TIntegerField
       DisplayLabel = 'Registro'
@@ -517,8 +518,39 @@ inherited RecebimentoLote: TRecebimentoLote
     Top = 232
   end
   inherited zIBrwSrc: TZUpdateSQL
+    DeleteSQL.Strings = (
+      'DELETE FROM labret'
+      'WHERE'
+      '  labret.recno = :OLD_recno')
+    InsertSQL.Strings = (
+      'INSERT INTO labret'
+      '  (status, qtd)'
+      'VALUES'
+      '  (:status, :qtd)')
+    ModifySQL.Strings = (
+      'UPDATE labret SET'
+      '  status = :status,'
+      '  qtd = :qtd'
+      'WHERE'
+      '  labret.recno = :OLD_recno')
     Left = 200
     Top = 232
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'status'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'qtd'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'OLD_recno'
+        ParamType = ptUnknown
+      end>
   end
   object sIBrwSrc: TZSequence
     Connection = DM.Design

@@ -298,7 +298,8 @@ uses
   uDM in '..\..\Sources\Core\Infra\uDM.pas' {DM: TDataModule},
   uRecebimentoNFe in '..\..\Sources\Core\Fiscal\uRecebimentoNFe.pas' {RecebimentoNFe},
   uRecebimentoNFeM in '..\..\Sources\Core\Fiscal\uRecebimentoNFeM.pas' {RecebimentoNFeM},
-  uRecebimentoPortador in '..\..\Sources\Core\Volume\uRecebimentoPortador.pas' {RecebimentoPortador};
+  uRecebimentoLotePortador in '..\..\Sources\Core\Volume\uRecebimentoLotePortador.pas' {RecebimentoLotePortador},
+  uRecebimentoLoteM in '..\..\Sources\Core\Volume\uRecebimentoLoteM.pas' {RecebimentoLoteM};
 
 {$R *.res}
 begin

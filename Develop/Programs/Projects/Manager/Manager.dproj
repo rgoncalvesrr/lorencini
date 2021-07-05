@@ -913,8 +913,11 @@
     <DCCReference Include="..\..\Sources\Core\Volume\uRecebimentoLote.pas">
       <Form>RecebimentoLote</Form>
     </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Volume\uRecebimentoPortador.pas">
-      <Form>RecebimentoPortador</Form>
+    <DCCReference Include="..\..\Sources\Core\Volume\uRecebimentoLoteM.pas">
+      <Form>RecebimentoLoteM</Form>
+    </DCCReference>
+    <DCCReference Include="..\..\Sources\Core\Volume\uRecebimentoLotePortador.pas">
+      <Form>RecebimentoLotePortador</Form>
     </DCCReference>
     <DCCReference Include="..\..\Sources\Packages\CCore\CCore.pas" />
     <DCCReference Include="..\..\Sources\Packages\CCore\CMsg.pas" />

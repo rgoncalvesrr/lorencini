@@ -146,8 +146,29 @@ end;
 procedure TRecebimentoLeitura.DBGrid2DrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn;
   State: TGridDrawState);
 begin
-  inherited;
   DefaultDbGridDrawColumnCell(Sender, Rect, DataCol, Column, State);
+
+  with TDBGrid(Sender) do
+  begin
+    case DataCol of
+      4: Canvas.Pen.Color := clGreen;
+      5: Canvas.Pen.Color := clYellow;
+      6: Canvas.Pen.Color := clGrayText;
+      7: Canvas.Pen.Color := clRed;
+    else
+      Exit;
+    end;
+
+    Canvas.Brush.Style := bsClear;
+    Canvas.MoveTo(Rect.Left, Rect.Top);
+    Canvas.LineTo(Rect.Right, Rect.Top);
+    Canvas.MoveTo(Rect.Left, Rect.Top);
+    Canvas.LineTo(Rect.Left, Rect.Bottom-1);
+    Canvas.MoveTo(Rect.Left, Rect.Bottom-1);
+    Canvas.LineTo(Rect.Right, Rect.Bottom-1);
+    Canvas.MoveTo(Rect.Right, Rect.Top);
+    Canvas.LineTo(Rect.Right, Rect.Bottom-1);
+  end;
 end;
 
 procedure TRecebimentoLeitura.DefaultDbGridDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer;
