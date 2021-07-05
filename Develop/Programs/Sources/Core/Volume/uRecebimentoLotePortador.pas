@@ -363,11 +363,8 @@ end;
 procedure TRecebimentoLotePortador.qPortAfterPost(DataSet: TDataSet);
 begin
   inherited;
-  if qPort.IsEmpty then
-  begin
-    G.RefreshDataSet(RecebimentoLote.IBrwSrc);
-    G.RefreshDataSet(RecebimentoLote.qLotes);
-  end;
+  G.RefreshDataSet(RecebimentoLote.IBrwSrc);
+  G.RefreshDataSet(RecebimentoLote.qLotes);
 end;
 
 procedure TRecebimentoLotePortador.qPorttipoGetText(Sender: TField; var Text: string; DisplayText: Boolean);
@@ -413,6 +410,7 @@ begin
 
   actNew.Enabled := not RecebimentoLote.qLotes.IsEmpty and (qPort.State = dsBrowse);
   actSave.Enabled := qPort.State in [dsEdit, dsInsert];
+  actCancel.Enabled := actSave.Enabled;
   actClean.Enabled := actSave.Enabled;
 end;
 
