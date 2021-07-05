@@ -1,4 +1,4 @@
-unit uRecebimentoPortador;
+unit uRecebimentoLotePortador;
 
 interface
 
@@ -8,7 +8,7 @@ uses
   uIUtils, DB, ZAbstractRODataset, ZAbstractDataset, ZDataset, ZSqlUpdate, ZSequence;
 
 type
-  TRecebimentoPortador = class(TIForm)
+  TRecebimentoLotePortador = class(TIForm)
     PageControl1: TPageControl;
     TabSheet1: TTabSheet;
     DBGrid1: TDBGrid;
@@ -117,7 +117,7 @@ type
   end;
 
 var
-  RecebimentoPortador: TRecebimentoPortador;
+  RecebimentoLotePortador: TRecebimentoLotePortador;
 
 implementation
 
@@ -138,7 +138,7 @@ const
 
 {$R *.dfm}
 
-procedure TRecebimentoPortador.actCancelExecute(Sender: TObject);
+procedure TRecebimentoLotePortador.actCancelExecute(Sender: TObject);
 begin
   if qPort.State in [dsEdit, dsInsert] then
     qPort.Cancel;
@@ -146,7 +146,7 @@ begin
   inherited;
 end;
 
-procedure TRecebimentoPortador.actNewExecute(Sender: TObject);
+procedure TRecebimentoLotePortador.actNewExecute(Sender: TObject);
 begin
   inherited;
   qPort.Append;
@@ -155,7 +155,7 @@ begin
   DBComboBox1.SetFocus;
 end;
 
-procedure TRecebimentoPortador.actSaveExecute(Sender: TObject);
+procedure TRecebimentoLotePortador.actSaveExecute(Sender: TObject);
 begin
   inherited;
   qPort.Post;
@@ -172,7 +172,7 @@ begin
   RefreshState;
 end;
 
-procedure TRecebimentoPortador.DBComboBox1Change(Sender: TObject);
+procedure TRecebimentoLotePortador.DBComboBox1Change(Sender: TObject);
 var
   sCriteria: string;
 begin
@@ -222,7 +222,7 @@ begin
     Label12.Font.Style := [fsBold];
 end;
 
-procedure TRecebimentoPortador.DBComboBox2Exit(Sender: TObject);
+procedure TRecebimentoLotePortador.DBComboBox2Exit(Sender: TObject);
 var
   campo: string;
   lc: TComboList;
@@ -251,7 +251,7 @@ begin
   end;
 end;
 
-procedure TRecebimentoPortador.DBEdit12Exit(Sender: TObject);
+procedure TRecebimentoLotePortador.DBEdit12Exit(Sender: TObject);
 var
   fLkp: TStringList;
 begin
@@ -270,7 +270,7 @@ begin
   end;
 end;
 
-procedure TRecebimentoPortador.DBEdit14Exit(Sender: TObject);
+procedure TRecebimentoLotePortador.DBEdit14Exit(Sender: TObject);
 var
   fLkp: TStringList;
 begin
@@ -289,7 +289,7 @@ begin
   end;
 end;
 
-procedure TRecebimentoPortador.DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer;
+procedure TRecebimentoLotePortador.DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer;
   Column: TColumn; State: TGridDrawState);
 var
   Bmp: TBitmap;
@@ -331,27 +331,27 @@ begin
   end;
 end;
 
-procedure TRecebimentoPortador.FormCreate(Sender: TObject);
+procedure TRecebimentoLotePortador.FormCreate(Sender: TObject);
 begin
   inherited;
   FCBEmp := TComboList.Create(DBComboBox2, 'vport_emp', 'cnpj', 'empresa', False);
   FCBPort := TComboList.Create(DBComboBox4, 'vport_port', 'cpf', 'portador', False);
 end;
 
-procedure TRecebimentoPortador.FormDestroy(Sender: TObject);
+procedure TRecebimentoLotePortador.FormDestroy(Sender: TObject);
 begin
   FreeAndNil(FCBEmp);
   FreeAndNil(FCBPort);
   inherited;
 end;
 
-procedure TRecebimentoPortador.OnLoad;
+procedure TRecebimentoLotePortador.OnLoad;
 begin
   inherited;
   qPort.Open;
 end;
 
-procedure TRecebimentoPortador.qPortAfterInsert(DataSet: TDataSet);
+procedure TRecebimentoLotePortador.qPortAfterInsert(DataSet: TDataSet);
 begin
   inherited;
   qPortoperac.AsInteger := OPERACAO_RETORNO;
@@ -360,17 +360,14 @@ begin
   qPorttipo.AsInteger := TIPO_CORREIOS;
 end;
 
-procedure TRecebimentoPortador.qPortAfterPost(DataSet: TDataSet);
+procedure TRecebimentoLotePortador.qPortAfterPost(DataSet: TDataSet);
 begin
   inherited;
-  if qPort.IsEmpty then
-  begin
-    G.RefreshDataSet(RecebimentoLote.IBrwSrc);
-    G.RefreshDataSet(RecebimentoLote.qLotes);
-  end;
+  G.RefreshDataSet(RecebimentoLote.IBrwSrc);
+  G.RefreshDataSet(RecebimentoLote.qLotes);
 end;
 
-procedure TRecebimentoPortador.qPorttipoGetText(Sender: TField; var Text: string; DisplayText: Boolean);
+procedure TRecebimentoLotePortador.qPorttipoGetText(Sender: TField; var Text: string; DisplayText: Boolean);
 begin
   inherited;
   case Sender.AsInteger of
@@ -382,7 +379,7 @@ begin
   end;
 end;
 
-procedure TRecebimentoPortador.qPorttipoSetText(Sender: TField; const Text: string);
+procedure TRecebimentoLotePortador.qPorttipoSetText(Sender: TField; const Text: string);
 begin
   inherited;
   if not (qPort.State in [dsEdit, dsInsert]) then
@@ -404,7 +401,7 @@ begin
     Sender.AsInteger := TIPO_OUTROS;
 end;
 
-procedure TRecebimentoPortador.RefreshState;
+procedure TRecebimentoLotePortador.RefreshState;
 var
   I: Integer;
 begin
@@ -413,6 +410,7 @@ begin
 
   actNew.Enabled := not RecebimentoLote.qLotes.IsEmpty and (qPort.State = dsBrowse);
   actSave.Enabled := qPort.State in [dsEdit, dsInsert];
+  actCancel.Enabled := actSave.Enabled;
   actClean.Enabled := actSave.Enabled;
 end;
 

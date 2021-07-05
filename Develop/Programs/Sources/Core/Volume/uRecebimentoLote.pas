@@ -70,10 +70,12 @@ type
     procedure IBrwSrcstatusGetText(Sender: TField; var Text: string; DisplayText: Boolean);
     procedure actGerarLotesExecute(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure IBrwSrcstatusSetText(Sender: TField; const Text: string);
   private
     procedure OnChangeMark(Sender: TObject);
     procedure OnLoad; override;
     procedure RefreshCtrl; override;
+    procedure OnEdit; override;
   public
     { Public declarations }
   end;
@@ -83,18 +85,19 @@ var
 
 implementation
 
-uses uDM, uResources, ccalendardiff, uIUtils, uRecebimentoPortador;
+uses uDM, uResources, ccalendardiff, uIUtils, uRecebimentoLotePortador, 
+  uRecebimentoLoteM;
 
 {$R *.dfm}
 
 procedure TRecebimentoLote.actGerarLotesExecute(Sender: TObject);
 begin
   inherited;
-  RecebimentoPortador := TRecebimentoPortador.Create(nil);
+  RecebimentoLotePortador := TRecebimentoLotePortador.Create(nil);
   try
-    RecebimentoPortador.ShowModal;
+    RecebimentoLotePortador.ShowModal;
   finally
-    FreeAndNil(RecebimentoPortador);
+    FreeAndNil(RecebimentoLotePortador);
     G.RefreshDataSet(qLotes);
     RefreshCtrl;
   end;
@@ -211,12 +214,35 @@ begin
   end;
 end;
 
+procedure TRecebimentoLote.IBrwSrcstatusSetText(Sender: TField; const Text: string);
+begin
+  inherited;
+  if Sender.DataSet.State = dsEdit then
+    case Text[1] of
+      'C': Sender.AsInteger := 1;
+      'N': Sender.AsInteger := 2;
+      'V': Sender.AsInteger := 3;
+      'Q': Sender.AsInteger := 4;
+    end;
+end;
+
 procedure TRecebimentoLote.OnChangeMark(Sender: TObject);
 begin
   try
     G.RefreshDataSet(qLotes);
   finally
     RefreshCtrl;
+  end;
+end;
+
+procedure TRecebimentoLote.OnEdit;
+begin
+  RecebimentoLoteM := TRecebimentoLoteM.Create(nil);
+  try
+    RecebimentoLoteM.DataSet := IBrwSrc;
+    RecebimentoLoteM.ShowModal;
+  finally
+    FreeAndNil(RecebimentoLoteM);
   end;
 end;
 

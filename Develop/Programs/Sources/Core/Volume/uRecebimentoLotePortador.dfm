@@ -1,4 +1,4 @@
-inherited RecebimentoPortador: TRecebimentoPortador
+inherited RecebimentoLotePortador: TRecebimentoLotePortador
   ActiveControl = DBComboBox1
   Caption = 'Registro da Entrada - Portadores'
   ClientHeight = 612
@@ -94,7 +94,6 @@ inherited RecebimentoPortador: TRecebimentoPortador
           Align = alTop
           Caption = 'Observa'#231#245'es'
           FocusControl = DBMemo1
-          ExplicitTop = 153
           ExplicitWidth = 67
         end
         object Panel3: TPanel
@@ -105,7 +104,6 @@ inherited RecebimentoPortador: TRecebimentoPortador
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 0
-          ExplicitTop = 0
           object Panel4: TPanel
             Left = 0
             Top = 0
@@ -400,7 +398,6 @@ inherited RecebimentoPortador: TRecebimentoPortador
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 1
-          ExplicitTop = 50
           object Panel13: TPanel
             Left = 0
             Top = 0
@@ -603,7 +600,6 @@ inherited RecebimentoPortador: TRecebimentoPortador
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 2
-          ExplicitTop = 100
           object Panel22: TPanel
             Left = 0
             Top = 0
@@ -612,8 +608,6 @@ inherited RecebimentoPortador: TRecebimentoPortador
             Align = alLeft
             BevelOuter = bvNone
             TabOrder = 0
-            ExplicitLeft = -3
-            ExplicitTop = 3
             object Label16: TLabel
               AlignWithMargins = True
               Left = 3
@@ -697,7 +691,6 @@ inherited RecebimentoPortador: TRecebimentoPortador
           DataField = 'obs'
           DataSource = dsPort
           TabOrder = 3
-          ExplicitTop = 174
         end
         object v: TPanel
           Left = 0
@@ -707,7 +700,6 @@ inherited RecebimentoPortador: TRecebimentoPortador
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 4
-          ExplicitTop = -3
           object BitBtn1: TBitBtn
             AlignWithMargins = True
             Left = 784
@@ -793,7 +785,6 @@ inherited RecebimentoPortador: TRecebimentoPortador
               FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
               FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
               FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00}
-            ExplicitTop = 7
           end
           object BitBtn2: TBitBtn
             AlignWithMargins = True
@@ -1052,7 +1043,6 @@ inherited RecebimentoPortador: TRecebimentoPortador
               FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
               FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
               FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00}
-            ExplicitTop = 7
           end
         end
       end

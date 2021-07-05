@@ -42,7 +42,7 @@ object DMReport: TDMReport
     PrintOptions.Printer = 'Padr'#227'o'
     PrintOptions.PrintOnSheet = 0
     ReportOptions.CreateDate = 42781.714010347200000000
-    ReportOptions.LastChange = 44368.087979571800000000
+    ReportOptions.LastChange = 44381.833351134300000000
     ScriptLanguage = 'PascalScript'
     StoreInDFM = False
     OnReportPrint = 'ReportBaseOnReportPrint'

@@ -517,8 +517,6 @@ inherited RecebimentoLeitura: TRecebimentoLeitura
         Align = alClient
         TabOrder = 0
         OnKeyPress = Edit1KeyPress
-        ExplicitLeft = 3
-        ExplicitWidth = 709
       end
       object pnMsg: TPanel
         AlignWithMargins = True
