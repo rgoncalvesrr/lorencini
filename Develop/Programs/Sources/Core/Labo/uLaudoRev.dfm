@@ -410,7 +410,7 @@ inherited LaudoRev: TLaudoRev
       ' where l.status = 0'
       '   and l.revisao is null')
     IndexFieldNames = 'recno Asc'
-    Sequence = sIRwSrc
+    Sequence = sIBrwSrc
     Left = 128
     Top = 160
     object IBrwSrcstatus: TIntegerField
@@ -581,7 +581,7 @@ inherited LaudoRev: TLaudoRev
         ParamType = ptUnknown
       end>
   end
-  object sIRwSrc: TZSequence
+  object sIBrwSrc: TZSequence
     Connection = DM.Design
     SequenceName = 'public.labamostras_rel_recno_seq'
     Left = 16
@@ -590,9 +590,6 @@ inherited LaudoRev: TLaudoRev
   object qTipoLaudo: TZQuery
     Connection = DM.Design
     SortedFields = 'descri'
-    AfterRefresh = IBrwSrcAfterRefresh
-    UpdateObject = zIBrwSrc
-    AfterPost = IBrwSrcAfterPost
     SQL.Strings = (
       'select recno, descri, titulo '
       '  from vtplaudo'
@@ -606,7 +603,7 @@ inherited LaudoRev: TLaudoRev
       end>
     FetchRow = 50
     IndexFieldNames = 'descri Asc'
-    Sequence = sIRwSrc
+    Sequence = sIBrwSrc
     Left = 128
     Top = 208
     ParamData = <

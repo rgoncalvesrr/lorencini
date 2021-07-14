@@ -28,7 +28,7 @@ type
     IBrwSrcservico: TStringField;
     Label4: TLabel;
     edPedido: TJvCalcEdit;
-    sIRwSrc: TZSequence;
+    sIBrwSrc: TZSequence;
     Label1: TLabel;
     edLaudo: TJvCalcEdit;
     Label3: TLabel;
