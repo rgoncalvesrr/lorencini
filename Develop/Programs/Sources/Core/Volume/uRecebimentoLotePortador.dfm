@@ -342,7 +342,7 @@ inherited RecebimentoLotePortador: TRecebimentoLotePortador
               Height = 23
               TabStop = False
               Align = alClient
-              DataField = 'naoconformes'
+              DataField = 'vazios'
               DataSource = RecebimentoLote.dsLotes
               ReadOnly = True
               TabOrder = 0
@@ -383,7 +383,7 @@ inherited RecebimentoLotePortador: TRecebimentoLotePortador
               Height = 23
               TabStop = False
               Align = alClient
-              DataField = 'naoconformes'
+              DataField = 'quebrados'
               DataSource = RecebimentoLote.dsLotes
               ReadOnly = True
               TabOrder = 0

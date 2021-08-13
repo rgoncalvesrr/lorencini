@@ -224,10 +224,10 @@ begin
     with U.Query do
     try
       try
-        if Pos('c', Edit1.Text) > 0 then
+        if Pos('c', LowerCase(Edit1.Text)) > 0 then
         begin
           SQL.Text := 'select receber_volume_cmd(:comando)';
-          ParamByName('comando').AsString := Edit1.Text;
+          ParamByName('comando').AsString := LowerCase(Edit1.Text);
           ExecSQL;
           Exit;
         end;

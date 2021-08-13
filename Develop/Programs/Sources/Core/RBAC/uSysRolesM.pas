@@ -163,16 +163,16 @@ end;
 
 procedure TSysRolesM.OnEdit;
 begin
-//  if ChildDataSet = SysRoles.qAccounts then
-//  begin
-//    SysRolesMUsers := TSysRolesMUsers.Create(nil);
-//    try
-//      SysRolesMUsers.DataSet := SysRoles.qUsers;
-//      SysRolesMUsers.ShowModal;
-//    finally
-//      FreeAndNil(SysRolesMUsers);
-//    end;
-//  end;
+  if ChildDataSet = SysRoles.qAccounts then
+  begin
+    SysRolesMUsers := TSysRolesMUsers.Create(nil);
+    try
+      SysRolesMUsers.DataSet := SysRoles.qUsers;
+      SysRolesMUsers.ShowModal;
+    finally
+      FreeAndNil(SysRolesMUsers);
+    end;
+  end;
 
   if ChildDataSet = SysRoles.qGrants then
   begin

@@ -8,10 +8,8 @@ inherited SysRolesM: TSysRolesM
   PixelsPerInch = 96
   TextHeight = 15
   inherited Panel1: TPanel
-    Top = 44
     Width = 834
     Height = 553
-    ExplicitTop = 44
     ExplicitWidth = 834
     ExplicitHeight = 553
     inherited Panel3: TPanel
@@ -23,11 +21,8 @@ inherited SysRolesM: TSysRolesM
       ExplicitWidth = 834
       ExplicitHeight = 451
       inherited PageControl3: TPageControl
-        Top = 47
         Width = 828
         Height = 401
-        ExplicitLeft = 3
-        ExplicitTop = 47
         ExplicitWidth = 828
         ExplicitHeight = 401
         inherited tsDet: TTabSheet
@@ -49,8 +44,6 @@ inherited SysRolesM: TSysRolesM
             Align = alBottom
             BevelOuter = bvNone
             TabOrder = 1
-            ExplicitTop = 148
-            ExplicitWidth = 444
             object JvImage1: TJvImage
               AlignWithMargins = True
               Left = 3
@@ -245,7 +238,6 @@ inherited SysRolesM: TSysRolesM
               Align = alLeft
               Caption = 'Ativo'
               Layout = tlCenter
-              ExplicitLeft = 115
               ExplicitHeight = 15
             end
             object lbLeg3: TLabel
@@ -375,13 +367,8 @@ inherited SysRolesM: TSysRolesM
       end
       inherited ControlBar2: TControlBar
         Width = 828
-        Height = 38
-        ExplicitLeft = 3
-        ExplicitTop = 3
         ExplicitWidth = 828
-        ExplicitHeight = 38
         inherited ToolBar3: TToolBar
-          ButtonWidth = 129
           inherited ToolButton10: TToolButton
             ExplicitWidth = 32
           end
@@ -410,14 +397,12 @@ inherited SysRolesM: TSysRolesM
       Width = 828
       Height = 96
       Align = alTop
-      ExplicitLeft = 3
-      ExplicitTop = 3
       ExplicitWidth = 828
       ExplicitHeight = 96
       inherited TabSheet1: TTabSheet
         Caption = 'Papel'
         ExplicitLeft = 4
-        ExplicitTop = 27
+        ExplicitTop = 26
         ExplicitWidth = 820
         ExplicitHeight = 66
         object Panel2: TPanel
@@ -523,13 +508,8 @@ inherited SysRolesM: TSysRolesM
   end
   inherited ControlBar1: TControlBar
     Width = 828
-    Height = 38
-    ExplicitLeft = 3
-    ExplicitTop = 3
     ExplicitWidth = 828
-    ExplicitHeight = 38
     inherited ToolBar1: TToolBar
-      ButtonWidth = 115
       inherited ToolButton6: TToolButton
         ExplicitWidth = 32
       end
