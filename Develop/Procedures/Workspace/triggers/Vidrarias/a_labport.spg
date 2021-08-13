@@ -149,7 +149,7 @@ BEGIN
 
             -- Registra as baixas
             update labamostras c
-               set estado = 40, qtd = ret.qtd, saldo = ret.qtd
+               set estado = sys_iif(ret.status < 3, 40, 70), qtd = ret.qtd, saldo = ret.qtd
               from labret ret
              where ret.amostra = c.recno
                and ret.labport_recno = new.recno;
