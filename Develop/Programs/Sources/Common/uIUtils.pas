@@ -1660,7 +1660,7 @@ procedure TData.StartTransaction;
 begin
   If InTransaction Then
     Exit;
-
+    
   inherited TransactIsolationLevel:= tiReadCommitted;
   inherited StartTransaction;
 end;

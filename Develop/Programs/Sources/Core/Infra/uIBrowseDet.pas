@@ -342,6 +342,7 @@ begin
       Recno := FDataSet.FieldByName('recno').AsInteger;
 
     OnPost; {Executa procedimentos após a gravação}
+    
     U.Data.Commit; // Efetiva gravação
 
     // Dispara evento

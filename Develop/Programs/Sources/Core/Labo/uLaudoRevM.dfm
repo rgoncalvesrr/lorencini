@@ -88,7 +88,6 @@ inherited LaudoRevM: TLaudoRevM
           Align = alTop
           Caption = 'Observa'#231#227'o'
           FocusControl = DBMemo1
-          ExplicitTop = 422
           ExplicitWidth = 62
         end
         object Panel5: TPanel
@@ -548,8 +547,6 @@ inherited LaudoRevM: TLaudoRevM
           DataField = 'obs'
           DataSource = LaudoRev.DataSource1
           TabOrder = 3
-          ExplicitTop = 443
-          ExplicitHeight = 88
         end
         object Panel8: TPanel
           Left = 0

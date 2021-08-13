@@ -6,20 +6,18 @@ inherited IDefBrowseEdit: TIDefBrowseEdit
   ClientHeight = 474
   ClientWidth = 639
   OldCreateOrder = True
-  ExplicitWidth = 858
-  ExplicitHeight = 667
+  ExplicitWidth = 645
+  ExplicitHeight = 503
   PixelsPerInch = 96
   TextHeight = 15
   object Panel1: TPanel [0]
     Left = 0
-    Top = 35
+    Top = 44
     Width = 639
-    Height = 439
+    Height = 430
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 0
-    ExplicitTop = 33
-    ExplicitHeight = 441
     object pnLookup: TPanel
       Left = 0
       Top = 0
@@ -30,41 +28,32 @@ inherited IDefBrowseEdit: TIDefBrowseEdit
     end
     object Panel3: TPanel
       Left = 0
-      Top = 204
+      Top = 195
       Width = 639
       Height = 235
       Align = alBottom
       BevelOuter = bvNone
       TabOrder = 1
       Visible = False
-      ExplicitTop = 206
       object PageControl3: TPageControl
         AlignWithMargins = True
         Left = 3
-        Top = 38
+        Top = 47
         Width = 633
-        Height = 194
+        Height = 185
         ActivePage = tsDet
         Align = alClient
         TabOrder = 0
         TabStop = False
         OnChange = PageControl3Change
-        ExplicitLeft = 2
-        ExplicitTop = 35
-        ExplicitWidth = 635
-        ExplicitHeight = 198
         object tsDet: TTabSheet
           Caption = 'T'#237'tulo do Detalhamento'
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object DBGrid1: TDBGrid
             Tag = 1
             Left = 0
             Top = 0
-            Width = 629
-            Height = 171
+            Width = 625
+            Height = 155
             Align = alClient
             BorderStyle = bsNone
             Ctl3D = False
@@ -78,6 +67,7 @@ inherited IDefBrowseEdit: TIDefBrowseEdit
             TitleFont.Color = clWindowText
             TitleFont.Height = -12
             TitleFont.Name = 'Segoe UI'
+            TitleFont.Pitch = fpVariable
             TitleFont.Style = []
             OnDrawColumnCell = ChildGridDrawColumnCell
             OnDblClick = ChildGridDblClick
@@ -91,16 +81,13 @@ inherited IDefBrowseEdit: TIDefBrowseEdit
         Left = 3
         Top = 3
         Width = 633
-        Height = 29
+        Height = 38
         Align = alTop
         AutoSize = True
         BevelEdges = []
         BevelKind = bkNone
         DrawingStyle = dsGradient
         TabOrder = 1
-        ExplicitLeft = 2
-        ExplicitTop = 2
-        ExplicitWidth = 635
         object ToolBar3: TToolBar
           Left = 11
           Top = 2
@@ -109,7 +96,7 @@ inherited IDefBrowseEdit: TIDefBrowseEdit
           AutoSize = True
           BorderWidth = 1
           ButtonHeight = 30
-          ButtonWidth = 150
+          ButtonWidth = 129
           Caption = 'ToolBar3'
           DisabledImages = Resources.medium_d
           DrawingStyle = dsGradient
@@ -186,21 +173,13 @@ inherited IDefBrowseEdit: TIDefBrowseEdit
       Left = 3
       Top = 3
       Width = 633
-      Height = 198
+      Height = 189
       ActivePage = TabSheet1
       Align = alClient
       TabOrder = 0
       TabStop = False
-      ExplicitLeft = 2
-      ExplicitTop = 2
-      ExplicitWidth = 635
-      ExplicitHeight = 202
       object TabSheet1: TTabSheet
         Caption = 'T'#237'tulo do Detalhamento'
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
     end
   end
@@ -209,16 +188,13 @@ inherited IDefBrowseEdit: TIDefBrowseEdit
     Left = 3
     Top = 3
     Width = 633
-    Height = 29
+    Height = 38
     Align = alTop
     AutoSize = True
     BevelEdges = []
     BevelKind = bkNone
     DrawingStyle = dsGradient
     TabOrder = 1
-    ExplicitLeft = 2
-    ExplicitTop = 2
-    ExplicitWidth = 635
     object ToolBar1: TToolBar
       Left = 11
       Top = 2
@@ -227,7 +203,7 @@ inherited IDefBrowseEdit: TIDefBrowseEdit
       AutoSize = True
       BorderWidth = 1
       ButtonHeight = 30
-      ButtonWidth = 133
+      ButtonWidth = 115
       Caption = 'ToolBar1'
       DisabledImages = Resources.medium_d
       DrawingStyle = dsGradient
