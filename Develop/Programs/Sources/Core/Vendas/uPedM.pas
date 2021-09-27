@@ -6,7 +6,8 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uIBrowseDet, ActnList, Grids, DBGrids, ComCtrls, ExtCtrls, ToolWin,
   StdCtrls, DBCtrls, Mask, Buttons, JvExMask, JvToolEdit, JvDBControls,
-  JvBaseEdits, Menus, JvExStdCtrls, JvCombobox, JvDBCombobox, uIFrameCliente;
+  JvBaseEdits, Menus, JvExStdCtrls, JvCombobox, JvDBCombobox, uIFrameCliente, 
+  db;
 
 type
   TPedM = class(TIDefBrowseEdit)
@@ -55,11 +56,7 @@ type
     Panel35: TPanel;
     SpeedButton1: TSpeedButton;
     actFindCli: TAction;
-    actPrint: TAction;
-    actPrintAll: TAction;
     pmPrint: TPopupMenu;
-    Selecionada1: TMenuItem;
-    odas1: TMenuItem;
     actDespVinc: TAction;
     TabSheet2: TTabSheet;
     DBGrid2: TDBGrid;
@@ -147,8 +144,6 @@ type
     actAtuContatos: TAction;
     procedure DBEdit8Exit(Sender: TObject);
     procedure actFindCliExecute(Sender: TObject);
-    procedure actPrintAllExecute(Sender: TObject);
-    procedure actPrintExecute(Sender: TObject);
     procedure actDespVincExecute(Sender: TObject);
     procedure DBEdit7Exit(Sender: TObject);
     procedure actFindGrupoExecute(Sender: TObject);
@@ -165,11 +160,10 @@ type
     procedure RefreshLookupFilter;
     procedure RefreshControls; override;
     procedure OnEdit; override;
-    procedure FormataEtiqueta(Sender: TObject; var Row: string);
+    procedure FormataEtiqueta(Sender: TObject; var Row: string; DataSet: TDataSet);
     procedure OnLoad; override;
   public
     { Public declarations }
-    procedure ImprimirEtiqueta;
   end;
 
 var
@@ -177,8 +171,7 @@ var
 
 implementation
 
-uses uPed, uIUtils, uContatoF, uDM, mcutils, DB, uClientes,
-  uPrnTag, ZAbstractRODataset, uPedMMat, uPedMServ,
+uses uPed, uIUtils, uContatoF, uDM, mcutils, uClientes, uPrnTag, ZAbstractRODataset, uPedMMat, uPedMServ,
   iTypes, uPedMMO, uOrcaGrupos, uSedex, uSedexCalculos;
 
 {$R *.dfm}
@@ -289,32 +282,6 @@ begin
   end;
 end;
 
-procedure TPedM.actPrintAllExecute(Sender: TObject);
-begin
-  inherited;
-  if not Ped.qAmostras.Active then
-    Ped.qAmostras.Open;
-
-  Ped.qAmostras.SortType := stDescending;
-  Ped.qAmostras.First;
-
-  while not Ped.qAmostras.Eof do
-  begin
-    ImprimirEtiqueta;
-
-    Ped.qAmostras.Next;
-  end;
-
-  Ped.qAmostras.SortType := stAscending;
-  G.RefreshDataSet(Ped.qAmostras);
-end;
-
-procedure TPedM.actPrintExecute(Sender: TObject);
-begin
-  inherited;
-  ImprimirEtiqueta;
-end;
-
 procedure TPedM.DBEdit7Exit(Sender: TObject);
 var
   fLkp: TStringList;
@@ -376,7 +343,7 @@ begin
   end;
 end;
 
-procedure TPedM.FormataEtiqueta(Sender: TObject; var Row: string);
+procedure TPedM.FormataEtiqueta(Sender: TObject; var Row: string; DataSet: TDataSet);
 begin
   Row := mcStuff('000000000000', Row, Ped.qAmostrasetiqueta.AsString);
   Row := mcStuff('000.000.000.000', Row, Ped.qAmostrasetiqueta.DisplayText);
@@ -404,60 +371,6 @@ begin
   inherited;
   FrameCliente1.actFindCliExecute(Sender);
 
-end;
-
-procedure TPedM.ImprimirEtiqueta;
-var
-  sFile, printer: String;
-  oPrn: TPrnTag;
-begin
-  if not Ped.qAmostras.Active then
-  begin
-    U.Out.ShowErro('Etiquetas não podem ser impressas porque a tabela de etiquetas não está ativa.');
-    Exit;
-  end;
-
-  sFile := U.Path.ReportTemplates + 'Etiqueta_6x3cm.prn';
-
-  if not FileExists(sFile) then
-  begin
-    U.Out.ShowErro('Etiquetas não podem ser impressas porque o arquivo de modelo %s não foi localizado.',
-      [sFile]);
-    Exit;
-  end;
-
-  with U.Data.Query do
-  try
-    SQL.Text := 'select sys_paramv(''prn_etiquetasped'')';
-    Open;
-    printer := Fields[0].AsString;
-  finally
-    close;
-  end;
-
-  oPrn := TPrnTag.Create(sFile, printer, FormataEtiqueta);
-  try
-    if oPrn.Print and Ped.qAmostrasimp_dh.IsNull then
-    begin
-      // Marca a etiqueta como impressa
-      // Inicia transação
-      U.Data.StartTransaction;
-      try
-        // Atualiza a data e hora de impressão da etiqueta
-        U.Data.ExecSQL(Format(
-          'update comodato '+
-             'set imp_dh = localtimestamp '+
-           'where recno = %d '+
-             'and imp_dh is null', [Ped.qAmostrascomodato_recno.AsInteger]));
-
-        U.Data.Commit;
-      except
-        U.Data.Rollback;
-      end;
-    end;
-  finally
-    FreeAndNil(oPrn);
-  end;
 end;
 
 procedure TPedM.cbEnvioChange(Sender: TObject);

@@ -1,0 +1,38 @@
+/**
+   Expira todas a senhas temporárias para um determinada conta
+
+   @author    Ricardo Gonçalves
+   @date      16/08/2021
+   @trigger   
+
+   @param account_ código da conta que dever ter as senhas temporárias expiradas
+
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+   
+*/
+create or replace function sys_account_expire_tmp_pass(
+   account_ account$)
+returns void as
+$$
+begin
+   update sys_genpass
+      set expire_at = clock_timestamp() - interval '1 min'
+    where account = account_
+      and expire_at > clock_timestamp();
+end
+$$
+language 'plpgsql';
+
+create or replace function sys_account_expire_tmp_pass(
+   email_ email$)
+returns void as
+$$
+begin
+   perform sys_account_expire_tmp_pass(account)
+      from contatos
+     where email = email_;    
+end
+$$
+language 'plpgsql';

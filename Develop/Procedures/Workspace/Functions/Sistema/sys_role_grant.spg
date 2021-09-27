@@ -1,0 +1,36 @@
+/**
+   Conecta um papel a uma conta
+
+   @author    Ricardo Gonçalves
+   @date      17/08/2021
+   @trigger   
+
+   @param account_ código da conta
+   @param role_ código do papel
+
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+   
+*/
+create or replace function sys_role_grant(
+   account_ account$,
+   role_ integer)
+returns void as
+$$
+begin
+   perform sys_role_privilege(account_, role_, 'grant');
+end;
+$$
+language plpgsql;
+
+create or replace function sys_role_grant(
+   email_ email$,
+   role_ integer)
+returns void as
+$$
+begin
+   perform sys_role_privilege(email_, role_, 'grant');
+end;
+$$
+language plpgsql;

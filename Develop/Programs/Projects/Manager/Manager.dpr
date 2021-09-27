@@ -1,10 +1,13 @@
 program Manager;
 
+{$I cef.inc}
+
 uses
   midaslib,
   Forms,
   SysUtils,
   Windows,
+  uCEFApplication,
   uHelpers in '..\..\Sources\Common\uHelpers.pas',
   uMenu in '..\..\Sources\Core\Global\uMenu.pas' {Main},
   uFuncoes in '..\..\Sources\Core\Infra\uFuncoes.pas',
@@ -299,32 +302,46 @@ uses
   uRecebimentoNFe in '..\..\Sources\Core\Fiscal\uRecebimentoNFe.pas' {RecebimentoNFe},
   uRecebimentoNFeM in '..\..\Sources\Core\Fiscal\uRecebimentoNFeM.pas' {RecebimentoNFeM},
   uRecebimentoLotePortador in '..\..\Sources\Core\Volume\uRecebimentoLotePortador.pas' {RecebimentoLotePortador},
-  uRecebimentoLoteM in '..\..\Sources\Core\Volume\uRecebimentoLoteM.pas' {RecebimentoLoteM};
+  uRecebimentoLoteM in '..\..\Sources\Core\Volume\uRecebimentoLoteM.pas' {RecebimentoLoteM},
+  uClientesInativos in '..\..\Sources\Core\Vendas\uClientesInativos.pas' {ClienteInativos},
+  uGestaoProducao in '..\..\Sources\Core\Dash\uGestaoProducao.pas' {GestaoProducao};
 
 {$R *.res}
+
+{$SetPEFlags $20}
 begin
   {$IFDEF DEBUG}
   ReportMemoryLeaksOnShutdown := True;
   {$ENDIF}
 
-  Application.Initialize;
-  try
-    Application.Title := 'Manager';
-    Application.CreateForm(TResources, Resources);
-  Application.CreateForm(TDM, DM);
-  Application.CreateForm(TDMReport, DMReport);
-  Application.CreateForm(TMain, Main);
-  Application.CreateForm(TILogin, ILogin);
-  ILogin.ShowModal;
-    
-    if ILogin.Execute then
-      Application.Run;
-  finally
-    U.ExecuteSQL('select sys_session_release();');
-    FreeAndNil(DM);
-    FreeAndNil(DMReport);
-    FreeAndNil(Main);
-  end;
+  GlobalCEFApp := TCefApplication.Create;
+  GlobalCEFApp.FrameworkDirPath     := TEnvironment.Lib + '\Chrome';
+  GlobalCEFApp.ResourcesDirPath     := TEnvironment.Lib + '\Chrome';
+  GlobalCEFApp.LocalesDirPath       := TEnvironment.Lib + '\Chrome\locales';
+  GlobalCEFApp.cache                := TEnvironment.Data + '\Cache';
+  GlobalCEFApp.UserDataPath         := TEnvironment.Data + '\User Data';
+
+  if GlobalCEFApp.StartMainProcess then
+    try
+      Application.Initialize;
+
+      Application.Title := 'Manager';
+      Application.CreateForm(TResources, Resources);
+      Application.CreateForm(TDM, DM);
+      Application.CreateForm(TDMReport, DMReport);
+      Application.CreateForm(TMain, Main);
+      Application.CreateForm(TILogin, ILogin);
+      ILogin.ShowModal;
+
+      if ILogin.Execute then
+        Application.Run;
+    finally
+      U.ExecuteSQL('select sys_session_release();');
+      FreeAndNil(DM);
+      FreeAndNil(DMReport);
+      FreeAndNil(Main);
+      FreeAndNil(GlobalCEFApp);
+    end;
 
 
 end.

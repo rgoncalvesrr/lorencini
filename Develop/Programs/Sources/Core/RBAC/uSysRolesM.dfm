@@ -34,7 +34,7 @@ inherited SysRolesM: TSysRolesM
           inherited DBGrid1: TDBGrid
             Width = 820
             Height = 335
-            DataSource = SysRoles.dsUsers
+            DataSource = SysRoles.dsAccounts
           end
           object Panel7: TPanel
             Left = 0
@@ -343,6 +343,10 @@ inherited SysRolesM: TSysRolesM
         object TabSheet2: TTabSheet
           Caption = 'Permiss'#245'es'
           ImageIndex = 1
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object trMenu: TTreeView
             AlignWithMargins = True
             Left = 3

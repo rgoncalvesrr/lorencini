@@ -128,10 +128,10 @@ type
     procedure RefreshChilds;
     procedure OnLoad; override;
     procedure RefreshCtrl; override;
-    procedure FormataEtiqueta(Sender: TObject; var Row: string);
+    procedure FormataEtiqueta(Sender: TObject; var Row: string; DataSet: TDataSet);
   public
     { Public declarations }
-    procedure ImprimirEtiqueta;
+    procedure ImprimirEtiqueta(DataSet: TDataSet);
   end;
 
 var
@@ -154,7 +154,7 @@ begin
 
   while not zEtiquetas.Eof do
   begin
-    ImprimirEtiqueta;
+    ImprimirEtiqueta(zEtiquetas);
 
     zEtiquetas.Next;
   end;
@@ -166,7 +166,7 @@ end;
 procedure TLabProcMonitor.actPrnEtiqVidrSelExecute(Sender: TObject);
 begin
   inherited;
-  ImprimirEtiqueta;
+  ImprimirEtiqueta(zEtiquetas);
 end;
 
 procedure TLabProcMonitor.actQueryProcessExecute(Sender: TObject);
@@ -324,21 +324,21 @@ begin
     end;
 end;
 
-procedure TLabProcMonitor.FormataEtiqueta(Sender: TObject; var Row: string);
+procedure TLabProcMonitor.FormataEtiqueta(Sender: TObject; var Row: string; DataSet: TDataSet);
 var
   sTag: string;
 begin
   sTag := EmptyStr;
 
-  if zEtiquetasetiq_tag.AsString <> EmptyStr then
-    sTag := ' Tag: ' + zEtiquetasetiq_tag.AsString;
+  if DataSet.FieldByName('etiq_tag').AsString <> EmptyStr then
+    sTag := ' Tag: ' + DataSet.FieldByName('etiq_tag').AsString;
 
-  Row := mcStuff('000000000000', Row, zEtiquetasetiq_proc.AsString);
-  Row := mcStuff('000.000.000.000', Row, zEtiquetasetiq_proc.DisplayText);
+  Row := mcStuff('000000000000', Row, DataSet.FieldByName('etiq_proc').AsString);
+  Row := mcStuff('000.000.000.000', Row, DataSet.FieldByName('etiq_proc').DisplayText);
   Row := mcStuff('@1', Row, Format('Origem: %d Destino: %d', [IBrwSrcrecno.AsInteger, IBrwSrccodigo.AsInteger]));
-  Row := mcStuff('@2', Row, zEtiquetasetiq_local.AsString);
-  Row := mcStuff('@3', Row, zEtiquetasvalidade.DisplayText);
-  Row := mcStuff('@4', Row, Format('Tipo: %s%s', [zEtiquetastipo.DisplayText, sTag]));
+  Row := mcStuff('@2', Row, DataSet.FieldByName('etiq_local').AsString);
+  Row := mcStuff('@3', Row, DataSet.FieldByName('validade').DisplayText);
+  Row := mcStuff('@4', Row, Format('Tipo: %s%s', [DataSet.FieldByName('tipo').DisplayText, sTag]));
 end;
 
 procedure TLabProcMonitor.FormCreate(Sender: TObject);
@@ -381,12 +381,12 @@ begin
   end;
 end;
 
-procedure TLabProcMonitor.ImprimirEtiqueta;
+procedure TLabProcMonitor.ImprimirEtiqueta(DataSet: TDataSet);
 var
   sFile, printer: String;
   oPrn: TPrnTag;
 begin
-  if not zEtiquetas.Active then
+  if not DataSet.Active then
   begin
     U.Out.ShowErro('Etiquetas não podem ser impressas porque a tabela de etiquetas não está ativa.');
     Exit;
@@ -412,7 +412,7 @@ begin
 
   oPrn := TPrnTag.Create(sFile, printer, FormataEtiqueta);
   try
-    oPrn.Print;
+    oPrn.Print(DataSet);
   finally
     FreeAndNil(oPrn);
   end;

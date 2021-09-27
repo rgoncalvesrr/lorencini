@@ -14,9 +14,9 @@ create or replace function sys_account_def()
 $$
 Declare
    role_       constant integer = 1;
-   nome_       constant contatos.nome%type := 'Conta interna';
-   email_      varchar := sys_param('smtp_user');
-   password_   varchar := md5(sys_param('smtp_pass'));
+   nome_       constant contatos.nome%type = 'Conta interna';
+   email_      varchar = sys_param('smtp_user');
+   password_   varchar = md5(sys_param('smtp_pass'));
    account_    sys_accounts.recno%type;    
 BEGIN   
    select account

@@ -137,7 +137,7 @@ begin
       swhere := swhere + 'and r.relato_recno = :tipolaudo ';
 
     if Trim(edPedido.Text) <> EmptyStr then
-      swhere := swhere + ' and a.pedido = :pedido';
+      swhere := swhere + ' and r.pedido = :pedido';
 
     if Trim(edAmostra.Text) <> EmptyStr then
       swhere := swhere + ' and r.amostra = :amostra';

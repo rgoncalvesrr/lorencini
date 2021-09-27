@@ -1,0 +1,8 @@
+set session authorization lorencini;
+drop view if exists vlogin_events;
+create or replace view vlogin_events as
+   select le.recno, le.event, le.registred, e.label, le.email, le.account, le.detail 
+     from sys_login_events le 
+          join sys_auth_events e 
+            on e.event = le.event
+    order by le.registred desc;

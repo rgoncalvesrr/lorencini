@@ -9,25 +9,20 @@ inherited OSM: TOSM
   PixelsPerInch = 96
   TextHeight = 15
   inherited Panel1: TPanel
-    Top = 44
     Width = 1295
     Height = 706
-    ExplicitTop = 44
     ExplicitWidth = 1295
     ExplicitHeight = 706
     inherited Panel3: TPanel
       Top = 344
       Width = 1295
       Height = 362
-      ExplicitTop = 347
+      ExplicitTop = 344
       ExplicitWidth = 1295
       ExplicitHeight = 362
       inherited PageControl3: TPageControl
-        Top = 47
         Width = 1289
         Height = 312
-        ExplicitLeft = 3
-        ExplicitTop = 47
         ExplicitWidth = 1289
         ExplicitHeight = 312
         inherited tsDet: TTabSheet
@@ -196,14 +191,9 @@ inherited OSM: TOSM
       end
       inherited ControlBar2: TControlBar
         Width = 1289
-        Height = 38
-        ExplicitLeft = 3
-        ExplicitTop = 3
         ExplicitWidth = 1289
-        ExplicitHeight = 38
         inherited ToolBar3: TToolBar
           Width = 1276
-          ButtonWidth = 129
           ExplicitWidth = 1276
           inherited ToolButton10: TToolButton
             ExplicitWidth = 32
@@ -226,6 +216,19 @@ inherited OSM: TOSM
           inherited tbRefazGrid: TToolButton
             ExplicitWidth = 32
           end
+          object ToolButton19: TToolButton
+            Left = 240
+            Top = 0
+            Width = 8
+            Caption = 'ToolButton19'
+            ImageIndex = 225
+            Style = tbsSeparator
+          end
+          object ToolButton15: TToolButton
+            Left = 248
+            Top = 0
+            Action = actCopyCont
+          end
         end
       end
     end
@@ -233,8 +236,6 @@ inherited OSM: TOSM
       Width = 1289
       Height = 338
       OnChange = PageControl1Change
-      ExplicitLeft = 3
-      ExplicitTop = 3
       ExplicitWidth = 1289
       ExplicitHeight = 338
       inherited TabSheet1: TTabSheet
@@ -1382,14 +1383,9 @@ inherited OSM: TOSM
   end
   inherited ControlBar1: TControlBar
     Width = 1289
-    Height = 38
-    ExplicitLeft = 3
-    ExplicitTop = 3
     ExplicitWidth = 1289
-    ExplicitHeight = 38
     inherited ToolBar1: TToolBar
       Width = 406
-      ButtonWidth = 115
       ExplicitWidth = 406
       inherited ToolButton6: TToolButton
         AutoSize = False
@@ -1495,6 +1491,12 @@ inherited OSM: TOSM
       Caption = 'Atualiza Contatos'
       ImageIndex = 336
       OnExecute = actAtuContatosExecute
+    end
+    object actCopyCont: TAction
+      Caption = 'Copiar Contatos'
+      Enabled = False
+      ImageIndex = 224
+      OnExecute = actCopyContExecute
     end
   end
   object qOrigem: TZQuery

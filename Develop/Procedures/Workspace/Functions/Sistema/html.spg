@@ -1,0 +1,70 @@
+/**
+   Gera cabeçalho HTML
+
+   @author    Ricardo Gonçalves
+   @date      17/08/2021
+   @trigger   
+
+   @param title_ título para tag <title>
+
+   @return html até a tag <body>
+
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+   
+*/
+create or replace function html$head(
+   in title_ varchar)
+returns text as
+$$
+declare
+   html  text;
+begin
+   return html$head(title_, '');
+end;
+$$
+language plpgsql;
+
+create or replace function html$head(
+   in title_ varchar, 
+   in css_ text)
+returns text as
+$$
+declare
+   html  text;
+begin
+   html = format('<html><head><title>%s</title>%s</head>', title_, css_);
+   html = html + '<meta charset="utf-8">';
+   html = html + '<body>';
+
+   return html;
+end;
+$$
+language plpgsql;
+
+/**
+   Gera rodapé HTML
+
+   @author    Ricardo Gonçalves
+   @date      17/08/2021
+   @trigger   
+
+   @return html após a tag </body>
+
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+   
+*/
+create or replace function html$footer()
+returns text as
+$$
+begin
+   return '</body></html>';
+end;
+$$
+language plpgsql;
+
+
+ 

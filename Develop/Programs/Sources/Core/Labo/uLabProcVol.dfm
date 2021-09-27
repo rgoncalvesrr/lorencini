@@ -42,6 +42,10 @@ inherited LabProcVol: TLabProcVol
       TabOrder = 0
       object TabSheet2: TTabSheet
         Caption = 'Volumes'
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object Panel5: TPanel
           AlignWithMargins = True
           Left = 3
@@ -302,11 +306,10 @@ inherited LabProcVol: TLabProcVol
               Left = 42
               Top = 3
               Width = 79
-              Height = 30
+              Height = 15
               Align = alLeft
               Caption = 'Volume Aberto'
               Layout = tlCenter
-              ExplicitHeight = 15
             end
             object JvImage2: TJvImage
               AlignWithMargins = True
@@ -383,22 +386,20 @@ inherited LabProcVol: TLabProcVol
               Left = 165
               Top = 3
               Width = 88
-              Height = 30
+              Height = 15
               Align = alLeft
               Caption = 'Volume Fechado'
               Layout = tlCenter
-              ExplicitHeight = 15
             end
             object lbLeg3: TLabel
               AlignWithMargins = True
               Left = 298
               Top = 3
               Width = 95
-              Height = 30
+              Height = 15
               Align = alLeft
               Caption = 'Volume Rastreado'
               Layout = tlCenter
-              ExplicitHeight = 15
             end
             object JvImage3: TJvImage
               AlignWithMargins = True
@@ -508,6 +509,10 @@ inherited LabProcVol: TLabProcVol
       TabOrder = 1
       object TabSheet3: TTabSheet
         Caption = 'Etiquetas no Volume'
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object DBGrid4: TDBGrid
           AlignWithMargins = True
           Left = 3
@@ -575,6 +580,10 @@ inherited LabProcVol: TLabProcVol
       TabOrder = 0
       object TabSheet1: TTabSheet
         Caption = 'Remessas'
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object DBGrid1: TDBGrid
           AlignWithMargins = True
           Left = 3

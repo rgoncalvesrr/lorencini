@@ -17,7 +17,7 @@ type
     qAccounts: TZQuery;
     uAccounts: TZUpdateSQL;
     sAccounts: TZSequence;
-    dsUsers: TDataSource;
+    dsAccounts: TDataSource;
     qGrants: TZQuery;
     qGrantsgrant_: TStringField;
     qGrantsrole: TIntegerField;

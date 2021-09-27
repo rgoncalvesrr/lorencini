@@ -1,16 +1,15 @@
 inherited SysRoles: TSysRoles
   Caption = 'Manuten'#231#227'o de Papeis'
-  ClientHeight = 400
+  ClientHeight = 462
   Constraints.MinWidth = 634
-  ExplicitHeight = 439
+  ExplicitHeight = 501
   PixelsPerInch = 96
   TextHeight = 15
   inherited StatusBar1: TStatusBar
-    Top = 373
-    ExplicitTop = 373
+    Top = 435
+    ExplicitTop = 435
   end
   inherited Panel1: TPanel
-    ExplicitTop = 35
     inherited pctlFind: TPageControl
       inherited tsQuery: TTabSheet
         ExplicitLeft = 4
@@ -27,20 +26,19 @@ inherited SysRoles: TSysRoles
     end
   end
   inherited Panel2: TPanel
-    Height = 241
-    ExplicitTop = 120
-    ExplicitHeight = 250
+    Height = 303
+    ExplicitHeight = 303
     inherited PageControl1: TPageControl
-      Height = 235
-      ExplicitHeight = 244
+      Height = 297
+      ExplicitHeight = 297
       inherited TabSheet1: TTabSheet
         Caption = 'Pap'#233'is'
         ExplicitLeft = 4
         ExplicitTop = 26
         ExplicitWidth = 823
-        ExplicitHeight = 214
+        ExplicitHeight = 267
         inherited DBGrid1: TDBGrid
-          Height = 199
+          Height = 261
         end
       end
     end
@@ -223,19 +221,9 @@ inherited SysRoles: TSysRoles
   end
   object uAccounts: TZUpdateSQL
     DeleteSQL.Strings = (
-      'DELETE FROM sys_rlusers'
-      'WHERE'
-      
-        '  ((sys_rlusers.role IS NULL AND :OLD_role IS NULL) OR (sys_rlus' +
-        'ers.role = :OLD_role)) AND'
-      
-        '  ((sys_rlusers.username IS NULL AND :OLD_username IS NULL) OR (' +
-        'sys_rlusers.username = :OLD_username))')
+      'select sys_role_revoke(:email, :role);')
     InsertSQL.Strings = (
-      'INSERT INTO sys_rlusers'
-      '  (role, recno, username)'
-      'VALUES'
-      '  (:role, :recno, :username)')
+      'select sys_role_grant(:email, :role);')
     ModifySQL.Strings = (
       'UPDATE sys_rlusers SET'
       '  role = :role,'
@@ -276,6 +264,11 @@ inherited SysRoles: TSysRoles
         DataType = ftUnknown
         Name = 'OLD_username'
         ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'email'
+        ParamType = ptUnknown
       end>
   end
   object sAccounts: TZSequence
@@ -284,7 +277,7 @@ inherited SysRoles: TSysRoles
     Left = 40
     Top = 296
   end
-  object dsUsers: TDataSource
+  object dsAccounts: TDataSource
     AutoEdit = False
     DataSet = qAccounts
     Left = 280

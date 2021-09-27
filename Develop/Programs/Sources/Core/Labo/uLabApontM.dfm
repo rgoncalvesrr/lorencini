@@ -19,33 +19,16 @@ inherited LabApontM: TLabApontM
     ExplicitHeight = 509
     inherited Panel3: TPanel
       Align = alNone
-      ExplicitTop = 204
       inherited PageControl3: TPageControl
-        Top = 47
-        Height = 185
-        ExplicitLeft = 3
-        ExplicitTop = 47
-        ExplicitWidth = 633
-        ExplicitHeight = 185
         inherited tsDet: TTabSheet
           ExplicitLeft = 4
           ExplicitTop = 26
           ExplicitWidth = 625
           ExplicitHeight = 155
-          inherited DBGrid1: TDBGrid
-            Width = 625
-            Height = 155
-          end
         end
       end
       inherited ControlBar2: TControlBar
-        Height = 38
-        ExplicitLeft = 3
-        ExplicitTop = 3
-        ExplicitWidth = 633
-        ExplicitHeight = 38
         inherited ToolBar3: TToolBar
-          ButtonWidth = 129
           inherited ToolButton10: TToolButton
             ExplicitWidth = 32
           end
@@ -73,8 +56,6 @@ inherited LabApontM: TLabApontM
     inherited PageControl1: TPageControl
       Width = 992
       Height = 503
-      ExplicitLeft = 3
-      ExplicitTop = 3
       ExplicitWidth = 992
       ExplicitHeight = 503
       inherited TabSheet1: TTabSheet
@@ -93,7 +74,7 @@ inherited LabApontM: TLabApontM
           Caption = 'Panel2'
           TabOrder = 0
           OnResize = Panel2Resize
-          ExplicitLeft = -1
+          ExplicitLeft = 2
         end
       end
       object TabSheet2: TTabSheet
@@ -1248,14 +1229,9 @@ inherited LabApontM: TLabApontM
   end
   inherited ControlBar1: TControlBar
     Width = 992
-    Height = 38
-    ExplicitLeft = 3
-    ExplicitTop = 3
     ExplicitWidth = 992
-    ExplicitHeight = 38
     inherited ToolBar1: TToolBar
       Width = 979
-      ButtonWidth = 115
       ExplicitWidth = 979
       inherited ToolButton6: TToolButton
         ExplicitWidth = 32

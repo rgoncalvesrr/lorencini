@@ -5,6 +5,11 @@
    @date      03/03/2021
    @trigger
 
+   @param user_   e-mail para login
+   @param pass_   senha para login
+
+   @return código da transação que contém as informações de login
+
    Histórico
    ---------------------------------------------------------------------------------------------------------------------
    Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
@@ -12,14 +17,18 @@
 create or replace function sys_auth(
    in user_ varchar, 
    in pass_ varchar)
-returns account$ as
+returns int8 as
 $$
 declare
-   contato_ constant boolean := user_ ~ '@';
-   account_ sys_accounts.recno%type;
-   r        record;
-   stack_   text;
-   usertmp_ varchar;
+   _EMAIL_NOT_FOUND     constant int2 = 80;
+   _ACCOUNT_NOT_FOUND   constant int2 = 90;
+   _EMAIL_INACTIVE      constant int2 = 100;
+
+   contato_       constant boolean := user_ ~ '@';   
+   account_       sys_accounts.recno%type;
+   r              record;
+   stack_         text;
+   usertmp_       varchar;
 begin
    if contato_ then
       usertmp_ := lower(user_);
@@ -29,18 +38,19 @@ begin
        where email = usertmp_;
 
       if not found then
-         GET DIAGNOSTICS stack_ = PG_CONTEXT;
-         raise 'Autenticação falhou porque o e-mail % não foi localizado.\n%', user_, stack_;
+         GET DIAGNOSTICS stack_ = PG_CONTEXT;         
+         return sys_auth_event(usertmp_, _EMAIL_NOT_FOUND, stack_);
       end if; 
 
       if r.account is null then
          GET DIAGNOSTICS stack_ = PG_CONTEXT;
-         raise 'Autenticação falhou porque não há conta associada ao e-mail %.\n%', user_, stack_;
+
+         return sys_auth_event(usertmp_, _ACCOUNT_NOT_FOUND, stack_);
       end if; 
 
       if r.situacao <> 1 then
          GET DIAGNOSTICS stack_ = PG_CONTEXT;
-         raise 'Autenticação falhou porque o e-mail % está inativo.\n%', user_, stack_;
+         return sys_auth_event(usertmp_, _EMAIL_INACTIVE, stack_);
       end if; 
 
       account_ := r.account;
@@ -51,25 +61,51 @@ begin
        where username = user_;
    end if;
 
-   return sys_auth(account_, pass_);
+   return sys_auth_event(usertmp_, sys_auth(account_, pass_));
 end;
 $$
 language plpgsql;   
 
+/**
+   Verifica se o usuário tem autorização para acessar o sistema
+
+   @author    Ricardo Gonçalves
+   @date      03/03/2021
+   @trigger
+
+   @param user_   conta para login
+   @param pass_   senha para login
+
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
 create or replace function sys_auth(
    in account_ account$, 
    in pass_ varchar)
-returns account$ as
+returns int2 as
 $$
 declare   
+   _STATUS_NOVO      constant integer = 1;
+   _STATUS_INATIVO   constant integer = 3;
+
+   _SUCCESS                constant int2 = 0;
+   _ACCOUNT_IS_NULL        constant int2 = 10;
+   _PASSWORD_IS_NULL       constant int2 = 20;
+   _ACCOUNT_NOT_FOUND      constant int2 = 30;
+   _PASSWORD_INVALID       constant int2 = 40;
+   _ACCOUNT_INACTIVE       constant int2 = 50;
+   _TEMP_PASSWORD_EXPIRED  constant int2 = 60;
+   _TEMP_PASSWORD_INVALID  constant int2 = 70;
+
    r  record;
 begin
    if account_ is null then
-      raise 'Autenticação falhou porque a conta informada é nula.';
+      return _ACCOUNT_IS_NULL;
    end if;
 
    if pass_ is null then
-      raise 'Autenticação falhou porque a senha informada é nula.';
+      return _PASSWORD_IS_NULL;
    end if;
 
    select password, status
@@ -78,18 +114,37 @@ begin
     where recno = account_; 
 
    if not found then
-      raise 'Autenticação falhou porque a conta informada não foi localizada.';
+      return _ACCOUNT_NOT_FOUND;
    end if;
 
    if pass_ <> r.password then
-      raise 'Autenticação falhou porque a senha informada é incorreta.';
+      return _PASSWORD_INVALID;
    end if;
 
-   if r.status <> 2 then
-      raise 'Autenticação falhou porque a conta informada está inativa.';
+   if r.status = _STATUS_INATIVO then
+      return _ACCOUNT_INACTIVE;
    end if;
 
-   return account_;
+   if r.status = _STATUS_NOVO then      
+      select password
+        into r
+        from sys_genpass
+       where account = account_
+         and expire_at > clock_timestamp();
+      
+      if not found then
+         return _TEMP_PASSWORD_EXPIRED;
+      end if;
+
+      if pass_ <> md5(r.password) then
+         return _TEMP_PASSWORD_INVALID;
+      end if;
+   end if;
+
+   return _SUCCESS;
 end;
 $$
 language plpgsql;   
+
+-- DROP FUNCTION if exists sys_auth(character varying,character varying);
+-- DROP FUNCTION if exists sys_auth("account$",character varying);

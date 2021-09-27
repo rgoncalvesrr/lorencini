@@ -1,13 +1,16 @@
-/*============================================================================
-  Empresa..: MultCont Informática
-  Descrição: Retorna a sessão do usuário
-  Autor....: Ricardo Gonçalves
-  Data.....: 12/04/2007 18:38:24
+/**
+   Retorna a sessão do usuário
 
-  Parametro       Descrição
-  ---------------------------------------------------------------------------
-  out_res        | 0 - Falha / 1 - Sucesso
-  ============================================================================*/
+	@author    Ricardo Gonçalves
+	@date      12/04/2007
+	@trigger	
+   
+	@return sessão criada ou erro
+
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso   
+*/
 Create or Replace Function sys_session() 
    returns varchar as 
 $$

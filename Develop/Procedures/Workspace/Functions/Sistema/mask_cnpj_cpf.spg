@@ -1,0 +1,31 @@
+/**
+   Aplica máscara a um cnpj ou cpf
+
+   @author  Ricardo Gonçalves
+   @date    30/08/2021
+
+   @param   db nome do banco de dados alvo
+
+	Histórico
+	------------------------------------------------------------------
+	  18/11/2008 11:18:59  v1.0  Ricardo Gonçalves.
+	     [+] Cria o schema e o grupo padrão. Altera o proprietário
+	        do banco de dados
+*/
+create or replace function mask_cnpj_cpf(
+   in cnpjcpf_ text)
+returns text as
+$$
+begin
+   if (cnpjcpf_ ~ '[0-9]{14,14}') then
+      return format('%s.%s.%s/%s-%s', substr(cnpjcpf_, 1, 2), substr(cnpjcpf_, 3, 3), substr(cnpjcpf_, 7, 3), substr(cnpjcpf_, 10, 4), substr(cnpjcpf_, 13, 2));
+   end if;
+
+   if (cnpjcpf_ ~ '[0-9]{11,11}') then
+      return format('%s.%s.%s-%s', substr(cnpjcpf_, 1, 3), substr(cnpjcpf_, 4, 3), substr(cnpjcpf_, 7, 3), substr(cnpjcpf_, 10, 2));
+   end if;
+
+   return null;
+end
+$$
+language plpgsql;

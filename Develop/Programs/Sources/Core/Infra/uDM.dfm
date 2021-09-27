@@ -18,7 +18,7 @@ object DM: TDM
       'controls_cp=GET_ACP'
       'AutoEncodeStrings=True')
     DesignConnection = True
-    HostName = '192.168.122.1'
+    HostName = '127.0.0.1'
     Port = 5432
     Database = 'lorencini'
     User = 'postgres'
