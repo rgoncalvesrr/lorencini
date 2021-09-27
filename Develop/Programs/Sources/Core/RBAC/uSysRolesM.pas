@@ -167,7 +167,7 @@ begin
   begin
     SysRolesMUsers := TSysRolesMUsers.Create(nil);
     try
-      SysRolesMUsers.DataSet := SysRoles.qUsers;
+      SysRolesMUsers.DataSet := SysRoles.qAccounts;
       SysRolesMUsers.ShowModal;
     finally
       FreeAndNil(SysRolesMUsers);
@@ -212,7 +212,7 @@ procedure TSysRolesM.RefreshControls;
 begin
   inherited;
   actNew.Enabled := actNew.Enabled and (PageControl3.ActivePageIndex = 0);
-  actEdit.Enabled := actEdit.Enabled and (PageControl3.ActivePageIndex = 0);
+  actEdit.Enabled := False;
   actView.Enabled := actView.Enabled and (PageControl3.ActivePageIndex = 0);
   actDel.Enabled := actDel.Enabled and (PageControl3.ActivePageIndex = 0);
   actRefresh.Enabled := actRefresh.Enabled and (PageControl3.ActivePageIndex = 0);

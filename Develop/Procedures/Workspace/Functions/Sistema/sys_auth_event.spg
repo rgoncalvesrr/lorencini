@@ -1,0 +1,51 @@
+/**
+   Verifica se o usuário tem autorização para acessar o sistema
+
+   @author    Ricardo Gonçalves
+   @date      03/03/2021
+   @trigger
+
+   @param email_  e-mail para login
+   @param event_  código do evento
+   @param detail_ detalhamento do evento
+
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+create or replace function sys_auth_event(
+   in email_ email$, 
+   in event_ int2,
+   in detail_ text)
+returns int8 as
+$$
+declare
+   account_ account$;
+   recno_   sys_login_events.recno%type;
+begin
+   select account
+     into account_
+     from contatos 
+    where email = email_; 
+
+   insert into sys_login_events
+      (event, email, account, detail)
+   values
+      (event_, email_, account_, detail_)
+   returning recno into recno_;
+
+   return recno_;
+end;
+$$
+language plpgsql;
+
+create or replace function sys_auth_event(
+   in email_ email$, 
+   in event_ int2)
+returns int8 as
+$$
+begin
+   return sys_auth_event(email_, event_, null);
+end;
+$$
+language plpgsql;

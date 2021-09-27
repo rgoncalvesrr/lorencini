@@ -33,22 +33,20 @@ inherited SysSecurityChangePass: TSysSecurityChangePass
     ExplicitWidth = 306
   end
   object edPass: TEdit [4]
-    Left = 146
-    Top = 83
+    Left = 143
+    Top = 81
     Width = 155
     Height = 23
-    CharCase = ecUpperCase
     MaxLength = 20
     PasswordChar = '*'
     TabOrder = 1
     OnChange = edPassChange
   end
   object edRePass: TEdit [5]
-    Left = 146
-    Top = 117
+    Left = 143
+    Top = 119
     Width = 155
     Height = 23
-    CharCase = ecUpperCase
     MaxLength = 20
     PasswordChar = '*'
     TabOrder = 2
@@ -139,7 +137,7 @@ inherited SysSecurityChangePass: TSysSecurityChangePass
       FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00}
   end
   object BitBtn2: TBitBtn [7]
-    Left = 99
+    Left = 100
     Top = 162
     Width = 96
     Height = 32
@@ -226,13 +224,14 @@ inherited SysSecurityChangePass: TSysSecurityChangePass
     Width = 306
     ExplicitWidth = 306
     inherited Shape1: TShape
-      Width = 252
+      Width = 245
       ExplicitLeft = 61
       ExplicitTop = 0
       ExplicitWidth = 252
       ExplicitHeight = 70
     end
     inherited Image1: TImage
+      Height = 64
       Picture.Data = {
         07544269746D6170361B0000424D361B00000000000036000000280000003000
         0000300000000100180000000000001B0000120B0000120B0000000000000000
@@ -458,16 +457,16 @@ inherited SysSecurityChangePass: TSysSecurityChangePass
       ExplicitHeight = 36
     end
     inherited pnTitle: TPanel
-      Width = 252
-      ExplicitWidth = 252
+      Width = 245
+      ExplicitWidth = 245
       inherited Label1: TLabel
-        Width = 148
+        Width = 239
         Caption = 'Altera'#231#227'o de Senha'
         ExplicitWidth = 148
       end
       inherited Label2: TLabel
-        Width = 187
-        Height = 30
+        Width = 232
+        Height = 33
         Caption = 'Altera'#231#227'o de senha de acesso ao programa'
         ExplicitWidth = 187
         ExplicitHeight = 30

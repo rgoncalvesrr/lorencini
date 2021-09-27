@@ -1,0 +1,36 @@
+/**
+   Desconecta um papel de uma conta
+
+   @author    Ricardo Gonçalves
+   @date      17/08/2021
+   @trigger   
+
+   @param account_ código da conta
+   @param role_ código do papel
+
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+   
+*/
+create or replace function sys_role_revoke(
+   account_ account$,
+   role_ integer)
+returns void as
+$$
+begin
+   perform sys_role_privilege(account_, role_, 'revoke');   
+end;
+$$
+language plpgsql;
+
+create or replace function sys_role_revoke(
+   email_ email$,
+   role_ integer)
+returns void as
+$$
+begin
+   perform sys_role_privilege(email_, role_, 'revoke');
+end;
+$$
+language plpgsql;

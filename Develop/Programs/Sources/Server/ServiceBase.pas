@@ -105,15 +105,29 @@ begin
 end;
 
 procedure TServiceBase.CreateSession;
+var
+  account: Integer;
 begin
   if U.Info.Session = EmptyStr then
     with U.Data.Query do
     try
       SQL.Text := Format(
-        'select sys_login(%s, %s)',
+        'select sys_auth(%s, %s)',
           [QuotedStr('nao-responda@lorencini.com.br'), QuotedStr(mcMD5('LdjbrVW7KUE3I1Br'))]);
       Open;
-      U.Info.RefreshSessionFromDB;
+
+      account := Fields.Fields[0].AsInteger;
+
+      Close;
+      try
+        SQL.Text := Format('select sys_session_create(%d)', [account]);
+        Open;
+      except
+        SQL.Text := Format('select sys_session_select(%d)', [account]);
+        Open;
+      end;
+
+      U.Info.RefreshSessionFromDB(account);
     finally
       Close;
     end;

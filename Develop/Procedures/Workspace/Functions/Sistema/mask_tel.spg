@@ -1,0 +1,27 @@
+/**
+   Aplica máscara a um telefone
+
+   @author  Ricardo Gonçalves
+   @date    30/08/2021
+
+   @param   db nome do banco de dados alvo
+
+	Histórico
+	------------------------------------------------------------------
+	  18/11/2008 11:18:59  v1.0  Ricardo Gonçalves.
+	     [+] Cria o schema e o grupo padrão. Altera o proprietário
+	        do banco de dados
+*/
+create or replace function mask_tel(
+   in tel_ text)
+returns text as
+$$
+begin
+   if tel_ is null then
+      return tel_;
+   else
+      return format('(%s) %s-%s', substr(tel_, 1, 2), substr(tel_, 3, 4), substr(tel_, 7, 4));
+   end if;
+end
+$$
+language plpgsql;
