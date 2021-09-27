@@ -53,7 +53,9 @@ temp
 bin*
 data
 Data
-Lib/
+Lib
+Lib/chrome
+Lib/chrome/locales
 *.def
 *.7z
 *.save
