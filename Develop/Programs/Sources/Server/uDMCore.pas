@@ -236,20 +236,40 @@ end;
 procedure TdmCore.pgConnAfterConnect(Sender: TObject);
 var
   oQry: TZReadOnlyQuery;
+  loginEvent, account: Integer;
 begin
   pgConn.AfterConnect := nil;
   oQry := TZReadOnlyQuery.Create(nil);
   oQry.Connection := pgConn;
   try
-    oQry.SQL.Text := Format(
-      'select sys_login(%s, %s)',
-        [QuotedStr('sistema@lorencinibrasil.com.br'), QuotedStr(mcMD5('m4n4g3r.@'))]);
-    oQry.ExecSQL;
-
-    oQry.SQL.Text := 'select current_user';
+    oQry.SQL.Text := 'select sys_auth(:user, md5(:pass))';
+    oQry.ParamByName('user').AsString := 'sistema@lorencinibrasil.com.br';
+    oQry.ParamByName('pass').AsString := 'm4n4g3r.@';
     oQry.Open;
 
-    U.Info.RefreshSessionFromDB;
+    loginEvent := oQry.Fields.Fields[0].AsInteger;
+
+    oQry.SQL.Text :=
+      'select event, label, account '+
+        'from vlogin_events '+
+       'where recno = :transaction';
+
+    oQry.ParamByName('transaction').AsInteger := loginEvent;
+    oQry.Open;
+
+    if oQry.FieldByName('event').AsInteger <> 0 then
+      raise Exception.Create(oQry.FieldByName('label').AsString);
+
+    account := oQry.FieldByName('account').AsInteger;
+
+    try
+      oQry.SQL.Text := 'select sys_session_create(:account);';
+      oQry.ParamByName('account').AsInteger := account;
+      oQry.Open;
+    except
+    end;
+
+    U.Info.RefreshSessionFromDB(account);
   finally
     oQry.Close;
     FreeAndNil(oQry);

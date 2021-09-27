@@ -7,6 +7,8 @@ object dmCore: TdmCore
   object pgConn: TZConnection
     ControlsCodePage = cGET_ACP
     AutoEncodeStrings = True
+    Properties.Strings = (
+      'AutoEncodeStrings=ON')
     UseMetadata = False
     Port = 0
     Left = 24
