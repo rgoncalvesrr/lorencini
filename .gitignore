@@ -53,7 +53,7 @@ temp
 bin*
 data
 Data
-Lib
+Lib/
 *.def
 *.7z
 *.save
