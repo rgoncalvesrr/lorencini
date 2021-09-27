@@ -150,7 +150,25 @@ object Main: TMain
         Top = 0
         Action = actClose
       end
+      object ToolButton2: TToolButton
+        Left = 502
+        Top = 0
+        Caption = 'ToolButton2'
+        ImageIndex = 125
+        OnClick = ToolButton2Click
+      end
     end
+  end
+  object ChromiumWindow1: TChromiumWindow
+    AlignWithMargins = True
+    Left = 3
+    Top = 55
+    Width = 1052
+    Height = 691
+    Align = alClient
+    TabOrder = 2
+    DoubleBuffered = True
+    ExplicitLeft = -2
   end
   object Timer1: TTimer
     Enabled = False
@@ -206,5 +224,10 @@ object Main: TMain
   object pmRole: TPopupMenu
     Left = 24
     Top = 136
+  end
+  object Timer2: TTimer
+    OnTimer = Timer2Timer
+    Left = 136
+    Top = 240
   end
 end

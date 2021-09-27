@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uIBrowse, ZSqlUpdate, Menus, DB, ZAbstractRODataset,
   ZAbstractDataset, ZDataset, ActnList, Grids, DBGrids, StdCtrls, Mask, Buttons,
-  ComCtrls, ExtCtrls, ToolWin, ZSequence, uIUtils, uFrameData, JvExMask, JvToolEdit, JvBaseEdits;
+  ComCtrls, ExtCtrls, ToolWin, ZSequence, uIUtils, uFrameData, JvExMask, JvToolEdit, JvBaseEdits, uFrameCheckBar;
 
 type
   TLabProc = class(TIDefBrowse)
@@ -61,6 +61,21 @@ type
     Label5: TLabel;
     edCotacao: TJvCalcEdit;
     qPItenscomodato: TIntegerField;
+    qPItensimpressa: TBooleanField;
+    FrameCheckBar1: TFrameCheckBar;
+    qPItensmark: TBooleanField;
+    actPrnEtiqSel: TAction;
+    EtiquetasSelecionadas1: TMenuItem;
+    qPSelItens: TZQuery;
+    IntegerField1: TIntegerField;
+    IntegerField2: TIntegerField;
+    StringField1: TStringField;
+    IntegerField3: TIntegerField;
+    DateField1: TDateField;
+    IntegerField4: TIntegerField;
+    StringField2: TStringField;
+    DateField2: TDateField;
+    IntegerField5: TIntegerField;
     procedure IBrwSrcsituacaoGetText(Sender: TField; var Text: string;
       DisplayText: Boolean);
     procedure IBrwSrcsituacaoSetText(Sender: TField; const Text: string);
@@ -85,16 +100,19 @@ type
       DisplayText: Boolean);
     procedure edPedidoChange(Sender: TObject);
     procedure IBrwSrcAfterPost(DataSet: TDataSet);
+    procedure DBGridKeyPress(Sender: TObject; var Key: Char);
+    procedure actPrnEtiqSelExecute(Sender: TObject);
   private
     FCBClientes: TComboList;
     procedure OnEdit; override;
     procedure RefreshCtrl; override;
     procedure SetDataSet(const Value: TZQuery); override;
     procedure OnLoad; override;
-    procedure FormataEtiqueta(Sender: TObject; var Row: string);
+    procedure FormataEtiqueta(Sender: TObject; var Row: string; DataSet: TDataSet);
+    procedure OnChangeMark(Sender: TObject);
   public
     { Public declarations }
-    procedure ImprimirEtiqueta;
+    procedure ImprimirEtiqueta(DataSet: TDataSet);
   end;
 
 var
@@ -102,8 +120,7 @@ var
 
 implementation
 
-uses uDM, uLabProcM, iTypes, mcutils, maskutils, uReport, uResources,
-  ccalendardiff, uPrnTag;
+uses uDM, uLabProcM, iTypes, mcutils, maskutils, uReport, uResources, ccalendardiff, uPrnTag;
 
 {$R *.dfm}
 
@@ -119,12 +136,32 @@ begin
 
   while not qPItens.Eof do
   begin
-    ImprimirEtiqueta;
+    ImprimirEtiqueta(qPItens);
 
     qPItens.Next;
   end;
 
   qPItens.SortType := stAscending;
+  G.RefreshDataSet(IBrwSrc);
+end;
+
+procedure TLabProc.actPrnEtiqSelExecute(Sender: TObject);
+begin
+  inherited;
+  if not qPSelItens.Active then
+    qPSelItens.Open;
+
+  qPSelItens.SortType := stDescending;
+  qPSelItens.First;
+
+  while not qPSelItens.Eof do
+  begin
+    ImprimirEtiqueta(qPSelItens);
+
+    qPSelItens.Next;
+  end;
+
+  qPSelItens.SortType := stAscending;
   G.RefreshDataSet(IBrwSrc);
 end;
 
@@ -224,24 +261,35 @@ begin
     end;
 end;
 
+procedure TLabProc.DBGridKeyPress(Sender: TObject; var Key: Char);
+begin
+  if (key = #32) and (qPItens.State = dsBrowse) then
+  begin
+    key := #0;
+    FrameCheckBar1.actProcessMarkExecute(actInverse);
+  end;
+
+  inherited;
+end;
+
 procedure TLabProc.edPedidoChange(Sender: TObject);
 begin
   inherited;
   actQueryProcess.Enabled := True;
 end;
 
-procedure TLabProc.FormataEtiqueta(Sender: TObject; var Row: string);
+procedure TLabProc.FormataEtiqueta(Sender: TObject; var Row: string; DataSet: TDataSet);
 var
   sTag: string;
 begin
   sTag := EmptyStr;
 
-  Row := mcStuff('000000000000', Row, qPItensetiq_proc.AsString);
-  Row := mcStuff('000.000.000.000', Row, qPItensetiq_proc.DisplayText);
+  Row := mcStuff('000000000000', Row, DataSet.FieldByName('etiq_proc').AsString);
+  Row := mcStuff('000.000.000.000', Row, DataSet.FieldByName('etiq_proc').DisplayText);
   Row := mcStuff('@1', Row, Format('Origem: %d Destino: %d', [IBrwSrcrecno.AsInteger, IBrwSrccodigo.AsInteger]));
   Row := mcStuff('@2', Row, EmptyStr);
-  Row := mcStuff('@3', Row, qPItensvalidade.DisplayText);
-  Row := mcStuff('@4', Row, Format('Tipo: %s%s', [qPItenstipo.DisplayText, sTag]));
+  Row := mcStuff('@3', Row, DataSet.FieldByName('validade').DisplayText);
+  Row := mcStuff('@4', Row, Format('Tipo: %s%s', [DataSet.FieldByName('tipo').DisplayText, sTag]));
 end;
 
 procedure TLabProc.FormCreate(Sender: TObject);
@@ -252,6 +300,9 @@ begin
 
   ComboBox1.Items.Insert(0, '(Todos)');
   ComboBox1.ItemIndex := 0;
+
+  FrameCheckBar1.Table := 'labprocxequip';
+  FrameCheckBar1.OnChange := OnChangeMark;
 
   ReadOnly := True;
 end;
@@ -292,8 +343,10 @@ begin
   actPrnEtiq.Enabled := (IBrwSrcsituacao.AsInteger < 3) and not IBrwSrc.IsEmpty;
 
   qPItens.ParamByName('proc').AsInteger := IBrwSrcrecno.AsInteger;
+  qPSelItens.ParamByName('proc').AsInteger := IBrwSrcrecno.AsInteger;
 
   G.RefreshDataSet(qPItens);
+  G.RefreshDataSet(qPSelItens);
 end;
 
 procedure TLabProc.IBrwSrcenvioGetText(Sender: TField; var Text: string;
@@ -327,12 +380,12 @@ begin
     Sender.AsInteger := 2;
 end;
 
-procedure TLabProc.ImprimirEtiqueta;
+procedure TLabProc.ImprimirEtiqueta(DataSet: TDataSet);
 var
   sFile, printer: String;
   oPrn: TPrnTag;
 begin
-  if not qPItens.Active then
+  if not DataSet.Active then
   begin
     U.Out.ShowErro('Etiquetas não podem ser impressas porque a tabela de etiquetas não está ativa.');
     Exit;
@@ -358,7 +411,7 @@ begin
 
   oPrn := TPrnTag.Create(sFile, printer, FormataEtiqueta);
   try
-    if oPrn.Print then
+    if oPrn.Print(DataSet) then
     begin
       // Marca a etiqueta como impressa
       // Inicia transação
@@ -379,6 +432,12 @@ begin
   finally
     FreeAndNil(oPrn);
   end;
+end;
+
+procedure TLabProc.OnChangeMark(Sender: TObject);
+begin
+  G.RefreshDataSet(qPSelItens);
+  RefreshCtrl;
 end;
 
 procedure TLabProc.OnEdit;
@@ -420,11 +479,11 @@ end;
 procedure TLabProc.qPItensCalcFields(DataSet: TDataSet);
 begin
   inherited;
-  qPItensetiq_proc.AsString := mcRight(StringOfChar('0', 12) +
-    qPItenscomodato.AsString, 12);
+  DataSet.FieldByName('etiq_proc').AsString := mcRight(StringOfChar('0', 12) +
+    DataSet.FieldByName('comodato').AsString, 12);
 
-  qPItensetiq_tipo.AsString := UpperCase(mcRight(StringOfChar(' ', 15) +
-    qPItenstipo.DisplayText, 15));
+  DataSet.FieldByName('etiq_tipo').AsString := UpperCase(mcRight(StringOfChar(' ', 15) +
+    DataSet.FieldByName('tipo').DisplayText, 15));
 end;
 
 procedure TLabProc.qPItenstipoGetText(Sender: TField; var Text: string;
@@ -456,6 +515,8 @@ begin
 
   actPrnEtiq.Enabled := Assigned(IBrwSrc) and IBrwSrc.Active and
     not IBrwSrc.IsEmpty;
+  actPrnEtiqSel.Enabled := Assigned(IBrwSrc) and IBrwSrc.Active and
+    not IBrwSrc.IsEmpty and not qPSelItens.IsEmpty;
 end;
 
 procedure TLabProc.SetDataSet(const Value: TZQuery);

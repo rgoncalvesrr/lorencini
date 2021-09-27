@@ -1,0 +1,112 @@
+/**
+   Gera listagem de clientes inativos
+
+	@author    Ricardo Gonçalves
+	@date      30/08/2021
+	@trigger
+
+	Histórico
+	-------------------------------------------------------------------------------------------------------------------
+ */
+ create or replace function usr_clientes_inativos(
+    in recno_ integer)
+ returns void as 
+ $$
+ declare
+   r        record;
+   html     text;
+   estado_  tbclientes.estado%type;
+   contato_ clientes_contatos.contato%type;
+   codigo_  tbclientes.codigo%type;
+   message_ sys_email.recno%type;
+   css_     text = '<style type="text/css">th {background-color: #d0e3fa;}.normal {background-color: #5dc421;}.warn {background-color: #fbff00;}.crit {background-color: #ff0000;}table {border-collapse: collapse;width: fit-content;text-align: center;}th,td {border-style: solid;border-color: #6495ed;border-width: 1px;padding: 10px;}tr:nth-child(odd) {background-color: #e8edff;}.title {background-color: #fff;color: #024fff;font-weight: bold;}</style>';
+ begin
+   html := html$head('Listagem de cliente inativos', css_);
+   html := format('%s%s', html, '<table>
+			<thead>            
+				<tr>
+               <th>Cidade</th>
+					<th>Nome Empresarial</th>
+					<th>Nome Curto</th>               
+					<th>CNPJ/CPF</th>
+               <th>Telefone</th>               
+					<th>Última Compra</th>
+               <th>Código</th>
+				</tr>
+			</thead>
+			<tbody>');
+
+   for r in (
+       select c.codigo, e.nome nome_estado, c.estado, c.cidade, c.codigo, c.empresa, c.nome_chave, 
+              mask_cnpj_cpf(coalesce(c.cnpj, c.cpf)) cnpjcpf, x.ultima_compra, mask_fone(c.telefone) telefone, 
+              c.email, ct.contato, ct.nome, mask_fone(ct.celular) celular, mask_fone(ct.telefone) telefone_cont, ct.email 
+         from tbclientes c
+              join (select id_cli, max(vencimento_real) ultima_compra
+                      from fin_receber 
+                     group by id_cli
+                    having max(vencimento_real) < clock_timestamp() - interval '3 months') x
+                on x.id_cli = c.codigo
+              left join clientes_contatos ct
+                on ct.cliente = c.codigo 
+               and ct.ativo 
+              join estados e
+                on e.uf = c.estado 
+        where c.situacao = 'ATIVO'       
+        order by c.estado, c.cidade, c.nome_chave, ct.contato)
+   loop
+      -- Quebra por estado      
+      if estado_ is null or estado_ <> r.estado then
+         html := format('%s
+         <tr><td class="title" colspan="7">Estado: %s - %s</td></tr>', html, r.estado, r.nome_estado);
+
+         estado_ := r.estado;
+      end if;
+
+      if codigo_ is null or codigo_ <> r.codigo then
+         html := format('%s
+            <tr>
+               <td>%s</td>
+					<td>%s</td>		
+					<td>%s</td>
+					<td>%s</td>
+               <td>%s</td>
+					<td>%s</td>					
+               <td>%s</td>
+				</tr>', html, r.cidade, r.empresa, r.nome_chave, r.cnpjcpf, r.telefone, r.ultima_compra, r.codigo);
+
+         codigo_ := r.codigo;
+      end if;
+
+      html := format('%s
+            <tr>
+               <td></td>
+					<td colspan="2">Nome: %s</td>					
+					<td>Telefone: %s</td>
+					<td>Celular: %s</td>
+               <td colspan="7">Email: %s</td>					
+				</tr>', html, r.nome, r.telefone_cont, r.celular, r.email);
+
+   end loop;
+
+   html := format('%s</tbody></table>%s', html, html$footer());
+
+
+   -- cria mensagem
+   insert into sys_email 
+      (subject, message, table_, recno_)
+   values           
+      ('Clientes Inativos ', html, sys_origem('sys_accounts'), recno_)
+   returning recno into message_;
+
+   insert into sys_emailto 
+      (message, to_, to_name)
+   values             
+      (message_, 'suporte@lorencini.com.br', 'Suporte');
+   
+   -- dispara envio do email
+   update sys_email
+      set status = 1
+    where recno = message_;
+ end
+ $$
+ language plpgsql;

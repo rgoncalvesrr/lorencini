@@ -3,11 +3,11 @@ unit uPrnTag;
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils, db;
 
 type
 
-  TBeforePrnTagEvent = procedure(Sender: TObject; var Row: string) of object;
+  TBeforePrnTagEvent = procedure(Sender: TObject; var Row: string; DataSet: TDataSet) of object;
 
   EPrnTag = Exception;
 
@@ -25,7 +25,7 @@ type
     constructor Create(const AFileTemplate: TFileName; const APrintPort: string;
       BeforePrintEvent: TBeforePrnTagEvent); overload;
 
-    function Print: Boolean;
+    function Print(DataSet: TDataSet): Boolean;
 
     property FileTemplate: TFileName read FFileTemplate write SetFileTemplate;
     property PrintPort: string read FPrintPort write SetPrintPort;
@@ -55,7 +55,7 @@ begin
   FOnBeforePrint := BeforePrintEvent;
 end;
 
-function TPrnTag.Print: Boolean;
+function TPrnTag.Print(DataSet: TDataSet): Boolean;
 var
   r: string;
   CMD: AnsiString;
@@ -84,7 +84,7 @@ begin
       Readln(Input, r);
 
       if Assigned(FOnBeforePrint) then
-        FOnBeforePrint(Self, r);
+        FOnBeforePrint(Self, r, DataSet);
 
       if CMD <> EmptyStr then
         CMD := CMD + #13#10;
@@ -111,7 +111,6 @@ begin
   finally
     CloseFile(Output);
   end;
-
 
   Result := True;
 end;

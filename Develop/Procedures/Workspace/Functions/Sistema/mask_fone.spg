@@ -1,0 +1,35 @@
+/**
+   Aplica máscara a um número de celular ou telefone
+
+   @author  Ricardo Gonçalves
+   @date    30/08/2021
+
+   @param   db nome do banco de dados alvo
+
+	Histórico
+	------------------------------------------------------------------
+	  18/11/2008 11:18:59  v1.0  Ricardo Gonçalves.
+	     [+] Cria o schema e o grupo padrão. Altera o proprietário
+	        do banco de dados
+*/
+create or replace function mask_fone(
+   in fone_ text)
+returns text as
+$$
+begin
+   if fone_ is null then
+      return fone_;
+   end if;
+
+   fone_ := regexp_replace(fone_, '(-|\ )', '', 'g');
+
+   if fone_ ~ '[0-9]{10,10}' then
+      return mask_tel(fone_);
+   elsif fone_ ~ '[0-9]{11,11}' then
+      return mask_cel(fone_);
+   else
+      return null;
+   end if;
+end
+$$
+language plpgsql;

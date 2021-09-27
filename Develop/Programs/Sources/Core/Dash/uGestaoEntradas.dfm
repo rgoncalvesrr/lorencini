@@ -53,7 +53,7 @@ inherited GestaoEntradas: TGestaoEntradas
             Width = 185
             Height = 15
             Align = alTop
-            Caption = '01/02/2021 a 28/02/2021'
+            Caption = '01/09/2021 a 30/09/2021'
             Transparent = True
             ExplicitWidth = 128
           end
@@ -84,7 +84,7 @@ inherited GestaoEntradas: TGestaoEntradas
             end
             inherited CCalendarDiff1: TCCalendarDiff
               Interval = diMonthly
-              Date = 44244.926457430560000000
+              Date = 44454.885865740740000000
               DisplayInterval = Label6
               OnChange = FrameData1CCalendarDiff1Change
             end
@@ -107,6 +107,7 @@ inherited GestaoEntradas: TGestaoEntradas
     inherited PageControl1: TPageControl
       Width = 1002
       Height = 564
+      ActivePage = TabSheet2
       OnResize = PageControl1Resize
       ExplicitWidth = 1002
       ExplicitHeight = 564
@@ -1105,6 +1106,191 @@ inherited GestaoEntradas: TGestaoEntradas
           end
         end
       end
+      object TabSheet2: TTabSheet
+        Caption = 'Evolu'#231#227'o'
+        ImageIndex = 3
+        ExplicitLeft = 6
+        ExplicitTop = 30
+        object pnCharts: TPanel
+          Left = 0
+          Top = 0
+          Width = 994
+          Height = 534
+          Align = alClient
+          BevelOuter = bvNone
+          TabOrder = 0
+          OnResize = pnChartsResize
+          ExplicitLeft = 288
+          ExplicitTop = 32
+          ExplicitWidth = 185
+          ExplicitHeight = 41
+          object Panel4: TPanel
+            Left = 0
+            Top = 0
+            Width = 994
+            Height = 273
+            Align = alTop
+            BevelOuter = bvNone
+            TabOrder = 0
+            object DBChart1: TDBChart
+              AlignWithMargins = True
+              Left = 3
+              Top = 3
+              Width = 400
+              Height = 267
+              Title.Text.Strings = (
+                'TDBChart')
+              Legend.Alignment = laBottom
+              View3D = False
+              Align = alLeft
+              BevelOuter = bvNone
+              TabOrder = 0
+              ExplicitLeft = 71
+              ExplicitTop = 88
+              ExplicitHeight = 250
+              object Series1: TFastLineSeries
+                Marks.Callout.Brush.Color = clBlack
+                Marks.ShapeStyle = fosRoundRectangle
+                Marks.Style = smsValue
+                Marks.Visible = True
+                DataSource = IBrwSrc
+                Title = 'Entradas'
+                XLabelsSource = 'competencia'
+                LinePen.Color = clRed
+                XValues.DateTime = True
+                XValues.Name = 'X'
+                XValues.Order = loAscending
+                XValues.ValueSource = 'emissaode'
+                YValues.Name = 'Y'
+                YValues.Order = loNone
+                YValues.ValueSource = 'total'
+              end
+              object Series2: TFastLineSeries
+                Marks.Callout.Brush.Color = clBlack
+                Marks.ShapeStyle = fosRoundRectangle
+                Marks.Style = smsValue
+                Marks.Visible = True
+                DataSource = IBrwSrc
+                Title = 'Conformes'
+                XLabelsSource = 'competencia'
+                LinePen.Color = clGreen
+                XValues.DateTime = True
+                XValues.Name = 'X'
+                XValues.Order = loAscending
+                XValues.ValueSource = 'emissaode'
+                YValues.Name = 'Y'
+                YValues.Order = loNone
+                YValues.ValueSource = 'conformes'
+              end
+              object Series3: TFastLineSeries
+                Marks.Callout.Brush.Color = clBlack
+                Marks.ShapeStyle = fosRoundRectangle
+                Marks.Style = smsValue
+                Marks.Visible = True
+                DataSource = IBrwSrc
+                Title = 'N'#227'o Conformes'
+                XLabelsSource = 'competencia'
+                LinePen.Color = clYellow
+                XValues.DateTime = True
+                XValues.Name = 'X'
+                XValues.Order = loAscending
+                XValues.ValueSource = 'emissaode'
+                YValues.Name = 'Y'
+                YValues.Order = loNone
+                YValues.ValueSource = 'naoconformes'
+              end
+              object Series4: TFastLineSeries
+                Marks.Callout.Brush.Color = clBlack
+                Marks.ShapeStyle = fosRoundRectangle
+                Marks.Visible = False
+                DataSource = IBrwSrc
+                Title = 'Quebradas'
+                XLabelsSource = 'competencia'
+                LinePen.Color = clBlue
+                XValues.DateTime = True
+                XValues.Name = 'X'
+                XValues.Order = loAscending
+                XValues.ValueSource = 'emissaode'
+                YValues.Name = 'Y'
+                YValues.Order = loNone
+                YValues.ValueSource = 'quebrados'
+              end
+              object Series5: TFastLineSeries
+                Marks.Callout.Brush.Color = clBlack
+                Marks.ShapeStyle = fosRoundRectangle
+                Marks.Visible = True
+                DataSource = IBrwSrc
+                SeriesColor = 10485760
+                Title = 'Vazias'
+                XLabelsSource = 'competencia'
+                LinePen.Color = 10485760
+                XValues.DateTime = True
+                XValues.Name = 'X'
+                XValues.Order = loAscending
+                XValues.ValueSource = 'emissaode'
+                YValues.Name = 'Y'
+                YValues.Order = loNone
+                YValues.ValueSource = 'vazios'
+              end
+            end
+            object DBChart2: TDBChart
+              AlignWithMargins = True
+              Left = 409
+              Top = 3
+              Width = 582
+              Height = 267
+              Title.Text.Strings = (
+                'TDBChart')
+              Align = alClient
+              BevelOuter = bvNone
+              TabOrder = 1
+              ExplicitLeft = 627
+              ExplicitTop = 0
+              ExplicitWidth = 400
+            end
+          end
+          object Panel7: TPanel
+            Left = 0
+            Top = 273
+            Width = 994
+            Height = 261
+            Align = alClient
+            BevelOuter = bvNone
+            TabOrder = 1
+            ExplicitTop = 276
+            object DBChart3: TDBChart
+              AlignWithMargins = True
+              Left = 3
+              Top = 3
+              Width = 400
+              Height = 255
+              Title.Text.Strings = (
+                'TDBChart')
+              Align = alLeft
+              BevelOuter = bvNone
+              TabOrder = 0
+              ExplicitLeft = 71
+              ExplicitTop = 88
+              ExplicitHeight = 250
+            end
+            object DBChart4: TDBChart
+              AlignWithMargins = True
+              Left = 409
+              Top = 3
+              Width = 582
+              Height = 255
+              Title.Text.Strings = (
+                'TDBChart')
+              Align = alClient
+              BevelOuter = bvNone
+              TabOrder = 1
+              ExplicitLeft = 595
+              ExplicitTop = -21
+              ExplicitWidth = 400
+            end
+          end
+        end
+      end
     end
   end
   inherited ctrlBarTop: TControlBar
@@ -1337,8 +1523,8 @@ inherited GestaoEntradas: TGestaoEntradas
         ParamType = ptUnknown
       end>
     FetchRow = 50
-    Left = 344
-    Top = 176
+    Left = 320
+    Top = 256
     ParamData = <
       item
         DataType = ftUnknown
@@ -1413,8 +1599,8 @@ inherited GestaoEntradas: TGestaoEntradas
   object dsDiaria: TDataSource
     AutoEdit = False
     DataSet = qDiaria
-    Left = 408
-    Top = 176
+    Left = 384
+    Top = 256
   end
   object qFrascos: TZQuery
     Connection = DM.Design
@@ -1721,8 +1907,8 @@ inherited GestaoEntradas: TGestaoEntradas
         ParamType = ptUnknown
       end>
     FetchRow = 50
-    Left = 344
-    Top = 224
+    Left = 320
+    Top = 304
     ParamData = <
       item
         DataType = ftUnknown
@@ -1797,8 +1983,8 @@ inherited GestaoEntradas: TGestaoEntradas
   object dsDFrascos: TDataSource
     AutoEdit = False
     DataSet = qDFrascos
-    Left = 408
-    Top = 224
+    Left = 384
+    Top = 304
   end
   object qDSeringas: TZQuery
     Connection = DM.Design
@@ -1833,8 +2019,8 @@ inherited GestaoEntradas: TGestaoEntradas
         ParamType = ptUnknown
       end>
     FetchRow = 50
-    Left = 344
-    Top = 272
+    Left = 320
+    Top = 352
     ParamData = <
       item
         DataType = ftUnknown
@@ -1909,8 +2095,8 @@ inherited GestaoEntradas: TGestaoEntradas
   object dsDSeringas: TDataSource
     AutoEdit = False
     DataSet = qDSeringas
-    Left = 408
-    Top = 272
+    Left = 384
+    Top = 352
   end
   object qDocumentos: TZQuery
     Connection = DM.Design
@@ -1978,7 +2164,7 @@ inherited GestaoEntradas: TGestaoEntradas
       end>
     FetchRow = 50
     Left = 488
-    Top = 176
+    Top = 224
     ParamData = <
       item
         DataType = ftUnknown

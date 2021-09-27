@@ -1,3 +1,5 @@
+DROP FUNCTION if exists sys_login(character varying,character varying);
+
 /**
    Faz o login no sistema validando e ativando a sessão
 
@@ -12,30 +14,25 @@
 create or replace function sys_login(
    in user_ varchar, 
    in pass_ varchar)
-returns boolean as
+returns integer as
 $$
-declare   
-   account_ sys_accounts.recno%type;   
-   message_ text;
-   xlog     log$;
-begin
-   begin
-      account_ := sys_auth(user_, pass_);
-      perform sys_session_select(sys_session_create(account_));
-      xlog.title := 'Login permitido';
-      xlog.detail := format('Acesso concedido ao usuário "%s"', user_);
-      perform log(xlog);
+declare
+   account_       account$;
+   transaction_   sys_login_events.recno%type;
+begin  
+   transaction_ = sys_auth(user_, pass_);
 
-      return true;
-   exception when raise_exception then
-      xlog.title := format('Falha na autenticação do usuário "%s"', user_);
-      xlog.level := 'error';
-      xlog.rotate := false;
-      GET STACKED DIAGNOSTICS message_ = MESSAGE_TEXT;
-   end;   
-   xlog.detail := message_;
-   perform log(xlog);
-   return false;   
+   select account
+     into account_
+     from sys_login_events
+    where recno = transaction_
+      and event = 0;
+
+   if account_ is not null then         
+      perform sys_session_select(sys_session_create(account_));
+   end if;
+
+   return transaction_;
 end;
 $$
 language plpgsql;

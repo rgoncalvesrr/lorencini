@@ -9,10 +9,8 @@ inherited LabProcM: TLabProcM
   PixelsPerInch = 96
   TextHeight = 15
   inherited Panel1: TPanel
-    Top = 44
     Width = 787
     Height = 477
-    ExplicitTop = 44
     ExplicitWidth = 787
     ExplicitHeight = 477
     inherited Panel3: TPanel
@@ -23,11 +21,8 @@ inherited LabProcM: TLabProcM
       ExplicitWidth = 787
       ExplicitHeight = 173
       inherited PageControl3: TPageControl
-        Top = 47
         Width = 781
         Height = 123
-        ExplicitLeft = 3
-        ExplicitTop = 47
         ExplicitWidth = 781
         ExplicitHeight = 123
         inherited tsDet: TTabSheet
@@ -45,14 +40,9 @@ inherited LabProcM: TLabProcM
       end
       inherited ControlBar2: TControlBar
         Width = 781
-        Height = 38
-        ExplicitLeft = 3
-        ExplicitTop = 3
         ExplicitWidth = 781
-        ExplicitHeight = 38
         inherited ToolBar3: TToolBar
           Width = 689
-          ButtonWidth = 129
           ExplicitWidth = 689
           inherited ToolButton10: TToolButton
             Action = nil
@@ -99,8 +89,6 @@ inherited LabProcM: TLabProcM
     inherited PageControl1: TPageControl
       Width = 781
       Height = 298
-      ExplicitLeft = 3
-      ExplicitTop = 3
       ExplicitWidth = 781
       ExplicitHeight = 298
       inherited TabSheet1: TTabSheet
@@ -666,14 +654,9 @@ inherited LabProcM: TLabProcM
   end
   inherited ControlBar1: TControlBar
     Width = 781
-    Height = 38
-    ExplicitLeft = 3
-    ExplicitTop = 3
     ExplicitWidth = 781
-    ExplicitHeight = 38
     inherited ToolBar1: TToolBar
       Width = 689
-      ButtonWidth = 115
       ExplicitWidth = 689
       inherited ToolButton6: TToolButton
         ExplicitWidth = 32

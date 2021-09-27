@@ -8,10 +8,8 @@ inherited PedM: TPedM
   PixelsPerInch = 96
   TextHeight = 15
   inherited Panel1: TPanel
-    Top = 44
     Width = 1132
     Height = 599
-    ExplicitTop = 44
     ExplicitWidth = 1132
     ExplicitHeight = 599
     inherited Panel3: TPanel
@@ -23,11 +21,8 @@ inherited PedM: TPedM
       ExplicitWidth = 1132
       ExplicitHeight = 252
       inherited PageControl3: TPageControl
-        Top = 47
         Width = 1126
         Height = 202
-        ExplicitLeft = 3
-        ExplicitTop = 47
         ExplicitWidth = 1126
         ExplicitHeight = 202
         inherited tsDet: TTabSheet
@@ -200,15 +195,10 @@ inherited PedM: TPedM
       end
       inherited ControlBar2: TControlBar
         Width = 1126
-        Height = 38
-        ExplicitLeft = 3
-        ExplicitTop = 3
         ExplicitWidth = 1126
-        ExplicitHeight = 38
         inherited ToolBar3: TToolBar
           Left = 12
           Width = 1111
-          ButtonWidth = 129
           ExplicitLeft = 12
           ExplicitWidth = 1111
           inherited ToolButton10: TToolButton
@@ -238,8 +228,6 @@ inherited PedM: TPedM
     inherited PageControl1: TPageControl
       Width = 1126
       Height = 341
-      ExplicitLeft = 3
-      ExplicitTop = 3
       ExplicitWidth = 1126
       ExplicitHeight = 341
       inherited TabSheet1: TTabSheet
@@ -1818,14 +1806,9 @@ inherited PedM: TPedM
   end
   inherited ControlBar1: TControlBar
     Width = 1126
-    Height = 38
-    ExplicitLeft = 3
-    ExplicitTop = 3
     ExplicitWidth = 1126
-    ExplicitHeight = 38
     inherited ToolBar1: TToolBar
       Width = 1112
-      ButtonWidth = 115
       ExplicitWidth = 1112
       inherited ToolButton6: TToolButton
         ExplicitWidth = 32
@@ -1879,16 +1862,6 @@ inherited PedM: TPedM
       ImageIndex = 332
       OnExecute = actFindCliExecute
     end
-    object actPrint: TAction
-      Caption = 'Selecionada'
-      ImageIndex = 287
-      OnExecute = actPrintExecute
-    end
-    object actPrintAll: TAction
-      Caption = 'Todas'
-      ImageIndex = 287
-      OnExecute = actPrintAllExecute
-    end
     object actDespVinc: TAction
       ImageIndex = 336
       OnExecute = actDespVincExecute
@@ -1909,11 +1882,5 @@ inherited PedM: TPedM
   object pmPrint: TPopupMenu
     Left = 240
     Top = 32
-    object Selecionada1: TMenuItem
-      Action = actPrint
-    end
-    object odas1: TMenuItem
-      Action = actPrintAll
-    end
   end
 end

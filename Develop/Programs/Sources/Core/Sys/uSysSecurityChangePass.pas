@@ -38,7 +38,7 @@ begin
   begin
     SQL.Text :=
       'update sys_accounts '+
-         'set password = :pass '+
+         'set password = :pass, changepass = false, status = 2 '+
        'where recno = :account ';
     ParamByName('pass').AsString := mcMD5(edPass.Text);
     ParamByName('account').AsInteger := U.Info.Account;

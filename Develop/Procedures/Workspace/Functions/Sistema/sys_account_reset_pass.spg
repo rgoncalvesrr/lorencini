@@ -1,0 +1,57 @@
+/**
+   Gera uma nova senha temporária para conta informada
+
+   @author    Ricardo Gonçalves
+   @date      15/08/2021
+   @trigger   
+
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+   
+*/
+create or replace function sys_account_reset_pass(
+   email_ email$)
+returns varchar as
+$$
+declare
+   _STATUS_NOVO      constant integer = 1;
+   
+   r           record;   
+   password_   descri$;
+begin
+   select account, nome
+     into r
+     from contatos
+    where email = email_;
+
+   if not found then
+      raise '[[Não existe contato associado ao e-mail %]]', email_;
+   end if;
+
+   if r.account is null then
+      raise '[[% não tem uma conta de acesso ao sistema]]', r.nome;
+   end if;
+
+   password_ = sys_gen_pass();
+
+   -- Criando conta
+   update sys_accounts
+      set password = md5(password_), status = _STATUS_NOVO, changepass = true
+    where recno = r.account;
+
+   -- Expira senhas temporárias anteriores
+   perform sys_account_expire_tmp_pass(r.account);
+
+   -- Registrando senha gerada
+   insert into sys_genpass
+      (account, password)
+   values
+      (r.account, password_);
+   
+   perform sys_account_notify(r.account);
+
+   return password_;
+end
+$$
+language 'plpgsql'

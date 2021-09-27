@@ -85,8 +85,7 @@ var
 
 implementation
 
-uses uDM, uResources, ccalendardiff, uIUtils, uRecebimentoLotePortador, 
-  uRecebimentoLoteM;
+uses uDM, uResources, ccalendardiff, uIUtils, uRecebimentoLotePortador, uRecebimentoLoteM;
 
 {$R *.dfm}
 

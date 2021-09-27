@@ -160,6 +160,9 @@ type
     TabSheet3: TTabSheet;
     DBGrid4: TDBGrid;
     actAtuContatos: TAction;
+    ToolButton15: TToolButton;
+    actCopyCont: TAction;
+    ToolButton19: TToolButton;
     procedure FormCreate(Sender: TObject);
     procedure actLucraExecute(Sender: TObject);
     procedure actOkExecute(Sender: TObject);
@@ -175,6 +178,7 @@ type
     procedure actFindTipoExecute(Sender: TObject);
     procedure FormResize(Sender: TObject);
     procedure actAtuContatosExecute(Sender: TObject);
+    procedure actCopyContExecute(Sender: TObject);
   private
     { Private declarations }
     procedure RefreshControls; override;
@@ -273,6 +277,46 @@ begin
   finally
     Close;
     G.RefreshDataSet(OS.qContatos);
+  end;
+end;
+
+procedure TOSM.actCopyContExecute(Sender: TObject);
+var
+  emails, conector: string;
+  pBookMark: TBookmark;
+begin
+  inherited;
+
+  emails := EmptyStr;
+  conector := EmptyStr;
+
+  with OS.qContatos do
+  begin
+    DisableControls;
+    pBookMark := GetBookmark;
+    try
+      First;
+
+      while not Eof do
+      begin
+        if not FieldByName('email').IsNull then
+        begin
+          emails := Format('%s%s%s<%s>', [emails, conector, FieldByName('nome').AsString, FieldByName('email').AsString]);
+          conector := ';';
+        end;
+
+        Next;
+      end;
+
+      ClipBoardAdd(emails);
+    finally
+      GotoBookmark(pBookMark);
+      FreeBookmark(pBookMark);
+      EnableControls;
+
+      if emails <> EmptyStr then
+        U.Out.ShowInfo('Contato copiados para área de transferência!');
+    end;
   end;
 end;
 
@@ -520,6 +564,7 @@ begin
   actDel.Enabled := actDel.Enabled and ((PageControl3.ActivePageIndex < 3) or actDespVinc.Enabled or actAtuContatos.Enabled);
   actView.Enabled := actView.Enabled and (PageControl3.ActivePageIndex < 3);
   actDespVinc.Enabled := (PageControl3.ActivePageIndex = 3);
+  actCopyCont.Enabled := (PageControl3.ActivePageIndex = 4) and not os.qContatos.IsEmpty;
 
   JvDBComboBox7.Enabled := (U.Info.User = 'DAGOBERTO') or
     (U.Info.User = 'RICARDO');

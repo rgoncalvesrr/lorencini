@@ -86,8 +86,7 @@ Begin
             raise '[[Para efetuar bloqueio financeiro manual é obrigatório informar o motivo.]]';
          end if;
       end if;
-
-
+      
       Return new;
    else
       Return old;

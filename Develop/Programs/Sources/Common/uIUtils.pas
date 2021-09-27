@@ -103,7 +103,7 @@ type
   public
     constructor Create;
 
-    procedure RefreshSessionFromDB;
+    procedure RefreshSessionFromDB(Account: Integer);
 
     property Connected: boolean read FConnected write FConnected;
     property EmployeeID: integer read GetEmployeeID;
@@ -1147,14 +1147,16 @@ begin
   Result:= FEmployeeName;
 end;
 
-procedure TInfo.RefreshSessionFromDB;
+procedure TInfo.RefreshSessionFromDB(Account: Integer);
 begin
   with U.Data.Query do
   try
     SQL.Text :=
     'select username, role, account, session '+
       'from vsessions '+
-     'where session = sys_session() ';
+     'where account = :account;';
+
+    ParamByName('account').AsInteger := Account;
 
     Open;
 

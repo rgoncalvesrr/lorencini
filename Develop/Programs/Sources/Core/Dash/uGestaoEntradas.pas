@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, Dialogs, uIBrowse, ZSqlUpdate, Menus, DB,
   ZAbstractRODataset, ZAbstractDataset, ZDataset, ActnList, ComCtrls, ToolWin, ExtCtrls, Grids, DBGrids, StdCtrls,
-  Mask, Buttons, uFrameData, DBCtrls;
+  Mask, Buttons, uFrameData, DBCtrls, TeEngine, Series, TeeProcs, Chart, DBChart;
 
 type
   TGestaoEntradas = class(TIDefBrowse)
@@ -217,6 +217,19 @@ type
     Panel34: TPanel;
     Label27: TLabel;
     DBEdit27: TDBEdit;
+    TabSheet2: TTabSheet;
+    Panel4: TPanel;
+    Panel7: TPanel;
+    pnCharts: TPanel;
+    DBChart1: TDBChart;
+    DBChart2: TDBChart;
+    DBChart3: TDBChart;
+    DBChart4: TDBChart;
+    Series1: TFastLineSeries;
+    Series2: TFastLineSeries;
+    Series3: TFastLineSeries;
+    Series4: TFastLineSeries;
+    Series5: TFastLineSeries;
     procedure IBrwSrcCalcFields(DataSet: TDataSet);
     procedure actQueryProcessExecute(Sender: TObject);
     procedure FrameData1CCalendarDiff1Change(Sender: TObject);
@@ -228,6 +241,7 @@ type
     procedure IBrwSrcAfterRefresh(DataSet: TDataSet);
     procedure qFrascosAfterRefresh(DataSet: TDataSet);
     procedure qSeringasAfterRefresh(DataSet: TDataSet);
+    procedure pnChartsResize(Sender: TObject);
   private
     { Private declarations }
     procedure RefreshCtrl; override;
@@ -307,6 +321,10 @@ begin
   qDocumentos.ParamByName('emissaoate').AsDate := IBrwSrcemissaoate.AsDateTime;
   G.RefreshDataSet(qDiaria);
   G.RefreshDataSet(qDocumentos);
+
+  if PageControl1.ActivePageIndex = 3 then
+    DBChart1.RefreshData;
+    
   RefreshCtrl;
 end;
 
@@ -332,7 +350,14 @@ begin
     0: DBGrid1.DataSource := DataSource1;
     1: DBGrid1.DataSource := dsFrascos;
     2: DBGrid1.DataSource := dsSeringas;
+    3:
+      begin
+        DBGrid1.DataSource := DataSource1;
+        DBChart1.RefreshData;
+      end;
   end;
+
+  pnCharts.BringToFront;
 end;
 
 procedure TGestaoEntradas.PageControl1Resize(Sender: TObject);
@@ -341,6 +366,14 @@ begin
   PageControl2.Height := Round(PageControl2.Parent.ClientHeight * 0.8);
   PageControl3.Height := Round(PageControl3.Parent.ClientHeight * 0.8);
   PageControl4.Height := Round(PageControl4.Parent.ClientHeight * 0.8);
+end;
+
+procedure TGestaoEntradas.pnChartsResize(Sender: TObject);
+begin
+  inherited;
+  DBChart1.Width := DBChart1.Parent.ClientWidth div 2;
+  DBChart3.Width := DBChart3.Parent.ClientWidth div 2;
+  Panel4.Height := Panel4.Parent.ClientHeight div 2; 
 end;
 
 procedure TGestaoEntradas.qDiariaCalcFields(DataSet: TDataSet);

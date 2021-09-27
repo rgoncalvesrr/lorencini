@@ -124,7 +124,7 @@ type
     procedure OnLoad; override;
     procedure ResetQuery;
     procedure RefreshDB;
-    procedure FormataEtiqueta(Sender: TObject; var Row: string);
+    procedure FormataEtiqueta(Sender: TObject; var Row: string; DataSet: TDataSet);
     procedure RefreshCtrl;
   public
     { Public declarations }
@@ -299,7 +299,7 @@ begin
   end;
 end;
 
-procedure TLabProcVol.FormataEtiqueta(Sender: TObject; var Row: string);
+procedure TLabProcVol.FormataEtiqueta(Sender: TObject; var Row: string; DataSet: TDataSet);
 begin
   Row := mcStuff('000000000000', Row, zVolumesvol_etiq.AsString);
   Row := mcStuff('000.000.000.000', Row, zVolumesvol_etiq.DisplayText);
@@ -373,7 +373,7 @@ begin
 
   oPrn := TPrnTag.Create(sFile, printer, FormataEtiqueta);
   try
-    if oPrn.Print then
+    if oPrn.Print(zVolumes) then
     begin
       U.Data.ExecSQL('update labvol set imp_dh = localtimestamp where recno = %d',
         [zVolumesrecno.AsInteger]);

@@ -1,0 +1,59 @@
+set session authorization lorencini;
+
+-- drop table if exists sys_genpass;
+
+create table if not exists sys_genpass(
+   account account$ not null,
+   password descri$ not null,
+   created timestamp default(clock_timestamp()) not null,
+   expire_at timestamp default(clock_timestamp() + interval '2 hour') not null,
+   recno serial not null,
+   constraint pk_sys_genpass primary key(account, password),
+   constraint fk_sys_genpass foreign key(account) references sys_accounts(recno)
+      on update cascade on delete cascade,
+   constraint uk_sys_genpass_1 unique(recno)
+);
+
+create table if not exists sys_auth_events(
+   event int2 not null,
+   label varchar(150) not null,
+   recno serial not null,
+   constraint pk_sys_auth_events primary key(event),
+   constraint uk_sys_auth_events_1 unique(recno)
+);
+
+insert into sys_auth_events
+   (event, label)
+values
+   (0, 'Autenticado com sucesso'),
+   (10, 'Autenticação falhou porque a conta informada é nula.'),
+   (20, 'Autenticação falhou porque a senha informada é nula.'),
+   (30, 'Autenticação falhou porque a conta informada não foi localizada.'),
+   (40, 'Autenticação falhou porque a senha informada é incorreta.'),
+   (50, 'Autenticação falhou porque a conta informada está inativa.'),
+   (60, 'A autenticação falhou porque a senha temporária expirou.'),
+   (70, 'Autenticação falhou porque a senha temporária informada é incorreta.'),
+   (80, 'Autenticação falhou porque o e-mail não foi localizado.'),
+   (90, 'Autenticação falhou porque não há conta associada ao e-mail.'),
+   (100, 'Autenticação falhou porque o e-mail está inativo.')
+on conflict do nothing;
+
+-- drop table if exists sys_login_events;
+
+create table if not exists sys_login_events(
+   recno bigserial not null,
+   event int2 not null,
+   registred timestamp default(clock_timestamp()) not null,
+   email email$ not null,
+   account account$,
+   detail text,
+   constraint pk_sys_login_events primary key(recno),
+   constraint fk_sys_login_events_1 foreign key(account)
+      references sys_accounts(recno) on update cascade on delete cascade,
+   constraint fk_sys_login_events_2 foreign key(event)
+      references sys_auth_events(event) on update cascade on delete restrict);
+
+alter table tbclientes
+   add dultima_compra date,
+   add vultima_compra moeda$,
+   
