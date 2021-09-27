@@ -9,14 +9,20 @@
 	-------------------------------------------------------------------------------------------------------------------
  */
 Create or Replace Function b_fin_banco()
-Returns trigger
-As
+Returns trigger As
 $$
+Declare
+   tabela_  sys_tables.tabela%type;
 Begin
    -- Checa se o movimento pode ser alterado
    if tg_op <> 'INSERT' then
+      select tabela
+        into tabela_
+        from sys_tables
+       where recno = old.origem;
+
       if (sys_origem('fin_banco') <> old.origem and
-         not sys_flag(old.origem::varchar, old.origem_recno))
+         not sys_flag(tabela_, old.origem_recno))
       then
          raise exception '[[Somente lançamentos bancários manuais podem ser alterados diretamente!]]';
       end if;
