@@ -20,7 +20,10 @@ inherited LabApont: TLabApont
       Width = 1123
       ExplicitWidth = 1123
       inherited tsQuery: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 6
         ExplicitWidth = 1115
+        ExplicitHeight = 75
         inherited BitBtn2: TBitBtn
           Left = 1014
           Anchors = [akTop, akRight]
@@ -276,7 +279,10 @@ inherited LabApont: TLabApont
         end
       end
       inherited tsFind: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 6
         ExplicitWidth = 1115
+        ExplicitHeight = 75
       end
     end
   end
@@ -292,6 +298,8 @@ inherited LabApont: TLabApont
       ExplicitHeight = 506
       inherited TabSheet1: TTabSheet
         Caption = 'Amostras'
+        ExplicitLeft = 4
+        ExplicitTop = 26
         ExplicitWidth = 1119
         ExplicitHeight = 476
         inherited DBGrid1: TDBGrid
@@ -304,6 +312,41 @@ inherited LabApont: TLabApont
   inherited ctrlBarTop: TControlBar
     Width = 1127
     ExplicitWidth = 1127
+    inherited ToolBar1: TToolBar
+      inherited ToolButton2: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton5: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton9: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton6: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton1: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton8: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton3: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited tbOrder: TToolButton
+        ExplicitWidth = 76
+      end
+      inherited tbReport: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited tbOpcao: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton10: TToolButton
+        ExplicitWidth = 32
+      end
+    end
   end
   inherited alDef: TActionList
     Left = 312
@@ -348,7 +391,7 @@ inherited LabApont: TLabApont
       '       e.ano,          e.lote,     e.isolante, e.volume,'
       '       e.drenos,       e.familia,  tp.descri,  tp.inf_te,'
       '       s.sigla,        s.nome,     s.regional, s.reg_nome,'
-      '       a.pedido,       e.tensao_un, e.potencia_un,'
+      '       r.pedido,       e.tensao_un, e.potencia_un,'
       '       r.os'
       '  from labamostras_rel r'
       '       join labrel re'
