@@ -48,6 +48,10 @@ inherited IDefBrowseEdit: TIDefBrowseEdit
         OnChange = PageControl3Change
         object tsDet: TTabSheet
           Caption = 'T'#237'tulo do Detalhamento'
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object DBGrid1: TDBGrid
             Tag = 1
             Left = 0
@@ -180,6 +184,10 @@ inherited IDefBrowseEdit: TIDefBrowseEdit
       TabStop = False
       object TabSheet1: TTabSheet
         Caption = 'T'#237'tulo do Detalhamento'
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
     end
   end
