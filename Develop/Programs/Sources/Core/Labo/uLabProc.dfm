@@ -180,10 +180,11 @@ inherited LabProc: TLabProc
             Caption = 'Etiquetas'
             object DBGrid3: TDBGrid
               Tag = 1
-              Left = 0
-              Top = 0
-              Width = 1127
-              Height = 190
+              AlignWithMargins = True
+              Left = 3
+              Top = 47
+              Width = 1121
+              Height = 140
               Align = alClient
               BorderStyle = bsNone
               Ctl3D = False
@@ -203,6 +204,46 @@ inherited LabProc: TLabProc
               OnDblClick = DBGridDblClick
               OnEnter = DBGridEnter
               OnKeyPress = DBGridKeyPress
+            end
+            inline FrameCheckBar1: TFrameCheckBar
+              Left = 0
+              Top = 0
+              Width = 1127
+              Height = 44
+              Align = alTop
+              AutoSize = True
+              TabOrder = 1
+              ExplicitWidth = 1127
+              inherited ControlBar1: TControlBar
+                Width = 1121
+                ExplicitWidth = 1121
+                inherited ToolBar2: TToolBar
+                  ButtonWidth = 109
+                  inherited ToolButton13: TToolButton
+                    ExplicitWidth = 79
+                  end
+                  inherited ToolButton12: TToolButton
+                    ExplicitWidth = 113
+                  end
+                  inherited ToolButton17: TToolButton
+                    Left = 192
+                    ExplicitLeft = 192
+                    ExplicitWidth = 70
+                  end
+                  inherited ToolButton16: TToolButton
+                    Left = 262
+                    ExplicitLeft = 262
+                    ExplicitWidth = 86
+                  end
+                  inherited ToolButton1: TToolButton
+                    Left = 348
+                    ExplicitLeft = 348
+                  end
+                end
+              end
+              inherited dsMark: TDataSource
+                DataSet = qPItens
+              end
             end
           end
         end
@@ -249,8 +290,8 @@ inherited LabProc: TLabProc
     end
   end
   inherited alDef: TActionList
-    Left = 456
-    Top = 8
+    Left = 408
+    Top = 96
     inherited actNew: TAction
       Enabled = False
       Visible = False
@@ -264,28 +305,35 @@ inherited LabProc: TLabProc
       Visible = False
     end
     object actPrnEtiq: TAction
-      Caption = 'Etiquetas'
+      Caption = 'Todas as Etiquetas'
       OnExecute = actPrnEtiqExecute
+    end
+    object actPrnEtiqSel: TAction
+      Caption = 'Etiquetas Selecionadas'
+      OnExecute = actPrnEtiqSelExecute
     end
   end
   inherited pmRel: TPopupMenu
-    Left = 496
-    Top = 8
+    Left = 456
+    Top = 96
     object Etiquetas1: TMenuItem
       Action = actPrnEtiq
     end
+    object EtiquetasSelecionadas1: TMenuItem
+      Action = actPrnEtiqSel
+    end
   end
   inherited pmOrder: TPopupMenu
-    Left = 530
-    Top = 6
+    Left = 506
+    Top = 94
   end
   inherited alRunTime: TActionList
     Left = 562
-    Top = 6
+    Top = 94
   end
   inherited DataSource1: TDataSource
-    Left = 544
-    Top = 305
+    Left = 560
+    Top = 185
   end
   inherited IBrwSrc: TZQuery
     Connection = DM.Design
@@ -311,8 +359,8 @@ inherited LabProc: TLabProc
     FetchRow = 100
     Sequence = ZSequence1
     SequenceField = 'recno'
-    Left = 480
-    Top = 304
+    Left = 496
+    Top = 184
     object IBrwSrcsituacao: TIntegerField
       Alignment = taLeftJustify
       DisplayLabel = ' '
@@ -436,8 +484,8 @@ inherited LabProc: TLabProc
     end
   end
   inherited pmOpcao: TPopupMenu
-    Left = 600
-    Top = 8
+    Left = 624
+    Top = 96
   end
   inherited zIBrwSrc: TZUpdateSQL
     DeleteSQL.Strings = (
@@ -466,7 +514,7 @@ inherited LabProc: TLabProc
       'WHERE'
       '  labproc.recno = :OLD_recno')
     Left = 424
-    Top = 304
+    Top = 184
     ParamData = <
       item
         DataType = ftUnknown
@@ -526,8 +574,8 @@ inherited LabProc: TLabProc
   end
   object ZSequence1: TZSequence
     SequenceName = 'public.labproc_recno_seq'
-    Left = 360
-    Top = 304
+    Left = 352
+    Top = 184
   end
   object qPItens: TZQuery
     Connection = DM.Design
@@ -537,11 +585,19 @@ inherited LabProc: TLabProc
     AfterInsert = qPItensAfterInsert
     SQL.Strings = (
       
-        'select pe.recno, pe.tipo, pe.validade, pe.dataprog, pe.labproc_r' +
-        'ecno, pe.amostra, c.comodato'
-      '  from labprocxequip pe       '
-      '       left join labamostras c'
-      '         on c.recno = pe.amostra'
+        'select (m.recno is not null) mark, pe.recno, pe.tipo, pe.validad' +
+        'e, pe.dataprog, pe.labproc_recno, pe.amostra,'
+      '        a.comodato, ah.recno is not null impressa'
+      '  from labprocxequip pe'
+      '       left join labamostras a'
+      '         on a.recno = pe.amostra'
+      '       left join  labamostras_hist ah'
+      '         on ah.amostra = a.recno'
+      '        and ah.estado = 20'
+      '       left join sys_flags m'
+      '          on m.recno = pe.recno'
+      '         and m.session = sys_session()'
+      '         and m.table_ = 11'
       'where pe.labproc_recno = :proc')
     Params = <
       item
@@ -552,14 +608,19 @@ inherited LabProc: TLabProc
     IndexFieldNames = 'etiq_proc Asc'
     Sequence = sPItens
     SequenceField = 'recno'
-    Left = 480
-    Top = 360
+    Left = 496
+    Top = 232
     ParamData = <
       item
         DataType = ftUnknown
         Name = 'proc'
         ParamType = ptUnknown
       end>
+    object qPItensmark: TBooleanField
+      DisplayLabel = ' '
+      FieldName = 'mark'
+      ReadOnly = True
+    end
     object qPItensrecno: TIntegerField
       DisplayLabel = 'Item'
       FieldName = 'recno'
@@ -578,6 +639,11 @@ inherited LabProc: TLabProc
       EditMask = '000.000.000.000;0;'
       Size = 12
       Calculated = True
+    end
+    object qPItensimpressa: TBooleanField
+      DisplayLabel = 'Impressa'
+      FieldName = 'impressa'
+      ReadOnly = True
     end
     object qPItenstipo: TIntegerField
       Alignment = taLeftJustify
@@ -638,7 +704,7 @@ inherited LabProc: TLabProc
       '  labprocxequip.recno = :OLD_recno')
     UseSequenceFieldForRefreshSQL = False
     Left = 424
-    Top = 360
+    Top = 232
     ParamData = <
       item
         DataType = ftUnknown
@@ -679,13 +745,99 @@ inherited LabProc: TLabProc
   object sPItens: TZSequence
     Connection = DM.Design
     SequenceName = 'public.labprocxequip_recno_seq'
-    Left = 360
-    Top = 360
+    Left = 352
+    Top = 232
   end
   object dsPItens: TDataSource
     AutoEdit = False
     DataSet = qPItens
-    Left = 544
-    Top = 361
+    Left = 560
+    Top = 233
+  end
+  object qPSelItens: TZQuery
+    Connection = DM.Design
+    SortedFields = 'etiq_proc'
+    OnCalcFields = qPItensCalcFields
+    SQL.Strings = (
+      
+        'select pe.recno, pe.tipo, pe.validade, pe.dataprog, pe.labproc_r' +
+        'ecno, pe.amostra, a.comodato'
+      '  from labprocxequip pe'
+      '       left join labamostras a'
+      '         on a.recno = pe.amostra'
+      '       join sys_flags m'
+      '         on m.recno = pe.recno'
+      '        and m.session = sys_session()'
+      '        and m.table_ = 11'
+      'where pe.labproc_recno = :proc;')
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'proc'
+        ParamType = ptUnknown
+      end>
+    IndexFieldNames = 'etiq_proc Asc'
+    SequenceField = 'recno'
+    Left = 496
+    Top = 288
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'proc'
+        ParamType = ptUnknown
+      end>
+    object IntegerField1: TIntegerField
+      DisplayLabel = 'Item'
+      FieldName = 'recno'
+      Required = True
+    end
+    object IntegerField2: TIntegerField
+      DisplayLabel = 'Amostra'
+      FieldName = 'amostra'
+      Required = True
+    end
+    object StringField1: TStringField
+      DisplayLabel = 'Etiqueta'
+      DisplayWidth = 15
+      FieldKind = fkCalculated
+      FieldName = 'etiq_proc'
+      EditMask = '000.000.000.000;0;'
+      Size = 12
+      Calculated = True
+    end
+    object IntegerField3: TIntegerField
+      Alignment = taLeftJustify
+      DisplayLabel = 'Tipo'
+      FieldName = 'tipo'
+      Required = True
+      OnGetText = qPItenstipoGetText
+      OnSetText = qPItenstipoSetText
+    end
+    object DateField1: TDateField
+      DisplayLabel = 'Esteriliza'#231#227'o'
+      FieldName = 'validade'
+      DisplayFormat = 'dd/mm/yyyy'
+    end
+    object IntegerField4: TIntegerField
+      FieldName = 'labproc_recno'
+      Required = True
+      Visible = False
+    end
+    object StringField2: TStringField
+      FieldKind = fkCalculated
+      FieldName = 'etiq_tipo'
+      Visible = False
+      Size = 15
+      Calculated = True
+    end
+    object DateField2: TDateField
+      DisplayLabel = 'Programa'#231#227'o'
+      FieldName = 'dataprog'
+      DisplayFormat = 'dd/mm/yyyy'
+    end
+    object IntegerField5: TIntegerField
+      FieldName = 'comodato'
+      Visible = False
+    end
   end
 end

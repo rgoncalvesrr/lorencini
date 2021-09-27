@@ -7,41 +7,24 @@ inherited LaudoRevM: TLaudoRevM
   PixelsPerInch = 96
   TextHeight = 15
   inherited Panel1: TPanel
-    Top = 44
     Width = 1013
     Height = 570
-    ExplicitTop = 44
     ExplicitWidth = 1013
     ExplicitHeight = 570
     inherited Panel3: TPanel
       Top = 206
       Align = alNone
+      ExplicitTop = 206
       inherited PageControl3: TPageControl
-        Top = 47
-        Height = 185
-        ExplicitLeft = 3
-        ExplicitTop = 47
-        ExplicitWidth = 633
-        ExplicitHeight = 185
         inherited tsDet: TTabSheet
           ExplicitLeft = 4
           ExplicitTop = 26
           ExplicitWidth = 625
           ExplicitHeight = 155
-          inherited DBGrid1: TDBGrid
-            Width = 625
-            Height = 155
-          end
         end
       end
       inherited ControlBar2: TControlBar
-        Height = 38
-        ExplicitLeft = 3
-        ExplicitTop = 3
-        ExplicitWidth = 633
-        ExplicitHeight = 38
         inherited ToolBar3: TToolBar
-          ButtonWidth = 129
           inherited ToolButton10: TToolButton
             ExplicitWidth = 32
           end
@@ -69,8 +52,6 @@ inherited LaudoRevM: TLaudoRevM
     inherited PageControl1: TPageControl
       Width = 1007
       Height = 564
-      ExplicitLeft = 3
-      ExplicitTop = 3
       ExplicitWidth = 1007
       ExplicitHeight = 564
       inherited TabSheet1: TTabSheet
@@ -586,13 +567,8 @@ inherited LaudoRevM: TLaudoRevM
   end
   inherited ControlBar1: TControlBar
     Width = 1007
-    Height = 38
-    ExplicitLeft = 3
-    ExplicitTop = 3
     ExplicitWidth = 1007
-    ExplicitHeight = 38
     inherited ToolBar1: TToolBar
-      ButtonWidth = 115
       inherited ToolButton6: TToolButton
         ExplicitWidth = 32
       end

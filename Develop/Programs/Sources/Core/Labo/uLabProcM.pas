@@ -145,7 +145,7 @@ end;
 
 procedure TLabProcM.actPrnEtiqExecute(Sender: TObject);
 begin
-  LabProc.ImprimirEtiqueta;
+  LabProc.ImprimirEtiqueta(LabProc.qPItens);
 end;
 
 procedure TLabProcM.DBEdit7Exit(Sender: TObject);
