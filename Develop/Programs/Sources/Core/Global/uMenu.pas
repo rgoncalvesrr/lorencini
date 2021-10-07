@@ -31,9 +31,7 @@ type
     actFichaFinDesp: TAction;
     pmRole: TPopupMenu;
     tbRole: TToolButton;
-    ChromiumWindow1: TChromiumWindow;
     ToolButton2: TToolButton;
-    Timer2: TTimer;
     procedure FormShow(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
     procedure FormActivate(Sender: TObject);
@@ -45,8 +43,6 @@ type
     procedure actVersionExecute(Sender: TObject);
     procedure actSysDumpExecute(Sender: TObject);
     procedure actFichaFinDespExecute(Sender: TObject);
-    procedure ToolButton2Click(Sender: TObject);
-    procedure Timer2Timer(Sender: TObject);
   private
     fLoad: Boolean;
     fDsMenu: TZReadOnlyQuery;
@@ -103,26 +99,12 @@ begin
   LoadMenu;
   LoadRoles;
   WindowState := wsMaximized;
-
-  if not(ChromiumWindow1.CreateBrowser) then Timer2.Enabled := True;
 end;
 
 procedure TMain.Timer1Timer(Sender: TObject);
 begin
   with StatusBar1 do
     Panels[3].Text:= FormatDateTime('dd/mm/yyyy hh:nn:ss', Now);
-end;
-
-procedure TMain.Timer2Timer(Sender: TObject);
-begin
-  Timer2.Enabled := False;
-  if not(ChromiumWindow1.CreateBrowser) and not(ChromiumWindow1.Initialized) then
-    Timer2.Enabled := True;
-end;
-
-procedure TMain.ToolButton2Click(Sender: TObject);
-begin
-  ChromiumWindow1.LoadURL('file:///D:/Lorencini/Data/Temp/grafico1.html');
 end;
 
 procedure TMain.FormActivate(Sender: TObject);
@@ -372,9 +354,6 @@ begin
   fslFormsVisible:= TStringList.Create;
   U.Out.OnBeforeShowForm:= BeforeShowForm;
   Timer1.Enabled:= True;
-
-  ChromiumWindow1.CreateBrowser;
-  ChromiumWindow1.Initialized;
 end;
 
 procedure TMain.RealignBar;

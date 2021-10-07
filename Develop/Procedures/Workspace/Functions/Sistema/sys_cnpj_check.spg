@@ -40,7 +40,7 @@ Begin
 
    for i in reverse 12..1 loop
       iProd := iProd + substring(vCnpj, i, 1)::int2 * iMult;
-
+   
       if iMult = 9 then
          iMult := 2;
       else

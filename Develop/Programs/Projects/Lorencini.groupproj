@@ -4,7 +4,6 @@
   </PropertyGroup>
   <ItemGroup />
   <ItemGroup>
-    <Projects Include="D:\_Bibliotecas\CEF4Delphi-92.0.4515.159\demos\Delphi_VCL\SimpleBrowser\SimpleBrowser_D7.dproj" />
     <Projects Include="Manager\Manager.dproj" />
     <Projects Include="MMonitor\MMonitor.dproj" />
     <Projects Include="Parser\Parser.dproj" />
@@ -62,23 +61,14 @@
   <Target Name="Server:Make">
     <MSBuild Projects="Server\Server.dproj" Targets="Make" />
   </Target>
-  <Target Name="SimpleBrowser_D7">
-    <MSBuild Projects="D:\_Bibliotecas\CEF4Delphi-92.0.4515.159\demos\Delphi_VCL\SimpleBrowser\SimpleBrowser_D7.dproj" Targets="" />
-  </Target>
-  <Target Name="SimpleBrowser_D7:Clean">
-    <MSBuild Projects="D:\_Bibliotecas\CEF4Delphi-92.0.4515.159\demos\Delphi_VCL\SimpleBrowser\SimpleBrowser_D7.dproj" Targets="Clean" />
-  </Target>
-  <Target Name="SimpleBrowser_D7:Make">
-    <MSBuild Projects="D:\_Bibliotecas\CEF4Delphi-92.0.4515.159\demos\Delphi_VCL\SimpleBrowser\SimpleBrowser_D7.dproj" Targets="Make" />
-  </Target>
   <Target Name="Build">
-    <CallTarget Targets="Parser;Manager;MMonitor;LService;Server;SimpleBrowser_D7" />
+    <CallTarget Targets="Parser;Manager;MMonitor;LService;Server" />
   </Target>
   <Target Name="Clean">
-    <CallTarget Targets="Parser:Clean;Manager:Clean;MMonitor:Clean;LService:Clean;Server:Clean;SimpleBrowser_D7:Clean" />
+    <CallTarget Targets="Parser:Clean;Manager:Clean;MMonitor:Clean;LService:Clean;Server:Clean" />
   </Target>
   <Target Name="Make">
-    <CallTarget Targets="Parser:Make;Manager:Make;MMonitor:Make;LService:Make;Server:Make;SimpleBrowser_D7:Make" />
+    <CallTarget Targets="Parser:Make;Manager:Make;MMonitor:Make;LService:Make;Server:Make" />
   </Target>
   <Import Condition="Exists('$(MSBuildBinPath)\Borland.Group.Targets')" Project="$(MSBuildBinPath)\Borland.Group.Targets" />
 </Project>

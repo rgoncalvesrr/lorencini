@@ -4,7 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, uIBrowseDet, ActnList, ComCtrls, ToolWin, ExtCtrls, Grids, DBGrids, StdCtrls, Mask, DBCtrls;
+  Dialogs, uIBrowseDet, ActnList, ComCtrls, ToolWin, ExtCtrls, Grids, DBGrids, StdCtrls, Mask, DBCtrls, uIFrameCliente,
+  uFiscal;
 
 type
   TRecebimentoNFeM = class(TIDefBrowseEdit)
@@ -24,15 +25,11 @@ type
     Panel8: TPanel;
     Label5: TLabel;
     DBEdit5: TDBEdit;
-    Panel9: TPanel;
-    Panel10: TPanel;
-    Label6: TLabel;
-    DBEdit6: TDBEdit;
-    Panel13: TPanel;
-    Label9: TLabel;
-    DBEdit9: TDBEdit;
+    FrameCliente1: TFrameCliente;
+    procedure DBEdit1Exit(Sender: TObject);
   private
-    { Private declarations }
+    FNfeChave: INFeChave;
+    procedure RefreshControls; override;
   public
     { Public declarations }
   end;
@@ -43,10 +40,43 @@ var
 implementation
 
 uses
-  uRecebimentoNFe;
-  
+  uRecebimentoNFe, db;
+
 {$R *.dfm}
 
+{ TRecebimentoNFeM }
 
+procedure TRecebimentoNFeM.DBEdit1Exit(Sender: TObject);
+begin
+  inherited;
+
+  FNfeChave := nil;
+  try
+    if DBEdit1.Text = EmptyStr then
+      Exit;
+
+    FNfeChave := TNFeChave.New(DBEdit1.Text);
+  finally
+     RefreshControls;
+  end;
+end;
+
+procedure TRecebimentoNFeM.RefreshControls;
+const
+  CNPJ_LORENCINI: string = '04824941000109';
+var
+  selecionarCliente: Boolean;
+begin
+  inherited;
+
+  // Caso nota de entrada da Lorencini ou nota avulsa, seleção de cliente habilitada
+  selecionarCliente := (FNfeChave <> nil) and ((FNfeChave.CNPJ.Inscricao = CNPJ_LORENCINI) or
+    ((FNfeChave.Serie >= 890) and (FNfeChave.Serie <= 899)));
+  
+  FrameCliente1.actFindCli.Enabled := (FrameCliente1.dsCliente.DataSet.State in [dsEdit, dsInsert]) and
+    selecionarCliente;
+  FrameCliente1.DBEdit8.Enabled := FrameCliente1.actFindCli.Enabled;
+  FrameCliente1.DBEdit8.ReadOnly := not FrameCliente1.actFindCli.Enabled;
+end;
 
 end.

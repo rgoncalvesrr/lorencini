@@ -27,16 +27,16 @@ object FrameCliente: TFrameCliente
       Align = alLeft
       BevelOuter = bvNone
       TabOrder = 0
-      ExplicitHeight = 48
       object Label9: TLabel
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 39
+        Width = 70
         Height = 15
         Align = alTop
         Caption = 'C'#243'digo'
         FocusControl = DBEdit8
+        ExplicitWidth = 39
       end
       object DBEdit8: TDBEdit
         AlignWithMargins = True
@@ -50,8 +50,6 @@ object FrameCliente: TFrameCliente
         DataSource = dsCliente
         TabOrder = 0
         OnExit = DBEdit8Exit
-        ExplicitTop = 22
-        ExplicitHeight = 25
       end
     end
     object Panel35: TPanel
@@ -62,7 +60,6 @@ object FrameCliente: TFrameCliente
       Align = alLeft
       BevelOuter = bvNone
       TabOrder = 1
-      ExplicitHeight = 48
       object SpeedButton1: TSpeedButton
         AlignWithMargins = True
         Left = 0
@@ -118,27 +115,28 @@ object FrameCliente: TFrameCliente
     object Panel4: TPanel
       Left = 105
       Top = 0
-      Width = 463
+      Width = 509
       Height = 50
       Align = alClient
       BevelOuter = bvNone
       TabOrder = 2
-      ExplicitHeight = 48
+      ExplicitWidth = 463
       object Label10: TLabel
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 97
+        Width = 503
         Height = 15
         Align = alTop
         Caption = 'Nome Empresarial'
         FocusControl = DBEdit9
+        ExplicitWidth = 97
       end
       object DBEdit9: TDBEdit
         AlignWithMargins = True
         Left = 3
         Top = 24
-        Width = 457
+        Width = 503
         Height = 23
         TabStop = False
         Align = alClient
@@ -146,34 +144,34 @@ object FrameCliente: TFrameCliente
         DataSource = dsCliente
         ReadOnly = True
         TabOrder = 0
-        ExplicitTop = 22
-        ExplicitHeight = 25
+        ExplicitWidth = 457
       end
     end
     object Panel5: TPanel
-      Left = 568
+      Left = 614
       Top = 0
-      Width = 249
+      Width = 254
       Height = 50
       Align = alRight
       BevelOuter = bvNone
       TabOrder = 3
-      ExplicitHeight = 48
+      ExplicitLeft = 619
       object Label11: TLabel
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 79
+        Width = 248
         Height = 15
         Align = alTop
         Caption = 'Nome Fantasia'
         FocusControl = DBEdit10
+        ExplicitWidth = 79
       end
       object DBEdit10: TDBEdit
         AlignWithMargins = True
         Left = 3
         Top = 24
-        Width = 243
+        Width = 248
         Height = 23
         TabStop = False
         Align = alClient
@@ -181,34 +179,34 @@ object FrameCliente: TFrameCliente
         DataSource = dsCliente
         ReadOnly = True
         TabOrder = 0
-        ExplicitTop = 22
-        ExplicitHeight = 25
+        ExplicitWidth = 243
       end
     end
     object Panel6: TPanel
-      Left = 817
+      Left = 868
       Top = 0
-      Width = 160
+      Width = 128
       Height = 50
       Align = alRight
       BevelOuter = bvNone
       TabOrder = 4
-      ExplicitHeight = 48
+      ExplicitLeft = 817
       object Label12: TLabel
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 27
+        Width = 122
         Height = 15
         Align = alTop
         Caption = 'CNPJ'
         FocusControl = DBEdit11
+        ExplicitWidth = 27
       end
       object DBEdit11: TDBEdit
         AlignWithMargins = True
         Left = 3
         Top = 24
-        Width = 154
+        Width = 122
         Height = 23
         TabStop = False
         Align = alClient
@@ -216,34 +214,34 @@ object FrameCliente: TFrameCliente
         DataSource = dsCliente
         ReadOnly = True
         TabOrder = 0
-        ExplicitTop = 22
-        ExplicitHeight = 25
+        ExplicitWidth = 154
       end
     end
     object Panel7: TPanel
-      Left = 977
+      Left = 996
       Top = 0
-      Width = 131
+      Width = 112
       Height = 50
       Align = alRight
       BevelOuter = bvNone
       TabOrder = 5
-      ExplicitHeight = 48
+      ExplicitLeft = 977
       object Label13: TLabel
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 21
+        Width = 106
         Height = 15
         Align = alTop
         Caption = 'CPF'
         FocusControl = DBEdit12
+        ExplicitWidth = 21
       end
       object DBEdit12: TDBEdit
         AlignWithMargins = True
         Left = 3
         Top = 24
-        Width = 125
+        Width = 106
         Height = 23
         TabStop = False
         Align = alClient
@@ -251,8 +249,7 @@ object FrameCliente: TFrameCliente
         DataSource = dsCliente
         ReadOnly = True
         TabOrder = 0
-        ExplicitTop = 22
-        ExplicitHeight = 25
+        ExplicitWidth = 125
       end
     end
   end
@@ -277,16 +274,16 @@ object FrameCliente: TFrameCliente
       Align = alClient
       BevelOuter = bvNone
       TabOrder = 0
-      ExplicitHeight = 48
       object Label1: TLabel
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 37
+        Width = 601
         Height = 15
         Align = alTop
         Caption = 'Cidade'
         FocusControl = DBEdit1
+        ExplicitWidth = 37
       end
       object DBEdit1: TDBEdit
         AlignWithMargins = True
@@ -300,8 +297,6 @@ object FrameCliente: TFrameCliente
         DataSource = dsCliente
         ReadOnly = True
         TabOrder = 0
-        ExplicitTop = 22
-        ExplicitHeight = 25
       end
     end
     object Panel9: TPanel
@@ -312,16 +307,16 @@ object FrameCliente: TFrameCliente
       Align = alRight
       BevelOuter = bvNone
       TabOrder = 1
-      ExplicitHeight = 48
       object Label2: TLabel
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 35
+        Width = 46
         Height = 15
         Align = alTop
         Caption = 'Estado'
         FocusControl = DBEdit2
+        ExplicitWidth = 35
       end
       object DBEdit2: TDBEdit
         AlignWithMargins = True
@@ -336,8 +331,6 @@ object FrameCliente: TFrameCliente
         DataSource = dsCliente
         ReadOnly = True
         TabOrder = 0
-        ExplicitTop = 22
-        ExplicitHeight = 25
       end
     end
     object Panel30: TPanel
@@ -348,16 +341,16 @@ object FrameCliente: TFrameCliente
       Align = alLeft
       BevelOuter = bvNone
       TabOrder = 2
-      ExplicitHeight = 48
       object Label20: TLabel
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 29
+        Width = 315
         Height = 15
         Align = alTop
         Caption = 'Email'
         FocusControl = DBEdit17
+        ExplicitWidth = 29
       end
       object DBEdit17: TDBEdit
         AlignWithMargins = True
@@ -372,8 +365,6 @@ object FrameCliente: TFrameCliente
         DataSource = dsCliente
         ReadOnly = True
         TabOrder = 0
-        ExplicitTop = 22
-        ExplicitHeight = 25
       end
     end
     object Panel10: TPanel
@@ -384,16 +375,16 @@ object FrameCliente: TFrameCliente
       Align = alRight
       BevelOuter = bvNone
       TabOrder = 3
-      ExplicitHeight = 48
       object Label3: TLabel
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 44
+        Width = 122
         Height = 15
         Align = alTop
         Caption = 'Telefone'
         FocusControl = DBEdit3
+        ExplicitWidth = 44
       end
       object DBEdit3: TDBEdit
         AlignWithMargins = True
@@ -407,8 +398,6 @@ object FrameCliente: TFrameCliente
         DataSource = dsCliente
         ReadOnly = True
         TabOrder = 0
-        ExplicitTop = 22
-        ExplicitHeight = 25
       end
     end
   end
