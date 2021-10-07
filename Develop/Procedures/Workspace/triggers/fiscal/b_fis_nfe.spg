@@ -17,9 +17,14 @@ Declare
    _TIPO_SAIDA       constant integer := 2;
    _NFE_VALIDA       constant integer := 1;
 
-   nfe   nfe$;
+   nfe      nfe$;
+   serie_   integer; 
 Begin
    if TG_OP = 'DELETE' then
+      if (old.frascos_saldo <> old.frascos) or (old.seringas_saldo = old.seringas) then
+         raise '[[A nota % já foi consumida por laudos e não pode ser excluída!]]', old.chave;
+      end if;
+
       return old;
    end if;
    
@@ -30,7 +35,9 @@ Begin
       new.seringas_saldo := sys_iif(new.tipo = _TIPO_SAIDA, 0, new.seringas);
       new.account := coalesce(sys_account(), sys_account_def());
 
-      if nfe.emitente <> _CNPJ_LORENCINI and new.tipo = _TIPO_ENTRADA then
+      serie_ := cast(nfe.serie as integer);
+
+      if nfe.emitente <> _CNPJ_LORENCINI and new.tipo = _TIPO_ENTRADA and  not (serie_ between 890 and 899)  then
          select codigo
            into new.cliente
            from tbclientes

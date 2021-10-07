@@ -28,6 +28,16 @@ type
     edEmpresa: TEdit;
     IBrwSrcnf_num: TStringField;
     IBrwSrcnfser: TStringField;
+    IBrwSrcempresa: TStringField;
+    IBrwSrccnpj: TStringField;
+    IBrwSrccpf: TStringField;
+    IBrwSrcemail: TStringField;
+    IBrwSrccidade: TStringField;
+    IBrwSrcestado: TStringField;
+    IBrwSrctelefone: TStringField;
+    Panel3: TPanel;
+    Label1: TLabel;
+    edNFe: TMaskEdit;
     procedure IBrwSrcAfterInsert(DataSet: TDataSet);
     procedure edCNPJChange(Sender: TObject);
     procedure actQueryProcessExecute(Sender: TObject);
@@ -66,6 +76,10 @@ begin
     if Length(edEmpresa.Text) > 0 then
       sWhere := sWhere + 'and c.nome_chave ilike :empresa ';
 
+    if Length(edNFe.Text) = 44 then
+      sWhere := sWhere + 'and nf.chave = :nfe ';
+
+
     if sWhere <> EmptyStr then
       SQL.Add(sWhere);
 
@@ -74,6 +88,9 @@ begin
 
     if Assigned(Params.FindParam('empresa')) then
       ParamByName('empresa').AsString := '%' + edEmpresa.Text + '%';
+
+        if Assigned(Params.FindParam('nfe')) then
+      ParamByName('nfe').AsString := edNFe.Text;
   end;
 
   G.RefreshDataSet(IBrwSrc);

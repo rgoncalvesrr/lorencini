@@ -1,13 +1,11 @@
 program Manager;
 
-{$I cef.inc}
-
 uses
   midaslib,
   Forms,
   SysUtils,
   Windows,
-  uCEFApplication,
+//  uCEFApplication,
   uHelpers in '..\..\Sources\Common\uHelpers.pas',
   uMenu in '..\..\Sources\Core\Global\uMenu.pas' {Main},
   uFuncoes in '..\..\Sources\Core\Infra\uFuncoes.pas',
@@ -304,44 +302,53 @@ uses
   uRecebimentoLotePortador in '..\..\Sources\Core\Volume\uRecebimentoLotePortador.pas' {RecebimentoLotePortador},
   uRecebimentoLoteM in '..\..\Sources\Core\Volume\uRecebimentoLoteM.pas' {RecebimentoLoteM},
   uClientesInativos in '..\..\Sources\Core\Vendas\uClientesInativos.pas' {ClienteInativos},
-  uGestaoProducao in '..\..\Sources\Core\Dash\uGestaoProducao.pas' {GestaoProducao};
+  uGestaoProducao in '..\..\Sources\Core\Dash\uGestaoProducao.pas' {GestaoProducao},
+  uFiscal in '..\..\Sources\Application\uFiscal.pas';
 
 {$R *.res}
 
-{$SetPEFlags $20}
+//{$SetPEFlags $20}
+var
+  chave: INFeChave;
 begin
   {$IFDEF DEBUG}
   ReportMemoryLeaksOnShutdown := True;
   {$ENDIF}
 
-  GlobalCEFApp := TCefApplication.Create;
-  GlobalCEFApp.FrameworkDirPath     := TEnvironment.Lib + '\Chrome';
-  GlobalCEFApp.ResourcesDirPath     := TEnvironment.Lib + '\Chrome';
-  GlobalCEFApp.LocalesDirPath       := TEnvironment.Lib + '\Chrome\locales';
-  GlobalCEFApp.cache                := TEnvironment.Data + '\Cache';
-  GlobalCEFApp.UserDataPath         := TEnvironment.Data + '\User Data';
+  //  GlobalCEFApp := TCefApplication.Create;
+//  try
+//    GlobalCEFApp.FrameworkDirPath     := TEnvironment.Lib + '\Chrome';
+//    GlobalCEFApp.ResourcesDirPath     := TEnvironment.Lib + '\Chrome';
+//    GlobalCEFApp.LocalesDirPath       := TEnvironment.Lib + '\Chrome\locales';
+//    GlobalCEFApp.cache                := TEnvironment.Data + '\Cache';
+//    GlobalCEFApp.UserDataPath         := TEnvironment.Data + '\User Data';
+//
+//    if GlobalCEFApp.StartMainProcess then
+      try
+        Application.Initialize;
 
-  if GlobalCEFApp.StartMainProcess then
-    try
-      Application.Initialize;
+        chave := TNFEChave.New('26210910572014000133558900008649811314604774');
 
-      Application.Title := 'Manager';
-      Application.CreateForm(TResources, Resources);
-      Application.CreateForm(TDM, DM);
-      Application.CreateForm(TDMReport, DMReport);
-      Application.CreateForm(TMain, Main);
-      Application.CreateForm(TILogin, ILogin);
-      ILogin.ShowModal;
+        if not chave.CNPJ.IsValid then
+          Exit;
 
-      if ILogin.Execute then
-        Application.Run;
-    finally
-      U.ExecuteSQL('select sys_session_release();');
-      FreeAndNil(DM);
-      FreeAndNil(DMReport);
-      FreeAndNil(Main);
-      FreeAndNil(GlobalCEFApp);
-    end;
+        Application.Title := 'Manager';
+        Application.CreateForm(TResources, Resources);
+        Application.CreateForm(TDM, DM);
+        Application.CreateForm(TDMReport, DMReport);
+        Application.CreateForm(TMain, Main);
+        Application.CreateForm(TILogin, ILogin);
+        ILogin.ShowModal;
 
-
+        if ILogin.Execute then
+          Application.Run;
+      finally
+        U.ExecuteSQL('select sys_session_release();');
+        FreeAndNil(DM);
+        FreeAndNil(DMReport);
+        FreeAndNil(Main);
+      end;
+//  finally
+//    FreeAndNil(GlobalCEFApp);
+//  end;
 end.

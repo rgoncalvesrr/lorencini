@@ -5,8 +5,8 @@ inherited RecebimentoNFe: TRecebimentoNFe
   inherited Panel1: TPanel
     inherited pctlFind: TPageControl
       inherited tsQuery: TTabSheet
-        ExplicitLeft = 5
-        ExplicitTop = 7
+        ExplicitLeft = 4
+        ExplicitTop = 6
         ExplicitWidth = 819
         ExplicitHeight = 75
         object Panel4: TPanel
@@ -17,7 +17,6 @@ inherited RecebimentoNFe: TRecebimentoNFe
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 1
-          ExplicitLeft = 291
           object Label4: TLabel
             AlignWithMargins = True
             Left = 3
@@ -42,34 +41,67 @@ inherited RecebimentoNFe: TRecebimentoNFe
           end
         end
         object Panel8: TPanel
-          Left = 124
+          Left = 417
           Top = 0
-          Width = 591
+          Width = 298
           Height = 75
           Align = alClient
           BevelOuter = bvNone
-          TabOrder = 2
-          ExplicitLeft = 539
-          ExplicitWidth = 315
+          TabOrder = 3
+          ExplicitLeft = 420
+          ExplicitTop = -2
           object Label6: TLabel
             AlignWithMargins = True
             Left = 3
             Top = 3
-            Width = 585
+            Width = 292
             Height = 15
             Align = alTop
-            Caption = 'Nome Fantasia'
-            ExplicitWidth = 79
+            Caption = 'Empresa'
+            ExplicitWidth = 45
           end
           object edEmpresa: TEdit
             AlignWithMargins = True
             Left = 3
             Top = 24
-            Width = 585
+            Width = 292
             Height = 23
             Align = alTop
             TabOrder = 0
             OnChange = edCNPJChange
+            ExplicitWidth = 585
+          end
+        end
+        object Panel3: TPanel
+          Left = 124
+          Top = 0
+          Width = 293
+          Height = 75
+          Align = alLeft
+          BevelOuter = bvNone
+          TabOrder = 2
+          object Label1: TLabel
+            AlignWithMargins = True
+            Left = 3
+            Top = 3
+            Width = 287
+            Height = 15
+            Align = alTop
+            Caption = 'Chave NF-e'
+            ExplicitWidth = 62
+          end
+          object edNFe: TMaskEdit
+            AlignWithMargins = True
+            Left = 3
+            Top = 24
+            Width = 287
+            Height = 23
+            Align = alTop
+            EditMask = '9999.9999.9999.9999.9999.9999.9999.9999.9999.9999.9999;0;'
+            MaxLength = 54
+            TabOrder = 0
+            OnChange = edCNPJChange
+            ExplicitWidth = 356
           end
         end
       end
@@ -143,7 +175,10 @@ inherited RecebimentoNFe: TRecebimentoNFe
       
         'select nf.chave, nf.registro, nf.frascos, nf.frascos_saldo, nf.s' +
         'eringas, nf.seringas_saldo, nf.status, nf.cliente,'
-      '       c.nome_chave, nf.recno '
+      
+        '       c.nome_chave, c.empresa, c.cnpj, c.cpf, c.email, c.cidade' +
+        ', c.estado, nf.recno,'
+      '       c.telefone'
       '  from fis_nfe nf'
       '       left join tbclientes c'
       '         on c.codigo = nf.cliente'
@@ -215,6 +250,50 @@ inherited RecebimentoNFe: TRecebimentoNFe
       DisplayLabel = 'Registro'
       FieldName = 'recno'
       Required = True
+    end
+    object IBrwSrcempresa: TStringField
+      DisplayLabel = 'Empresa'
+      FieldName = 'empresa'
+      Visible = False
+      Size = 100
+    end
+    object IBrwSrccnpj: TStringField
+      DisplayLabel = 'CNPJ'
+      FieldName = 'cnpj'
+      Visible = False
+      EditMask = '99.999.999/9999-99;0;'
+      Size = 14
+    end
+    object IBrwSrccpf: TStringField
+      FieldName = 'cpf'
+      Visible = False
+      EditMask = '999.999.999-99;0;'
+      Size = 11
+    end
+    object IBrwSrcemail: TStringField
+      DisplayLabel = 'E-mail'
+      FieldName = 'email'
+      Visible = False
+      Size = 100
+    end
+    object IBrwSrccidade: TStringField
+      DisplayLabel = 'Cidade'
+      FieldName = 'cidade'
+      Visible = False
+      Size = 100
+    end
+    object IBrwSrcestado: TStringField
+      DisplayLabel = 'Estado'
+      FieldName = 'estado'
+      Visible = False
+      Size = 2
+    end
+    object IBrwSrctelefone: TStringField
+      DefaultExpression = '(99) 9999-9999;0;'
+      DisplayLabel = 'Telefone'
+      FieldName = 'telefone'
+      Visible = False
+      Size = 100
     end
   end
   inherited zIBrwSrc: TZUpdateSQL
