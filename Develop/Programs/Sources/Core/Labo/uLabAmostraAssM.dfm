@@ -10,41 +10,22 @@ inherited LabAmostraAssM: TLabAmostraAssM
   PixelsPerInch = 96
   TextHeight = 15
   inherited Panel1: TPanel
-    Top = 44
     Width = 1136
     Height = 724
-    ExplicitTop = 44
-    ExplicitWidth = 1070
-    ExplicitHeight = 617
+    ExplicitWidth = 1136
+    ExplicitHeight = 724
     inherited Panel3: TPanel
       Align = alNone
-      ExplicitTop = 204
       inherited PageControl3: TPageControl
-        Top = 47
-        Height = 185
-        ExplicitLeft = 3
-        ExplicitTop = 47
-        ExplicitWidth = 633
-        ExplicitHeight = 185
         inherited tsDet: TTabSheet
           ExplicitLeft = 4
           ExplicitTop = 26
           ExplicitWidth = 625
           ExplicitHeight = 155
-          inherited DBGrid1: TDBGrid
-            Width = 625
-            Height = 155
-          end
         end
       end
       inherited ControlBar2: TControlBar
-        Height = 38
-        ExplicitLeft = 3
-        ExplicitTop = 3
-        ExplicitWidth = 633
-        ExplicitHeight = 38
         inherited ToolBar3: TToolBar
-          ButtonWidth = 129
           inherited ToolButton10: TToolButton
             ExplicitWidth = 32
           end
@@ -73,17 +54,16 @@ inherited LabAmostraAssM: TLabAmostraAssM
       Top = 60
       Width = 1130
       Height = 661
-      ExplicitLeft = 3
       ExplicitTop = 60
-      ExplicitWidth = 1064
-      ExplicitHeight = 554
+      ExplicitWidth = 1130
+      ExplicitHeight = 661
       inherited TabSheet1: TTabSheet
         Caption = 'Assinatura'
         OnResize = TabSheet1Resize
         ExplicitLeft = 4
         ExplicitTop = 26
-        ExplicitWidth = 1056
-        ExplicitHeight = 524
+        ExplicitWidth = 1122
+        ExplicitHeight = 631
         object Splitter2: TSplitter
           Left = 0
           Top = 447
@@ -106,9 +86,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
           Padding.Top = 5
           Padding.Right = 5
           TabOrder = 0
-          ExplicitTop = 111
-          ExplicitWidth = 1050
-          ExplicitHeight = 377
         end
         object GroupBox2: TGroupBox
           AlignWithMargins = True
@@ -119,7 +96,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
           Align = alBottom
           Caption = ' Hist'#243'rico '
           TabOrder = 1
-          ExplicitWidth = 1050
           object JvDBGrid1: TJvDBGrid
             Left = 2
             Top = 17
@@ -158,8 +134,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
             View3DWalls = False
             Align = alClient
             TabOrder = 1
-            ExplicitLeft = 223
-            ExplicitWidth = 824
             object Splitter1: TSplitter
               Left = 1
               Top = 1
@@ -197,7 +171,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
           BevelOuter = bvNone
           TabOrder = 2
           OnResize = Panel32Resize
-          ExplicitWidth = 1050
           object Panel33: TPanel
             Left = 0
             Top = 0
@@ -206,7 +179,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
             Align = alLeft
             BevelOuter = bvNone
             TabOrder = 0
-            ExplicitLeft = -3
             object DBMemo1: TDBMemo
               AlignWithMargins = True
               Left = 3
@@ -217,7 +189,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
               DataField = 'diagnostico'
               DataSource = LabAmostraAss.DataSource1
               TabOrder = 1
-              ExplicitHeight = 46
             end
             object Panel36: TPanel
               Left = 0
@@ -235,8 +206,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 Align = alClient
                 BevelOuter = bvNone
                 TabOrder = 1
-                ExplicitLeft = 169
-                ExplicitWidth = 201
                 object Label45: TLabel
                   AlignWithMargins = True
                   Left = 3
@@ -266,7 +235,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
                   ListSettings.KeyField = 'recno'
                   ListSettings.DisplayField = 'descri'
                   ListSettings.DataSource = LabAmostraAss.dsDiag
-                  ExplicitWidth = 195
                 end
               end
               object Panel15: TPanel
@@ -277,8 +245,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 Align = alLeft
                 BevelOuter = bvNone
                 TabOrder = 0
-                ExplicitLeft = -3
-                ExplicitTop = -3
                 object Label22: TLabel
                   AlignWithMargins = True
                   Left = 3
@@ -308,7 +274,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
                   ListSettings.KeyField = 'recno'
                   ListSettings.DisplayField = 'descri'
                   ListSettings.DataSource = LabAmostraAss.dsCrit
-                  ExplicitWidth = 163
                 end
               end
             end
@@ -321,8 +286,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 1
-            ExplicitLeft = 373
-            ExplicitWidth = 432
             object DBMemo2: TDBMemo
               AlignWithMargins = True
               Left = 3
@@ -333,8 +296,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
               DataField = 'recomendacao'
               DataSource = LabAmostraAss.DataSource1
               TabOrder = 1
-              ExplicitWidth = 421
-              ExplicitHeight = 46
             end
             object Panel37: TPanel
               Left = 0
@@ -344,7 +305,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
               Align = alTop
               BevelOuter = bvNone
               TabOrder = 0
-              ExplicitWidth = 427
               object Panel16: TPanel
                 Left = 0
                 Top = 0
@@ -353,7 +313,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 Align = alClient
                 BevelOuter = bvNone
                 TabOrder = 0
-                ExplicitWidth = 284
                 object Label48: TLabel
                   AlignWithMargins = True
                   Left = 3
@@ -383,7 +342,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
                   ListSettings.KeyField = 'recno'
                   ListSettings.DisplayField = 'descri'
                   ListSettings.DataSource = LabAmostraAss.dsRec
-                  ExplicitWidth = 278
                 end
               end
               object Panel23: TPanel
@@ -394,7 +352,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 Align = alRight
                 BevelOuter = bvNone
                 TabOrder = 1
-                ExplicitLeft = 284
                 object Label46: TLabel
                   AlignWithMargins = True
                   Left = 3
@@ -428,8 +385,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 Align = alRight
                 BevelOuter = bvNone
                 TabOrder = 2
-                ExplicitLeft = 320
-                ExplicitTop = -3
                 object Label47: TLabel
                   AlignWithMargins = True
                   Left = 3
@@ -474,8 +429,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
               DataField = 'obs'
               DataSource = LabAmostraAss.DataSource1
               TabOrder = 0
-              ExplicitWidth = 247
-              ExplicitHeight = 46
             end
             object Panel17: TPanel
               Left = 0
@@ -486,9 +439,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
               BevelOuter = bvNone
               TabOrder = 1
               OnResize = Panel17Resize
-              ExplicitLeft = 64
-              ExplicitTop = 48
-              ExplicitWidth = 185
               object Panel18: TPanel
                 Left = 0
                 Top = 0
@@ -497,8 +447,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 Align = alLeft
                 BevelOuter = bvNone
                 TabOrder = 0
-                ExplicitLeft = -3
-                ExplicitTop = -3
                 object Label43: TLabel
                   AlignWithMargins = True
                   Left = 3
@@ -524,9 +472,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
                   LookupSource = LabAmostraAss.dsResponsavel
                   RightTrimmedLookup = True
                   TabOrder = 0
-                  ExplicitLeft = 32
-                  ExplicitWidth = 145
-                  ExplicitHeight = 22
                 end
               end
               object Panel25: TPanel
@@ -537,9 +482,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 Align = alClient
                 BevelOuter = bvNone
                 TabOrder = 1
-                ExplicitLeft = 155
-                ExplicitTop = -3
-                ExplicitWidth = 162
                 object Label50: TLabel
                   AlignWithMargins = True
                   Left = 3
@@ -565,9 +507,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
                   LookupSource = LabAmostraAss.dsAnalista
                   RightTrimmedLookup = True
                   TabOrder = 0
-                  ExplicitLeft = 32
-                  ExplicitWidth = 145
-                  ExplicitHeight = 22
                 end
               end
             end
@@ -577,8 +516,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
       object TabSheet3: TTabSheet
         Caption = 'Informa'#231#245'es Adicionais'
         ImageIndex = 2
-        ExplicitWidth = 1056
-        ExplicitHeight = 524
         object Panel12: TPanel
           Left = 0
           Top = 0
@@ -587,7 +524,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 0
-          ExplicitWidth = 1056
           object Panel19: TPanel
             Left = 226
             Top = 0
@@ -596,7 +532,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 0
-            ExplicitWidth = 830
             object Label40: TLabel
               AlignWithMargins = True
               Left = 3
@@ -620,7 +555,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
               ReadOnly = True
               TabOrder = 0
               OnExit = DBEdit39Exit
-              ExplicitWidth = 824
             end
           end
           object Panel21: TPanel
@@ -698,7 +632,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 1
-          ExplicitWidth = 1056
           object GroupBox1: TGroupBox
             AlignWithMargins = True
             Left = 3
@@ -792,7 +725,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
             Align = alClient
             Caption = ' Informa'#231#245'es da Coleta '
             TabOrder = 1
-            ExplicitWidth = 617
             object Panel26: TPanel
               Left = 2
               Top = 17
@@ -835,7 +767,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
               Align = alClient
               BevelOuter = bvNone
               TabOrder = 1
-              ExplicitWidth = 247
               object Label30: TLabel
                 AlignWithMargins = True
                 Left = 3
@@ -858,7 +789,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 DataSource = LabAmostraAss.DataSource1
                 ReadOnly = True
                 TabOrder = 0
-                ExplicitWidth = 241
               end
             end
             object Panel38: TPanel
@@ -869,7 +799,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
               Align = alRight
               BevelOuter = bvNone
               TabOrder = 2
-              ExplicitLeft = 348
               object Label31: TLabel
                 AlignWithMargins = True
                 Left = 3
@@ -902,7 +831,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
               Align = alRight
               BevelOuter = bvNone
               TabOrder = 3
-              ExplicitLeft = 408
               object Label32: TLabel
                 AlignWithMargins = True
                 Left = 3
@@ -935,7 +863,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
               Align = alRight
               BevelOuter = bvNone
               TabOrder = 4
-              ExplicitLeft = 468
               object Label33: TLabel
                 AlignWithMargins = True
                 Left = 3
@@ -968,7 +895,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
               Align = alRight
               BevelOuter = bvNone
               TabOrder = 5
-              ExplicitLeft = 528
               object Label34: TLabel
                 AlignWithMargins = True
                 Left = 3
@@ -1028,7 +954,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
           Align = alTop
           Caption = ' Equipamento '
           TabOrder = 2
-          ExplicitWidth = 1050
           object Panel43: TPanel
             Left = 2
             Top = 17
@@ -1037,7 +962,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
             Align = alTop
             BevelOuter = bvNone
             TabOrder = 0
-            ExplicitWidth = 1046
             object Panel44: TPanel
               Left = 0
               Top = 0
@@ -1079,7 +1003,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
               Align = alClient
               BevelOuter = bvNone
               TabOrder = 1
-              ExplicitWidth = 327
               object Label13: TLabel
                 AlignWithMargins = True
                 Left = 3
@@ -1102,7 +1025,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 DataSource = LabAmostraAss.DataSource1
                 ReadOnly = True
                 TabOrder = 0
-                ExplicitWidth = 321
               end
             end
             object Panel46: TPanel
@@ -1113,7 +1035,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
               Align = alRight
               BevelOuter = bvNone
               TabOrder = 2
-              ExplicitLeft = 407
               object Label16: TLabel
                 AlignWithMargins = True
                 Left = 3
@@ -1146,7 +1067,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
               Align = alRight
               BevelOuter = bvNone
               TabOrder = 3
-              ExplicitLeft = 563
               object Label19: TLabel
                 AlignWithMargins = True
                 Left = 3
@@ -1179,7 +1099,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
               Align = alRight
               BevelOuter = bvNone
               TabOrder = 4
-              ExplicitLeft = 716
               object Label38: TLabel
                 AlignWithMargins = True
                 Left = 3
@@ -1212,7 +1131,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
               Align = alRight
               BevelOuter = bvNone
               TabOrder = 5
-              ExplicitLeft = 884
               object Label14: TLabel
                 AlignWithMargins = True
                 Left = 3
@@ -1246,7 +1164,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
             Align = alTop
             BevelOuter = bvNone
             TabOrder = 1
-            ExplicitWidth = 1046
             object Panel51: TPanel
               Left = 0
               Top = 0
@@ -1601,7 +1518,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
               Align = alClient
               BevelOuter = bvNone
               TabOrder = 9
-              ExplicitWidth = 342
               object Label28: TLabel
                 AlignWithMargins = True
                 Left = 3
@@ -1625,7 +1541,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 DataSource = LabAmostraAss.DataSource1
                 ReadOnly = True
                 TabOrder = 0
-                ExplicitWidth = 336
               end
             end
           end
@@ -1637,7 +1552,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
             Align = alTop
             BevelOuter = bvNone
             TabOrder = 2
-            ExplicitWidth = 1046
             object Panel64: TPanel
               Left = 0
               Top = 0
@@ -1811,7 +1725,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
               Align = alClient
               BevelOuter = bvNone
               TabOrder = 5
-              ExplicitWidth = 420
               object Label49: TLabel
                 AlignWithMargins = True
                 Left = 3
@@ -1834,7 +1747,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
                 DataSource = LabAmostraAss.DataSource1
                 ReadOnly = True
                 TabOrder = 0
-                ExplicitWidth = 414
               end
             end
           end
@@ -1850,7 +1762,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
       Align = alTop
       BevelOuter = bvNone
       TabOrder = 3
-      ExplicitWidth = 1064
       object Panel4: TPanel
         AlignWithMargins = True
         Left = 3
@@ -1860,7 +1771,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
         Align = alTop
         BevelOuter = bvNone
         TabOrder = 0
-        ExplicitWidth = 1058
         object Panel5: TPanel
           Left = 160
           Top = 0
@@ -1901,7 +1811,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
           Align = alRight
           BevelOuter = bvNone
           TabOrder = 2
-          ExplicitLeft = 826
           object Label5: TLabel
             AlignWithMargins = True
             Left = 3
@@ -1935,7 +1844,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
           Align = alClient
           BevelOuter = bvNone
           TabOrder = 3
-          ExplicitWidth = 217
           object Label4: TLabel
             AlignWithMargins = True
             Left = 3
@@ -1959,7 +1867,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
             DataSource = LabAmostraAss.DataSource1
             ReadOnly = True
             TabOrder = 0
-            ExplicitWidth = 211
           end
         end
         object Panel9: TPanel
@@ -2036,7 +1943,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
           Align = alRight
           BevelOuter = bvNone
           TabOrder = 6
-          ExplicitLeft = 710
           object Label7: TLabel
             AlignWithMargins = True
             Left = 3
@@ -2070,7 +1976,6 @@ inherited LabAmostraAssM: TLabAmostraAssM
           Align = alRight
           BevelOuter = bvNone
           TabOrder = 7
-          ExplicitLeft = 942
           object Label6: TLabel
             AlignWithMargins = True
             Left = 3
@@ -2199,14 +2104,9 @@ inherited LabAmostraAssM: TLabAmostraAssM
   end
   inherited ControlBar1: TControlBar
     Width = 1130
-    Height = 38
-    ExplicitLeft = 3
-    ExplicitTop = 3
-    ExplicitWidth = 1064
-    ExplicitHeight = 38
+    ExplicitWidth = 1130
     inherited ToolBar1: TToolBar
       Width = 989
-      ButtonWidth = 115
       ExplicitWidth = 989
       inherited ToolButton6: TToolButton
         ExplicitWidth = 32

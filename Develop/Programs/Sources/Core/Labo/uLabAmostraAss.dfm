@@ -20,7 +20,10 @@ inherited LabAmostraAss: TLabAmostraAss
       Width = 1113
       ExplicitWidth = 1113
       inherited tsQuery: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 6
         ExplicitWidth = 1105
+        ExplicitHeight = 75
         inherited BitBtn2: TBitBtn
           Left = 996
           Width = 106
@@ -250,7 +253,7 @@ inherited LabAmostraAss: TLabAmostraAss
               ExplicitWidth = 193
             end
             inherited CCalendarDiff1: TCCalendarDiff
-              Date = 44215.096839548610000000
+              Date = 44489.805130185190000000
               DisplayInterval = Label1
               OnChange = actQueryProcessExecute
             end
@@ -307,6 +310,7 @@ inherited LabAmostraAss: TLabAmostraAss
         ExplicitLeft = 4
         ExplicitTop = 6
         ExplicitWidth = 1105
+        ExplicitHeight = 75
       end
     end
   end
@@ -322,11 +326,53 @@ inherited LabAmostraAss: TLabAmostraAss
       ExplicitHeight = 391
       inherited TabSheet1: TTabSheet
         Caption = 'Laudos Aguardando Assinatura'
+        ExplicitLeft = 6
+        ExplicitTop = 30
         ExplicitWidth = 1109
         ExplicitHeight = 361
         inherited DBGrid1: TDBGrid
+          Top = 47
           Width = 1103
-          Height = 355
+          Height = 311
+        end
+        inline FrameCheckBar1: TFrameCheckBar
+          Left = 0
+          Top = 0
+          Width = 1109
+          Height = 44
+          Align = alTop
+          AutoSize = True
+          TabOrder = 1
+          ExplicitWidth = 1109
+          inherited ControlBar1: TControlBar
+            Width = 1103
+            inherited ToolBar2: TToolBar
+              ButtonWidth = 109
+              inherited ToolButton13: TToolButton
+                ExplicitWidth = 79
+              end
+              inherited ToolButton12: TToolButton
+                ExplicitWidth = 113
+              end
+              inherited ToolButton17: TToolButton
+                Left = 192
+                ExplicitLeft = 192
+                ExplicitWidth = 70
+              end
+              inherited ToolButton16: TToolButton
+                Left = 262
+                ExplicitLeft = 262
+                ExplicitWidth = 86
+              end
+              inherited ToolButton1: TToolButton
+                Left = 348
+                ExplicitLeft = 348
+              end
+            end
+          end
+          inherited dsMark: TDataSource
+            DataSet = IBrwSrc
+          end
         end
       end
     end
@@ -336,12 +382,60 @@ inherited LabAmostraAss: TLabAmostraAss
     ExplicitWidth = 1117
     inherited ToolBar1: TToolBar
       Width = 902
+      ButtonWidth = 114
       ExplicitWidth = 902
+      inherited ToolButton2: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton5: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton9: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton6: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton1: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton8: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton3: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited tbOrder: TToolButton
+        ExplicitWidth = 76
+      end
+      inherited tbReport: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited tbOpcao: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton10: TToolButton
+        ExplicitWidth = 32
+      end
+      object ToolButton13: TToolButton
+        Left = 420
+        Top = 0
+        Width = 8
+        Caption = 'ToolButton13'
+        ImageIndex = 290
+        Style = tbsSeparator
+      end
+      object ToolButton12: TToolButton
+        Left = 428
+        Top = 0
+        Action = actSign
+        Style = tbsTextButton
+      end
     end
   end
   inherited alDef: TActionList
-    Left = 296
-    Top = 152
+    Left = 304
+    Top = 216
     inherited actNew: TAction
       Enabled = False
       Visible = False
@@ -350,26 +444,31 @@ inherited LabAmostraAss: TLabAmostraAss
       Enabled = False
       Visible = False
     end
+    object actSign: TAction
+      Caption = 'Assinar Laudos'
+      ImageIndex = 289
+      OnExecute = actSignExecute
+    end
   end
   inherited pmRel: TPopupMenu
-    Left = 336
-    Top = 152
+    Left = 344
+    Top = 224
   end
   inherited pmOrder: TPopupMenu
-    Left = 378
-    Top = 153
+    Left = 402
+    Top = 225
   end
   inherited alRunTime: TActionList
-    Left = 434
-    Top = 153
+    Top = 225
   end
   inherited DataSource1: TDataSource
-    Left = 240
-    Top = 152
+    Left = 208
+    Top = 160
   end
   inherited IBrwSrc: TZQuery
     Connection = DM.Design
     AfterScroll = IBrwSrcAfterScroll
+    BeforePost = IBrwSrcBeforePost
     SQL.Strings = (
       
         'select r.amostra, r.relato_recno, re.descri laudo, r.status, r.r' +
@@ -397,12 +496,12 @@ inherited LabAmostraAss: TLabAmostraAss
         'e.nome, se.regional, se.reg_nome,'
       
         '       cast(Initcap(f.nome) as varchar(60)) nome, f.crq, r.anali' +
-        'sta'
+        'sta, (m.recno is not null) mark'
       '  from labamostras_rel r'
       '       join labrel re'
       '         on re.recno = r.relato_recno'
       '       join labamostras a'
-      '         on a.recno = r.amostra        '
+      '         on a.recno = r.amostra'
       '       join labamostras_hist h'
       '         on h.amostra = r.amostra'
       '        and h.estado = 40'
@@ -411,7 +510,7 @@ inherited LabAmostraAss: TLabAmostraAss
       '       left join vequip e'
       '         on e.recno = a.equip_recno'
       '       join labtipo tp'
-      '         on tp.recno = a.tpamostra_recno       '
+      '         on tp.recno = a.tpamostra_recno'
       '       left join vsubest se'
       '         on se.codigo = a.codigo'
       '        and se.recno = a.labsubest_recno'
@@ -428,12 +527,20 @@ inherited LabAmostraAss: TLabAmostraAss
       '       left join tbfuncionarios f'
       '         on f.idcodigo = r.idcodigo'
       '        and f.situacao = '#39'Ativo'#39
+      '       left join sys_flags m'
+      '         on m.recno = r.recno'
+      '        and m.session = sys_session()'
+      '        and m.table_ = sys_origem('#39'labamostras_rel'#39')'
       ' where r.status = 2'
       '   and r.assinatura is null')
     Sequence = ZSequence1
     SequenceField = 'recno'
     Left = 160
     Top = 152
+    object IBrwSrcmark: TBooleanField
+      DisplayLabel = ' '
+      FieldName = 'mark'
+    end
     object IBrwSrcrecno: TIntegerField
       DisplayLabel = 'Laudo'
       FieldName = 'recno'
@@ -770,8 +877,8 @@ inherited LabAmostraAss: TLabAmostraAss
     end
   end
   inherited pmOpcao: TPopupMenu
-    Left = 489
-    Top = 153
+    Left = 513
+    Top = 217
     object Registro2: TMenuItem
       Caption = 'Gerar Revis'#227'o do Laudo...'
     end
