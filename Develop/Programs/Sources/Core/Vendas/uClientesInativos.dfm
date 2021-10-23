@@ -19,8 +19,8 @@ inherited ClienteInativos: TClienteInativos
       Width = 861
       ExplicitWidth = 861
       inherited tsQuery: TTabSheet
-        ExplicitLeft = 3
-        ExplicitTop = 7
+        ExplicitLeft = 4
+        ExplicitTop = 6
         ExplicitWidth = 853
         ExplicitHeight = 75
         inherited BitBtn2: TBitBtn
@@ -43,8 +43,7 @@ inherited ClienteInativos: TClienteInativos
             Height = 15
             Align = alTop
             Caption = 'Estado'
-            ExplicitLeft = 0
-            ExplicitWidth = 107
+            ExplicitWidth = 35
           end
           object cbEstado: TComboBox
             AlignWithMargins = True
@@ -56,7 +55,6 @@ inherited ClienteInativos: TClienteInativos
             Style = csDropDownList
             ItemHeight = 15
             TabOrder = 0
-            ExplicitLeft = 0
           end
         end
         object Panel4: TPanel
@@ -85,9 +83,6 @@ inherited ClienteInativos: TClienteInativos
             Height = 23
             Align = alTop
             TabOrder = 0
-            ExplicitLeft = 88
-            ExplicitTop = 32
-            ExplicitWidth = 121
           end
         end
         object Panel5: TPanel
@@ -98,8 +93,6 @@ inherited ClienteInativos: TClienteInativos
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 3
-          ExplicitLeft = 232
-          ExplicitTop = -5
         end
         object Panel6: TPanel
           Left = 482
@@ -109,8 +102,6 @@ inherited ClienteInativos: TClienteInativos
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 4
-          ExplicitLeft = 416
-          ExplicitTop = 1
         end
       end
       inherited tsFind: TTabSheet

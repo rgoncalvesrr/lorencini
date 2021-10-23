@@ -1,0 +1,24 @@
+set session authorization lorencini;
+
+delete from fis_nfe where cliente is null;
+
+alter table fis_nfe 
+	alter cliente set not null;
+
+create table api.ftsassays (
+   assay integer not null,
+   fts tsvector not null,
+   recno serial not null,
+   constraint pk_ftsassays primary key(assay),
+   constraint fk_ftsassays_1 foreign key (assay) references public.labens(recno)
+      on update cascade on delete cascade,
+   constraint uk_ftsassays_1 unique(recno)
+);
+
+create index idx_ftsassays_1 on api.ftsassays using gin(fts);
+
+do $$
+begin
+	perform tsearch_ensaio(recno)
+       from labens;
+end$$;

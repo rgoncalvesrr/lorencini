@@ -68,7 +68,7 @@ inherited SysFn: TSysFn
               ExplicitWidth = 147
             end
             inherited CCalendarDiff1: TCCalendarDiff
-              Date = 44342.002799722220000000
+              Date = 44489.805734675920000000
               DisplayInterval = Label5
               OnChange = FrameData1CCalendarDiff1Change
             end
@@ -199,14 +199,14 @@ inherited SysFn: TSysFn
                 ExplicitLeft = 192
                 ExplicitWidth = 70
               end
-              inherited ToolButton1: TToolButton
+              inherited ToolButton16: TToolButton
                 Left = 262
                 ExplicitLeft = 262
-              end
-              inherited ToolButton16: TToolButton
-                Left = 270
-                ExplicitLeft = 270
                 ExplicitWidth = 86
+              end
+              inherited ToolButton1: TToolButton
+                Left = 348
+                ExplicitLeft = 348
               end
             end
           end

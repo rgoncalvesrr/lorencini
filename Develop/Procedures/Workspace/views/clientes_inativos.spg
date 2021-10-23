@@ -1,0 +1,18 @@
+set session authorization lorencini;
+
+create or replace view clientes_inativos as
+   select c.codigo, e.nome nome_estado, c.estado, c.cidade, c.empresa, c.nome_chave, 
+          mask_cnpj_cpf(coalesce(c.cnpj, c.cpf)) cnpjcpf, x.ultima_compra, mask_fone(c.telefone) telefone, 
+          c.email, ct.contato, ct.nome, mask_fone(ct.celular) celular, mask_fone(ct.telefone) telefone_cont, ct.email email_cont 
+     from tbclientes c
+          join (select id_cli, max(vencimento_real) ultima_compra
+                  from fin_receber 
+                 group by id_cli
+                having max(vencimento_real) < clock_timestamp() - interval '3 months') x
+            on x.id_cli = c.codigo
+          left join clientes_contatos ct
+            on ct.cliente = c.codigo 
+           and ct.ativo 
+          join estados e
+            on e.uf = c.estado 
+    where c.situacao = 'ATIVO';
