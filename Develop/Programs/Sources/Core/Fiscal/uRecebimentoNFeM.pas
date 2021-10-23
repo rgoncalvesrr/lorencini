@@ -26,6 +26,12 @@ type
     Label5: TLabel;
     DBEdit5: TDBEdit;
     FrameCliente1: TFrameCliente;
+    Panel9: TPanel;
+    Label6: TLabel;
+    DBEdit6: TDBEdit;
+    Panel10: TPanel;
+    Label7: TLabel;
+    DBEdit7: TDBEdit;
     procedure DBEdit1Exit(Sender: TObject);
   private
     FNfeChave: INFeChave;
@@ -56,6 +62,13 @@ begin
       Exit;
 
     FNfeChave := TNFeChave.New(DBEdit1.Text);
+    if (DataSet.State in [dsEdit, dsInsert]) then
+    begin
+      DataSet.FieldByName('nf_num').AsString := IntToStr(FNfeChave.Numero);
+      DataSet.FieldByName('nfser').AsString := IntToStr(FNfeChave.Serie);
+      DataSet.FieldByName('cnpj').AsString := FNfeChave.CNPJ.Inscricao;
+      DataSet.FieldByName('estado').AsString := FNfeChave.UF.Sigla;
+    end;
   finally
      RefreshControls;
   end;
@@ -68,15 +81,18 @@ var
   selecionarCliente: Boolean;
 begin
   inherited;
+  try
+    // Caso nota de entrada da Lorencini ou nota avulsa, seleção de cliente habilitada
+    selecionarCliente := (FNfeChave <> nil) and ((FNfeChave.CNPJ.Inscricao = CNPJ_LORENCINI) or
+      ((FNfeChave.Serie >= 890) and (FNfeChave.Serie <= 899)));
 
-  // Caso nota de entrada da Lorencini ou nota avulsa, seleção de cliente habilitada
-  selecionarCliente := (FNfeChave <> nil) and ((FNfeChave.CNPJ.Inscricao = CNPJ_LORENCINI) or
-    ((FNfeChave.Serie >= 890) and (FNfeChave.Serie <= 899)));
-  
-  FrameCliente1.actFindCli.Enabled := (FrameCliente1.dsCliente.DataSet.State in [dsEdit, dsInsert]) and
-    selecionarCliente;
-  FrameCliente1.DBEdit8.Enabled := FrameCliente1.actFindCli.Enabled;
-  FrameCliente1.DBEdit8.ReadOnly := not FrameCliente1.actFindCli.Enabled;
+    FrameCliente1.actFindCli.Enabled := (FrameCliente1.dsCliente.DataSet.State in [dsEdit, dsInsert]) and
+      selecionarCliente;
+    FrameCliente1.DBEdit8.Enabled := FrameCliente1.actFindCli.Enabled;
+    FrameCliente1.DBEdit8.ReadOnly := not FrameCliente1.actFindCli.Enabled;
+  finally
+    RefreshControlsStyle(FrameCliente1);
+  end;
 end;
 
 end.

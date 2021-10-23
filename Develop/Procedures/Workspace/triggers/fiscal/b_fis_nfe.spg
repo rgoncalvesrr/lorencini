@@ -21,7 +21,7 @@ Declare
    serie_   integer; 
 Begin
    if TG_OP = 'DELETE' then
-      if (old.frascos_saldo <> old.frascos) or (old.seringas_saldo = old.seringas) then
+      if (old.frascos_saldo <> old.frascos) or (old.seringas_saldo <> old.seringas) then
          raise '[[A nota % já foi consumida por laudos e não pode ser excluída!]]', old.chave;
       end if;
 

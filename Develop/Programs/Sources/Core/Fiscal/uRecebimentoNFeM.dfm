@@ -9,8 +9,8 @@ inherited RecebimentoNFeM: TRecebimentoNFeM
   inherited Panel1: TPanel
     Width = 848
     Height = 195
-    ExplicitWidth = 779
-    ExplicitHeight = 143
+    ExplicitWidth = 848
+    ExplicitHeight = 195
     inherited pnLookup: TPanel
       Top = 1
       ExplicitTop = 1
@@ -55,14 +55,13 @@ inherited RecebimentoNFeM: TRecebimentoNFeM
     end
     inherited PageControl1: TPageControl
       Width = 842
-      ExplicitWidth = 773
-      ExplicitHeight = 137
+      ExplicitWidth = 842
       inherited TabSheet1: TTabSheet
         Caption = 'Dados da NF-e'
         ExplicitLeft = 4
         ExplicitTop = 26
-        ExplicitWidth = 765
-        ExplicitHeight = 107
+        ExplicitWidth = 834
+        ExplicitHeight = 159
         object Panel2: TPanel
           Left = 0
           Top = 0
@@ -71,21 +70,20 @@ inherited RecebimentoNFeM: TRecebimentoNFeM
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 0
-          ExplicitWidth = 765
           object Panel4: TPanel
             Left = 0
             Top = 0
-            Width = 586
+            Width = 446
             Height = 50
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 0
-            ExplicitWidth = 517
+            ExplicitWidth = 586
             object Label1: TLabel
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 580
+              Width = 440
               Height = 15
               Align = alTop
               Caption = 'Chave NF-e'
@@ -95,14 +93,14 @@ inherited RecebimentoNFeM: TRecebimentoNFeM
               AlignWithMargins = True
               Left = 3
               Top = 24
-              Width = 580
+              Width = 440
               Height = 23
               Align = alClient
               DataField = 'chave'
               DataSource = RecebimentoNFe.DataSource1
               TabOrder = 0
               OnExit = DBEdit1Exit
-              ExplicitWidth = 511
+              ExplicitWidth = 580
             end
           end
           object Panel5: TPanel
@@ -113,7 +111,6 @@ inherited RecebimentoNFeM: TRecebimentoNFeM
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 1
-            ExplicitLeft = 517
             object Label2: TLabel
               AlignWithMargins = True
               Left = 3
@@ -144,7 +141,6 @@ inherited RecebimentoNFeM: TRecebimentoNFeM
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 2
-            ExplicitLeft = 579
             object Label3: TLabel
               AlignWithMargins = True
               Left = 3
@@ -178,7 +174,6 @@ inherited RecebimentoNFeM: TRecebimentoNFeM
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 3
-            ExplicitLeft = 641
             object Label4: TLabel
               AlignWithMargins = True
               Left = 3
@@ -209,7 +204,6 @@ inherited RecebimentoNFeM: TRecebimentoNFeM
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 4
-            ExplicitLeft = 703
             object Label5: TLabel
               AlignWithMargins = True
               Left = 3
@@ -235,6 +229,72 @@ inherited RecebimentoNFeM: TRecebimentoNFeM
               TabOrder = 0
             end
           end
+          object Panel9: TPanel
+            Left = 524
+            Top = 0
+            Width = 62
+            Height = 50
+            Align = alRight
+            BevelOuter = bvNone
+            TabOrder = 5
+            ExplicitLeft = 586
+            object Label6: TLabel
+              AlignWithMargins = True
+              Left = 3
+              Top = 3
+              Width = 56
+              Height = 15
+              Align = alTop
+              Caption = 'S'#233'rie'
+              ExplicitWidth = 25
+            end
+            object DBEdit6: TDBEdit
+              AlignWithMargins = True
+              Left = 3
+              Top = 24
+              Width = 56
+              Height = 23
+              TabStop = False
+              Align = alClient
+              DataField = 'nfser'
+              DataSource = RecebimentoNFe.DataSource1
+              ReadOnly = True
+              TabOrder = 0
+            end
+          end
+          object Panel10: TPanel
+            Left = 446
+            Top = 0
+            Width = 78
+            Height = 50
+            Align = alRight
+            BevelOuter = bvNone
+            TabOrder = 6
+            object Label7: TLabel
+              AlignWithMargins = True
+              Left = 3
+              Top = 3
+              Width = 72
+              Height = 15
+              Align = alTop
+              Caption = 'Nota'
+              ExplicitWidth = 26
+            end
+            object DBEdit7: TDBEdit
+              AlignWithMargins = True
+              Left = 3
+              Top = 24
+              Width = 72
+              Height = 23
+              TabStop = False
+              Align = alClient
+              DataField = 'nf_num'
+              DataSource = RecebimentoNFe.DataSource1
+              ReadOnly = True
+              TabOrder = 0
+              ExplicitWidth = 56
+            end
+          end
         end
         inline FrameCliente1: TFrameCliente
           Left = 0
@@ -251,57 +311,85 @@ inherited RecebimentoNFeM: TRecebimentoNFeM
           Font.Style = []
           ParentFont = False
           TabOrder = 1
-          ExplicitLeft = -192
-          ExplicitTop = 222
+          ExplicitTop = 50
+          ExplicitWidth = 834
           inherited Panel1: TPanel
             Width = 834
+            ExplicitWidth = 834
             inherited Panel2: TPanel
+              inherited Label9: TLabel
+                Width = 70
+              end
               inherited DBEdit8: TDBEdit
                 DataField = 'cliente'
                 ReadOnly = True
               end
             end
-            inherited Panel35: TPanel
-              inherited SpeedButton1: TSpeedButton
-                Glyph.Data = {00000000}
-                OnClick = nil
-              end
-            end
             inherited Panel4: TPanel
               Width = 235
+              ExplicitWidth = 235
               inherited Label10: TLabel
                 Width = 229
               end
               inherited DBEdit9: TDBEdit
                 Width = 229
+                ExplicitWidth = 229
               end
             end
             inherited Panel5: TPanel
               Left = 340
+              ExplicitLeft = 340
+              inherited Label11: TLabel
+                Width = 248
+              end
             end
             inherited Panel6: TPanel
               Left = 594
+              ExplicitLeft = 594
+              inherited Label12: TLabel
+                Width = 122
+              end
             end
             inherited Panel7: TPanel
               Left = 722
+              ExplicitLeft = 722
+              inherited Label13: TLabel
+                Width = 106
+              end
             end
           end
           inherited Panel3: TPanel
             Width = 834
+            ExplicitWidth = 834
             inherited Panel8: TPanel
               Width = 333
+              ExplicitWidth = 333
               inherited Label1: TLabel
                 Width = 327
               end
               inherited DBEdit1: TDBEdit
                 Width = 327
+                ExplicitWidth = 327
               end
             end
             inherited Panel9: TPanel
               Left = 654
+              ExplicitLeft = 654
+              inherited Label2: TLabel
+                Width = 46
+              end
+            end
+            inherited Panel30: TPanel
+              inherited Label20: TLabel
+                Width = 315
+              end
             end
             inherited Panel10: TPanel
               Left = 706
+              ExplicitLeft = 706
+              inherited Label3: TLabel
+                Width = 122
+              end
             end
           end
           inherited dsCliente: TDataSource
@@ -313,7 +401,7 @@ inherited RecebimentoNFeM: TRecebimentoNFeM
   end
   inherited ControlBar1: TControlBar
     Width = 842
-    ExplicitWidth = 924
+    ExplicitWidth = 842
     inherited ToolBar1: TToolBar
       inherited ToolButton6: TToolButton
         ExplicitWidth = 32
