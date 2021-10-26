@@ -5,7 +5,7 @@ select l.recno report, l.amostra sample, l.pedido "order", a.comodato ticket, l.
        rc.recno crit_id, a.codigo tenantid, lr.titulo typetitle, lr.sigla typeabbreviation, lr.descri typedescription, s.descri description, 
        a.amostrador sampler, d.device, d.serie, d.devicename, d.status devicestatus, d.familyname, d.manufacturer, d.insulator, d.insulatorname, d.devicetypename,
        d."local", d.substation, d.tag, ah.ocorrencia received, l.revisao revision, a.tamb tenvironment, a.toleo tsample, a.tequip tdevice, d.volume,
-       ass.hash, ass.titles, ass.results, ass.assays
+       ass.hash, ass.titles, ass.results, ass.assays, l.destinatario customer
   from public.labamostras_rel l
       join public.labamostras a
         on a.recno = l.amostra     
