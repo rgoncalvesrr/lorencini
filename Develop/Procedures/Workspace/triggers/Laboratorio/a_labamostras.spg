@@ -60,6 +60,8 @@ BEGIN
             exception
                when unique_violation then
             end;
+
+            perform tsearch_amostra(new.recno);
          end if;
 
          -- Marca processo como retornado e atualiza a data de baixa caso todos os comadatos tenham sido retornados
