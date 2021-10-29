@@ -9,18 +9,21 @@
    ---------------------------------------------------------------------------------------------------------------------
    Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
 
-   05/05/2011 17:51:34  v2    Ricardo Gonçalves.
+   05/05/2011  Ricardo Gonçalves.
       [+] Registro do revisor da amostra.
 
-   23/09/2011 13:39:09  v3    Ricardo Gonçalves.
+   23/09/2011  Ricardo Gonçalves.
       [+] Inclusão da checagem da registro
 
-   28/09/2011 16:49:39  v4    Ricardo Gonçalves.
+   28/09/2011  Ricardo Gonçalves.
       [-] Remoção do preenchimento do código final (destinatário do laudo)
    
-   22/11/2011 14:05:12  v5    Ricardo Gonçalves.
+   22/11/2011  Ricardo Gonçalves.
       [-] Quando o campo de temperatura do óleo estava nulo a checagem de conteúdo contra 0 estava falhando. Foi adicionada
          chamada a função coalesce.   
+
+   28/10/2021  Ricardo Gonçalves.
+      [+] Preenchimento das datas quando a amostra muda de estado.
 */
 CREATE OR REPLACE FUNCTION b_labamostras()
   RETURNS trigger AS
@@ -55,12 +58,23 @@ BEGIN
       end if;
 
       new.estado_data := current_date;
+      new.geracao := clock_timestamp();
       new.cliente := coalesce(new.cliente, new.codigo);
    end if;
 
    if tg_op = 'UPDATE' then
       if new.estado <> old.estado then
          new.estado_data := current_date;
+
+         case new.estado
+            when _EIMPRESSA then new.emissao = clock_timestamp();
+            when _EENVIADA then new.remessa = clock_timestamp();
+            when _ERECEBIDA then new.recebimento = clock_timestamp();
+            when _EDISPONIVEL then new.liberacao = clock_timestamp();
+            when _EUTILIZADA then new.utilizacao = clock_timestamp();        
+            when _ECANCELADA then new.cancelamento = clock_timestamp();
+         end case;
+
       end if;
 
       -- Tratamento da revisão de laudos

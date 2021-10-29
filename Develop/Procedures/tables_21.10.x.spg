@@ -1,0 +1,127 @@
+set session authorization lorencini;
+
+delete from fis_nfe where cliente is null;
+
+alter table fis_nfe 
+	alter cliente set not null;
+
+create table api.ftsassays (
+   assay integer not null,
+   fts tsvector not null,
+   recno serial not null,
+   constraint pk_ftsassays primary key(assay),
+   constraint fk_ftsassays_1 foreign key (assay) references public.labens(recno)
+      on update cascade on delete cascade,
+   constraint uk_ftsassays_1 unique(recno)
+);
+
+create index idx_ftsassays_1 on api.ftsassays using gin(fts);
+
+do $$
+begin
+	perform tsearch_ensaio(recno)
+       from labens;
+end$$;
+
+create table api.ftssamples (
+   sample integer not null,
+   fts tsvector not null,
+   recno serial not null,
+   constraint pk_ftssamples primary key(sample),
+   constraint fk_ftssamples_1 foreign key (sample) references public.labamostras(recno)
+      on update cascade on delete cascade,
+   constraint uk_ftssamples_1 unique(recno)
+);
+
+create index idx_ftssamples_1 on api.ftssamples using gin(fts);
+
+alter table labamostras
+   add geracao timestamp,
+   add emissao timestamp,
+   add remessa timestamp,
+   add recebimento timestamp,
+   add liberacao timestamp,
+   add utilizacao timestamp,
+   add cancelamento timestamp;
+
+alter table labamostras disable trigger all;
+update labamostras a 
+   set geracao = h.ocorrencia
+  from labamostras_hist h
+ where h.amostra = a.recno 
+   and h.estado = 10;
+  
+update labamostras a 
+   set emissao = h.ocorrencia
+  from labamostras_hist h
+ where h.amostra = a.recno 
+   and h.estado = 20;
+
+update labamostras a 
+   set remessa = h.ocorrencia
+  from labamostras_hist h
+ where h.amostra = a.recno 
+   and h.estado = 30;
+  
+update labamostras a 
+   set recebimento = h.ocorrencia
+  from labamostras_hist h
+ where h.amostra = a.recno 
+   and h.estado = 40;
+
+update labamostras a 
+   set liberacao = h.ocorrencia
+  from labamostras_hist h
+ where h.amostra = a.recno 
+   and h.estado = 50;
+  
+update labamostras a 
+   set utilizacao = h.ocorrencia
+  from labamostras_hist h
+ where h.amostra = a.recno 
+   and h.estado = 60;
+
+update labamostras a 
+   set cancelamento = h.ocorrencia
+  from labamostras_hist h
+ where h.amostra = a.recno 
+   and h.estado = 70; 
+  
+alter table labamostras enable trigger all;   
+
+alter table labamostras
+   alter geracao set default(clock_timestamp());
+
+create table labamostras_status (
+	status integer not null,
+	descri descri$ not null,
+	recno serial not null,
+	constraint pk_labamostras_status primary key(status),
+	constraint uk_labamostras_status_1 unique(recno));       
+
+insert into labamostras_status 
+	(status, descri)
+values
+	(10, 'Gerada'),
+	(20, 'Etiqueta impressa'),
+	(30, 'Vidraria enviada ao cliente'),
+	(40, 'Vidraria recebida na Lorencini'),
+	(50, 'Em análise'),
+	(60, 'Analisada'),
+	(70, 'Cancelada');
+
+alter table labamostras
+   add constraint fk_labamostras_4 foreign key(estado)
+      references labamostras_status(status)
+      on update cascade on delete restrict;
+
+alter table labamostras_hist
+   add constraint fk_labamostras_hist_3 foreign key(estado)
+      references labamostras_status(status)
+      on update cascade on delete restrict;
+
+do $$
+begin
+	perform tsearch_amostra(recno)
+       from labamostras;
+end $$;      

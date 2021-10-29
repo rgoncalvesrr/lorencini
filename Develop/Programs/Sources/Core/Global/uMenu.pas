@@ -31,7 +31,6 @@ type
     actFichaFinDesp: TAction;
     pmRole: TPopupMenu;
     tbRole: TToolButton;
-    ToolButton2: TToolButton;
     procedure FormShow(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
     procedure FormActivate(Sender: TObject);

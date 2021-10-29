@@ -1,6 +1,6 @@
 set session authorization lorencini;
 create or replace view api.spreadsheet as
-select r.*, a.hash, a.titles, a.results, a.assays
+select r.*
   from api.reports r
        join api.reports_assays a
          on a.report = r.report 

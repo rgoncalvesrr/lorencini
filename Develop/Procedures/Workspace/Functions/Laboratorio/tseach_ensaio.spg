@@ -1,0 +1,66 @@
+/**
+   Gera documento pesquisável para o ensaio informado
+
+	@author    Ricardo Gonçalves
+	@date      21/10/2021
+	@trigger
+
+   @param ensaio_    código do ensaio  
+   @param atualiza_  se verdadeiro atualiza o banco de dados
+
+	Histórico
+	-------------------------------------------------------------------------------------------------------------------
+ */
+Create or Replace Function tsearch_ensaio(
+   in ensaio_ integer,   
+   in atualiza_ boolean = true)
+Returns tsvector As
+$$
+declare
+   r     record;
+   docto tsvector;
+begin
+   docto := null;
+
+   for r in (
+      select e.nome, e.unidade, e.metodo, e.descri, i.descri instrumento, i.modelo, i.serie 
+        from vensaios e
+             left join labinst_ens ie
+               on ie.ensaio_recno = e.recno 
+             left join vinst i
+               on i.recno = ie.labinst_recno
+       where e.recno = ensaio_
+       order by e.recno)
+   loop
+      if docto is null then         
+         docto := sys_fts_compose(docto, ensaio_);
+         docto := sys_fts_compose(docto, r.nome);
+         docto := sys_fts_compose(docto, r.unidade);
+         docto := sys_fts_compose(docto, r.metodo);      
+         docto := sys_fts_compose(docto, r.descri);         
+      end if;
+      
+      docto := sys_fts_compose(docto, r.instrumento);
+      docto := sys_fts_compose(docto, r.modelo);
+      docto := sys_fts_compose(docto, r.serie);
+   end loop;
+
+   if atualiza_ then
+      if docto is null then
+         delete 
+           from api.ftsassays
+          where assay = ensaio_;
+      else
+         insert into api.ftsassays
+            (assay, fts)
+         values
+            (ensaio_, docto)
+         on conflict (assay) 
+         do update set fts = excluded.fts;
+      end if;
+   end if;
+
+   return docto;
+end;
+$$
+language plpgsql;

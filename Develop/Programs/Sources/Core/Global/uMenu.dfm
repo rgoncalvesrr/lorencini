@@ -150,12 +150,6 @@ object Main: TMain
         Top = 0
         Action = actClose
       end
-      object ToolButton2: TToolButton
-        Left = 502
-        Top = 0
-        Caption = 'ToolButton2'
-        ImageIndex = 125
-      end
     end
   end
   object Timer1: TTimer

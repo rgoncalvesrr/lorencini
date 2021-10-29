@@ -7,7 +7,7 @@ uses
   Dialogs, uIBrowse, ZSqlUpdate, Menus, DB, ZAbstractRODataset,
   ZAbstractDataset, ZDataset, ActnList, Grids, DBGrids, StdCtrls, Mask, Buttons,
   ComCtrls, ExtCtrls, ToolWin, uIUtils, uLabLaudoCl, ZSequence, uFrameData,
-  JvExMask, JvToolEdit, JvBaseEdits;
+  JvExMask, JvToolEdit, JvBaseEdits, uFrameCheckBar;
 
 type
   TLabAmostraAss = class(TIDefBrowse)
@@ -129,6 +129,11 @@ type
     StringField1: TStringField;
     dsAnalista: TDataSource;
     IBrwSrcanalista: TIntegerField;
+    FrameCheckBar1: TFrameCheckBar;
+    IBrwSrcmark: TBooleanField;
+    actSign: TAction;
+    ToolButton12: TToolButton;
+    ToolButton13: TToolButton;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure IBrwSrcAfterScroll(DataSet: TDataSet);
@@ -139,11 +144,15 @@ type
     procedure actQueryProcessExecute(Sender: TObject);
     procedure edLaudoChange(Sender: TObject);
     procedure actRegExecute(Sender: TObject);
+    procedure DBGridKeyPress(Sender: TObject; var Key: Char);
+    procedure actSignExecute(Sender: TObject);
+    procedure IBrwSrcBeforePost(DataSet: TDataSet);
   private
     { Private declarations }
     FLaudo: TLaudo;
     FCBClientes: TComboList;
     procedure OnEdit; override;
+    procedure OnMark(Sender: TObject);
   public
     { Public declarations }
   end;
@@ -236,6 +245,56 @@ begin
   U.Out.ShowInfo('Revisão gerada com o número %d', [Random(3500)]);
 end;
 
+procedure TLabAmostraAss.actSignExecute(Sender: TObject);
+var
+  pos: TBookmark;
+begin
+  if not U.Out.ConfQues('Assinar laudos selecionados?') then
+    Exit;
+
+  pos := IBrwSrc.GetBookmark;
+  IBrwSrc.DisableControls;
+  with IBrwSrc do
+  try
+    First;
+
+    while not Eof do
+    begin
+      if FieldByName('mark').AsBoolean and  not FieldByName('labcrit_recno').IsNull and
+         not FieldByName('labdiag_recno').IsNull and not FieldByName('labrec_recno').IsNull and
+         not FieldByName('idcodigo').IsNull and not FieldByName('analista').IsNull then
+      begin
+        Edit;
+        FieldByName('status').AsInteger := 3;
+        FieldByName('mark').AsBoolean := False;
+        try
+          Post;
+        except
+          on e:Exception do
+            Cancel;
+        end;
+      end;
+
+      Next;
+    end;
+  finally
+    GotoBookmark(pos);
+    FreeBookmark(pos);
+    EnableControls;
+  end;
+
+  G.RefreshDataSet(IBrwSrc);
+  RefreshCtrl;
+end;
+
+procedure TLabAmostraAss.DBGridKeyPress(Sender: TObject; var Key: Char);
+begin
+  if (key = #32) and (IBrwSrc.State = dsBrowse) then
+    FrameCheckBar1.actProcessMarkExecute(actInverse);
+
+  inherited;
+end;
+
 procedure TLabAmostraAss.edLaudoChange(Sender: TObject);
 begin
   inherited;
@@ -257,6 +316,9 @@ begin
 
   cbCli.Items.Insert(0, '(Todos)');
   cbCli.ItemIndex := 0;
+
+  FrameCheckBar1.Table := 'labamostras_rel';
+  FrameCheckBar1.OnChange := OnMark;
 end;
 
 procedure TLabAmostraAss.FormDestroy(Sender: TObject);
@@ -289,6 +351,14 @@ begin
     LabAmostraAssM.JvDBComboBox1.UpdateDropDownItems;
     LabAmostraAssM.JvDBComboBox2.UpdateDropDownItems;
   end;
+end;
+
+procedure TLabAmostraAss.IBrwSrcBeforePost(DataSet: TDataSet);
+begin
+  inherited;
+  IBrwSrcmark.AsBoolean := (IBrwSrcstatus.AsInteger = 2) and not IBrwSrclabcrit_recno.IsNull and
+    not IBrwSrclabdiag_recno.IsNull and not IBrwSrclabrec_recno.IsNull and
+    not IBrwSrcidcodigo.IsNull and not IBrwSrcanalista.IsNull;
 end;
 
 procedure TLabAmostraAss.IBrwSrclabdiag_recnoChange(Sender: TField);
@@ -344,6 +414,40 @@ begin
     FreeAndNil(LabAmostraAssM);
   end;
 
+end;
+
+procedure TLabAmostraAss.OnMark(Sender: TObject);
+var
+  pos: TBookmark;
+begin
+  actSign.Enabled := False;
+
+  if (FrameCheckBar1.CheckedCount = 0) or IBrwSrc.IsEmpty then
+    Exit;
+
+  pos := IBrwSrc.GetBookmark;
+  IBrwSrc.DisableControls;
+  with IBrwSrc do
+  try
+    First;
+
+    while not Eof do
+    begin
+      if FieldByName('mark').AsBoolean and not FieldByName('labcrit_recno').IsNull and
+         not FieldByName('labdiag_recno').IsNull and not FieldByName('labrec_recno').IsNull and
+         not FieldByName('idcodigo').IsNull and not FieldByName('analista').IsNull then
+      begin
+        actSign.Enabled := True;
+        Break;
+      end;
+
+      Next;
+    end;
+  finally
+    GotoBookmark(pos);
+    FreeBookmark(pos);
+    EnableControls;
+  end;
 end;
 
 procedure TLabAmostraAss.qDiagAfterScroll(DataSet: TDataSet);

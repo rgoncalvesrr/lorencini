@@ -154,9 +154,9 @@ BEGIN
          FROM pedido_mo
          where pedido = new.recno;
 
-         perform cpDocParaDoc(
-            sys_origem('orca_grupo'), 1,
-            sys_origem('tb_orcamentos'), irecno);
+         -- perform cpDocParaDoc(
+         --    sys_origem('orca_grupo'), 1,
+         --    sys_origem('tb_orcamentos'), irecno);
 
          -- Associando despesas com a cobrança gerada
          update fin_caixa
