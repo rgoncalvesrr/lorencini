@@ -20,6 +20,8 @@ declare
    r     record;
    docto tsvector;
 begin
+   docto := null;
+
    for r in (
       select e.nome, e.unidade, e.metodo, e.descri, i.descri instrumento, i.modelo, i.serie 
         from vensaios e
@@ -44,16 +46,18 @@ begin
    end loop;
 
    if atualiza_ then
-      update api.ftsassays
-         set fts = docto
-       where assay = ensaio_;
-         
-      if not Found then
+      if docto is null then
+         delete 
+           from api.ftsassays
+          where assay = ensaio_;
+      else
          insert into api.ftsassays
             (assay, fts)
          values
-            (ensaio_, docto);
-      end if;        
+            (ensaio_, docto)
+         on conflict (assay) 
+         do update set fts = excluded.fts;
+      end if;
    end if;
 
    return docto;
