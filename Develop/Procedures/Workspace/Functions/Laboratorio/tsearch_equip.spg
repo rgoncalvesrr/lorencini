@@ -5,16 +5,16 @@
 	@date      22/10/2020
 	@trigger
 
-   @param in_dispositivo código do equipamento
-   @param in_cliente código do cliente
+   @param dispositivo_ código do equipamento
+   @param cliente_ código do cliente
 
 	Histórico
 	-------------------------------------------------------------------------------------------------------------------
  */
 Create or Replace Function tsearch_equip(
-   in in_cliente integer,
-   in in_dispositivo integer,
-   in in_atualiza boolean = true)
+   in cliente_ integer,
+   in dispositivo_ integer,
+   in atualiza_ boolean = true)
 Returns tsvector As
 $$
 declare
@@ -27,11 +27,11 @@ begin
           tag, sys_iif(status = 1, 'energizado', 'desligado') status
      into r     
      from api.devicesbycustomers 
-    where tenantid = in_cliente
-      and device = in_dispositivo;
+    where tenantid = cliente_
+      and device = dispositivo_;
 
    if found then      
-      docto := sys_fts_compose(docto, in_dispositivo);
+      docto := sys_fts_compose(docto, dispositivo_);
       docto := sys_fts_compose(docto, r.devicename);
       docto := sys_fts_compose(docto, r.devicetypeabbreviation);      
       docto := sys_fts_compose(docto, r.devicetypename);
@@ -45,18 +45,20 @@ begin
       docto := sys_fts_compose(docto, r.status);            
    end if;
 
-   if in_atualiza then
-      update api.ftsdevicesbycustomers
-         set fts = docto
-      where tenantid = in_cliente
-         and device = in_dispositivo;
-         
-      if not Found then
+   if atualiza_ then
+      if docto is null then
+         delete 
+           from api.ftsdevicesbycustomers
+          where tenantid = cliente_
+            and device = dispositivo_;
+      else
          insert into api.ftsdevicesbycustomers
             (tenantid, device, fts)
          values
-            (in_cliente, in_dispositivo, docto);
-      end if;        
+            (cliente_, dispositivo_, docto)
+         on conflict (tenantid, device) 
+            do update set fts = excluded.fts;
+      end if;
    end if;
 
    return docto;
