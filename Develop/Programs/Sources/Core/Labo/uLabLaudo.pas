@@ -376,8 +376,8 @@ begin
       sWhere := sWhere + 'and c.empresa ilike :razao ';
 
     // Gambiarra - Cliente não informado
-    if (Length(edEmpresa.Text) = 0) and (Length(edRazao.Text) = 0) then
-      sWhere := sWhere + 'and c.codigo = :cliente ';
+//    if (Length(edEmpresa.Text) = 0) and (Length(edRazao.Text) = 0) then
+//      sWhere := sWhere + 'and c.codigo = :cliente ';
 
     if Trim(edAmostra.Text) <> EmptyStr then
       swhere := swhere + 'and r.amostra = :amostra ';

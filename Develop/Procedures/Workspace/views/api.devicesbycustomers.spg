@@ -1,9 +1,11 @@
 set session authorization lorencini;
+drop view if exists api.devicesbycustomers;
 create or replace view api.devicesbycustomers as     
-select e.codigo tenantid, d.device, d.serie, d.devicename, d.devicetypeid, d.devicetypeabbreviation, d.devicetypename, d.manufacturerid, d.manufacturer,     
-       d.power, d.powera, d.powerb, d.powerunit, d.phases, d.lote, d.impedance, d.impedancea, d.impedancb, d.voltage, d.voltagea, d.voltageb, d.voltageunit, 
-       d.electriccurrent, d.electriccurrenta, d.electriccurrentb, d."year", d.insulator, d.insulatorname, d.volume, d.tap, d."family", d.familyname,
-       e.energ, e."local", e.subest substation, e.tag, e.status
+select e.codigo tenantid, d.device, d.serie, d.devicename, d.devicetypeid, d.devicetypeabbreviation, d.devicetypename, 
+       d.manufacturerid, d.manufacturer, d.power, d.powera, d.powerb, d.powerunit, d.phases, d.lote, 
+       d.impedance, d.impedancea, d.impedanceb, d.voltage, d.voltagea, d.voltageb, d.voltageunit, 
+       d.electriccurrent, d.electriccurrenta, d.electriccurrentb, d."year", d.insulator, d.insulatorname, d.volume, 
+       d.tap, d."family", d.familyname, e.energ, e."local", e.subest substation, e.tag, e.status
   from public.labequipxcli e
        join api.devices d
          on d.device = e.equip;
