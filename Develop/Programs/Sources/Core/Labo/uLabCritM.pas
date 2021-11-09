@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uIBrowseDet, ActnList, Grids, DBGrids, ComCtrls, ExtCtrls, ToolWin,
-  StdCtrls, Mask, DBCtrls, JvExStdCtrls, JvCombobox, JvColorCombo;
+  StdCtrls, Mask, DBCtrls, JvExStdCtrls, JvCombobox, JvColorCombo, JvDBCombobox;
 
 type
   TLabCritM = class(TIDefBrowseEdit)
@@ -13,10 +13,14 @@ type
     DBEdit1: TDBEdit;
     Label2: TLabel;
     DBEdit2: TDBEdit;
-    JvColorComboBox1: TJvColorComboBox;
     Label3: TLabel;
-    procedure JvColorComboBox1Change(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
+    Panel2: TPanel;
+    Panel4: TPanel;
+    Panel5: TPanel;
+    Panel6: TPanel;
+    JvDBComboBox1: TJvDBComboBox;
+    Panel7: TPanel;
+    DBCheckBox1: TDBCheckBox;
   private
     { Private declarations }
     procedure OnEdit; override;
@@ -34,22 +38,6 @@ uses uLabCrit, uLabCritMRel, DB;
 {$R *.dfm}
 
 { TLabCritM }
-
-procedure TLabCritM.FormCreate(Sender: TObject);
-begin
-  inherited;
-  JvColorComboBox1.Clear;
-  JvColorComboBox1.AddColor(clGreen, 'Normal');
-  JvColorComboBox1.AddColor(clYellow, 'Atenção');
-  JvColorComboBox1.AddColor(clRed, 'Crítico');
-end;
-
-procedure TLabCritM.JvColorComboBox1Change(Sender: TObject);
-begin
-  inherited;
-  if (Assigned(DataSet) and (DataSet.State in [dsInsert, dsEdit])) then
-    DataSet.FieldByName('cor').AsString := ColorToString(JvColorComboBox1.ColorValue);
-end;
 
 procedure TLabCritM.OnEdit;
 begin

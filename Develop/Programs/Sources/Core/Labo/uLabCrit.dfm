@@ -1,54 +1,41 @@
 inherited LabCrit: TLabCrit
   Caption = 'Cadastro de Criticidades'
-  Constraints.MinWidth = 1134
-  PixelsPerInch = 120
-  TextHeight = 20
-  inherited StatusBar1: TStatusBar
-    ExplicitTop = 429
-    ExplicitWidth = 1110
-  end
+  Constraints.MinWidth = 851
+  PixelsPerInch = 96
+  TextHeight = 15
   inherited Panel1: TPanel
-    Top = 44
-    ExplicitTop = 57
+    ExplicitTop = 35
     inherited pctlFind: TPageControl
-      ExplicitLeft = 5
-      ExplicitWidth = 1106
       inherited tsQuery: TTabSheet
         ExplicitLeft = 4
         ExplicitTop = 6
-        ExplicitWidth = 1098
-        ExplicitHeight = 90
+        ExplicitWidth = 819
+        ExplicitHeight = 75
       end
       inherited tsFind: TTabSheet
         ExplicitLeft = 4
         ExplicitTop = 6
-        ExplicitWidth = 1098
-        ExplicitHeight = 90
+        ExplicitWidth = 819
+        ExplicitHeight = 75
       end
     end
   end
   inherited Panel2: TPanel
-    Top = 144
-    Height = 282
+    ExplicitTop = 120
+    ExplicitHeight = 192
     inherited PageControl1: TPageControl
-      Height = 276
+      ExplicitHeight = 186
       inherited TabSheet1: TTabSheet
         Caption = 'Criticidades'
         ExplicitLeft = 4
-        ExplicitTop = 31
-        ExplicitWidth = 1102
-        ExplicitHeight = 228
-        inherited DBGrid1: TDBGrid
-          Width = 1102
-          Height = 241
-        end
+        ExplicitTop = 26
+        ExplicitWidth = 823
+        ExplicitHeight = 156
       end
     end
   end
   inherited ctrlBarTop: TControlBar
-    Height = 38
     inherited ToolBar1: TToolBar
-      ButtonWidth = 81
       inherited ToolButton2: TToolButton
         ExplicitWidth = 32
       end
@@ -71,35 +58,35 @@ inherited LabCrit: TLabCrit
         ExplicitWidth = 32
       end
       inherited tbOrder: TToolButton
-        ExplicitWidth = 85
+        ExplicitWidth = 76
       end
       inherited tbReport: TToolButton
-        Left = 325
         ExplicitWidth = 32
       end
       inherited tbOpcao: TToolButton
-        Left = 357
         ExplicitWidth = 32
       end
-      inherited ToolButton11: TToolButton
-        Left = 389
-      end
       inherited ToolButton10: TToolButton
-        Left = 397
-        ExplicitLeft = 397
         ExplicitWidth = 32
       end
     end
   end
+  inherited DataSource1: TDataSource
+    Left = 288
+    Top = 56
+  end
   inherited IBrwSrc: TZQuery
     Connection = DM.Design
     AfterScroll = IBrwSrcAfterScroll
-    AfterInsert = IBrwSrcAfterInsert
     SQL.Strings = (
-      'select recno, descri, cor'
-      '  from labcrit')
+      'select c.recno, c.descri, c.nivel, cn.label, cn.exige_revisao'
+      '  from labcrit c'
+      '       join labcrit_niveis cn'
+      '         on cn.nivel = c.nivel')
     Sequence = ZSequence1
     SequenceField = 'recno'
+    Left = 232
+    Top = 56
     object IBrwSrcrecno: TIntegerField
       DisplayLabel = 'Registro'
       FieldName = 'recno'
@@ -111,10 +98,20 @@ inherited LabCrit: TLabCrit
       Required = True
       Size = 60
     end
-    object IBrwSrccor: TStringField
-      FieldName = 'cor'
+    object IBrwSrcnivel: TIntegerField
+      DisplayLabel = 'N'#237'vel'
+      FieldName = 'nivel'
+      Required = True
       Visible = False
-      Size = 30
+    end
+    object IBrwSrclabel: TStringField
+      DisplayLabel = 'N'#237'vel'
+      FieldName = 'label'
+      Size = 15
+    end
+    object IBrwSrcexige_revisao: TBooleanField
+      DisplayLabel = 'Exige Revis'#227'o'
+      FieldName = 'exige_revisao'
     end
   end
   inherited zIBrwSrc: TZUpdateSQL
@@ -124,16 +121,18 @@ inherited LabCrit: TLabCrit
       '  labcrit.recno = :OLD_recno')
     InsertSQL.Strings = (
       'INSERT INTO labcrit'
-      '  (recno, descri, cor)'
+      '  (recno, descri, nivel)'
       'VALUES'
-      '  (:recno, :descri, :cor)')
+      '  (:recno, :descri, :nivel)')
     ModifySQL.Strings = (
       'UPDATE labcrit SET'
-      '  recno = :recno, '
+      '  recno = :recno,'
       '  descri = :descri,'
-      '  cor = :cor'
+      '  nivel = :nivel'
       'WHERE'
       '  labcrit.recno = :OLD_recno')
+    Left = 176
+    Top = 56
     ParamData = <
       item
         DataType = ftUnknown
@@ -147,7 +146,7 @@ inherited LabCrit: TLabCrit
       end
       item
         DataType = ftUnknown
-        Name = 'cor'
+        Name = 'nivel'
         ParamType = ptUnknown
       end
       item
@@ -182,8 +181,8 @@ inherited LabCrit: TLabCrit
       end>
     Sequence = sRelato
     SequenceField = 'recno'
-    Left = 176
-    Top = 104
+    Left = 136
+    Top = 200
     ParamData = <
       item
         DataType = ftUnknown
@@ -237,8 +236,8 @@ inherited LabCrit: TLabCrit
       '  labcrit_rel.relato_recno = :OLD_relato_recno AND'
       '  labcrit_rel.labcrit_recno = :OLD_labcrit_recno')
     UseSequenceFieldForRefreshSQL = False
-    Left = 144
-    Top = 104
+    Left = 88
+    Top = 200
     ParamData = <
       item
         DataType = ftUnknown
@@ -269,13 +268,13 @@ inherited LabCrit: TLabCrit
   object sRelato: TZSequence
     Connection = DM.Design
     SequenceName = 'public.labcrit_rel_recno_seq'
-    Left = 112
-    Top = 104
+    Left = 32
+    Top = 200
   end
   object dsRelato: TDataSource
     AutoEdit = False
     DataSet = qRelato
-    Left = 208
-    Top = 104
+    Left = 184
+    Top = 200
   end
 end

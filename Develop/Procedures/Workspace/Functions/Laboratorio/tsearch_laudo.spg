@@ -22,11 +22,7 @@ begin
    select l.amostra, l.pedido, a.comodato, l.diagnostico, l.recomendacao, l.obs, l.destinatario, 
       sys_iif(l.status = 3, 'assinado', 'revisado') status, lr.titulo, lr.descri, lr.sigla, a.amostrador, 
       s.descri servico, e.serie, e.descri equip_nome, sys_iif(ec.status = 1, 'energizado', 'desligado') equip_status,
-      e.familia, e.fabricante, e.isolante, e.tipo, ec."local", ec.subest, ec.tag, c.descri crit_desc,
-      case when c.cor = 'clRed' then 'critico' 
-		     when c.cor = 'clYellow' then 'atencao'
-		     when c.cor = 'clGreen' then 'normal'
-		 end crit
+      e.familia, e.fabricante, e.isolante, e.tipo, ec."local", ec.subest, ec.tag, c.descri crit_desc, c.label crit     
      into r  
      from labamostras_rel l
           join labamostras a
@@ -40,8 +36,9 @@ begin
            and ec.equip = a.equip_recno
           join vequip e
             on e.recno = a.equip_recno
-          join labcrit c
-            on c.recno = l.labcrit_recno 
+          join vlaudocrit c
+            on c.recno = l.labcrit_recno
+           and c.relato_recno = l.relato_recno
     where l.recno = in_laudo;
 
    if found then      
