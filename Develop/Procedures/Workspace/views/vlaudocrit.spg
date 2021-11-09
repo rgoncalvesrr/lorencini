@@ -1,0 +1,11 @@
+set session authorization lorencini;
+CREATE OR REPLACE VIEW public.vlaudocrit
+AS 
+select cr.relato_recno, c.descri, c.recno, c.nivel, cn.label, cn.cor, cn.exige_revisao
+   FROM labcrit_rel cr
+        JOIN labcrit c 
+          ON c.recno = cr.labcrit_recno
+        join labcrit_niveis cn
+          on cn.nivel = c.nivel; 
+          
+-- recriar visões: vlaudocrit, api.reports, api.spreadsheet

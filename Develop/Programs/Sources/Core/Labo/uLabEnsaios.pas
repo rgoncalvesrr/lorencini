@@ -87,6 +87,7 @@ type
     qLabEnsCompunidade: TStringField;
     qLabEnsCompmetodo: TStringField;
     IBrwSrcincerteza: TFloatField;
+    IBrwSrctolerancia: TFloatField;
     procedure qLabReftipoGetText(Sender: TField; var Text: string;
       DisplayText: Boolean);
     procedure qLabReftipoSetText(Sender: TField; const Text: string);
@@ -137,6 +138,7 @@ begin
   IBrwSrcreftipo.AsInteger := 1;
   IBrwSrcdec.AsInteger := 4;
   IBrwSrcarred.AsInteger := 1;
+  IBrwSrctolerancia.AsFloat := 0;
 end;
 
 procedure TLabEnsaios.IBrwSrcAfterScroll(DataSet: TDataSet);

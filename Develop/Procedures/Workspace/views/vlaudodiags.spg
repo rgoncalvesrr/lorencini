@@ -1,0 +1,9 @@
+set session authorization lorencini;
+CREATE OR REPLACE VIEW public.vlaudodiags
+AS SELECT dr.relato_recno,
+    d.descri,
+    d.diag,
+    d.dias,
+    d.recno
+   FROM labdiagrel dr
+     JOIN labdiag d ON d.recno = dr.labdiag_recno;

@@ -1,17 +1,15 @@
 inherited ColaboradoresM: TColaboradoresM
   Caption = 'Edi'#231#227'o de Colaboradores'
-  ClientHeight = 518
-  ClientWidth = 821
+  ClientHeight = 524
+  ClientWidth = 958
   Constraints.MinWidth = 691
-  ExplicitWidth = 827
-  ExplicitHeight = 547
+  ExplicitWidth = 964
+  ExplicitHeight = 553
   PixelsPerInch = 96
   TextHeight = 15
   inherited Panel1: TPanel
-    Top = 44
-    Width = 821
-    Height = 474
-    ExplicitTop = 44
+    Width = 958
+    Height = 480
     ExplicitWidth = 821
     ExplicitHeight = 474
     inherited Panel3: TPanel
@@ -21,13 +19,8 @@ inherited ColaboradoresM: TColaboradoresM
       ExplicitTop = 295
       ExplicitWidth = 670
       inherited PageControl3: TPageControl
-        Top = 47
         Width = 664
-        Height = 185
-        ExplicitLeft = 3
-        ExplicitTop = 47
         ExplicitWidth = 664
-        ExplicitHeight = 185
         inherited tsDet: TTabSheet
           ExplicitLeft = 4
           ExplicitTop = 26
@@ -35,20 +28,14 @@ inherited ColaboradoresM: TColaboradoresM
           ExplicitHeight = 155
           inherited DBGrid1: TDBGrid
             Width = 656
-            Height = 155
           end
         end
       end
       inherited ControlBar2: TControlBar
         Width = 664
-        Height = 38
-        ExplicitLeft = 3
-        ExplicitTop = 3
         ExplicitWidth = 664
-        ExplicitHeight = 38
         inherited ToolBar3: TToolBar
           Width = 651
-          ButtonWidth = 129
           ExplicitWidth = 651
           inherited ToolButton10: TToolButton
             ExplicitWidth = 32
@@ -75,10 +62,8 @@ inherited ColaboradoresM: TColaboradoresM
       end
     end
     inherited PageControl1: TPageControl
-      Width = 815
-      Height = 468
-      ExplicitLeft = 3
-      ExplicitTop = 3
+      Width = 952
+      Height = 474
       ExplicitWidth = 815
       ExplicitHeight = 468
       inherited TabSheet1: TTabSheet
@@ -91,19 +76,21 @@ inherited ColaboradoresM: TColaboradoresM
           AlignWithMargins = True
           Left = 3
           Top = 53
-          Width = 801
+          Width = 938
           Height = 140
           Align = alTop
           Caption = ' Logradouro e Contato '
           TabOrder = 1
+          ExplicitWidth = 801
           object Panel8: TPanel
             Left = 2
             Top = 17
-            Width = 797
+            Width = 934
             Height = 29
             Align = alTop
             BevelOuter = bvNone
             TabOrder = 0
+            ExplicitWidth = 797
             object Panel9: TPanel
               Left = 0
               Top = 0
@@ -192,11 +179,12 @@ inherited ColaboradoresM: TColaboradoresM
           object Panel13: TPanel
             Left = 2
             Top = 46
-            Width = 797
+            Width = 934
             Height = 29
             Align = alTop
             BevelOuter = bvNone
             TabOrder = 1
+            ExplicitWidth = 797
             object Panel14: TPanel
               Left = 0
               Top = 0
@@ -284,11 +272,12 @@ inherited ColaboradoresM: TColaboradoresM
           object Panel18: TPanel
             Left = 2
             Top = 75
-            Width = 797
+            Width = 934
             Height = 29
             Align = alTop
             BevelOuter = bvNone
             TabOrder = 2
+            ExplicitWidth = 797
             object Panel19: TPanel
               Left = 0
               Top = 0
@@ -375,11 +364,12 @@ inherited ColaboradoresM: TColaboradoresM
           object Panel23: TPanel
             Left = 2
             Top = 104
-            Width = 797
+            Width = 934
             Height = 29
             Align = alTop
             BevelOuter = bvNone
             TabOrder = 3
+            ExplicitWidth = 797
             object Panel24: TPanel
               Left = 0
               Top = 0
@@ -444,11 +434,12 @@ inherited ColaboradoresM: TColaboradoresM
         object Panel2: TPanel
           Left = 0
           Top = 0
-          Width = 807
+          Width = 944
           Height = 50
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 0
+          ExplicitWidth = 807
           object Panel4: TPanel
             Left = 0
             Top = 0
@@ -491,16 +482,17 @@ inherited ColaboradoresM: TColaboradoresM
           object Panel5: TPanel
             Left = 71
             Top = 0
-            Width = 496
+            Width = 633
             Height = 50
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 1
+            ExplicitWidth = 496
             object Label2: TLabel
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 490
+              Width = 627
               Height = 15
               Align = alTop
               Caption = 'Nome do Colaborador'
@@ -518,23 +510,25 @@ inherited ColaboradoresM: TColaboradoresM
               AlignWithMargins = True
               Left = 3
               Top = 24
-              Width = 490
+              Width = 627
               Height = 23
               Align = alClient
               CharCase = ecUpperCase
               DataField = 'nome'
               DataSource = Colaboradores.DataSource1
               TabOrder = 0
+              ExplicitWidth = 490
             end
           end
           object Panel6: TPanel
-            Left = 567
+            Left = 704
             Top = 0
             Width = 120
             Height = 50
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 2
+            ExplicitLeft = 567
             object Label3: TLabel
               AlignWithMargins = True
               Left = 3
@@ -566,13 +560,14 @@ inherited ColaboradoresM: TColaboradoresM
             end
           end
           object Panel7: TPanel
-            Left = 687
+            Left = 824
             Top = 0
             Width = 120
             Height = 50
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 3
+            ExplicitLeft = 687
             object Label4: TLabel
               AlignWithMargins = True
               Left = 3
@@ -607,11 +602,12 @@ inherited ColaboradoresM: TColaboradoresM
         object Panel28: TPanel
           Left = 0
           Top = 196
-          Width = 807
+          Width = 944
           Height = 75
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 2
+          ExplicitWidth = 807
           object GroupBox2: TGroupBox
             AlignWithMargins = True
             Left = 3
@@ -719,11 +715,12 @@ inherited ColaboradoresM: TColaboradoresM
             AlignWithMargins = True
             Left = 350
             Top = 3
-            Width = 454
+            Width = 591
             Height = 69
             Align = alClient
             Caption = ' Situa'#231#227'o '
             TabOrder = 1
+            ExplicitWidth = 454
             object Panel34: TPanel
               Left = 2
               Top = 17
@@ -806,6 +803,8 @@ inherited ColaboradoresM: TColaboradoresM
               Align = alLeft
               BevelOuter = bvNone
               TabOrder = 2
+              ExplicitLeft = 230
+              ExplicitTop = 19
               object Label37: TLabel
                 AlignWithMargins = True
                 Left = 3
@@ -830,35 +829,69 @@ inherited ColaboradoresM: TColaboradoresM
                 TabOrder = 0
               end
             end
+            object Panel33: TPanel
+              Left = 347
+              Top = 17
+              Width = 242
+              Height = 50
+              Align = alClient
+              BevelOuter = bvNone
+              TabOrder = 3
+              ExplicitLeft = 470
+              ExplicitTop = 19
+              ExplicitWidth = 120
+              object DBCheckBox1: TDBCheckBox
+                AlignWithMargins = True
+                Left = 3
+                Top = 23
+                Width = 236
+                Height = 24
+                Margins.Top = 23
+                Align = alClient
+                Caption = 'Respons'#225'vel T'#233'cnico pelo Laborat'#243'rio'
+                DataField = 'resptec'
+                DataSource = Colaboradores.DataSource1
+                TabOrder = 0
+                ValueChecked = 'True'
+                ValueUnchecked = 'False'
+                ExplicitLeft = 32
+                ExplicitTop = 24
+                ExplicitWidth = 97
+                ExplicitHeight = 17
+              end
+            end
           end
         end
         object GroupBox3: TGroupBox
           AlignWithMargins = True
           Left = 3
           Top = 349
-          Width = 801
+          Width = 938
           Height = 84
           Align = alTop
           Caption = ' Assinatura (180mm X 10mm) '
           TabOrder = 4
+          ExplicitWidth = 801
           object Image1: TImage
             AlignWithMargins = True
             Left = 5
             Top = 20
-            Width = 760
+            Width = 897
             Height = 59
             Align = alClient
             Center = True
             ExplicitTop = 22
+            ExplicitWidth = 760
           end
           object Panel29: TPanel
-            Left = 768
+            Left = 905
             Top = 17
             Width = 31
             Height = 65
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 0
+            ExplicitLeft = 768
             object SpeedButton1: TSpeedButton
               AlignWithMargins = True
               Left = 3
@@ -956,11 +989,12 @@ inherited ColaboradoresM: TColaboradoresM
         object Panel37: TPanel
           Left = 0
           Top = 271
-          Width = 807
+          Width = 944
           Height = 75
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 3
+          ExplicitWidth = 807
           object GroupBox8: TGroupBox
             AlignWithMargins = True
             Left = 3
@@ -1073,16 +1107,17 @@ inherited ColaboradoresM: TColaboradoresM
             AlignWithMargins = True
             Left = 647
             Top = 3
-            Width = 157
+            Width = 294
             Height = 69
             Align = alClient
             Caption = ' Integra'#231#227'o c/ Sistema '
             TabOrder = 1
+            ExplicitWidth = 157
             object Label42: TLabel
               AlignWithMargins = True
               Left = 5
               Top = 20
-              Width = 147
+              Width = 284
               Height = 15
               Align = alTop
               Caption = 'Login'
@@ -1093,7 +1128,7 @@ inherited ColaboradoresM: TColaboradoresM
               AlignWithMargins = True
               Left = 5
               Top = 41
-              Width = 147
+              Width = 284
               Height = 23
               Align = alClient
               DataField = 'account'
@@ -1104,7 +1139,7 @@ inherited ColaboradoresM: TColaboradoresM
               ListSettings.OutfilteredValueFont.Height = -11
               ListSettings.OutfilteredValueFont.Name = 'Tahoma'
               ListSettings.OutfilteredValueFont.Style = []
-              ExplicitLeft = 3
+              ExplicitWidth = 147
             end
           end
         end
@@ -1112,15 +1147,10 @@ inherited ColaboradoresM: TColaboradoresM
     end
   end
   inherited ControlBar1: TControlBar
-    Width = 815
-    Height = 38
-    ExplicitLeft = 3
-    ExplicitTop = 3
-    ExplicitWidth = 815
-    ExplicitHeight = 38
+    Width = 952
+    ExplicitWidth = 952
     inherited ToolBar1: TToolBar
       Width = 783
-      ButtonWidth = 115
       ExplicitWidth = 783
       inherited ToolButton6: TToolButton
         ExplicitWidth = 32

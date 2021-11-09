@@ -1,0 +1,66 @@
+set session authorization lorencini;
+
+alter table labens
+   add tolerancia percent$;
+
+create table labcrit_niveis (
+	nivel integer not null,
+	label varchar(15) not null,
+	cor varchar(10) not null,
+	exige_revisao boolean not null,
+	recno bigserial not null,
+	constraint pk_labcrit_niveis primary key(nivel),
+	constraint uk_labcrit_niveis_1 unique(recno)); 
+
+insert into labcrit_niveis 
+	(nivel, label, cor, exige_revisao)
+values
+	(1, 'Normal', 'clGreen', false),
+	(2, 'Atenção', 'clYellow', true),
+	(3, 'Crítico', 'clRed', true);
+
+alter table labcrit
+	add nivel integer,
+	add constraint fk_labcrit_1 foreign key(nivel) references labcrit_niveis(nivel)
+		on update cascade on delete restrict;
+		
+update labcrit set nivel = codigo;
+
+alter table labcrit alter nivel set not null;
+
+alter table labcrit
+	drop cor cascade,
+	drop codigo;
+	
+-- recriar visões: vlaudocrit, api.reports, api.spreadsheet
+
+create domain label$ as varchar(30) not null;
+
+create table labamostras_rel_status (
+	status integer not null,
+	label label$,
+	recno bigserial not null,
+	constraint pk_labamostras_rel_status primary key(status));
+	
+insert into labamostras_rel_status
+	(status, label)
+values
+	(0, 'Digitação'),
+	(1, 'Apontamento'),
+	(2, 'Análise de Resultados'),
+	(3, 'Assinado'),
+	(4, 'Cancelado');
+
+-- DE: 4 - Cancelado	PARA: 6, 'Cancelado'
+-- DE: 3 - Assinado		PARA: 5, 'Assinado'
+
+alter table labamostras_rel
+   add analise_automatica boolean default(false) not null,
+	add constraint fk_labamostras_rel_8 foreign key(status)
+		references labamostras_rel_status(status)
+		on update cascade on delete restrict;
+	
+alter table tbfuncionarios 
+	add resptec boolean default(false) not null;
+
+update tbfuncionarios set resptec = true where idcodigo = 90;   
