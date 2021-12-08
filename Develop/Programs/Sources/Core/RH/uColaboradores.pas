@@ -47,6 +47,7 @@ type
     Label1: TLabel;
     cbStatus: TComboBox;
     IBrwSrcaccount: TLargeintField;
+    IBrwSrcresptec: TBooleanField;
     procedure IBrwSrcAfterInsert(DataSet: TDataSet);
     procedure FormCreate(Sender: TObject);
     procedure IBrwSrcAfterScroll(DataSet: TDataSet);

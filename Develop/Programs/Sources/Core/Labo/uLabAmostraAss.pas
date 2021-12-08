@@ -134,6 +134,8 @@ type
     actSign: TAction;
     ToolButton12: TToolButton;
     ToolButton13: TToolButton;
+    IBrwSrcanalise_automatica: TBooleanField;
+    TabSheet2: TTabSheet;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure IBrwSrcAfterScroll(DataSet: TDataSet);
@@ -147,12 +149,17 @@ type
     procedure DBGridKeyPress(Sender: TObject; var Key: Char);
     procedure actSignExecute(Sender: TObject);
     procedure IBrwSrcBeforePost(DataSet: TDataSet);
+    procedure DBGridDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn;
+      State: TGridDrawState);
+    procedure PageControl1Change(Sender: TObject);
   private
     { Private declarations }
     FLaudo: TLaudo;
     FCBClientes: TComboList;
+    procedure RefreshCtrl; override;
     procedure OnEdit; override;
     procedure OnMark(Sender: TObject);
+    procedure OnLog(var TableName: string; var Recno: Integer); override;
   public
     { Public declarations }
   end;
@@ -162,7 +169,7 @@ var
 
 implementation
 
-uses uDM, uLabAmostraAssM, ccalendardiff;
+uses uDM, uLabAmostraAssM, ccalendardiff, uResources;
 
 {$R *.dfm}
 
@@ -231,6 +238,8 @@ begin
     if Assigned(Params.FindParam('laudo')) then
       Params.ParamByName('laudo').AsInteger := Round(edLaudo.Value);
 
+    Params.ParamByName('analise_automatica').AsBoolean := (PageControl1.ActivePageIndex = 0);
+
     G.RefreshDataSet(IBrwSrc);
     RefreshCtrl;
   end;
@@ -285,6 +294,38 @@ begin
 
   G.RefreshDataSet(IBrwSrc);
   RefreshCtrl;
+end;
+
+procedure TLabAmostraAss.DBGridDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn;
+  State: TGridDrawState);
+var
+  fBitMap: TBitmap;
+begin
+  if (Column.Index <> 1) then
+    inherited DBGridDrawColumnCell(Sender, Rect, DataCol, Column, State)
+  else
+  begin
+    fBitMap:= TBitmap.Create;
+    with TDBGrid(Sender) do
+    try
+
+      fBitMap.Transparent:= True;
+
+      with Resources do
+        if IBrwSrcanalise_automatica.AsBoolean then
+          small_n.GetBitmap(208, fBitMap) //Executado
+        else
+          small_n.GetBitmap(213, fBitMap); //Em Digitação
+
+      if Column.Width <> fBitMap.Width + 2 then
+        Column.Width:= fBitMap.Width + 2;
+
+      {Desenha o status da remessa}
+      Canvas.Draw(Rect.Left + 1, Rect.Top + 1, fBitMap);
+    finally
+      fBitMap.Free;
+    end;
+  end;
 end;
 
 procedure TLabAmostraAss.DBGridKeyPress(Sender: TObject; var Key: Char);
@@ -416,6 +457,13 @@ begin
 
 end;
 
+procedure TLabAmostraAss.OnLog(var TableName: string; var Recno: Integer);
+begin
+  inherited;
+  TableName := 'labamostras_rel';
+  Recno := IBrwSrcrecno.AsInteger;
+end;
+
 procedure TLabAmostraAss.OnMark(Sender: TObject);
 var
   pos: TBookmark;
@@ -450,6 +498,14 @@ begin
   end;
 end;
 
+procedure TLabAmostraAss.PageControl1Change(Sender: TObject);
+begin
+  inherited;
+  FrameCheckBar1.Parent := PageControl1.ActivePage;
+  DBGrid1.Parent := PageControl1.ActivePage;
+  actQueryProcessExecute(actQueryProcess);
+end;
+
 procedure TLabAmostraAss.qDiagAfterScroll(DataSet: TDataSet);
 begin
   inherited;
@@ -462,6 +518,12 @@ begin
 
     LabAmostraAssM.JvDBComboBox3.UpdateDropDownItems;
   end;
+end;
+
+procedure TLabAmostraAss.RefreshCtrl;
+begin
+  inherited;
+  actLog.Enabled := not IBrwSrc.IsEmpty and (IBrwSrc.State = dsBrowse);
 end;
 
 initialization

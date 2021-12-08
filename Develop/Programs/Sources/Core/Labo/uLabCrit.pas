@@ -22,10 +22,11 @@ type
     qRelatoativo: TBooleanField;
     qRelatorecno: TIntegerField;
     dsRelato: TDataSource;
-    IBrwSrccor: TStringField;
+    IBrwSrcnivel: TIntegerField;
+    IBrwSrclabel: TStringField;
+    IBrwSrcexige_revisao: TBooleanField;
     procedure qRelatoAfterInsert(DataSet: TDataSet);
     procedure IBrwSrcAfterScroll(DataSet: TDataSet);
-    procedure IBrwSrcAfterInsert(DataSet: TDataSet);
   private
     { Private declarations }
     procedure OnEdit; override;
@@ -42,25 +43,17 @@ uses uDM, uIUtils, uLabCritM, iTypes;
 
 {$R *.dfm}
 
-procedure TLabCrit.IBrwSrcAfterInsert(DataSet: TDataSet);
-begin
-  inherited;
-  IBrwSrccor.AsString := 'clGreen';
-  if Assigned(LabCritM) then
-    LabCritM.JvColorComboBox1.ColorValue := StringToColor(IBrwSrccor.AsString)
-end;
-
 procedure TLabCrit.IBrwSrcAfterScroll(DataSet: TDataSet);
 begin
   inherited;
   qRelato.ParamByName('crit').AsInteger := IBrwSrcrecno.AsInteger;
   G.RefreshDataSet(qRelato);
 
-  if Assigned(LabCritM) then
-    if not IBrwSrccor.IsNull then          
-      LabCritM.JvColorComboBox1.ColorValue := StringToColor(IBrwSrccor.AsString)
-    else
-      LabCritM.JvColorComboBox1.ColorValue := clGreen;
+//  if Assigned(LabCritM) then
+//    if not IBrwSrccor.IsNull then          
+//      LabCritM.JvColorComboBox1.ColorValue := StringToColor(IBrwSrccor.AsString)
+//    else
+//      LabCritM.JvColorComboBox1.ColorValue := clGreen;
 end;
 
 procedure TLabCrit.OnEdit;

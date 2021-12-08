@@ -20,7 +20,7 @@ BEGIN
       end if;
 
       if new.status = 0 then
-         new.from_ := sys_paramv('smtp_user');
+         new.from_ := sys_paramv('smtp_from');
          new.from_name := sys_paramv('smtp_username');
       end if;
 

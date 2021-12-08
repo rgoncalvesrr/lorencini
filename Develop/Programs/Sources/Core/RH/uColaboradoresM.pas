@@ -102,6 +102,8 @@ type
     Label12: TLabel;
     JvDBLookupCombo1: TJvDBLookupCombo;
     Panel29: TPanel;
+    Panel33: TPanel;
+    DBCheckBox1: TDBCheckBox;
     procedure actImgDelExecute(Sender: TObject);
     procedure actImgAddExecute(Sender: TObject);
     procedure FormDestroy(Sender: TObject);

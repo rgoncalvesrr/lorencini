@@ -1,0 +1,43 @@
+/**
+   Atualiza rotinas que dispararam a geração do relatório
+
+   @author    Ricardo Gonçalves
+   @date      10/11/2021
+   @trigger   svc_spool A IUD
+
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+   
+*/
+create or replace function a_svc_spool()
+returns trigger as
+$$
+declare
+   _RPT_LAUDO  constant integer := 14;
+begin
+   if tg_op = 'DELETE' then
+      
+      if old.report = _RPT_LAUDO then
+         update labamostras_rel
+            set report_file_name = null
+          where recno = old.source_recno;  
+      end if;
+
+      return null;
+   end if;
+
+   if tg_op = 'UPDATE' then
+      if new.status = 'success' and old.status <> 'success' then
+         if new.report = _RPT_LAUDO then
+            update labamostras_rel
+               set report_file_name = new.hash
+             where recno = new.source_recno;  
+         end if;
+      end if;
+   end if;
+
+   return null;
+end;
+$$
+language plpgsql;

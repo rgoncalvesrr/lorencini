@@ -23,6 +23,16 @@ CREATE OR REPLACE FUNCTION a_labamostras_rel()
   RETURNS trigger AS
 $$
 Declare
+   _SREL_DIGITACAO   constant integer = 0;
+   _SREL_APONTAMENTO constant integer = 1;
+   _SREL_REVISAO     constant integer = 2;
+   _SREL_ASSINADO    constant integer = 3;
+   _SREL_LIBERADO    constant integer = 4;
+   _SREL_CANCELADO   constant integer = 5;
+
+   _SPED_EXECUTANDO  constant integer = 60;
+   _SPED_EXECUTADO   constant integer = 70;
+
    ra       record;
    rinst    record;
 BEGIN
@@ -47,25 +57,25 @@ BEGIN
 
       else
          -- Laudo aguardando revisão ainda
-         if new.status = 0 and old.status = 0 and ra.descri is not null then
+         if new.status = _SREL_DIGITACAO and old.status = _SREL_DIGITACAO and ra.descri is not null then
             if new.relato_recno is not null and new.relato_recno <> old.relato_recno then
                perform labamostras_res_atu(new.recno);
             end if;
 
          -- Processa encerramento do laudo
-         elsif new.status in (3,4) and old.status < 3 then
+         elsif new.status in (_SREL_ASSINADO, _SREL_LIBERADO, _SREL_CANCELADO) and old.status < _SREL_ASSINADO then
             -- Gera resultado na estrutura antiga
-            if new.status = 3 then
+            if new.status = _SREL_ASSINADO then
                -- Caso não haja laudos em aberto para pedido, marca como executado
                if not exists(
                   select 1
                     from labamostras_rel 
                    where pedido = new.pedido
                      and revisao is null
-                     and status <> 3)
+                     and status not in (_SREL_ASSINADO, _SREL_LIBERADO))
                then
                   update pedido
-                     set status = 70
+                     set status = _SPED_EXECUTADO
                    where recno = new.pedido; 
                end if;
 
@@ -94,24 +104,24 @@ BEGIN
             perform tsearch_laudo(new.recno);
 
          -- Cancelamento
-         elsif new.status = 4 and old.status = 3 then
+         elsif new.status = _SREL_CANCELADO and old.status in (_SREL_ASSINADO, _SREL_LIBERADO) then
             -- Coloca o pedido em execução
             update pedido
-               set status = 60
+               set status = _SPED_EXECUTANDO
              where recno = new.pedido
-               and status = 70;  
+               and status = _SPED_EXECUTADO;  
          elsif new.status < old.status then
             -- Apaga histórico de resultados associados a amostra
             delete
-              from labamostras_hres
+              from labamostras_hres 
              where laudo = new.recno
                and relato_recno = new.relato_recno;
             
             -- Coloca o pedido em execução
             update pedido
-               set status = 60
+               set status = _SPED_EXECUTANDO
              where recno = new.pedido
-               and status = 70;  
+               and status = _SPED_EXECUTADO;  
          end if;
       end if;
 

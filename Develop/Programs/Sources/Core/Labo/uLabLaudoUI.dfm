@@ -1,26 +1,24 @@
 inherited LabLaudoUI: TLabLaudoUI
   Caption = 'LabLaudoUI'
-  ClientHeight = 525
-  ClientWidth = 837
-  ExplicitWidth = 855
-  ExplicitHeight = 572
-  PixelsPerInch = 120
-  TextHeight = 20
+  ClientHeight = 394
+  ClientWidth = 628
+  ExplicitWidth = 644
+  ExplicitHeight = 433
+  PixelsPerInch = 96
+  TextHeight = 15
   inherited sGrid: TJvStringGrid
-    Width = 831
-    Height = 519
+    Width = 622
+    Height = 388
     OnDblClick = sGridDblClick
     OnKeyPress = sGridKeyPress
-    ExplicitLeft = -2
-    ExplicitTop = -2
-    ExplicitWidth = 831
-    ExplicitHeight = 519
+    ExplicitWidth = 622
+    ExplicitHeight = 388
   end
   object jvCalc: TJvCalcEdit [1]
-    Left = 344
-    Top = 283
-    Width = 124
-    Height = 28
+    Left = 258
+    Top = 212
+    Width = 93
+    Height = 23
     Flat = False
     ParentFlat = False
     CheckOnExit = True
@@ -34,12 +32,12 @@ inherited LabLaudoUI: TLabLaudoUI
     OnKeyPress = cbInstKeyPress
   end
   object cbInst: TComboBox [2]
-    Left = 344
-    Top = 221
-    Width = 223
-    Height = 28
+    Left = 258
+    Top = 166
+    Width = 167
+    Height = 23
     Style = csDropDownList
-    ItemHeight = 20
+    ItemHeight = 15
     TabOrder = 2
     Visible = False
     OnChange = cbInstChange

@@ -31,6 +31,9 @@ CREATE OR REPLACE FUNCTION labamostras_rel_hatu(
   RETURNS void AS
 $$
 Declare
+   _SREL_ASSINADO    constant integer = 3;
+   _SREL_LIBERADO    constant integer = 4;
+
    xcur        refcursor;
    r           record;
    rh          record;
@@ -59,7 +62,6 @@ BEGIN
    end if;
    
    perform sys_flag_mark('labamostras_rel', in_laudo);
-   
 
    open xcur for 
       select e.ensaio_recno, rel.recno laudo, rel.emissao, e.valor, e.recno recno_res
@@ -72,7 +74,7 @@ BEGIN
               and e.relato_recno = rel.relato_recno
        where rel.recno <> in_laudo
          and rel.relato_recno = r.relato_recno
-         and rel.status = 3
+         and rel.status in (_SREL_ASSINADO, _SREL_LIBERADO)
          and rel.assinatura is not null
          and rel.emissao < r.emissao
        order by e.ensaio_recno, rel.emissao desc;

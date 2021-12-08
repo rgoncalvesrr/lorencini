@@ -251,7 +251,7 @@ inherited LabLaudo: TLabLaudo
               ExplicitWidth = 134
             end
             inherited CCalendarDiff1: TCCalendarDiff
-              Date = 44369.075873518520000000
+              Date = 44533.058356736110000000
               DisplayInterval = Label11
               OnChange = actQueryProcessExecute
             end
@@ -272,7 +272,7 @@ inherited LabLaudo: TLabLaudo
             Width = 134
             Height = 15
             Align = alTop
-            Caption = '01/06/2021 a 30/06/2021'
+            Caption = '01/12/2021 a 31/12/2021'
             ExplicitWidth = 128
           end
           object Label3: TLabel
@@ -314,7 +314,7 @@ inherited LabLaudo: TLabLaudo
             end
             inherited CCalendarDiff1: TCCalendarDiff
               Interval = diMonthly
-              Date = 44369.075873518520000000
+              Date = 44533.058356736110000000
               DisplayInterval = Label1
               OnChange = actQueryProcessExecute
               Left = 96
@@ -333,10 +333,11 @@ inherited LabLaudo: TLabLaudo
             AlignWithMargins = True
             Left = 3
             Top = 3
-            Width = 61
+            Width = 74
             Height = 15
             Align = alTop
             Caption = 'S'#233'rie Equip.'
+            ExplicitWidth = 61
           end
           object edEquipSerie: TEdit
             AlignWithMargins = True
@@ -361,10 +362,11 @@ inherited LabLaudo: TLabLaudo
             AlignWithMargins = True
             Left = 3
             Top = 3
-            Width = 54
+            Width = 74
             Height = 15
             Align = alTop
             Caption = 'Tag Equip.'
+            ExplicitWidth = 54
           end
           object edEquipTag: TEdit
             AlignWithMargins = True
@@ -389,10 +391,11 @@ inherited LabLaudo: TLabLaudo
             AlignWithMargins = True
             Left = 3
             Top = 3
-            Width = 79
+            Width = 165
             Height = 15
             Align = alTop
             Caption = 'Nome Fantasia'
+            ExplicitWidth = 79
           end
           object edEmpresa: TEdit
             AlignWithMargins = True
@@ -417,10 +420,11 @@ inherited LabLaudo: TLabLaudo
             AlignWithMargins = True
             Left = 3
             Top = 3
-            Width = 97
+            Width = 22
             Height = 15
             Align = alTop
             Caption = 'Nome Empresarial'
+            ExplicitWidth = 97
           end
           object edRazao: TEdit
             AlignWithMargins = True
@@ -558,10 +562,6 @@ inherited LabLaudo: TLabLaudo
         TabOrder = 1
         object TabSheet2: TTabSheet
           Caption = 'Contatos'
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object DBGrid2: TDBGrid
             Tag = 1
             AlignWithMargins = True
@@ -676,12 +676,20 @@ inherited LabLaudo: TLabLaudo
       ImageIndex = 336
       OnExecute = actAtuContatosTodosExecute
     end
+    object actPublishRepors: TAction
+      Caption = 'Publicar Laudos'
+      ImageIndex = 412
+      OnExecute = actPublishReporsExecute
+    end
   end
   inherited pmRel: TPopupMenu
     Left = 341
     Top = 120
     object GerarLaudosemPDF1: TMenuItem
       Action = actExportToPDF
+    end
+    object PublicarLaudos1: TMenuItem
+      Action = actPublishRepors
     end
   end
   inherited pmOrder: TPopupMenu
@@ -707,8 +715,8 @@ inherited LabLaudo: TLabLaudo
         '  r.recno, r.pedido, r.amostra, r.os, a.comodato, r.relato_recno' +
         ', re.titulo, cri.descri crit, r.pcoleta,'
       
-        '  h.ocorrencia entrada, r.emissao, a.local, a.labsubest_recno, a' +
-        '.codigo, c.empresa, c.nome_chave, c.cnpj, c.cpf,'
+        '  a.recebimento entrada, r.emissao, a.local, a.labsubest_recno, ' +
+        'a.codigo, c.empresa, c.nome_chave, c.cnpj, c.cpf,'
       
         '  c.telefone, c.cidade, c.estado, c.email, e.serie, a.tag, re.si' +
         'gla'
@@ -717,9 +725,6 @@ inherited LabLaudo: TLabLaudo
       '         on re.recno = r.relato_recno'
       '       join labamostras a'
       '         on a.recno = r.amostra'
-      '       left join labamostras_hist h'
-      '         on h.amostra = r.amostra'
-      '        and h.estado = 40'
       '       join tbclientes c'
       '         on c.codigo = a.codigo'
       '       left join vequip e'
@@ -727,7 +732,7 @@ inherited LabLaudo: TLabLaudo
       '       left join vlaudocrit cri'
       '         on cri.relato_recno = r.relato_recno'
       '        and cri.recno = r.labcrit_recno'
-      ' where r.status >= 3'
+      ' where r.status >= 4'
       '   and r.assinatura is not null')
     IndexFieldNames = 'recno Asc'
     Left = 171

@@ -8,43 +8,76 @@
 	Histórico
 	---------------------------------------------------------------------------------------------------------------------
    Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
-   15/08/2011 19:01:13  v2    Ricardo Gonçalves.
-      [+] Geração da assinatura digital.
 
-   08/09/2011 22:44:33  v3    Ricardo Gonçalves.
-      [+] Preenchimento do código de serviços.
+   3/12/2021   Ricardo Gonçalves.
+      [*] Inclusão do tratamento para laudos com status "liberado"
 
-   04/10/2011 16:12:26  v4    Ricardo Gonçalves.
-      [+] Checagem de preenchimento das referências no encerramento do relatório.
-   
-   08/12/2011 19:29:36  v5    Ricardo Gonçalves.
-      [*] Tratamento do retrocesso de etapa do laudo.
-   
-   25/01/2012 14:25:02  v6    Ricardo Gonçalves.
+   20/05/2016 01:21:03  Ricardo Gonçalves.
+      [+] Registro da data de apontamento dos resultados dos ensaios.
+
+   25/01/2012 14:25:02  Ricardo Gonçalves.
       [-] Os históricos de ensaios não estavam sendo gerados corretamente por conta da ordenação do conteúdo base dos
          históricos.
-   20/05/2016 01:21:03  v7    Ricardo Gonçalves.
-      [+] Registro da data de apontamento dos resultados dos ensaios.
+
+   08/12/2011 19:29:36  Ricardo Gonçalves.
+      [*] Tratamento do retrocesso de etapa do laudo.
+
+   04/10/2011 16:12:26  Ricardo Gonçalves.
+      [+] Checagem de preenchimento das referências no encerramento do relatório.
+
+   08/09/2011 22:44:33  Ricardo Gonçalves.
+      [+] Preenchimento do código de serviços.
+
+   15/08/2011 19:01:13  Ricardo Gonçalves.
+      [+] Geração da assinatura digital.
 */
 CREATE OR REPLACE FUNCTION b_labamostras_rel()
   RETURNS trigger AS
 $$
 Declare
-   re       record;
-   r        record;
-   rh       record;
-   icol     integer;
-   iensaio  labamostras_res.ensaio_recno%type;
+   _SREL_DIGITACAO   constant integer = 0;
+   _SREL_APONTAMENTO constant integer = 1;
+   _SREL_REVISAO     constant integer = 2;
+   _SREL_ASSINADO    constant integer = 3;
+   _SREL_LIBERADO    constant integer = 4;
+   _SREL_CANCELADO   constant integer = 5;
 
+   _SPED_EXECUTANDO  constant integer = 60;
+   _SPED_EXECUTADO   constant integer = 70;
+
+   _MIN              constant integer = 1;
+   _MAX              constant integer = 2;
+   _MASK             constant varchar = 'FM999G999G990D9990';
+
+
+   re          record;
+   r           record;
+   la          record; -- laudo anterior
+   rh          record;
+   icol        integer;
+
+   iensaio     labamostras_res.ensaio_recno%type;
+   
    -- Variáveis que guardam a assinatura digital
-   vass_p1  varchar(32);
-   vass_p2  varchar(32);
-   vass_p3  varchar(32);
-   vass_p4  varchar(32);
-   mErro    text;
+   vass_p1     varchar(32);
+   vass_p2     varchar(32);
+   vass_p3     varchar(32);
+   vass_p4     varchar(32);
+
+   mErro       text;
+
+   xlog        log$;
+   tolerancia_ qtd$;
+   account_    sys_accounts.recno%type;
 BEGIN
+   account_ := sys_account();
+
    if tg_op <> 'DELETE' then
-      select equip_recno
+      xlog.source_table := sys_origem('labamostras_rel');
+      xlog.source_recno := new.recno;
+      xlog.account := sys_account();
+
+      select equip_recno, coleta
         into r
         from labamostras
        where recno = new.amostra;
@@ -55,8 +88,9 @@ BEGIN
       
       -- Trata inserção
       if tg_op = 'INSERT' then
-         new.status := 0;
+         new.status := _SREL_DIGITACAO;
          new.criacao := localtimestamp;
+         new.analise_automatica := false;
 
          -- Obtem informações do laudo
          select descri, ativo
@@ -98,7 +132,7 @@ BEGIN
                              and er.ensaio_recno = res.ensaio_recno));
          end if;
 
-         if old.status = 0 and new.status = 1 then -- Digitação para encerrado
+         if old.status = _SREL_DIGITACAO and new.status = _SREL_APONTAMENTO then -- Entrando em apontamento de resultados
             if not exists(
                select 1
                  from labamostras_hist
@@ -109,7 +143,7 @@ BEGIN
             end if;
 
             return new;
-         elsif old.status = 1 and new.status = 2 then -- Digitação para encerrado
+         elsif old.status = _SREL_APONTAMENTO and new.status = _SREL_REVISAO then -- Entradando em revisão de resultados
             if not exists(
                select 1
                  from labamostras_res
@@ -140,8 +174,143 @@ BEGIN
                raise '[[Os ensaios abaixo estão sem referência. %]]', mErro;
             end if;
 
-            new.apontado := localtimestamp;
-         elsif old.status = 2 and new.status = 3 then -- Assinatura do Laudo
+            -- Analista
+            select idcodigo 
+              into new.analista
+              from tbfuncionarios 
+             where account = account_;
+            
+            -- Responsável técnico
+            select idcodigo 
+              into new.idcodigo
+              from tbfuncionarios 
+             where resptec;
+
+            new.apontado := clock_timestamp();
+
+            -- Tenta fazer a revisão automática de resultados
+            --
+            -- Por padrão o campo "analise_automatica" é preenchido com falso.
+            -- 
+            -- Caso passe em todos os critérios a seguir é marcado como verdadeiro.            
+            --
+            select rel.recno, c.exige_revisao, rel.diagnostico, rel.recomendacao, rel.obs, rel.labcrit_recno, 
+                   rel.labdiag_recno, rel.labrec_recno, c.label, c.descri   
+              into la
+              from labamostras_rel rel
+                   join labamostras a
+                     on a.recno = rel.amostra
+                    and a.equip_recno = r.equip_recno
+                   join vlaudocrit c
+                     on c.relato_recno = rel.relato_recno 
+                    and c.recno = rel.labcrit_recno 
+             where rel.recno <> new.recno
+               and rel.relato_recno = new.relato_recno
+               and rel.status in (_SREL_ASSINADO, _SREL_LIBERADO)
+               and rel.assinatura is not null
+               and rel.emissao < clock_timestamp()
+             order by rel.emissao desc
+             limit 1;
+
+            if found then
+               xlog.title := format('Útimo laudo localizado %s', la.recno);
+               xlog.detail := format('Informações do último laudo: Criticidade: %sDiagnóstico: %s - %sRecomendação: %s - %sObs: %s', 
+                  la.labcrit_recno || chr(13)|| chr(10), la.labdiag_recno, la.diagnostico || chr(13)|| chr(10), 
+                  la.labrec_recno, la.recomendacao || chr(13)|| chr(10), la.obs);
+
+               perform log(xlog);
+
+               if not la.exige_revisao then
+
+                  xlog.title := format('Criticidade do último laudo localizado (%s): %s', la.recno, la.label);
+                  xlog.detail := format('Criticidade detalhada: %s', la.descri);
+
+                  perform log(xlog);
+
+                  new.analise_automatica := true;
+
+                  -- Recupera o valor anterior e o valor atual para cada ensaio
+                  for re in (
+                     select e.nome, atual.ensaio_recno, atual.valor valor_atual, hist.valor valor_historico, e.tolerancia,
+                            e.reftipo, atual.ref_tipo, atual.ref_valor
+                       from labamostras_res atual
+                            left join labamostras_res hist
+                              on hist.laudo = la.recno
+                             and hist.relato_recno = atual.relato_recno 
+                             and hist.ensaio_recno = atual.ensaio_recno 
+                            join labens e
+                              on e.recno = atual.ensaio_recno 
+                      where atual.laudo = new.recno)
+                  loop
+                     -- Validação do resultado por valores de referência 
+                     if re.reftipo > 1 then
+                        if re.ref_tipo = _MIN and re.valor_atual < re.ref_valor then
+                           new.analise_automatica := false;
+
+                           xlog.detail := format('Resultado do ensaio %s é inferior ao valor de referência %s', 
+                              to_char(re.valor_atual, _MASK),                               
+                              to_char(re.ref_valor, _MASK));
+                        end if;
+
+                        if re.ref_tipo = _MAX and re.valor_atual > re.ref_valor then
+                           new.analise_automatica := false;
+
+                           xlog.detail := format('Resultado do ensaio %s excedeu o valor de referência %s', 
+                              to_char(re.valor_atual, _MASK),
+                              to_char(re.ref_valor, _MASK));
+                        end if;
+                     else
+                        -- Validação do resultado por comparação com resultado anterior
+                        tolerancia_ := 0;
+                        -- Calcula tolerância com base no resultado anterior
+                        if re.tolerancia > 0 and re.valor_historico > 0 then
+                           tolerancia_ := re.valor_historico + re.valor_historico * re.tolerancia / 100;                     
+                        end if;
+                        
+                        if re.valor_atual not between (re.valor_historico - tolerancia_) and (re.valor_historico + tolerancia_) then                     
+                           new.analise_automatica := false;
+
+                           xlog.detail := format('Resultado do ensaio %s. Tolerância(%s) de %s até %s', 
+                              to_char(re.valor_atual, _MASK), 
+                              to_char(re.tolerancia, 'FM990D90%'),
+                              to_char(re.valor_historico - tolerancia_, _MASK),
+                              to_char(re.valor_historico + tolerancia_, _MASK));
+                        end if;
+                     end if;
+                     
+                     if not new.analise_automatica then                     
+                        xlog.title := format('Ensaio %s - %s fora da tolerância', re.ensaio_recno, re.nome);
+                        perform log(xlog);
+                        exit;
+                     end if;
+                  end loop;
+
+                  -- Recupera informações de diagnóstico e recomendação do laudo anterior
+                  if new.analise_automatica then                     
+                     xlog.title := format('Laudo %s qualificado por análise automática.', new.recno);
+                     xlog.detail := format('Todos os ensaios passaram nos critérios de tolerância.'); 
+                     perform log(xlog);
+
+                     new.labcrit_recno := la.labcrit_recno;
+                     new.labdiag_recno := la.labdiag_recno; 
+                     new.labrec_recno  := la.labrec_recno;   
+                     new.diagnostico := la.diagnostico; 
+                     new.recomendacao := la.recomendacao;                     
+                     new.obs := la.obs;
+
+                     select dias + r.coleta
+                       into new.pcoleta
+                       from vlaudodiags 
+                      where relato_recno = new.labdiag_recno
+                        and recno = new.relato_recno;
+                  end if;
+               end if;
+            else
+               xlog.title := 'Análise automática: laudo anterior não localizado';
+               xlog.detail := 'Não foi possível localizar laudo anterior para determinar análise automática';
+               perform log(xlog);
+            end if;
+         elsif old.status = _SREL_REVISAO and new.status = _SREL_ASSINADO then -- Assinatura do Laudo
             -- Verifica o codigo
             if new.idcodigo is null then
                raise '[[Para assinar um laudo é necessário que o código do engenheiro seja informado.]]';
@@ -166,7 +335,7 @@ BEGIN
                        and e.relato_recno = rel.relato_recno
                 where rel.recno <> new.recno
                   and rel.relato_recno = new.relato_recno
-                  and rel.status = 3
+                  and rel.status in (_SREL_ASSINADO, _SREL_LIBERADO)
                   and rel.assinatura is not null
                   and rel.emissao < new.emissao
                   and rel.revisao is null
@@ -233,16 +402,35 @@ BEGIN
             vass_p3 := md5(to_char(new.criacao, 'DDMMYYYYHH24MISS'));
             vass_p4 := md5(new.diagnostico);
 
-            new.assinatura := vass_p1 || vass_p2 || vass_p3 || vass_p4;            
-         elsif old.status = 4 then
+            new.assinatura := vass_p1 || vass_p2 || vass_p3 || vass_p4;
+
+            -- Verifica se o laudo está liberado
+            new.pendencia := liberar_laudo(new.recno);
+            
+            if new.pendencia = '' then
+               new.status := _SREL_LIBERADO;
+               new.pendencia := null;
+            end if;
+         elsif new.status = _SREL_LIBERADO and old.status = _SREL_ASSINADO then
+            if not laudo_liberado(new.recno) then
+               new.pendencia := liberar_laudo(new.recno);
+               if new.pendencia <> '' then
+                  new.status := old.status;
+               else
+                  new.pendencia := null;   
+               end if;
+            else
+               new.pendencia := null;
+            end if;
+         elsif old.status = _SREL_CANCELADO then
             raise '[[O laudo % não pode sofrer alterações porque está cancelado.]]', new.recno;
          elsif (new.status < old.status) then                     
             -- Gerando revisão do laudo
-            if old.status = 3 then
+            if old.status in (_SREL_ASSINADO, _SREL_LIBERADO) then
                insert into labamostras_rel 
-                  (amostra, relato_recno, codserv, pedido, os, status)
+                  (amostra, relato_recno, codserv, pedido, os)
                values
-                  (old.amostra, old.relato_recno, old.codserv, old.pedido, old.os, 0)
+                  (old.amostra, old.relato_recno, old.codserv, old.pedido, old.os)
                returning recno into new.revisao;
 
                update labamostras_res d
@@ -255,10 +443,10 @@ BEGIN
                   and d.laudo = new.revisao;
 
                -- Laudo cancelado
-               new.status := 4;
+               new.status := _SREL_CANCELADO;
             end if;
 
-            if old.status = 2 then
+            if old.status = _SREL_REVISAO then
                new.apontado := null;
             end if;
          else            

@@ -1,0 +1,63 @@
+/**
+   Verifica se o laudo tem pendências
+
+	@author    Ricardo Gonçalves
+	@date      02/12/2021
+	@trigger
+
+   @param   laudo_   código do laudo
+
+   @return  verdadeiro se o laudo não possui pendências
+
+	Histórico
+	-------------------------------------------------------------------------------------------------------------------
+*/
+create or replace function liberar_laudo(
+   in laudo_ integer)
+returns text as 
+$$
+declare
+   _SREL_ASSINADO constant integer := 4;
+
+   r     record;
+   nfe_  fis_nfe.chave%type;
+begin
+   if not laudo_liberado(laudo_) then      
+      select rel.amostra, sys_iif(rem.tipo = 1, 'do frasco', 'da seringa') tipo
+        into r
+        from labamostras_rel rel
+             left join labprocxequip rem
+	            on rem.amostra = rel.amostra
+       where rel.recno = laudo_; 
+      
+      if not found then
+         return format('Laudo %s não localizado', laudo_);      
+      end if;
+
+      if r.tipo is null then
+         return format('Não foi possível liberar laudo %s porque o processo de remessa da amostra %s não foi localizado.', laudo_, r.amostra);
+      end if;
+
+      if not exists(
+         select 1
+           from labamostras_nfe a                
+          where a.amostra = r.amostra)
+      then
+         -- begin
+         nfe_ := buscar_nfe_por_amostra(r.amostra);
+
+         if nfe_ is null then
+            return format('Não foi possível liberar laudo %s porque não há NF-e de entrada %s %s', laudo_, r.tipo, r.amostra);
+         end if;
+
+         perform associar_amostra_nfe(r.amostra, nfe_);
+         -- exception
+         --    when 
+         -- end;
+      end if;
+   end if;
+
+   return '';
+end;
+$$
+language plpgsql;

@@ -253,7 +253,7 @@ inherited LabAmostraAss: TLabAmostraAss
               ExplicitWidth = 193
             end
             inherited CCalendarDiff1: TCCalendarDiff
-              Date = 44489.805130185190000000
+              Date = 44506.647149953700000000
               DisplayInterval = Label1
               OnChange = actQueryProcessExecute
             end
@@ -322,18 +322,21 @@ inherited LabAmostraAss: TLabAmostraAss
     inherited PageControl1: TPageControl
       Width = 1117
       Height = 391
+      Images = Resources.medium_n
+      ExplicitTop = 2
       ExplicitWidth = 1117
       ExplicitHeight = 391
       inherited TabSheet1: TTabSheet
-        Caption = 'Laudos Aguardando Assinatura'
-        ExplicitLeft = 6
-        ExplicitTop = 30
+        Caption = 'Laudos Analisados Pelo Sistema'
+        ImageIndex = 208
+        ExplicitLeft = 4
+        ExplicitTop = 26
         ExplicitWidth = 1109
         ExplicitHeight = 361
         inherited DBGrid1: TDBGrid
           Top = 47
           Width = 1103
-          Height = 311
+          Height = 304
         end
         inline FrameCheckBar1: TFrameCheckBar
           Left = 0
@@ -346,6 +349,7 @@ inherited LabAmostraAss: TLabAmostraAss
           ExplicitWidth = 1109
           inherited ControlBar1: TControlBar
             Width = 1103
+            ExplicitWidth = 1103
             inherited ToolBar2: TToolBar
               ButtonWidth = 109
               inherited ToolButton13: TToolButton
@@ -374,6 +378,12 @@ inherited LabAmostraAss: TLabAmostraAss
             DataSet = IBrwSrc
           end
         end
+      end
+      object TabSheet2: TTabSheet
+        Caption = 'Laudo N'#227'o Analisados'
+        ImageIndex = 213
+        ExplicitTop = 26
+        ExplicitHeight = 361
       end
     end
   end
@@ -462,7 +472,7 @@ inherited LabAmostraAss: TLabAmostraAss
     Top = 225
   end
   inherited DataSource1: TDataSource
-    Left = 208
+    Left = 240
     Top = 160
   end
   inherited IBrwSrc: TZQuery
@@ -496,7 +506,8 @@ inherited LabAmostraAss: TLabAmostraAss
         'e.nome, se.regional, se.reg_nome,'
       
         '       cast(Initcap(f.nome) as varchar(60)) nome, f.crq, r.anali' +
-        'sta, (m.recno is not null) mark'
+        'sta, (m.recno is not null) mark,'
+      '       r.analise_automatica'
       '  from labamostras_rel r'
       '       join labrel re'
       '         on re.recno = r.relato_recno'
@@ -532,14 +543,33 @@ inherited LabAmostraAss: TLabAmostraAss
       '        and m.session = sys_session()'
       '        and m.table_ = sys_origem('#39'labamostras_rel'#39')'
       ' where r.status = 2'
-      '   and r.assinatura is null')
+      '   and r.assinatura is null'
+      '   and r.analise_automatica = :analise_automatica')
+    Params = <
+      item
+        DataType = ftBoolean
+        Name = 'analise_automatica'
+        ParamType = ptUnknown
+        Value = 'true'
+      end>
     Sequence = ZSequence1
     SequenceField = 'recno'
     Left = 160
     Top = 152
+    ParamData = <
+      item
+        DataType = ftBoolean
+        Name = 'analise_automatica'
+        ParamType = ptUnknown
+        Value = 'true'
+      end>
     object IBrwSrcmark: TBooleanField
       DisplayLabel = ' '
       FieldName = 'mark'
+    end
+    object IBrwSrcanalise_automatica: TBooleanField
+      DisplayLabel = ' '
+      FieldName = 'analise_automatica'
     end
     object IBrwSrcrecno: TIntegerField
       DisplayLabel = 'Laudo'

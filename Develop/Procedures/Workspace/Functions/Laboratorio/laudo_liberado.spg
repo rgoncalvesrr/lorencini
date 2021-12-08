@@ -1,0 +1,34 @@
+/**
+   Verifica se o laudo tem pendências
+
+	@author    Ricardo Gonçalves
+	@date      02/12/2021
+	@trigger
+
+   @param   laudo_   código do laudo
+
+   @return  verdadeiro se o laudo não possui pendências
+
+	Histórico
+	-------------------------------------------------------------------------------------------------------------------
+*/
+create or replace function laudo_liberado(
+   in laudo_ integer)
+returns boolean as 
+$$
+declare
+   _SREL_LIBERADO constant integer := 4;
+begin
+   if exists(
+      select 1
+        from labamostras_rel
+       where recno = laudo_
+         and status = _SREL_LIBERADO)
+   then
+      return true;
+   end if;
+
+   return false;
+end;
+$$
+language plpgsql;

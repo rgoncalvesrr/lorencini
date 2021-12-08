@@ -222,13 +222,17 @@ inherited Colaboradores: TColaboradores
       
         '       c.contabanco, c.contaagencia, c.contanumero, c.situacao, ' +
         'c.dtadmissao, c.dtdemissao, c.cargo, c.crq, c.account,'
-      '       c.conselho, c.assinatura, c.recno'
+      '       c.conselho, c.assinatura, c.recno, c.resptec'
       '  from tbfuncionarios c ')
     IndexFieldNames = 'nome Asc'
     Sequence = sIBrwSrc
     SequenceField = 'recno'
     Left = 184
     Top = 184
+    object IBrwSrcresptec: TBooleanField
+      FieldName = 'resptec'
+      Visible = False
+    end
     object IBrwSrcsituacao: TStringField
       DisplayLabel = ' '
       FieldName = 'situacao'
@@ -366,8 +370,8 @@ inherited Colaboradores: TColaboradores
         ' cep, cidade, estado, contabanco, contaagencia,'
       
         '   contanumero, telresidencia, situacao, dtadmissao, dtdemissao,' +
-        ' recno, crq, account, assinatura,'
-      '   conselho)'
+        ' recno, crq, account, assinatura, conselho,'
+      '   resptec)'
       'VALUES'
       
         '  (:idcodigo, :nome, :cargo, :telcelular, :rg, :cpf, :endereco, ' +
@@ -375,7 +379,7 @@ inherited Colaboradores: TColaboradores
       
         '   :contaagencia, :contanumero, :telresidencia, :situacao, :dtad' +
         'missao, :dtdemissao, :recno, :crq, :account, :assinatura,'
-      '   :conselho)')
+      '   :conselho, :resptec)')
     ModifySQL.Strings = (
       'UPDATE tbfuncionarios SET'
       '  idcodigo = :idcodigo,'
@@ -400,7 +404,8 @@ inherited Colaboradores: TColaboradores
       '  crq = :crq,'
       '  account = :account,'
       '  assinatura = :assinatura,'
-      '  conselho = :conselho'
+      '  conselho = :conselho,'
+      '  resptec = :resptec'
       'WHERE'
       '  tbfuncionarios.idcodigo = :OLD_idcodigo')
     Left = 128
@@ -519,6 +524,11 @@ inherited Colaboradores: TColaboradores
       item
         DataType = ftUnknown
         Name = 'conselho'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'resptec'
         ParamType = ptUnknown
       end
       item

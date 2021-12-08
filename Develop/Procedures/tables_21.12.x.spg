@@ -1,0 +1,48 @@
+set session authorization lorencini;
+
+drop table if exists amostras_nfe;
+
+create table labamostras_nfe (
+	amostra integer not null,
+	nfe varchar(44) not null,
+	registrado timestamp default (clock_timestamp()) not null,
+	account bigint not null,
+	recno bigserial not null,
+	constraint pk_labamostras_nfe primary key(amostra),
+	constraint fk_labamostras_nfe_1 foreign key(amostra) references labamostras(recno)
+		on update cascade on delete cascade,
+	constraint fk_labamostras_nfe_2 foreign key(nfe) references fis_nfe(chave)
+		on update cascade on delete restrict,
+	constraint fk_labamostras_nfe_3 foreign key(account) references sys_accounts(recno)
+		on update cascade on delete restrict,
+	constraint uk_labamostras_nfe_1 unique(recno));
+
+create index idx_labamostras_nfe_1 on labamostras_nfe(nfe);   
+
+alter table fis_nfe drop constraint ck_fis_nfe_1;
+alter table fis_nfe add constraint ck_fis_nfe_1 check(frascos_saldo between 0 and frascos);
+alter table fis_nfe drop constraint ck_fis_nfe_2;
+alter table fis_nfe add constraint ck_fis_nfe_2 check(seringas_saldo between 0 and seringas);      
+
+create index idx_fis_nfe_1 on fis_nfe(cliente) where (frascos_saldo > 0);
+create index idx_fis_nfe_2 on fis_nfe(cliente) where (seringas_saldo > 0);
+
+alter table labamostras_rel disable trigger all;
+update labamostras_rel
+   set status = 5
+ where status = 4;
+
+update labamostras_rel
+   set status = 4
+ where status = 3;
+
+alter table labamostras_rel enable trigger all;
+
+update labamostras_rel_status set "label" = 'Assinado' where status = 3;
+update labamostras_rel_status set "label" = 'Liberado' where status = 4;
+update labamostras_rel_status set "label" = 'Cancelado' where status = 5;
+
+delete from labamostras_rel_status where status > 5;
+
+alter table labamostras_rel 
+	add pendencia text;

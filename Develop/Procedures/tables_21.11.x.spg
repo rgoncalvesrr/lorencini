@@ -1,0 +1,110 @@
+set session authorization lorencini;
+
+alter table labens
+   add tolerancia percent$;
+
+create table labcrit_niveis (
+	nivel integer not null,
+	label varchar(15) not null,
+	cor varchar(10) not null,
+	exige_revisao boolean not null,
+	recno bigserial not null,
+	constraint pk_labcrit_niveis primary key(nivel),
+	constraint uk_labcrit_niveis_1 unique(recno)); 
+
+insert into labcrit_niveis 
+	(nivel, label, cor, exige_revisao)
+values
+	(1, 'Normal', 'clGreen', false),
+	(2, 'Atenção', 'clYellow', true),
+	(3, 'Crítico', 'clRed', true);
+
+alter table labcrit
+	add nivel integer,
+	add constraint fk_labcrit_1 foreign key(nivel) references labcrit_niveis(nivel)
+		on update cascade on delete restrict;
+		
+update labcrit set nivel = codigo;
+
+alter table labcrit alter nivel set not null;
+
+alter table labcrit
+	drop cor cascade,
+	drop codigo;
+	
+-- recriar visões: vlaudocrit, api.reports, api.spreadsheet
+
+create domain label$ as varchar(30) not null;
+
+create table labamostras_rel_status (
+	status integer not null,
+	label label$,
+	recno bigserial not null,
+	constraint pk_labamostras_rel_status primary key(status));
+	
+insert into labamostras_rel_status
+	(status, label)
+values
+	(0, 'Digitação'),
+	(1, 'Apontamento'),
+	(2, 'Análise de Resultados'),
+	(3, 'Assinado'),
+	(4, 'Cancelado');
+
+-- DE: 4 - Cancelado	PARA: 6, 'Cancelado'
+-- DE: 3 - Assinado		PARA: 5, 'Assinado'
+
+alter table labamostras_rel
+   add analise_automatica boolean default(false) not null,
+	add constraint fk_labamostras_rel_8 foreign key(status)
+		references labamostras_rel_status(status)
+		on update cascade on delete restrict;
+	
+alter table tbfuncionarios 
+	add resptec boolean default(false) not null;
+
+update tbfuncionarios set resptec = true where idcodigo = 90;
+
+CREATE TYPE svc_status$ AS ENUM (
+	'queue',
+	'running',
+	'success',
+	'fail');
+
+create table svc_spool (
+	recno bigserial not null,
+	print_to_file boolean default(false) not null,
+	print_to_device boolean default(false) not null,
+	device_name text,
+	file_name text,
+	status svc_status$ default('queue') not null,
+	report integer not null,
+	account account$ not null,
+	entry_at timestamp default(clock_timestamp()) not null,
+	emmited_at timestamp,
+	source_table integer not null,
+	source_recno integer not null,
+	hash varchar(32) not null,
+	constraint pk_svc_spool primary key(recno),
+	constraint fk_svc_spool_1 foreign key(report)
+		references sys_reports(report)
+		on update cascade on delete cascade,
+	constraint fk_svc_spool_2 foreign key(account)
+		references sys_accounts(recno)
+		on update cascade on delete cascade,
+	constraint fk_svc_spool_3 foreign key(source_table)
+		references sys_tables(recno)
+		on update cascade on delete cascade,
+	constraint ck_svc_spool_1 check(not print_to_file or (print_to_file and file_name is not null)),
+	constraint ck_svc_spool_2 check(not print_to_device or (print_to_device and device_name is not null)));
+
+create index idx_svc_spool_1 on svc_spool(report) where (status = 'queue');      
+create index idx_svc_spool_2 on svc_spool(report, file_name);
+
+alter table labamostras_rel
+   add report_file_name varchar(32);
+
+select 
+	sys_param_w('aws.s3.id', 'AKIARW42BBP7EPS4P2OO'), 
+ 	sys_param_w('aws.s3.chave', 'raa9xjqnwzJxhy7t7vAyNnLHQjXawWkOaUkwE1bd'), 
+ 	sys_param_w('aws.s3.regiao', 'us-east-1');

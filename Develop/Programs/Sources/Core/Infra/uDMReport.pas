@@ -285,7 +285,6 @@ type
     R00014aref_tipo: TIntegerField;
     R00014aref_valor: TFloatField;
     R00014avalor: TFloatField;
-    dsR00014: TDataSource;
     R00014d1: TDateField;
     R00014d2: TDateField;
     R00014d3: TDateField;
@@ -486,7 +485,6 @@ type
     R00017alaudo: TIntegerField;
     R00017claudo: TIntegerField;
     R00014alaudo: TIntegerField;
-    frxChartObject1: TfrxChartObject;
     R00014logo: TBlobField;
     R00014b: TZQuery;
     frxR00014b: TfrxDBDataset;
@@ -498,7 +496,6 @@ type
     R00014aensaio_recno: TIntegerField;
     R00014bref_valor: TFloatField;
     R00014inmetro: TBooleanField;
-    dsR00014a: TDataSource;
     R00014a: TZQuery;
     R00014revisao: TIntegerField;
     R00014asomenteleitura: TBooleanField;
@@ -1002,7 +999,7 @@ begin
   slocal := '';
 
   if R00017sigla.AsString <> EmptyStr then
-    slocal := R00014sigla.AsString;
+    slocal := R00017sigla.AsString;
 
   if R00017nome.AsString <> EmptyStr then
   begin

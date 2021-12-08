@@ -1,0 +1,53 @@
+/**
+   Valida o registro de uma nova impressão para o serviço de spool
+
+   @author    Ricardo Gonçalves
+   @date      10/11/2021
+   @trigger   svc_spool B IUD
+
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+   
+*/
+create or replace function b_svc_spool()
+returns trigger as
+$$
+begin   
+   if tg_op = 'DELETE' then
+      return old;
+   end if;
+
+   if tg_op = 'INSERT' then
+      new.account := coalesce(new.account, sys_account(), sys_account_def());
+      new.hash := md5(to_char(clock_timestamp(), 'YYYYmmdd HH24MIssms'));      
+
+      if new.print_to_file then
+         if exists(
+            select 1
+            from svc_spool
+            where print_to_file
+               and file_name = new.file_name
+               and report = new.report
+               and recno <> new.recno
+               and status = 'queue')
+         then
+            return null;
+         end if;
+
+         new.hash := md5(new.file_name);
+      end if;
+   else 
+      if new.status in ('success', 'fail') and old.status in ('queue', 'running') then
+         new.emmited_at := clock_timestamp();
+      end if;
+
+      if new.status in ('queue', 'running') and old.status not in ('queue', 'running') then
+         new.emmited_at := null;
+      end if;
+   end if;
+
+   return new;
+end
+$$
+language 'plpgsql'
