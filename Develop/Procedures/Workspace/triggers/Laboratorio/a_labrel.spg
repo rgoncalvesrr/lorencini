@@ -8,10 +8,16 @@
 	Histórico
 	---------------------------------------------------------------------------------------------------------------------
    Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+   
+   3/12/2021   Ricardo Gonçalves.
+      [*] Tratamento para laudos com status "liberado"
 */
 create or replace function a_labrel()
   returns trigger as
 $$
+declare
+   _SREL_ASSINADO    constant integer = 3;
+   _SREL_LIBERADO    constant integer = 4;
 begin
    if tg_op = 'UPDATE' then
       if new.ativo and new.ativo <> old.ativo then
@@ -31,7 +37,7 @@ begin
                            join labamostras_rel l                   
                               on l.recno = r.laudo 
                            and l.relato_recno = r.relato_recno 
-                           and l.status = 3
+                           and l.status in (_SREL_ASSINADO, _SREL_LIBERADO)
                            and l.revisao is null
                            and l.assinatura is not null
                      where r.relato_recno = new.recno

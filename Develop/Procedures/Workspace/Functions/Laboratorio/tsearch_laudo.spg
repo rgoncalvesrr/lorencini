@@ -7,24 +7,28 @@
 
 	Histórico
 	-------------------------------------------------------------------------------------------------------------------
+   3/12/2021   Ricardo Gonçalves.
+      [+] Inclusão da descrição do status.
  */
 Create or Replace Function tsearch_laudo(
    in in_laudo integer,
    in in_atualiza boolean = true)
 Returns tsvector As
 $$
-declare
+declare   
    r     record;
    docto tsvector;
 begin
    docto := null;
 
    select l.amostra, l.pedido, a.comodato, l.diagnostico, l.recomendacao, l.obs, l.destinatario, 
-      sys_iif(l.status = 3, 'assinado', 'revisado') status, lr.titulo, lr.descri, lr.sigla, a.amostrador, 
+      ls.label status, lr.titulo, lr.descri, lr.sigla, a.amostrador, 
       s.descri servico, e.serie, e.descri equip_nome, sys_iif(ec.status = 1, 'energizado', 'desligado') equip_status,
       e.familia, e.fabricante, e.isolante, e.tipo, ec."local", ec.subest, ec.tag, c.descri crit_desc, c.label crit     
      into r  
      from labamostras_rel l
+          join labamostras_rel_status ls
+            on ls.status = l.status
           join labamostras a
             on a.recno = l.amostra 
           join labrel lr

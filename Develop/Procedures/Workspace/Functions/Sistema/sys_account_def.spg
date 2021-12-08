@@ -29,7 +29,7 @@ BEGIN
          (password, status, changepass, role)
       values
          (password_, 2, false, role_)
-      returning account into account_;
+      returning recno into account_;
 
       insert into contatos
          (account, email, nome)

@@ -243,7 +243,7 @@ begin
   end;
 
   // Tabela da fila de mensagens
-  qMSG := Qry;
+  qMSG := QryRO;
   qMSG.SQL.Text :=
   'select from_, from_name, contenttype, charset_, subject, message ' +
     'from sys_email '+
@@ -253,7 +253,7 @@ begin
   qMSG.Open;
 
   // Tabela de destinatários da mensagem
-  qDST := Qry;
+  qDST := QryRO;
   qDST.SQL.Text :=
   'select type_, to_, to_name '+
     'from sys_emailto '+
@@ -263,7 +263,7 @@ begin
   qDST.Open;
 
   // Tabela de anexos
-  qAtt := Qry;
+  qAtt := QryRO;
   qAtt.SQL.Text :=
   'select contenttype, attach_name ' +
     'from sys_emailatach '+

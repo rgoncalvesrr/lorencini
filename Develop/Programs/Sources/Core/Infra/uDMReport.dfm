@@ -41,8 +41,8 @@ object DMReport: TDMReport
     PreviewOptions.Zoom = 1.000000000000000000
     PrintOptions.Printer = 'Padr'#227'o'
     PrintOptions.PrintOnSheet = 0
-    ReportOptions.CreateDate = 42781.714010347200000000
-    ReportOptions.LastChange = 44381.833351134300000000
+    ReportOptions.CreateDate = 39757.585007557900000000
+    ReportOptions.LastChange = 44300.019422986100000000
     ScriptLanguage = 'PascalScript'
     StoreInDFM = False
     OnReportPrint = 'ReportBaseOnReportPrint'
@@ -2040,7 +2040,7 @@ object DMReport: TDMReport
       '         on f.idcodigo = r.idcodigo'
       '       left join tbfuncionarios an'
       '         on an.idcodigo = r.analista'
-      ' where r.status >= 3'
+      ' where r.status >= 4'
       '   and r.assinatura is not null')
     Params = <>
     FetchRow = 50
@@ -2701,11 +2701,6 @@ object DMReport: TDMReport
     Left = 280
     Top = 128
   end
-  object dsR00014: TDataSource
-    DataSet = R00014
-    Left = 344
-    Top = 80
-  end
   object R00015: TZReadOnlyQuery
     Connection = DM.Design
     SortedFields = 'nome_chave;nf;titulo;idos'
@@ -3132,7 +3127,7 @@ object DMReport: TDMReport
       '         on p.recno = r.pedido  '
       '       left join markup mk'
       '         on mk.recno = p.markup '
-      ' where r.status >= 3'
+      ' where r.status >= 4'
       '   and r.assinatura is not null')
     Params = <>
     FetchRow = 50
@@ -4917,10 +4912,6 @@ object DMReport: TDMReport
     Left = 488
     Top = 176
   end
-  object frxChartObject1: TfrxChartObject
-    Left = 224
-    Top = 24
-  end
   object R00014b: TZQuery
     Connection = DM.Design
     SQL.Strings = (
@@ -5031,11 +5022,6 @@ object DMReport: TDMReport
     BCDToCurrency = False
     Left = 280
     Top = 176
-  end
-  object dsR00014a: TDataSource
-    DataSet = R00014a
-    Left = 344
-    Top = 128
   end
   object R00020: TZQuery
     Connection = DM.Design

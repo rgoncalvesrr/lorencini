@@ -23,9 +23,12 @@ type
     FFirstExec: Boolean;
     FOnLogSMTP: TNotifyEventLog;
     FOnLogSchedule: TNotifyEventLog;
+    FOnLogPrint: TNotifyEventLog;
+    FMaxThreads: Integer;
+    FRunningThreads: Integer;
     procedure ProcessFinished(Sender: TObject);
     procedure SetDBError(const Value: String);
-    procedure ProcessNextTask;
+    procedure ProcessNextTasks;
     procedure Log(Sender: TObject; const MsgLog: string); overload;
     procedure Log(Sender: TObject; const MsgLog: string; const Args: array of const); overload;
     procedure Log(const MsgLog: string); overload;
@@ -33,14 +36,18 @@ type
     procedure Initialize;
     procedure ProcessMailQueue;
     procedure ProcessScheduleQueue;
+    procedure ProcessSpool;
   public
     { Public declarations }
     property DBError: String read FDBError write SetDBError;
     property ID: string read FID;
+    property MaxThreads: Integer read FMaxThreads;
+    property RunningThreads: Integer read FRunningThreads;
 
     property OnLog: TNotifyEventLog read FOnLog write FOnLog;
     property OnLogSchedule: TNotifyEventLog read FOnLogSchedule write FOnLogSchedule;
     property OnLogSMTP: TNotifyEventLog read FOnLogSMTP write FOnLogSMTP;
+    property OnLogPrint: TNotifyEventLog read FOnLogPrint write FOnLogPrint;
   end;
 
 var
@@ -49,7 +56,8 @@ var
 implementation
 
 uses ServiceCFG, ActiveX, ComObj, uIUtils, ServiceSMTP, mcutils, IdSSLOpenSSL,
-  IdExplicitTLSClientServerBase, IdSMTP, ServiceTask;
+  IdExplicitTLSClientServerBase, IdSMTP, ServiceTask, ServiceSpoolReport, 
+  uReport, uDM, uDMReport;
 
 {$R *.dfm}
 
@@ -63,6 +71,7 @@ begin
   FFirstExec := True;
   appname := ParamStr(0);
   appimage := ExtractFileName(appname);
+  FMaxThreads := G.GetNumberOfProcessors;
 
   if CoCreateGuid(aGuid) = S_OK then
     FID := GUIDToString(aGuid)
@@ -127,6 +136,9 @@ begin
 
   zQry.SQL.Text := 'select sys_session_release()';
   zQry.ExecSQL;
+
+  if Assigned(DMReport) then
+    FreeAndNil(DMReport);
 end;
 
 procedure TdmCore.Initialize;
@@ -174,7 +186,7 @@ begin
           SSLMode := sslvTLSv1_1;
         if authTyp = 'TLSv1_2' then
           SSLMode := sslvTLSv1_2;
-
+          
         TLS := utNoTLSSupport;
 
         if tlsTyp = 'Implicit' then
@@ -229,8 +241,9 @@ begin
 
   ProcessMailQueue;
   ProcessScheduleQueue;
+  ProcessSpool;
 
-  ProcessNextTask;
+  ProcessNextTasks;
 end;
 
 procedure TdmCore.pgConnAfterConnect(Sender: TObject);
@@ -283,9 +296,9 @@ begin
     if (TServiceBase(Sender).LastError <> EmptyStr) then
       Log(TServiceBase(Sender).LastError);
     
-    FTasks.Remove(Sender);
+    Dec(FRunningThreads);
   finally
-    ProcessNextTask;
+    ProcessNextTasks;
   end;
 end;
 
@@ -341,17 +354,22 @@ begin
   end;
 end;
 
-procedure TdmCore.ProcessNextTask;
+procedure TdmCore.ProcessNextTasks;
 var
   tasks: TList;
+  thread: TThread;
 begin
   tasks := FTasks.LockList;
   try
-  // Executa próxima thread
-  if tasks.Count > 0 then
-    TThread(tasks.First).Resume
-  else
-    Monitor.Enabled := True;
+    while ((FRunningThreads <= FMaxThreads) and (tasks.Count > 0)) do
+    begin
+      thread := TThread(tasks.First);
+      tasks.Remove(thread);
+      thread.Resume;
+      Inc(FRunningThreads);
+    end;
+
+    Monitor.Enabled := FRunningThreads = 0;
   finally
     FTasks.UnlockList;
   end;
@@ -394,6 +412,56 @@ begin
   finally
     zQry.Close;
   end;
+end;
+
+procedure TdmCore.ProcessSpool;
+var
+  spool: TServiceSpoolReport;
+  report: TReport;
+begin
+  try
+    zQry.SQL.Text :=
+      'select p.recno, p.report, p.print_to_device, p.print_to_file, p.source_table, p.source_recno, p.hash, '+
+             'p.file_name '+
+        'from svc_spool p '+
+       'where print_to_file '+
+         'and status = ''queue'' '+
+       'order by recno '+
+      'limit 10 '; 
+
+    zQry.Open;
+
+    if not zQry.IsEmpty and not Assigned(DMReport) then
+      DMReport := TDMReport.Create(nil);
+
+    while not zQry.Eof do
+    begin
+      report := TReport.New
+        .ID(zQry.FieldByName('report').AsInteger)
+        .PrintToPDF(zQry.FieldByName('print_to_file').AsBoolean)
+        .PrintToDevice(zQry.FieldByName('print_to_device').AsBoolean)
+        .Caption(zQry.FieldByName('file_name').AsString)
+        .FileName(zQry.FieldByName('hash').AsString);
+
+      spool := TServiceSpoolReport.Create(TServiceCFG.GetInstance.ConnParams, report);
+      spool.Id := zQry.FieldByName('recno').AsInteger;
+      spool.OnLog := FOnLogPrint;
+      spool.OnTerminate := ProcessFinished;
+      spool.Table_ := zQry.FieldByName('source_table').AsInteger;
+      spool.Recno_ := zQry.FieldByName('source_recno').AsInteger;
+      spool.Description := format('%s %s', [zQry.FieldByName('file_name').AsString,
+        zQry.FieldByName('hash').AsString]);
+
+      U.Data.ExecSQL('update svc_spool set status = ''running'' where recno = %d', [spool.Id]);
+
+      FTasks.Add(spool);
+
+      zQry.Next;
+    end;
+  finally
+    zQry.Close;
+  end;
+
 end;
 
 procedure TdmCore.SetDBError(const Value: String);

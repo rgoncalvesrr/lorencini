@@ -103,6 +103,8 @@ type
     uContatos: TZUpdateSQL;
     actAtuContatosTodos: TAction;
     AtualizarContatosdeTodososLaudos1: TMenuItem;
+    actPublishRepors: TAction;
+    PublicarLaudos1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure actQueryProcessExecute(Sender: TObject);
     procedure FrameData1ComboBox1Change(Sender: TObject);
@@ -117,6 +119,7 @@ type
     procedure actDelContatoExecute(Sender: TObject);
     procedure actRefreshContatosExecute(Sender: TObject);
     procedure actAtuContatosTodosExecute(Sender: TObject);
+    procedure actPublishReporsExecute(Sender: TObject);
   private
     FRefresh: Boolean;
     FR00014SQL: string;
@@ -194,7 +197,7 @@ var
   function ComposeFileName(Filename, Field, Value : string): string;
   begin
     Result := Filename;
-    
+
     if Trim(Value) <> EmptyStr then
     begin
       if Result <> EmptyStr then
@@ -215,7 +218,7 @@ begin
   mark := IBrwSrc.GetBookmark;
   IBrwSrc.DisableControls;
   actExportToPDF.Enabled := False;
-  
+
   oLaudo := FindReport(14)
     .PrintToDevice(False)
     .PrintToPDF(True);
@@ -276,7 +279,7 @@ begin
     IBrwSrc.GotoBookmark(mark);
     IBrwSrc.FreeBookmark(mark);
     IBrwSrc.EnableControls;
-    
+
     oLaudo.PrintToDevice(True)
       .PrintToPDF(False)
       .FileName(EmptyStr);
@@ -298,6 +301,95 @@ begin
     Exit;
 
   U.Out.ShowInfo('Revisão gerada com o número %d', [Random(3500)]);
+end;
+
+procedure TLabLaudo.actPublishReporsExecute(Sender: TObject);
+var
+  mark: TBookmark;
+  currentCursor: TCursor;
+  fileName: string;
+  QSpool: TZReadOnlyQuery;
+
+  function ComposeFileName(Filename, Field, Value : string): string;
+  begin
+    Result := Filename;
+
+    if Trim(Value) <> EmptyStr then
+    begin
+      if Result <> EmptyStr then
+        Result := Result + ' - ';
+
+      Result := Result + Field + ' [' + Value + ']';
+    end;
+  end;
+begin
+  inherited;
+
+  IProgress := TIProgress.Create(nil);
+  IProgress.ProgressBar1.Max := IBrwSrc.RecordCount;
+  IProgress.Label3.Caption := EmptyStr;
+  IProgress.Show;
+
+  currentCursor := Screen.Cursor;
+  mark := IBrwSrc.GetBookmark;
+  IBrwSrc.DisableControls;
+  actPublishRepors.Enabled := False;
+
+  QSpool := U.QueryPersistent;
+  QSpool.SQL.Text :=
+    'insert into svc_spool '+
+      '(print_to_file, file_name, report, source_table, source_recno) '+
+    'values '+
+      '(true, :file_name, 14, sys_origem(''labamostras_rel''), :source_recno)';
+  try
+    IBrwSrc.First;
+    IProgress.Label3.Caption := 'Imprimindo Laudo ' + IBrwSrcrecno.AsString;
+
+    while not IBrwSrc.Eof do
+    begin
+      fileName := EmptyStr;
+
+      //Sigla_serie_<dsfdsfdsf>_tag_<dfsdfdsf>
+
+      if not IBrwSrcsigla.IsNull then
+        fileName := UpperCase(IBrwSrcsigla.AsString);
+
+      fileName := ComposeFileName(fileName, 'Serie', IBrwSrcserie.AsString);
+      fileName := ComposeFileName(fileName, 'TAG', IBrwSrctag.AsString);
+      fileName := ComposeFileName(fileName, 'Local', IBrwSrclocal.AsString);
+      fileName := ComposeFileName(fileName, 'Laudo', IBrwSrcrecno.AsString);
+
+      fileName := StringReplace(fileName, '\', EmptyStr, [rfReplaceAll]);
+      fileName := StringReplace(fileName, '/', EmptyStr, [rfReplaceAll]);
+      fileName := StringReplace(fileName, ':', EmptyStr, [rfReplaceAll]);
+      fileName := StringReplace(fileName, '*', EmptyStr, [rfReplaceAll]);
+      fileName := StringReplace(fileName, '?', EmptyStr, [rfReplaceAll]);
+      fileName := StringReplace(fileName, '"', EmptyStr, [rfReplaceAll]);
+      fileName := StringReplace(fileName, '<', EmptyStr, [rfReplaceAll]);
+      fileName := StringReplace(fileName, '>', EmptyStr, [rfReplaceAll]);
+      fileName := StringReplace(fileName, '|', EmptyStr, [rfReplaceAll]);
+
+
+      IProgress.Label3.Caption := 'Imprimindo ' + FileName;
+      IProgress.Label3.Repaint;
+
+      Sleep(1);
+      QSpool.ParamByName('file_name').AsString := fileName;
+      QSpool.ParamByName('source_recno').AsInteger := IBrwSrcrecno.AsInteger;
+      QSpool.ExecSQL;
+
+      IBrwSrc.Next;
+      IProgress.ProgressBar1.Position := IBrwSrc.RecNo;
+    end;
+  finally
+    Screen.Cursor := currentCursor;
+    IBrwSrc.GotoBookmark(mark);
+    IBrwSrc.FreeBookmark(mark);
+    IBrwSrc.EnableControls;
+    FreeAndNil(IProgress);
+    FreeAndNil(QSpool);
+    actPublishRepors.Enabled := True;
+  end;
 end;
 
 procedure TLabLaudo.actQueryProcessExecute(Sender: TObject);
@@ -497,6 +589,7 @@ procedure TLabLaudo.RefreshCtrl;
 begin
   inherited;
   actExportToPDF.Enabled := IBrwSrc.Active and not IBrwSrc.IsEmpty;
+  actPublishRepors.Enabled := actExportToPDF.Enabled;
   actAtuContatos.Enabled := not IBrwSrc.IsEmpty;
   actDelContato.Enabled := not qContatos.IsEmpty;
   actRefreshContatos.Enabled := not IBrwSrc.IsEmpty;

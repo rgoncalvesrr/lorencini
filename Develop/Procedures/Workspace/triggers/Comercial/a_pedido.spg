@@ -193,9 +193,9 @@ BEGIN
 
                -- Insere laudo em estado de digitação
                insert into labamostras_rel 
-                  (amostra,  codserv,   relato_recno,  pedido,    os,  cliente,    destinatario,       status)
+                  (amostra,  codserv,   relato_recno,  pedido,    os,  cliente,    destinatario)
                values
-                  (r.amostra, r.codserv, irelato_recno, new.recno, ios, new.cliente, new.destinatario, 0);
+                  (r.amostra, r.codserv, irelato_recno, new.recno, ios, new.cliente, new.destinatario);
             end loop;
          end if;
       elsif old.status = 60 and new.status = 70 then -- Executado

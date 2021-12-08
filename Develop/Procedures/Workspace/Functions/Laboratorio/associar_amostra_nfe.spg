@@ -1,0 +1,105 @@
+/**
+   Faz associação entre nota fiscal de entrada e amostra
+
+	@author    Ricardo Gonçalves
+	@date      01/12/2021
+	@trigger
+
+   @amostra_   código a amostra
+   @chave_     chave da NFE que será associada a amostra
+   
+
+	Histórico
+	-------------------------------------------------------------------------------------------------------------------
+*/
+create or replace function associar_amostra_nfe(
+   in amostra_ integer,
+   in chave_ varchar)
+returns void as 
+$$
+declare 
+   _NFE_ENTRADA   constant integer := 1;
+   _NFE_INVALIDA  constant integer := 2;
+
+   _FRASCO        constant integer := 1;
+   _SERINGA       constant integer := 2;
+
+   rn    record;
+   ra    record;
+
+   nfe_  labamostras_nfe.nfe%type;
+begin   
+   select nfe
+     into nfe_
+     from labamostras_nfe
+    where amostra = amostra_;
+
+   if found then
+      raise '[[A amostra % já foi associada a NF-e %]]', amostra_, mask_nfe(nfe_);
+   end if;
+
+   select a.codigo, c.nome_chave, a.estado, rem.tipo
+     into ra
+     from labamostras a
+          join tbclientes c
+            on c.codigo = a.codigo
+          left join labprocxequip rem
+            on rem.amostra = a.recno
+    where a.recno = amostra_;
+   
+   if not found then
+      raise '[[Amostra % não foi localizada!]]', amostra_;
+   end if;
+
+   if ra.tipo is null then
+      raise '[[Amostra % não poder ser associada a NF-e % porque a vidraria não foi enviada ao cliente]]', amostra_, mask_nfe(chave_);
+   end if;
+
+   select frascos_saldo, seringas_saldo, tipo, status, cliente 
+     into rn
+     from fis_nfe 
+    where chave = chave_;
+   
+   if not found then
+      raise '[[NF-e % não foi localizada!]]', mask_nfe(chave_);
+   end if;
+
+   if rn.tipo <> _NFE_ENTRADA then
+      raise '[[A NF-e % é uma nota de saída. Somente NF-e de entrada pode ser associada a amostra %]]', mask_nfe(chave_), amostra_;
+   end if; 
+
+   if rn.status = _NFE_INVALIDA then
+      raise '[[A NF-e % está inválida e não pode ser associada a amostra %]]', mask_nfe(chave_), amostra_;
+   end if; 
+
+   if ra.codigo <> rn.cliente then
+      raise '[[NF-e % não pertence ao cliente % - %.]]', mask_nfe(chave_), ra.codigo, ra.nome_chave;
+   end if;
+
+   if ra.tipo = _FRASCO then
+      if rn.frascos_saldo = 0 then
+         raise '[[A NF-e % não possui saldo de frascos para ser associada a amostra %]]', mask_nfe(chave_), amostra_;
+      end if;
+
+      update fis_nfe
+         set frascos_saldo = frascos_saldo - 1
+       where chave = chave_;
+   end if;
+
+   if ra.tipo = _SERINGA then
+      if rn.seringas_saldo = 0 then
+         raise '[[A NF-e % não possui saldo de seringas para ser associada a amostra %]]', mask_nfe(chave_), amostra_;
+      end if;
+
+      update fis_nfe
+         set seringas_saldo = seringas_saldo - 1
+       where chave = chave_;  
+   end if;
+
+   insert into labamostras_nfe
+      (amostra, nfe, account)
+   values
+      (amostra_, chave_, coalesce(sys_account(), sys_account_def()));
+end
+$$
+language plpgsql;

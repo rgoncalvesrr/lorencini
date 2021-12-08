@@ -251,7 +251,7 @@ inherited LabLaudo: TLabLaudo
               ExplicitWidth = 134
             end
             inherited CCalendarDiff1: TCCalendarDiff
-              Date = 44508.600842094910000000
+              Date = 44533.058356736110000000
               DisplayInterval = Label11
               OnChange = actQueryProcessExecute
             end
@@ -272,7 +272,7 @@ inherited LabLaudo: TLabLaudo
             Width = 134
             Height = 15
             Align = alTop
-            Caption = '01/11/2021 a 30/11/2021'
+            Caption = '01/12/2021 a 31/12/2021'
             ExplicitWidth = 128
           end
           object Label3: TLabel
@@ -314,7 +314,7 @@ inherited LabLaudo: TLabLaudo
             end
             inherited CCalendarDiff1: TCCalendarDiff
               Interval = diMonthly
-              Date = 44508.600842106480000000
+              Date = 44533.058356736110000000
               DisplayInterval = Label1
               OnChange = actQueryProcessExecute
               Left = 96
@@ -676,12 +676,20 @@ inherited LabLaudo: TLabLaudo
       ImageIndex = 336
       OnExecute = actAtuContatosTodosExecute
     end
+    object actPublishRepors: TAction
+      Caption = 'Publicar Laudos'
+      ImageIndex = 412
+      OnExecute = actPublishReporsExecute
+    end
   end
   inherited pmRel: TPopupMenu
     Left = 341
     Top = 120
     object GerarLaudosemPDF1: TMenuItem
       Action = actExportToPDF
+    end
+    object PublicarLaudos1: TMenuItem
+      Action = actPublishRepors
     end
   end
   inherited pmOrder: TPopupMenu
@@ -724,7 +732,7 @@ inherited LabLaudo: TLabLaudo
       '       left join vlaudocrit cri'
       '         on cri.relato_recno = r.relato_recno'
       '        and cri.recno = r.labcrit_recno'
-      ' where r.status >= 3'
+      ' where r.status >= 4'
       '   and r.assinatura is not null')
     IndexFieldNames = 'recno Asc'
     Left = 171
