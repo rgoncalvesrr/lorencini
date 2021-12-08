@@ -63,4 +63,48 @@ alter table labamostras_rel
 alter table tbfuncionarios 
 	add resptec boolean default(false) not null;
 
-update tbfuncionarios set resptec = true where idcodigo = 90;   
+update tbfuncionarios set resptec = true where idcodigo = 90;
+
+CREATE TYPE svc_status$ AS ENUM (
+	'queue',
+	'running',
+	'success',
+	'fail');
+
+create table svc_spool (
+	recno bigserial not null,
+	print_to_file boolean default(false) not null,
+	print_to_device boolean default(false) not null,
+	device_name text,
+	file_name text,
+	status svc_status$ default('queue') not null,
+	report integer not null,
+	account account$ not null,
+	entry_at timestamp default(clock_timestamp()) not null,
+	emmited_at timestamp,
+	source_table integer not null,
+	source_recno integer not null,
+	hash varchar(32) not null,
+	constraint pk_svc_spool primary key(recno),
+	constraint fk_svc_spool_1 foreign key(report)
+		references sys_reports(report)
+		on update cascade on delete cascade,
+	constraint fk_svc_spool_2 foreign key(account)
+		references sys_accounts(recno)
+		on update cascade on delete cascade,
+	constraint fk_svc_spool_3 foreign key(source_table)
+		references sys_tables(recno)
+		on update cascade on delete cascade,
+	constraint ck_svc_spool_1 check(not print_to_file or (print_to_file and file_name is not null)),
+	constraint ck_svc_spool_2 check(not print_to_device or (print_to_device and device_name is not null)));
+
+create index idx_svc_spool_1 on svc_spool(report) where (status = 'queue');      
+create index idx_svc_spool_2 on svc_spool(report, file_name);
+
+alter table labamostras_rel
+   add report_file_name varchar(32);
+
+select 
+	sys_param_w('aws.s3.id', 'AKIARW42BBP7EPS4P2OO'), 
+ 	sys_param_w('aws.s3.chave', 'raa9xjqnwzJxhy7t7vAyNnLHQjXawWkOaUkwE1bd'), 
+ 	sys_param_w('aws.s3.regiao', 'us-east-1');
