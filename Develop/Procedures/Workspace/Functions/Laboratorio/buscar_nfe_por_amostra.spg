@@ -1,0 +1,57 @@
+/**
+   Localiza NF-e para amostra informada
+
+	@author    Ricardo Gonçalves
+	@date      01/12/2021
+	@trigger
+
+   @para    amostra_ código a amostra   
+   
+   @returns chave da NF-e localizada para amostra
+
+	Histórico
+	-------------------------------------------------------------------------------------------------------------------
+ */
+create or replace function buscar_nfe_por_amostra(
+   in amostra_ integer)
+returns varchar as 
+$$
+declare
+	r			record;	
+	chave_   fis_nfe.chave%type;
+begin
+	select a.codigo, rem.tipo 
+ 	  into r
+	  from labamostras a
+	       join labprocxequip rem
+	         on rem.amostra = a.recno 
+	 where a.recno = amostra_;
+	
+	if not found then
+       raise '[[Amostra % não localizada]]', amostra_;
+	end if;
+
+   if r.tipo = 1 then
+      select chave
+        into chave_
+        from fis_nfe 
+       where cliente = r.codigo
+         and tipo = 1
+         and status = 1
+         and frascos_saldo > 0
+       limit 1;
+   elsif r.tipo = 2 then
+      select chave
+        into chave_
+        from fis_nfe 
+       where cliente = r.codigo
+         and tipo = 1
+         and status = 1
+         and seringas_saldo > 0
+       limit 1;
+   end if;
+
+	return chave_;
+end
+$$
+language plpgsql;

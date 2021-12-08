@@ -1,0 +1,34 @@
+/**
+   Aplica máscara a uma chave de NFe
+
+   @author  Ricardo Gonçalves
+   @date    01/12/2021
+
+   @param   nfe_ chave da NF-e
+
+	Histórico
+	------------------------------------------------------------------	  
+*/
+create or replace function mask_nfe(
+   in nfe_ text)
+returns text as
+$$
+declare
+   masked   text := '';
+	grupo    int;
+begin
+	if nfe_ is null then
+      return nfe_;
+   end if;
+
+   for grupo in 1..44 by 4 loop		
+		masked := masked + substring(nfe_, grupo, 4);
+		if grupo < 40 then
+			masked := masked + '.';	
+		end if;
+	end loop;
+	
+   return masked;
+end
+$$
+language plpgsql;
