@@ -158,6 +158,9 @@ type
   public
     constructor Create;
     Destructor Destroy; override;
+
+    procedure CloneFields(Source: TDataSet; var Target: TDataSet);
+
     procedure BeforeOpen(DataSet: TDataSet);
     function ExecSQL(const Stmt: string): Integer; overload;
     function ExecSQL(const Stmt: string; const Args: array of const): Integer; overload;
@@ -183,7 +186,7 @@ type
     function TableIdFromName(const TableName: string): Integer;
     procedure RefreshConnParams;
     procedure WriteLog(DbLog: TDbLog);
-  published
+
     {Retorna o horário do servidor}
     property CurrentDate: TDateTime read GetCurrentDate;
     property CurrentTime: TDateTime read GetCurrentTime;
@@ -410,6 +413,8 @@ type
   public
     constructor Create;
     destructor Destroy; Override;
+
+    function GetNumberOfProcessors: Integer;
     function Float2StrSQL(Valor: Double): string;
     function Str2Curr(const valor: string): Currency;
     function Str2Float(const valor: string): Double;
@@ -420,6 +425,7 @@ type
     procedure FillConstants(Text: String; var Tokens: TStringList; Token: Char = '"');
     function RefreshDataSet(DataSet: TDataSet): Boolean; overload;
     function RefreshDataSet(DataSet: TDataSet; Resync: Boolean): Boolean; overload;
+
     property Out: TOut read fOut;
   end;
 
@@ -1253,6 +1259,64 @@ begin
   end;
 end;
 
+procedure TData.CloneFields(Source: TDataSet; var Target: TDataSet);
+var
+  SrcField, TrgField: TField;
+begin
+  for SrcField in Source.Fields do
+  begin
+    case SrcField.DataType of
+      ftString:
+          TrgField := TStringField.Create(nil);
+
+      ftInteger:
+        TrgField := TIntegerField.Create(nil);
+
+      ftBlob:
+        TrgField := TBlobField.Create(nil);
+
+      ftBoolean:
+        TrgField := TBooleanField.Create(nil);
+
+      ftFloat:
+        begin
+          TrgField := TFloatField.Create(nil);
+          TFloatField(TrgField).DisplayFormat := TFloatField(SrcField).DisplayFormat;
+          TFloatField(TrgField).Precision := TFloatField(SrcField).Precision;
+        end;
+
+      ftDate:
+        begin
+          TrgField := TDateField.Create(nil);
+          TDateField(TrgField).DisplayFormat := TDateField(SrcField).DisplayFormat;
+        end;
+
+      ftDateTime, ftTimeStamp:
+        begin
+          TrgField := TDateTimeField.Create(nil);
+          TDateTimeField(TrgField).DisplayFormat := TDateTimeField(SrcField).DisplayFormat;
+        end;
+
+      ftMemo:
+        TrgField := TMemoField.Create(nil);
+    else
+      DatabaseError('Tipo de dado não tratado!');
+    end;
+
+    TrgField.FieldKind := SrcField.FieldKind;
+    TrgField.FieldName := SrcField.FieldName;
+    TrgField.EditMask := SrcField.EditMask;
+    TrgField.DisplayLabel := SrcField.DisplayLabel;
+    TrgField.DisplayWidth := SrcField.DisplayWidth;
+    TrgField.Size := SrcField.Size;
+    TrgField.DataSet := Target;
+
+    Target.Fields.Add(TrgField);
+  end;
+
+  Target.FieldDefs.Update;
+end;
+
 function TData.Commit: boolean;
 begin
   { Verifica se Existe transação pendente para executar Commit }
@@ -1763,6 +1827,14 @@ begin
   Result:= QuotedStr(mcDateSql(Data));
 end;
 
+
+function TIGUtils.GetNumberOfProcessors: Integer;
+var
+   si: TSystemInfo; //Windows.pas
+begin
+   GetSystemInfo({var}si);
+   Result := si.dwNumberOfProcessors;
+end;
 
 function TIGUtils.RefreshDataSet(DataSet: TDataSet; Resync: Boolean): Boolean;
 var

@@ -19,11 +19,14 @@ type
     actMonitor: TAction;
     Memo2: TMemo;
     IdUserPassProvider1: TIdUserPassProvider;
+    TabSheet3: TTabSheet;
+    Memo3: TMemo;
     procedure actMonitorExecute(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
   private
-    { Private declarations }
     procedure OnLogSchedule(Sender: TObject; const MsgLog: string);
     procedure OnLogSMTP(Sender: TObject; const MsgLog: string);
+    procedure OnLogPrint(Sender: TObject; const MsgLog: string);
     procedure OnLog(Sender: TObject; const MsgLog: string);
   public
     { Public declarations }
@@ -35,7 +38,7 @@ var
 
 implementation
 
-uses uDMCore;
+uses uDMCore, uIUtils;
 
 {$R *.dfm}
 
@@ -52,7 +55,7 @@ begin
       Caption := 'Desativar Serviço'
     else
       Caption := 'Ativar Serviço';
-      
+
     Monitor.Enabled := Checked;
     try
       if Monitor.Enabled then
@@ -67,6 +70,12 @@ begin
   end;
 end;
 
+procedure TConsole.FormActivate(Sender: TObject);
+begin
+  inherited;
+  Caption := Format('%s. Threads %d', [Caption, dmCore.MaxThreads]);
+end;
+
 procedure TConsole.OnLoad;
 begin
   inherited;
@@ -74,11 +83,17 @@ begin
   dmCore.OnLog := OnLog;
   dmCore.OnLogSchedule := OnLog;
   dmCore.OnLogSMTP := OnLogSMTP;
+  dmCore.OnLogPrint := OnLogPrint;
 end;
 
 procedure TConsole.OnLog(Sender: TObject; const MsgLog: string);
 begin
   Memo2.Lines.Add(MsgLog);
+end;
+
+procedure TConsole.OnLogPrint(Sender: TObject; const MsgLog: string);
+begin
+  Memo3.Lines.Add(MsgLog);
 end;
 
 procedure TConsole.OnLogSchedule(Sender: TObject; const MsgLog: string);

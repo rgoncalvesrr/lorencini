@@ -1,6 +1,7 @@
 program LService;
 
 uses
+  midaslib,
   SvcMgr,
   classes,
   SysUtils,
@@ -33,7 +34,9 @@ uses
   SecurityIntf in '..\..\Sources\Core\Class\SecurityIntf.pas',
   uSysLog in '..\..\Sources\Core\Sys\uSysLog.pas' {SysLog},
   uFrameData in '..\..\Sources\Common\uFrameData.pas' {FrameData: TFrame},
-  ServiceTask in '..\..\Sources\Server\ServiceTask.pas';
+  ServiceTask in '..\..\Sources\Server\ServiceTask.pas',
+  ServiceSpoolReport in '..\..\Sources\Server\ServiceSpoolReport.pas',
+  uDMR00014 in '..\..\Sources\Server\uDMR00014.pas' {DMR00014: TDataModule};
 
 {$R *.RES}
 
@@ -51,7 +54,7 @@ begin
   ReportMemoryLeaksOnShutdown := Debug;
   Debug := True;
   {$ENDIF}
-  
+
   Application.CreateForm(TdmCore, dmCore);
   if not Debug then
   begin

@@ -25,9 +25,12 @@ type
     procedure SetDescription(const Value: string);
     procedure DoAfterConnection(Sender: TObject);
   protected
-    function Qry: TZReadOnlyQuery; overload;
-    function Qry(const Stmt: string): TZReadOnlyQuery; overload;
-    function Qry(const Stmt: string; const Args: array of const): TZReadOnlyQuery; overload;
+    function Qry: TZQuery; overload;
+    function Qry(const Stmt: string): TZQuery; overload;
+    function Qry(const Stmt: string; const Args: array of const): TZQuery; overload;
+    function QryRO: TZReadOnlyQuery; overload;
+    function QryRO(const Stmt: string): TZReadOnlyQuery; overload;
+    function QryRO(const Stmt: string; const Args: array of const): TZReadOnlyQuery; overload;
     procedure Log(const Msg: string); overload;
     procedure Log(const Msg: string; const Args: array of const); overload;
     procedure Initialize; virtual;
@@ -39,11 +42,13 @@ type
     constructor Create(ConnParam: TServiceCFGConnParams); virtual;
     destructor Destroy; override;
 
+    property Connection: TZConnection read FConn; 
     property LastError: string read FLastError;
     property Description: string read FDescription write SetDescription;
-    property OnLog: TNotifyEventLog read FOnLog write FOnLog;
     property Recno_: Integer read FRecno_ write SetRecno_;
     property Table_: Integer read FTable_ write SetTable_;
+
+    property OnLog: TNotifyEventLog read FOnLog write FOnLog;
   end;
 
 
@@ -61,7 +66,7 @@ begin
   try
     Synchronize(CreateSession);
 
-    oQry := Qry;
+    oQry := QryRO;
     oQry.SQL.Text := Format('SET SESSION AUTHORIZATION "%s";', [U.Info.Session]);
     oQry.ExecSQL;
   finally
@@ -172,7 +177,7 @@ end;
 procedure TServiceBase.Execute;
 begin
   try
-    Initialize;  
+    Initialize;
 
     DoExec;
   except
@@ -181,9 +186,9 @@ begin
   end;
 end;
 
-function TServiceBase.Qry: TZReadOnlyQuery;
+function TServiceBase.Qry: TZQuery;
 begin
-  Result := TZReadOnlyQuery.Create(nil);
+  Result := TZQuery.Create(nil);
   Result.Connection := FConn;
   FTrash.Add(Result);
 end;
@@ -219,15 +224,33 @@ begin
   Log(Format(Msg, Args));
 end;
 
-function TServiceBase.Qry(const Stmt: string): TZReadOnlyQuery;
+function TServiceBase.Qry(const Stmt: string): TZQuery;
 begin
   Result := Qry;
   Result.SQL.Add(Stmt);
 end;
 
-function TServiceBase.Qry(const Stmt: string; const Args: array of const): TZReadOnlyQuery;
+function TServiceBase.Qry(const Stmt: string; const Args: array of const): TZQuery;
 begin
   Result := Qry(Format(Stmt, Args));
+end;
+
+function TServiceBase.QryRO: TZReadOnlyQuery;
+begin
+  Result := TZReadOnlyQuery.Create(nil);
+  Result.Connection := FConn;
+  FTrash.Add(Result);
+end;
+
+function TServiceBase.QryRO(const Stmt: string): TZReadOnlyQuery;
+begin
+  Result := QryRO;
+  Result.SQL.Add(Stmt);
+end;
+
+function TServiceBase.QryRO(const Stmt: string; const Args: array of const): TZReadOnlyQuery;
+begin
+  Result := QryRO(Format(Stmt, Args));
 end;
 
 end.

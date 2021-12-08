@@ -57,6 +57,29 @@ inherited Console: TConsole
         WordWrap = False
       end
     end
+    object TabSheet3: TTabSheet
+      Caption = 'Gera'#231#227'o de Laudos'
+      ImageIndex = 2
+      ExplicitLeft = 3
+      object Memo3: TMemo
+        AlignWithMargins = True
+        Left = 3
+        Top = 3
+        Width = 681
+        Height = 327
+        Align = alClient
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Courier New'
+        Font.Pitch = fpVariable
+        Font.Style = []
+        ParentFont = False
+        ScrollBars = ssBoth
+        TabOrder = 0
+        WordWrap = False
+      end
+    end
   end
   object Panel1: TPanel [1]
     AlignWithMargins = True
