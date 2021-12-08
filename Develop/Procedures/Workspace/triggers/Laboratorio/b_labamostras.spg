@@ -9,21 +9,21 @@
    ---------------------------------------------------------------------------------------------------------------------
    Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
 
-   05/05/2011  Ricardo Gonçalves.
-      [+] Registro do revisor da amostra.
-
-   23/09/2011  Ricardo Gonçalves.
-      [+] Inclusão da checagem da registro
-
-   28/09/2011  Ricardo Gonçalves.
-      [-] Remoção do preenchimento do código final (destinatário do laudo)
-   
    22/11/2011  Ricardo Gonçalves.
       [-] Quando o campo de temperatura do óleo estava nulo a checagem de conteúdo contra 0 estava falhando. Foi adicionada
          chamada a função coalesce.   
 
    28/10/2021  Ricardo Gonçalves.
       [+] Preenchimento das datas quando a amostra muda de estado.
+
+   28/09/2011  Ricardo Gonçalves.
+      [-] Remoção do preenchimento do código final (destinatário do laudo)
+
+   23/09/2011  Ricardo Gonçalves.
+      [+] Inclusão da checagem da registro
+
+   05/05/2011  Ricardo Gonçalves.
+      [+] Registro do revisor da amostra.
 */
 CREATE OR REPLACE FUNCTION b_labamostras()
   RETURNS trigger AS
@@ -41,7 +41,7 @@ Declare
    _ST_LAUDO_APONT   constant integer := 1;
    _ST_LAUDO_ENCER   constant integer := 2;
    _ST_LAUDO_ASSIN   constant integer := 3;
-   _ST_LAUDO_CANCE   constant integer := 4;
+   _ST_LAUDO_CANCE   constant integer := 5;
 
    rrow        record;
 BEGIN

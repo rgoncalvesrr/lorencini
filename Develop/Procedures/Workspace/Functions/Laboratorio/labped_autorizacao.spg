@@ -39,7 +39,7 @@ Begin
    html := html + '</td></tr>';
    html := html + '</table>';
    html := html + '<p><strong>CARO CLIENTE, CONFIRA ATENTAMENTE TODAS AS INFORMA&Ccedil;&Otilde;ES DO PEDIDO ANEXO. CASO HAJA ALGUMA DIVERG&Ecirc;NCIA, ' +
-                   'ENTRE EM CONTATO COM NOSSO LABORAT&Oacute;RIO AT&Eacute; '+to_char(rc.criado + interval '24 hour', 'DD/MM/YYYY HH24:MI')+'. AP&Oacute;S ESTE PRAZO ' +
+                   'ENTRE EM CONTATO COM NOSSO LABORAT&Oacute;RIO AT&Eacute; ' + to_char(rc.criado + interval '24 hour', 'DD/MM/YYYY HH24:MI')+'. AP&Oacute;S ESTE PRAZO ' +
                    'SEU PEDIDO ENTRAR&Aacute; EM PRODU&Ccedil;&Atilde;O AUTOMATICAMENTE E N&Atilde;O SER&Aacute; POSS&Iacute;VEL CORRIGIR OU CANCELAR O PEDIDO BEM COMO ' +
                    'SOLICITAR O CANCELAMENTO DA NF DE SERVI&Ccedil;OS / VENDAS. </strong></p><p><strong>'+
                    'ACIMA VOC&Ecirc; ENCONTRAR&Aacute; OS TELEFONES, E-MAILS E CONTATOS</strong></p>';
