@@ -46,3 +46,8 @@ delete from labamostras_rel_status where status > 5;
 
 alter table labamostras_rel 
 	add pendencia text;
+
+update labamostras_rel set labdiag_recno = 13, pcoleta = emissao::date + 30  where status in (3,4) and (labdiag_recno is null or pcoleta is null);
+
+alter table labamostras_rel 
+	add constraint ck_labamostras_rel_1 check(status in (3,4) and labdiag_recno is not null and pcoleta is not null or status not in (3,4));
