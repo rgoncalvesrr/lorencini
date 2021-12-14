@@ -1,5 +1,5 @@
 set session authorization lorencini;
-drop view if exists api.devicesbycustomers;
+--drop view if exists api.devicesbycustomers;
 create or replace view api.devicesbycustomers as     
 select e.codigo tenantid, d.device, d.serie, d.devicename, d.devicetypeid, d.devicetypeabbreviation, d.devicetypename, 
        d.manufacturerid, d.manufacturer, d.power, d.powera, d.powerb, d.powerunit, d.phases, d.lote, 

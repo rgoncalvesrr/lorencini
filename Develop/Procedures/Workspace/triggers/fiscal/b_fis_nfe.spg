@@ -37,7 +37,7 @@ Begin
 
       serie_ := cast(nfe.serie as integer);
 
-      if nfe.emitente <> _CNPJ_LORENCINI and new.tipo = _TIPO_ENTRADA and  not (serie_ between 890 and 899)  then
+      if nfe.emitente <> _CNPJ_LORENCINI and new.tipo = _TIPO_ENTRADA and not (serie_ between 890 and 899)  then
          select codigo
            into new.cliente
            from tbclientes

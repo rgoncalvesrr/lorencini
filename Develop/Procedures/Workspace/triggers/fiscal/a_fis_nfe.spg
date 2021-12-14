@@ -14,22 +14,33 @@ $$
 declare
    _SREL_ASSINADO constant integer := 3;
    _SREL_LIBERADO constant integer := 4;
+
    r  record;
 begin
-   -- Tentando liberar laudos para nota fiscal registrada
-   for r in (
-      select r.recno
-        from labamostras_rel r
-             join labamostras a
-               on a.recno = r.amostra
-              and a.codigo = new.cliente
-       where r.status = _SREL_ASSINADO
-         and r.revisao is null)
-   loop
-      update labamostras_rel
-         set status = _SREL_LIBERADO, pendencia = liberar_laudo(r.recno)
-       where recno = r.recno;
-   end loop;
+
+   if tg_op = 'INSERT' then
+      if not sys_flag('fis_nfe', new.recno::integer) then
+         perform sys_flag_mark('fis_nfe', new.recno::integer);
+         -- Tentando liberar laudos para nota fiscal registrada
+         for r in (
+            select rel.recno
+            from labamostras_rel rel
+                  join labamostras a
+                     on a.recno = rel.amostra
+                  and a.codigo = new.cliente
+            where rel.status = _SREL_ASSINADO
+               and rel.revisao is null)
+         loop
+            update labamostras_rel
+               set status = _SREL_LIBERADO, pendencia = liberar_laudo(r.recno)
+            where recno = r.recno;
+         end loop;
+
+         perform sys_flag_del('fis_nfe', new.recno::integer);
+      end if;
+   end if;
+
+   return null;
 end;
 $$
 language plpgsql;

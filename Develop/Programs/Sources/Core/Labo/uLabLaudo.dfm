@@ -27,6 +27,7 @@ inherited LabLaudo: TLabLaudo
           Left = 1042
           TabOrder = 9
           ExplicitLeft = 1042
+          ExplicitTop = 11
         end
         object Panel3: TPanel
           Left = 0
@@ -36,6 +37,8 @@ inherited LabLaudo: TLabLaudo
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 0
+          ExplicitLeft = -3
+          ExplicitTop = 1
           object Label6: TLabel
             AlignWithMargins = True
             Left = 3
@@ -206,6 +209,8 @@ inherited LabLaudo: TLabLaudo
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 5
+          ExplicitLeft = 403
+          ExplicitTop = -2
           object Label10: TLabel
             AlignWithMargins = True
             Left = 3
@@ -251,7 +256,7 @@ inherited LabLaudo: TLabLaudo
               ExplicitWidth = 134
             end
             inherited CCalendarDiff1: TCCalendarDiff
-              Date = 44533.058356736110000000
+              Date = 44544.425398078700000000
               DisplayInterval = Label11
               OnChange = actQueryProcessExecute
             end
@@ -314,7 +319,7 @@ inherited LabLaudo: TLabLaudo
             end
             inherited CCalendarDiff1: TCCalendarDiff
               Interval = diMonthly
-              Date = 44533.058356736110000000
+              Date = 44544.425398090280000000
               DisplayInterval = Label1
               OnChange = actQueryProcessExecute
               Left = 96
@@ -803,11 +808,13 @@ inherited LabLaudo: TLabLaudo
       Size = 45
     end
     object IBrwSrccnpj: TStringField
+      DisplayLabel = 'C.N.P.J.'
       FieldName = 'cnpj'
       EditMask = '99.999.999/9999-99;0;'
       Size = 14
     end
     object IBrwSrccpf: TStringField
+      DisplayLabel = 'C.P.F.'
       FieldName = 'cpf'
       EditMask = '999.999.999-99;0;'
       Size = 11
@@ -861,6 +868,7 @@ inherited LabLaudo: TLabLaudo
     end
     object IBrwSrcrelato_recno: TIntegerField
       FieldName = 'relato_recno'
+      Visible = False
     end
     object IBrwSrcsigla: TStringField
       FieldName = 'sigla'

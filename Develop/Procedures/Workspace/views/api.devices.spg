@@ -1,5 +1,5 @@
 set session authorization lorencini;
-drop view if exists api.devices cascade;
+--drop view if exists api.devices cascade;
 create or replace view api.devices as 
 select e.recno device, e.serie, e.descri devicename, e.tipo devicetypeid, t.sigla devicetypeabbreviation, t.descri devicetypename, e.fabricante manufacturerid, fa.nome manufacturer,     
        e.potencia power, e.potencia_a powera, e.potencia_b powerb, e.potencia_un powerunit, e.fases phases, e.lote, e.imped impedance, e.imped_a impedancea, e.imped_b impedanceb, 
