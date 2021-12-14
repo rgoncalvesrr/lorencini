@@ -14,22 +14,25 @@ $$
 declare
    _SREL_ASSINADO constant integer := 3;
    _SREL_LIBERADO constant integer := 4;
+
    r  record;
 begin
    -- Tentando liberar laudos para nota fiscal registrada
    for r in (
-      select r.recno
-        from labamostras_rel r
+      select rel.recno
+        from labamostras_rel rel
              join labamostras a
-               on a.recno = r.amostra
+               on a.recno = rel.amostra
               and a.codigo = new.cliente
-       where r.status = _SREL_ASSINADO
-         and r.revisao is null)
+       where rel.status = _SREL_ASSINADO
+         and rel.revisao is null)
    loop
       update labamostras_rel
          set status = _SREL_LIBERADO, pendencia = liberar_laudo(r.recno)
        where recno = r.recno;
    end loop;
+
+   return null;
 end;
 $$
 language plpgsql;

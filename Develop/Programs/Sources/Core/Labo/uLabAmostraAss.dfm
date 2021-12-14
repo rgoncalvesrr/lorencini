@@ -253,7 +253,7 @@ inherited LabAmostraAss: TLabAmostraAss
               ExplicitWidth = 193
             end
             inherited CCalendarDiff1: TCCalendarDiff
-              Date = 44506.647149953700000000
+              Date = 44544.403897881940000000
               DisplayInterval = Label1
               OnChange = actQueryProcessExecute
             end
@@ -323,16 +323,15 @@ inherited LabAmostraAss: TLabAmostraAss
       Width = 1117
       Height = 391
       Images = Resources.medium_n
-      ExplicitTop = 2
       ExplicitWidth = 1117
       ExplicitHeight = 391
       inherited TabSheet1: TTabSheet
         Caption = 'Laudos Analisados Pelo Sistema'
         ImageIndex = 208
         ExplicitLeft = 4
-        ExplicitTop = 26
+        ExplicitTop = 33
         ExplicitWidth = 1109
-        ExplicitHeight = 361
+        ExplicitHeight = 354
         inherited DBGrid1: TDBGrid
           Top = 47
           Width = 1103
@@ -382,8 +381,6 @@ inherited LabAmostraAss: TLabAmostraAss
       object TabSheet2: TTabSheet
         Caption = 'Laudo N'#227'o Analisados'
         ImageIndex = 213
-        ExplicitTop = 26
-        ExplicitHeight = 361
       end
     end
   end

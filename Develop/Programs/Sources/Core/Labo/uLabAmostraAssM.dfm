@@ -2195,7 +2195,7 @@ inherited LabAmostraAssM: TLabAmostraAssM
       '        and e.relato_recno = rel.relato_recno'
       '        and e.ensaio_recno = :ensaio'
       ' where rel.recno <> :laudo'
-      '   and rel.status = 3'
+      '   and rel.status in (3, 4)'
       '   and rel.assinatura is not null'
       '   and rel.emissao < current_date'
       '   and rel.revisao is null'
