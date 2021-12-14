@@ -5,7 +5,6 @@ uses
   Forms,
   SysUtils,
   Windows,
-//  uCEFApplication,
   uHelpers in '..\..\Sources\Common\uHelpers.pas',
   uMenu in '..\..\Sources\Core\Global\uMenu.pas' {Main},
   uFuncoes in '..\..\Sources\Core\Infra\uFuncoes.pas',
@@ -303,7 +302,8 @@ uses
   uRecebimentoLoteM in '..\..\Sources\Core\Volume\uRecebimentoLoteM.pas' {RecebimentoLoteM},
   uClientesInativos in '..\..\Sources\Core\Vendas\uClientesInativos.pas' {ClienteInativos},
   uGestaoProducao in '..\..\Sources\Core\Dash\uGestaoProducao.pas' {GestaoProducao},
-  uFiscal in '..\..\Sources\Application\uFiscal.pas';
+  uFiscal in '..\..\Sources\Application\uFiscal.pas',
+  uLabLaudoBloq in '..\..\Sources\Core\Labo\uLabLaudoBloq.pas' {LabLaudoBloq};
 
 {$R *.res}
 
@@ -334,11 +334,11 @@ begin
 
         Application.Title := 'Manager';
         Application.CreateForm(TResources, Resources);
-        Application.CreateForm(TDM, DM);
-        Application.CreateForm(TDMReport, DMReport);
-        Application.CreateForm(TMain, Main);
-        Application.CreateForm(TILogin, ILogin);
-        ILogin.ShowModal;
+  Application.CreateForm(TDM, DM);
+  Application.CreateForm(TDMReport, DMReport);
+  Application.CreateForm(TMain, Main);
+  Application.CreateForm(TILogin, ILogin);
+  ILogin.ShowModal;
 
         if ILogin.Execute then
           Application.Run;
