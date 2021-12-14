@@ -297,12 +297,6 @@ BEGIN
                      new.diagnostico := la.diagnostico; 
                      new.recomendacao := la.recomendacao;                     
                      new.obs := la.obs;
-
-                     select dias + r.coleta
-                       into new.pcoleta
-                       from vlaudodiags 
-                      where relato_recno = new.labdiag_recno
-                        and recno = new.relato_recno;
                   end if;
                end if;
             else
@@ -403,6 +397,15 @@ BEGIN
             vass_p4 := md5(new.diagnostico);
 
             new.assinatura := vass_p1 || vass_p2 || vass_p3 || vass_p4;
+
+            -- Preenche data da próxima coleta
+            if new.pcoleta is null and new.relato_recno is not null and new.labdiag_recno is not null then
+               select dias + r.coleta
+                 into new.pcoleta
+                 from vlaudodiags 
+                where relato_recno = new.relato_recno
+                  and recno = new.labdiag_recno;
+            end if;
 
             -- Verifica se o laudo está liberado
             new.pendencia := liberar_laudo(new.recno);
