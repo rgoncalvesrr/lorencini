@@ -1,0 +1,35 @@
+/**
+   Processamento dos lançamentos bancários
+
+	@author    Ricardo Gonçalves
+	@date      13/12/2021
+	@trigger   fin_banco A IUD
+
+	Histórico
+	-------------------------------------------------------------------------------------------------------------------
+ */
+Create or Replace Function a_fis_nfe()
+Returns trigger as
+$$
+declare
+   _SREL_ASSINADO constant integer := 3;
+   _SREL_LIBERADO constant integer := 4;
+   r  record;
+begin
+   -- Tentando liberar laudos para nota fiscal registrada
+   for r in (
+      select r.recno
+        from labamostras_rel r
+             join labamostras a
+               on a.recno = r.amostra
+              and a.codigo = new.cliente
+       where r.status = _SREL_ASSINADO
+         and r.revisao is null)
+   loop
+      update labamostras_rel
+         set status = _SREL_LIBERADO, pendencia = liberar_laudo(r.recno)
+       where recno = r.recno;
+   end loop;
+end;
+$$
+language plpgsql;
