@@ -28,6 +28,27 @@ create index idx_fis_nfe_1 on fis_nfe(cliente) where (frascos_saldo > 0);
 create index idx_fis_nfe_2 on fis_nfe(cliente) where (seringas_saldo > 0);
 
 alter table labamostras_rel disable trigger all;
+
+update labamostras_rel r 
+   set pcoleta = x.pcoleta
+  from (select r.recno, a.coleta + d.dias pcoleta
+          from labamostras_rel r
+               join labamostras a
+                 on a.recno = r.amostra 
+               join labdiagrel dr
+                 on dr.labdiag_recno = r.labdiag_recno
+                and dr.relato_recno = r.relato_recno 
+               join labdiag d
+                 on d.recno = r.labdiag_recno
+         where r.status = 3 
+           and r.pcoleta is null) x 
+ where x.recno = r.recno;
+
+update labamostras_rel set labdiag_recno = 13, pcoleta = emissao::date + 30  where status in (3,4) and (labdiag_recno is null or pcoleta is null);
+
+ALTER TABLE public.labamostras_rel drop CONSTRAINT ck_labamostras_status;
+ALTER TABLE public.labamostras_rel add CONSTRAINT ck_labamostras_status CHECK (status between 0 AND 5);
+
 update labamostras_rel
    set status = 5
  where status = 4;
@@ -44,5 +65,12 @@ update labamostras_rel_status set "label" = 'Cancelado' where status = 5;
 
 delete from labamostras_rel_status where status > 5;
 
+alter table labamostras_rel disable trigger all;
+
 alter table labamostras_rel 
 	add pendencia text;
+
+alter table labamostras_rel 
+	add constraint ck_labamostras_rel_1 check(status in (3,4) and labdiag_recno is not null and pcoleta is not null or status not in (3,4));
+   
+alter table labamostras_rel enable trigger all;
