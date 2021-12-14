@@ -24,10 +24,10 @@ declare
    _FRASCO        constant integer := 1;
    _SERINGA       constant integer := 2;
 
-   rn    record;
-   ra    record;
+   rn       record;
+   ra       record;
 
-   nfe_  labamostras_nfe.nfe%type;
+   nfe_     labamostras_nfe.nfe%type;
 begin   
    select nfe
      into nfe_
@@ -55,7 +55,7 @@ begin
       raise '[[Amostra % não poder ser associada a NF-e % porque a vidraria não foi enviada ao cliente]]', amostra_, mask_nfe(chave_);
    end if;
 
-   select frascos_saldo, seringas_saldo, tipo, status, cliente 
+   select frascos_saldo, seringas_saldo, tipo, status, cliente, recno 
      into rn
      from fis_nfe 
     where chave = chave_;
@@ -90,7 +90,7 @@ begin
       if rn.seringas_saldo = 0 then
          raise '[[A NF-e % não possui saldo de seringas para ser associada a amostra %]]', mask_nfe(chave_), amostra_;
       end if;
-
+      
       update fis_nfe
          set seringas_saldo = seringas_saldo - 1
        where chave = chave_;  
