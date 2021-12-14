@@ -23,7 +23,7 @@ declare
    nfe_  fis_nfe.chave%type;
 begin
    if not laudo_liberado(laudo_) then      
-      select rel.amostra, sys_iif(rem.tipo = 1, 'do frasco', 'da seringa') tipo
+      select rel.amostra, sys_iif(rem.tipo = 1, 'para o frasco', 'para a seringa') tipo
         into r
         from labamostras_rel rel
              left join labprocxequip rem
@@ -43,17 +43,18 @@ begin
            from labamostras_nfe a                
           where a.amostra = r.amostra)
       then
-         -- begin
-         nfe_ := buscar_nfe_por_amostra(r.amostra);
+         begin
+            nfe_ := buscar_nfe_por_amostra(r.amostra);
 
-         if nfe_ is null then
-            return format('Não foi possível liberar laudo %s porque não há NF-e de entrada %s %s', laudo_, r.tipo, r.amostra);
-         end if;
+            if nfe_ is null then
+               return format('Não foi possível liberar laudo %s porque não há NF-e de entrada %s %s', laudo_, r.tipo, r.amostra);
+            end if;
 
-         perform associar_amostra_nfe(r.amostra, nfe_);
-         -- exception
-         --    when 
-         -- end;
+            perform associar_amostra_nfe(r.amostra, nfe_);
+         exception
+            when sqlstate 'P0001' then
+               return format('Não foi possível liberar laudo %s porque a amostra %s não foi localizada', laudo_, r.amostra);
+         end;
       end if;
    end if;
 
