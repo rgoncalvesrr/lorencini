@@ -65,14 +65,14 @@ BEGIN
          -- Processa encerramento do laudo
          elsif new.status in (_SREL_ASSINADO, _SREL_LIBERADO, _SREL_CANCELADO) and old.status < _SREL_ASSINADO then
             -- Gera resultado na estrutura antiga
-            if new.status = _SREL_ASSINADO then
+            if new.status in (_SREL_ASSINADO, _SREL_LIBERADO) then
                -- Caso não haja laudos em aberto para pedido, marca como executado
                if not exists(
                   select 1
                     from labamostras_rel 
                    where pedido = new.pedido
                      and revisao is null
-                     and status not in (_SREL_ASSINADO, _SREL_LIBERADO))
+                     and status not in (_SREL_LIBERADO, _SREL_CANCELADO))
                then
                   update pedido
                      set status = _SPED_EXECUTADO
