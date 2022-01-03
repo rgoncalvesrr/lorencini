@@ -31,12 +31,15 @@ type
     procedure Initialize; override;
   public
     constructor Create(ConnParam: TServiceCFGConnParams); override;
-    
+
     property Recno: Integer read FRecno write SetRecno;
     property SMTP: TServiceCFGSmtp read FSMTP;
   end;
 
 implementation
+
+uses
+  uIUtils;
 
 { TServiceSMTP }
 
@@ -128,17 +131,22 @@ begin
         // Processa anexos da mensagem
         while not qAtt.Eof do
         begin
-          if FileExists(qAtt.FieldByName('attach_name').AsString) then
+          sAnexo := qAtt.FieldByName('attach_name').AsString;
+
+          if not FileExists(sAnexo) then
+            sAnexo := U.Path.Root + sAnexo;
+
+          if FileExists(sAnexo) then
           begin
             // Cria anexo
-            FIdAnexo := TIdAttachmentFile.Create(FIdMessage.MessageParts, qAtt.FieldByName('attach_name').AsString);
+            FIdAnexo := TIdAttachmentFile.Create(FIdMessage.MessageParts, sAnexo);
             Trash.Add(FIdAnexo);
 
             FIdAnexo.ContentType := qAtt.FieldByName('contenttype').AsString;
-            FIdAnexo.FileName := ExtractFileName(qAtt.FieldByName('attach_name').AsString);
+            FIdAnexo.FileName := ExtractFileName(sAnexo);
             FIdAnexo.ContentDescription := 'Arquivo Anexo: ' + ExtractFileName(FIdAnexo.FileName);
           end else
-            raise EServiceSMTP.CreateFmt('Anexo %s não localizado.', [qAtt.FieldByName('attach_name').AsString]);
+            raise EServiceSMTP.CreateFmt('Anexo %s não localizado.', [sAnexo]);
 
           qAtt.Next;
         end;

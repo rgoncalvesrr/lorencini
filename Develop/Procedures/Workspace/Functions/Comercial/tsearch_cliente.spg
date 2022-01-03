@@ -5,14 +5,16 @@
 	@date      24/10/2020
 	@trigger
 
-   @param in_cliente código do cliente
+   @param cliente_ código do cliente
 
 	Histórico
 	-------------------------------------------------------------------------------------------------------------------
  */
+DROP FUNCTION tsearch_cliente(integer,boolean);
+
 Create or Replace Function tsearch_cliente(
-   in in_cliente integer,
-   in in_atualiza boolean = true)
+   in cliente_ integer,
+   in atualiza_ boolean = true)
 Returns tsvector As
 $$
 declare
@@ -21,13 +23,14 @@ declare
 begin
    docto := null;
 
-   select empresa, nome_chave, endereco, bairro, cidade, estado, cnpj, cpf, inscricao, website, email, rg
+   select empresa, nome_chave, endereco, bairro, cidade, estado, cnpj, cpf, inscricao, website, email, rg,
+          situacao 
      into r
      from tbclientes 
-    where codigo = in_cliente; 
+    where codigo = cliente_; 
    
    if found then      
-      docto := sys_fts_compose(docto, in_cliente);
+      docto := sys_fts_compose(docto, cliente_);
       docto := sys_fts_compose(docto, r.empresa);
       docto := sys_fts_compose(docto, r.nome_chave);      
       docto := sys_fts_compose(docto, r.endereco);
@@ -40,19 +43,22 @@ begin
       docto := sys_fts_compose(docto, r.website);
       docto := sys_fts_compose(docto, r.email);
       docto := sys_fts_compose(docto, r.rg);
+      docto := sys_fts_compose(docto, r.situacao);
    end if;
 
-   if in_atualiza then
-      update api.ftscustomers
-         set fts = docto
-      where tenantid = in_cliente;
-         
-      if not Found then
+   if atualiza_ then
+      if docto is null then
+         delete 
+           from api.ftscustomers
+          where tenantid = cliente_;
+      else
          insert into api.ftscustomers
             (tenantid, fts)
          values
-            (in_cliente, docto);
-      end if;        
+            (cliente_, docto)
+         on conflict (tenantid) 
+            do update set fts = excluded.fts;
+      end if;
    end if;
 
    return docto;

@@ -33,8 +33,8 @@ Declare
    _SPED_EXECUTANDO  constant integer = 60;
    _SPED_EXECUTADO   constant integer = 70;
 
-   ra       record;
-   rinst    record;
+   ra          record;
+   rinst       record;   
 BEGIN
    if tg_op <> 'DELETE' then
       -- Recupera informações da amostra
@@ -63,7 +63,7 @@ BEGIN
             end if;
 
          -- Processa encerramento do laudo
-         elsif new.status in (_SREL_ASSINADO, _SREL_LIBERADO, _SREL_CANCELADO) and old.status < _SREL_ASSINADO then
+         elsif new.status in (_SREL_ASSINADO, _SREL_LIBERADO, _SREL_CANCELADO) and old.status < _SREL_LIBERADO then
             -- Gera resultado na estrutura antiga
             if new.status in (_SREL_ASSINADO, _SREL_LIBERADO) then
                -- Caso não haja laudos em aberto para pedido, marca como executado
@@ -103,6 +103,9 @@ BEGIN
             -- Gerando consulta para laudos
             perform tsearch_laudo(new.recno);
 
+            if new.status = _SREL_LIBERADO then
+               perform laudo_gerar_pdf(new.recno);               
+            end if;
          -- Cancelamento
          elsif new.status = _SREL_CANCELADO and old.status in (_SREL_ASSINADO, _SREL_LIBERADO) then
             -- Coloca o pedido em execução
@@ -123,6 +126,11 @@ BEGIN
              where recno = new.pedido
                and status = _SPED_EXECUTADO;  
          end if;
+      end if;
+
+      -- Dispara envio do PDF por e-mail
+      if new.status = _SREL_LIBERADO and new.report_file_name is not null and old.report_file_name is null then
+         --perform laudo_enviar_por_email(new.recno);
       end if;
 
       return new;

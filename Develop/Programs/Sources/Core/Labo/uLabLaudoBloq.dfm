@@ -1,13 +1,13 @@
 inherited LabLaudoBloq: TLabLaudoBloq
   Caption = 'Laudos Bloqueados'
-  ClientHeight = 500
+  ClientHeight = 709
   ClientWidth = 1288
   ExplicitWidth = 1304
-  ExplicitHeight = 539
+  ExplicitHeight = 748
   PixelsPerInch = 96
   TextHeight = 15
   inherited StatusBar1: TStatusBar
-    Top = 473
+    Top = 682
     Width = 1282
     ExplicitTop = 473
     ExplicitWidth = 1282
@@ -245,7 +245,7 @@ inherited LabLaudoBloq: TLabLaudoBloq
               ExplicitWidth = 134
             end
             inherited CCalendarDiff1: TCCalendarDiff
-              Date = 44544.672459085650000000
+              Date = 44544.841278425930000000
               DisplayInterval = Label11
             end
           end
@@ -306,7 +306,7 @@ inherited LabLaudoBloq: TLabLaudoBloq
             end
             inherited CCalendarDiff1: TCCalendarDiff
               Interval = diMonthly
-              Date = 44544.672459085650000000
+              Date = 44544.841278425930000000
               DisplayInterval = Label1
               Left = 96
             end
@@ -435,45 +435,152 @@ inherited LabLaudoBloq: TLabLaudoBloq
   end
   inherited Panel2: TPanel
     Width = 1288
-    Height = 341
+    Height = 550
     ExplicitWidth = 1288
     ExplicitHeight = 341
     inherited PageControl1: TPageControl
       Width = 1282
-      Height = 335
+      Height = 250
       ExplicitWidth = 1282
       ExplicitHeight = 335
       inherited TabSheet1: TTabSheet
         Caption = 'Laudos'
-        ExplicitLeft = 4
-        ExplicitTop = 26
+        ExplicitLeft = 6
+        ExplicitTop = 27
         ExplicitWidth = 1274
-        ExplicitHeight = 305
+        ExplicitHeight = 220
         inherited DBGrid1: TDBGrid
           Width = 1268
-          Height = 127
+          Height = 214
         end
-        object GroupBox1: TGroupBox
-          AlignWithMargins = True
-          Left = 3
-          Top = 136
-          Width = 1268
-          Height = 166
-          Align = alBottom
-          Caption = ' Pend'#234'ncias '
-          TabOrder = 1
+      end
+    end
+    object Panel14: TPanel
+      Left = 0
+      Top = 256
+      Width = 1288
+      Height = 294
+      Align = alBottom
+      BevelOuter = bvNone
+      TabOrder = 1
+      ExplicitTop = 320
+      ExplicitWidth = 1161
+      object PageControl2: TPageControl
+        AlignWithMargins = True
+        Left = 3
+        Top = 3
+        Width = 1282
+        Height = 288
+        ActivePage = TabSheet3
+        Align = alClient
+        TabOrder = 0
+        object TabSheet3: TTabSheet
+          Caption = 'Pend'#234'ncias'
+          ExplicitLeft = 6
+          ExplicitTop = 30
           object DBMemo1: TDBMemo
             AlignWithMargins = True
-            Left = 5
-            Top = 20
-            Width = 1258
-            Height = 141
+            Left = 3
+            Top = 3
+            Width = 1268
+            Height = 252
             Align = alClient
             DataField = 'pendencia'
             DataSource = DataSource1
             ReadOnly = True
             ScrollBars = ssBoth
             TabOrder = 0
+            ExplicitLeft = 5
+            ExplicitTop = 20
+            ExplicitWidth = 1258
+            ExplicitHeight = 141
+          end
+        end
+        object TabSheet2: TTabSheet
+          Caption = 'Contatos'
+          ExplicitHeight = 214
+          object DBGrid2: TDBGrid
+            Tag = 1
+            AlignWithMargins = True
+            Left = 3
+            Top = 47
+            Width = 1268
+            Height = 208
+            Align = alClient
+            BorderStyle = bsNone
+            Ctl3D = False
+            DataSource = dsContatos
+            DefaultDrawing = False
+            Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
+            ParentCtl3D = False
+            PopupMenu = pmOpcao
+            ReadOnly = True
+            TabOrder = 0
+            TitleFont.Charset = ANSI_CHARSET
+            TitleFont.Color = clWindowText
+            TitleFont.Height = -12
+            TitleFont.Name = 'Segoe UI'
+            TitleFont.Pitch = fpVariable
+            TitleFont.Style = []
+            OnDrawColumnCell = DBGridDrawColumnCell
+            OnDblClick = DBGridDblClick
+            OnEnter = DBGridEnter
+            OnKeyPress = DBGridKeyPress
+          end
+          object ControlBar2: TControlBar
+            AlignWithMargins = True
+            Left = 3
+            Top = 3
+            Width = 1268
+            Height = 38
+            Align = alTop
+            AutoSize = True
+            BevelEdges = []
+            BevelKind = bkNone
+            DrawingStyle = dsGradient
+            TabOrder = 1
+            object ToolBar3: TToolBar
+              Left = 11
+              Top = 2
+              Width = 1111
+              Height = 34
+              AutoSize = True
+              BorderWidth = 1
+              ButtonHeight = 30
+              ButtonWidth = 148
+              Caption = 'ToolBar3'
+              DisabledImages = Resources.medium_d
+              DrawingStyle = dsGradient
+              EdgeInner = esNone
+              EdgeOuter = esNone
+              HotImages = Resources.medium_h
+              Images = Resources.medium_n
+              List = True
+              ParentShowHint = False
+              ShowCaptions = True
+              AllowTextButtons = True
+              ShowHint = True
+              TabOrder = 0
+              object ToolButton15: TToolButton
+                Left = 0
+                Top = 0
+                Action = actRefreshContatos
+                AutoSize = True
+              end
+              object ToolButton16: TToolButton
+                Left = 32
+                Top = 0
+                Width = 8
+                Caption = 'ToolButton3'
+                ImageIndex = 42
+                Style = tbsSeparator
+              end
+              object tbRefazGrid: TToolButton
+                Left = 40
+                Top = 0
+                Action = actRGrid
+              end
+            end
           end
         end
       end
@@ -518,9 +625,17 @@ inherited LabLaudoBloq: TLabLaudoBloq
       end
     end
   end
+  inherited alDef: TActionList
+    object actRefreshContatos: TAction
+      Caption = 'actRefreshContatos'
+      ImageIndex = 307
+      OnExecute = actRefreshContatosExecute
+    end
+  end
   inherited IBrwSrc: TZQuery
     Connection = DM.Design
     BeforeOpen = IBrwSrcBeforeOpen
+    AfterScroll = IBrwSrcAfterScroll
     SQL.Strings = (
       'select'
       '  r.recno, r.pedido, r.amostra, r.os, a.comodato,'
@@ -648,5 +763,89 @@ inherited LabLaudoBloq: TLabLaudoBloq
       Visible = False
       BlobType = ftMemo
     end
+  end
+  object qContatos: TZQuery
+    Connection = DM.Design
+    SQL.Strings = (
+      
+        'select co.laudo, co.contato, co.cliente, c.nome, c.celular, c.te' +
+        'lefone, c.ramal, c.email, c.padrao, co.recno'
+      '  from labamostras_rel_contatos co'
+      '      join clientes_contatos c'
+      '        on c.cliente = co.cliente'
+      '       and c.contato = co.contato'
+      ' where co.laudo = :laudo')
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'laudo'
+        ParamType = ptUnknown
+      end>
+    Left = 200
+    Top = 184
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'laudo'
+        ParamType = ptUnknown
+      end>
+    object qContatoslaudo: TIntegerField
+      FieldName = 'laudo'
+      Required = True
+      Visible = False
+    end
+    object qContatoscontato: TIntegerField
+      FieldName = 'contato'
+      Required = True
+      Visible = False
+    end
+    object qContatoscliente: TIntegerField
+      FieldName = 'cliente'
+      Required = True
+      Visible = False
+    end
+    object qContatospadrao: TBooleanField
+      DisplayLabel = 'Padrao'
+      FieldName = 'padrao'
+    end
+    object qContatosnome: TStringField
+      DisplayLabel = 'Nome'
+      DisplayWidth = 70
+      FieldName = 'nome'
+      Size = 150
+    end
+    object qContatoscelular: TStringField
+      DisplayLabel = 'Celular'
+      FieldName = 'celular'
+      EditMask = '(99) 9.9999-9999;0;'
+      Size = 25
+    end
+    object qContatostelefone: TStringField
+      DisplayLabel = 'Telefone'
+      FieldName = 'telefone'
+      EditMask = '(99) 9999-9999;0;'
+      Size = 25
+    end
+    object qContatosramal: TStringField
+      DisplayLabel = 'Ramal'
+      FieldName = 'ramal'
+      Size = 6
+    end
+    object qContatosemail: TStringField
+      DisplayLabel = 'E-mail'
+      DisplayWidth = 70
+      FieldName = 'email'
+      Size = 150
+    end
+    object qContatosrecno: TIntegerField
+      DisplayLabel = 'Registro'
+      FieldName = 'recno'
+      Required = True
+    end
+  end
+  object dsContatos: TDataSource
+    DataSet = qContatos
+    Left = 256
+    Top = 184
   end
 end

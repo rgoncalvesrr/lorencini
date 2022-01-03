@@ -441,7 +441,7 @@ begin
         .PrintToPDF(zQry.FieldByName('print_to_file').AsBoolean)
         .PrintToDevice(zQry.FieldByName('print_to_device').AsBoolean)
         .Caption(zQry.FieldByName('file_name').AsString)
-        .FileName(zQry.FieldByName('hash').AsString);
+        .FileName(zQry.FieldByName('file_name').AsString);
 
       spool := TServiceSpoolReport.Create(TServiceCFG.GetInstance.ConnParams, report);
       spool.Id := zQry.FieldByName('recno').AsInteger;

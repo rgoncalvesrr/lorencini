@@ -43,7 +43,7 @@ Begin
       new.valor_baixado := coalesce(new.valor_baixado, 0);
 
       if ((new.valor_baixado > 0) and (new.baixa is not null) and (new.cc is null)) then
-         raise exception '[[Para que a baixa possa ser processada a conta corrente deve ser informada.]]';
+         raise '[[Para que a baixa possa ser processada a conta corrente deve ser informada.]]';
       end if;
 
       return new;

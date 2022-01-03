@@ -19,16 +19,11 @@ $$
 declare
    _SREL_LIBERADO constant integer := 4;
 begin
-   if exists(
+   return exists(
       select 1
         from labamostras_rel
        where recno = laudo_
-         and status = _SREL_LIBERADO)
-   then
-      return true;
-   end if;
-
-   return false;
+         and status = _SREL_LIBERADO);
 end;
 $$
 language plpgsql;
