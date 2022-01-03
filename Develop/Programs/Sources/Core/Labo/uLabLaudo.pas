@@ -336,46 +336,18 @@ begin
   actPublishRepors.Enabled := False;
 
   QSpool := U.QueryPersistent;
-  QSpool.SQL.Text :=
-    'insert into svc_spool '+
-      '(print_to_file, file_name, report, source_table, source_recno) '+
-    'values '+
-      '(true, :file_name, 14, sys_origem(''labamostras_rel''), :source_recno)';
+  QSpool.SQL.Text := 'select laudo_gerar_pdf(:laudo)';
+
   try
     IBrwSrc.First;
-    IProgress.Label3.Caption := 'Imprimindo Laudo ' + IBrwSrcrecno.AsString;
 
     while not IBrwSrc.Eof do
     begin
-      fileName := EmptyStr;
-
-      //Sigla_serie_<dsfdsfdsf>_tag_<dfsdfdsf>
-
-      if not IBrwSrcsigla.IsNull then
-        fileName := UpperCase(IBrwSrcsigla.AsString);
-
-      fileName := ComposeFileName(fileName, 'Serie', IBrwSrcserie.AsString);
-      fileName := ComposeFileName(fileName, 'TAG', IBrwSrctag.AsString);
-      fileName := ComposeFileName(fileName, 'Local', IBrwSrclocal.AsString);
-      fileName := ComposeFileName(fileName, 'Laudo', IBrwSrcrecno.AsString);
-
-      fileName := StringReplace(fileName, '\', EmptyStr, [rfReplaceAll]);
-      fileName := StringReplace(fileName, '/', EmptyStr, [rfReplaceAll]);
-      fileName := StringReplace(fileName, ':', EmptyStr, [rfReplaceAll]);
-      fileName := StringReplace(fileName, '*', EmptyStr, [rfReplaceAll]);
-      fileName := StringReplace(fileName, '?', EmptyStr, [rfReplaceAll]);
-      fileName := StringReplace(fileName, '"', EmptyStr, [rfReplaceAll]);
-      fileName := StringReplace(fileName, '<', EmptyStr, [rfReplaceAll]);
-      fileName := StringReplace(fileName, '>', EmptyStr, [rfReplaceAll]);
-      fileName := StringReplace(fileName, '|', EmptyStr, [rfReplaceAll]);
-
-
       IProgress.Label3.Caption := 'Imprimindo ' + FileName;
       IProgress.Label3.Repaint;
 
       Sleep(1);
-      QSpool.ParamByName('file_name').AsString := fileName;
-      QSpool.ParamByName('source_recno').AsInteger := IBrwSrcrecno.AsInteger;
+      QSpool.ParamByName('laudo').AsInteger := IBrwSrcrecno.AsInteger;
       QSpool.ExecSQL;
 
       IBrwSrc.Next;

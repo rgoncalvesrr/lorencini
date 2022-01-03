@@ -1,0 +1,117 @@
+/**
+   Envia laudo por e-mail para os contatos do laudo
+
+	@author    Ricardo Gonçalves
+	@date      15/12/2021
+	@trigger
+
+   @param   laudo_   código do laudo
+
+   @return  verdadeiro se o envio do laudo for agendado
+
+	Histórico
+	-------------------------------------------------------------------------------------------------------------------
+*/
+create or replace function laudo_enviar_por_email(
+   in laudo_ integer)
+returns text as 
+$$
+declare
+   r              record;
+   rc             record;
+   body           text;
+   imsg           integer;
+   attach_name_   sys_emailatach.attach_name%type;
+begin
+   select rel.report_file_name, c.nivel, c.label, c.descri, rel.amostra, lr.titulo, e.tipo, e.tensao, e.tensao_un, e.serie, e.tag,
+	       a."local", e.fabricante, e.potencia, e.potencia_un, rel.diagnostico, rel.recomendacao
+     into r
+     from labamostras_rel rel          
+          join vlaudocrit c
+            on c.recno = rel.labcrit_recno
+           and c.relato_recno = rel.relato_recno
+          join labamostras a
+            on a.recno = rel.amostra
+          join vequipxcli e
+            on e.equip = a.equip_recno 
+           and e.codigo = a.codigo 
+          join labrel lr
+         on lr.recno = rel.relato_recno 
+    where rel.report_file_name is not null 
+      and rel.recno = laudo_;
+ 
+   body := html$head(format('Laudo %s (%s)', laudo_, upper(r.label)), 
+      '<style>
+         td {
+            background: #f1ece4; 
+            padding: 0.4em;}
+      </style>');
+
+   body := body + '<p>Prezado cliente,</p>';
+   body := body + format('<p>Segue <strong>%s (%s)</strong> referente an&aacute;lise da amostra <strong>%s,</strong></p>', r.titulo, laudo_, r.amostra);
+
+   if r.nivel = 1 then
+      body := body + format('<p>Temos boas not&iacute;cias, o equipamento est&aacute; em situa&ccedil;&atilde;o <strong>%s - %s</strong></p>', r.label, r.descri);
+   else
+      body := body + format('<p>A an&aacute;lise revelou que o equipamento est&aacute; em situa&ccedil;&atilde;o <strong>%s - %s</strong></p>', r.label, r.descri);
+   end if;
+
+   body := body + '<hr/>';
+   body := body + '<h3>Dados do Equipamento:</h3>';   
+   body := body + '<table><tbody>';
+   body := body + format('<tr><td>Identifica&ccedil;&atilde;o</td><td>S&eacute;rie: %s.%s </td></tr>', r.serie, coalesce(' Tag: ' + r.tag, ''));
+   body := body + format('<tr><td>Tipo</td><td>%s</td></tr>', r.tipo, r.tensao, r.tensao_un);
+   body := body + format('<tr><td>Tens&atilde;o</td><td>%s %s</td></tr>', to_char(r.tensao, 'FM9999999990'), r.tensao_un);
+   body := body + format('<tr><td>Pot&ecirc;ncia</td><td>%s %s</td></tr>', to_char(r.potencia, 'FM9999999990'), r.potencia_un);
+   body := body + format('<tr><td>Localiza&ccedil;&atilde;o</td><td>%s</td></tr>', coalesce(r.local, '-'));
+   body := body + format('<tr><td>Fabricante</td><td>%s</td></tr>', coalesce(r.fabricante, '-'));
+   body := body + '</tbody></table>';
+   body := body + '<h3>Interpreta&ccedil;&atilde;o:</h3>';
+   body := body + format('<p>%s</p>', r.diagnostico);
+   body := body + '<h3>Recomenda&ccedil;&atilde;o:</h3>';
+   body := body + format('<p>%s</p>', r.recomendacao);
+   body := body + '<hr/>';
+   body := body + '<p/><p>Os detalhes estão no relatório anexo.</p>';
+   body := body + '<p/><p>Obrigado pela confiança depositada em nós</p>';
+   body := body + '<h4>Lorencini Brasil</h4>';
+   body := body + html$footer();
+
+   -- cria mensagem
+   insert into sys_email 
+      (subject, message, table_, recno_)
+   values           
+      ('Laudo ' || laudo_, body, sys_origem('labamostras_rel'), laudo_)
+   returning recno into imsg;
+
+   attach_name_ := format('Data\Reports\Upload\%s.pdf', r.report_file_name);
+
+   -- Anexo
+   insert into sys_emailatach 
+      (message, contenttype, attach_name)
+   values                
+      (imsg,  'application/pdf', attach_name_);
+
+   for r in (
+      select c.nome, c.email
+        from labamostras_rel_contatos co
+             join clientes_contatos c
+               on c.cliente = co.cliente
+              and c.contato = co.contato
+              and c.email is not null
+       where co.laudo = laudo_)
+   loop
+      insert into sys_emailto 
+         (message, to_, to_name)
+      values             
+         (imsg, r.email, r.nome);
+   end loop;
+
+   -- dispara envio do email
+   update sys_email
+      set status = 1
+    where recno = imsg;
+
+   return body;
+end;
+$$
+language plpgsql;

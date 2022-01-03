@@ -31,7 +31,7 @@ begin
       if new.status = 'success' and old.status <> 'success' then
          if new.report = _RPT_LAUDO then
             update labamostras_rel
-               set report_file_name = new.hash
+               set report_file_name = new.file_name
              where recno = new.source_recno;  
          end if;
       end if;

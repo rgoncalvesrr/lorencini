@@ -1,0 +1,66 @@
+/**
+   Retorno o nome do arquivo para o laudo informado
+
+	@author    Ricardo Gonçalves
+	@date      02/12/2021
+	@trigger
+
+   @param   laudo_   código do laudo
+
+   @return  verdadeiro se o laudo não possui pendências
+
+	Histórico
+	-------------------------------------------------------------------------------------------------------------------
+*/
+create or replace function laudo_nome_arquivo (
+   in laudo_ integer)
+returns text as
+$$
+declare
+   r        record;
+   filename text;
+begin
+   select t.sigla, e.serie, ec.tag, a."local"
+     into r
+     from labamostras_rel rel
+          join labamostras a
+            on rel.amostra = a.recno     
+          join labequip e
+            on e.recno = a.equip_recno 
+          join labequipxcli ec
+            on ec.codigo = a.codigo
+           and ec.equip = a.equip_recno
+          join labrel t
+            on t.recno = rel.relato_recno 
+    where rel.recno = laudo_;
+
+   filename := r.sigla;
+
+   if r.serie is not null then
+      filename := coalesce(filename + ' - ', '') + 'Serie ' + r.serie;
+   end if;
+
+   if r.tag is not null then
+      filename := coalesce(filename + ' - ', '') + 'Tag ' + r.tag;
+   end if;
+
+   if r.local is not null then
+      filename := coalesce(filename + ' - ', '') + 'Local ' + r.local;
+   end if;
+
+   filename := coalesce(filename + ' - ', '') + 'Laudo ' + to_char(laudo_, 'FM99999999990');
+
+   filename := Replace(fileName, '\', '');
+   fileName := Replace(fileName, '/', '');
+   fileName := Replace(fileName, ':', '');
+   fileName := Replace(fileName, '*', '');
+   fileName := Replace(fileName, '?', '');
+   fileName := Replace(fileName, '"', '');
+   fileName := Replace(fileName, '<', '');
+   fileName := Replace(fileName, '>', '');
+   fileName := Replace(fileName, '|', '');
+
+   return filename;
+end;
+$$
+language plpgsql;

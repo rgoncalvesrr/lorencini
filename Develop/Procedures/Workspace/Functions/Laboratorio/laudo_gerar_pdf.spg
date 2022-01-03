@@ -1,0 +1,32 @@
+/**
+   Solicita geração do laudo em PDF para o serviço de impressão
+
+	@author    Ricardo Gonçalves
+	@date      15/12/2021
+	@trigger
+
+   @param   laudo_   código do laudo
+
+   @return  verdadeiro se o envio do laudo for agendado
+
+	Histórico
+	-------------------------------------------------------------------------------------------------------------------
+*/
+create or replace function laudo_gerar_pdf(
+   in laudo_ integer)
+returns text as 
+$$
+declare
+   file_name_  svc_spool.file_name%type;
+begin
+   file_name_ := laudo_nome_arquivo(laudo_);
+
+   insert into svc_spool 
+      (print_to_file, file_name, report, source_table, source_recno)
+   values
+      (true, file_name_, 14, sys_origem('labamostras_rel'), laudo_);
+
+   return file_name_; 
+end;
+$$
+language plpgsql

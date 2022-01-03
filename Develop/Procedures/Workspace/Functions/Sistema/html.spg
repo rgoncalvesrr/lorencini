@@ -35,7 +35,7 @@ declare
    html  text;
 begin
    html = format('<html><head><title>%s</title>%s</head>', title_, css_);
-   html = html + '<meta charset="utf-8">';
+   html = html + '<meta charset="iso-8859-1">';
    html = html + '<body>';
 
    return html;

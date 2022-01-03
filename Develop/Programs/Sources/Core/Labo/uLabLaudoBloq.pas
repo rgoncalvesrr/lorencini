@@ -65,10 +65,34 @@ type
     Panel10: TPanel;
     Label8: TLabel;
     edEquipSerie: TEdit;
-    GroupBox1: TGroupBox;
     DBMemo1: TDBMemo;
+    qContatos: TZQuery;
+    qContatoslaudo: TIntegerField;
+    qContatoscontato: TIntegerField;
+    qContatoscliente: TIntegerField;
+    qContatospadrao: TBooleanField;
+    qContatosnome: TStringField;
+    qContatoscelular: TStringField;
+    qContatostelefone: TStringField;
+    qContatosramal: TStringField;
+    qContatosemail: TStringField;
+    qContatosrecno: TIntegerField;
+    dsContatos: TDataSource;
+    Panel14: TPanel;
+    ControlBar2: TControlBar;
+    ToolBar3: TToolBar;
+    ToolButton15: TToolButton;
+    ToolButton16: TToolButton;
+    tbRefazGrid: TToolButton;
+    PageControl2: TPageControl;
+    TabSheet2: TTabSheet;
+    DBGrid2: TDBGrid;
+    actRefreshContatos: TAction;
+    TabSheet3: TTabSheet;
     procedure actQueryProcessExecute(Sender: TObject);
     procedure IBrwSrcBeforeOpen(DataSet: TDataSet);
+    procedure IBrwSrcAfterScroll(DataSet: TDataSet);
+    procedure actRefreshContatosExecute(Sender: TObject);
   private
     FRefresh: Boolean;
   public
@@ -83,7 +107,7 @@ implementation
 {$R *.dfm}
 
 uses
-  uDM, ccalendardiff, uIUtils;
+  uDM, ccalendardiff, uIUtils, uResources;
 
 procedure TLabLaudoBloq.actQueryProcessExecute(Sender: TObject);
 var
@@ -193,6 +217,19 @@ begin
     RefreshCtrl;
   end;
 
+end;
+
+procedure TLabLaudoBloq.actRefreshContatosExecute(Sender: TObject);
+begin
+  inherited;
+  G.RefreshDataSet(qContatos);
+end;
+
+procedure TLabLaudoBloq.IBrwSrcAfterScroll(DataSet: TDataSet);
+begin
+  inherited;
+  qContatos.ParamByName('laudo').AsInteger := IBrwSrcrecno.AsInteger;
+  G.RefreshDataSet(qContatos);
 end;
 
 procedure TLabLaudoBloq.IBrwSrcBeforeOpen(DataSet: TDataSet);
