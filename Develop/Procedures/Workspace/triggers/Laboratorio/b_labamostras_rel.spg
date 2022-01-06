@@ -426,6 +426,7 @@ BEGIN
                new.pendencia := null;
             end if;
          elsif old.status = _SREL_CANCELADO then
+            
             raise '[[O laudo % não pode sofrer alterações porque está cancelado.]]', new.recno;
          elsif (new.status < old.status) then                     
             -- Gerando revisão do laudo
