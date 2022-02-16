@@ -9,15 +9,14 @@ m,/**
 	---------------------------------------------------------------------------------------------------------------------
    Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
 
-   26/09/2011 11:33:27  v2    Ricardo Gonçalves.
-      [*] Inclusão de mensagens de erro quando não é possível determinar a classe de tensão.
-   
-   08/12/2011 20:34:53  v3    Ricardo Gonçalves.
-      [*] Tratamento do retrocesso de etapa do laudo.
-   14/12/2018  Ricardo Gonçalves
-      [*] Remoção do comodato_recno
    22/10/2020  Ricardo Gonçalves
       [-] Coloca o pedido em estado de execução quando o laudo é cancelado
+   14/12/2018  Ricardo Gonçalves
+      [*] Remoção do comodato_recno
+   08/12/2011 Ricardo Gonçalves.
+      [*] Tratamento do retrocesso de etapa do laudo.
+   26/09/2011 Ricardo Gonçalves.
+      [*] Inclusão de mensagens de erro quando não é possível determinar a classe de tensão.
 */
 CREATE OR REPLACE FUNCTION a_labamostras_rel()
   RETURNS trigger AS
@@ -76,7 +75,8 @@ BEGIN
                then
                   update pedido
                      set status = _SPED_EXECUTADO
-                   where recno = new.pedido; 
+                   where recno = new.pedido
+                     and status <> _SPED_EXECUTADO; 
                end if;
 
                -- Gera informações para o portal

@@ -15,7 +15,23 @@ $$
 Declare
    rfunc      tb_funcoes%rowtype;
 Begin
-   if tg_op <> 'DELETE' then
+   if tg_op <> 'DELETE' then      
+      if tg_op = 'INSERT' then
+         -- Valida inclusão do item
+         if not exists(
+            select 1
+              from pedido c
+                   join orca_grupo o
+                     on o.recno = c.grupo
+                    and o.reqmo
+             where c.recno = new.pedido)
+         then
+            raise '[[O pedido % não suporta a inclusão de mão-de-obra!]]', new.pedido;
+         end if;
+         
+         new.saldo := new.qtd;
+      end if;
+
       new.uteis_vl_hrs := 0;
       new.sabado_vl_hrs := 0;
       new.domingo_vl_hrs := 0;
@@ -71,14 +87,11 @@ Begin
          new.adic_not_dias * new.adic_not_hrs_dias * new.adic_not_vl_hrs;
 
       new.total := new.qtd * new.vvenda;
-   end if;
 
-
-   if tg_op != 'DELETE' then
       return new;
-   else
-      return old;
    end if;
+
+   return old;
 End
 $$
 language plpgsql;

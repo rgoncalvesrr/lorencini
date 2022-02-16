@@ -1,0 +1,287 @@
+set session authorization lorencini;
+
+create table public.op (
+	op bigserial not null,
+	pedido integer not null,
+	status integer default(10) not null,
+	criada timestamp default(clock_timestamp()) not null,
+	emitida timestamp,
+	executada timestamp,
+	produzida timestamp,   
+	cancelada timestamp,
+	recno bigserial not null,
+	constraint pk_op primary key(op, pedido),
+	constraint fk_op_1 foreign key(pedido) 
+		references pedido(recno) on update cascade on delete cascade,
+	constraint uk_op_1 unique(recno),
+	constraint ck_op_1 check(status in (10,20,30,40,50,99)),
+	constraint ck_op_2 check(emitida is null or emitida >= criada),
+	constraint ck_op_3 check(executada is null or executada >= emitida),
+	constraint ck_op_4 check(produzida is null or produzida >= executada),
+	constraint ck_op_6 check(cancelada is null or cancelada >= emitida));
+
+alter table public.op owner to lorencini;
+
+create table public.op_servicos(
+	op bigint not null,
+	pedido integer not null,
+	codserv integer not null,
+	qtd integer default(1) not null,
+   amostras integer default(0) not null,
+	recno bigserial not null,
+	constraint pk_op_servicos primary key(op, pedido, codserv),
+	constraint fk_op_servicos_1 foreign key(op, pedido) 
+		references public.op(op, pedido) on update cascade on delete cascade,
+	constraint fk_op_servicos_2 foreign key(pedido, codserv) 
+		references public.pedido_serv(pedido, codserv) on update cascade on delete cascade,
+	constraint uk_op_servicos_1 unique(recno),
+	constraint ck_op_servicos_1 check(qtd > 0),
+   constraint ck_op_servicos_2 check(amostras between 0 and qtd));
+
+alter table public.op_servicos owner to lorencini;
+
+create table public.op_amostras(
+	op bigint not null,
+	pedido integer not null,
+	codserv integer not null,
+	amostra integer not null,
+	consumo qtd$,
+	recno bigserial not null,
+	constraint pk_op_amostras primary key(op, pedido, codserv, amostra),
+	constraint fk_op_amostras_1 foreign key(op, pedido, codserv) 
+		references public.op_servicos(op, pedido, codserv) on update cascade on delete cascade,
+	constraint fk_op_amostras_2 foreign key(amostra) 
+		references public.labamostras(recno) on update cascade on delete cascade,
+	constraint uk_op_amostras_1 unique(recno),
+	constraint ck_op_amostras_1 check(consumo > 0));
+
+alter table public.op_amostras owner to lorencini;
+
+create index idx_op_amostras on op_amostras(amostra);
+
+create table public.op_materiais(
+	op bigint not null,
+	pedido integer not null,
+	material integer not null,
+	qtd qtd$ default(1) not null,
+	recno bigint not null,
+	constraint pk_op_materiais primary key(op, pedido, material),
+	constraint fk_op_materiais_1 foreign key(op, pedido) 
+		references public.op(op, pedido) on update cascade on delete cascade,
+	constraint fk_op_materiais_2 foreign key(pedido, material) 
+		references public.pedido_mat(pedido, material) on update cascade on delete cascade,
+	constraint uk_op_materiais_1 unique(recno),
+	constraint ck_op_materiais_1 check(qtd > 0));
+
+alter table public.op_materiais owner to lorencini;
+
+create table public.op_mo(
+	op bigint not null,
+	pedido integer not null,
+	funcao integer not null,
+	qtd integer default(1) not null,
+	recno bigserial not null,
+	constraint pk_op_mo primary key(op, pedido, funcao),
+	constraint fk_op_mo_1 foreign key(op, pedido) 
+		references public.op(op, pedido) on update cascade on delete cascade,
+	constraint fk_op_mo_2 foreign key(pedido, funcao) 
+		references public.pedido_mo(pedido, funcao) on update cascade on delete cascade,
+	constraint uk_op_mo_1 unique(recno),
+	constraint ck_op_mo_1 check(qtd > 0));
+
+alter table public.op_mo owner to lorencini;
+
+create or replace view public.vop_materiais as
+select m.op, m.pedido, m.material, m.qtd, pm.vvenda, m.qtd * pm.vvenda vtotal
+  from public.op_materiais m
+       join public.pedido_mat pm
+         on pm.pedido = m.pedido
+        and pm.material = m.material;
+
+alter view public.vop_materiais owner to lorencini;
+
+create or replace view public.vop_servicos as
+select s.op, s.pedido, s.codserv, s.qtd, ps.vvenda, s.qtd * ps.vvenda vtotal
+  from public.op_servicos s
+       join public.pedido_serv ps
+         on ps.pedido = s.pedido
+        and ps.codserv = s.codserv;
+
+alter view public.vop_servicos owner to lorencini;
+
+create or replace view public.vop_mo as
+select mo.op, mo.pedido, mo.funcao, mo.qtd, pmo.vvenda, mo.qtd * pmo.vvenda vtotal
+  from public.op_mo mo
+       join public.pedido_mo pmo
+         on pmo.pedido = mo.pedido
+        and pmo.funcao = mo.funcao;
+
+alter view public.vop_mo owner to lorencini;
+
+create or replace view public.vop_totais as
+select o.op, o.pedido, sum(s.vtotal) vlserv, sum(m.vtotal) vlmat, sum(mo.vtotal) vlmo
+  from public.op o
+       left join public.vop_servicos s
+         on s.op = o.op
+        and s.pedido = o.pedido
+       left join public.vop_materiais m
+         on m.op = o.op
+        and m.pedido = o.pedido
+       left join public.vop_mo mo
+         on mo.op = o.op
+        and mo.pedido = o.pedido
+ group by o.op, o.pedido;
+
+alter view public.vop_totais owner to lorencini;
+
+alter table pedido_serv
+	add saldo integer default(0) not null,
+	add constraint ck_pedido_serv_6 check(saldo between 0 and qtd);
+
+alter table pedido_mo
+	add saldo integer default(0) not null,
+	add constraint ck_pedido_mo_17 check(saldo between 0 and qtd);
+
+alter table pedido_mat
+	add saldo qtd$ default(0) not null,
+	add constraint ck_pedido_mat_4 check(saldo between 0 and qtd);
+
+alter table labamostras_rel
+	add op bigint,
+	add constraint fk_labamostras_rel_9 foreign key(op, pedido, codserv, amostra)
+		references op_amostras(op, pedido, codserv, amostra)
+		on update cascade on delete restrict;
+
+update labamostras set estado = 70  where estado = 50 and equip_recno is null;
+
+alter table labamostras
+	add constraint ck_labamostras_6 check((estado <> 50) or (estado = 50 and equip_recno is not null));
+
+insert into sys_errors
+	(constraint_, descri, solucao)
+values
+	('ck_labamostras_6', 'Para que a amostra fique disponível é necessário fazer sua revisão', 'Preencha os dados do equipamento e dados da coleta'),
+	('fk_labamostras_rel_9', 'Amostra não consta na ordem de produção', null);
+
+
+---- Atualização de amostras com estado inconsistente
+---- !!!!!!!!!!! É NECESSÁRIO ESTAR LOGADO NO SISTEMA PARA RODAR ESTA ATUALIZAÇÃO
+
+select sys_session_select(11);
+
+-- Amostras disponíveis já utilizadas
+update labamostras a
+   set estado = h.estado
+  from (select h.amostra, max(h.estado) estado
+          from labamostras_hist h
+               join labamostras a
+                 on a.recno = h.amostra
+                and a.estado = 50
+         group by h.amostra
+        having max(h.estado) > 50) h
+ where a.recno = h.amostra
+   and a.coleta < current_date - interval '15 days';
+
+update labamostras set estado = 60 where estado = 50 and coleta < current_date - interval '15 days';
+
+-- Amostras recebidas já utilizadas
+update labamostras a
+   set estado = h.estado
+  from (select h.amostra, max(h.estado) estado
+          from labamostras_hist h
+               join labamostras a
+                 on a.recno = h.amostra
+                and a.estado < 40
+         group by h.amostra
+        having max(h.estado) > 40) h
+ where a.recno = h.amostra
+   and a.coleta < current_date - interval '15 days';
+
+-- Amostras utilizadas
+update labamostras a
+   set estado = 60
+  from (select a.recno
+          from labamostras a
+         where a.estado = 40
+           and a.coleta < current_date - interval '15 days'
+           and exists(
+  		         select 1
+           	     from labamostras_rel r
+     	          where r.amostra = a.recno)) x
+ where x.recno = a.recno;
+
+-- Amostras cancelas
+ update labamostras a
+   set estado = 70
+ from (select a.recno
+         from labamostras a
+        where a.estado = 40
+          and a.coleta < current_date - interval '15 days'
+          and not exists(
+  		      select 1
+           	    from labamostras_rel r
+     	       where r.amostra = a.recno)) x
+ where x.recno = a.recno;
+
+ set session authorization postgres;
+alter table labamostras disable trigger all;
+update labamostras a
+   set estado = 60
+ from (select a.recno
+         from labamostras a
+        where a.estado = 40
+          and a.estado_data < current_date - interval '15 days') x
+ where x.recno = a.recno;
+alter table labamostras enable trigger all;
+
+create table labtipo_recipiente (
+	recno bigserial not null,
+	descri descri$ not null,
+	constraint pk_labtipo_recipiente primary key(recno),
+	constraint uk_labtipo_recipiente_1 unique(descri)
+);
+
+alter table labtipo_recipiente owner to lorencini;
+
+insert into labtipo_recipiente
+	(recno, descri)
+values
+	(1, 'Frasco'),
+	(2, 'Seringa');
+
+alter sequence labtipo_recipiente_recno_seq restart with 3;
+
+alter table labprocxequip
+	add constraint fk_labprocxequip_2 foreign key(tipo)
+		references labtipo_recipiente(recno)
+		on update cascade on delete restrict;
+
+alter table servicos
+	alter vidraria drop not null;
+
+update servicos
+   set vidraria = null
+ where vidraria = 0;
+
+alter table servicos
+	add constraint fk_servicos_1 foreign key(vidraria)
+		references labtipo_recipiente(recno)
+		on update cascade on delete restrict;
+
+alter table labamostras
+	add recipiente integer,
+	add constraint fk_labamostras_5 foreign key(recipiente)
+		references labtipo_recipiente(recno)
+		on update cascade on delete restrict;
+
+alter table labamostras disable trigger all;
+update labamostras a
+   set recipiente = le.tipo
+  from labprocxequip le
+ where le.amostra = a.recno;
+alter table labamostras enable trigger all;
+
+alter table tb_orcamentos
+	alter os set default( nextval(('tb_orcamentos_os_seq'::text)::regclass));
+
+select setval('tb_orcamentos_os_seq', max(os)+1) from tb_orcamentos;

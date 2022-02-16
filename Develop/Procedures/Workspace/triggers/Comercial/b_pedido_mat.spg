@@ -26,6 +26,8 @@ BEGIN
          then
             raise '[[O pedido % não suporta a inclusão de materiais!]]', new.pedido;
          end if;
+         
+         new.saldo := new.qtd;
       end if;
 
       new.vtotal := new.qtd * new.vvenda;      

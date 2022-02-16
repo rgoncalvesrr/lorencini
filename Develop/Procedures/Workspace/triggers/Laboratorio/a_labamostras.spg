@@ -75,7 +75,7 @@ BEGIN
                                            from labprocxequip
                                           where amostra = new.recno) p
                                      on p.labproc_recno = l.labproc_recno) pe
-                                on pe.amostra = c.recno
+                        on pe.amostra = c.recno
                 where c.estado = _EENVIADA
                   and c.recno <> new.recno)
             then
@@ -85,6 +85,11 @@ BEGIN
                 where le.labproc_recno = lp.recno
                   and le.amostra = new.recno;
             end if;
+         end if;
+
+         -- Tenta vincular amostra a uma OS
+         if old.estado = _ERECEBIDA and new.estado = _EDISPONIVEL then
+            perform op_vincular_amostra(new.recno);
          end if;
       end if;
 
