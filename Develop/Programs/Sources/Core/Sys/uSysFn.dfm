@@ -68,7 +68,7 @@ inherited SysFn: TSysFn
               ExplicitWidth = 147
             end
             inherited CCalendarDiff1: TCCalendarDiff
-              Date = 44489.805734675920000000
+              Date = 44586.773041909720000000
               DisplayInterval = Label5
               OnChange = FrameData1CCalendarDiff1Change
             end
@@ -276,6 +276,11 @@ inherited SysFn: TSysFn
       ImageIndex = 309
       OnExecute = actSyncExecute
     end
+    object actReady: TAction
+      Caption = 'Marca como dispon'#237'vel'
+      ImageIndex = 208
+      OnExecute = actReadyExecute
+    end
   end
   inherited pmRel: TPopupMenu
     Left = 248
@@ -420,6 +425,9 @@ inherited SysFn: TSysFn
     Top = 240
     object Sincronizar1: TMenuItem
       Action = actSync
+    end
+    object Marcacomodisponvel1: TMenuItem
+      Action = actReady
     end
     object CarregarAtualizarRotinas1: TMenuItem
       Action = actFilesLoad

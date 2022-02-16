@@ -287,8 +287,6 @@ inherited PedM: TPedM
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 1
-            ExplicitLeft = 85
-            ExplicitTop = 16
             object Label10: TLabel
               AlignWithMargins = True
               Left = 3
@@ -455,8 +453,6 @@ inherited PedM: TPedM
             Align = alLeft
             BevelOuter = bvNone
             TabOrder = 6
-            ExplicitLeft = 62
-            ExplicitTop = 16
             object SpeedButton1: TSpeedButton
               AlignWithMargins = True
               Left = 0
@@ -973,6 +969,8 @@ inherited PedM: TPedM
               Align = alClient
               DataField = 'pedido_cliente'
               DataSource = Ped.DataSource1
+              ParentShowHint = False
+              ShowHint = True
               TabOrder = 0
             end
           end

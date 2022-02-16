@@ -43,6 +43,8 @@ type
     IBrwSrcmark: TBooleanField;
     FrameCheckBar1: TFrameCheckBar;
     Sincronizar1: TMenuItem;
+    actReady: TAction;
+    Marcacomodisponvel1: TMenuItem;
     procedure IBrwSrctipoGetText(Sender: TField; var Text: string;
       DisplayText: Boolean);
     procedure IBrwSrctipoSetText(Sender: TField; const Text: string);
@@ -62,6 +64,7 @@ type
     procedure DBGridKeyPress(Sender: TObject; var Key: Char);
     procedure FormDestroy(Sender: TObject);
     procedure actSyncExecute(Sender: TObject);
+    procedure actReadyExecute(Sender: TObject);
   private
     procedure OnEdit; override;
     procedure RefreshCtrl; override;
@@ -159,6 +162,38 @@ begin
     end;
 
     G.RefreshDataSet(DataSet);
+  end;
+end;
+
+procedure TSysFn.actReadyExecute(Sender: TObject);
+var
+  bBookMark : TBookmark;
+begin
+  bBookMark := IBrwSrc.GetBookmark;
+
+  with IBrwSrc do
+  try
+    DisableControls;
+    First;
+
+    while not Eof do
+    begin
+      if FieldByName('mark').AsBoolean then
+      begin
+        Edit;
+        FieldByName('status').AsInteger := 2;
+        Post;
+      end;
+
+      Next;
+    end;
+  finally
+    GotoBookmark(bBookMark);
+    FreeBookmark(bBookMark);
+    
+    EnableControls;
+
+    G.RefreshDataSet(IBrwSrc)
   end;
 end;
 
@@ -319,6 +354,7 @@ end;
 procedure TSysFn.OnChangeMark(Sender: TObject);
 begin
   actSync.Enabled := TFrameCheckBar(Sender).CheckedCount > 0;
+  actReady.Enabled := actSync.Enabled;
 end;
 
 procedure TSysFn.OnEdit;
@@ -350,6 +386,7 @@ procedure TSysFn.RefreshCtrl;
 begin
   inherited;
   actFilesLoad.Enabled := (IBrwSrc.State = dsBrowse);
+  actReady.Enabled := (IBrwSrc.State = dsBrowse) and (FrameCheckBar1.CheckedCount > 0);
 end;
 
 initialization
