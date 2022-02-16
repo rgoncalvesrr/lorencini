@@ -49,6 +49,7 @@ type
     qTipoLaudoServrelato_recno: TIntegerField;
     qTipoLaudoServrecno: TIntegerField;
     qTipoLaudoServcodserv: TIntegerField;
+    IBrwSrcrecipiente: TStringField;
     procedure FormCreate(Sender: TObject);
     procedure actQueryProcessExecute(Sender: TObject);
     procedure qCateAfterOpen(DataSet: TDataSet);
@@ -61,12 +62,10 @@ type
     procedure qNatDetAfterInsert(DataSet: TDataSet);
     procedure IBrwSrcAfterOpen(DataSet: TDataSet);
     procedure edServicoChange(Sender: TObject);
-    procedure IBrwSrcvidrariaGetText(Sender: TField; var Text: string;
-      DisplayText: Boolean);
-    procedure IBrwSrcvidrariaSetText(Sender: TField; const Text: string);
     procedure cbVidrariaChange(Sender: TObject);
     procedure IBrwSrcBeforeOpen(DataSet: TDataSet);
     procedure qTipoLaudoServAfterInsert(DataSet: TDataSet);
+    procedure IBrwSrcvidrariaChange(Sender: TField);
   private
     FFilter: string;
     { Private declarations }
@@ -212,32 +211,20 @@ begin
   End;
 end;
 
-procedure TServicos.IBrwSrcvidrariaGetText(Sender: TField; var Text: string;
-  DisplayText: Boolean);
+procedure TServicos.IBrwSrcvidrariaChange(Sender: TField);
 begin
   inherited;
-  case Sender.AsInteger of
-    0: Text := 'Nenhuma';
-    1: Text := 'Frasco';
-    2: Text := 'Seringa';
-  end;
-end;
+  if not (Sender.DataSet.State in [dsEdit, dsInsert]) then
+    Exit;
 
-procedure TServicos.IBrwSrcvidrariaSetText(Sender: TField; const Text: string);
-begin
-  inherited;
-  if Text <> EmptyStr then
-    case Text[1] of
-      'N': Sender.AsInteger := 0;
-      'F': Sender.AsInteger := 1;
-      'S': Sender.AsInteger := 2;
-    end;
+  if Sender.IsNull then
+    IBrwSrcrecipiente.SetData(nil);
 end;
 
 procedure TServicos.OnEdit;
 begin
   Application.CreateForm(TServicosM, ServicosM);
-  ServicosM.ScreenType:= stMasterDetail; 
+  ServicosM.ScreenType:= stMasterDetail;
   ServicosM.DataSet:= DataSet;
   ServicosM.ShowModal;
 end;

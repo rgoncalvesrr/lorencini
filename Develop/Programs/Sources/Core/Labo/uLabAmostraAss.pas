@@ -152,6 +152,7 @@ type
     procedure DBGridDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn;
       State: TGridDrawState);
     procedure PageControl1Change(Sender: TObject);
+    procedure FrameCheckBar1ToolButton17Click(Sender: TObject);
   private
     { Private declarations }
     FLaudo: TLaudo;
@@ -169,7 +170,8 @@ var
 
 implementation
 
-uses uDM, uLabAmostraAssM, ccalendardiff, uResources;
+uses uDM, uLabAmostraAssM, ccalendardiff, uResources, uLaudoService, 
+  uLabAmostraAssBloq;
 
 {$R *.dfm}
 
@@ -294,6 +296,8 @@ begin
 
   G.RefreshDataSet(IBrwSrc);
   RefreshCtrl;
+
+  TLaudoService.ShowReportsWithIssue;
 end;
 
 procedure TLabAmostraAss.DBGridDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn;
@@ -370,6 +374,13 @@ begin
     FreeAndNil(FLaudo);
 
   inherited;
+end;
+
+procedure TLabAmostraAss.FrameCheckBar1ToolButton17Click(Sender: TObject);
+begin
+  inherited;
+  FrameCheckBar1.actProcessMarkExecute(Sender);
+
 end;
 
 procedure TLabAmostraAss.IBrwSrcAfterScroll(DataSet: TDataSet);

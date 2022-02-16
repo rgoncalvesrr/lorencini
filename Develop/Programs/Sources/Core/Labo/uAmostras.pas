@@ -153,6 +153,13 @@ type
     edRemessa: TJvCalcEdit;
     IBrwSrcvidraria: TStringField;
     IBrwSrctequip: TFloatField;
+    IBrwSrcgeracao: TDateTimeField;
+    IBrwSrcemissao: TDateTimeField;
+    IBrwSrcremessa: TDateTimeField;
+    IBrwSrcrecebimento: TDateTimeField;
+    IBrwSrcliberacao: TDateTimeField;
+    IBrwSrcutilizacao: TDateTimeField;
+    IBrwSrccancelamento: TDateTimeField;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure actQueryProcessExecute(Sender: TObject);

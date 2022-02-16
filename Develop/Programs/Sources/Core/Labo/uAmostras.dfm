@@ -276,7 +276,7 @@ inherited Amostras: TAmostras
             Width = 179
             Height = 15
             Align = alTop
-            Caption = '01/07/2021 a 31/07/2021'
+            Caption = '01/02/2022 a 28/02/2022'
             ExplicitWidth = 128
           end
           object Label9: TLabel
@@ -318,7 +318,7 @@ inherited Amostras: TAmostras
             end
             inherited CCalendarDiff1: TCCalendarDiff
               Interval = diMonthly
-              Date = 44379.943002939810000000
+              Date = 44595.699075208340000000
               DisplayInterval = Label8
             end
           end
@@ -393,58 +393,30 @@ inherited Amostras: TAmostras
       object TabSheet4: TTabSheet
         Caption = 'Geradas'
         ImageIndex = 210
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object TabSheet5: TTabSheet
         Caption = 'Impressas'
         ImageIndex = 211
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object TabSheet6: TTabSheet
         Caption = 'Enviadas'
         ImageIndex = 205
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object TabSheet7: TTabSheet
         Caption = 'Recebidas'
         ImageIndex = 212
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object TabSheet8: TTabSheet
         Caption = 'Dispon'#237'veis'
         ImageIndex = 208
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object TabSheet9: TTabSheet
         Caption = 'Utilizadas'
         ImageIndex = 209
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object TabSheet10: TTabSheet
         Caption = 'Canceladas'
         ImageIndex = 204
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
     end
     object Panel3: TPanel
@@ -497,10 +469,6 @@ inherited Amostras: TAmostras
         object TabSheet3: TTabSheet
           Caption = 'Laudos'
           ImageIndex = 1
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object DBGrid3: TDBGrid
             Tag = 1
             Left = 0
@@ -609,10 +577,11 @@ inherited Amostras: TAmostras
               Left = 41
               Top = 3
               Width = 50
-              Height = 15
+              Height = 30
               Align = alLeft
               Caption = 'Digita'#231#227'o'
               Layout = tlCenter
+              ExplicitHeight = 15
             end
             object JvImage2: TJvImage
               AlignWithMargins = True
@@ -688,20 +657,22 @@ inherited Amostras: TAmostras
               Left = 135
               Top = 3
               Width = 74
-              Height = 15
+              Height = 30
               Align = alLeft
               Caption = 'Apontamento'
               Layout = tlCenter
+              ExplicitHeight = 15
             end
             object lbLeg3: TLabel
               AlignWithMargins = True
               Left = 350
               Top = 3
               Width = 48
-              Height = 15
+              Height = 30
               Align = alLeft
               Caption = 'Assinado'
               Layout = tlCenter
+              ExplicitHeight = 15
             end
             object JvImage3: TJvImage
               AlignWithMargins = True
@@ -847,10 +818,11 @@ inherited Amostras: TAmostras
               Left = 442
               Top = 3
               Width = 56
-              Height = 15
+              Height = 30
               Align = alLeft
               Caption = 'Cancelado'
               Layout = tlCenter
+              ExplicitHeight = 15
             end
             object JvImage5: TJvImage
               AlignWithMargins = True
@@ -926,20 +898,17 @@ inherited Amostras: TAmostras
               Left = 253
               Top = 3
               Width = 53
-              Height = 15
+              Height = 30
               Align = alLeft
               Caption = 'Encerrado'
               Layout = tlCenter
+              ExplicitHeight = 15
             end
           end
         end
         object TabSheet11: TTabSheet
           Caption = 'Hist'#243'rico de Estados'
           ImageIndex = 2
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object DBGrid4: TDBGrid
             Tag = 1
             Left = 0
@@ -1069,7 +1038,10 @@ inherited Amostras: TAmostras
         '       a.qtd, a.consumido, a.descartado, a.saldo, p.labproc_recn' +
         'o solicitacao, cast(sys_iif(p.tipo = 2, '#39'Seringa'#39', '#39'Frasco'#39') as ' +
         'varchar(15)) vidraria,'
-      '       a.tequip'
+
+        '       a.tequip,          a.geracao,     a.emissao,   a.remessa,' +
+        '      a.recebimento,         a.liberacao,'
+      '       a.utilizacao,      a.cancelamento'
       '  from labamostras a'
       '       join tbclientes c'
       '         on c.codigo = a.codigo'
@@ -1413,6 +1385,41 @@ inherited Amostras: TAmostras
       FieldName = 'email_cli'
       Visible = False
       Size = 100
+    end
+    object IBrwSrcgeracao: TDateTimeField
+      DisplayLabel = 'Gera'#231#227'o'
+      FieldName = 'geracao'
+      DisplayFormat = 'dd/mm/yyyy hh:nn:ss'
+    end
+    object IBrwSrcemissao: TDateTimeField
+      DisplayLabel = 'Emiss'#227'o'
+      FieldName = 'emissao'
+      DisplayFormat = 'dd/mm/yyyy hh:nn:ss'
+    end
+    object IBrwSrcremessa: TDateTimeField
+      DisplayLabel = 'Remessa'
+      FieldName = 'remessa'
+      DisplayFormat = 'dd/mm/yyyy hh:nn:ss'
+    end
+    object IBrwSrcrecebimento: TDateTimeField
+      DisplayLabel = 'Recebimento'
+      FieldName = 'recebimento'
+      DisplayFormat = 'dd/mm/yyyy hh:nn:ss'
+    end
+    object IBrwSrcliberacao: TDateTimeField
+      DisplayLabel = 'Libera'#231#227'o'
+      FieldName = 'liberacao'
+      DisplayFormat = 'dd/mm/yyyy hh:nn:ss'
+    end
+    object IBrwSrcutilizacao: TDateTimeField
+      DisplayLabel = 'Utiliza'#231#227'o'
+      FieldName = 'utilizacao'
+      DisplayFormat = 'dd/mm/yyyy hh:nn:ss'
+    end
+    object IBrwSrccancelamento: TDateTimeField
+      DisplayLabel = 'Cancelamento'
+      FieldName = 'cancelamento'
+      DisplayFormat = 'dd/mm/yyyy hh:nn:ss'
     end
   end
   inherited pmOpcao: TPopupMenu

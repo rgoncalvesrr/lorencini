@@ -27,6 +27,7 @@ type
     procedure actProcessMarkExecute(Sender: TObject);
   private
     FTable: string;
+    FTableId: Integer;
     FOnChange: TNotifyEvent;
     procedure SetTable(const Value: string);
     procedure ProcessMark(const MarkType: TMarkType);
@@ -51,18 +52,27 @@ begin
 end;
 
 function TFrameCheckBar.CheckedCount: Integer;
+var
+  session: string;
 begin
   Result := 0;
 
   with U.Data.Query do
   try
+    SQL.Text := 'select sys_session()';
+
+    Open;
+
+    session := Fields[0].AsString;
+
     SQL.Text :=
     'select count(*) '+
       'from sys_flags '+
-     'where session = sys_session() '+
-       'and table_ = sys_origem(:table)';
+     'where session = :session '+
+       'and table_ = :table_';
 
-    ParamByName('table').AsString := FTable;
+    ParamByName('session').AsString := session;
+    ParamByName('table_').AsInteger := FTableId;
 
     Open;
 
@@ -116,11 +126,11 @@ begin
         bMark := not table.FieldByName('mark').AsBoolean;
 
       if bMark then
-        cmd := 'select sys_flag_mark(%s, %d)'
+        cmd := 'select sys_flag_mark(%d, %d)'
       else
-        cmd := 'select sys_flag_del(%s, %d)';
+        cmd := 'select sys_flag_del(%d, %d)';
 
-      U.Data.ExecSQL(cmd, [QuotedStr(FTable), table.FieldByName('recno').AsInteger]);
+      U.Data.ExecSQL(cmd, [FTableId, table.FieldByName('recno').AsInteger]);
 
       table.Next;
     until (table.Eof or (MarkType = mtInvert));
@@ -131,7 +141,7 @@ begin
   end;
   dsMark.DataSet.DisableControls;
   rec := dsMark.DataSet.GetBookmark;
-  dsMark.DataSet.Refresh;
+  dsMark.DataSet.Refresh;                               
   dsMark.DataSet.GotoBookmark(rec);
   dsMark.DataSet.FreeBookmark(rec);
   dsMark.DataSet.EnableControls;
@@ -143,6 +153,19 @@ end;
 procedure TFrameCheckBar.SetTable(const Value: string);
 begin
   FTable := Value;
+
+  with U.Data.Query do
+  try
+    SQL.Text := 'select sys_origem(:table)';
+
+    ParamByName('table').AsString := Value;
+
+    Open;
+
+    FTableId := Fields[0].AsInteger;
+  finally
+    Close;
+  end;
 end;
 
 end.
