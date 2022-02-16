@@ -69,14 +69,12 @@ BEGIN
                   on c.estado = e.uf
                  and c.codigo = rrow.codigo;
 
-         -- Obtem o próximo código de comodato
-         new.amostra := nextval('labamostras_recno_seq'::regclass);
-
          -- Gera o registro do comodato
-         insert into labamostras 
-            (recno,       codigo,      validade,     origem,                      origem_recno, pedido)
-         values          
-            (new.amostra, rrow.codigo, new.validade, sys_origem('labprocxequip'), new.recno,    rrow.pedido);
+         insert into labamostras
+            (codigo,      validade,     origem,                      origem_recno, pedido,      recipiente)
+         values
+            (rrow.codigo, new.validade, sys_origem('labprocxequip'), new.recno,    rrow.pedido, new.tipo)
+         returning recno into new.amostra;
       end if;
 
       return new;

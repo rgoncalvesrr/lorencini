@@ -1,0 +1,68 @@
+/**
+   Validação da inclusão da amostra na OS
+
+   @author    Ricardo Gonçalves
+   @date      17/01/2022
+   @trigger   op_amostras B IUD
+
+   HistÃ³rico
+   ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - CorreÃ§Ã£o / [*] - Recurso modificado/melhorado / [+] - ImplementaÃ§Ã£o de recurso
+*/
+CREATE OR REPLACE FUNCTION b_op_amostras()
+  RETURNS trigger AS
+$$
+Declare
+   batu     boolean;
+   codigo_  pedido.codigo%type;
+   r        record;
+BEGIN
+   if tg_op = 'DELETE' then
+      return old;
+   end if;
+
+   batu := tg_op = 'INSERT';
+
+   if not batu then
+      batu := new.codserv <> old.codserv;
+   end if;
+
+   select codigo
+     into codigo_
+     from pedido
+    where recno = new.pedido;
+
+   select c.nome_chave, a.saldo, a.recipiente
+     into r
+     from labamostras a
+          join tbclientes c
+            on c.codigo = a.codigo
+    where a.recno = new.amostra
+      and a.codigo = codigo_;
+
+   -- Verificando se amostra pertence ao cliente do pedido
+   if not found then
+      raise '[[A amostra % não pertence ao cliente % - %]]', new.amostra, codigo_, r.nome_chave;
+   end if;
+
+   if batu then
+      select consumo
+        into new.consumo
+        from servicos
+       where codserv = new.codserv
+         and vidraria = r.recipiente;
+
+      if not found then
+         raise '[[O tipo de recipiente da amostras % é incompatível com o tipo de recipiente do serviço %]]', new.amostra, new.codserv;
+      end if;
+   end if;
+
+   if r.saldo < new.consumo then
+      raise '[[A amostra % não possui saldo para atender o cosumo. Saldo %, necessidade %]]', 
+         new.amostra, to_char(r.saldo, 'FM 999G999G990D00'), to_char(new.consumo, 'FM 999G999G990D00');
+   end if;
+
+   return new;
+END;
+$$
+  LANGUAGE 'plpgsql' VOLATILE;

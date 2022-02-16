@@ -1,0 +1,8 @@
+create or replace view public.vop_mo as
+select mo.op, mo.pedido, mo.funcao, mo.qtd, pmo.vvenda, mo.qtd * pmo.vvenda vtotal
+  from public.op_mo mo
+       join public.pedido_mo pmo
+         on pmo.pedido = mo.pedido
+        and pmo.funcao = mo.funcao;
+
+alter view public.vop_mo owner to lorencini;

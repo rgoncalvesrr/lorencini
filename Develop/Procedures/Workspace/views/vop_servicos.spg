@@ -1,0 +1,8 @@
+create or replace view public.vop_servicos as
+select s.op, s.pedido, s.codserv, s.qtd, ps.vvenda, s.qtd * ps.vvenda vtotal
+  from public.op_servicos s
+       join public.pedido_serv ps
+         on ps.pedido = s.pedido
+        and ps.codserv = s.codserv;
+
+alter view public.vop_servicos owner to lorencini;
