@@ -21,13 +21,17 @@ declare
 
    r     record;
    nfe_  fis_nfe.chave%type;
+   msg   text;
 begin
+   msg := '';
    if not laudo_liberado(laudo_) then      
-      select rel.amostra, sys_iif(rem.tipo = 1, 'para o frasco', 'para a seringa') tipo
+      select rel.amostra, sys_iif(rem.tipo = 1, 'para o frasco', 'para a seringa') tipo, a.codigo
         into r
         from labamostras_rel rel
              left join labprocxequip rem
 	            on rem.amostra = rel.amostra
+             join labamostras a
+               on a.recno = rel.amostra  
        where rel.recno = laudo_; 
       
       if not found then
@@ -47,18 +51,24 @@ begin
             nfe_ := buscar_nfe_por_amostra(r.amostra);
 
             if nfe_ is null then
-               return format('Não foi possível liberar laudo %s porque não há NF-e de entrada %s %s', laudo_, r.tipo, r.amostra);
+               msg := format('Não foi possível liberar laudo %s porque não há NF-e de entrada %s %s', laudo_, r.tipo, r.amostra);
+            else
+               perform associar_amostra_nfe(r.amostra, nfe_);
             end if;
-
-            perform associar_amostra_nfe(r.amostra, nfe_);
          exception
             when sqlstate 'P0001' then
-               return format('Não foi possível liberar laudo %s porque a amostra %s não foi localizada', laudo_, r.amostra);
+               msg := format('Não foi possível liberar laudo %s porque a amostra %s não foi localizada', laudo_, r.amostra);
          end;
       end if;
+      
+      if msg <> '' then
+         msg := msg || chr(10); 
+      end if;
+
+      msg := msg + fin_ckbloqueio(r.codigo);
    end if;
 
-   return '';
+   return msg;
 end;
 $$
 language plpgsql;
