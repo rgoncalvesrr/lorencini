@@ -1,0 +1,72 @@
+/**
+   Prepara requisição de consulta ao SERASA
+
+	@author    Ricardo Gonçalves
+	@date      01/03/2022
+	@trigger
+
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+create or replace function tspeed.scc_consultar_documento(
+   documento_ varchar,
+   uf_ varchar,
+   tipo_ integer,
+   producao_ boolean = true)
+returns void as
+$$
+declare
+   _CNPJ_LORENCINI constant varchar := '04824941000109';
+
+   r  public.svc_cliapi%rowtype;
+begin
+   r.uri := 'https://api.consultanegativacao.com.br/v1/homologacao/consultas/assincrona';
+   r.req_method := 'POST';
+   r.status := 2;
+   r.res_callback := 'scc_consultar_protocolo';
+
+   if producao_ then
+      r.uri := 'https://api.consultanegativacao.com.br/v1/consultas/assincrona';
+   end if;
+
+   r.req_headers := format('{
+      "cnpjSH" : "%s",
+      "tokenSH" : "%s",
+      "cnpjUsuario": "%s",
+      "login" : "%s",
+      "password" : "%s"}',
+      _CNPJ_LORENCINI,
+      convert_from(decode(sys_paramv('tecno_token'), 'base64'), 'utf-8'),
+      _CNPJ_LORENCINI,
+      convert_from(decode(sys_paramv('scc_login'), 'base64'), 'utf-8'),
+      convert_from(decode(sys_paramv('scc_pass'), 'base64'), 'utf-8'));
+
+   r.req_body := format('{
+      "documento" : "%s",
+      "codConsulta": %s,
+      "uf": "%s",
+      "retorno" : "JSON"}',
+      documento_, tipo_, uf_);
+
+   insert into public.svc_cliapi
+      (uri, req_method, req_headers, req_body, res_callback, status)
+   values
+      (r.uri, r.req_method, r.req_headers, r.req_body, r.res_callback, r.status);
+end;
+$$
+language plpgsql;
+
+create or replace function tspeed.scc_consultar_documento(
+   codigo_ integer,
+   tipo_ integer,
+   producao_ boolean = true)
+returns void as
+$$
+begin
+   perform tspeed.scc_consultar_documento(coalesce(cnpj, cpf), estado, tipo_, producao_)
+      from public.tbclientes
+     where codigo = codigo_;
+end;
+$$
+language plpgsql;
