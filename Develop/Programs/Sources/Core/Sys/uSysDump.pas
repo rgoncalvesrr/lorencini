@@ -130,6 +130,7 @@ begin
       Script.Add(
         'CREATE TABLE sys_tables ( '+
           'recno serial NOT NULL, '+
+          'schema_ varchar(40) NOT NULL, '+
           'tabela varchar(100) NOT NULL, '+
           'descri varchar(60) NOT NULL, '+
           'modification timestamp NOT NULL DEFAULT clock_timestamp(), '+
@@ -140,6 +141,7 @@ begin
       Script.Add(
         'CREATE TABLE sys_fn ( '+
           'fn varchar(100) NOT NULL, '+
+          'schema_ varchar(40) NOT NULL, '+
           'descri varchar(150) NOT NULL, '+
           'tipo int4 NOT NULL DEFAULT 1, '+
           'table_recno int4 NULL, '+
@@ -339,10 +341,10 @@ begin
 
       Script.Clear;
       Script.Add(
-        'INSERT INTO sync.sys_tables(recno, tabela, descri, modification) VALUES (:recno, :tabela, :descri, :modification);');
+        'INSERT INTO sync.sys_tables(recno, schema_, tabela, descri, modification) VALUES (:recno, :schema, :tabela, :descri, :modification);');
 
       qCat.SQL.Text :=
-        'SELECT recno, tabela, descri, modification FROM sys_tables;';
+        'SELECT recno, schema_, tabela, descri, modification FROM sys_tables;';
 
       qCat.Open;
       ProgressBar1.Max := qCat.RecordCount;
@@ -350,6 +352,7 @@ begin
       while not qCat.Eof do
       begin
         ParamByName('recno').AsInteger := qCat.FieldByName('recno').AsInteger;
+        ParamByName('schema').AsString := qCat.FieldByName('schema_').AsString;
         ParamByName('tabela').AsString := qCat.FieldByName('tabela').AsString;
         ParamByName('descri').AsString := qCat.FieldByName('descri').AsString;
         ParamByName('modification').AsDateTime := qCat.FieldByName('modification').AsDateTime;
@@ -372,11 +375,11 @@ begin
 
       Script.Clear;
       Script.Add(
-        'INSERT INTO sync.sys_fn(fn, descri, tipo, table_recno, evento, ins, upd, del, modification, status, stmt, checksum) '+
-        'VALUES (:fn, :descri, :tipo, :table_recno, :evento, :ins, :upd, :del, :modification, :status, :stmt, :checksum);');
+        'INSERT INTO sync.sys_fn(fn, schema_, descri, tipo, table_recno, evento, ins, upd, del, modification, status, stmt, checksum) '+
+        'VALUES (:fn, :schema, :descri, :tipo, :table_recno, :evento, :ins, :upd, :del, :modification, :status, :stmt, :checksum);');
 
       qCat.SQL.Text :=
-        'SELECT fn, descri, tipo, table_recno, evento, ins, upd, del, modification, status, stmt, checksum FROM sys_fn;';
+        'SELECT fn, schema_, descri, tipo, table_recno, evento, ins, upd, del, modification, status, stmt, checksum FROM sys_fn;';
 
       qCat.Open;
       ProgressBar1.Max := qCat.RecordCount;
@@ -386,6 +389,7 @@ begin
         ParamByName('table_recno').Clear;
 
         ParamByName('fn').AsString := qCat.FieldByName('fn').AsString;
+        ParamByName('schema').AsString := qCat.FieldByName('schema_').AsString;
         ParamByName('descri').AsString := qCat.FieldByName('descri').AsString;
         ParamByName('tipo').AsInteger := qCat.FieldByName('tipo').AsInteger;
         ParamByName('evento').AsInteger := qCat.FieldByName('evento').AsInteger;
@@ -496,6 +500,7 @@ begin
     pStmt.Script.Add(
     'create table sys_fn ('+
       'fn varchar(100) not null, '+
+      'schema_ varchar(40) not null, '+
       'descri varchar(150), '+
       'tipo integer, '+
       'table_recno integer, '+
@@ -512,6 +517,7 @@ begin
     pStmt.Script.Add(
       'create table sys_tables( '+
         'recno integer not null primary key, '+
+        'schema_ varchar(40) not null, '+
         'tabela varchar(100), '+
         'descri varchar(60), '+
         'modification datetime);');
@@ -523,16 +529,17 @@ begin
       lbTask.Caption := 'Exportando tabelas...';
       Application.ProcessMessages;
 
-      SQL.Text := 'select recno, tabela, descri, modification from sys_tables';
+      SQL.Text := 'select recno, schema_, tabela, descri, modification from sys_tables';
       Open;
       ProgressBar1.Max := RecordCount;
 
       pStmt.Clear;
-      pStmt.Script.Add('insert into sys_tables (recno, tabela, descri, modification) values (:recno, :tabela, :descri, :modification);');
+      pStmt.Script.Add('insert into sys_tables (recno, schema_, tabela, descri, modification) values (:recno, :schema, :tabela, :descri, :modification);');
 
       while not EOF do
       begin
         pStmt.ParamByName('recno').AsInteger := FieldByName('recno').AsInteger;
+        pStmt.ParamByName('schema').AsString := FieldByName('schema_').AsString;
         pStmt.ParamByName('tabela').AsString := FieldByName('tabela').AsString;
         pStmt.ParamByName('descri').AsString := FieldByName('descri').AsString;
         pStmt.ParamByName('modification').AsDateTime := FieldByName('modification').AsDateTime;
@@ -690,7 +697,7 @@ begin
       end;
 
       SQL.Text :=
-      'select fn, descri, tipo, table_recno, evento, ins, upd, del, modification, status, stmt, modification, checksum '+
+      'select fn, schema_, descri, tipo, table_recno, evento, ins, upd, del, modification, status, stmt, modification, checksum '+
         'from sys_fn '+
        'where status = 2 ';
       Open;
@@ -699,15 +706,16 @@ begin
       pStmt.Clear;
       pStmt.Script.Add(
         'insert into sys_fn '+
-          '(fn, descri, tipo, table_recno, evento, ins, upd, del, modification, status, stmt, checksum, modification) '+
+          '(fn, schema_, descri, tipo, table_recno, evento, ins, upd, del, modification, status, stmt, checksum, modification) '+
         'values ('+
-          ':fn, :descri, :tipo, :table_recno, :evento, :ins, :upd, :del, :modification, :status, :stmt, :checksum, datetime(:modification));');
+          ':fn, :schema, :descri, :tipo, :table_recno, :evento, :ins, :upd, :del, :modification, :status, :stmt, :checksum, datetime(:modification));');
 
       while not EOF do
       begin
         pStmt.ParamByName('table_recno').Clear;
 
         pStmt.ParamByName('fn').AsString := FieldByName('fn').AsString;
+        pStmt.ParamByName('schema').AsString := FieldByName('schema_').AsString;
         pStmt.ParamByName('descri').AsString := FieldByName('descri').AsString;
         pStmt.ParamByName('tipo').AsInteger := FieldByName('tipo').AsInteger;
         
