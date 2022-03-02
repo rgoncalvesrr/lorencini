@@ -1,0 +1,24 @@
+/**
+   Consulta protocolo com resultado da pesquisa no SERASA
+
+	@author    Ricardo Gonçalves
+	@date      01/03/2022
+	@trigger
+
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+
+   08/06/2018  Ricardo Gonçalves.
+      [*]
+*/
+create or replace function tspeed.scc_consultar_protocolo(
+   recno_   bigint)
+returns void as
+$$
+begin
+
+
+end;
+$$
+language plpgsql;
