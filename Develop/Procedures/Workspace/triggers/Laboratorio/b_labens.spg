@@ -7,7 +7,7 @@
 
 	Histórico
 	---------------------------------------------------------------------------------------------------------------------
-   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso   
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
 */
 CREATE OR REPLACE FUNCTION b_labens()
   RETURNS trigger AS
@@ -21,9 +21,9 @@ BEGIN
 
    if new.dec > 0 then
       new.mask := new.mask || 'D' || repeat('0', new.dec);
-   end if;      
-   
-   return new;   
+   end if;
+
+   return new;
 END;
 $$
   LANGUAGE 'plpgsql' VOLATILE;

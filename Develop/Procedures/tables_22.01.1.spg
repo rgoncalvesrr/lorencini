@@ -285,3 +285,136 @@ alter table tb_orcamentos
 	alter os set default( nextval(('tb_orcamentos_os_seq'::text)::regclass));
 
 select setval('tb_orcamentos_os_seq', max(os)+1) from tb_orcamentos;
+
+create table sys_http_status_codes (
+	code integer not null,
+	label descri$ not null,
+	recno bigserial not null,
+	constraint pk_sys_http_status_codes primary key(code),
+	constraint uk_sys_http_status_codes_1 unique(label),
+	constraint uk_sys_http_status_codes_2 unique(recno));
+	
+insert into sys_http_status_codes 
+	(code, label)
+values
+	('100', 'Continue'),
+	('101', 'Switching Protocols'),
+	('103', 'Early Hints'),
+	('200', 'OK'),
+	('201', 'Created'),
+	('202', 'Accepted'),
+	('203', 'Non-Authoritative Information'),
+	('204', 'No Content'),
+	('205', 'Reset Content'),
+	('206', 'Partial Content'),
+	('300', 'Multiple Choices'),
+	('301', 'Moved Permanently'),
+	('302', 'Found'),
+	('303', 'See Other'),
+	('304', 'Not Modified'),
+	('307', 'Temporary Redirect'),
+	('308', 'Permanent Redirect'),
+	('400', 'Bad Request'),
+	('401', 'Unauthorized'),
+	('402', 'Payment Required'),
+	('403', 'Forbidden'),
+	('404', 'Not Found'),
+	('405', 'Method Not Allowed'),
+	('406', 'Not Acceptable'),
+	('407', 'Proxy Authentication Required'),
+	('408', 'Request Timeout'),
+	('409', 'Conflict'),
+	('410', 'Gone'),
+	('411', 'Length Required'),
+	('412', 'Precondition Failed'),
+	('413', 'Payload Too Large'),
+	('414', 'URI Too Long'),
+	('415', 'Unsupported Media Type'),
+	('416', 'Range Not Satisfiable'),
+	('417', 'Expectation Failed'),
+	('418', 'I''m a teapot'),
+	('422', 'Unprocessable Entity'),
+	('425', 'Too Early'),
+	('426', 'Upgrade Required'),
+	('428', 'Precondition Required'),
+	('429', 'Too Many Requests'),
+	('431', 'Request Header Fields Too Large'),
+	('451', 'Unavailable For Legal Reasons'),
+	('500', 'Internal Server Error'),
+	('501', 'Not Implemented'),
+	('502', 'Bad Gateway'),
+	('503', 'Service Unavailable'),
+	('504', 'Gateway Timeout'),
+	('505', 'HTTP Version Not Supported'),
+	('506', 'Variant Also Negotiates'),
+	('507', 'Insufficient Storage'),
+	('508', 'Loop Detected'),
+	('510', 'Not Extended'),
+	('511', 'Network Authentication Required');
+
+create schema if not exists tspeed;
+
+alter schema tspeed owner to lorencini;
+
+create table tspeed.tipos(
+	tipo integer not null,
+	nome descri$ not null,
+	classe char(2) not null,
+	custo moeda$ not null,
+	recno serial not null,
+	constraint pk_tipos primary key(recno),
+	constraint uk_tipo_1 unique(nome),
+	constraint ck_tipo_1 check(custo > 0));
+
+alter table tspeed.tipos owner to lorencini;
+
+insert into tspeed.tipos
+	(tipo, nome, classe, custo)
+values
+	(1, 'Crednet PF TOP', 'PF', 8.34),
+	(2, 'Credit Bureau PF Top Score', 'PF', 33.47),
+	(3, 'Concentre PF Top Score', 'PF', 27.47),
+	(4, 'Crednet Light+ Protesto Estadual', 'PF', 4.40),
+	(1, 'Crednet PJ TOP', 'PJ', 9.27),
+	(2, 'Relato Top Score', 'PJ', 33.71),
+	(3, 'Concentre PJ Top Score', 'PJ', 30.41),
+	(4, 'Crednet Light + Protesto Estadual', 'PJ', 4.9);
+
+select sys_param_w('scc_login', encode('3492419', 'base64')), sys_param_w('scc_pass', encode('83@881t5', 'base64')),
+       sys_param_w('tecno_token', encode('09c0032a83124dd0dd887194e3f93d0f', 'base64'));
+
+create table public.svc_cliapi (
+	recno bigserial not null,
+	uri text not null,
+	account account$ not null,
+	created_at timestamp default(clock_timestamp()) not null,
+   req_method varchar(8) not null default('GET'),
+   req_body jsonb,
+   req_headers jsonb,
+   res_body jsonb,
+   res_headers jsonb,
+   res_code integer,
+   res_callback varchar(100),
+   scheduled timestamp default(clock_timestamp()) not null,
+   status integer default(1) not null,
+   constraint pk_svc_cliapi primary key(recno),
+   constraint fk_svc_cliapi_1 foreign key(account)
+      references public.sys_accounts(recno)
+      on update cascade on delete restrict,
+   constraint fk_svc_cliapi_2 foreign key(res_code)
+      references public.sys_http_status_codes(code)
+      on update cascade on delete restrict,
+   constraint fk_svc_cliapi_3 foreign key(res_callback)
+      references public.sys_fn(fn)
+      on update cascade on delete restrict,
+   constraint ck_svc_cliapi_1 check (req_method in ('GET', 'POST', 'PUT', 'DELETE', 'OPT')),
+   constraint ck_svc_cliapi_2 check (status between 1 and 4)
+);
+
+alter table svc_cliapi owner to lorencini;
+
+alter table sys_fn add schema_ varchar(40) default('public') not null;
+
+alter table sys_tables
+	add schema_ varchar(40) default('public') not null;
+

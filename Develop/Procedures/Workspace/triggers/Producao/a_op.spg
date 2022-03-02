@@ -70,18 +70,18 @@ begin
 
          -- Registra a OS como aprovada status = 1
          insert into tb_orcamentos (
-            data,            idcliente,       descricao,          os,          status,
-            type_,           grupo,           item,               pedido,      indice,      condicaopg)
+            data,            idcliente,     descricao,  os,      status,
+            type_,           grupo,         item,       pedido,  indice,   condicaopg)
          Values (
-            current_date,    r.codigo,      descricao_,         ios,         sys_iif(amostras_ > 0, 2, 3),
-            0,               r.grupo,       98,                 r.recno,   r.indice,  r.condicaopg)
+            current_date,    r.codigo,      descricao_, ios,     sys_iif(amostras_ > 0, 2, 3),
+            0,               r.grupo,       98,         r.recno, r.indice, r.condicaopg)
          returning recno, os into recno_, os_;
 
          -- Inserindo materiais
          insert into orca_mat
             (codigo,      qtd,    un,         unitario,    icms_compra,    total,     vl_venda,
              material,    exptot, os)
-         select om.material, om.qtd, p.unidade, pm.unitario, pm.picms, pm.unitario * om.qtd vtotal, pm.vvenda,
+         select om.material, om.qtd, p.unidade, pm.unitario, pm.picms, pm.vvenda * om.qtd, pm.vvenda,
                 p.descricao, true,   os_
            from op_materiais om
                 join pedido_mat pm
@@ -115,7 +115,7 @@ begin
             os_,          op.funcao,      op.qtd,            pmo.unitario,      pmo.vvenda,            pmo.percentual,
             pmo.uteis_dias,   pmo.uteis_hrs_dias,   pmo.uteis_vl_hrs,   pmo.sabado_dias,   pmo.sabado_hrs_dias,   pmo.sabado_vl_hrs,
             pmo.domingo_dias, pmo.domingo_hrs_dias, pmo.domingo_vl_hrs, pmo.adic_not_dias, pmo.adic_not_hrs_dias, pmo.adic_not_vl_hrs,
-            pmo.total
+            op.qtd * pmo.vvenda
          FROM op_mo op
               join pedido_mo pmo
                 on pmo.pedido = op.pedido
