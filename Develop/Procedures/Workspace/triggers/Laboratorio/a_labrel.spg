@@ -29,17 +29,17 @@ begin
             select g.laudo, new.recno, md5(string_agg(g.ensaio_recno::text, '|')), array_agg(g.ensaio_recno), array_agg(g.nome), array_agg(g.valor)
                from (select r.laudo, r.ensaio_recno, e.nome, ensaio_mascara(r.ensaio_recno, r.valor) valor
                      from labamostras_res r
-                           join labrel_ens le 
-                              on le.relato_recno = r.relato_recno 
-                           and le.ensaio_recno = r.ensaio_recno
+                           join labrel_ens le
+                             on le.relato_recno = r.relato_recno
+                            and le.ensaio_recno = r.ensaio_recno
                            join ensaios e
-                              on e.recno = r.ensaio_recno
-                           join labamostras_rel l                   
-                              on l.recno = r.laudo 
-                           and l.relato_recno = r.relato_recno 
-                           and l.status in (_SREL_ASSINADO, _SREL_LIBERADO)
-                           and l.revisao is null
-                           and l.assinatura is not null
+                             on e.recno = r.ensaio_recno
+                           join labamostras_rel l
+                             on l.recno = r.laudo
+                            and l.relato_recno = r.relato_recno
+                            and l.status in (_SREL_ASSINADO, _SREL_LIBERADO)
+                            and l.revisao is null
+                            and l.assinatura is not null
                      where r.relato_recno = new.recno
                      order by r.laudo, le.ordem, le.ensaio_recno) g
             group by g.laudo;

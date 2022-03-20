@@ -9,22 +9,18 @@
    ---------------------------------------------------------------------------------------------------------------------
    Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
 
-   17/03/2011 10:29:18  v2    Ricardo Gonçalves.
-      [+] Implementação da integração com as novas rotinas de controle de amostras.
-
-   29/06/2011 10:33:28  v3    Ricardo Gonçalves.
-      [-] Sistema estava gerando amostras para frascos e/ou seringa vazios.
-
-   15/09/2011 18:47:36  v4    Ricardo Gonçalves.
-      [*] O sistema passa a gerar as amostras com informação do portador. Essa informação é necessária para garantir que
-         a os só entre em execução após o lançamento do tipos de laudos que serão executados para cada amostra.
-
-   11/10/2011 09:31:17  v5    Ricardo Gonçalves.
-      [*] Inclusão da data e hora na geração da OS.
-
-   12/01/2016 16:20:29  v6    Ricardo Gonçalves.
+   12/01/2016  Ricardo Gonçalves.
       [*] Checagem do fechamento dos volumes e impressão das etiquetas.
 
+   11/10/2011  Ricardo Gonçalves.
+      [*] Inclusão da data e hora na geração da OS.
+   15/09/2011  Ricardo Gonçalves.
+      [*] O sistema passa a gerar as amostras com informação do portador. Essa informação é necessária para garantir que
+         a os só entre em execução após o lançamento do tipos de laudos que serão executados para cada amostra.
+   29/06/2011  Ricardo Gonçalves.
+      [-] Sistema estava gerando amostras para frascos e/ou seringa vazios.
+   17/03/2011  Ricardo Gonçalves.
+      [+] Implementação da integração com as novas rotinas de controle de amostras.
 */
 CREATE OR REPLACE FUNCTION a_labport()
   RETURNS trigger AS
@@ -135,8 +131,8 @@ BEGIN
               from sys_flags f, labamostras a
              where f.session = session_
                and f.table_ = src_table
-               and f.recno = ret.recno 
-               and a.recno = ret.amostra 
+               and f.recno = ret.recno
+               and a.recno = ret.amostra
                and a.codigo = new.codigo;
 
             if not exists(
@@ -153,7 +149,7 @@ BEGIN
               from labret ret
              where ret.amostra = c.recno
                and ret.labport_recno = new.recno;
-         end if;            
+         end if;
       end if;
 
       return new;

@@ -90,8 +90,8 @@ BEGIN
                select new.recno, new.relato_recno, md5(string_agg(g.ensaio_recno::text, '|')), array_agg(g.ensaio_recno), array_agg(g.nome), array_agg(g.valor)
                  from (select r.ensaio_recno, e.nome, ensaio_mascara(r.ensaio_recno, r.valor) valor
                          from labamostras_res r
-                              join labrel_ens le 
-                                on le.relato_recno = r.relato_recno 
+                              join labrel_ens le
+                                on le.relato_recno = r.relato_recno
                                and le.ensaio_recno = r.ensaio_recno
                               join labens e
                                 on e.recno = le.ensaio_recno
@@ -102,6 +102,9 @@ BEGIN
 
             -- Gerando consulta para laudos
             perform tsearch_laudo(new.recno);
+
+            -- Gerando JSON para laudos
+            perform api.json_laudo(new.recno);
 
             if new.status = _SREL_LIBERADO then
                perform laudo_gerar_pdf(new.recno);               

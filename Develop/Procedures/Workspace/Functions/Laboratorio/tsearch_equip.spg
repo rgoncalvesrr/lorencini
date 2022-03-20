@@ -47,7 +47,7 @@ begin
 
    if atualiza_ then
       if docto is null then
-         delete 
+         delete
            from api.ftsdevicesbycustomers
           where tenantid = cliente_
             and device = dispositivo_;
@@ -56,7 +56,7 @@ begin
             (tenantid, device, fts)
          values
             (cliente_, dispositivo_, docto)
-         on conflict (tenantid, device) 
+         on conflict (tenantid, device)
             do update set fts = excluded.fts;
       end if;
    end if;
