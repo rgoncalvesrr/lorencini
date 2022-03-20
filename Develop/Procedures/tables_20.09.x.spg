@@ -158,16 +158,16 @@ create table api.reports_assays (
 	reporttype integer not null,
 	hash varchar(32) not null,
 	assays integer[] not null,
-    titles varchar[] not null,
+   titles varchar[] not null,
 	results varchar[] not null,
 	recno serial not null,
 	constraint pk_reports_assays primary key(report),
-	constraint fk_reports_assays_1 foreign key(report) 
+	constraint fk_reports_assays_1 foreign key(report)
 		references public.labamostras_rel(recno) on update cascade on delete cascade,
-	constraint fk_reports_assays_2 foreign key(report) 
+	constraint fk_reports_assays_2 foreign key(report)
 		references public.labamostras_rel(recno) on update cascade on delete cascade,
-	constraint fk_reports_assays_3 foreign key(reporttype) 
-		references public.labrel(recno) on update cascade on delete cascade,	
+	constraint fk_reports_assays_3 foreign key(reporttype)
+		references public.labrel(recno) on update cascade on delete cascade,
 	constraint uk_reports_assays_1 unique(recno));		         
 		         
 -- Criar trigger antes de executar este comando

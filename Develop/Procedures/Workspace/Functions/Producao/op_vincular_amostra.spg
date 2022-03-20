@@ -22,7 +22,7 @@ declare
    ra record;
 begin
 
-   select codigo, recipiente, estado
+   select codigo, recipiente, estado, pedido
      into ra
      from labamostras
     where recno = amostra_;
@@ -50,6 +50,7 @@ begin
             on s.codserv = ops.codserv
            and s.vidraria = ra.recipiente
     where op.status = 10
+      and op.codigo = ra.codigo
     limit 1;
 
    -- Registra amostra na ordem de produção

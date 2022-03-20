@@ -30,59 +30,48 @@ begin
    end if;
 
    -- Validando criação da OS
-   select status, remessa, laboratorio
-     into r
-     from pedido
-    where recno = new.pedido;
-   
-   if not found then
-      raise '[[Pedido % não foi localizado!]]', new.pedido;
-   end if;
+   -- select status, remessa, laboratorio
+   --   into r
+   --   from pedido
+   --  where recno = new.pedido;
+
+   -- if not found then
+   --    raise '[[Pedido % não foi localizado!]]', new.pedido;
+   -- end if;
 
    if tg_op = 'INSERT' then
-      if r.status < 40 then
-         raise '[[Não foi possível criar ordem de produção porque o pedido % não foi autorizado.]]', new.pedido;
-      end if;
-
-      if r.status = 99 then
-         raise '[[Não foi possível criar ordem de produção porque o pedido % está cancelado.]]', new.pedido;
-      end if;
-
-      if r.status > 60 then
-         raise '[[Não foi possível criar ordem de produção porque o pedido % está encerrado.]]', new.pedido;
-      end if;
-   
       -- Verifique se há alguma OS em aberto para o pedido informado
       select op
         into rs
         from op
        where op <> new.op
-         and pedido = new.pedido;
-      
+         and cliente = new.cliente
+         and status = _SDIGITACAO;
+
       if found then
-         raise '[[Utilize a ordem de produção % para produzir o pedido %', rs.op, new.pedido;
+         raise '[[Utilize a ordem de produção %', rs.op;
       end if;
 
-      return new;   
+      return new;
    end if;
 
    if new.status = 20 and old.status = 10 then
       -- Verificando a quantidade de amostras para a quantidade de serviços que exigem amostras
       for rs in (
-         select oss.codserv, s.descri, oss.qtd, oss.amostras 
+         select oss.codserv, s.descri, oss.qtd, oss.amostras
            from op_servicos oss
                 join servicos s
-                  on s.codserv = oss.codserv 
+                  on s.codserv = oss.codserv
                  and s.consumo > 0
                  and s.vidraria > 0
           where oss.op = new.op
             and oss.pedido = new.pedido
-            and oss.qtd <> oss.amostras) 
+            and oss.qtd <> oss.amostras)
       loop
          if rs.qtd = rs.amostras then
             continue;
          end if;
-         
+
          if rs.qtd = 1 then
             frase1 := '1 amostra';
          else
@@ -90,14 +79,14 @@ begin
          end if;
 
          frase2 := 'Não foram associadas amostras';
-         
+
          if rs.amostras = 1 then
             frase2 := 'Foi associada 1 amostra';
          elsif rs.amostras > 1 then
             frase2 := format('Foram associadas %s amostras', rs.amostras);
          end if;
 
-         msgerr := format('%s- O serviço %s - %s exige %s. %s. ', 
+         msgerr := format('%s- O serviço %s - %s exige %s. %s. ',
             coalesce(msgerr || chr(13) || chr(10), ''), rs.codserv, rs.descri, frase1, frase2);
       end loop;
 
@@ -106,7 +95,7 @@ begin
          select 1
            from op_servicos
           where op = new.op
-            and pedido = new.pedido) and 
+            and pedido = new.pedido) and
          not exists(
          select 1
            from op_materiais

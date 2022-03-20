@@ -31,7 +31,7 @@ begin
       and codserv = codserv_;
 
    qtd_ := coalesce(qtd_, 0);
-   
+
    update pedido_serv
       set saldo = qtd - qtd_
     where pedido = pedido_

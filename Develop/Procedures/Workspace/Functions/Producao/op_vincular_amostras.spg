@@ -40,6 +40,7 @@ begin
          op_, pedido_, r.codserv, a.recno, r.consumo
         from labamostras a
        where a.codigo = r.codigo
+         and a.pedido = pedido_
          and a.estado = 50
          and a.saldo >= r.consumo
          and a.recipiente = r.vidraria
