@@ -1,0 +1,283 @@
+{
+    "data": {
+        "message": {
+            "header": [
+                {
+                    "Base": "C",
+                    "Tipo": "B49C",
+                    "Cobra": "S",
+                    "Delts": "S",
+                    "Login": "111111111",
+                    "Passa": "",
+                    "Branco": "N       S",
+                    "Cheque": "",
+                    "CodTab": "",
+                    "Funcao": "FIM",
+                    "CnpjCpf": "01001001000113",
+                    "QtdReg1": 37,
+                    "estacao": "",
+                    "Atualiza": "S",
+                    "Conversa": "S",
+                    "Resposta": "",
+                    "TotalReg": 37,
+                    "DocCredor": "",
+                    "DtQuality": "",
+                    "Negativos": "",
+                    "QtdCheque": "",
+                    "QtdCompra": 0,
+                    "Codificado": "N",
+                    "ConsCollec": "",
+                    "DataConsul": "2019/02/08",
+                    "HoraConsul": "10:08:55",
+                    "Modalidade": "OO",
+                    "Prodorigem": "",
+                    "TipoPessoa": "J",
+                    "TpConsulta": "A",
+                    "TranOrigem": "0",
+                    "Consultante": "01001001000113",
+                    "Localizador": "",
+                    "IdentTermIST": "",
+                    "CentroDeCusto": "0000000000000",
+                    "PeriodoCompro": "",
+                    "ValorConsulta": 20,
+                    "AcessoRecheque": "",
+                    "PeriodoEndereco": "",
+                    "QuantidadeRegistro": "99",
+                    "TemOcorrenciaRecheque": ""
+                }
+            ],
+            "Alertas": [
+                {
+                    "UF": "",
+                    "CEP": "",
+                    "DDD": "",
+                    "Tipo": "N003",
+                    "SubTipo": "00",
+                    "Telefone": "",
+                    "FeatureDisponiveis": ""
+                }
+            ],
+            "Consulta": [
+                {
+                    "Fixo": "N",
+                    "Tipo": "N001",
+                    "Agrupa": "N",
+                    "Filler": "FCL",
+                    "Filler2": "",
+                    "SubTipo": "00",
+                    "Reservado": "",
+                    "StatusBanco": "",
+                    "NomeFantasia": "",
+                    "TipoConsulta": "LC",
+                    "ChaveConsulta": "111111",
+                    "ResumoAnotacoes": "S",
+                    "ConsultaSintetica": "",
+                    "SituacaoCadastral": "",
+                    "TransacaoConsulta": "X2LJ",
+                    "TratamentoTelefone": "S",
+                    "IdentificacaoDadosCheque": "0"
+                }
+            ],
+            "TotalProtesto": [
+                {
+                    "Tipo": "N250",
+                    "Moeda": "R$",
+                    "SubTipo": "90",
+                    "ValorTotal": "35878.28",
+                    "TotalOcorrencia": "00020",
+                    "DataOcorrenciaMaisAntiga": "11/2018",
+                    "DataOcorrenciaMaisRecente": "01/2019"
+                }
+            ],
+            "MensagemTrailer": [
+                {
+                    "Tipo": "T999",
+                    "Codigo": "000",
+                    "Mensagem": "PROCESSO ENCERRADO NORMALMENTE"
+                }
+            ],
+            "DetalhesProtesto": [
+                {
+                    "UF": "UF",
+                    "Tipo": "N250",
+                    "Valor": "2180.20",
+                    "Cidade": "CIDADE TESTE",
+                    "SubTipo": "00",
+                    "Cartorio": "01",
+                    "TipoMoeda": "R$",
+                    "DataOcorrencia": "2019/01/05"
+                },
+                {
+                    "UF": "UF",
+                    "Tipo": "N250",
+                    "Valor": "2853.53",
+                    "Cidade": "CIDADE TESTE",
+                    "SubTipo": "00",
+                    "Cartorio": "01",
+                    "TipoMoeda": "R$",
+                    "DataOcorrencia": "2019/01/03"
+                }
+            ],
+            "MensagemConsultaSerasa": [
+                {
+                    "Tipo": "N440",
+                    "SubTipo": "99",
+                    "Mensagem": "NAO CONSTAM INFORMACOES"
+                }
+            ],
+            "MensagemPendenciaInterna": [
+                {
+                    "Tipo": "N230",
+                    "SubTipo": "99",
+                    "Mensagem": "NAO CONSTAM OCORRENCIAS"
+                }
+            ],
+            "ComplementoBlocoConfirmei": [
+                {
+                    "Tipo": "N200",
+                    "NomeMae": "",
+                    "SubTipo": "01"
+                }
+            ],
+            "ComplementoDetalheProtesto": [
+                {
+                    "Tipo": "N250",
+                    "Filler": "1111111111",
+                    "SubTipo": "01",
+                    "Mensagem": "",
+                    "TipoAnotacao": "A",
+                    "IndicaAnotacao": "N"
+                },
+                {
+                    "Tipo": "N250",
+                    "Filler": "1111111111",
+                    "SubTipo": "01",
+                    "Mensagem": "",
+                    "TipoAnotacao": "A",
+                    "IndicaAnotacao": "N"
+                }
+            ],
+            "BlocoInformacoesDoConfirmei": [
+                {
+                    "Tipo": "N200",
+                    "SubTipo": "00",
+                    "NomeRazao": "CONFIRMEI TESTE",
+                    "DataNascimento": "1999/09/21",
+                    "SituacaoDocumento": "2",
+                    "DataSituacaoDocumento": "2019/01/25",
+                    "FlagExistenciaCCFIndisponivel": "N"
+                }
+            ],
+            "DetalhePendenciaFinanceiras": [
+                {
+                    "Tipo": "N240",
+                    "SubTipo": "01",
+                    "FillerSerasa": "1111111111",
+                    "TipoAnotacao": "V",
+                    "IndicaAnotacao": "",
+                    "MensagemSubjudice": ""
+                },
+                {
+                    "Tipo": "N240",
+                    "SubTipo": "01",
+                    "FillerSerasa": "1111111111",
+                    "TipoAnotacao": "V",
+                    "IndicaAnotacao": "",
+                    "MensagemSubjudice": ""
+                },
+                {
+                    "Tipo": "N240",
+                    "SubTipo": "01",
+                    "FillerSerasa": "1111111111",
+                    "TipoAnotacao": "V",
+                    "IndicaAnotacao": "",
+                    "MensagemSubjudice": ""
+                }
+            ],
+            "MensagemChequeSemFundoBacen": [
+                {
+                    "Tipo": "N270",
+                    "SubTipo": "99",
+                    "Mensagem": "NAO CONSTAM OCORRENCIAS"
+                }
+            ],
+            "TotalPendenciasFinanceirasTipos": [
+                {
+                    "Tipo": "N240",
+                    "SubTipo": "90",
+                    "TipoAnotacao": "V",
+                    "TotalOcorrencia": "00003",
+                    "ValorTotalPendencias": "2700.00",
+                    "DataOcorrenciaMaisAntiga": "10/2018",
+                    "DataOcorrenciaMaisRecente": "11/2018"
+                },
+                {
+                    "Tipo": "N240",
+                    "SubTipo": "90",
+                    "TipoAnotacao": "I",
+                    "TotalOcorrencia": "00003",
+                    "ValorTotalPendencias": "20086.31",
+                    "DataOcorrenciaMaisAntiga": "12/2018",
+                    "DataOcorrenciaMaisRecente": "01/2019"
+                }
+            ],
+            "MensagemAlertaDocumentosRoubados": [
+                {
+                    "Tipo": "N210",
+                    "SubTipo": "99",
+                    "Mensagem": "NAO CONSTAM OCORRENCIAS"
+                }
+            ],
+            "DetalhePendenciaSeparadaPefinRefin": [
+                {
+                    "Tipo": "N240",
+                    "Valor": "900.00",
+                    "Origem": "TESTE",
+                    "SubTipo": "00",
+                    "Avalista": "N",
+                    "Contrato": "11111111",
+                    "TipoMoeda": "R$",
+                    "Modalidade": "DUPLICATA",
+                    "SiglaEmbratel": "",
+                    "DataOcorrencia": "2018/12/01"
+                },
+                {
+                    "Tipo": "N240",
+                    "Valor": "900.00",
+                    "Origem": "TESTE 2",
+                    "SubTipo": "00",
+                    "Avalista": "N",
+                    "Contrato": "11111111111",
+                    "TipoMoeda": "R$",
+                    "Modalidade": "DUPLICATA",
+                    "SiglaEmbratel": "",
+                    "DataOcorrencia": "2018/11/11"
+                },
+                {
+                    "Tipo": "N240",
+                    "Valor": "900.00",
+                    "Origem": "TESTE 3",
+                    "SubTipo": "00",
+                    "Avalista": "N",
+                    "Contrato": "11111111111",
+                    "TipoMoeda": "R$",
+                    "Modalidade": "DUPLICATA",
+                    "SiglaEmbratel": "",
+                    "DataOcorrencia": "2018/10/23"
+                },
+                {
+                    "Tipo": "N240",
+                    "Valor": "83229.97",
+                    "Origem": "TESTE 4",
+                    "SubTipo": "00",
+                    "Avalista": "S",
+                    "Contrato": "111111111111111",
+                    "TipoMoeda": "R$",
+                    "Modalidade": "EMPRES CONTA",
+                    "SiglaEmbratel": "",
+                    "DataOcorrencia": "2019/01/10"
+                }
+            ]
+        }
+    }
+}

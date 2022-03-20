@@ -38,6 +38,10 @@ inherited Console: TConsole
     object TabSheet2: TTabSheet
       Caption = 'Rotinas Autom'#225'ticas'
       ImageIndex = 1
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object Memo2: TMemo
         AlignWithMargins = True
         Left = 3
@@ -60,8 +64,37 @@ inherited Console: TConsole
     object TabSheet3: TTabSheet
       Caption = 'Gera'#231#227'o de Laudos'
       ImageIndex = 2
-      ExplicitLeft = 3
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object Memo3: TMemo
+        AlignWithMargins = True
+        Left = 3
+        Top = 3
+        Width = 681
+        Height = 327
+        Align = alClient
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Courier New'
+        Font.Pitch = fpVariable
+        Font.Style = []
+        ParentFont = False
+        ScrollBars = ssBoth
+        TabOrder = 0
+        WordWrap = False
+      end
+    end
+    object TabSheet4: TTabSheet
+      Caption = 'Integra'#231#227'o SERASA'
+      ImageIndex = 3
+      ExplicitLeft = 5
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
+      object Memo4: TMemo
         AlignWithMargins = True
         Left = 3
         Top = 3

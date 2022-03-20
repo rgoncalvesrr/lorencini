@@ -21,12 +21,15 @@ type
     IdUserPassProvider1: TIdUserPassProvider;
     TabSheet3: TTabSheet;
     Memo3: TMemo;
+    TabSheet4: TTabSheet;
+    Memo4: TMemo;
     procedure actMonitorExecute(Sender: TObject);
     procedure FormActivate(Sender: TObject);
   private
     procedure OnLogSchedule(Sender: TObject; const MsgLog: string);
     procedure OnLogSMTP(Sender: TObject; const MsgLog: string);
     procedure OnLogPrint(Sender: TObject; const MsgLog: string);
+    procedure OnLogHttpClient(Sender: TObject; const MsgLog: string);
     procedure OnLog(Sender: TObject; const MsgLog: string);
   public
     { Public declarations }
@@ -84,26 +87,32 @@ begin
   dmCore.OnLogSchedule := OnLog;
   dmCore.OnLogSMTP := OnLogSMTP;
   dmCore.OnLogPrint := OnLogPrint;
+  dmCore.OnLogHttpClient := OnLogHttpClient;
 end;
 
 procedure TConsole.OnLog(Sender: TObject; const MsgLog: string);
 begin
-  Memo2.Lines.Add(MsgLog);
+  Memo2.Lines.Insert(0, MsgLog);
+end;
+
+procedure TConsole.OnLogHttpClient(Sender: TObject; const MsgLog: string);
+begin
+  Memo4.Lines.Insert(0, MsgLog);
 end;
 
 procedure TConsole.OnLogPrint(Sender: TObject; const MsgLog: string);
 begin
-  Memo3.Lines.Add(MsgLog);
+  Memo3.Lines.Insert(0, MsgLog);
 end;
 
 procedure TConsole.OnLogSchedule(Sender: TObject; const MsgLog: string);
 begin
-  Memo2.Lines.Add(MsgLog);
+  Memo2.Lines.Insert(0, MsgLog);
 end;
 
 procedure TConsole.OnLogSMTP(Sender: TObject; const MsgLog: string);
 begin
-  Memo1.Lines.Add(MsgLog);
+  Memo1.Lines.Insert(0, MsgLog);
 end;
 
 end.

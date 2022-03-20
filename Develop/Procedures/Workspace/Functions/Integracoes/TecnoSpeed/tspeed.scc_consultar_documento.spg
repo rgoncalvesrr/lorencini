@@ -14,33 +14,25 @@ create or replace function tspeed.scc_consultar_documento(
    uf_ varchar,
    tipo_ integer,
    producao_ boolean = true)
-returns void as
+returns bigint as
 $$
 declare
    _CNPJ_LORENCINI constant varchar := '04824941000109';
 
-   r  public.svc_cliapi%rowtype;
+   r        public.svc_cliapi%rowtype;
+   recno_   public.svc_cliapi.recno%type;
+   accept_  text := '*/*';
 begin
    r.uri := 'https://api.consultanegativacao.com.br/v1/homologacao/consultas/assincrona';
    r.req_method := 'POST';
-   r.status := 2;
+   r.status := 'queue';
    r.res_callback := 'scc_consultar_protocolo';
+   r.env := 'dev';
 
    if producao_ then
       r.uri := 'https://api.consultanegativacao.com.br/v1/consultas/assincrona';
+      r.env := 'prod';
    end if;
-
-   r.req_headers := format('{
-      "cnpjSH" : "%s",
-      "tokenSH" : "%s",
-      "cnpjUsuario": "%s",
-      "login" : "%s",
-      "password" : "%s"}',
-      _CNPJ_LORENCINI,
-      convert_from(decode(sys_paramv('tecno_token'), 'base64'), 'utf-8'),
-      _CNPJ_LORENCINI,
-      convert_from(decode(sys_paramv('scc_login'), 'base64'), 'utf-8'),
-      convert_from(decode(sys_paramv('scc_pass'), 'base64'), 'utf-8'));
 
    r.req_body := format('{
       "documento" : "%s",
@@ -49,10 +41,32 @@ begin
       "retorno" : "JSON"}',
       documento_, tipo_, uf_);
 
+   r.req_headers := format('{
+      "Content-Type" : "application/json; charset=utf-8",
+      "Accept" : "%s",
+      "Accept-Encoding" : "gzip,deflate,br",
+      "Connection" : "keep-alive",
+      "cnpjSH" : "%s",
+      "tokenSH" : "%s",
+      "cnpjUsuario": "%s",
+      "login" : "%s",
+      "password" : "%s"}',
+      accept_,
+      _CNPJ_LORENCINI,
+      convert_from(decode(sys_paramv('tecno_token'), 'base64'), 'utf-8'),
+      _CNPJ_LORENCINI,
+      convert_from(decode(sys_paramv('scc_login'), 'base64'), 'utf-8'),
+      convert_from(decode(sys_paramv('scc_pass'), 'base64'), 'utf-8'));
+
+
+
    insert into public.svc_cliapi
-      (uri, req_method, req_headers, req_body, res_callback, status)
+      (uri, req_method, req_headers, req_body, res_callback, status, env)
    values
-      (r.uri, r.req_method, r.req_headers, r.req_body, r.res_callback, r.status);
+      (r.uri, r.req_method, r.req_headers, r.req_body, r.res_callback, r.status, r.env)
+   returning recno into recno_;
+
+   return recno_;
 end;
 $$
 language plpgsql;
@@ -61,12 +75,17 @@ create or replace function tspeed.scc_consultar_documento(
    codigo_ integer,
    tipo_ integer,
    producao_ boolean = true)
-returns void as
+returns bigint as
 $$
+declare
+   recno_   public.svc_cliapi.recno%type;
 begin
-   perform tspeed.scc_consultar_documento(coalesce(cnpj, cpf), estado, tipo_, producao_)
+   select tspeed.scc_consultar_documento(coalesce(cnpj, cpf), estado, tipo_, producao_)
+     into recno_
       from public.tbclientes
      where codigo = codigo_;
+
+   return recno_;
 end;
 $$
 language plpgsql;

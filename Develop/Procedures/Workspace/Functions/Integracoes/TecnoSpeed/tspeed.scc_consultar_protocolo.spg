@@ -14,11 +14,54 @@
 */
 create or replace function tspeed.scc_consultar_protocolo(
    recno_   bigint)
-returns void as
+returns integer as
 $$
+declare
+   _CNPJ_LORENCINI constant varchar := '04824941000109';
+
+   r        public.svc_cliapi%rowtype;
+   accept_  text := '*/*';
 begin
+   select res_body, res_code, env
+     into r.res_body, r.res_code, r.env
+     from svc_cliapi
+    where recno = recno_;
 
+   if not Found then
+      raise '[[Requisição % não localizada]]', recno_;
+   end if;
 
+   r.uri := 'https://api.consultanegativacao.com.br/v1/homologacao/consultas/assincrona?protocolo=%s';
+   if r.env = 'prod' then
+      r.uri := 'https://api.consultanegativacao.com.br/v1/consultas/assincrona?protocolo=%s';
+   end if;
+
+   r.req_method := 'GET';
+   r.status := 'queue';
+   r.res_callback := null;
+
+   r.uri := format(r.uri, r.res_body->>'protocolo');
+
+   r.req_headers := format('{
+      "Content-Type" : "application/json; charset=utf-8",
+      "Accept" : "%s",
+      "Accept-Encoding" : "gzip,deflate,br",
+      "Connection" : "keep-alive",
+      "cnpjSH" : "%s",
+      "tokenSH" : "%s",
+      "cnpjUsuario": "%s"}',
+      accept_,
+      _CNPJ_LORENCINI,
+      convert_from(decode(sys_paramv('tecno_token'), 'base64'), 'utf-8'),
+      _CNPJ_LORENCINI);
+
+   insert into public.svc_cliapi
+      (uri, req_method, req_headers, res_callback, status, env)
+   values
+      (r.uri, r.req_method, r.req_headers, r.res_callback, r.status, r.env)
+   returning recno into recno_;
+
+   return recno_;
 end;
 $$
 language plpgsql;
