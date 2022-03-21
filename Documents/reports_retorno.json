@@ -1,0 +1,121 @@
+{
+    "sign": "56d9ba4ec637e6b48278c3a7837db9e9c932cdd9f9768bcb2c066ef2571ccd6dc50fd43420e6eb34bcb3836b130ce87a009b61fa81ee0744572ccf11ed5974c8",
+    "order": 12780,
+    "device": {
+        "tag": "",
+        "lote": null,
+        "name": "CABINE PRIMÁRIA",
+        "year": 1996,
+        "local": "CABINE PRIMÁRIA",
+        "power": 1.0000,
+        "serie": "23618",
+        "phases": 3,
+        "powera": 1.0000,
+        "powerb": 0.0000,
+        "status": "Operação",
+        "volume": 870,
+        "voltage": 13.8000,
+        "typename": "Transformador de Potencia",
+        "voltagea": 13.8000,
+        "voltageb": 0.4400,
+        "impedance": 6.0900,
+        "powerunit": "MVA",
+        "familyname": "TCO",
+        "impedancea": 6.0900,
+        "impedanceb": 0.0000,
+        "substation": null,
+        "voltageunit": "KV",
+        "manufacturer": "ZILMER",
+        "insulatorname": "Óleo Mineral",
+        "electriccurrent": 0.0000,
+        "typeabreviation": "TPA",
+        "electriccurrenta": 0.0000,
+        "electriccurrentb": 0.0000
+    },
+    "report": 180768,
+    "sample": {
+        "type": "Equipamento em Operação",
+        "sample": 211091,
+        "ticket": 211091,
+        "sampler": "JOÃO RODRIGO",
+        "sent_at": "2021-11-16T09:55:45.773644",
+        "tdevice": 0.00,
+        "tsample": 29,
+        "voltage": 13.8000,
+        "humidity": 58,
+        "released": "2021-11-19T11:34:35.680016",
+        "created_at": "2021-11-12T13:21:26.474834",
+        "emitted_at": "2021-11-12T13:21:26.474834",
+        "consumed_at": 10.00000,
+        "received_at": "2021-11-16T15:48:50.922464",
+        "cancelled_at": null,
+        "collect_date": "2021-11-15",
+        "samplestatus": "Analisada",
+        "tenvironment": 22,
+        "expiration_at": "2021-12-02"
+    },
+    "status": "Cancelado",
+    "created": "2021-11-17T10:25:52.196885",
+    "emmited": "2021-11-19T13:36:35.936717",
+    "results": {
+        "assays": [
+            {
+                "U": 0.0000,
+                "unit": "mg/kg",
+                "assay": 29,
+                "title": "Teor de PCB (cromatográfico)",
+                "method": "NBR-13882/2008",
+                "result": 0.0000,
+                "history": [
+                    {
+                        "report": 164799,
+                        "result": 0.0000,
+                        "emmited_at": "2021-02-18T11:21:29.51625"
+                    },
+                    {
+                        "report": 125139,
+                        "result": 0.0000,
+                        "emmited_at": "2019-02-27T10:48:06.024072"
+                    },
+                    {
+                        "report": 120935,
+                        "result": 8.9948,
+                        "emmited_at": "2018-11-13T15:11:53.238929"
+                    },
+                    {
+                        "report": 98643,
+                        "result": 1.1300,
+                        "emmited_at": "2017-05-29T15:30:23.199087"
+                    },
+                    {
+                        "report": 81595,
+                        "result": 1.5000,
+                        "emmited_at": "2016-06-01T10:24:39.990787"
+                    }
+                ],
+                "ref_type": "Max. ",
+                "ref_value": 50.0000
+            }
+        ],
+        "legend": "LQ - Limite de quantificação. / <2 - Resultado abaixo do limite de quantificação. / U - Incerteza expandida de medição relatada em valor, declarada como a incerteza padrão de medição multiplicada pelo fator de abrangência k=2, de tal forma que a probabilidade de abrangência corresponda a aproximadamente 95%.",
+        "decisionRule": "O laboratório químico adota como regra de decisão a somatória da somatória da estimativa de incerteza. Todos os resultados neste relatório consideram esta regra."
+    },
+    "customer": null,
+    "received": "2021-11-16T15:48:50.922464",
+    "revision": 181236,
+    "typetitle": "Laudo Cromatográfico PCB",
+    "diagnostic": "Resultado de PCB dentro dos limites recomendados. \r\n",
+    "reportType": 4,
+    "criticality": {
+        "label": "Não contaminado",
+        "level": "Normal",
+        "recno": 8
+    },
+    "description": "ANALISE DE TEOR DE PCB CROMATOGRAFICO - METODO B - NBR 13882",
+    "executed_at": "2021-11-19T11:36:53.779251",
+    "nextCollect": "2021-12-19",
+    "observation": "*Valor de PCB expresso em somatória de Aroclor 1242/1254/1260 - Limite de Quantificação (LQ) = 2,0 mg/kg",
+    "recommendation": "Recomenda-se uma nova amostragem após tratamento ou regeneração do óleo.",
+    "typedescription": "ANALISE DE TEOR DE PCB CROM.",
+    "typeabbreviation": "PCB"
+}

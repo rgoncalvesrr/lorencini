@@ -8,6 +8,8 @@ uses
 type
   TNotifyEventLog = procedure (Sender: TObject; const MsgLog: string) of object;
 
+  TServiceStatus = (Preparing, Queue, Running, Success, Fail);
+
   TServiceBase = class(TThread)
   private
     FConn: TZConnection;
@@ -18,12 +20,14 @@ type
     FRecno_: Integer;
     FTable_: Integer;
     FDescription: string;
+    FStatus: TServiceStatus;
     procedure DoLog;
     procedure CreateSession;
     procedure SetRecno_(const Value: Integer);
     procedure SetTable_(const Value: Integer);
     procedure SetDescription(const Value: string);
     procedure DoAfterConnection(Sender: TObject);
+    function GetStatusText: string;
   protected
     function Qry: TZQuery; overload;
     function Qry(const Stmt: string): TZQuery; overload;
@@ -34,18 +38,22 @@ type
     procedure Log(const Msg: string); overload;
     procedure Log(const Msg: string; const Args: array of const); overload;
     procedure Initialize; virtual;
-    procedure DoExec; dynamic; abstract; 
+    procedure DoExec; dynamic; abstract;
     procedure Execute; override;
+
+    procedure SetStatus(AStatus: TServiceStatus);
 
     property Trash: TObjectList read FTrash;
   public
     constructor Create(ConnParam: TServiceCFGConnParams); virtual;
     destructor Destroy; override;
 
-    property Connection: TZConnection read FConn; 
+    property Connection: TZConnection read FConn;
     property LastError: string read FLastError;
     property Description: string read FDescription write SetDescription;
     property Recno_: Integer read FRecno_ write SetRecno_;
+    property Status: TServiceStatus read FStatus;
+    property StatusText: string read GetStatusText;
     property Table_: Integer read FTable_ write SetTable_;
 
     property OnLog: TNotifyEventLog read FOnLog write FOnLog;
@@ -54,7 +62,7 @@ type
 
 implementation
 
-uses ComObj, ActiveX, uIUtils, mcutils;
+uses ComObj, ActiveX, uIUtils, mcutils, TypInfo;
 
 { TServiceBase }
 
@@ -87,6 +95,7 @@ begin
   FTrash := TObjectList.Create;
   FTable_ := -1;
   FRecno_ := -1;
+  SetStatus(preparing);
 
   {Criando conexão com o banco de dados}
   FConn := TZConnection.Create(nil);
@@ -178,12 +187,22 @@ procedure TServiceBase.Execute;
 begin
   try
     Initialize;
-
+    SetStatus(running);
     DoExec;
+    if (Status = Running) then
+      SetStatus(Success);
   except
     on E:Exception do
-      FLastError := E.Message
+    begin
+      FLastError := E.Message;
+      SetStatus(Fail);
+    end;
   end;
+end;
+
+function TServiceBase.GetStatusText: string;
+begin
+  Result := LowerCase(GetEnumName(TypeInfo(TServiceStatus), ord(FStatus)));
 end;
 
 function TServiceBase.Qry: TZQuery;
@@ -203,6 +222,11 @@ begin
   FRecno_ := Value;
 end;
 
+procedure TServiceBase.SetStatus(AStatus: TServiceStatus);
+begin
+  FStatus := AStatus;
+end;
+
 procedure TServiceBase.SetTable_(const Value: Integer);
 begin
   FTable_ := Value;
@@ -215,7 +239,7 @@ end;
 
 procedure TServiceBase.Log(const Msg: string);
 begin
-  FLog := Msg;
+  FLog := FormatDateTime('dd/mm/yyyy hh:nn:ss:zzz', Now) + ' | ' + Msg;
   Synchronize(DoLog);
 end;
 

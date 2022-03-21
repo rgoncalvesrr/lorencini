@@ -36,7 +36,8 @@ uses
   uFrameData in '..\..\Sources\Common\uFrameData.pas' {FrameData: TFrame},
   ServiceTask in '..\..\Sources\Server\ServiceTask.pas',
   ServiceSpoolReport in '..\..\Sources\Server\ServiceSpoolReport.pas',
-  uDMR00014 in '..\..\Sources\Server\uDMR00014.pas' {DMR00014: TDataModule};
+  uDMR00014 in '..\..\Sources\Server\uDMR00014.pas' {DMR00014: TDataModule},
+  ServiceHttpClient in '..\..\Sources\Server\ServiceHttpClient.pas';
 
 {$R *.RES}
 

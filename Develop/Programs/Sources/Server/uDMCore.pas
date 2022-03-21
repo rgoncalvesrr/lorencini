@@ -26,6 +26,7 @@ type
     FOnLogPrint: TNotifyEventLog;
     FMaxThreads: Integer;
     FRunningThreads: Integer;
+    FOnLogHttpClient: TNotifyEventLog;
     procedure ProcessFinished(Sender: TObject);
     procedure SetDBError(const Value: String);
     procedure ProcessNextTasks;
@@ -37,6 +38,7 @@ type
     procedure ProcessMailQueue;
     procedure ProcessScheduleQueue;
     procedure ProcessSpool;
+    procedure ProcessHttpClient;
   public
     { Public declarations }
     property DBError: String read FDBError write SetDBError;
@@ -48,6 +50,7 @@ type
     property OnLogSchedule: TNotifyEventLog read FOnLogSchedule write FOnLogSchedule;
     property OnLogSMTP: TNotifyEventLog read FOnLogSMTP write FOnLogSMTP;
     property OnLogPrint: TNotifyEventLog read FOnLogPrint write FOnLogPrint;
+    property OnLogHttpClient: TNotifyEventLog read FOnLogHttpClient write FOnLogHttpClient;
   end;
 
 var
@@ -56,8 +59,8 @@ var
 implementation
 
 uses ServiceCFG, ActiveX, ComObj, uIUtils, ServiceSMTP, mcutils, IdSSLOpenSSL,
-  IdExplicitTLSClientServerBase, IdSMTP, ServiceTask, ServiceSpoolReport, 
-  uReport, uDM, uDMReport;
+  IdExplicitTLSClientServerBase, IdSMTP, ServiceTask, ServiceSpoolReport,
+  uReport, uDM, uDMReport, ServiceHttpClient, uLkJSON;
 
 {$R *.dfm}
 
@@ -239,6 +242,7 @@ begin
     end;
   end;
 
+  ProcessHttpClient;
   ProcessMailQueue;
   ProcessScheduleQueue;
   ProcessSpool;
@@ -299,6 +303,64 @@ begin
     Dec(FRunningThreads);
   finally
     ProcessNextTasks;
+  end;
+end;
+
+procedure TdmCore.ProcessHttpClient;
+var
+  ThreadHttpClient: TServiceHttpClient;
+begin
+  zQry.SQL.Text :=
+  'update svc_cliapi '+
+     'set id = :id '+
+   'where id is null '+
+     'and status = ''queue'' ' +
+     'and scheduled <= clock_timestamp() ';
+
+  zQry.ParamByName('id').AsString := FID;
+  zQry.ExecSQL;
+
+  zQry.SQL.Text :=
+  'select s.uri, s.req_method, s.req_headers, s.req_body, f.schema_, s.res_callback, s.recno, sys_origem(''svc_cliapi'') table_ '+
+    'from public.svc_cliapi s '+
+         'left join public.sys_fn f '+
+           'on f.fn = s.res_callback '+
+   'where s.id = :id '+
+     'and s.status = ''queue'' ';
+
+  zQry.ParamByName('id').AsString := FID;
+  zQry.Open;
+
+  try
+    while not zQry.Eof do
+    begin
+      U.ExecuteSQL('update public.svc_cliapi set status = ''running'' where recno = %d;', [zQry.FieldByName('recno').AsInteger]);
+
+      ThreadHttpClient := TServiceHttpClient.Create(TServiceCFG.GetInstance.ConnParams);
+      ThreadHttpClient.Description := 'Serviço de Requisições HTTP';
+      ThreadHttpClient.OnLog := FOnLogHttpClient;
+      ThreadHttpClient.OnTerminate := ProcessFinished;
+      ThreadHttpClient.Method := zQry.FieldByName('req_method').AsString;
+      ThreadHttpClient.Table_ := zQry.FieldByName('table_').AsInteger;
+      ThreadHttpClient.Recno_ := zQry.FieldByName('recno').AsInteger;
+      ThreadHttpClient.URI := zQry.FieldByName('uri').AsString;
+
+      if not zQry.FieldByName('req_headers').IsNull and (zQry.FieldByName('req_headers').AsString <> EmptyStr) then
+        ThreadHttpClient.Headers := TlkJSON.ParseText(zQry.FieldByName('req_headers').AsString) as TlkJSONobject;
+
+      if not zQry.FieldByName('req_body').IsNull and (zQry.FieldByName('req_body').AsString <> EmptyStr) then
+        ThreadHttpClient.Body := TlkJSON.ParseText(zQry.FieldByName('req_body').AsString) as TlkJSONobject;
+
+      if not zQry.FieldByName('res_callback').IsNull then
+        ThreadHttpClient.CallBack := Format('%s.%s',
+          [zQry.FieldByName('schema_').AsString, zQry.FieldByName('res_callback').AsString]);
+
+      FTasks.Add(ThreadHttpClient);
+
+      zQry.Next;
+    end;
+  finally
+    zQry.Close;
   end;
 end;
 

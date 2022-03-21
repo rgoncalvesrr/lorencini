@@ -1515,13 +1515,12 @@ inherited Sedex: TSedex
       Width = 636
       ExplicitWidth = 636
       inherited Label1: TLabel
-        Width = 630
+        Width = 133
         Caption = 'C'#225'lculo de Sedex'
         ExplicitWidth = 133
       end
       inherited Label2: TLabel
-        Width = 623
-        Height = 33
+        Width = 324
         Caption = 'Nesta tela podemos calcular o frete para determinado CEP'
         ExplicitWidth = 324
       end
@@ -1547,11 +1546,10 @@ inherited Sedex: TSedex
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 67
+        Width = 63
         Height = 15
         Align = alTop
         Caption = 'Destinat'#225'rio'
-        ExplicitWidth = 63
       end
       object edCodigo: TEdit
         AlignWithMargins = True
@@ -1577,11 +1575,10 @@ inherited Sedex: TSedex
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 393
+        Width = 97
         Height = 15
         Align = alTop
         Caption = 'Nome Empresarial'
-        ExplicitWidth = 97
       end
       object edNome: TEdit
         AlignWithMargins = True
@@ -1607,11 +1604,10 @@ inherited Sedex: TSedex
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 90
+        Width = 64
         Height = 15
         Align = alTop
         Caption = 'CEP Destino'
-        ExplicitWidth = 64
       end
       object edDestino: TMaskEdit
         AlignWithMargins = True
@@ -1638,11 +1634,10 @@ inherited Sedex: TSedex
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 123
+        Width = 47
         Height = 15
         Align = alTop
         Caption = 'Inscri'#231#227'o'
-        ExplicitWidth = 47
       end
       object edInscricao: TEdit
         AlignWithMargins = True
@@ -1884,11 +1879,10 @@ inherited Sedex: TSedex
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 213
+        Width = 38
         Height = 15
         Align = alTop
         Caption = 'Servi'#231'o'
-        ExplicitWidth = 38
       end
       object cbServicos: TComboBox
         AlignWithMargins = True
@@ -1898,7 +1892,7 @@ inherited Sedex: TSedex
         Height = 23
         Align = alClient
         Style = csDropDownList
-        ItemHeight = 15
+        ItemHeight = 0
         TabOrder = 0
         OnChange = cbServicosChange
       end
@@ -2162,11 +2156,10 @@ inherited Sedex: TSedex
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 691
+        Width = 51
         Height = 15
         Align = alTop
         Caption = 'Descri'#231#227'o'
-        ExplicitWidth = 51
       end
       object edDescri: TEdit
         AlignWithMargins = True
