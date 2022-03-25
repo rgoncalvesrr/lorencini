@@ -32,7 +32,7 @@ object DMReport: TDMReport
     Top = 24
   end
   object ReportBase: TfrxReport
-    Version = '6.3.1'
+    Version = '6.9.3'
     DotMatrixReport = False
     EngineOptions.PrintIfEmpty = False
     IniFile = '\Software\Fast Reports'
@@ -42,7 +42,7 @@ object DMReport: TDMReport
     PrintOptions.Printer = 'Padr'#227'o'
     PrintOptions.PrintOnSheet = 0
     ReportOptions.CreateDate = 39757.585007557900000000
-    ReportOptions.LastChange = 44300.019422986100000000
+    ReportOptions.LastChange = 43310.997849687500000000
     ScriptLanguage = 'PascalScript'
     StoreInDFM = False
     OnReportPrint = 'ReportBaseOnReportPrint'
@@ -264,6 +264,7 @@ object DMReport: TDMReport
     DataOnly = False
     EmbeddedFonts = True
     EmbedFontsIfProtected = False
+    InteractiveFormsFontSubset = 'A-Z,a-z,0-9,#43-#47 '
     OpenAfterExport = False
     PrintOptimized = True
     Outline = False

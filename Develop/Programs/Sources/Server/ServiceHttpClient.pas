@@ -198,14 +198,16 @@ procedure TServiceHttpClient.WriteResponse;
 var
   js: TlkJSONobject;
   I: Integer;
-  HeaderName: string;
+  HeaderName, HeaderContent: string;
+  WriteJson: boolean;
   Qry: TZReadOnlyQuery;
 begin
   FResponse.Position := 0;
 
   Qry := QryRO(
   'update svc_cliapi '+
-     'set res_headers = :res_headers, res_body = :res_body, res_code = :res_code, status = :status '+
+     'set res_headers = :res_headers, res_body = :res_body, res_code = :res_code, status = :status, '+
+         'res_body_raw = :res_body_raw '+
    'where recno = :recno');
 
   Qry.ParamByName('recno').AsInteger := Recno_;
@@ -217,7 +219,12 @@ begin
     for I := 0 to FHttpClient.Response.RawHeaders.Count - 1 do
     begin
       HeaderName := FHttpClient.Response.RawHeaders.Names[i];
-      js.Add(HeaderName, FHttpClient.Response.RawHeaders.Values[HeaderName]);
+      HeaderContent := FHttpClient.Response.RawHeaders.Values[HeaderName];
+      
+      js.Add(HeaderName, HeaderContent);
+
+      if LowerCase(HeaderName) = 'content-type' then
+        WriteJson := Pos('application/json', LowerCase(HeaderContent)) > 0;
     end;
   finally
     Qry.ParamByName('res_headers').AsString := TLkJson.GenerateText(js);
@@ -227,10 +234,20 @@ begin
   if FResponse.Size > 0 then
   begin
     FResponse.Position := 0;
-    Qry.ParamByName('res_body').AsString := UTF8Decode(ReadStringFromStream(FResponse));
+    if WriteJson then
+      Qry.ParamByName('res_body').AsString := UTF8Decode(ReadStringFromStream(FResponse))
+    else
+      Qry.ParamByName('res_body_raw').AsString := UTF8Decode(ReadStringFromStream(FResponse));
   end;
 
-  Qry.ExecSQL;
+  try
+    Qry.ExecSQL;
+  except
+    on E:Exception do
+    begin
+      Log('ERRO!!! Não possível persistir as informações. Erro: %s', [E.Message]);
+    end;
+  end;
 
   if (CallBack <> EmptyStr) and (Status = Success) then
   begin

@@ -17,7 +17,6 @@ type
     IBrwSrcremessa: TDateTimeField;
     IBrwSrcretorno: TDateTimeField;
     IBrwSrcsituacao: TIntegerField;
-    IBrwSrcos: TIntegerField;
     IBrwSrccodigo: TIntegerField;
     IBrwSrcnome_chave: TStringField;
     IBrwSrccnpj: TStringField;

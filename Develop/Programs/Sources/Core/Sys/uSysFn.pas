@@ -45,6 +45,10 @@ type
     Sincronizar1: TMenuItem;
     actReady: TAction;
     Marcacomodisponvel1: TMenuItem;
+    IBrwSrcschema_: TStringField;
+    Panel5: TPanel;
+    Label6: TLabel;
+    cbEsquema: TComboBox;
     procedure IBrwSrctipoGetText(Sender: TField; var Text: string;
       DisplayText: Boolean);
     procedure IBrwSrctipoSetText(Sender: TField; const Text: string);
@@ -66,6 +70,7 @@ type
     procedure actSyncExecute(Sender: TObject);
     procedure actReadyExecute(Sender: TObject);
   private
+    procedure OnLoad; override;
     procedure OnEdit; override;
     procedure RefreshCtrl; override;
     procedure OnChangeMark(Sender: TObject);
@@ -143,6 +148,14 @@ begin
       fWhere := fWhere + 'f.tipo = :tipo';
     end;
 
+    if cbEsquema.ItemIndex > 0 then
+    begin
+      if fWhere <> EmptyStr then
+        fWhere := fWhere + ' and ';
+
+      fWhere := fWhere + 'f.schema_ = :schema_';
+    end;
+
     if fWhere <> EmptyStr then
     begin
       if fWhere <> EmptyStr then
@@ -153,6 +166,9 @@ begin
 
       if Assigned(Params.FindParam('tipo')) then
         Params.ParamByName('tipo').AsInteger := cbTipo.ItemIndex;
+
+      if Assigned(Params.FindParam('schema_')) then
+        Params.ParamByName('schema_').AsString := cbEsquema.Text;
 
       if Assigned(Params.FindParam('mod_de')) then
       begin
@@ -348,6 +364,30 @@ begin
   case Text[1] of
     'P': Sender.AsInteger := 1;
     'T': Sender.AsInteger := 2;
+  end;
+end;
+
+procedure TSysFn.OnLoad;
+begin
+  inherited;
+  with U.Query, cbEsquema do
+  try
+    SQL.Text :=
+    'select schema_ '+
+      'from sys_fn '+
+     'group by schema_ '+
+     'order by 1';
+
+    Open;
+
+    while not Eof do
+    begin
+      Items.Add(FieldByName('schema_').AsString);
+      Next;
+    end;
+  finally
+    cbEsquema.Enabled := cbEsquema.Items.Count > 1;
+    Close;
   end;
 end;
 
