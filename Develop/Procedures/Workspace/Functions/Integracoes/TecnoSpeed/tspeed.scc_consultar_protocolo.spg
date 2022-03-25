@@ -19,8 +19,10 @@ $$
 declare
    _CNPJ_LORENCINI constant varchar := '04824941000109';
 
-   r        public.svc_cliapi%rowtype;
-   accept_  text := '*/*';
+   r           public.svc_cliapi%rowtype;
+   accept_     text := '*/*';
+   consulta_   tspeed.cred_consultas.recno%type;
+   request_    public.svc_cliapi.recno%type;
 begin
    select res_body, res_code, env
      into r.res_body, r.res_code, r.env
@@ -31,6 +33,12 @@ begin
       raise '[[Requisição % não localizada]]', recno_;
    end if;
 
+   -- Recupedando a consulta a partir da requisição passada como callback
+   select consulta
+     into consulta_
+     from tspeed.cred_cliapi
+    where request = recno_;
+
    r.uri := 'https://api.consultanegativacao.com.br/v1/homologacao/consultas/assincrona?protocolo=%s';
    if r.env = 'prod' then
       r.uri := 'https://api.consultanegativacao.com.br/v1/consultas/assincrona?protocolo=%s';
@@ -38,7 +46,7 @@ begin
 
    r.req_method := 'GET';
    r.status := 'queue';
-   r.res_callback := null;
+   r.res_callback := 'scc_processar_retorno';
 
    r.uri := format(r.uri, r.res_body->>'protocolo');
 
@@ -59,9 +67,15 @@ begin
       (uri, req_method, req_headers, res_callback, status, env)
    values
       (r.uri, r.req_method, r.req_headers, r.res_callback, r.status, r.env)
-   returning recno into recno_;
+   returning recno into request_;
 
-   return recno_;
+   -- Associando request com consulta
+   insert into tspeed.cred_cliapi
+      (consulta, request)
+   values
+      (consulta_, request_);
+
+   return request_;
 end;
 $$
 language plpgsql;

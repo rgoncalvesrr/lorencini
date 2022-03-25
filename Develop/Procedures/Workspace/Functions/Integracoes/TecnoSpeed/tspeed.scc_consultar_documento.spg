@@ -19,10 +19,25 @@ $$
 declare
    _CNPJ_LORENCINI constant varchar := '04824941000109';
 
-   r        public.svc_cliapi%rowtype;
-   recno_   public.svc_cliapi.recno%type;
-   accept_  text := '*/*';
+   r           public.svc_cliapi%rowtype;
+   rtipo       tspeed.tipos%rowtype;
+   consulta_   tspeed.cred_consultas.recno%type;
+   request_    public.svc_cliapi.recno%type;
+   accept_     text := '*/*';
 begin
+   select *
+     from tspeed.tipos
+     into rtipo
+    where recno = tipo_;
+
+   if not found then
+      raise '[[Tipo de consulta % não localizado. Verifique os tipos de consulta a crédito disponíveis]]', tipo_;
+   end if;
+
+   if (length(documento_) = 14 and rtipo.classe <> 'PJ') or (length(documento_) = 11 and rtipo.classe <> 'PF') then
+      raise '[[Classe de documento incompatível com documento. Classe %, documento %]]', rtipo.classe, mask_cnpj_cpf(documento_);
+   end if;
+
    r.uri := 'https://api.consultanegativacao.com.br/v1/homologacao/consultas/assincrona';
    r.req_method := 'POST';
    r.status := 'queue';
@@ -39,7 +54,7 @@ begin
       "codConsulta": %s,
       "uf": "%s",
       "retorno" : "JSON"}',
-      documento_, tipo_, uf_);
+      documento_, rtipo.tipo, uf_);
 
    r.req_headers := format('{
       "Content-Type" : "application/json; charset=utf-8",
@@ -58,15 +73,26 @@ begin
       convert_from(decode(sys_paramv('scc_login'), 'base64'), 'utf-8'),
       convert_from(decode(sys_paramv('scc_pass'), 'base64'), 'utf-8'));
 
-
-
    insert into public.svc_cliapi
       (uri, req_method, req_headers, req_body, res_callback, status, env)
    values
       (r.uri, r.req_method, r.req_headers, r.req_body, r.res_callback, r.status, r.env)
-   returning recno into recno_;
+   returning recno into request_;
 
-   return recno_;
+   -- Cria a consulta
+   insert into tspeed.cred_consultas
+      (documento, uf, tipo, env, custo)
+   values
+      (documento_, uf_, tipo_, r.env, rtipo.custo)
+   returning recno into consulta_;
+
+   -- Associando request com consulta
+   insert into tspeed.cred_cliapi
+      (consulta, request)
+   values
+      (consulta_, request_);
+
+   return request_;
 end;
 $$
 language plpgsql;
@@ -78,14 +104,14 @@ create or replace function tspeed.scc_consultar_documento(
 returns bigint as
 $$
 declare
-   recno_   public.svc_cliapi.recno%type;
+   request_   public.svc_cliapi.recno%type;
 begin
    select tspeed.scc_consultar_documento(coalesce(cnpj, cpf), estado, tipo_, producao_)
-     into recno_
+     into request_
       from public.tbclientes
      where codigo = codigo_;
 
-   return recno_;
+   return request_;
 end;
 $$
 language plpgsql;
