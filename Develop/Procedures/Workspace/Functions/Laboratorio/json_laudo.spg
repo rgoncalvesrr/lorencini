@@ -51,7 +51,7 @@ begin
         join vlaudocrit rc
           on rc.relato_recno = r.relato_recno
          and rc.recno  = r.labcrit_recno
-        join results_test res
+        join api.json_results res
           on res.laudo = r.recno
          and res.relato_recno = r.relato_recno
         join labamostras_rel_status rs

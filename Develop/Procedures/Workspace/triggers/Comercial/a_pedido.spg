@@ -54,7 +54,7 @@ BEGIN
          perform atualiza_contatos_pedido(new.recno);
       end if;
 
-      xlog.title := 'Pedido colocado';      
+      xlog.title := 'Pedido colocado';
       perform log(xlog);
    else      
       -- Exclui último frete por correio gerado

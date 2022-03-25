@@ -49,12 +49,6 @@ BEGIN
          voperac := 'retorno';
       end if;
 
-      -- Atualiza lista de comodatos
-      -- trem_tr := coalesce('Processo laboratorial nº ' || new.labproc_recno || '.', '') || 'Operação de ' || voperac || ' nº ' ||
-      --    new.recno || ' emitida em ' || to_char(new.emissao, 'DD/MM/YYYY HH24:MI:SS') || chr(13)|| chr(10);
-      -- trem_tr := trem_tr || chr(13)|| chr(10) || 'Portador Empresa: ' || new.cnpj || ' - ' || new.empresa;
-      -- trem_tr := trem_tr || chr(13)|| chr(10) || 'Portador Agente.: ' || new.cpf || ' - ' || new.portador;
-
       -- Processando remessa
       if new.operac = _OP_REMESSA then
          -- Marca operação como encerrada

@@ -47,8 +47,8 @@ Declare
    _ST_PROC_FINALIZADO  constant integer = 6;
 
    rrow           record;
-   estado_atual_  public.labamostras_status.status%type;
-   estado_novo_   public.labamostras_status.status%type;
+   estado_atual_  public.labamostras_status.descri%type;
+   estado_novo_   public.labamostras_status.descri%type;
    status_label_  public.labamostras_status.descri%type;
 BEGIN
    if tg_op <> 'DELETE' then
@@ -99,8 +99,8 @@ BEGIN
    if old.estado in (_EDISPONIVEL, _ECONSUMIDA) and
       (new.tpamostra_recno <> old.tpamostra_recno or new.toleo <> old.toleo             or new.tensao <> old.tensao or
        new.coleta <> old.coleta                   or new.equip_recno <> old.equip_recno or new.destinatario <> old.destinatario or
-         new.local <> old.local                   or new.tamb <> old.tamb               or new.cliente <> old.cliente or
-         new.codigo <> old.codigo)
+       new.local <> old.local                     or new.tamb <> old.tamb               or new.cliente <> old.cliente or
+       new.codigo <> old.codigo)
    then
       update labamostras_rel
          set status = _ST_LAUDO_DIGIT
@@ -203,8 +203,7 @@ BEGIN
       if old.estado = _ERECEBIDA then
 
       end if;
-
-   else
+   elsif new.estado <> old.estado then
       select descri
         into estado_atual_
         from labamostras_status
@@ -215,7 +214,7 @@ BEGIN
         from labamostras_status
        where status = new.estado;
 
-      raise '[[Amostra % entrou em estado inválido. Transição inválida de % para %]]', new.recno, estado_atual_, estado_novo_;
+      raise '[[Amostra % entrou em estado inválido. Transição inválida de "%"" para "%"]]', new.recno, estado_atual_, estado_novo_;
    end if;
 
    return new;
