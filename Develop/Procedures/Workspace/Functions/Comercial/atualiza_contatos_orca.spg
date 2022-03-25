@@ -15,17 +15,17 @@ Create or Replace Function atualiza_contatos_orca(
 Returns void As
 $$
 begin
-   delete 
+   delete
      from orca_contatos
     where os = in_os;
 
    insert into orca_contatos
-      (os, cliente, contato)      
+      (os, cliente, contato)
    select in_os, cc.cliente, cc.contato
      from clientes_contatos cc
           join tb_orcamentos co
             on co.os = in_os
-           and co.idcliente = cc.cliente 
+           and co.idcliente = cc.cliente
     where contato_comercial 
       and ativo;
 end

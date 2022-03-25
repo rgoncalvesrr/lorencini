@@ -169,6 +169,11 @@ alter table labamostras_rel
 		references op_amostras(op, pedido, codserv, amostra)
 		on update cascade on delete restrict;
 
+---- Atualização de amostras com estado inconsistente
+---- !!!!!!!!!!! É NECESSÁRIO ESTAR LOGADO NO SISTEMA PARA RODAR ESTA ATUALIZAÇÃO
+
+select sys_session_select(11);
+
 update labamostras set estado = 70  where estado = 50 and equip_recno is null;
 
 alter table labamostras
@@ -180,15 +185,9 @@ values
 	('ck_labamostras_6', 'Para que a amostra fique disponível é necessário fazer sua revisão', 'Preencha os dados do equipamento e dados da coleta'),
 	('fk_labamostras_rel_9', 'Amostra não consta na ordem de produção', null);
 
-
----- Atualização de amostras com estado inconsistente
----- !!!!!!!!!!! É NECESSÁRIO ESTAR LOGADO NO SISTEMA PARA RODAR ESTA ATUALIZAÇÃO
-
-select sys_session_select(11);
-
 -- Amostras disponíveis já utilizadas
 update labamostras a
-   set estado = h.estado
+   set estado = h.estado, descartado = saldo
   from (select h.amostra, max(h.estado) estado
           from labamostras_hist h
                join labamostras a
@@ -199,11 +198,13 @@ update labamostras a
  where a.recno = h.amostra
    and a.coleta < current_date - interval '15 days';
 
-update labamostras set estado = 60 where estado = 50 and coleta < current_date - interval '15 days';
+update labamostras set estado = 60
+ where estado = 50
+   and coleta < current_date - interval '15 days';
 
 -- Amostras recebidas já utilizadas
 update labamostras a
-   set estado = h.estado
+   set estado = h.estado, descartado = qtd - saldo, saldo = 0
   from (select h.amostra, max(h.estado) estado
           from labamostras_hist h
                join labamostras a
@@ -229,7 +230,7 @@ update labamostras a
 
 -- Amostras cancelas
  update labamostras a
-   set estado = 70
+   set estado = 70, saldo = 0
  from (select a.recno
          from labamostras a
         where a.estado = 40
@@ -240,7 +241,7 @@ update labamostras a
      	       where r.amostra = a.recno)) x
  where x.recno = a.recno;
 
- set session authorization postgres;
+set session authorization postgres;
 alter table labamostras disable trigger all;
 update labamostras a
    set estado = 60
@@ -310,8 +311,8 @@ create table sys_http_status_codes (
 	constraint pk_sys_http_status_codes primary key(code),
 	constraint uk_sys_http_status_codes_1 unique(label),
 	constraint uk_sys_http_status_codes_2 unique(recno));
-	
-insert into sys_http_status_codes 
+
+insert into sys_http_status_codes
 	(code, label)
 values
 	('100', 'Continue'),
@@ -373,10 +374,16 @@ create schema if not exists tspeed;
 
 alter schema tspeed owner to lorencini;
 
+create type tspeed.classes$ AS ENUM (
+	'PF',
+	'PJ');
+
+alter type tspeed.classes$ owner to lorencini;
+
 create table tspeed.tipos(
 	tipo integer not null,
 	nome descri$ not null,
-	classe char(2) not null,
+	classe tspeed.classes$ not null,
 	custo moeda$ not null,
 	recno serial not null,
 	constraint pk_tipos primary key(recno),
@@ -428,6 +435,7 @@ create table public.svc_cliapi (
    req_body jsonb,
    req_headers jsonb,
    res_body jsonb,
+   res_body_raw text,
    res_headers jsonb,
    res_code integer,
    res_callback varchar(100),
@@ -487,3 +495,112 @@ update labamostras_status set descri = 'Expedida' where status = 20;
 update labamostras_status set descri = 'Coletando' where status = 30;
 update labamostras_status set descri = 'Disponível' where status = 50;
 update labamostras_status set descri = 'Consumida' where status = 60;
+
+alter table labproc drop os cascade;
+
+create table tspeed.cred_situacoes (
+   recno bigserial not null,
+   classe tspeed.classes$ not null,
+   situacao integer not null,
+   descri descri$ not null,
+   constraint pk_cred_situacoes primary key(recno),
+   constraint uk_cred_situacoes_1 unique(classe, situacao)
+);
+
+alter table tspeed.cred_situacoes owner to lorencini;
+
+insert into tspeed.cred_situacoes
+	(classe, situacao, descri)
+values	
+	('PJ', 2, 'REGULAR'),
+	('PJ', 3, 'PENDENTE DE REGULARIZAÇÃO'),
+	('PJ', 6, 'SUSPENSA'),
+	('PJ', 7, 'TITULAR FALECIDO'),
+	('PJ', 9, 'CANCELADA'),
+	('PJ', 4, 'NULA'),
+	('PF', 2, 'ATIVA'),
+	('PF', 6, 'SUSPENSA'),
+	('PF', 0, 'INAPTA'),
+	('PF', 7, 'BAIXADA'),
+	('PF', 4, 'NULA');
+
+create table tspeed.cred_consultas(
+   recno bigserial not null,
+   account account$ not null,
+   emissao timestamp default(clock_timestamp()) not null,
+   nome varchar(200),
+   registro date,
+   situacao bigint,
+   tipo integer not null,
+   cliente integer,
+   cnpjcpf varchar(14) not null,
+   uf varchar(2) not null,
+   env environment$ default('dev') not null,
+   custo moeda$ not null,
+   constraint pk_cred_consultas primary key(recno),
+   constraint fk_cred_consultas_1 foreign key(account)
+      references sys_accounts(recno) on update cascade on delete cascade,
+   constraint fk_cred_consultas_2 foreign key(situacao)
+      references tspeed.cred_situacoes(recno) on update cascade on delete restrict,
+   constraint fk_cred_consultas_3 foreign key(tipo)
+      references tspeed.tipos(recno) on update cascade on delete restrict,
+   constraint fk_cred_consultas_4 foreign key(cliente)
+      references public.tbclientes(codigo) on update cascade on delete cascade,
+   constraint fk_cred_consultas_5 foreign key(uf)
+      references public.estados(uf) on update cascade on delete restrict);
+
+alter table tspeed.cred_consultas owner to lorencini;
+
+create table tspeed.cred_tipos(
+   tipo integer not null,
+   descri descri$ not null,
+   recno bigserial not null,
+   constraint pk_cred_tipos primary key(tipo),
+   constraint uk_cred_tipos_1 unique(descri),
+   constraint uk_cred_tipos_2 unique(recno)
+);
+
+alter table tspeed.cred_tipos owner to lorencini;
+
+insert into tspeed.cred_tipos
+	(tipo, descri)
+values
+	(1, 'Cheques Sem Fundos'),
+	(2, 'Pefin - Débitos com empresas/pessoas'),
+	(3, 'Refin - Débitos com bancos/instituições financeiras'),
+	(4, 'Dívidas vencidas'),
+	(5, 'Protestos'),
+	(6, 'Pendências internas');
+
+create table tspeed.cred_resumos(
+   consulta bigint not null,
+   tipo integer not null,
+   qtd integer default(0) not null,
+   total moeda$ not null,
+   ocorrencia_antiga varchar(7),
+   ocorrencia_recente varchar(7),
+   recno bigserial not null,
+   constraint pk_cred_resumos primary key(consulta, tipo),
+   constraint fk_cred_resumos_1 foreign key(consulta)
+      references tspeed.cred_consultas(recno) on update cascade on delete cascade,
+   constraint fk_cred_resumos_2 foreign key(tipo)
+      references tspeed.cred_tipos(tipo) on update cascade on delete restrict,
+   constraint uk_cred_resumos_1 unique(recno)
+);
+
+alter table tspeed.cred_resumos owner to lorencini;
+
+create table tspeed.cred_cliapi (
+   consulta bigint not null,
+   request bigint not null,
+   registro timestamp default(clock_timestamp()) not null,
+   recno bigserial not null,
+   constraint pk_cred_cliapi primary key(consulta, request),
+   constraint fk_cred_cliapi_1 foreign key(consulta)
+      references tspeed.cred_consultas(recno) on update cascade on delete cascade,
+   constraint fk_cred_cliapi_2 foreign key(request)
+      references public.svc_cliapi(recno) on update cascade on delete restrict,
+   constraint uk_cred_cliapi_1 unique(recno)
+);
+
+alter table tspeed.cred_cliapi owner to lorencini;

@@ -1,0 +1,55 @@
+/**
+   Localizar cliente pelo documento informado
+
+   @author    Ricardo Gonçalves
+   @date      25/03/2022
+   @trigger   public.localizar_cliente
+
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+Create or Replace Function public.localizar_cliente(
+   documento_  varchar,
+   incluir_inativos_ boolean = false
+)
+Returns integer As
+$$
+declare
+   codigo_  public.tbclientes.codigo%type;
+begin
+   if length(documento_) = 14 then
+      select codigo
+        into codigo_
+        from tbclientes
+       where cnpj = documento_
+         and situacao = 'ATIVO';
+
+      if codigo_ is null and incluir_inativos_ then
+         select codigo, estado
+           into codigo_
+           from tbclientes
+          where cnpj = documento_
+            and situacao <> 'ATIVO';
+      end if;
+   end if;
+
+   if length(documento_) = 11 then
+      select codigo
+        into codigo_
+        from tbclientes
+       where cpf = documento_
+         and situacao = 'ATIVO';
+
+      if codigo_ is null and incluir_inativos_ then
+         select codigo
+           into codigo_
+           from tbclientes
+          where cpf = documento_
+            and situacao <> 'ATIVO';
+      end if;
+   end if;
+   return codigo_;
+end;
+$$
+language plpgsql;
