@@ -175,7 +175,7 @@ inherited Ped: TPed
             Width = 185
             Height = 15
             Align = alTop
-            Caption = '01/02/2022 a 28/02/2022'
+            Caption = '01/04/2022 a 30/04/2022'
             Transparent = True
             ExplicitWidth = 128
           end
@@ -207,7 +207,7 @@ inherited Ped: TPed
             end
             inherited CCalendarDiff1: TCCalendarDiff
               Interval = diMonthly
-              Date = 44593.838252256940000000
+              Date = 44657.011470648150000000
               DisplayInterval = Label6
               OnChange = FrameData1CCalendarDiff1Change
             end
@@ -599,12 +599,6 @@ inherited Ped: TPed
       Visible = False
       Size = 15
     end
-    object IBrwSrcpedido_cliente: TStringField
-      DisplayLabel = 'Pedido Cliente'
-      FieldName = 'pedido_cliente'
-      Visible = False
-      Size = 15
-    end
     object IBrwSrccodigo: TIntegerField
       DisplayLabel = 'Cliente'
       FieldName = 'codigo'
@@ -831,7 +825,6 @@ inherited Ped: TPed
       '  solicitante = :solicitante,'
       '  solicitante_dep = :solicitante_dep,'
       '  condicaopg = :condicaopg,'
-      '  pedido_cliente = :pedido_cliente,'
       '  grupo = :grupo,'
       '  markup = :markup,'
       '  correio = :correio,'
@@ -903,11 +896,6 @@ inherited Ped: TPed
       item
         DataType = ftUnknown
         Name = 'condicaopg'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'pedido_cliente'
         ParamType = ptUnknown
       end
       item

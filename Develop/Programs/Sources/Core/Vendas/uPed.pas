@@ -26,7 +26,6 @@ type
     IBrwSrcsolicitante: TStringField;
     IBrwSrcsolicitante_dep: TStringField;
     IBrwSrccondicaopg: TStringField;
-    IBrwSrcpedido_cliente: TStringField;
     IBrwSrcempresa: TStringField;
     IBrwSrcnome_chave: TStringField;
     IBrwSrcendereco: TStringField;
@@ -503,7 +502,12 @@ begin
       if swhere <> EmptyStr then
         swhere := swhere + 'and ';
 
-      swhere := swhere + 'p.emitido between :emissao_de and :emissao_ate ';
+      swhere := swhere + '(p.emitido between :emissao_de and :emissao_ate ';
+
+      if (cbStatus.ItemIndex = 8) then
+        swhere := swhere + 'or p.criado between :emissao_de and :emissao_ate';
+
+      swhere := swhere + ')';
     end;
 
     if sWhere <> EmptyStr then

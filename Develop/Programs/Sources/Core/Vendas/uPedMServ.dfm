@@ -7,10 +7,8 @@ inherited PedMServ: TPedMServ
   PixelsPerInch = 96
   TextHeight = 15
   inherited Panel1: TPanel
-    Top = 44
     Width = 691
     Height = 535
-    ExplicitTop = 44
     ExplicitWidth = 691
     ExplicitHeight = 535
     inherited Panel3: TPanel
@@ -21,11 +19,8 @@ inherited PedMServ: TPedMServ
       ExplicitWidth = 691
       ExplicitHeight = 263
       inherited PageControl3: TPageControl
-        Top = 47
         Width = 685
         Height = 213
-        ExplicitLeft = 3
-        ExplicitTop = 47
         ExplicitWidth = 685
         ExplicitHeight = 213
         inherited tsDet: TTabSheet
@@ -43,13 +38,8 @@ inherited PedMServ: TPedMServ
       end
       inherited ControlBar2: TControlBar
         Width = 685
-        Height = 38
-        ExplicitLeft = 3
-        ExplicitTop = 3
         ExplicitWidth = 685
-        ExplicitHeight = 38
         inherited ToolBar3: TToolBar
-          ButtonWidth = 129
           inherited ToolButton10: TToolButton
             ExplicitWidth = 32
           end
@@ -77,8 +67,6 @@ inherited PedMServ: TPedMServ
     inherited PageControl1: TPageControl
       Width = 685
       Height = 266
-      ExplicitLeft = 3
-      ExplicitTop = 3
       ExplicitWidth = 685
       ExplicitHeight = 266
       inherited TabSheet1: TTabSheet
@@ -550,6 +538,7 @@ inherited PedMServ: TPedMServ
               CheckOnExit = True
               DisplayFormat = ',0.###0'
               FormatOnEditing = True
+              ReadOnly = True
               TabOrder = 0
               DecimalPlacesAlwaysShown = False
               DataField = 'unitario'
@@ -679,13 +668,8 @@ inherited PedMServ: TPedMServ
   end
   inherited ControlBar1: TControlBar
     Width = 685
-    Height = 38
-    ExplicitLeft = 3
-    ExplicitTop = 3
     ExplicitWidth = 685
-    ExplicitHeight = 38
     inherited ToolBar1: TToolBar
-      ButtonWidth = 115
       inherited ToolButton6: TToolButton
         ExplicitWidth = 32
       end

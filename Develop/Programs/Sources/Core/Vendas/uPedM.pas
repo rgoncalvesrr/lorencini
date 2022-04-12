@@ -39,12 +39,9 @@ type
     Label15: TLabel;
     DBEdit13: TDBEdit;
     Panel26: TPanel;
-    Panel27: TPanel;
     Label16: TLabel;
     DBEdit14: TDBEdit;
     Panel28: TPanel;
-    Label17: TLabel;
-    DBEdit15: TDBEdit;
     Panel29: TPanel;
     Label18: TLabel;
     DBComboBox1: TDBComboBox;

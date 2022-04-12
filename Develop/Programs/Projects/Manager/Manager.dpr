@@ -308,7 +308,8 @@ uses
   uLaudoService in '..\..\Sources\Core\Labo\uLaudoService.pas',
   uOP in '..\..\Sources\Core\Producao\uOP.pas' {OP},
   uLabRecipientes in '..\..\Sources\Core\Labo\uLabRecipientes.pas' {LabRecipientes},
-  uLabRecipientesM in '..\..\Sources\Core\Labo\uLabRecipientesM.pas' {LabRecipientesM};
+  uLabRecipientesM in '..\..\Sources\Core\Labo\uLabRecipientesM.pas' {LabRecipientesM},
+  uAnaliseDeCredito in '..\..\Sources\Core\Financ\uAnaliseDeCredito.pas' {AnaliseDeCredito};
 
 {$R *.res}
 

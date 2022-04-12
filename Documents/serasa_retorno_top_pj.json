@@ -1,0 +1,577 @@
+{
+   "data": {
+      "message": {
+         "header": [
+            {
+               "Base": "C",
+               "Tipo": "B49C",
+               "Cobra": "S",
+               "Delts": "S",
+               "Login": "18145306",
+               "Passa": "",
+               "Alerta": "",
+               "Branco": "N",
+               "Bureau": "S",
+               "Cheque": "",
+               "CodTab": "",
+               "Funcao": "FIM",
+               "CnpjCpf": "003470727000120",
+               "QtdReg1": 53,
+               "estacao": "",
+               "Atualiza": "S",
+               "Conversa": "S",
+               "Resposta": "",
+               "TotalReg": 53,
+               "DocCredor": "",
+               "DtQuality": "",
+               "Negativos": "",
+               "QtdCheque": "",
+               "QtdCompra": 0,
+               "Codificado": "N",
+               "ConsCollec": "",
+               "DataConsul": "2022/03/24",
+               "HoraConsul": "15:21:49",
+               "Modalidade": "OO",
+               "Prodorigem": "",
+               "TipoPessoa": "J",
+               "TpConsulta": "A",
+               "TranOrigem": "0",
+               "Consultante": "04824941000109",
+               "Localizador": "",
+               "IdentTermIST": "",
+               "CentroDeCusto": "0000000000000",
+               "PeriodoCompro": "",
+               "ValorConsulta": 20,
+               "AcessoRecheque": "",
+               "PeriodoEndereco": "",
+               "QuantidadeRegistro": "99",
+               "TemOcorrenciaRecheque": ""
+            }
+         ],
+         "Alertas": [
+            {
+               "UF": "SP",
+               "CEP": "",
+               "DDD": "",
+               "Tipo": "N003",
+               "SubTipo": "00",
+               "Telefone": "",
+               "FeatureDisponiveis": "NRC5"
+            }
+         ],
+         "Consulta": [
+            {
+               "Fixo": "N",
+               "Tipo": "N001",
+               "Agrupa": "N",
+               "Filler": "FCM",
+               "Filler2": "",
+               "SubTipo": "00",
+               "Reservado": "",
+               "StatusBanco": "",
+               "NomeFantasia": "",
+               "TipoConsulta": "PP",
+               "ChaveConsulta": "722358",
+               "ResumoAnotacoes": "S",
+               "ConsultaSintetica": "",
+               "SituacaoCadastral": "S",
+               "TransacaoConsulta": "X2PJ",
+               "TratamentoTelefone": "S",
+               "IdentificacaoDadosCheque": "0"
+            }
+         ],
+         "TotalProtesto": [
+            {
+               "Tipo": "N250",
+               "Moeda": "R$",
+               "SubTipo": "90",
+               "ValorTotal": "1411530.70",
+               "TotalOcorrencia": "00242",
+               "DataOcorrenciaMaisAntiga": "03/2017",
+               "DataOcorrenciaMaisRecente": "01/2022"
+            }
+         ],
+         "Administradores": [
+            {
+               "Tipo": "N705",
+               "SubTipo": "00",
+               "Situacao": "C",
+               "Restricao": "N",
+               "TipoPessoa": "F",
+               "DescricaoCargo": "ADMINISTR",
+               "NomeAdministrador": "CESAR ARMANDO ANZOLA SOLANO",
+               "DocumentoAdministrador": "00084667699515"
+            },
+            {
+               "Tipo": "N705",
+               "SubTipo": "00",
+               "Situacao": "C",
+               "Restricao": "N",
+               "TipoPessoa": "F",
+               "DescricaoCargo": "ADMINISTR",
+               "NomeAdministrador": "DANIEL TADEU ALVES JUSTO",
+               "DocumentoAdministrador": "00026612237899"
+            },
+            {
+               "Tipo": "N705",
+               "SubTipo": "00",
+               "Situacao": "C",
+               "Restricao": "N",
+               "TipoPessoa": "F",
+               "DescricaoCargo": "ADMINISTR",
+               "NomeAdministrador": "CARLOS JULIAN VALDEZ GARCIA",
+               "DocumentoAdministrador": "00023840774810"
+            },
+            {
+               "Tipo": "N705",
+               "SubTipo": "00",
+               "Situacao": "C",
+               "Restricao": "N",
+               "TipoPessoa": "F",
+               "DescricaoCargo": "ADMINISTR",
+               "NomeAdministrador": "LYLE ALEXANDER WATTERS",
+               "DocumentoAdministrador": "00023342509880"
+            },
+            {
+               "Tipo": "N705",
+               "SubTipo": "00",
+               "Situacao": "C",
+               "Restricao": "N",
+               "TipoPessoa": "F",
+               "DescricaoCargo": "ADMINISTR",
+               "NomeAdministrador": "ROBERTO GUILLERMO LASTRA",
+               "DocumentoAdministrador": "00022739453884"
+            },
+            {
+               "Tipo": "N705",
+               "SubTipo": "00",
+               "Situacao": "C",
+               "Restricao": "N",
+               "TipoPessoa": "F",
+               "DescricaoCargo": "ADMINISTR",
+               "NomeAdministrador": "SILVIO ANDRES ILLI",
+               "DocumentoAdministrador": "00022732431893"
+            },
+            {
+               "Tipo": "N705",
+               "SubTipo": "00",
+               "Situacao": "C",
+               "Restricao": "N",
+               "TipoPessoa": "F",
+               "DescricaoCargo": "ADMINISTR",
+               "NomeAdministrador": "NATAN BERTOLDO VIEIRA",
+               "DocumentoAdministrador": "00012506641874"
+            },
+            {
+               "Tipo": "N705",
+               "SubTipo": "00",
+               "Situacao": "C",
+               "Restricao": "N",
+               "TipoPessoa": "F",
+               "DescricaoCargo": "ADMINISTR",
+               "NomeAdministrador": "ALEXANDRE MACHADO",
+               "DocumentoAdministrador": "00012070117898"
+            },
+            {
+               "Tipo": "N705",
+               "SubTipo": "00",
+               "Situacao": "C",
+               "Restricao": "N",
+               "TipoPessoa": "F",
+               "DescricaoCargo": "ADMINISTR",
+               "NomeAdministrador": "ROGELIO GOLFARB",
+               "DocumentoAdministrador": "00000644461829"
+            },
+            {
+               "Tipo": "N705",
+               "SubTipo": "00",
+               "Situacao": "C",
+               "Restricao": "N",
+               "TipoPessoa": "F",
+               "DescricaoCargo": "DIRETOR",
+               "NomeAdministrador": "LUIS CLAUDIO CASANOVA",
+               "DocumentoAdministrador": "00014854454857"
+            }
+         ],
+         "MensagemTrailer": [
+            {
+               "Tipo": "T999",
+               "Codigo": "000",
+               "Mensagem": "PROCESSO ENCERRADO NORMALMENTE"
+            }
+         ],
+         "DetalhesProtesto": [
+            {
+               "UF": "SP",
+               "Tipo": "N250",
+               "Valor": "847424.75",
+               "Cidade": "JUNDIAI",
+               "SubTipo": "00",
+               "Cartorio": "UN",
+               "TipoMoeda": "R$",
+               "DataOcorrencia": "2022/01/07"
+            },
+            {
+               "UF": "SP",
+               "Tipo": "N250",
+               "Valor": "93.47",
+               "Cidade": "SAO BERNARDO DO CAMPO",
+               "SubTipo": "00",
+               "Cartorio": "02",
+               "TipoMoeda": "R$",
+               "DataOcorrencia": "2022/01/06"
+            },
+            {
+               "UF": "SP",
+               "Tipo": "N250",
+               "Valor": "93.47",
+               "Cidade": "SAO BERNARDO DO CAMPO",
+               "SubTipo": "00",
+               "Cartorio": "01",
+               "TipoMoeda": "R$",
+               "DataOcorrencia": "2022/01/06"
+            },
+            {
+               "UF": "SP",
+               "Tipo": "N250",
+               "Valor": "144.30",
+               "Cidade": "SAO BERNARDO DO CAMPO",
+               "SubTipo": "00",
+               "Cartorio": "01",
+               "TipoMoeda": "R$",
+               "DataOcorrencia": "2021/12/24"
+            },
+            {
+               "UF": "SP",
+               "Tipo": "N250",
+               "Valor": "144.30",
+               "Cidade": "SAO BERNARDO DO CAMPO",
+               "SubTipo": "00",
+               "Cartorio": "02",
+               "TipoMoeda": "R$",
+               "DataOcorrencia": "2021/12/24"
+            }
+         ],
+         "SociosAcionistas": [
+            {
+               "Tipo": "N700",
+               "SubTipo": "00",
+               "NomeSocio": "GRANITE MANAGEMENT CORPORATION",
+               "Restricao": "N",
+               "TipoPessoa": "J",
+               "DocumentoSocio": "24770079000106",
+               "SituacaoCapitalTotal": "F",
+               "CodigoSocioConsistido": "C",
+               "PercentualCapitalTotal": "99.9"
+            },
+            {
+               "Tipo": "N700",
+               "SubTipo": "00",
+               "NomeSocio": "FORD JL LIMITED",
+               "Restricao": "N",
+               "TipoPessoa": "J",
+               "DocumentoSocio": "14671687000100",
+               "SituacaoCapitalTotal": "F",
+               "CodigoSocioConsistido": "C",
+               "PercentualCapitalTotal": "0.1"
+            }
+         ],
+         "OutrasOpcoesConsulta": [
+            {
+               "Cod1": "RE02",
+               "Cod2": "",
+               "Cod3": "",
+               "Cod4": "",
+               "Tipo": "P002",
+               "Chave": "",
+               "Chave2": "",
+               "Chave3": "",
+               "Chave4": ""
+            },
+            {
+               "Cod1": "RE02",
+               "Cod2": "",
+               "Cod3": "",
+               "Cod4": "",
+               "Tipo": "P002",
+               "Chave": "",
+               "Chave2": "",
+               "Chave3": "",
+               "Chave4": ""
+            }
+         ],
+         "MensagemConsultaSerasa": [
+            {
+               "Tipo": "N440",
+               "SubTipo": "99",
+               "Mensagem": "NAO CONSTAM INFORMACOES"
+            }
+         ],
+         "MensagemPendenciaInterna": [
+            {
+               "Tipo": "N230",
+               "SubTipo": "99",
+               "Mensagem": "NAO CONSTAM OCORRENCIAS"
+            }
+         ],
+         "ComplementoBlocoConfirmei": [
+            {
+               "Tipo": "N200",
+               "NomeMae": "",
+               "SubTipo": "01"
+            }
+         ],
+         "ComplementoDetalheProtesto": [
+            {
+               "Tipo": "N250",
+               "Filler": "0330776974",
+               "SubTipo": "01",
+               "Mensagem": "",
+               "TipoAnotacao": "A",
+               "IndicaAnotacao": "N"
+            },
+            {
+               "Tipo": "N250",
+               "Filler": "0333894742",
+               "SubTipo": "01",
+               "Mensagem": "",
+               "TipoAnotacao": "A",
+               "IndicaAnotacao": "N"
+            },
+            {
+               "Tipo": "N250",
+               "Filler": "0333884898",
+               "SubTipo": "01",
+               "Mensagem": "",
+               "TipoAnotacao": "A",
+               "IndicaAnotacao": "N"
+            },
+            {
+               "Tipo": "N250",
+               "Filler": "0332892915",
+               "SubTipo": "01",
+               "Mensagem": "",
+               "TipoAnotacao": "A",
+               "IndicaAnotacao": "N"
+            },
+            {
+               "Tipo": "N250",
+               "Filler": "0332923519",
+               "SubTipo": "01",
+               "Mensagem": "",
+               "TipoAnotacao": "A",
+               "IndicaAnotacao": "N"
+            }
+         ],
+         "BlocoInformacoesDoConfirmei": [
+            {
+               "Tipo": "N200",
+               "SubTipo": "00",
+               "NomeRazao": "FORD MOTOR COMPANY BRASIL LTDA",
+               "DataNascimento": "1999/10/22",
+               "SituacaoDocumento": "2",
+               "DataSituacaoDocumento": "2022/03/12",
+               "FlagExistenciaCCFIndisponivel": "N"
+            }
+         ],
+         "DetalhePendenciaFinanceiras": [
+            {
+               "Tipo": "N240",
+               "SubTipo": "01",
+               "FillerSerasa": "0267481276",
+               "TipoAnotacao": "V",
+               "IndicaAnotacao": "",
+               "MensagemSubjudice": ""
+            },
+            {
+               "Tipo": "N240",
+               "SubTipo": "01",
+               "FillerSerasa": "0265147207",
+               "TipoAnotacao": "V",
+               "IndicaAnotacao": "",
+               "MensagemSubjudice": ""
+            },
+            {
+               "Tipo": "N240",
+               "SubTipo": "01",
+               "FillerSerasa": "0249293941",
+               "TipoAnotacao": "V",
+               "IndicaAnotacao": "",
+               "MensagemSubjudice": ""
+            },
+            {
+               "Tipo": "N240",
+               "SubTipo": "01",
+               "FillerSerasa": "0249293942",
+               "TipoAnotacao": "V",
+               "IndicaAnotacao": "",
+               "MensagemSubjudice": ""
+            },
+            {
+               "Tipo": "N240",
+               "SubTipo": "01",
+               "FillerSerasa": "0253906773",
+               "TipoAnotacao": "V",
+               "IndicaAnotacao": "",
+               "MensagemSubjudice": ""
+            },
+            {
+               "Tipo": "N240",
+               "SubTipo": "01",
+               "FillerSerasa": "0034115645",
+               "TipoAnotacao": "5",
+               "IndicaAnotacao": "",
+               "MensagemSubjudice": ""
+            },
+            {
+               "Tipo": "N240",
+               "SubTipo": "01",
+               "FillerSerasa": "0777912869",
+               "TipoAnotacao": "5",
+               "IndicaAnotacao": "",
+               "MensagemSubjudice": ""
+            },
+            {
+               "Tipo": "N240",
+               "SubTipo": "01",
+               "FillerSerasa": "0707147754",
+               "TipoAnotacao": "5",
+               "IndicaAnotacao": "",
+               "MensagemSubjudice": ""
+            }
+         ],
+         "MensagemChequeSemFundoBacen": [
+            {
+               "Tipo": "N270",
+               "SubTipo": "99",
+               "Mensagem": "NAO CONSTAM OCORRENCIAS"
+            }
+         ],
+         "TotalPendenciasFinanceirasTipos": [
+            {
+               "Tipo": "N240",
+               "SubTipo": "90",
+               "TipoAnotacao": "V",
+               "TotalOcorrencia": "00254",
+               "ValorTotalPendencias": "662996.04",
+               "DataOcorrenciaMaisAntiga": "04/2017",
+               "DataOcorrenciaMaisRecente": "02/2022"
+            },
+            {
+               "Tipo": "N240",
+               "SubTipo": "90",
+               "TipoAnotacao": "5",
+               "TotalOcorrencia": "00003",
+               "ValorTotalPendencias": "16628.19",
+               "DataOcorrenciaMaisAntiga": "10/2019",
+               "DataOcorrenciaMaisRecente": "04/2021"
+            }
+         ],
+         "MensagemAlertaDocumentosRoubados": [
+            {
+               "Tipo": "N210",
+               "SubTipo": "99",
+               "Mensagem": "NAO CONSTAM OCORRENCIAS"
+            }
+         ],
+         "DetalhePendenciaSeparadaPefinRefin": [
+            {
+               "Tipo": "N240",
+               "Valor": "10966.67",
+               "Origem": "MILLS ESTRUTURAS E S",
+               "SubTipo": "00",
+               "Avalista": "N",
+               "Contrato": "0940329995-001",
+               "TipoMoeda": "R$",
+               "Modalidade": "DUPLICATA",
+               "SiglaEmbratel": "",
+               "DataOcorrencia": "2022/02/25"
+            },
+            {
+               "Tipo": "N240",
+               "Valor": "1613.23",
+               "Origem": "LOCALIZA",
+               "SubTipo": "00",
+               "Avalista": "N",
+               "Contrato": "CAMTZ 435191",
+               "TipoMoeda": "R$",
+               "Modalidade": "DUPLICATA",
+               "SiglaEmbratel": "",
+               "DataOcorrencia": "2022/02/15"
+            },
+            {
+               "Tipo": "N240",
+               "Valor": "22502.95",
+               "Origem": "MILLS ESTRUTURAS E S",
+               "SubTipo": "00",
+               "Avalista": "N",
+               "Contrato": "0940324832-001",
+               "TipoMoeda": "R$",
+               "Modalidade": "DUPLICATA",
+               "SiglaEmbratel": "",
+               "DataOcorrencia": "2022/02/02"
+            },
+            {
+               "Tipo": "N240",
+               "Valor": "31136.16",
+               "Origem": "MILLS ESTRUTURAS E S",
+               "SubTipo": "00",
+               "Avalista": "N",
+               "Contrato": "0940324833-001",
+               "TipoMoeda": "R$",
+               "Modalidade": "DUPLICATA",
+               "SiglaEmbratel": "",
+               "DataOcorrencia": "2022/02/02"
+            },
+            {
+               "Tipo": "N240",
+               "Valor": "2465.90",
+               "Origem": "LOCALIZA",
+               "SubTipo": "00",
+               "Avalista": "N",
+               "Contrato": "CAMTZ 432557",
+               "TipoMoeda": "R$",
+               "Modalidade": "DUPLICATA",
+               "SiglaEmbratel": "",
+               "DataOcorrencia": "2022/01/30"
+            },
+            {
+               "Tipo": "N240",
+               "Valor": "14151.55",
+               "Origem": "GRAN COFFEE LOC SERV",
+               "SubTipo": "00",
+               "Avalista": "N",
+               "Contrato": "10900661986",
+               "TipoMoeda": "R$",
+               "Modalidade": "DUPLICATA DE VENDA MERCANTIL P",
+               "SiglaEmbratel": "",
+               "DataOcorrencia": "2021/04/13"
+            },
+            {
+               "Tipo": "N240",
+               "Valor": "2026.64",
+               "Origem": "SEFAZ-PE",
+               "SubTipo": "00",
+               "Avalista": "N",
+               "Contrato": "114243190",
+               "TipoMoeda": "R$",
+               "Modalidade": "COBRANCA SIMPLES",
+               "SiglaEmbratel": "RCE",
+               "DataOcorrencia": "2019/12/18"
+            },
+            {
+               "Tipo": "N240",
+               "Valor": "450.00",
+               "Origem": "COMERCIAL DE GAS OH",
+               "SubTipo": "00",
+               "Avalista": "N",
+               "Contrato": "141",
+               "TipoMoeda": "R$",
+               "Modalidade": "DUPLIC DE VENDA MERCANTIL",
+               "SiglaEmbratel": "PDJ",
+               "DataOcorrencia": "2019/10/16"
+            }
+         ]
+      }
+   }
+}

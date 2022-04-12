@@ -1,0 +1,34 @@
+/**
+   Processa o retorno da consulta ao SERASA
+
+   @author    Ricardo Gonçalves
+   @date      01/04/2022
+   @trigger   tspeed.a_cred_consultas A IUD
+
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+create or replace function tspeed.a_cred_consultas()
+returns trigger as
+$$
+declare
+
+begin
+   if tg_op = 'DELETE' then
+      return old;
+   end if;
+
+   if tg_op = 'UPDATE' then
+      -- Notifica análise de crédito que a consulta foi concluída
+      if new.source_table = sys_origem('cred_analise') and new.status <> 'aguardando' and old.status = 'aguardando' then
+         update public.cred_analise
+            set status = 0
+          where recno = new.source_recno;
+      end if;
+   end if;
+
+   return new;
+end;
+$$
+language plpgsql;

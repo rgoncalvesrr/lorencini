@@ -13,9 +13,9 @@
       [*] Ajuste no processamento dos status do pedido.
             10.Em Digitação / 20.Aprovação de Crédito / 30.Aguardando Autorização / 40.Em Remessa /
             50.Aguardando Amostras / 60.Executando / 70.Executado / 99.Cancelado
-            
+
    07/11/2018  Ricardo Gonçalves
-      [+] Checagem dos serviços quando tiver indicado no pedido serviços de laboratório. Se não houver, ao menos 1 serviço 
+      [+] Checagem dos serviços quando tiver indicado no pedido serviços de laboratório. Se não houver, ao menos 1 serviço
             com controle de vidraria e consumo, o sistema não deixará o pedido avançar para o estado inválido.
 
    12/04/2019  Ricardo Gonçalves
@@ -25,11 +25,19 @@ CREATE OR REPLACE FUNCTION b_pedido()
   RETURNS trigger AS
 $$
 Declare
-   r        record;
-   rx       record;   
-   msg      text;   
-   CRLF     text;
-   xlog     log$;   
+   _STPENDENTE    constant integer := 0; -- Processando pelo sistema
+   _STANALISE     constant integer := 1; -- Em Análise
+   _STAPROVSIS    constant integer := 2; -- Aprovado Sistema
+   _STAPROVHUM    constant integer := 3; -- Aprovado Analista
+   _STREPROVADO   constant integer := 4; -- Reprovado
+
+   r                 record;
+   rx                record;
+   msg               text;
+   CRLF              text;
+   xlog              log$;
+   valor_            public.cred_analise.valor%type;
+   status_analise_   public.cred_analise.status%type;
 BEGIN
    CRLF := chr(13) || chr(10);
    xlog.source_table := sys_origem('pedido');
@@ -41,7 +49,7 @@ BEGIN
          new.frete := coalesce(new.frete, 0);
          new.dec_conf := coalesce(new.dec_conf, true);
          xlog.source_recno := new.recno;
-         
+
          if new.indice is null then
             select recno
               into new.indice
@@ -58,10 +66,10 @@ BEGIN
               from clientes_contatos
              where cliente = new.codigo
                and contato_comercial
-               and ativo 
+               and ativo
                and email is not null
              order by padrao desc, nome
-             limit 1;     
+             limit 1;
          end if;
 
          if new.solicitante is null then
@@ -81,7 +89,7 @@ BEGIN
          new.seringas := 0;
          new.correio := null;
       end if;
-      
+
       new.cliente := coalesce(new.cliente, new.codigo);
 
       if tg_op = 'UPDATE' then
@@ -112,7 +120,7 @@ BEGIN
             -- Validando informações de remessa
             if new.remessa then
                if new.frascos + new.seringas = 0 then
-                  msg := msg || CRLF || '- Há indicação de remessa mas a quantidade de frascos e/ou seringas está zerada.';               
+                  msg := msg || CRLF || '- Há indicação de remessa mas a quantidade de frascos e/ou seringas está zerada.';
                end if;
 
                if new.envio < 3 then
@@ -135,10 +143,41 @@ BEGIN
             end if;
          -- Aprovação do pedido
          elsif old.status = 20 and new.status = 30 then
-            msg := fin_ckbloqueio(new.codigo);
-            -- Caso haja pendência financeira, mantem o pedido no estado 20 - Aprovando Crédito
-            if msg <> '' then            
-               raise '[[Crédito reprovado: %]]', msg;
+            -- Gera análise de crédito para o pedido
+            if new.analise is null then
+               select vlsrvvar + vlsrvfixo + vlmat + vlmobra + vldespe
+                 into valor_
+                 from markup
+                where recno = new.markup;
+
+               insert into public.cred_analise
+                  (cliente, valor, source_table, source_recno)
+               values
+                  (new.codigo, valor_, sys_origem('pedido'), new.recno)
+               returning recno into new.analise;
+
+               new.status := 20;
+            else
+               -- consultando situação da análise
+               select status
+                 into status_analise_
+                 from public.cred_analise
+                where recno = new.analise;
+
+               -- Deixa o pedido em análise de crédito
+               if status_analise_ < _STAPROVSIS then
+                  new.status := 20;
+               end if;
+
+               -- Cancela o pedido
+               if status_analise_ = _STREPROVADO then
+                  new.status := 99;
+                  if new.obs <> '' then
+                     new.obs := format('%s%s%s', new.obs, chr(13) + chr(10), chr(13) + chr(10));
+                  end if;
+
+                  new.obs := format('%sPedido cancelado pelo analista de crédito!', new.obs);
+               end if;
             end if;
          elsif old.status = 30 and new.status = 40 then
             if not new.remessa then
@@ -160,7 +199,7 @@ BEGIN
 
             -- Verifica se há algum serviço que possibilite a análise
             if not exists(
-               select 1 
+               select 1
                  from pedido_serv ps
                       join servicos s
                         on s.codserv = ps.codserv

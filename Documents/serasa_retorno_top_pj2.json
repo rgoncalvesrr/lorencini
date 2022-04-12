@@ -6,41 +6,51 @@
                "Base": "C",
                "Tipo": "B49C",
                "Cobra": "S",
+               "Delts": "S",
+               "Login": "18145306",
                "Passa": "",
+               "Alerta": "",
+               "Branco": "N",
+               "Bureau": "S",
                "Cheque": "",
                "CodTab": "",
                "Funcao": "FIM",
-               "CnpjCpf": "01001001000113",
-               "QtdReg1": 13,
+               "CnpjCpf": "005505513000178",
+               "QtdReg1": 16,
                "estacao": "",
                "Atualiza": "S",
                "Conversa": "S",
                "Resposta": "",
-               "TotalReg": 13,
+               "TotalReg": 16,
+               "DocCredor": "",
                "DtQuality": "",
                "Negativos": "",
+               "QtdCheque": "",
                "QtdCompra": 0,
                "Codificado": "N",
                "ConsCollec": "",
-               "DataConsul": "2019/02/08",
-               "HoraConsul": "08:13:50",
+               "DataConsul": "2022/03/24",
+               "HoraConsul": "15:35:52",
                "Modalidade": "OO",
                "Prodorigem": "",
                "TipoPessoa": "J",
                "TpConsulta": "A",
                "TranOrigem": "0",
-               "Consultante": "01001001000113",
+               "Consultante": "04824941000109",
+               "Localizador": "",
                "IdentTermIST": "",
                "CentroDeCusto": "0000000000000",
+               "PeriodoCompro": "",
                "ValorConsulta": 20,
                "AcessoRecheque": "",
+               "PeriodoEndereco": "",
                "QuantidadeRegistro": "99",
                "TemOcorrenciaRecheque": ""
             }
          ],
          "Alertas": [
             {
-               "UF": "",
+               "UF": "SP",
                "CEP": "",
                "DDD": "",
                "Tipo": "N003",
@@ -54,17 +64,17 @@
                "Fixo": "N",
                "Tipo": "N001",
                "Agrupa": "N",
-               "Filler": "",
+               "Filler": "C",
                "Filler2": "",
                "SubTipo": "00",
                "Reservado": "",
                "StatusBanco": "",
                "NomeFantasia": "",
                "TipoConsulta": "PF",
-               "ChaveConsulta": "222222",
+               "ChaveConsulta": "483356",
                "ResumoAnotacoes": "S",
                "ConsultaSintetica": "",
-               "SituacaoCadastral": "",
+               "SituacaoCadastral": "S",
                "TransacaoConsulta": "X2LJ",
                "TratamentoTelefone": "S",
                "IdentificacaoDadosCheque": "0"
@@ -77,11 +87,45 @@
                "Mensagem": "PROCESSO ENCERRADO NORMALMENTE"
             }
          ],
-         "MensagemConsultaSerasa": [
+         "MensagemProtesto": [
+            {
+               "Tipo": "N250",
+               "SubTipo": "99",
+               "Mensagem": "NAO CONSTAM OCORRENCIAS"
+            }
+         ],
+         "ConsultasSemCheque": [
             {
                "Tipo": "N440",
-               "SubTipo": "99",
-               "Mensagem": "NAO CONSTAM INFORMACOES"
+               "SubTipo": "03",
+               "QtdeConsultasUltimos15Dias": "002",
+               "QtdeConsultasEntre16e30Dias": "001",
+               "QtdeConsultasEntre31e60Dias": "002",
+               "QtdeConsultasEntre61e90Dias": "003"
+            }
+         ],
+         "OutrasOpcoesConsulta": [
+            {
+               "Cod1": "RE02",
+               "Cod2": "",
+               "Cod3": "",
+               "Cod4": "",
+               "Tipo": "P002",
+               "Chave": "",
+               "Chave2": "",
+               "Chave3": "",
+               "Chave4": ""
+            },
+            {
+               "Cod1": "RE02",
+               "Cod2": "",
+               "Cod3": "",
+               "Cod4": "",
+               "Tipo": "P002",
+               "Chave": "",
+               "Chave2": "",
+               "Chave3": "",
+               "Chave4": ""
             }
          ],
          "MensagemPendenciaInterna": [
@@ -102,11 +146,21 @@
             {
                "Tipo": "N200",
                "SubTipo": "00",
-               "NomeRazao": "CONFIRMEI TESTE 11111111111",
-               "DataNascimento": "2016/02/19",
+               "NomeRazao": "NIPLAN PARTICIPACOES LTDA",
+               "DataNascimento": "2003/01/07",
                "SituacaoDocumento": "2",
-               "DataSituacaoDocumento": "2019/02/04",
+               "DataSituacaoDocumento": "2022/03/10",
                "FlagExistenciaCCFIndisponivel": "N"
+            }
+         ],
+         "DetalhePendenciaFinanceiras": [
+            {
+               "Tipo": "N240",
+               "SubTipo": "01",
+               "FillerSerasa": "0846746413",
+               "TipoAnotacao": "V",
+               "IndicaAnotacao": "N",
+               "MensagemSubjudice": ""
             }
          ],
          "MensagemChequeSemFundoBacen": [
@@ -116,11 +170,15 @@
                "Mensagem": "NAO CONSTAM OCORRENCIAS"
             }
          ],
-         "MensagemPendenciaFinanceira": [
+         "TotalPendenciasFinanceirasTipos": [
             {
                "Tipo": "N240",
-               "SubTipo": "99",
-               "Mensagem": "NAO CONSTAM OCORRENCIAS"
+               "SubTipo": "90",
+               "TipoAnotacao": "V",
+               "TotalOcorrencia": "00001",
+               "ValorTotalPendencias": "177460.87",
+               "DataOcorrenciaMaisAntiga": "04/2020",
+               "DataOcorrenciaMaisRecente": "04/2020"
             }
          ],
          "MensagemAlertaDocumentosRoubados": [
@@ -128,6 +186,20 @@
                "Tipo": "N210",
                "SubTipo": "99",
                "Mensagem": "NAO CONSTAM OCORRENCIAS"
+            }
+         ],
+         "DetalhePendenciaSeparadaPefinRefin": [
+            {
+               "Tipo": "N240",
+               "Valor": "177460.87",
+               "Origem": "FIDC DA INDUSTRIA EX",
+               "SubTipo": "00",
+               "Avalista": "N",
+               "Contrato": "64667728000154",
+               "TipoMoeda": "R$",
+               "Modalidade": "ADIANT CONTA",
+               "SiglaEmbratel": "",
+               "DataOcorrencia": "2020/04/27"
             }
          ]
       }

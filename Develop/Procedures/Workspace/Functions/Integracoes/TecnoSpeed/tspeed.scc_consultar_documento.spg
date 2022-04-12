@@ -13,6 +13,8 @@ create or replace function tspeed.scc_consultar_documento(
    documento_ varchar,
    uf_ varchar,
    tipo_ integer,
+   table_ integer,
+   recno_ bigint,
    producao_ boolean = true)
 returns bigint as
 $$
@@ -81,9 +83,9 @@ begin
 
    -- Cria a consulta
    insert into tspeed.cred_consultas
-      (documento, uf, tipo, env, custo)
+      (documento, uf, tipo, env, custo, source_table, source_recno)
    values
-      (documento_, uf_, tipo_, r.env, rtipo.custo)
+      (documento_, uf_, tipo_, r.env, rtipo.custo, table_, recno_)
    returning recno into consulta_;
 
    -- Associando request com consulta
@@ -100,13 +102,15 @@ language plpgsql;
 create or replace function tspeed.scc_consultar_documento(
    codigo_ integer,
    tipo_ integer,
+   table_ integer,
+   recno_ bigint,
    producao_ boolean = true)
 returns bigint as
 $$
 declare
    request_   public.svc_cliapi.recno%type;
 begin
-   select tspeed.scc_consultar_documento(coalesce(cnpj, cpf), estado, tipo_, producao_)
+   select tspeed.scc_consultar_documento(coalesce(cnpj, cpf), estado, tipo_, table_, recno_, producao_)
      into request_
       from public.tbclientes
      where codigo = codigo_;
