@@ -511,7 +511,7 @@ alter table tspeed.cred_situacoes owner to lorencini;
 
 insert into tspeed.cred_situacoes
 	(classe, situacao, descri)
-values	
+values
 	('PJ', 2, 'REGULAR'),
 	('PJ', 3, 'PENDENTE DE REGULARIZAÇÃO'),
 	('PJ', 6, 'SUSPENSA'),
@@ -523,6 +523,32 @@ values
 	('PF', 0, 'INAPTA'),
 	('PF', 7, 'BAIXADA'),
 	('PF', 4, 'NULA');
+
+create type tspeed.cred_consultas_status$ AS ENUM (
+	'aguardando',
+	'sempendencias',
+	'compendencias');
+
+alter type tspeed.cred_consultas_status$ owner to lorencini;
+
+
+create table tspeed.cred_motivos(
+   motivo integer not null,
+   descri descri$ not null,
+   recno bigserial not null,
+   constraint pk_cred_motivos primary key(motivo),
+   constraint uk_cred_motivos_1 unique(descri),
+   constraint uk_cred_motivos_2 unique(recno));
+
+alter table tspeed.cred_motivos owner to lorencini;
+
+insert into tspeed.cred_motivos
+	(motivo, descri)
+values
+	(10, 'Consulta avulsa'),
+	(20, 'Primeiro pedido'),
+	(30, 'Pedido anterior com restrição'),
+	(40, 'Cliente com restrição interna');
 
 create table tspeed.cred_consultas(
    recno bigserial not null,
@@ -537,6 +563,8 @@ create table tspeed.cred_consultas(
    uf varchar(2) not null,
    env environment$ default('dev') not null,
    custo moeda$ not null,
+   status tspeed.cred_consultas_status$ default('aguardando') not null,
+   motivo integer default(10) not null,
    constraint pk_cred_consultas primary key(recno),
    constraint fk_cred_consultas_1 foreign key(account)
       references sys_accounts(recno) on update cascade on delete cascade,
@@ -547,7 +575,9 @@ create table tspeed.cred_consultas(
    constraint fk_cred_consultas_4 foreign key(cliente)
       references public.tbclientes(codigo) on update cascade on delete cascade,
    constraint fk_cred_consultas_5 foreign key(uf)
-      references public.estados(uf) on update cascade on delete restrict);
+      references public.estados(uf) on update cascade on delete restrict,
+   constraint fk_cred_consultas_6 foreign key(motivo)
+      references tspeed.cred_motivos(motivo) on update cascade on delete restrict);
 
 alter table tspeed.cred_consultas owner to lorencini;
 
@@ -604,3 +634,51 @@ create table tspeed.cred_cliapi (
 );
 
 alter table tspeed.cred_cliapi owner to lorencini;
+
+create table public.cred_analise(
+   recno bigserial not null,
+   status integer default(0) not null,
+   cliente integer not null,
+   serasa bigint,
+   emissao timestamp default(clock_timestamp()) not null,
+   valor moeda$,
+   aprovacao timestamp,
+   solicitante bigint not null,
+   aprovador bigint,
+   obs text,
+   source_table integer not null,
+   source_recno bigint,
+   titulos bigint default(0) not null,
+   titulos_quitados_atraso bigint default(0) not null,
+   titulos_em_atraso bigint default(0) not null,
+   titulos_a_receber bigint default(0) not null,
+   ptitulos_atrasados percent$ not null,
+   total moeda$ not null,
+   recebido moeda$ not null,
+   receber moeda$ not null,
+   atrasado moeda$ not null,
+   pri_compra date,
+   ult_compra date,
+   menor_compra moeda$ not null,
+   maior_compra moeda$ not null,
+   maior_atraso integer default(0) not null,
+   constraint pk_cred_analise primary key(recno),
+   constraint fk_cred_analise_1 foreign key(source_table)
+      references public.sys_tables(recno) on update cascade on delete restrict,
+   constraint fk_cred_analise_2 foreign key(cliente)
+      references public.tbclientes(codigo) on update cascade on delete cascade,
+   constraint fk_cred_analise_3 foreign key(serasa)
+      references tspeed.cred_consultas(recno) on update cascade on delete restrict,
+   constraint fk_cred_analise_4 foreign key(solicitante)
+      references public.sys_accounts(recno) on update cascade on delete restrict,
+   constraint fk_cred_analise_5 foreign key(aprovador)
+      references public.sys_accounts(recno) on update cascade on delete restrict,
+   constraint ck_cred_analise check(valor > 0));
+
+alter table public.cred_analise owner to lorencini;
+
+alter table public.pedido
+	add analise bigint,
+	add constraint fk_pedido_3 foreign key(analise)
+		references public.cred_analise(recno) on update cascade on delete restrict;
+

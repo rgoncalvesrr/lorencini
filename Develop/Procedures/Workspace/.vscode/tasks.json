@@ -10,10 +10,10 @@
 				"command": "/opt/lorencini/parser/parser.sh"
 			},
 			"windows": {
-				"command": "D:\\Projetos\\Lorencini\\_release\\Parser.exe"
+				"command": "D:\\Lorencini\\_release\\Parser.exe"
 			},
 			"args": [
-				  "-h", "127.0.0.1", "-p","6432", "-U", "postgres", "-P", "postgres.", "-db", "lorencini", "-f", "${file}"
+				  "-h", "felicia", "-p","6432", "-U", "postgres", "-P", "postgres.", "-db", "lorencini", "-f", "${file}"
 				// "-h", "lorencini.net.br", "-p", "54321", "-U", "postgres", "-P", "C0nc31th0.", "-db", "lorencini", "-f", "${file}"
 				// "-h", "172.16.0.5", "-p", "5432", "-U", "postgres", "-P", "C0nc31th0.", "-db", "lorencini", "-f", "${file}"
 			],
