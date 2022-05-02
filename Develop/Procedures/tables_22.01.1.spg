@@ -172,7 +172,7 @@ alter table labamostras_rel
 ---- Atualização de amostras com estado inconsistente
 ---- !!!!!!!!!!! É NECESSÁRIO ESTAR LOGADO NO SISTEMA PARA RODAR ESTA ATUALIZAÇÃO
 
-select sys_session_select(11);
+select sys_login('informatica@lorencini.com.br', 'a4406a88a03a0eae5a7b10000beab648');
 
 update labamostras set estado = 70  where estado = 50 and equip_recno is null;
 
@@ -503,6 +503,7 @@ create table tspeed.cred_situacoes (
    classe tspeed.classes$ not null,
    situacao integer not null,
    descri descri$ not null,
+   regular boolean default(false) not null,
    constraint pk_cred_situacoes primary key(recno),
    constraint uk_cred_situacoes_1 unique(classe, situacao)
 );
@@ -510,19 +511,19 @@ create table tspeed.cred_situacoes (
 alter table tspeed.cred_situacoes owner to lorencini;
 
 insert into tspeed.cred_situacoes
-	(classe, situacao, descri)
+	(classe, situacao, descri, regular)
 values
-	('PJ', 2, 'REGULAR'),
-	('PJ', 3, 'PENDENTE DE REGULARIZAÇÃO'),
-	('PJ', 6, 'SUSPENSA'),
-	('PJ', 7, 'TITULAR FALECIDO'),
-	('PJ', 9, 'CANCELADA'),
-	('PJ', 4, 'NULA'),
-	('PF', 2, 'ATIVA'),
-	('PF', 6, 'SUSPENSA'),
-	('PF', 0, 'INAPTA'),
-	('PF', 7, 'BAIXADA'),
-	('PF', 4, 'NULA');
+	('PJ', 2, 'REGULAR', true),
+	('PJ', 3, 'PENDENTE DE REGULARIZAÇÃO', false),
+	('PJ', 6, 'SUSPENSA', false),
+	('PJ', 7, 'TITULAR FALECIDO', false),
+	('PJ', 9, 'CANCELADA', false),
+	('PJ', 4, 'NULA', false),
+	('PF', 2, 'ATIVA', true),
+	('PF', 6, 'SUSPENSA', false),
+	('PF', 0, 'INAPTA', false),
+	('PF', 7, 'BAIXADA', false),
+	('PF', 4, 'NULA', false);
 
 create type tspeed.cred_consultas_status$ AS ENUM (
 	'aguardando',
@@ -559,12 +560,14 @@ create table tspeed.cred_consultas(
    situacao bigint,
    tipo integer not null,
    cliente integer,
-   cnpjcpf varchar(14) not null,
+   documento varchar(14) not null,
    uf varchar(2) not null,
    env environment$ default('dev') not null,
    custo moeda$ not null,
    status tspeed.cred_consultas_status$ default('aguardando') not null,
    motivo integer default(10) not null,
+   source_table integer not null,
+   source_recno bigint,
    constraint pk_cred_consultas primary key(recno),
    constraint fk_cred_consultas_1 foreign key(account)
       references sys_accounts(recno) on update cascade on delete cascade,
@@ -577,7 +580,9 @@ create table tspeed.cred_consultas(
    constraint fk_cred_consultas_5 foreign key(uf)
       references public.estados(uf) on update cascade on delete restrict,
    constraint fk_cred_consultas_6 foreign key(motivo)
-      references tspeed.cred_motivos(motivo) on update cascade on delete restrict);
+      references tspeed.cred_motivos(motivo) on update cascade on delete restrict,
+   constraint fk_cred_consultas_7 foreign key(source_table)
+      references public.sys_tables(recno) on update cascade on delete restrict);
 
 alter table tspeed.cred_consultas owner to lorencini;
 
@@ -642,9 +647,9 @@ create table public.cred_analise(
    serasa bigint,
    emissao timestamp default(clock_timestamp()) not null,
    valor moeda$,
-   aprovacao timestamp,
+   analisado_em timestamp,
    solicitante bigint not null,
-   aprovador bigint,
+   analista bigint,
    obs text,
    source_table integer not null,
    source_recno bigint,
@@ -671,8 +676,8 @@ create table public.cred_analise(
       references tspeed.cred_consultas(recno) on update cascade on delete restrict,
    constraint fk_cred_analise_4 foreign key(solicitante)
       references public.sys_accounts(recno) on update cascade on delete restrict,
-   constraint fk_cred_analise_5 foreign key(aprovador)
-      references public.sys_accounts(recno) on update cascade on delete restrict,
+   constraint fk_cred_analise_5 foreign key(analista)
+      references public.sys_accounts(recno) on update cascade on delete restrict,   
    constraint ck_cred_analise check(valor > 0));
 
 alter table public.cred_analise owner to lorencini;
@@ -681,4 +686,3 @@ alter table public.pedido
 	add analise bigint,
 	add constraint fk_pedido_3 foreign key(analise)
 		references public.cred_analise(recno) on update cascade on delete restrict;
-
