@@ -22,15 +22,39 @@ $$
 language plpgsql;
 
 Create or Replace Function sys_flag(
+	in in_table_ varchar,
+	in in_recno bigint)
+Returns Boolean as
+$$
+declare
+   table_id   sys_tables.recno%type := sys_origem(in_table_);
+begin
+   return sys_flag(table_id, in_recno);
+end;
+$$
+language plpgsql;
+
+Create or Replace Function sys_flag(
 	in in_table_ integer,
 	in in_recno integer)
+Returns Boolean as
+$$
+begin
+   return sys_flag(in_table_, in_recno::bigint);
+end;
+$$
+language plpgsql;
+
+Create or Replace Function sys_flag(
+	in in_table_ integer,
+	in in_recno bigint)
 Returns Boolean as
 $$
 declare
    session_ varchar := sys_session();
 begin
    return exists(
-      select 1                     
+      select 1
         from sys_flags
        where session = session_
          and table_ = in_table_
