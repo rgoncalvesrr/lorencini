@@ -3,7 +3,7 @@ returns text as
 $$
 declare
    result   text;
-begin   
+begin
    perform sys_sincroniza_tables();
    result := sys_sincroniza_fn();
    perform sys_sincroniza_forms();

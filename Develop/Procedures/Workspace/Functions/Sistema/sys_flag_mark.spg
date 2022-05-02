@@ -21,6 +21,17 @@ $$
 language plpgsql;
 
 Create or Replace Function sys_flag_mark(
+	in in_table_ varchar,
+	in in_recno bigint )
+Returns void as
+$$
+begin
+   perform sys_flag_mark(in_table_, in_recno::integer);
+END;
+$$
+language plpgsql;
+
+Create or Replace Function sys_flag_mark(
 	in in_table_ integer,
 	in in_recno integer)
 Returns void as
@@ -28,11 +39,11 @@ $$
 declare
    session_ session$ := sys_session();
 begin
-   insert into sys_flags 
+   insert into sys_flags
       (session, table_, recno)
-	values                
+	values
       (session_, in_table_, in_recno)
-   on conflict (session, table_, recno) 
+   on conflict (session, table_, recno)
       do nothing;
 end;
 $$

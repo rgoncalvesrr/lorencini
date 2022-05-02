@@ -18,8 +18,19 @@ Returns boolean as
 $$
 declare
    table_id   sys_tables.recno%type := sys_origem(in_table_);
-begin   
-   return sys_flag_del(table_id, in_recno);	
+begin
+   return sys_flag_del(table_id, in_recno);
+END;
+$$
+language plpgsql;
+
+Create or Replace Function sys_flag_del(
+	in in_table_ varchar,
+	in in_recno bigint )
+Returns boolean as
+$$
+begin
+   return sys_flag_del(in_table_, in_recno::integer);
 END;
 $$
 language plpgsql;
@@ -31,7 +42,7 @@ Returns boolean as
 $$
 declare
    session_ session$ = sys_session();
-begin   
+begin
 	delete
 	  from sys_flags
     where session = session_

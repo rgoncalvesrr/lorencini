@@ -1,14 +1,13 @@
-set session authorization lorencini;
 drop view if exists vpos_fin cascade;
 create or replace view vpos_fin as
-select id_cli, 
+select id_cli cliente,
    count(*) titulos,
 	count(*) filter (where baixa is not null and vencimento_real + interval '4 day' < baixa) titulos_quitados_atraso,
    count(*) filter (where baixa is null and vencimento_real + interval '4 day' < current_date) titulos_atraso,
    count(*) filter (where baixa is null and vencimento_real + interval '4 day' > current_date) titulos_a_vencer,
    sum(valor) parcial,
    sum(total) total,
-   coalesce(sum(total) filter (where baixa is not null), 0) recebido, 
+   coalesce(sum(total) filter (where baixa is not null), 0) recebido,
    coalesce(sum(total) filter (where baixa is null), 0) receber,
    coalesce(sum(total) filter (where vencimento_real + interval '4 day' < current_date and baixa is null), 0) atrasado,
    min(vencimento_real) pri_compra,
@@ -17,13 +16,17 @@ select id_cli,
    coalesce(max(valor), 0) maior_compra,
    coalesce(max(baixa - vencimento_real) filter (where baixa is not null and baixa > vencimento_real), 0) dias_atraso,
    coalesce(max(current_date - vencimento_real) filter (where vencimento_real + interval '4 day' < current_date and baixa is null), 0) dias_aberto
-  from fin_receber 
+  from fin_receber
  group by id_cli;
+
+alter view vpos_fin owner to lorencini;
 
 drop view if exists vposicao_financeira;
 create or replace view vposicao_financeira as
-select id_cli, titulos, titulos_quitados_atraso, titulos_atraso, titulos_a_vencer,
-       round((titulos_atraso::numeric + titulos_quitados_atraso::numeric) / titulos::numeric * 100) ptitulos_atrasados,  
+select cliente, titulos, titulos_quitados_atraso, titulos_atraso, titulos_a_vencer,
+       round((titulos_atraso::numeric + titulos_quitados_atraso::numeric) / titulos::numeric * 100) ptitulos_atrasados,
        parcial, total, recebido, receber, atrasado, pri_compra, ult_compra, menor_compra, maior_compra,
        sys_iif(dias_atraso > dias_aberto, dias_atraso, dias_aberto) maior_atraso
   from vpos_fin;
+
+alter view vposicao_financeira owner to lorencini;

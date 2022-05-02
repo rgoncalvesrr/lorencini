@@ -13,8 +13,12 @@ create or replace function public.a_cred_analise()
 returns trigger as
 $$
 declare
-   _STAUTORIZACAO constant integer := 30;
+   _STAUTORIZACAO constant integer := 30; -- Status pedido
 begin
+   if tg_op = 'DELETE' then
+      return old;
+   end if;
+
    if tg_op = 'UPDATE' then
       -- Encerramento da análise
       if new.status > 1 and old.status < 2 then
