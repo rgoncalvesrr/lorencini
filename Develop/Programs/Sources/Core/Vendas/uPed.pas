@@ -223,6 +223,15 @@ type
     sContatos: TZSequence;
     qContatospedido: TIntegerField;
     qContatoscliente: TIntegerField;
+    IBrwSrcanalise: TLargeintField;
+    qAnalise: TZQuery;
+    qAnalisestatus: TIntegerField;
+    qAnaliseobs: TMemoField;
+    PageControl2: TPageControl;
+    TabSheet6: TTabSheet;
+    DBMemo1: TDBMemo;
+    dsAnalise: TDataSource;
+    timeRefreshAnalise: TTimer;
     procedure IBrwSrcaprovadoGetText(Sender: TField; var Text: string;
       DisplayText: Boolean);
     procedure IBrwSrcaprovadoSetText(Sender: TField; const Text: string);
@@ -277,6 +286,9 @@ type
     procedure qDespCalcFields(DataSet: TDataSet);
     procedure qDespAfterPost(DataSet: TDataSet);
     procedure qDespAfterDelete(DataSet: TDataSet);
+    procedure qAnalisestatusGetText(Sender: TField; var Text: string; DisplayText: Boolean);
+    procedure qAnaliseBeforeRefresh(DataSet: TDataSet);
+    procedure timeRefreshAnaliseTimer(Sender: TObject);
   private
     { Private declarations }
     FCBClientes: TComboList;
@@ -401,10 +413,18 @@ end;
 procedure TPed.actPedAprovCredExecute(Sender: TObject);
 begin
   inherited;
+  with U.Data.Query do
   try
     try
-      u.Data.ExecSQL('update pedido set status = 30 where recno = %d',
-        [IBrwSrcrecno.AsInteger]);
+      // Tenta aprovar o crédito do cliente
+      SQL.Text :=
+      'update pedido '+
+         'set status = 30 '+
+       'where recno = :pedido';
+
+      ParamByName('pedido').AsInteger := IBrwSrcrecno.AsInteger;
+
+      ExecSQL;
     except
       on E:Exception do
       begin
@@ -412,6 +432,7 @@ begin
       end;
     end;
   finally
+    Close;
     G.RefreshDataSet(IBrwSrc);
     RefreshCtrl;
   end;
@@ -655,6 +676,10 @@ begin
   G.RefreshDataSet(qServ);
   G.RefreshDataSet(qMObra);
   G.RefreshDataSet(qContatos);
+
+  if PageControl1.ActivePageIndex = 2 then
+    G.RefreshDataSet(qAnalise);
+
   RefreshCtrl;
 end;
 
@@ -824,7 +849,13 @@ begin
   begin
     cbStatus.ItemIndex := PageControl1.ActivePageIndex;
     cbStatusChange(cbStatus);
+
     ControlBar1.Parent := PageControl1.ActivePage;
+
+    if PageControl1.ActivePageIndex = 2 then
+      timeRefreshAnaliseTimer(timeRefreshAnalise)
+    else
+      timeRefreshAnalise.Enabled := False;
   end;
 end;
 
@@ -877,6 +908,24 @@ begin
   case Text[1] of
     'F': Sender.AsInteger := 1;
     'S': Sender.AsInteger := 2;
+  end;
+end;
+
+procedure TPed.qAnaliseBeforeRefresh(DataSet: TDataSet);
+begin
+  inherited;
+  qAnalise.ParamByName('pedido').AsInteger := IBrwSrcrecno.AsInteger;
+end;
+
+procedure TPed.qAnalisestatusGetText(Sender: TField; var Text: string; DisplayText: Boolean);
+begin
+  inherited;
+  case Sender.AsInteger of
+    0: Text := 'Pendente';
+    1: Text := 'Em Análise';
+    2: Text := 'Aprovado Sistema';
+    3: Text := 'Aprovado Analista';
+    4: Text := 'Reprovado';
   end;
 end;
 
@@ -1084,7 +1133,7 @@ begin
 
     actPedEmitir.Enabled := (IBrwSrc.State = dsBrowse) and (IBrwSrcstatus.AsInteger = 30);
     actPedCancelar.Enabled := (IBrwSrc.State = dsBrowse) and (IBrwSrcstatus.AsInteger in [20, 30, 40]);
-    actPedAprovCred.Enabled := (IBrwSrc.State = dsBrowse) and (IBrwSrcstatus.AsInteger = 20);
+    actPedAprovCred.Enabled := (IBrwSrc.State = dsBrowse) and (IBrwSrcstatus.AsInteger = 20) and (IBrwSrcanalise.IsNull);
     actPedProduzir.Enabled := (IBrwSrc.State = dsBrowse) and
       (not IBrwSrcemitido.IsNull) and (IBrwSrcstatus.AsInteger = 30);
     actPedLiberar.Enabled := (IBrwSrc.State = dsBrowse) and (IBrwSrcstatus.AsInteger = 10);
@@ -1108,6 +1157,18 @@ begin
       PedM.actEditMaster.Enabled := actEdit.Enabled;
       PedM.actDelMaster.Enabled := actDel.Enabled;
     end;
+  end;
+end;
+
+procedure TPed.timeRefreshAnaliseTimer(Sender: TObject);
+begin
+  inherited;
+  timeRefreshAnalise.Enabled := False;
+  try
+    G.RefreshDataSet(qAnalise);
+  finally
+    timeRefreshAnalise.Enabled := True;
+    TabSheet6.Caption := 'Estado Financeiro do Pedido: Em Análise';
   end;
 end;
 

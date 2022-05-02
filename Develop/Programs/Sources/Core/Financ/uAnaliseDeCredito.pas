@@ -6,10 +6,9 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uIBrowse, ZSqlUpdate, Menus, DB, ZAbstractRODataset, ZAbstractDataset, ZDataset, ActnList, ComCtrls, ToolWin,
   ExtCtrls, Grids, DBGrids, StdCtrls, Mask, Buttons, uIFrameCliente, DBCtrls, JvExMask, JvToolEdit, JvBaseEdits,
-  ZSequence;
+  ZSequence, Contnrs;
 
 type
-
   TSerasaTipo = (PJ, PF);
 
   TMenuItemSerasa = class(TMenuItem)
@@ -242,16 +241,31 @@ type
     btnSerasa: TToolButton;
     pmSerasa: TPopupMenu;
     sIbrwSrc: TZSequence;
+    TabSheet2: TTabSheet;
+    TabSheet3: TTabSheet;
+    TabSheet4: TTabSheet;
+    Panel50: TPanel;
+    Label39: TLabel;
+    cbStatus: TComboBox;
+    IBrwSrcanalista_nome: TStringField;
+    IBrwSrcanalista_email: TStringField;
+    IBrwSrcanalisado_em: TDateTimeField;
+    ProcessarAnalises: TTimer;
     procedure IBrwSrcAfterScroll(DataSet: TDataSet);
     procedure actQueryProcessExecute(Sender: TObject);
     procedure edEmpresaChange(Sender: TObject);
     procedure PageControl2Change(Sender: TObject);
     procedure actProcessarAnaliseExecute(Sender: TObject);
+    procedure cbStatusChange(Sender: TObject);
+    procedure PageControl1Change(Sender: TObject);
+    procedure ProcessarAnalisesTimer(Sender: TObject);
   private
+    FAtualizando: Boolean;
     FSerasaTipo: TSerasaTipo;
     procedure SetTipo(const Value: TSerasaTipo);
     procedure SerasaExecute(Sender: TObject);
     procedure RefreshCtrl; override;
+    procedure OnLoad; override;
   public
     { Public declarations }
   end;
@@ -324,6 +338,8 @@ begin
     if swhere <> EmptyStr then
       SQL.Add(swhere);
 
+    ParamByName('status').AsInteger := cbStatus.ItemIndex + 1;
+
     if Assigned(Params.FindParam('codigo')) then
       ParamByName('codigo').AsInteger := Round(edCodigo.Value);
 
@@ -341,6 +357,19 @@ begin
   end;
 end;
 
+procedure TAnaliseDeCredito.cbStatusChange(Sender: TObject);
+begin
+  actQueryProcess.Enabled := True;
+  with PageControl1 do
+  begin
+    DBGrid1.SetFocus;
+    ActivePageIndex := cbStatus.ItemIndex;
+    inherited PageControl1Change(PageControl1);
+  end;
+
+  actQueryProcessExecute(actQueryProcess);
+end;
+
 procedure TAnaliseDeCredito.edEmpresaChange(Sender: TObject);
 begin
   inherited;
@@ -355,8 +384,8 @@ begin
   tsPosFin.ImageIndex := STATUS_NEUTRO;
   tsSerasa.ImageIndex := STATUS_NEUTRO;
 
-  Panel44.Color := clBtnFace;
-  Panel45.Color := clBtnFace;
+  Panel44.Color := $008C8CFF;
+  Panel45.Color := $008C8CFF;
   Panel44.ParentBackground := True;
   Panel45.ParentBackground := True;
   Panel15.ParentBackground := True;
@@ -381,6 +410,24 @@ begin
   end;
 end;
 
+procedure TAnaliseDeCredito.OnLoad;
+begin
+  inherited;
+  ReadOnly := True;
+  cbStatusChange(cbStatus);
+  DataSet := IBrwSrc;
+end;
+
+procedure TAnaliseDeCredito.PageControl1Change(Sender: TObject);
+begin
+  inherited;
+  if cbStatus.ItemIndex <> PageControl1.ActivePageIndex then
+  begin
+    cbStatus.ItemIndex := PageControl1.ActivePageIndex;
+    cbStatusChange(cbStatus);
+  end;
+end;
+
 procedure TAnaliseDeCredito.PageControl2Change(Sender: TObject);
 begin
   inherited;
@@ -388,43 +435,118 @@ begin
   RefreshCtrl;
 end;
 
+procedure TAnaliseDeCredito.ProcessarAnalisesTimer(Sender: TObject);
+var
+  table: integer;
+  atualizar: Boolean;
+begin
+  inherited;
+
+  if FAtualizando then
+    Exit;
+
+  atualizar := False;
+  ProcessarAnalises.Enabled := False;
+  FAtualizando := True;
+  with U.Data.Query do
+  try
+    SQL.Text :=
+    'select sys_origem(''cred_analise''); ';
+
+    Open;
+
+    table := Fields[0].AsInteger;
+
+    Close;
+
+    SQL.Text :=
+    'select '+
+       'a.cliente, a.valor, a.status '+
+    'from '+
+       'public.cred_analise a '+
+    'left join '+
+       'public.sys_flags f on '+
+       'f.table_ = :table_ and '+
+       'f.recno = a.recno '+
+    'where '+
+       'a.status < 2 and '+
+       'f.recno is null; ';
+
+    ParamByName('table_').AsInteger := table;
+
+    Open;
+
+    while not Eof do
+    begin
+      try
+        if FieldByName('status').AsInteger = 0 then
+          U.Data.ExecSQL('select fin_ckbloqueio(%d, %s);',
+            [FieldByName('cliente').AsInteger, FloatToStr(FieldByName('valor').AsFloat)]);
+
+        atualizar := True;
+      except
+        on E:Exception do
+        begin
+          
+        end;
+      end;
+
+      Next;
+    end;
+  finally
+    Close;
+    ProcessarAnalises.Enabled := True;
+    
+    if atualizar then
+      G.RefreshDataSet(IBrwSrc);
+
+    FAtualizando := False;
+  end;
+end;
+
 procedure TAnaliseDeCredito.RefreshCtrl;
 begin
   inherited;
-  actAprov.Enabled := not IBrwSrc.IsEmpty;
-  actReprov.Enabled := not IBrwSrc.IsEmpty;
-  btnSerasa.Enabled := not IBrwSrc.IsEmpty and (PageControl2.ActivePageIndex = 2);
+  FAtualizando := True;
+  try
+    actAprov.Enabled := IBrwSrcstatus.AsInteger = 1;
+    actReprov.Enabled := IBrwSrcstatus.AsInteger = 1;
+    btnSerasa.Enabled := (IBrwSrcstatus.AsInteger = 1) and (PageControl2.ActivePageIndex = 2) and
+      (qSerasastatus.AsString <> 'aguardando');
 
-  // Atualizando posição financeira
-  Panel19.ParentBackground := (qPosFinrecebido.AsFloat = 0);
-  if (qPosFinatrasado.AsFloat > 0) or (IBrwSrcrestricao.AsString = 'SIM')  then
-  begin
-    tsPosFin.ImageIndex := STATUS_CRITICO;
-    if (qPosFinatrasado.AsFloat > 0) then
-      Panel15.ParentBackground := False;
-  end
-  else if (qPosFintitulos_quitados_atraso.AsLargeInt > 0) or (qPosFinptitulos_atrasados.AsFloat > 10) then
-  begin
-    tsPosFin.ImageIndex := STATUS_ATENCAO;
-    Panel17.ParentBackground := (qPosFintitulos_quitados_atraso.AsLargeInt = 0);
-    Panel21.ParentBackground := (qPosFinptitulos_atrasados.AsFloat <= 10);
-  end
-  else
-    tsPosFin.ImageIndex := STATUS_OK;
+    // Atualizando posição financeira
+    Panel19.ParentBackground := (qPosFinrecebido.AsFloat = 0);
+    if (qPosFinatrasado.AsFloat > 0) or (IBrwSrcrestricao.AsString = 'SIM')  then
+    begin
+      tsPosFin.ImageIndex := STATUS_CRITICO;
+      if (qPosFinatrasado.AsFloat > 0) then
+        Panel15.ParentBackground := False;
+    end
+    else if (qPosFintitulos_quitados_atraso.AsLargeInt > 0) or (qPosFinptitulos_atrasados.AsFloat > 10) then
+    begin
+      tsPosFin.ImageIndex := STATUS_ATENCAO;
+      Panel17.ParentBackground := (qPosFintitulos_quitados_atraso.AsLargeInt = 0);
+      Panel21.ParentBackground := (qPosFinptitulos_atrasados.AsFloat <= 10);
+    end
+    else
+      tsPosFin.ImageIndex := STATUS_OK;
 
-  // Atualizando SERASA
-  btnSerasa.Enabled := (PageControl2.ActivePageIndex = 2) and (pmSerasa.Items.Count > 0);
+    // Atualizando SERASA
+    btnSerasa.Enabled := btnSerasa.Enabled and (pmSerasa.Items.Count > 0);
 
-  if qSerasa.IsEmpty then
-    Exit;
+    if qSerasa.IsEmpty then
+      Exit;
 
-  Panel44.ParentBackground := qSerasaqtd.AsLargeInt = 0;
-  Panel45.ParentBackground := qSerasatotal.AsFloat = 0;
+    Panel44.ParentBackground := qSerasaqtd.AsLargeInt = 0;
+    Panel45.ParentBackground := qSerasatotal.AsFloat = 0;
 
-  if (qSerasaqtd.AsLargeInt > 0) or (qSerasatotal.AsFloat > 0) then
-    tsSerasa.ImageIndex := STATUS_CRITICO
-  else
-    tsSerasa.ImageIndex := STATUS_OK;
+    if (qSerasaqtd.AsLargeInt > 0) or (qSerasatotal.AsFloat > 0) then
+      tsSerasa.ImageIndex := STATUS_CRITICO
+    else
+      tsSerasa.ImageIndex := STATUS_OK;
+  finally
+    FAtualizando := False;
+  end;
 end;
 
 procedure TAnaliseDeCredito.SerasaExecute(Sender: TObject);
@@ -436,23 +558,28 @@ begin
 
   if not U.Out.ConfQues('Executar a consulta %s ao custo de R$ %m?', [MenuItemSerasa.Nome, MenuItemSerasa.Custo]) then
     Exit;
+    
+  FAtualizando := True;
 
   with U.Query do
   try
     SQL.Text :=
-    'select public.cred_consultar_serasa(:recno, :tipo)';
+    'select public.cred_consultar_serasa(:recno::::bigint, :tipo::::integer)';
     ParamByName('recno').AsInteger := IBrwSrcrecno.AsInteger;
     ParamByName('tipo').AsInteger := MenuItemSerasa.Recno;
 
     Open;
 
     IBrwSrc.Edit;
+    IBrwSrcstatus.AsInteger := 0;
     IBrwSrcserasa.AsInteger := Fields[0].AsInteger;
     IBrwSrc.Post;
 
     ShowMessage('Consulta enviada ao SERASA');
   finally
     Close;
+    FAtualizando := False;
+    RefreshCtrl;
   end;
 end;
 
