@@ -26,6 +26,8 @@ declare
    json_          jsonb;
    total_dividas_ moeda$ := 0;
    status_        tspeed.cred_consultas.status%type;
+   situacao_      tspeed.cred_situacoes.recno%type;
+   classe_        tspeed.classes$;
 begin
    total_dividas_ := 0;
    status_ := 'sempendencias';
@@ -45,11 +47,33 @@ begin
      from tspeed.cred_cliapi
     where request = recno_;
 
+   json_ := jsonb_array_elements((r.res_body->'data'->'message'->>'header')::jsonb);
+
+   if json_ is not null then
+      if json_->>'TipoPessoa' = 'F' then
+         classe_ := 'PF';
+      end if;
+
+      if json_->>'TipoPessoa' = 'J' then
+         classe_ := 'PJ';
+      end if;
+   end if;
+
+   if classe_ is null then
+      raise '[[Não foi possível determinar a classe de pessoal para consulta % request %]]', rres.consulta, recno_;
+   end if;
+
    json_ := jsonb_array_elements((r.res_body->'data'->'message'->>'BlocoInformacoesDoConfirmei')::jsonb);
 
    if json_ is not null then
+      select recno
+        into situacao_
+        from tspeed.cred_situacoes
+       where situacao = (json_->>'SituacaoDocumento')::integer
+         and classe = classe_;
+
       update tspeed.cred_consultas
-         set nome = json_->>'NomeRazao', registro = replace (json_->>'DataNascimento', '/', '-')::date, situacao = (json_->>'SituacaoDocumento')::integer
+         set nome = json_->>'NomeRazao', registro = replace (json_->>'DataNascimento', '/', '-')::date, situacao = situacao_
        where recno = rres.consulta;
    end if;
 
