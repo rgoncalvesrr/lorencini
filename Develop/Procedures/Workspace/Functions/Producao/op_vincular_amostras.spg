@@ -14,8 +14,8 @@
       [*] Adição de filtragem de amostras levando em consideração o tipo de recipiente da amostra
 */
 create or replace function op_vincular_amostras(
-   in op_ bigint,
-   in pedido_ integer)
+   in op_      bigint,
+   in pedido_  integer)
 returns void as
 $$
 declare

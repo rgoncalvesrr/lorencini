@@ -9,7 +9,6 @@ uses
 
 type
   TOP = class(TIDefBrowse)
-    IBrwSrcpedido: TIntegerField;
     IBrwSrccriada: TDateTimeField;
     Panel3: TPanel;
     PageControl2: TPageControl;
@@ -154,13 +153,13 @@ procedure TOP.IBrwSrcAfterScroll(DataSet: TDataSet);
 begin
   inherited;
   qServ.ParamByName('ordem').AsInteger := IBrwSrcop.AsInteger;
-  qServ.ParamByName('pedido').AsInteger := IBrwSrcpedido.AsInteger;
+//  qServ.ParamByName('pedido').AsInteger := IBrwSrcpedido.AsInteger;
   qMat.ParamByName('ordem').AsInteger := IBrwSrcop.AsInteger;
-  qMat.ParamByName('pedido').AsInteger := IBrwSrcpedido.AsInteger;
+//  qMat.ParamByName('pedido').AsInteger := IBrwSrcpedido.AsInteger;
   qMO.ParamByName('ordem').AsInteger := IBrwSrcop.AsInteger;
-  qMO.ParamByName('pedido').AsInteger := IBrwSrcpedido.AsInteger;
+//  qMO.ParamByName('pedido').AsInteger := IBrwSrcpedido.AsInteger;
   qAmostras.ParamByName('ordem').AsInteger := IBrwSrcop.AsInteger;
-  qAmostras.ParamByName('pedido').AsInteger := IBrwSrcpedido.AsInteger;
+//  qAmostras.ParamByName('pedido').AsInteger := IBrwSrcpedido.AsInteger;
 
   G.RefreshDataSet(qServ);
   G.RefreshDataSet(qMat);

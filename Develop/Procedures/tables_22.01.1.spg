@@ -29,6 +29,8 @@ create table public.op (
 
 alter table public.op owner to lorencini;
 
+create index idx_op_1 on public.op(cliente) where (status = 10);
+
 create table op_pedidos (
    op bigint not null,
    pedido int not null,

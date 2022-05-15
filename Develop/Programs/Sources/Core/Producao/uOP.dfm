@@ -465,7 +465,7 @@ inherited OP: TOP
     Connection = DM.Design
     AfterScroll = IBrwSrcAfterScroll
     SQL.Strings = (
-      'select op, pedido, criada, recno '
+      'select op, criada, recno '
       '  from op '
       ' where status = 10')
     Sequence = zBrwSrc
@@ -473,11 +473,6 @@ inherited OP: TOP
     object IBrwSrcop: TLargeintField
       DisplayLabel = 'OP'
       FieldName = 'op'
-      Required = True
-    end
-    object IBrwSrcpedido: TIntegerField
-      DisplayLabel = 'Pedido'
-      FieldName = 'pedido'
       Required = True
     end
     object IBrwSrccriada: TDateTimeField
@@ -558,17 +553,11 @@ inherited OP: TOP
       '         on s.codserv = op.codserv'
       '       left join labtipo_recipiente r'
       '         on r.recno = s.vidraria'
-      ' where op.op = :ordem'
-      '   and op.pedido = :pedido')
+      ' where op.op = :ordem')
     Params = <
       item
         DataType = ftUnknown
         Name = 'ordem'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'pedido'
         ParamType = ptUnknown
       end>
     FetchRow = 50
@@ -578,11 +567,6 @@ inherited OP: TOP
       item
         DataType = ftUnknown
         Name = 'ordem'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'pedido'
         ParamType = ptUnknown
       end>
     object qServstatus: TIntegerField
@@ -597,9 +581,9 @@ inherited OP: TOP
       Visible = False
     end
     object qServpedido: TIntegerField
+      DisplayLabel = 'Pedido'
       FieldName = 'pedido'
       Required = True
-      Visible = False
     end
     object qServcodserv: TIntegerField
       DisplayLabel = 'Servi'#231'o'
@@ -649,17 +633,11 @@ inherited OP: TOP
       '  from op_materiais op'
       '       join produtos m'
       '         on m.codigo = op.material'
-      ' where op.op = :ordem'
-      '   and op.pedido = :pedido')
+      ' where op.op = :ordem')
     Params = <
       item
         DataType = ftUnknown
         Name = 'ordem'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'pedido'
         ParamType = ptUnknown
       end>
     FetchRow = 50
@@ -670,11 +648,6 @@ inherited OP: TOP
         DataType = ftUnknown
         Name = 'ordem'
         ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'pedido'
-        ParamType = ptUnknown
       end>
     object qMatop: TLargeintField
       FieldName = 'op'
@@ -682,9 +655,9 @@ inherited OP: TOP
       Visible = False
     end
     object qMatpedido: TIntegerField
+      DisplayLabel = 'Pedido'
       FieldName = 'pedido'
       Required = True
-      Visible = False
     end
     object qMatmaterial: TIntegerField
       DisplayLabel = 'Material'
@@ -722,17 +695,11 @@ inherited OP: TOP
       '  from op_mo op'
       '       join tb_funcoes f'
       '         on f.id = op.funcao'
-      ' where op.op = :ordem '
-      '   and op.pedido = :pedido')
+      ' where op.op = :ordem')
     Params = <
       item
         DataType = ftUnknown
         Name = 'ordem'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'pedido'
         ParamType = ptUnknown
       end>
     FetchRow = 50
@@ -743,11 +710,6 @@ inherited OP: TOP
         DataType = ftUnknown
         Name = 'ordem'
         ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'pedido'
-        ParamType = ptUnknown
       end>
     object qMOop: TLargeintField
       FieldName = 'op'
@@ -755,9 +717,9 @@ inherited OP: TOP
       Visible = False
     end
     object qMOpedido: TIntegerField
+      DisplayLabel = 'Pedido'
       FieldName = 'pedido'
       Required = True
-      Visible = False
     end
     object qMOfuncao: TIntegerField
       DisplayLabel = 'Fun'#231#227'o'
@@ -796,17 +758,11 @@ inherited OP: TOP
       '         on a.recno = op.amostra'
       '       join labtipo_recipiente r'
       '         on r.recno = a.recipiente'
-      ' where op.op = :ordem'
-      '   and op.pedido = :pedido')
+      ' where op.op = :ordem')
     Params = <
       item
         DataType = ftUnknown
         Name = 'ordem'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'pedido'
         ParamType = ptUnknown
       end>
     FetchRow = 50
@@ -818,11 +774,6 @@ inherited OP: TOP
         DataType = ftUnknown
         Name = 'ordem'
         ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'pedido'
-        ParamType = ptUnknown
       end>
     object qAmostrasop: TLargeintField
       FieldName = 'op'
@@ -830,9 +781,9 @@ inherited OP: TOP
       Visible = False
     end
     object qAmostraspedido: TIntegerField
+      DisplayLabel = 'Pedido'
       FieldName = 'pedido'
       Required = True
-      Visible = False
     end
     object qAmostrasamostra: TIntegerField
       DisplayLabel = 'Amostra'
