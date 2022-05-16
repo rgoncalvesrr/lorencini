@@ -1,37 +1,8 @@
 -----------------------------------------------------------------------------------------------------------------------
---- Atualização API
----
---- criar visão api.json_results
+--- Preparação
 -----------------------------------------------------------------------------------------------------------------------
-
-create table api.json_reports (
-	laudo integer not null,
-	content jsonb not null,
-	recno bigserial not null,
-	constraint pk_json_reports primary key(laudo),
-	constraint fk_json_reports_1 foreign key(laudo)
-		references public.labamostras_rel(recno)
-		on update cascade on delete cascade,
-	constraint uk_json_reports_1 unique(recno)
-);
-
-create index idx_json_reports_1 on api.json_reports using gin(content);
-
-alter table api.json_reports owner to lorencini;
-
-do $$
-begin
-   perform api.json_laudo(recno, true)
-      from labamostras_rel
-     where status = 4;
-end;$$
-
-do $$
-begin
-   perform api.json_laudo(recno, true)
-      from labamostras_rel
-     where status = 5;
-end;$$
+select setval('sys_tables_recno_seq', max(recno))
+  from sys_tables;
 
 -----------------------------------------------------------------------------------------------------------------------
 --- Atualização Financeira
@@ -43,6 +14,8 @@ create table sys_http_status_codes (
 	constraint pk_sys_http_status_codes primary key(code),
 	constraint uk_sys_http_status_codes_1 unique(label),
 	constraint uk_sys_http_status_codes_2 unique(recno));
+
+alter table sys_http_status_codes owner to lorencini;
 
 insert into sys_http_status_codes
 	(code, label)
@@ -382,6 +355,44 @@ alter table public.pedido
 	add analise bigint,
 	add constraint fk_pedido_3 foreign key(analise)
 		references public.cred_analise(recno) on update cascade on delete restrict;
+
+--- Aplicar visão vposição financeira !!!!!!!!!!!!!!!!!!!!!
+
+-----------------------------------------------------------------------------------------------------------------------
+--- Atualização API
+---
+--- criar visão api.json_results
+-----------------------------------------------------------------------------------------------------------------------
+
+create table api.json_reports (
+	laudo integer not null,
+	content jsonb not null,
+	recno bigserial not null,
+	constraint pk_json_reports primary key(laudo),
+	constraint fk_json_reports_1 foreign key(laudo)
+		references public.labamostras_rel(recno)
+		on update cascade on delete cascade,
+	constraint uk_json_reports_1 unique(recno)
+);
+
+create index idx_json_reports_1 on api.json_reports using gin(content);
+
+alter table api.json_reports owner to lorencini;
+
+do $$
+begin
+   perform api.json_laudo(recno, true)
+      from labamostras_rel
+     where status = 4;
+end;$$
+
+do $$
+begin
+   perform api.json_laudo(recno, true)
+      from labamostras_rel
+     where status = 5;
+end;$$
+
 
 -----------------------------------------------------------------------------------------------------------------------
 --- Atualização ORDEM DE PRODUÇÃO
