@@ -96,147 +96,147 @@ BEGIN
 
          ---- Gera ordem de serviço
          --------------------------------------------------------------------------------------------------------
-         -- select coalesce(max(os), 0) + 1
-         --   into ios
-         --   from tb_orcamentos;
+         select coalesce(max(os), 0) + 1
+           into ios
+           from tb_orcamentos;
 
-         -- tdescricao := format('OS gerada automaticamente pelo pedido %s as %s ', new.recno, to_char(localtimestamp, 'DD/MM/YYYY HH24:MI:SS'));
+         tdescricao := format('OS gerada automaticamente pelo pedido %s as %s ', new.recno, to_char(localtimestamp, 'DD/MM/YYYY HH24:MI:SS'));
 
-         -- if new.laboratorio then
-         --    -- Totalizando amostras
-         --    select sum(amostras)
-         --     into iqtd
-         --     from pedido_serv
-         --    where pedido = new.recno;
+         if new.laboratorio then
+            -- Totalizando amostras
+            select sum(amostras)
+             into iqtd
+             from pedido_serv
+            where pedido = new.recno;
 
-         --    tdescricao := tdescricao || LF || format('Quantidade de amostras do pedido %s.', to_char(iqtd, 'FM999999990'));
-         -- end if;
+            tdescricao := tdescricao || LF || format('Quantidade de amostras do pedido %s.', to_char(iqtd, 'FM999999990'));
+         end if;
 
-         -- tdescricao := tdescricao || LF || format('Obs. pedido: %s', trim(new.obs));
+         tdescricao := tdescricao || LF || format('Obs. pedido: %s', trim(new.obs));
 
-         -- -- Registra a OS como aprovada status = 1
-         -- insert into tb_orcamentos (
-         --    data,            idcliente,       descricao,          os,          status,
-         --    type_,           grupo,           item,               pedido,      pedidocliente,      indice,      condicaopg)
-         -- Values (
-         --    current_date,    new.codigo,      tdescricao,         ios,         sys_iif(new.laboratorio, 2, 3),
-         --    0,               new.grupo,       98,                 new.recno,   new.pedido_cliente, new.indice,  new.condicaopg)
-         -- returning recno into irecno;
+         -- Registra a OS como aprovada status = 1
+         insert into tb_orcamentos (
+            data,            idcliente,       descricao,          os,          status,
+            type_,           grupo,           item,               pedido,      pedidocliente,      indice,      condicaopg)
+         Values (
+            current_date,    new.codigo,      tdescricao,         ios,         sys_iif(new.laboratorio, 2, 3),
+            0,               new.grupo,       98,                 new.recno,   new.pedido_cliente, new.indice,  new.condicaopg)
+         returning recno into irecno;
 
-         -- -- Inserindo materiais
-         -- insert into orca_mat
-         --    (codigo,      qtd,    un,         unitario,    icms_compra,    total,     vl_venda,
-         --     material,    exptot, os)
-         -- select pm.material, pm.qtd, p.unidade, pm.unitario, pm.picms,       pm.vtotal, pm.vvenda,
-         --        p.descricao, true,   ios
-         --   from pedido_mat pm
-         --        join produtos p
-         --          on pm.material = p.codigo
-         --  where pm.pedido = new.recno;
+         -- Inserindo materiais
+         insert into orca_mat
+            (codigo,      qtd,    un,         unitario,    icms_compra,    total,     vl_venda,
+             material,    exptot, os)
+         select pm.material, pm.qtd, p.unidade, pm.unitario, pm.picms,       pm.vtotal, pm.vvenda,
+                p.descricao, true,   ios
+           from pedido_mat pm
+                join produtos p
+                  on pm.material = p.codigo
+          where pm.pedido = new.recno;
 
-         -- -- Inserindo Naturezas
-         -- insert into servicos_os
-         --    (os,  codserv, qtd, un,      valor,    vl_venda)
-         -- select ios, a.codserv, a.qtd, s.un, a.unitario, a.vvenda
-         --   from pedido_serv a
-         --        join servicos s
-         --          on s.codserv = a.codserv
-         --  where a.pedido = new.recno;
+         -- Inserindo Naturezas
+         insert into servicos_os
+            (os,  codserv, qtd, un,      valor,    vl_venda)
+         select ios, a.codserv, a.qtd, s.un, a.unitario, a.vvenda
+           from pedido_serv a
+                join servicos s
+                  on s.codserv = a.codserv
+          where a.pedido = new.recno;
 
-         -- -- Inserindo Mão-de-Obra
-         -- insert into tb_orcamentos_lucratividade_lorencini(
-         --    os,           func,            qtde,             unitario,      vl_venda,         percentual,
-         --    uteis_dias,   uteis_hrs_dia,   uteis_vlr_hora,   sabado_dias,   sabado_hrs_dia,   sabado_vlr_hora,
-         --    domingo_dias, domingo_hrs_dia, domingo_vlr_hora, adic_not_dias, adic_not_hrs_dia, adic_not_vlr_hora,
-         --    valor_total)
-         -- SELECT
-         --    ios,          funcao,           qtd,            unitario,      vvenda,            percentual,
-         --    uteis_dias,   uteis_hrs_dias,   uteis_vl_hrs,   sabado_dias,   sabado_hrs_dias,   sabado_vl_hrs,
-         --    domingo_dias, domingo_hrs_dias, domingo_vl_hrs, adic_not_dias, adic_not_hrs_dias, adic_not_vl_hrs,
-         --    total
-         -- FROM pedido_mo
-         -- where pedido = new.recno;
+         -- Inserindo Mão-de-Obra
+         insert into tb_orcamentos_lucratividade_lorencini(
+            os,           func,            qtde,             unitario,      vl_venda,         percentual,
+            uteis_dias,   uteis_hrs_dia,   uteis_vlr_hora,   sabado_dias,   sabado_hrs_dia,   sabado_vlr_hora,
+            domingo_dias, domingo_hrs_dia, domingo_vlr_hora, adic_not_dias, adic_not_hrs_dia, adic_not_vlr_hora,
+            valor_total)
+         SELECT
+            ios,          funcao,           qtd,            unitario,      vvenda,            percentual,
+            uteis_dias,   uteis_hrs_dias,   uteis_vl_hrs,   sabado_dias,   sabado_hrs_dias,   sabado_vl_hrs,
+            domingo_dias, domingo_hrs_dias, domingo_vl_hrs, adic_not_dias, adic_not_hrs_dias, adic_not_vl_hrs,
+            total
+         FROM pedido_mo
+         where pedido = new.recno;
 
-         -- perform cpDocParaDoc(
-         --    sys_origem('orca_grupo'), 1,
-         --    sys_origem('tb_orcamentos'), irecno);
+         perform cpDocParaDoc(
+            sys_origem('orca_grupo'), 1,
+            sys_origem('tb_orcamentos'), irecno);
 
          -- Associando despesas com a cobrança gerada
-         -- update fin_caixa
-         --    set os = ios
-         --  where pedido = new.recno;
+         update fin_caixa
+            set os = ios
+          where pedido = new.recno;
 
          -- Registrando as amostras para geração de relatórios
-         -- itable_ := sys_origem('pedido');
+         itable_ := sys_origem('pedido');
 
-         perform produzir_pedido(new.recno);
+         --perform produzir_pedido(new.recno);
 
          -- Serviços
-         -- if new.laboratorio then
-         --    ilastserv := -1;
+         if new.laboratorio then
+            ilastserv := -1;
 
-         --    for r in (
-         --       select p.amostra, p.codserv,  s.descri
-         --         from pedido_amostras p
-         --              join servicos s
-         --                on s.codserv = p.codserv
-         --        where p.pedido = new.recno
-         --        order by p.codserv, p.amostra)
-         --    loop
-         --       if ilastserv <> r.codserv then
-         --          select relato_recno
-         --            into irelato_recno
-         --            from labrel_serv
-         --           where codserv = r.codserv
-         --           limit 1;
+            for r in (
+               select p.amostra, p.codserv,  s.descri
+                 from pedido_amostras p
+                      join servicos s
+                        on s.codserv = p.codserv
+                where p.pedido = new.recno
+                order by p.codserv, p.amostra)
+            loop
+               if ilastserv <> r.codserv then
+                  select relato_recno
+                    into irelato_recno
+                    from labrel_serv
+                   where codserv = r.codserv
+                   limit 1;
 
-         --          ilastserv := r.codserv;
-         --       end if;
+                  ilastserv := r.codserv;
+               end if;
 
-         --       if irelato_recno is null then
-         --          raise '[[O serviço % - % do pedido % não possui tipo de laudos ativos.]]', r.codserv, r.descri, new.recno;
-         --       end if;
+               if irelato_recno is null then
+                  raise '[[O serviço % - % do pedido % não possui tipo de laudos ativos.]]', r.codserv, r.descri, new.recno;
+               end if;
 
-         --       -- Insere laudo em estado de digitação
-         --       insert into labamostras_rel
-         --          (amostra,  codserv,   relato_recno,  pedido,    os,  cliente,    destinatario)
-         --       values
-         --          (r.amostra, r.codserv, irelato_recno, new.recno, ios, new.cliente, new.destinatario);
-         --    end loop;
-         -- end if;
+               -- Insere laudo em estado de digitação
+               insert into labamostras_rel
+                  (amostra,  codserv,   relato_recno,  pedido,    os,  cliente,    destinatario)
+               values
+                  (r.amostra, r.codserv, irelato_recno, new.recno, ios, new.cliente, new.destinatario);
+            end loop;
+         end if;
 
-         -- if new.laboratorio then
-         --    ilastserv := -1;
+         if new.laboratorio then
+            ilastserv := -1;
 
-         --    for r in (
-         --       select p.amostra, p.codserv,  s.descri
-         --         from pedido_amostras p
-         --              join servicos s
-         --                on s.codserv = p.codserv
-         --        where p.pedido = new.recno
-         --        order by p.codserv, p.amostra)
-         --    loop
-         --       if ilastserv <> r.codserv then
-         --          select relato_recno
-         --            into irelato_recno
-         --            from labrel_serv
-         --           where codserv = r.codserv
-         --           limit 1;
+            for r in (
+               select p.amostra, p.codserv,  s.descri
+                 from pedido_amostras p
+                      join servicos s
+                        on s.codserv = p.codserv
+                where p.pedido = new.recno
+                order by p.codserv, p.amostra)
+            loop
+               if ilastserv <> r.codserv then
+                  select relato_recno
+                    into irelato_recno
+                    from labrel_serv
+                   where codserv = r.codserv
+                   limit 1;
 
-         --          ilastserv := r.codserv;
-         --       end if;
+                  ilastserv := r.codserv;
+               end if;
 
-         --       if irelato_recno is null then
-         --          raise '[[O serviço % - % do pedido % não possui tipo de laudos ativos.]]', r.codserv, r.descri, new.recno;
-         --       end if;
+               if irelato_recno is null then
+                  raise '[[O serviço % - % do pedido % não possui tipo de laudos ativos.]]', r.codserv, r.descri, new.recno;
+               end if;
 
-         --       -- Insere laudo em estado de digitação
-         --       insert into labamostras_rel
-         --          (amostra,  codserv,   relato_recno,  pedido,    os,  cliente,    destinatario)
-         --       values
-         --          (r.amostra, r.codserv, irelato_recno, new.recno, ios, new.cliente, new.destinatario);
-         --    end loop;
-         -- end if;
+               -- Insere laudo em estado de digitação
+               insert into labamostras_rel
+                  (amostra,  codserv,   relato_recno,  pedido,    os,  cliente,    destinatario)
+               values
+                  (r.amostra, r.codserv, irelato_recno, new.recno, ios, new.cliente, new.destinatario);
+            end loop;
+         end if;
       elsif old.status = 60 and new.status = 70 then -- Executado
          xlog.title := 'Pedido executado';
          perform log(xlog);
