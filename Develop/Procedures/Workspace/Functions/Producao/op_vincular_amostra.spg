@@ -1,0 +1,72 @@
+/**
+   Tenta associar amostra a uma ordem de produção
+
+	@author    Ricardo Gonçalves
+	@date      15/02/2022
+	@trigger
+
+   @param amostra_   amostra será associada a uma ordem de produção
+
+   @return ordem de produção a qual a amostra foi vinculada. Retorna null em caso de falha
+
+	Histórico
+	-------------------------------------------------------------------------------------------------------------------
+*/
+create or replace function op_vincular_amostra(
+   in amostra_ integer)
+returns integer as
+$$
+declare
+   _DIGITACAO  constant integer := 10;
+
+   r           record;   
+   ra          record;
+begin
+
+   select codigo, recipiente, estado, pedido
+     into ra
+     from labamostras
+    where recno = amostra_;
+
+   if not found then
+      raise '[[Amostra % não localizada no banco de dados.]]', amostra_;
+   end if;
+
+   if ra.estado <> 50 then
+      raise '[[Amostra % não está disponível para produção.]]', amostra_;
+   end if;
+
+   -- Tenta localizar um ordem de produção em aberto para associar a amostra
+   select op.op, ops.codserv
+     into r
+     from public.op
+          join public.op_servicos ops 
+            on ops.op = op.op 
+           and ops.pedido = ra.pedido 
+           and ops.qtd <> ops.amostras
+          join servicos s 
+            on s.codserv = ops.codserv 
+           and s.vidraria = ra.recipiente -- recipiente        
+    where op.cliente = ra.codigo 
+      and op.status = 10
+    limit 1;
+
+   -- Registra amostra na ordem de produção
+   if found then
+      insert into op_amostras
+         (op, pedido, codserv, amostra)
+      values
+         (r.op, ra.pedido, r.codserv, amostra_)
+      on conflict (op, pedido, codserv, amostra)
+         do nothing;
+
+      return r.op;
+   end if;
+
+   -- Tenta produzir o pedido, a rotina de produção do pedido localizará a amostra atual
+   r.op := op_produzir_pedido(ra.pedido);
+
+   return r.op;
+end;
+$$
+language plpgsql;

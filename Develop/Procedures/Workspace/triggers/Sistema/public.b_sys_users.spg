@@ -1,0 +1,52 @@
+/**
+   Checa se as alterações são válidas
+
+	@author    Ricardo Gonçalves
+	@date      11/06/2007
+	@trigger
+
+	@param  in_recno recno do laudo que terá os valores de refência atualizados
+
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+
+   08/06/2018  Ricardo Gonçalves.
+      [*]
+*/
+Create or Replace Function public.b_sys_users()
+Returns trigger as
+$$
+declare
+   vusername      public.sys_users.username%type;
+begin
+   if tg_op = 'DELETE' then
+      vusername := old.username;
+   else
+      vusername := new.username;
+   end if;
+
+   if tg_op <> 'INSERT' then
+      if not exists(
+         select 1
+           from public.sys_rlusers rlu
+                join public.sys_users u
+                  on u.username = rlu.username
+                 and u.active
+                join public.sys_roles r
+                  on r.recno = rlu.role
+                 and r.sys_
+          where rlu.username <> vusername)
+      then
+         raise '[[É necessário que haja, no mínimo, um usuário administrador ativo.]]';
+     end if;
+   end if;
+
+   if tg_op = 'DELETE' then
+      return old;
+   else
+      return new;
+   end if;
+end;
+$$
+language 'plpgsql';

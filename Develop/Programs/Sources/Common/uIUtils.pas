@@ -425,6 +425,10 @@ type
     procedure FillConstants(Text: String; var Tokens: TStringList; Token: Char = '"');
     function RefreshDataSet(DataSet: TDataSet): Boolean; overload;
     function RefreshDataSet(DataSet: TDataSet; Resync: Boolean): Boolean; overload;
+    function Crypt(const Value: string): string;
+    function Encripta(const Value: string): string;
+    function MD5(const Value: string): string; overload;
+    function MD5File(const AFileName: string): string;
 
     property Out: TOut read fOut;
   end;
@@ -496,7 +500,7 @@ Const
 
 implementation
 
-uses ZAbstractRODataset, mcUtils, NetWorks, uIConnection, uHelpers;
+uses ZAbstractRODataset, mcUtils, NetWorks, uIConnection, uHelpers, IdHashMessageDigest;
 
 { TIUtils }
 
@@ -1744,6 +1748,15 @@ begin
   fOut:= TOut.Create;
 end;
 
+function TIGUtils.Crypt(const Value: string): string;
+var
+  c: char;
+begin
+  Result := '';
+  for c in Value do
+    Result := AnsiChar(ord(c) xor 33) + Result;
+end;
+
 destructor TIGUtils.Destroy;
 begin
   FreeAndNil(fOut);
@@ -1756,6 +1769,16 @@ begin
 
   if Dividendo > 0 then
     Result:= Dividendo / Divisor;
+end;
+
+function TIGUtils.Encripta(const Value: string): string;
+var
+  c: char;
+begin
+  Result := '';
+
+  for c in Value do
+    Result := Result + char(ord(c) xor _NUM_ENCRIPTA);
 end;
 
 function TIGUtils.Float2StrSQL(Valor: Double): string;
@@ -1834,6 +1857,34 @@ var
 begin
    GetSystemInfo({var}si);
    Result := si.dwNumberOfProcessors;
+end;
+
+function TIGUtils.MD5(const Value: string): string;
+var
+  idmd5: TIdHashMessageDigest5;
+begin
+  idmd5 := TIdHashMessageDigest5.Create;
+  try
+    Result := LowerCase(idmd5.HashStringAsHex(Value));
+  finally
+    FreeAndNil(idmd5);
+  end;
+end;
+
+function TIGUtils.MD5File(const AFileName: string): string;
+var
+  xMD5: TIdHashMessageDigest5;
+  xArquivo: TFileStream;
+begin
+  xMD5 := TIdHashMessageDigest5.Create;
+  xArquivo := TFileStream.Create(AFileName, fmOpenRead OR fmShareDenyWrite);
+
+  try
+    Result := xMD5.HashStreamAsHex(xArquivo);
+  finally
+    xArquivo.Free;
+    xMD5.Free;
+  end;
 end;
 
 function TIGUtils.RefreshDataSet(DataSet: TDataSet; Resync: Boolean): Boolean;

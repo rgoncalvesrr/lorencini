@@ -4,60 +4,407 @@
 	@author    Ricardo Gonçalves
 	@date      26/07/2016 09:19:22
 	@trigger
-	
-	@param  in_codigo código do cliente que será verificado
-	
-	@return text retorna texto de inconsistência ou texto vázio no caso de não haver bloqueios
+
+	@param   cliente_       código do cliente que será verificado
+   @param   valor_         valor submetido a análise de crédito
+   @param   source_table_  tabela de origem
+   @param   source_recno_  registro de origem
+
+	@return número da análise processada. A rotina consumidora deve verificar o status da análise
 
 	Histórico
 	---------------------------------------------------------------------------------------------------------------------
    Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+
+   22/04/2022  Ricardo Gonçalves
+      [*] Atualização da rotina para utilizar a ficha de posição financeira
 */
 Create or Replace Function fin_ckbloqueio(
-    in in_codigo integer)
-Returns text AS
+    in cliente_      integer,
+    in valor_        moeda$,
+    in source_table_ varchar,
+    in source_recno_ integer)
+Returns bigint AS
 $$
 declare
-    r       record;
-    rtit    record;
-    msg     text;
-begin
-   msg := '';
+   _PENDENTE          constant integer := 0; -- Processando pelo sistema
+   _ANALISE           constant integer := 1; -- Em Análise
+   _APROVADO_SISTEMA  constant integer := 2; -- Aprovado Sistema
+   _APROVADO_ANALISTA constant integer := 3; -- Aprovado Analista
+   _REPROVADO         constant integer := 4; -- Reprovado
 
-   -- verificação de bloqueio manual
-   select empresa, restricao, restrmotiv, situacao
-     into r
-     from tbclientes
-    where codigo = in_codigo;
+   -- Tipos de consulta automática SERASA
+   _SERASAPF         constant integer := 4; -- Crednet Light + Protesto Estadual
+   _SERASAPJ         constant integer := 8; -- Crednet Light + Protesto Estadual
+
+   r                 record;
+   obs               text;
+   palavra           text;
+   cred_lore         text[];
+   cred_serasa       text[];
+   consultar_serasa  boolean := true;
+   ra                public.cred_analise%rowtype;
+   analise           public.cred_analise%rowtype;
+
+   emissao_          tspeed.cred_consultas.emissao%type;
+   status_           tspeed.cred_consultas.status%type;
+   regular_          tspeed.cred_situacoes.regular%type;
+   descri_           tspeed.cred_situacoes.descri%type;
+   qtd_              tspeed.cred_resumos.qtd%type;
+   total_            tspeed.cred_resumos.total%type;
+
+   table_            public.sys_tables.recno%type;
+begin
+   obs := null;
+   table_ := null;
+
+   if source_table_ is not null then
+      table_ := sys_origem(source_table_);
+   end if;
+
+   -- Localiza análise de crédito aberta
+   select
+      c.empresa, c.restricao, c.restrmotiv, c.situacao, p.titulos,  p.titulos_quitados_atraso,
+      p.titulos_atraso, p.titulos_a_vencer, p.ptitulos_atrasados, p.total, p.recebido, p.receber,
+      p.atrasado, p.pri_compra, p.ult_compra, p.menor_compra, p.maior_compra, p.maior_atraso,
+      a.recno, sys_iif(c.cnpj is not null, _SERASAPJ, _SERASAPF) tipo, a.status
+   into
+      r
+   from
+      tbclientes c
+   left join
+      vposicao_financeira p on
+      p.cliente = c.codigo
+   left join
+      public.cred_analise a on
+      a.cliente = c.codigo and
+      a.status <= _ANALISE
+   where
+      c.codigo = cliente_;
 
    if not Found then
-      msg := format('Não foi possível localizar um cliente com o código %s', in_codigo);
+      raise '[[Cliente com o código % não foi localizado.]]', cliente_;
    end if;
 
-   if msg = '' then
-      if coalesce(r.situacao, 'INATIVO') = 'INATIVO' then
-         msg := format('O cliente "%s - %s" está inativo.', in_codigo, trim(r.empresa));
-      elsif coalesce(r.restricao, 'NÃO') = 'SIM' then
-         msg := format('O cliente "%s - %s" possui bloqueio manual. Motivo: "%s".', in_codigo, trim(r.empresa), r.restrmotiv);
+   -- Ficha financeira
+   r.titulos := coalesce(r.titulos, 0);
+   r.titulos_quitados_atraso := coalesce(r.titulos_quitados_atraso, 0);
+   r.titulos_atraso := coalesce(r.titulos_atraso, 0);
+   r.titulos_a_vencer := coalesce(r.titulos_a_vencer, 0);
+   r.ptitulos_atrasados := coalesce(r.ptitulos_atrasados, 0);
+   r.total := coalesce(r.total, 0);
+   r.recebido := coalesce(r.recebido, 0);
+   r.receber := coalesce(r.receber, 0);
+   r.atrasado := coalesce(r.atrasado, 0);
+   r.pri_compra := r.pri_compra;
+   r.ult_compra := r.ult_compra;
+   r.menor_compra := coalesce(r.menor_compra, 0);
+   r.maior_compra := coalesce(r.maior_compra, 0);
+   r.maior_atraso := coalesce(r.maior_atraso, 0);
+
+   -- Prepara análise
+   if r.recno is null then
+      analise.status := _PENDENTE;
+      analise.cliente := cliente_;
+      analise.valor := valor_;
+      analise.source_table := table_;
+      analise.source_recno := source_recno_;
+      analise.titulos = r.titulos;
+      analise.titulos_quitados_atraso := r.titulos_quitados_atraso;
+      analise.titulos_em_atraso := r.titulos_atraso;
+      analise.titulos_a_receber := r.titulos_a_vencer;
+      analise.ptitulos_atrasados := r.ptitulos_atrasados;
+      analise.total := r.total;
+      analise.recebido := r.recebido;
+      analise.receber := r.receber;
+      analise.atrasado := r.atrasado;
+      analise.pri_compra := r.pri_compra;
+      analise.ult_compra := r.ult_compra;
+      analise.menor_compra := r.menor_compra;
+      analise.maior_compra := r.maior_compra;
+      analise.maior_atraso := r.maior_atraso;
+
+      analise := fin_ckbloqueio_salvar(analise);
+   else
+      if sys_flag('cred_analise', analise.recno) or (r.status = _ANALISE) then
+         return r.recno;
+      end if;
+
+      -- Recupera análise de crédito em processamento
+      select
+         *
+      into
+         analise
+      from
+         public.cred_analise
+      where
+         recno = r.recno;
+   end if;
+
+   perform sys_flag_mark('cred_analise', analise.recno);
+
+   --------------------------------------------------------------------------------------------------------------------
+   --- Restrições Internas
+   --------------------------------------------------------------------------------------------------------------------
+   if coalesce(r.restricao, 'NÃO') = 'SIM' then
+      cred_lore := array_append(cred_lore, format('Bloqueio manual: "%s".', r.restrmotiv));
+      consultar_serasa := false;
+      analise.status := _ANALISE;
+   end if;
+
+   if r.titulos_quitados_atraso > 0 then
+      palavra := 'títulos quitados';
+      if r.titulos_quitados_atraso = 1 then
+         palavra := 'título quitado';
+      end if;
+
+      cred_lore := array_append(cred_lore, format('%s %s em atraso.', r.titulos_quitados_atraso, palavra));
+      analise.status := _ANALISE;
+   end if;
+
+   if r.titulos_atraso > 0 then
+      palavra := 'títulos';
+      if r.titulos_atraso = 1 then
+         palavra := 'título';
+      end if;
+
+      cred_lore := array_append(cred_lore, format('%s %s em atraso no valor R$ %s.', r.titulos_atraso, palavra, to_char(r.atrasado, 'FM999G999G990D90')));
+      consultar_serasa := false;
+      analise.status := _ANALISE;
+   end if;
+
+   if r.ptitulos_atrasados > 10 then
+      cred_lore := array_append(cred_lore, format('Índice de títulos atrasados: %s%%. Limite: 10%%.', to_char(r.ptitulos_atrasados, 'FM990')));
+      analise.status := _ANALISE;
+   end if;
+
+   --------------------------------------------------------------------------------------------------------------------
+   --- Restrições Externas - SERASA
+   --------------------------------------------------------------------------------------------------------------------
+   if analise.serasa is null and consultar_serasa then
+      -- Tenta localiza um consulta ao Serasa com emissão inferior a 10 dias
+      -- t - 10 dias
+      emissao_ := clock_timestamp() - interval '10 days';
+
+      -- Tentando recuperar última análise para este cliente
+      select
+         *
+      into
+         ra
+      from
+         public.cred_analise
+      where
+         cliente = cliente_ and
+         status > _ANALISE and
+         emissao > emissao_
+      order by
+         recno desc;
+
+      if not FOUND then -- análise anterior não existe
+         select
+            recno
+         into
+            analise.serasa
+         from
+            tspeed.cred_consultas
+         where
+            cliente = cliente_ and
+            emissao > emissao_ and
+            env = 'prod';
+      else
+         -- Usa consulta ao serasa da análise anterior caso tenha sido uma aprovação automática
+         if ra.status < _APROVADO_ANALISTA then
+            analise.serasa := ra.serasa;
+         end if;
+      end if;
+
+      -- consulta SERASA
+      if analise.serasa is null then
+         analise.serasa := public.cred_consultar_serasa(analise, r.tipo);
       end if;
    end if;
 
-   -- Checa pendências financeiras
-   if msg = '' then
-      select count(*) titulos, sum(f.valor) saldo
-        into rtit
-        from fin_receber f
-       where f.vencimento_real < current_date + 1
-         and f.baixa is null
-         and f.id_cli = in_codigo;
+   status_ := null;
 
-      if rtit.titulos > 0 then
-         msg := format('O cliente "%s - %s" possui %s título(s) em atraso no valor de %s. Para detalhes consulte a tela de "Posição Financeira"',
-            in_codigo, trim(r.empresa), rtit.titulos, to_char(rtit.saldo, 'L FM999G999G999D90'));
+   if analise.serasa is not null then
+      select 
+         c.status, s.regular, s.descri
+      into 
+         status_, regular_, descri_
+      from 
+         tspeed.cred_consultas c
+      join 
+         tspeed.cred_situacoes s on 
+         s.recno = c.situacao
+      where 
+         c.recno = analise.serasa;
+
+      if not regular_ then
+         cred_serasa := array_append(cred_serasa, format('Documento irregular. Motivo: %s', descri_));
+         analise.status := _ANALISE;
+      end if;
+
+      if status_ = 'compendencias' then
+         -- Cria resumo de pendências
+         select 
+            sum(qtd), sum(total)
+         into 
+            qtd_,     total_
+         from 
+            tspeed.cred_resumos
+         where 
+            consulta = analise.serasa;
+         
+         cred_serasa := array_append(cred_serasa, format('%s título(s) pendente(s) no valor de R$ %s',
+               to_char(qtd_, 'FM999G990'), to_char(total_, 'FM999G999G990D00')));
+
+         analise.status := _ANALISE;
       end if;
    end if;
 
-   return msg;
+   analise.obs := null;
+
+   if analise.status = _ANALISE then
+      analise.obs := fin_ckbloqueio_obs('Restrições Internas', cred_lore, analise.obs);
+      analise.obs := fin_ckbloqueio_obs('Restrições Serasa', cred_serasa, analise.obs);
+   end if;
+
+   if analise.status = _PENDENTE and coalesce(status_, 'sempendencias') = 'sempendencias' then
+      analise.status := _APROVADO_SISTEMA;
+   end if;
+
+   analise := fin_ckbloqueio_salvar(analise);
+
+   perform sys_flag_del('cred_analise', analise.recno);
+
+   return analise.recno;
 end;
 $$
 language 'plpgsql';
+
+Create or Replace Function fin_ckbloqueio(
+    in cliente_      integer,
+    in valor_        moeda$)
+Returns bigint AS
+$$
+begin
+   return fin_ckbloqueio(cliente_, valor_, null, null);
+end;
+$$
+language 'plpgsql';
+
+/**
+   Monta o conteúdo da observação da análise de crédito
+
+   @author    Ricardo Gonçalves
+   @date      22/04/2022
+   @trigger   fin_ckbloqueio_obs B IUD
+
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+create or replace function fin_ckbloqueio_obs(
+   in titulo_ text,
+   in conteudo_ text[],
+   in obs_ text)
+returns text as
+$$
+declare
+   _CRLF    constant varchar := chr(13) + chr(10);
+
+   obs_out  text;
+   i        integer;
+begin
+
+   obs_out := obs_;
+
+   if conteudo_ is null or array_length(conteudo_, 1) = 0 then
+      return obs_out;
+   end if;
+
+   obs_out := coalesce(obs_, '');
+
+   if titulo_ is not null then
+      if obs_out <> '' then
+         obs_out := format('%s%s', obs_out, _CRLF);
+      end if;
+
+      obs_out := format('%s%s', obs_out, titulo_);
+   end if;
+
+   for i in 1..array_length(conteudo_, 1) loop
+      if obs_out <> '' then
+         obs_out := format('%s%s', obs_out, _CRLF);
+      end if;
+
+      obs_out := format('%s  - %s', obs_out, conteudo_[i]);
+   end loop;
+
+   return obs_out;
+end;
+$$
+language plpgsql;
+
+/**
+   Salva análise no banco de dados
+
+   @author    Ricardo Gonçalves
+   @date      23/04/2022
+   @trigger   fin_ckbloqueio B IUD
+
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+create or replace function fin_ckbloqueio_salvar(
+   in analise_ public.cred_analise)
+returns public.cred_analise as
+$$
+begin
+   if analise_.recno is null then
+      insert into public.cred_analise
+         (status,                      cliente,                          source_table,               source_recno,
+          titulos,                     titulos_quitados_atraso,          titulos_em_atraso,          titulos_a_receber,
+          ptitulos_atrasados,          total,                            recebido,                   receber,
+          atrasado,                    pri_compra,                       ult_compra,                 menor_compra,
+          maior_compra,                maior_atraso,                     valor,                      serasa,
+          obs)
+      values
+         (analise_.status,             analise_.cliente,                 analise_.source_table,      analise_.source_recno,
+          analise_.titulos,            analise_.titulos_quitados_atraso, analise_.titulos_em_atraso, analise_.titulos_a_receber,
+          analise_.ptitulos_atrasados, analise_.total,                   analise_.recebido,          analise_.receber,
+          analise_.atrasado,           analise_.pri_compra,              analise_.ult_compra,        analise_.menor_compra,
+          analise_.maior_compra,       analise_.maior_atraso,            analise_.valor,             analise_.serasa,
+          analise_.obs)
+      returning 
+         recno into analise_.recno;
+   else
+      update
+         public.cred_analise
+      set
+         status = analise_.status,
+         titulos = analise_.titulos,
+         titulos_quitados_atraso = analise_.titulos_quitados_atraso,
+         titulos_em_atraso = analise_.titulos_em_atraso,
+         titulos_a_receber = analise_.titulos_a_receber,
+         ptitulos_atrasados = analise_.ptitulos_atrasados,
+         total = analise_.total,
+         recebido = analise_.recebido,
+         receber = analise_.receber,
+         atrasado = analise_.atrasado,
+         pri_compra = analise_.pri_compra,
+         ult_compra = analise_.ult_compra,
+         menor_compra = analise_.menor_compra,
+         maior_compra = analise_.maior_compra,
+         maior_atraso = analise_.maior_atraso,
+         serasa = analise_.serasa,
+         obs = analise_.obs
+      where
+         recno = analise_.recno;
+   end if;
+
+   return analise_;
+end
+$$
+language plpgsql;

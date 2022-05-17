@@ -1,0 +1,483 @@
+{
+    "report": 182207,
+    "order": 12852,
+    "revision": null,
+    "status": "Liberado",
+    "created": "2021-12-01T09:12:58.27489",
+    "received": "2021-12-01T08:19:59.513419",
+    "executed_at": "2021-12-01T11:19:29.361054",
+    "emmited": "2021-12-01T14:21:59.2793",
+    "nextCollect": "2022-11-24",
+    "reportType": 33,
+    "typetitle": "Laudo Físico Químico",
+    "typeabbreviation": "FQ",
+    "typedescription": "ANALISE FISICO QUIM. COMPLETA2",
+    "description": "ANALISE FISICO QUIMICA COMPLETA EM FLUIDOS ISOLANTES - NBR 10576 ",
+    "diagnostic": "Os valores obtidos estão de acordo com os limites recomendados.",
+    "recommendation": "Recomenda-se uma nova amostragem em 01 ano.",
+    "observation": null,
+    "sign": "56d9ba4ec637e6b48278c3a7837db9e971cc73de6e48412ddbc2a45c66c99929a6123d7454d9cadb4efc053b3a256c3bc0c4b120d5b75a75d0c34ce690ce78ae",
+    "criticality": {
+        "recno": 1,
+        "label": "Rotina",
+        "level": "Normal"
+    },
+    "customer": null,
+    "sample": {
+        "sample": 205625,
+        "ticket": 205625,
+        "type": "Após Recondicionamento / Substituição",
+        "sampler": "DENILDO / ALUIZIO",
+        "tenvironment": 35,
+        "tsample": 47,
+        "tdevice": 47.00,
+        "humidity": 48,
+        "voltage": 69.0000,
+        "collect_date": "2021-11-24",
+        "expiration_at": "2021-10-30",
+        "samplestatus": "Consumida",
+        "created_at": "2021-08-31T08:09:45.019452",
+        "emitted_at": "2021-08-31T08:09:45.019452",
+        "sent_at": "2021-08-31T08:58:36.598099",
+        "received_at": "2021-12-01T08:19:59.513419",
+        "released": "2021-12-01T09:31:59.385683",
+        "consumed_at": 800.00000,
+        "cancelled_at": null
+    },
+    "device": {
+        "serie": "KA2450A001",
+        "name": "SE ALCÂNTARA - 02T1",
+        "status": "Operação",
+        "familyname": null,
+        "manufacturer": "TRAFO",
+        "insulatorname": "Óleo Mineral",
+        "typename": "Transformador de Potencia",
+        "typeabreviation": "TPA",
+        "local": "SE ALCÂNTARA",
+        "substation": null,
+        "tag": "02T1",
+        "volume": 2848,
+        "power": 5.0000,
+        "powera": 5.0000,
+        "powerb": 6.2500,
+        "powerunit": "MVA",
+        "phases": 3,
+        "lote": null,
+        "impedance": 6.6500,
+        "impedancea": 6.6500,
+        "impedanceb": 0.0000,
+        "voltage": 69.0000,
+        "voltagea": 69.0000,
+        "voltageb": 13.8000,
+        "voltageunit": "KV",
+        "electriccurrent": 0.0000,
+        "electriccurrenta": 0.0000,
+        "electriccurrentb": 0.0000,
+        "year": 2001
+    },
+    "results": {
+        "assays": [
+            {
+                "assay": 18,
+                "title": "Cor",
+                "unit": null,
+                "method": "NBR-14483",
+                "ref_type": null,
+                "ref_value": null,
+                "U": 0.0000,
+                "result": 2.0000,
+                "history": [
+                    {
+                        "report": 166783,
+                        "emmited_at": "2021-04-01T13:52:10.499165",
+                        "result": 2.0000
+                    },
+                    {
+                        "report": 148334,
+                        "emmited_at": "2020-04-09T14:16:42.727762",
+                        "result": 2.0000
+                    },
+                    {
+                        "report": 125371,
+                        "emmited_at": "2019-03-08T14:15:35.182458",
+                        "result": 2.0000
+                    },
+                    {
+                        "report": 110688,
+                        "emmited_at": "2018-05-08T15:47:33.156771",
+                        "result": 2.0000
+                    },
+                    {
+                        "report": 83003,
+                        "emmited_at": "2016-07-08T14:40:04.628067",
+                        "result": 2.0000
+                    },
+                    {
+                        "report": 52273,
+                        "emmited_at": "2015-08-04T16:51:19.882275",
+                        "result": 2.0000
+                    },
+                    {
+                        "report": 38753,
+                        "emmited_at": "2014-08-25T09:27:02.30295",
+                        "result": 1.5000
+                    },
+                    {
+                        "report": 25932,
+                        "emmited_at": "2013-08-26T14:29:44.992168",
+                        "result": 1.5000
+                    },
+                    {
+                        "report": 8184,
+                        "emmited_at": "2012-04-13T17:47:10.031674",
+                        "result": 1.5000
+                    }
+                ]
+            },
+            {
+                "assay": 19,
+                "title": "Densidade a 20/4 ºC",
+                "unit": null,
+                "method": "NBR-7148",
+                "ref_type": null,
+                "ref_value": null,
+                "U": 0.0000,
+                "result": 0.8900,
+                "history": [
+                    {
+                        "report": 166783,
+                        "emmited_at": "2021-04-01T13:52:10.499165",
+                        "result": 0.8900
+                    },
+                    {
+                        "report": 148334,
+                        "emmited_at": "2020-04-09T14:16:42.727762",
+                        "result": 0.8990
+                    },
+                    {
+                        "report": 125371,
+                        "emmited_at": "2019-03-08T14:15:35.182458",
+                        "result": 0.8890
+                    },
+                    {
+                        "report": 110688,
+                        "emmited_at": "2018-05-08T15:47:33.156771",
+                        "result": 0.8910
+                    },
+                    {
+                        "report": 83003,
+                        "emmited_at": "2016-07-08T14:40:04.628067",
+                        "result": 0.8910
+                    },
+                    {
+                        "report": 52273,
+                        "emmited_at": "2015-08-04T16:51:19.882275",
+                        "result": 0.8940
+                    },
+                    {
+                        "report": 38753,
+                        "emmited_at": "2014-08-25T09:27:02.30295",
+                        "result": 0.8900
+                    },
+                    {
+                        "report": 25932,
+                        "emmited_at": "2013-08-26T14:29:44.992168",
+                        "result": 0.8900
+                    },
+                    {
+                        "report": 8184,
+                        "emmited_at": "2012-04-13T17:47:10.031674",
+                        "result": 0.8910
+                    }
+                ]
+            },
+            {
+                "assay": 20,
+                "title": "Fator de Potência a 100 ºC",
+                "unit": "%",
+                "method": "NBR-12133",
+                "ref_type": "Max. ",
+                "ref_value": 20.0000,
+                "U": 0.0000,
+                "result": 0.1700,
+                "history": [
+                    {
+                        "report": 166783,
+                        "emmited_at": "2021-04-01T13:52:10.499165",
+                        "result": 0.9300
+                    },
+                    {
+                        "report": 148334,
+                        "emmited_at": "2020-04-09T14:16:42.727762",
+                        "result": 1.0800
+                    },
+                    {
+                        "report": 125371,
+                        "emmited_at": "2019-03-08T14:15:35.182458",
+                        "result": 0.9300
+                    },
+                    {
+                        "report": 110688,
+                        "emmited_at": "2018-05-08T15:47:33.156771",
+                        "result": 0.6900
+                    },
+                    {
+                        "report": 83003,
+                        "emmited_at": "2016-07-08T14:40:04.628067",
+                        "result": 1.1000
+                    },
+                    {
+                        "report": 52273,
+                        "emmited_at": "2015-08-04T16:51:19.882275",
+                        "result": 1.2000
+                    },
+                    {
+                        "report": 38753,
+                        "emmited_at": "2014-08-25T09:27:02.30295",
+                        "result": 4.9000
+                    },
+                    {
+                        "report": 25932,
+                        "emmited_at": "2013-08-26T14:29:44.992168",
+                        "result": 1.0000
+                    },
+                    {
+                        "report": 8184,
+                        "emmited_at": "2012-04-13T17:47:10.031674",
+                        "result": 1.2600
+                    }
+                ]
+            },
+            {
+                "assay": 21,
+                "title": "Indice de Neutralização",
+                "unit": "mg KOH/g",
+                "method": "NBR-14248",
+                "ref_type": "Max. ",
+                "ref_value": 0.2000,
+                "U": 0.0000,
+                "result": 0.0100,
+                "history": [
+                    {
+                        "report": 166783,
+                        "emmited_at": "2021-04-01T13:52:10.499165",
+                        "result": 0.0100
+                    },
+                    {
+                        "report": 148334,
+                        "emmited_at": "2020-04-09T14:16:42.727762",
+                        "result": 0.0400
+                    },
+                    {
+                        "report": 125371,
+                        "emmited_at": "2019-03-08T14:15:35.182458",
+                        "result": 0.0100
+                    },
+                    {
+                        "report": 110688,
+                        "emmited_at": "2018-05-08T15:47:33.156771",
+                        "result": 0.0200
+                    },
+                    {
+                        "report": 83003,
+                        "emmited_at": "2016-07-08T14:40:04.628067",
+                        "result": 0.0200
+                    },
+                    {
+                        "report": 52273,
+                        "emmited_at": "2015-08-04T16:51:19.882275",
+                        "result": 0.0200
+                    },
+                    {
+                        "report": 38753,
+                        "emmited_at": "2014-08-25T09:27:02.30295",
+                        "result": 0.0100
+                    },
+                    {
+                        "report": 25932,
+                        "emmited_at": "2013-08-26T14:29:44.992168",
+                        "result": 0.0200
+                    },
+                    {
+                        "report": 8184,
+                        "emmited_at": "2012-04-13T17:47:10.031674",
+                        "result": 0.1100
+                    }
+                ]
+            },
+            {
+                "assay": 34,
+                "title": "Rigidez Dielétrica",
+                "unit": "kV",
+                "method": "NBR-6869",
+                "ref_type": "Min. ",
+                "ref_value": 45.0000,
+                "U": 0.0000,
+                "result": 56.0000,
+                "history": [
+                    {
+                        "report": 166783,
+                        "emmited_at": "2021-04-01T13:52:10.499165",
+                        "result": 69.0000
+                    },
+                    {
+                        "report": 148334,
+                        "emmited_at": "2020-04-09T14:16:42.727762",
+                        "result": 48.0000
+                    },
+                    {
+                        "report": 125371,
+                        "emmited_at": "2019-03-08T14:15:35.182458",
+                        "result": 47.0000
+                    },
+                    {
+                        "report": 110688,
+                        "emmited_at": "2018-05-08T15:47:33.156771",
+                        "result": 42.0000
+                    },
+                    {
+                        "report": 83003,
+                        "emmited_at": "2016-07-08T14:40:04.628067",
+                        "result": 92.0000
+                    },
+                    {
+                        "report": 52273,
+                        "emmited_at": "2015-08-04T16:51:19.882275",
+                        "result": 50.0000
+                    },
+                    {
+                        "report": 38753,
+                        "emmited_at": "2014-08-25T09:27:02.30295",
+                        "result": 38.0000
+                    },
+                    {
+                        "report": 25932,
+                        "emmited_at": "2013-08-26T14:29:44.992168",
+                        "result": 39.0000
+                    },
+                    {
+                        "report": 8184,
+                        "emmited_at": "2012-04-13T17:47:10.031674",
+                        "result": 55.0000
+                    }
+                ]
+            },
+            {
+                "assay": 23,
+                "title": "Tensão Interfacial, a 25 ºC",
+                "unit": "mN/m",
+                "method": "NBR-6234",
+                "ref_type": "Min. ",
+                "ref_value": 20.0000,
+                "U": 0.0000,
+                "result": 35.0000,
+                "history": [
+                    {
+                        "report": 166783,
+                        "emmited_at": "2021-04-01T13:52:10.499165",
+                        "result": 35.0000
+                    },
+                    {
+                        "report": 148334,
+                        "emmited_at": "2020-04-09T14:16:42.727762",
+                        "result": 30.0000
+                    },
+                    {
+                        "report": 125371,
+                        "emmited_at": "2019-03-08T14:15:35.182458",
+                        "result": 35.0000
+                    },
+                    {
+                        "report": 110688,
+                        "emmited_at": "2018-05-08T15:47:33.156771",
+                        "result": 36.0000
+                    },
+                    {
+                        "report": 83003,
+                        "emmited_at": "2016-07-08T14:40:04.628067",
+                        "result": 33.0000
+                    },
+                    {
+                        "report": 52273,
+                        "emmited_at": "2015-08-04T16:51:19.882275",
+                        "result": 31.0000
+                    },
+                    {
+                        "report": 38753,
+                        "emmited_at": "2014-08-25T09:27:02.30295",
+                        "result": 36.0000
+                    },
+                    {
+                        "report": 25932,
+                        "emmited_at": "2013-08-26T14:29:44.992168",
+                        "result": 34.0000
+                    },
+                    {
+                        "report": 8184,
+                        "emmited_at": "2012-04-13T17:47:10.031674",
+                        "result": 34.0000
+                    }
+                ]
+            },
+            {
+                "assay": 24,
+                "title": "Teor de Água",
+                "unit": "ppm",
+                "method": "NBR-10710",
+                "ref_type": "Max. ",
+                "ref_value": 15.0000,
+                "U": 0.0000,
+                "result": 2.0000,
+                "history": [
+                    {
+                        "report": 166783,
+                        "emmited_at": "2021-04-01T13:52:10.499165",
+                        "result": 4.0000
+                    },
+                    {
+                        "report": 148334,
+                        "emmited_at": "2020-04-09T14:16:42.727762",
+                        "result": 8.0000
+                    },
+                    {
+                        "report": 125371,
+                        "emmited_at": "2019-03-08T14:15:35.182458",
+                        "result": 11.0000
+                    },
+                    {
+                        "report": 110688,
+                        "emmited_at": "2018-05-08T15:47:33.156771",
+                        "result": 9.0000
+                    },
+                    {
+                        "report": 83003,
+                        "emmited_at": "2016-07-08T14:40:04.628067",
+                        "result": 5.0000
+                    },
+                    {
+                        "report": 52273,
+                        "emmited_at": "2015-08-04T16:51:19.882275",
+                        "result": 4.0000
+                    },
+                    {
+                        "report": 38753,
+                        "emmited_at": "2014-08-25T09:27:02.30295",
+                        "result": 8.0000
+                    },
+                    {
+                        "report": 25932,
+                        "emmited_at": "2013-08-26T14:29:44.992168",
+                        "result": 12.0000
+                    },
+                    {
+                        "report": 8184,
+                        "emmited_at": "2012-04-13T17:47:10.031674",
+                        "result": 16.0000
+                    }
+                ]
+            }
+        ],
+        "legend": "LQ - Limite de quantificação. / <2 - Resultado abaixo do limite de quantificação. / U - Incerteza expandida de medição relatada em valor, declarada como a incerteza padrão de medição multiplicada pelo fator de abrangência k=2, de tal forma que a probabilidade de abrangência corresponda a aproximadamente 95%.",
+        "decisionRule": "O laboratório químico adota como regra de decisão a somatória da somatória da estimativa de incerteza. Todos os resultados neste relatório consideram esta regra."
+    }
+}

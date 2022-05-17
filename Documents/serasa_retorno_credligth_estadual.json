@@ -1,0 +1,451 @@
+{
+   "data": {
+      "message": {
+         "header": [
+            {
+               "Tipo": "B49C",
+               "estacao": "",
+               "CnpjCpf": "003470727000120",
+               "TipoPessoa": "J",
+               "Base": "C",
+               "Modalidade": "OO",
+               "ValorConsulta": 20,
+               "CentroDeCusto": "0000000000000",
+               "Codificado": "N",
+               "QuantidadeRegistro": "99",
+               "Conversa": "S",
+               "Funcao": "FIM",
+               "TpConsulta": "A",
+               "Atualiza": "S",
+               "IdentTermIST": "",
+               "Passa": "",
+               "Delts": "S",
+               "Cobra": "S",
+               "ConsCollec": "",
+               "Localizador": "",
+               "DocCredor": "",
+               "QtdCheque": "",
+               "Branco": "N",
+               "Bureau": "S",
+               "Alerta": "",
+               "Login": "18145306",
+               "Resposta": "",
+               "PeriodoCompro": "",
+               "PeriodoEndereco": "",
+               "DtQuality": "",
+               "Prodorigem": "",
+               "TranOrigem": "0",
+               "Consultante": "04824941000109",
+               "QtdCompra": 0,
+               "Negativos": "",
+               "Cheque": "",
+               "DataConsul": "2022/03/24",
+               "HoraConsul": "15:13:23",
+               "TotalReg": 41,
+               "QtdReg1": 41,
+               "CodTab": "",
+               "AcessoRecheque": "",
+               "TemOcorrenciaRecheque": ""
+            }
+         ],
+         "Consulta": [
+            {
+               "Tipo": "N001",
+               "SubTipo": "00",
+               "TipoConsulta": "PF",
+               "TransacaoConsulta": "X2LJ",
+               "Fixo": "N",
+               "IdentificacaoDadosCheque": "0",
+               "Agrupa": "N",
+               "ConsultaSintetica": "",
+               "Reservado": "",
+               "ResumoAnotacoes": "S",
+               "ChaveConsulta": "753686",
+               "NomeFantasia": "",
+               "StatusBanco": "",
+               "Filler": "FCM",
+               "TratamentoTelefone": "S",
+               "Filler2": "",
+               "SituacaoCadastral": "S"
+            }
+         ],
+         "Alertas": [
+            {
+               "Tipo": "N003",
+               "SubTipo": "00",
+               "DDD": "",
+               "Telefone": "",
+               "CEP": "",
+               "UF": "SP",
+               "FeatureDisponiveis": ""
+            }
+         ],
+         "BlocoInformacoesDoConfirmei": [
+            {
+               "Tipo": "N200",
+               "SubTipo": "00",
+               "NomeRazao": "FORD MOTOR COMPANY BRASIL LTDA",
+               "DataNascimento": "1999/10/22",
+               "SituacaoDocumento": "2",
+               "DataSituacaoDocumento": "2022/03/12",
+               "FlagExistenciaCCFIndisponivel": "N"
+            }
+         ],
+         "ComplementoBlocoConfirmei": [
+            {
+               "Tipo": "N200",
+               "SubTipo": "01",
+               "NomeMae": ""
+            }
+         ],
+         "MensagemAlertaDocumentosRoubados": [
+            {
+               "Tipo": "N210",
+               "SubTipo": "99",
+               "Mensagem": "NAO CONSTAM OCORRENCIAS"
+            }
+         ],
+         "MensagemPendenciaInterna": [
+            {
+               "Tipo": "N230",
+               "SubTipo": "99",
+               "Mensagem": "NAO CONSTAM OCORRENCIAS"
+            }
+         ],
+         "DetalhePendenciaSeparadaPefinRefin": [
+            {
+               "Tipo": "N240",
+               "SubTipo": "00",
+               "DataOcorrencia": "2022/02/25",
+               "Modalidade": "DUPLICATA",
+               "Avalista": "N",
+               "TipoMoeda": "R$",
+               "Valor": "10966.67",
+               "Contrato": "0940329995-001",
+               "Origem": "MILLS ESTRUTURAS E S",
+               "SiglaEmbratel": ""
+            },
+            {
+               "Tipo": "N240",
+               "SubTipo": "00",
+               "DataOcorrencia": "2022/02/15",
+               "Modalidade": "DUPLICATA",
+               "Avalista": "N",
+               "TipoMoeda": "R$",
+               "Valor": "1613.23",
+               "Contrato": "CAMTZ 435191",
+               "Origem": "LOCALIZA",
+               "SiglaEmbratel": ""
+            },
+            {
+               "Tipo": "N240",
+               "SubTipo": "00",
+               "DataOcorrencia": "2022/02/02",
+               "Modalidade": "DUPLICATA",
+               "Avalista": "N",
+               "TipoMoeda": "R$",
+               "Valor": "22502.95",
+               "Contrato": "0940324832-001",
+               "Origem": "MILLS ESTRUTURAS E S",
+               "SiglaEmbratel": ""
+            },
+            {
+               "Tipo": "N240",
+               "SubTipo": "00",
+               "DataOcorrencia": "2022/02/02",
+               "Modalidade": "DUPLICATA",
+               "Avalista": "N",
+               "TipoMoeda": "R$",
+               "Valor": "31136.16",
+               "Contrato": "0940324833-001",
+               "Origem": "MILLS ESTRUTURAS E S",
+               "SiglaEmbratel": ""
+            },
+            {
+               "Tipo": "N240",
+               "SubTipo": "00",
+               "DataOcorrencia": "2022/01/30",
+               "Modalidade": "DUPLICATA",
+               "Avalista": "N",
+               "TipoMoeda": "R$",
+               "Valor": "2465.90",
+               "Contrato": "CAMTZ 432557",
+               "Origem": "LOCALIZA",
+               "SiglaEmbratel": ""
+            },
+            {
+               "Tipo": "N240",
+               "SubTipo": "00",
+               "DataOcorrencia": "2021/04/13",
+               "Modalidade": "DUPLICATA DE VENDA MERCANTIL P",
+               "Avalista": "N",
+               "TipoMoeda": "R$",
+               "Valor": "14151.55",
+               "Contrato": "10900661986",
+               "Origem": "GRAN COFFEE LOC SERV",
+               "SiglaEmbratel": ""
+            },
+            {
+               "Tipo": "N240",
+               "SubTipo": "00",
+               "DataOcorrencia": "2019/12/18",
+               "Modalidade": "COBRANCA SIMPLES",
+               "Avalista": "N",
+               "TipoMoeda": "R$",
+               "Valor": "2026.64",
+               "Contrato": "114243190",
+               "Origem": "SEFAZ-PE",
+               "SiglaEmbratel": "RCE"
+            },
+            {
+               "Tipo": "N240",
+               "SubTipo": "00",
+               "DataOcorrencia": "2019/10/16",
+               "Modalidade": "DUPLIC DE VENDA MERCANTIL",
+               "Avalista": "N",
+               "TipoMoeda": "R$",
+               "Valor": "450.00",
+               "Contrato": "141",
+               "Origem": "COMERCIAL DE GAS OH",
+               "SiglaEmbratel": "PDJ"
+            }
+         ],
+         "DetalhePendenciaFinanceiras": [
+            {
+               "Tipo": "N240",
+               "SubTipo": "01",
+               "IndicaAnotacao": "",
+               "MensagemSubjudice": "",
+               "TipoAnotacao": "V",
+               "FillerSerasa": "0267481276"
+            },
+            {
+               "Tipo": "N240",
+               "SubTipo": "01",
+               "IndicaAnotacao": "",
+               "MensagemSubjudice": "",
+               "TipoAnotacao": "V",
+               "FillerSerasa": "0265147207"
+            },
+            {
+               "Tipo": "N240",
+               "SubTipo": "01",
+               "IndicaAnotacao": "",
+               "MensagemSubjudice": "",
+               "TipoAnotacao": "V",
+               "FillerSerasa": "0249293941"
+            },
+            {
+               "Tipo": "N240",
+               "SubTipo": "01",
+               "IndicaAnotacao": "",
+               "MensagemSubjudice": "",
+               "TipoAnotacao": "V",
+               "FillerSerasa": "0249293942"
+            },
+            {
+               "Tipo": "N240",
+               "SubTipo": "01",
+               "IndicaAnotacao": "",
+               "MensagemSubjudice": "",
+               "TipoAnotacao": "V",
+               "FillerSerasa": "0253906773"
+            },
+            {
+               "Tipo": "N240",
+               "SubTipo": "01",
+               "IndicaAnotacao": "",
+               "MensagemSubjudice": "",
+               "TipoAnotacao": "5",
+               "FillerSerasa": "0034115645"
+            },
+            {
+               "Tipo": "N240",
+               "SubTipo": "01",
+               "IndicaAnotacao": "",
+               "MensagemSubjudice": "",
+               "TipoAnotacao": "5",
+               "FillerSerasa": "0777912869"
+            },
+            {
+               "Tipo": "N240",
+               "SubTipo": "01",
+               "IndicaAnotacao": "",
+               "MensagemSubjudice": "",
+               "TipoAnotacao": "5",
+               "FillerSerasa": "0707147754"
+            }
+         ],
+         "TotalPendenciasFinanceirasTipos": [
+            {
+               "Tipo": "N240",
+               "SubTipo": "90",
+               "TotalOcorrencia": "00254",
+               "DataOcorrenciaMaisAntiga": "04/2017",
+               "DataOcorrenciaMaisRecente": "02/2022",
+               "ValorTotalPendencias": "662996.04",
+               "TipoAnotacao": "V"
+            },
+            {
+               "Tipo": "N240",
+               "SubTipo": "90",
+               "TotalOcorrencia": "00003",
+               "DataOcorrenciaMaisAntiga": "10/2019",
+               "DataOcorrenciaMaisRecente": "04/2021",
+               "ValorTotalPendencias": "16628.19",
+               "TipoAnotacao": "5"
+            }
+         ],
+         "DetalhesProtesto": [
+            {
+               "Tipo": "N250",
+               "SubTipo": "00",
+               "DataOcorrencia": "2022/01/07",
+               "TipoMoeda": "R$",
+               "Valor": "847424.75",
+               "Cartorio": "UN",
+               "Cidade": "JUNDIAI",
+               "UF": "SP"
+            },
+            {
+               "Tipo": "N250",
+               "SubTipo": "00",
+               "DataOcorrencia": "2022/01/06",
+               "TipoMoeda": "R$",
+               "Valor": "93.47",
+               "Cartorio": "02",
+               "Cidade": "SAO BERNARDO DO CAMPO",
+               "UF": "SP"
+            },
+            {
+               "Tipo": "N250",
+               "SubTipo": "00",
+               "DataOcorrencia": "2022/01/06",
+               "TipoMoeda": "R$",
+               "Valor": "93.47",
+               "Cartorio": "01",
+               "Cidade": "SAO BERNARDO DO CAMPO",
+               "UF": "SP"
+            },
+            {
+               "Tipo": "N250",
+               "SubTipo": "00",
+               "DataOcorrencia": "2021/12/24",
+               "TipoMoeda": "R$",
+               "Valor": "144.30",
+               "Cartorio": "01",
+               "Cidade": "SAO BERNARDO DO CAMPO",
+               "UF": "SP"
+            },
+            {
+               "Tipo": "N250",
+               "SubTipo": "00",
+               "DataOcorrencia": "2021/12/24",
+               "TipoMoeda": "R$",
+               "Valor": "144.30",
+               "Cartorio": "02",
+               "Cidade": "SAO BERNARDO DO CAMPO",
+               "UF": "SP"
+            }
+         ],
+         "ComplementoDetalheProtesto": [
+            {
+               "Tipo": "N250",
+               "SubTipo": "01",
+               "IndicaAnotacao": "N",
+               "Mensagem": "",
+               "TipoAnotacao": "A",
+               "Filler": "0330776974"
+            },
+            {
+               "Tipo": "N250",
+               "SubTipo": "01",
+               "IndicaAnotacao": "N",
+               "Mensagem": "",
+               "TipoAnotacao": "A",
+               "Filler": "0333894742"
+            },
+            {
+               "Tipo": "N250",
+               "SubTipo": "01",
+               "IndicaAnotacao": "N",
+               "Mensagem": "",
+               "TipoAnotacao": "A",
+               "Filler": "0333884898"
+            },
+            {
+               "Tipo": "N250",
+               "SubTipo": "01",
+               "IndicaAnotacao": "N",
+               "Mensagem": "",
+               "TipoAnotacao": "A",
+               "Filler": "0332892915"
+            },
+            {
+               "Tipo": "N250",
+               "SubTipo": "01",
+               "IndicaAnotacao": "N",
+               "Mensagem": "",
+               "TipoAnotacao": "A",
+               "Filler": "0332923519"
+            }
+         ],
+         "TotalProtesto": [
+            {
+               "Tipo": "N250",
+               "SubTipo": "90",
+               "TotalOcorrencia": "00242",
+               "DataOcorrenciaMaisAntiga": "03/2017",
+               "DataOcorrenciaMaisRecente": "01/2022",
+               "Moeda": "R$",
+               "ValorTotal": "1411530.70"
+            }
+         ],
+         "MensagemChequeSemFundoBacen": [
+            {
+               "Tipo": "N270",
+               "SubTipo": "99",
+               "Mensagem": "NAO CONSTAM OCORRENCIAS"
+            }
+         ],
+         "MensagemConsultaSerasa": [
+            {
+               "Tipo": "N440",
+               "SubTipo": "99",
+               "Mensagem": "NAO CONSTAM INFORMACOES"
+            }
+         ],
+         "OutrasOpcoesConsulta": [
+            {
+               "Tipo": "P002",
+               "Cod1": "RE02",
+               "Chave": "",
+               "Cod2": "",
+               "Chave2": "",
+               "Cod3": "",
+               "Chave3": "",
+               "Cod4": "",
+               "Chave4": ""
+            },
+            {
+               "Tipo": "P002",
+               "Cod1": "RE02",
+               "Chave": "",
+               "Cod2": "",
+               "Chave2": "",
+               "Cod3": "",
+               "Chave3": "",
+               "Cod4": "",
+               "Chave4": ""
+            }
+         ],
+         "MensagemTrailer": [
+            {
+               "Tipo": "T999",
+               "Codigo": "000",
+               "Mensagem": "PROCESSO ENCERRADO NORMALMENTE"
+            }
+         ]
+      }
+   }
+}

@@ -5,45 +5,28 @@ inherited PrecosClientesM: TPrecosClientesM
   ClientHeight = 244
   ClientWidth = 776
   ExplicitWidth = 792
-  ExplicitHeight = 282
+  ExplicitHeight = 283
   PixelsPerInch = 96
   TextHeight = 15
   inherited Panel1: TPanel
-    Top = 44
     Width = 776
     Height = 200
-    ExplicitTop = 44
+    ExplicitLeft = -3
+    ExplicitTop = 45
     ExplicitWidth = 776
     ExplicitHeight = 200
     inherited Panel3: TPanel
       Align = alNone
-      ExplicitTop = 204
       inherited PageControl3: TPageControl
-        Top = 47
-        Height = 185
-        ExplicitLeft = 3
-        ExplicitTop = 47
-        ExplicitWidth = 633
-        ExplicitHeight = 185
         inherited tsDet: TTabSheet
           ExplicitLeft = 4
           ExplicitTop = 26
           ExplicitWidth = 625
           ExplicitHeight = 155
-          inherited DBGrid1: TDBGrid
-            Width = 625
-            Height = 155
-          end
         end
       end
       inherited ControlBar2: TControlBar
-        Height = 38
-        ExplicitLeft = 3
-        ExplicitTop = 3
-        ExplicitWidth = 633
-        ExplicitHeight = 38
         inherited ToolBar3: TToolBar
-          ButtonWidth = 129
           inherited ToolButton10: TToolButton
             ExplicitWidth = 32
           end
@@ -71,8 +54,6 @@ inherited PrecosClientesM: TPrecosClientesM
     inherited PageControl1: TPageControl
       Width = 770
       Height = 194
-      ExplicitLeft = 3
-      ExplicitTop = 3
       ExplicitWidth = 770
       ExplicitHeight = 194
       inherited TabSheet1: TTabSheet
@@ -97,6 +78,8 @@ inherited PrecosClientesM: TPrecosClientesM
             Align = alLeft
             BevelOuter = bvNone
             TabOrder = 0
+            ExplicitLeft = -3
+            ExplicitTop = 3
             object Label5: TLabel
               AlignWithMargins = True
               Left = 3
@@ -201,11 +184,11 @@ inherited PrecosClientesM: TPrecosClientesM
             object SpeedButton2: TSpeedButton
               AlignWithMargins = True
               Left = 0
-              Top = 21
+              Top = 23
               Width = 26
-              Height = 27
+              Height = 25
               Margins.Left = 0
-              Margins.Top = 21
+              Margins.Top = 23
               Margins.Bottom = 2
               Action = actFindServ
               Align = alClient
@@ -244,6 +227,7 @@ inherited PrecosClientesM: TPrecosClientesM
                 0A000A0A0A000A0A0A001D1D1D00FF00FF00FF00FF00FF00FF00FF00FF00FF00
                 FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
                 FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00}
+              ExplicitTop = 21
               ExplicitWidth = 27
               ExplicitHeight = 23
             end
@@ -258,8 +242,9 @@ inherited PrecosClientesM: TPrecosClientesM
           AutoSize = True
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
-          Font.Height = -11
+          Font.Height = -12
           Font.Name = 'Segoe UI'
+          Font.Pitch = fpVariable
           Font.Style = []
           ParentFont = False
           TabOrder = 0
@@ -269,22 +254,24 @@ inherited PrecosClientesM: TPrecosClientesM
             ExplicitWidth = 762
             inherited Panel2: TPanel
               Width = 57
+              ExplicitLeft = -3
+              ExplicitTop = -3
               ExplicitWidth = 57
-              ExplicitHeight = 50
               inherited Label9: TLabel
                 Width = 51
-                ExplicitWidth = 38
               end
               inherited DBEdit8: TDBEdit
                 Width = 54
                 DataField = 'cliente'
+                ExplicitTop = 22
                 ExplicitWidth = 54
                 ExplicitHeight = 21
               end
             end
             inherited Panel35: TPanel
               Left = 57
-              ExplicitLeft = 57
+              ExplicitLeft = 54
+              ExplicitTop = -3
               inherited SpeedButton1: TSpeedButton
                 ExplicitLeft = 0
                 ExplicitTop = 21
@@ -295,15 +282,15 @@ inherited PrecosClientesM: TPrecosClientesM
             inherited Panel4: TPanel
               Left = 86
               Width = 271
-              ExplicitLeft = 86
+              ExplicitLeft = 89
+              ExplicitTop = -3
               ExplicitWidth = 271
-              ExplicitHeight = 50
               inherited Label10: TLabel
                 Width = 265
-                ExplicitWidth = 92
               end
               inherited DBEdit9: TDBEdit
                 Width = 265
+                ExplicitTop = 22
                 ExplicitWidth = 265
                 ExplicitHeight = 21
               end
@@ -313,13 +300,12 @@ inherited PrecosClientesM: TPrecosClientesM
               Width = 186
               ExplicitLeft = 357
               ExplicitWidth = 186
-              ExplicitHeight = 50
               inherited Label11: TLabel
                 Width = 180
-                ExplicitWidth = 62
               end
               inherited DBEdit10: TDBEdit
                 Width = 180
+                ExplicitTop = 22
                 ExplicitWidth = 180
                 ExplicitHeight = 21
               end
@@ -329,12 +315,12 @@ inherited PrecosClientesM: TPrecosClientesM
               Width = 120
               ExplicitLeft = 543
               ExplicitWidth = 120
-              ExplicitHeight = 50
               inherited Label12: TLabel
                 Width = 114
               end
               inherited DBEdit11: TDBEdit
                 Width = 114
+                ExplicitTop = 22
                 ExplicitWidth = 114
                 ExplicitHeight = 21
               end
@@ -344,12 +330,12 @@ inherited PrecosClientesM: TPrecosClientesM
               Width = 99
               ExplicitLeft = 663
               ExplicitWidth = 99
-              ExplicitHeight = 50
               inherited Label13: TLabel
                 Width = 93
               end
               inherited DBEdit12: TDBEdit
                 Width = 93
+                ExplicitTop = 22
                 ExplicitWidth = 93
                 ExplicitHeight = 21
               end
@@ -363,13 +349,12 @@ inherited PrecosClientesM: TPrecosClientesM
               Width = 386
               ExplicitLeft = 241
               ExplicitWidth = 386
-              ExplicitHeight = 50
               inherited Label1: TLabel
                 Width = 380
-                ExplicitWidth = 36
               end
               inherited DBEdit1: TDBEdit
                 Width = 380
+                ExplicitTop = 22
                 ExplicitWidth = 380
                 ExplicitHeight = 21
               end
@@ -379,12 +364,12 @@ inherited PrecosClientesM: TPrecosClientesM
               Width = 39
               ExplicitLeft = 627
               ExplicitWidth = 39
-              ExplicitHeight = 50
               inherited Label2: TLabel
-                ExplicitWidth = 35
+                Width = 33
               end
               inherited DBEdit2: TDBEdit
                 Width = 33
+                ExplicitTop = 22
                 ExplicitWidth = 33
                 ExplicitHeight = 21
               end
@@ -392,13 +377,12 @@ inherited PrecosClientesM: TPrecosClientesM
             inherited Panel30: TPanel
               Width = 241
               ExplicitWidth = 241
-              ExplicitHeight = 50
               inherited Label20: TLabel
                 Width = 235
-                ExplicitWidth = 27
               end
               inherited DBEdit17: TDBEdit
                 Width = 235
+                ExplicitTop = 22
                 ExplicitWidth = 235
                 ExplicitHeight = 21
               end
@@ -408,13 +392,12 @@ inherited PrecosClientesM: TPrecosClientesM
               Width = 96
               ExplicitLeft = 666
               ExplicitWidth = 96
-              ExplicitHeight = 50
               inherited Label3: TLabel
                 Width = 90
-                ExplicitWidth = 44
               end
               inherited DBEdit3: TDBEdit
                 Width = 90
+                ExplicitTop = 22
                 ExplicitWidth = 90
                 ExplicitHeight = 21
               end
@@ -429,13 +412,8 @@ inherited PrecosClientesM: TPrecosClientesM
   end
   inherited ControlBar1: TControlBar
     Width = 770
-    Height = 38
-    ExplicitLeft = 3
-    ExplicitTop = 3
     ExplicitWidth = 770
-    ExplicitHeight = 38
     inherited ToolBar1: TToolBar
-      ButtonWidth = 115
       inherited ToolButton6: TToolButton
         ExplicitWidth = 32
       end

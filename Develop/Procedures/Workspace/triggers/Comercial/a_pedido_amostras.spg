@@ -9,7 +9,7 @@
    ---------------------------------------------------------------------------------------------------------------------
    Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
    
-   [*] Trigger passa para o before da tabela   
+   [*] Trigger passa para o before da tabela
 */
 CREATE OR REPLACE FUNCTION a_pedido_amostras()
   RETURNS trigger AS

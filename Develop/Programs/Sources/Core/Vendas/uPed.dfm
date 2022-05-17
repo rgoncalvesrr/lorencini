@@ -175,7 +175,7 @@ inherited Ped: TPed
             Width = 185
             Height = 15
             Align = alTop
-            Caption = '01/06/2021 a 30/06/2021'
+            Caption = '01/05/2022 a 31/05/2022'
             Transparent = True
             ExplicitWidth = 128
           end
@@ -207,7 +207,7 @@ inherited Ped: TPed
             end
             inherited CCalendarDiff1: TCCalendarDiff
               Interval = diMonthly
-              Date = 44369.074790347220000000
+              Date = 44683.674599976850000000
               DisplayInterval = Label6
               OnChange = FrameData1CCalendarDiff1Change
             end
@@ -232,6 +232,7 @@ inherited Ped: TPed
       Height = 486
       ActivePage = TabSheet2
       Images = Resources.medium_n
+      ExplicitTop = 2
       ExplicitWidth = 1113
       ExplicitHeight = 486
       inherited TabSheet1: TTabSheet
@@ -250,10 +251,6 @@ inherited Ped: TPed
       object TabSheet2: TTabSheet
         Caption = 'Em Digita'#231#227'o'
         ImageIndex = 213
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object ControlBar1: TControlBar
           AlignWithMargins = True
           Left = 3
@@ -323,58 +320,54 @@ inherited Ped: TPed
       object TabSheet7: TTabSheet
         Caption = 'Aprova'#231#227'o de Cr'#233'dito'
         ImageIndex = 214
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
+        object PageControl2: TPageControl
+          AlignWithMargins = True
+          Left = 3
+          Top = 232
+          Width = 1099
+          Height = 214
+          ActivePage = TabSheet6
+          Align = alBottom
+          TabOrder = 0
+          object TabSheet6: TTabSheet
+            Caption = 'Estado financeiro do Pedido'
+            object DBMemo1: TDBMemo
+              AlignWithMargins = True
+              Left = 3
+              Top = 3
+              Width = 1085
+              Height = 178
+              Align = alClient
+              DataField = 'obs'
+              DataSource = dsAnalise
+              TabOrder = 0
+            end
+          end
+        end
       end
       object TabSheet3: TTabSheet
         Caption = 'Autoriza'#231#227'o para Execu'#231#227'o'
         ImageIndex = 210
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object TabSheet8: TTabSheet
         Caption = 'Em Remessa'
         ImageIndex = 211
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object TabSheet9: TTabSheet
         Caption = 'Aguardando Amostra'
         ImageIndex = 212
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object TabSheet4: TTabSheet
         Caption = 'Em Execu'#231#227'o'
         ImageIndex = 205
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object TabSheet5: TTabSheet
         Caption = 'Executado'
         ImageIndex = 208
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object TabSheet10: TTabSheet
         Caption = 'Cancelados'
         ImageIndex = 204
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
     end
   end
@@ -503,7 +496,7 @@ inherited Ped: TPed
       
         '   cl.email cliente_email, cl.cidade cliente_cidade, cl.estado c' +
         'liente_estado, cl.telefone cliente_telefone,'
-      '   p.dec_conf'
+      '   p.dec_conf, p.analise'
       '  from pedido p'
       '       join tbclientes c'
       '         on c.codigo = p.codigo'
@@ -628,12 +621,6 @@ inherited Ped: TPed
     object IBrwSrccondicaopg: TStringField
       DisplayLabel = 'Cond. Pag.'
       FieldName = 'condicaopg'
-      Visible = False
-      Size = 15
-    end
-    object IBrwSrcpedido_cliente: TStringField
-      DisplayLabel = 'Pedido Cliente'
-      FieldName = 'pedido_cliente'
       Visible = False
       Size = 15
     end
@@ -824,6 +811,10 @@ inherited Ped: TPed
       Required = True
       Visible = False
     end
+    object IBrwSrcanalise: TLargeintField
+      FieldName = 'analise'
+      Visible = False
+    end
   end
   inherited pmOpcao: TPopupMenu
     Left = 488
@@ -839,16 +830,16 @@ inherited Ped: TPed
         '  (recno,    codigo, criado, emitido, autorizado, aprovado, stat' +
         'us, obs, solicitante, solicitante_dep,'
       
-        '   condicaopg, pedido_cliente, grupo, markup, correio, envio, co' +
-        'leta, frascos, seringas, frete, remessa, destinatario,'
+        '   condicaopg, grupo, markup, correio, envio, coleta, frascos, s' +
+        'eringas, frete, remessa, destinatario,'
       '   obs_remessa, cliente, dec_conf)'
       'VALUES'
       
         '  (:recno, :codigo, :criado, :emitido, :autorizado, :aprovado, :' +
         'status, :obs, :solicitante, :solicitante_dep,'
       
-        '   :condicaopg, :pedido_cliente, :grupo, :markup, :correio, :env' +
-        'io, :coleta, :frascos, :seringas, :frete, :remessa,'
+        '   :condicaopg, :grupo, :markup, :correio, :envio, :coleta, :fra' +
+        'scos, :seringas, :frete, :remessa,'
       '   :destinatario, :obs_remessa, :cliente, :dec_conf)')
     ModifySQL.Strings = (
       'UPDATE pedido SET'
@@ -863,7 +854,6 @@ inherited Ped: TPed
       '  solicitante = :solicitante,'
       '  solicitante_dep = :solicitante_dep,'
       '  condicaopg = :condicaopg,'
-      '  pedido_cliente = :pedido_cliente,'
       '  grupo = :grupo,'
       '  markup = :markup,'
       '  correio = :correio,'
@@ -935,11 +925,6 @@ inherited Ped: TPed
       item
         DataType = ftUnknown
         Name = 'condicaopg'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'pedido_cliente'
         ParamType = ptUnknown
       end
       item
@@ -2491,5 +2476,52 @@ inherited Ped: TPed
     SequenceName = 'public.pedido_contatos_recno_seq'
     Left = 320
     Top = 456
+  end
+  object qAnalise: TZQuery
+    Connection = DM.Design
+    BeforeRefresh = qAnaliseBeforeRefresh
+    SQL.Strings = (
+      'select c.status, c.obs'
+      '  from cred_analise c'
+      '       join pedido p'
+      '         on p.analise = c.recno'
+      '        and p.recno = :pedido')
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'pedido'
+        ParamType = ptUnknown
+      end>
+    FetchRow = 50
+    Left = 448
+    Top = 504
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'pedido'
+        ParamType = ptUnknown
+      end>
+    object qAnalisestatus: TIntegerField
+      FieldName = 'status'
+      Required = True
+      OnGetText = qAnalisestatusGetText
+    end
+    object qAnaliseobs: TMemoField
+      FieldName = 'obs'
+      BlobType = ftMemo
+    end
+  end
+  object dsAnalise: TDataSource
+    AutoEdit = False
+    DataSet = qAnalise
+    Left = 520
+    Top = 504
+  end
+  object timeRefreshAnalise: TTimer
+    Enabled = False
+    Interval = 3000
+    OnTimer = timeRefreshAnaliseTimer
+    Left = 720
+    Top = 488
   end
 end

@@ -9,15 +9,14 @@ m,/**
 	---------------------------------------------------------------------------------------------------------------------
    Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
 
-   26/09/2011 11:33:27  v2    Ricardo Gonçalves.
-      [*] Inclusão de mensagens de erro quando não é possível determinar a classe de tensão.
-   
-   08/12/2011 20:34:53  v3    Ricardo Gonçalves.
-      [*] Tratamento do retrocesso de etapa do laudo.
-   14/12/2018  Ricardo Gonçalves
-      [*] Remoção do comodato_recno
    22/10/2020  Ricardo Gonçalves
       [-] Coloca o pedido em estado de execução quando o laudo é cancelado
+   14/12/2018  Ricardo Gonçalves
+      [*] Remoção do comodato_recno
+   08/12/2011 Ricardo Gonçalves.
+      [*] Tratamento do retrocesso de etapa do laudo.
+   26/09/2011 Ricardo Gonçalves.
+      [*] Inclusão de mensagens de erro quando não é possível determinar a classe de tensão.
 */
 CREATE OR REPLACE FUNCTION a_labamostras_rel()
   RETURNS trigger AS
@@ -76,7 +75,8 @@ BEGIN
                then
                   update pedido
                      set status = _SPED_EXECUTADO
-                   where recno = new.pedido; 
+                   where recno = new.pedido
+                     and status <> _SPED_EXECUTADO; 
                end if;
 
                -- Gera informações para o portal
@@ -90,8 +90,8 @@ BEGIN
                select new.recno, new.relato_recno, md5(string_agg(g.ensaio_recno::text, '|')), array_agg(g.ensaio_recno), array_agg(g.nome), array_agg(g.valor)
                  from (select r.ensaio_recno, e.nome, ensaio_mascara(r.ensaio_recno, r.valor) valor
                          from labamostras_res r
-                              join labrel_ens le 
-                                on le.relato_recno = r.relato_recno 
+                              join labrel_ens le
+                                on le.relato_recno = r.relato_recno
                                and le.ensaio_recno = r.ensaio_recno
                               join labens e
                                 on e.recno = le.ensaio_recno
@@ -102,6 +102,9 @@ BEGIN
 
             -- Gerando consulta para laudos
             perform tsearch_laudo(new.recno);
+
+            -- Gerando JSON para laudos
+            perform api.json_laudo(new.recno);
 
             if new.status = _SREL_LIBERADO then
                perform laudo_gerar_pdf(new.recno);               

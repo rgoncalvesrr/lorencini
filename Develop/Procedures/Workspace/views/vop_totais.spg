@@ -1,0 +1,15 @@
+create or replace view public.vop_totais as
+select o.op, o.pedido, sum(s.vtotal) vlserv, sum(m.vtotal) vlmat, sum(mo.vtotal) vlmo
+  from public.op o
+       left join public.vop_servicos s
+         on s.op = o.op
+        and s.pedido = o.pedido 
+       left join public.vop_materiais m
+         on m.op = o.op
+        and m.pedido = o.pedido 
+       left join public.vop_mo mo
+         on mo.op = o.op
+        and mo.pedido = o.pedido
+ group by o.op, o.pedido;
+
+alter view public.vop_totais owner to lorencini;

@@ -4,20 +4,20 @@ create or replace function sys_parse(
 returns text as
 $$
 declare
-   i              integer;   
+   i              integer;
    ignoreNChars   integer;
    rin            text[];
    rstmt          text;
    rchars         text[];
    rout           text;
-   token          text;   
+   token          text;
    result         text[];
    LF             text;
    ignoreBlock    boolean;
    cpLiteral      boolean;
 begin
    if in_stmt = '' then
-      raise 'Não há instruções para processamento'; 
+      raise 'Não há instruções para processamento';
    end if;
 
    ignoreBlock := false;
@@ -29,8 +29,8 @@ begin
 
    rin := regexp_split_to_array(in_stmt, '\n');
 
-   foreach rstmt in array rin 
-   loop   
+   foreach rstmt in array rin
+   loop
       rstmt := replace(rstmt, chr(13), '');
       rstmt := replace(rstmt, chr(10), '');
       if trim(rstmt) = '' then
@@ -40,14 +40,14 @@ begin
       rstmt := rstmt || ' ';
       token := '';
       rout := '';
-      ignoreNChars := 0;      
+      ignoreNChars := 0;
       cpLiteral := false;
 
       -- Converte linha em array de caracteres
       rchars := string_to_array(rstmt, null);
 
       -- Processamento a linha do arquivo
-      for i in 1..array_length(rchars, 1) 
+      for i in 1..array_length(rchars, 1)
       loop
 
          -- Comentario em bloco
@@ -62,24 +62,24 @@ begin
 
          -- Verificando se acabou o comentário em bloco
          if ignoreBlock or (ignoreNChars > 0) then
-        
+
             if (ignoreNChars > 0) then
                ignoreNChars := ignoreNChars - 1;
             end if;
 
-            if ignoreBlock and (rchars[i] = '*') then            
+            if ignoreBlock and (rchars[i] = '*') then
                ignoreBlock := (rchars[i + 1] <> '/');
                ignoreNChars := 1;
             end if;
 
-            Continue;         
-         else        
+            Continue;
+         else
             if rchars[i] not in (' ', '''', '.', ')', '(', '%', ';') then
                token := token || rchars[i];
             end if;
 
-            if rchars[i] in (' ', '''', '.', ')', '(', '%', ';') then          
-               if (token <> '') then                          
+            if rchars[i] in (' ', '''', '.', ')', '(', '%', ';') then
+               if (token <> '') then
                   rout := rout || token;
                end if;
 
@@ -93,21 +93,21 @@ begin
                   end if;
                end if;
 
-               if (rchars[i] = '''') then            
+               if (rchars[i] = '''') then
                   cpLiteral := not cpLiteral;
                end if;
 
                token := '';
             end if;
-         end if;        
+         end if;
       end loop;
 
       -- Remove espaços da linha
-      if trim(rout) <> '' then         
-         result := array_append(result, rout);        
+      if trim(rout) <> '' then
+         result := array_append(result, rout);
       end if;
    end loop;
-   
+
    return array_to_string(result, LF);
 end;
 $$

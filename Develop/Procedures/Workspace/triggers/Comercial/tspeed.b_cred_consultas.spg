@@ -1,0 +1,60 @@
+/**
+   Prepara consulta SERASA
+
+   @author    Ricardo Gonçalves
+   @date      25/03/2022
+   @trigger   tspeed.cred_consultas B IUD
+
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+Create or Replace Function tspeed.b_cred_consultas()
+Returns trigger As
+$$
+declare
+   r        record;
+   xlog     public.log$;
+begin
+   if tg_op = 'DELETE' then
+      return old;
+   end if;
+
+   -- Tabela para registro do log
+   xlog.source_table := sys_origem('cred_consultas');
+   xlog.source_recno := new.recno;
+
+   if tg_op = 'INSERT' then
+      new.account := coalesce(new.account, public.sys_account(), public.sys_account_def());
+      new.cliente := public.localizar_cliente(new.documento, true);
+
+      xlog.account := new.account;
+      xlog.title := 'Consulta ao SERASA inconsistente';
+      xlog.level := 'warn';
+
+      if new.cliente is null then
+         xlog.detail := format('O CPNJ/CPF %s não foi localizado na base de clientes da Lorencini', new.documento);
+         perform log(xlog);
+      else
+         -- Validando alguns dados da consulta
+         select estado, situacao
+           into r
+           from tbclientes
+          where codigo = new.cliente;
+
+         if r.estado <> new.uf then
+            xlog.detail := format('A UF consultada %s difere da UF cadastrada %s', r.estado, new.uf);
+            perform log(xlog);
+         end if;
+
+         if r.situacao <> 'ATIVO' then
+            xlog.detail := format('Situação do cliente consultada é %s', r.situacao);
+            perform log(xlog);
+         end if;
+      end if;
+   end if;
+
+   return new;
+end;
+$$
+language plpgsql;

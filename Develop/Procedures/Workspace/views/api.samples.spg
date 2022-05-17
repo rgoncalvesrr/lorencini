@@ -1,12 +1,12 @@
 set session authorization lorencini;
 CREATE OR REPLACE VIEW api.samples as
-SELECT a.recno sample, a.comodato ticket, a.codigo tenantid, a.coleta collect_date, a.amostrador sampler, a.tamb tenvironment, a.toleo tsample, 
+SELECT a.recno sample, a.comodato ticket, a.codigo tenantid, a.coleta collect_date, a.amostrador sampler, a.tamb tenvironment, a.toleo tsample,
        a.tequip tdevice, a.umidade humidity, a.tensao voltage, a.equip_recno device, a.tag, a.local, a.validade expiration_at, a.estado status,
-       s.descri status_label, ah.historico status_descri, a.geracao created_at, a.emissao emitted_at, a.remessa sent_at, a.recebimento received_at, 
+       s.descri status_label, ah.historico status_descri, a.geracao created_at, a.emissao emitted_at, a.remessa sent_at, a.recebimento received_at,
        a.liberacao released, a.utilizacao consumed_at, a.cancelamento cancelled_at
   FROM labamostras a
-       JOIN labamostras_status s 
+       JOIN labamostras_status s
          ON s.status = a.estado
-       LEFT JOIN labamostras_hist ah 
-         ON ah.amostra = a.recno 
+       LEFT JOIN labamostras_hist ah
+         ON ah.amostra = a.recno
         AND ah.estado = a.estado;

@@ -3,7 +3,7 @@
 
    Autor	   Ricardo Gonçalves
    Data     21/11/2008 20:54:25
-   
+
    Retorno  0 - Código Ok
             1 - Composição inválida
             2 - CNPJ inválido
@@ -13,10 +13,10 @@
       21/11/2008 20:56:25  v1.0  Ricardo Gonçalves.
          [+] Versão inicial.
 */
-Create or Replace Function sys_cnpj_check
-(  in cnpj varchar(14))
-Returns integer
-as $$
+Create or Replace Function sys_cnpj_check(
+   in cnpj varchar)
+Returns integer as
+$$
 Declare
 -- Variaveis
    i        INT4;           -- Contador
@@ -40,7 +40,7 @@ Begin
 
    for i in reverse 12..1 loop
       iProd := iProd + substring(vCnpj, i, 1)::int2 * iMult;
-   
+
       if iMult = 9 then
          iMult := 2;
       else

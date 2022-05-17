@@ -1,0 +1,121 @@
+/**
+   Prepara requisição de consulta ao SERASA
+
+	@author    Ricardo Gonçalves
+	@date      01/03/2022
+	@trigger
+
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+create or replace function tspeed.scc_consultar_documento(
+   documento_ varchar,
+   uf_ varchar,
+   tipo_ integer,
+   table_ integer,
+   recno_ bigint,
+   producao_ boolean = true)
+returns bigint as
+$$
+declare
+   _CNPJ_LORENCINI constant varchar := '04824941000109';
+
+   r           public.svc_cliapi%rowtype;
+   rtipo       tspeed.tipos%rowtype;
+   consulta_   tspeed.cred_consultas.recno%type;
+   request_    public.svc_cliapi.recno%type;
+   accept_     text := '*/*';
+begin
+   select *
+     from tspeed.tipos
+     into rtipo
+    where recno = tipo_;
+
+   if not found then
+      raise '[[Tipo de consulta % não localizado. Verifique os tipos de consulta a crédito disponíveis]]', tipo_;
+   end if;
+
+   if (length(documento_) = 14 and rtipo.classe <> 'PJ') or (length(documento_) = 11 and rtipo.classe <> 'PF') then
+      raise '[[Classe de documento incompatível com documento. Classe %, documento %]]', rtipo.classe, mask_cnpj_cpf(documento_);
+   end if;
+
+   r.uri := 'https://api.consultanegativacao.com.br/v1/homologacao/consultas/assincrona';
+   r.req_method := 'POST';
+   r.status := 'queue';
+   r.res_callback := 'scc_consultar_protocolo';
+   r.env := 'dev';
+
+   if producao_ then
+      r.uri := 'https://api.consultanegativacao.com.br/v1/consultas/assincrona';
+      r.env := 'prod';
+   end if;
+
+   r.req_body := format('{
+      "documento" : "%s",
+      "codConsulta": %s,
+      "uf": "%s",
+      "retorno" : "JSON"}',
+      documento_, rtipo.tipo, uf_);
+
+   r.req_headers := format('{
+      "Content-Type" : "application/json; charset=utf-8",
+      "Accept" : "%s",
+      "Accept-Encoding" : "gzip,deflate,br",
+      "Connection" : "keep-alive",
+      "cnpjSH" : "%s",
+      "tokenSH" : "%s",
+      "cnpjUsuario": "%s",
+      "login" : "%s",
+      "password" : "%s"}',
+      accept_,
+      _CNPJ_LORENCINI,
+      convert_from(decode(sys_paramv('tecno_token'), 'base64'), 'utf-8'),
+      _CNPJ_LORENCINI,
+      convert_from(decode(sys_paramv('scc_login'), 'base64'), 'utf-8'),
+      convert_from(decode(sys_paramv('scc_pass'), 'base64'), 'utf-8'));
+
+   insert into public.svc_cliapi
+      (uri, req_method, req_headers, req_body, res_callback, status, env)
+   values
+      (r.uri, r.req_method, r.req_headers, r.req_body, r.res_callback, r.status, r.env)
+   returning recno into request_;
+
+   -- Cria a consulta
+   insert into tspeed.cred_consultas
+      (documento, uf, tipo, env, custo, source_table, source_recno)
+   values
+      (documento_, uf_, tipo_, r.env, rtipo.custo, table_, recno_)
+   returning recno into consulta_;
+
+   -- Associando request com consulta
+   insert into tspeed.cred_cliapi
+      (consulta, request)
+   values
+      (consulta_, request_);
+
+   return request_;
+end;
+$$
+language plpgsql;
+
+create or replace function tspeed.scc_consultar_documento(
+   codigo_ integer,
+   tipo_ integer,
+   table_ integer,
+   recno_ bigint,
+   producao_ boolean = true)
+returns bigint as
+$$
+declare
+   request_   public.svc_cliapi.recno%type;
+begin
+   select tspeed.scc_consultar_documento(coalesce(cnpj, cpf), estado, tipo_, table_, recno_, producao_)
+     into request_
+      from public.tbclientes
+     where codigo = codigo_;
+
+   return request_;
+end;
+$$
+language plpgsql;

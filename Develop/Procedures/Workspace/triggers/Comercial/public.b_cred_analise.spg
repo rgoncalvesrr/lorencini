@@ -1,0 +1,53 @@
+/**
+   Prepara dados para análise de crédito
+
+   @author    Ricardo Gonçalves
+   @date      29/03/2022
+   @trigger   public.b_cred_analise B IUD
+
+   Casos em que o sistema requer análise de crédito por humanos
+      - Quando houver pendência interna;
+      - Quando houver títulos quitados em atraso;
+      - Quando houver títulos em atraso;
+      - Quando o percentual de títulos em atraso seja maior que 10%;
+      - Quando houver pendências no Serasa;
+
+   Critérios para consulta automática no Serasa
+      - Primeira análise de crédito do cliente;
+      - Análise de crédito anterior liberada manualmente;
+      - Quando a última análise estiver negativada e a data de consulta for superior a 10 dias, o sistema deve fazer uma nova consulta;
+
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+create or replace function public.b_cred_analise()
+returns trigger as
+$$
+declare
+   _ANALISE       constant integer := 1; -- Em Análise
+
+   source_table_  public.cred_analise.source_table%type := sys_origem('cred_analise');
+begin
+   if tg_op = 'DELETE' then
+      return old;
+   end if;
+
+   if tg_op = 'INSERT' then
+      new.solicitante := coalesce(new.solicitante, public.sys_account(), public.sys_account_def());
+      new.source_table := coalesce(new.source_table, source_table_);
+      new.source_recno := coalesce(new.source_recno, new.recno);
+   end if;
+
+   if tg_op = 'UPDATE' then
+      if new.status > _ANALISE and old.status <= _ANALISE then
+         -- Preenchedo com dados do analista
+         new.analista := coalesce(new.analista, public.sys_account(), public.sys_account_def());
+         new.analisado_em := clock_timestamp();
+      end if;
+   end if;
+
+   return new;
+end;
+$$
+language plpgsql;

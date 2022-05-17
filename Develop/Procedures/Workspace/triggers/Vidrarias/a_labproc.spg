@@ -14,7 +14,7 @@ CREATE OR REPLACE FUNCTION a_labproc()
 $$
 BEGIN
    if tg_op = 'UPDATE' then
-      if new.situacao = 4 and old.situacao != 4 and new.remessa is not null then 
+      if new.situacao = 4 and old.situacao != 4 and new.remessa is not null then
          if new.correio is not null then
             -- Marca o frete com estimado
             update correio
@@ -27,7 +27,7 @@ BEGIN
             update pedido
                set status = 50
              where recno = new.pedido;
-         end if; 
+         end if;
       end if;
       
       if new.situacao = 5 and old.situacao != 5 and new.correio is not null then

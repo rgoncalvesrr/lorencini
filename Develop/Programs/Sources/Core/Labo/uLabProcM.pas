@@ -23,8 +23,6 @@ type
     Label10: TLabel;
     DBEdit10: TDBEdit;
     actFindCli: TAction;
-    Label3: TLabel;
-    DBEdit3: TDBEdit;
     Label5: TLabel;
     DBEdit4: TDBEdit;
     Label6: TLabel;
@@ -57,7 +55,6 @@ type
     Panel11: TPanel;
     Panel12: TPanel;
     Panel13: TPanel;
-    Panel15: TPanel;
     Panel16: TPanel;
     Panel17: TPanel;
     Panel18: TPanel;

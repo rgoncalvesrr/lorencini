@@ -14,16 +14,16 @@ CREATE OR REPLACE FUNCTION a_sys_fn()
 $$
 Declare
    aplicar  boolean;
-BEGIN   
+BEGIN
    if tg_op <> 'DELETE' then
       aplicar := new.status = 2;
 
-      if aplicar then 
+      if aplicar then
          aplicar := tg_op = 'INSERT';
 
          if not aplicar then
             aplicar := tg_op = 'UPDATE' and (new.checksum <> old.checksum or old.status <> 2);
-         end if;         
+         end if;
       end if;
 
       if aplicar then

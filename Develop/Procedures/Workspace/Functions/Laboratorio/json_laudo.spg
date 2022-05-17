@@ -1,0 +1,81 @@
+/**
+   Gera json pesquisável para o laudo informado
+
+	@author    Ricardo Gonçalves
+	@date      08/03/2022
+	@trigger
+
+	Histórico
+	-------------------------------------------------------------------------------------------------------------------
+ */
+Create or Replace Function api.json_laudo(
+   in laudo_ integer,
+   in atualiza_ boolean = true)
+Returns jsonb As
+$$
+declare
+   content_ api.json_reports.content%type;
+begin
+   content_ := null;
+
+   select
+      jsonb_build_object('report', r.recno, 'order', r.pedido, 'revision', r.revisao, 'status', rs."label",
+       'created', r.criacao, 'received', a.recebimento, 'executed_at', r.apontado, 'emmited', r.emissao, 'nextCollect', r.pcoleta,
+       'reportType', r.relato_recno, 'typetitle', re.titulo, 'typeabbreviation', re.sigla, 'typedescription', re.descri,
+       'description', s.descri, 'diagnostic', r.diagnostico, 'recommendation', r.recomendacao, 'observation', r.obs,
+       'sign', r.assinatura, 'criticality', jsonb_build_object('recno', rc.recno, 'label', rc.descri, 'level', rc."label"),
+       'customer', r.destinatario, 'sample', jsonb_build_object('sample', r.amostra, 'ticket', a.comodato, 'type', tp.descri, 'sampler', a.amostrador,
+       'tenvironment', a.tamb, 'tsample', a.toleo, 'tdevice', a.tequip, 'humidity', a.umidade, 'voltage', a.tensao, 'collect_date', a.coleta,
+       'expiration_at', a.validade, 'samplestatus', ast.descri, 'created_at', a.emissao, 'emitted_at', a.emissao, 'sent_at', a.remessa,
+       'received_at', a.recebimento, 'released', a.liberacao, 'consumed_at', a.consumido, 'cancelled_at', a.cancelamento),
+       'device', jsonb_build_object('serie', d.serie, 'name', d.devicename, 'status', sys_iif(d.status = 1, 'Operação', 'Reserva'),
+       'familyname', d.familyname, 'manufacturer', d.manufacturer, 'insulatorname', d.insulatorname, 'typename', d.devicetypename, 'typeabreviation', d.devicetypeabbreviation,
+       'local', d."local", 'substation', d.substation, 'tag', d.tag, 'volume', d.volume, 'power', d.power, 'powera', d.powera, 'powerb', d.powerb, 'powerunit', d.powerunit,
+       'phases', d.phases, 'lote', d.lote, 'impedance', d.impedance, 'impedancea', d.impedancea, 'impedanceb', d.impedanceb, 'voltage', d.voltage, 'voltagea', d.voltagea,
+       'voltageb', d.voltageb, 'voltageunit', d.voltageunit, 'electriccurrent', d.electriccurrent, 'electriccurrenta', d.electriccurrenta, 'electriccurrentb', d.electriccurrentb,
+       'year', d."year"),
+       'results', jsonb_build_object('assays', res.results, 'legend', re.legendas, 'decisionRule', re.regras))
+   into content_
+   from labamostras_rel r
+        join labamostras a
+          on a.recno = r.amostra
+        join labtipo tp
+          on tp.recno = a.tpamostra_recno
+        join labamostras_status ast
+          on ast.status = a.estado
+        join api.devicesbycustomers d
+          on d.tenantid = a.codigo
+         and d.device = a.equip_recno
+        join public.servicos s
+          on s.codserv = r.codserv
+        join vlaudocrit rc
+          on rc.relato_recno = r.relato_recno
+         and rc.recno  = r.labcrit_recno
+        join api.json_results res
+          on res.laudo = r.recno
+         and res.relato_recno = r.relato_recno
+        join labamostras_rel_status rs
+          on rs.status = r.status
+        join labrel re
+          on re.recno = r.relato_recno
+   where r.recno = laudo_;
+
+   if atualiza_ then
+      if content_ is null then
+         delete
+           from api.json_reports
+          where laudo = laudo_;
+      else
+         insert into api.json_reports
+            (laudo, content)
+         values
+            (laudo_, content_)
+         on conflict (laudo)
+            do update set content = excluded.content;
+      end if;
+   end if;
+
+   return content_;
+end;
+$$
+language plpgsql;

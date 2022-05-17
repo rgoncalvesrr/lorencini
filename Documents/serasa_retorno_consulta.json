@@ -1,0 +1,135 @@
+{
+   "data": {
+      "message": {
+         "header": [
+            {
+               "Base": "C",
+               "Tipo": "B49C",
+               "Cobra": "S",
+               "Passa": "",
+               "Cheque": "",
+               "CodTab": "",
+               "Funcao": "FIM",
+               "CnpjCpf": "01001001000113",
+               "QtdReg1": 13,
+               "estacao": "",
+               "Atualiza": "S",
+               "Conversa": "S",
+               "Resposta": "",
+               "TotalReg": 13,
+               "DtQuality": "",
+               "Negativos": "",
+               "QtdCompra": 0,
+               "Codificado": "N",
+               "ConsCollec": "",
+               "DataConsul": "2019/02/08",
+               "HoraConsul": "08:13:50",
+               "Modalidade": "OO",
+               "Prodorigem": "",
+               "TipoPessoa": "J",
+               "TpConsulta": "A",
+               "TranOrigem": "0",
+               "Consultante": "01001001000113",
+               "IdentTermIST": "",
+               "CentroDeCusto": "0000000000000",
+               "ValorConsulta": 20,
+               "AcessoRecheque": "",
+               "QuantidadeRegistro": "99",
+               "TemOcorrenciaRecheque": ""
+            }
+         ],
+         "Alertas": [
+            {
+               "UF": "",
+               "CEP": "",
+               "DDD": "",
+               "Tipo": "N003",
+               "SubTipo": "00",
+               "Telefone": "",
+               "FeatureDisponiveis": ""
+            }
+         ],
+         "Consulta": [
+            {
+               "Fixo": "N",
+               "Tipo": "N001",
+               "Agrupa": "N",
+               "Filler": "",
+               "Filler2": "",
+               "SubTipo": "00",
+               "Reservado": "",
+               "StatusBanco": "",
+               "NomeFantasia": "",
+               "TipoConsulta": "PF",
+               "ChaveConsulta": "222222",
+               "ResumoAnotacoes": "S",
+               "ConsultaSintetica": "",
+               "SituacaoCadastral": "",
+               "TransacaoConsulta": "X2LJ",
+               "TratamentoTelefone": "S",
+               "IdentificacaoDadosCheque": "0"
+            }
+         ],
+         "MensagemTrailer": [
+            {
+               "Tipo": "T999",
+               "Codigo": "000",
+               "Mensagem": "PROCESSO ENCERRADO NORMALMENTE"
+            }
+         ],
+         "MensagemConsultaSerasa": [
+            {
+               "Tipo": "N440",
+               "SubTipo": "99",
+               "Mensagem": "NAO CONSTAM INFORMACOES"
+            }
+         ],
+         "MensagemPendenciaInterna": [
+            {
+               "Tipo": "N230",
+               "SubTipo": "99",
+               "Mensagem": "NAO CONSTAM OCORRENCIAS"
+            }
+         ],
+         "ComplementoBlocoConfirmei": [
+            {
+               "Tipo": "N200",
+               "NomeMae": "",
+               "SubTipo": "01"
+            }
+         ],
+         "BlocoInformacoesDoConfirmei": [
+            {
+               "Tipo": "N200",
+               "SubTipo": "00",
+               "NomeRazao": "CONFIRMEI TESTE 11111111111",
+               "DataNascimento": "2016/02/19",
+               "SituacaoDocumento": "2",
+               "DataSituacaoDocumento": "2019/02/04",
+               "FlagExistenciaCCFIndisponivel": "N"
+            }
+         ],
+         "MensagemChequeSemFundoBacen": [
+            {
+               "Tipo": "N270",
+               "SubTipo": "99",
+               "Mensagem": "NAO CONSTAM OCORRENCIAS"
+            }
+         ],
+         "MensagemPendenciaFinanceira": [
+            {
+               "Tipo": "N240",
+               "SubTipo": "99",
+               "Mensagem": "NAO CONSTAM OCORRENCIAS"
+            }
+         ],
+         "MensagemAlertaDocumentosRoubados": [
+            {
+               "Tipo": "N210",
+               "SubTipo": "99",
+               "Mensagem": "NAO CONSTAM OCORRENCIAS"
+            }
+         ]
+      }
+   }
+}

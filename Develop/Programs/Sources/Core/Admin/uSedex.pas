@@ -147,7 +147,7 @@ type
     procedure SetFrascos(const Value: Integer);
     procedure SetSeringas(const Value: Integer);
     procedure SetCalculos(const Value: ICalculos);
-
+    function CodeToService(Value: string): TACBrTpServico;
   public
     { Public declarations }
     procedure Calcular;
@@ -214,7 +214,7 @@ begin
       Diametro := Self.Diametro;
       Volumes := Self.Volumes;
       Peso := Self.Peso;
-      CodServico := FServicos.Selected.Value;
+      Servico := CodeToService(FServicos.Selected.Value);
 
       Consultar;
       LogClear;
@@ -321,6 +321,42 @@ procedure TSedex.cbServicosChange(Sender: TObject);
 begin
   inherited;
   Servico := FServicos.Selected.Value;
+end;
+
+function TSedex.CodeToService(Value: string): TACBrTpServico;
+begin
+
+  if Value = '40215' then
+    Result := Tps40215SEDEX10
+  else if Value = '04014' then
+    Result := Tps04014SEDEX
+  else if Value = '40290' then
+    Result := Tps40290SEDEXHOJE
+  else if Value = '81019' then
+    Result := Tps81019eSEDEX
+  else if Value = '44105' then
+    Result := Tps44105MALOTE
+  else if Value = '85480' then
+    Result := Tps85480AEROGRAMA
+  else if Value = '10030' then
+    Result := Tps10030CARTASIMPLES
+  else if Value = '10014' then
+    Result := Tps10014CARTAREGISTRADA
+  else if Value = '16012' then
+    Result := Tps16012CARTAOPOSTAL
+  else if Value = '20010' then
+    Result := Tps20010IMPRESSO
+  else if Value = '14010' then
+    Result := Tps14010MALADIRETA
+  else if Value = '40045' then
+    Result := Tps40045SEDEXaCobrarVarejo
+  else if Value = '40215' then
+    Result := Tps40215SEDEX10Varejo
+  else if Value = '40290' then
+    Result := Tps40290SEDEXHojeVarejo
+  else
+    raise Exception.CreateFmt('Tipo de serviço %s do correio é inválido!', [Value]);
+
 end;
 
 procedure TSedex.edAltChange(Sender: TObject);
@@ -655,45 +691,7 @@ procedure TSedex.SetServico(const Value: string);
 var
   I: Integer;
 begin
-  ACBrSedex1.CodServico := Value;
-
-//  with ACBrSedex1 do
-//  begin
-//    if Value = '41106' then
-//      Servico := Tps41106PAC;
-//    if Value = '40010' then
-//      Servico := Tps40010SEDEX;
-//    if Value = '40215' then
-//      Servico := Tps40215SEDEX10;
-//    if Value = '40290' then
-//      Servico := Tps40290SEDEXHOJE;
-//    if Value = '81019' then
-//      Servico := Tps81019eSEDEX;
-//    if Value = '44105' then
-//      Servico := Tps44105MALOTE;
-//    if Value = '85480' then
-//      Servico := Tps85480AEROGRAMA;
-//    if Value = '10030' then
-//      Servico := Tps10030CARTASIMPLES;
-//    if Value = '10014' then
-//      Servico := Tps10014CARTAREGISTRADA;
-//    if Value = '16012' then
-//      Servico := Tps16012CARTAOPOSTAL;
-//    if Value = '20010' then
-//      Servico := Tps20010IMPRESSO;
-//    if Value = '14010' then
-//      Servico := Tps14010MALADIRETA;
-//    if Value = '40010' then
-//      Servico := Tps40010SEDEXVarejo;
-//    if Value = '40045' then
-//      Servico := Tps40045SEDEXaCobrarVarejo;
-//    if Value = '40215' then
-//      Servico := Tps40215SEDEX10Varejo;
-//    if Value = '40290' then
-//      Servico := Tps40290SEDEXHojeVarejo;
-//    if Value = '41106' then
-//      Servico := Tps41106PACVarejo;
-//  end;
+  ACBrSedex1.Servico := CodeToService(Value);
 
   for I := 0 to FServicos.Count - 1 do
     if FServicos[i].Value = Value then

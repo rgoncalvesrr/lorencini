@@ -36,23 +36,26 @@ BEGIN
          select recno
            into new.table_recno
            from sys_tables
-          where tabela = tablename; 
-         
+          where tabela = tablename;
+
          -- Registra tabela caso não exista
          if not FOUND then
-            new.table_recno := nextval('sys_tables_recno_seq'::regclass);
-
-            insert into sys_tables(
-               recno,           tabela,    descri)
-            values (
-               new.table_recno, tablename, tablename);
+            insert into sys_tables
+               (schema_, tabela, descri)
+            values
+               (new.schema_, tablename, tablename)
+            returning recno into new.table_recno;
+         else
+            update sys_tables
+               set schema_ = new.schema_
+             where recno = new.table_recno;
          end if;
 
          if new.table_recno is null then
             new.status := 1; -- desenvolvimento
          else
             event := substr(new.fn, 1, 1);
-            
+
             if event = 'b' then
                new.evento := 1;
             end if;

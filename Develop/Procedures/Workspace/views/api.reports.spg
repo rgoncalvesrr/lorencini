@@ -1,26 +1,26 @@
 set session authorization lorencini;
 create or replace view api.reports as
-select l.recno report, l.amostra sample, l.pedido "order", a.comodato ticket, l.relato_recno reporttype, l.diagnostico diagnostic, l.recomendacao recommendation, l.obs observation, 
-       l.criacao created, l.emissao emmited, l.assinatura sign, l.status, l.pcoleta nextcollect, rc.descri crit_label, rc.cor crit_cor, 
-       rc.recno crit_id, a.codigo tenantid, lr.titulo typetitle, lr.sigla typeabbreviation, lr.descri typedescription, s.descri description, 
+select l.recno report, l.amostra sample, l.pedido "order", a.comodato ticket, l.relato_recno reporttype, l.diagnostico diagnostic, l.recomendacao recommendation, l.obs observation,
+       l.criacao created, l.emissao emmited, l.assinatura sign, l.status, l.pcoleta nextcollect, rc.descri crit_label, rc.cor crit_cor,
+       rc.recno crit_id, a.codigo tenantid, lr.titulo typetitle, lr.sigla typeabbreviation, lr.descri typedescription, s.descri description,
        a.amostrador sampler, d.device, d.serie, d.devicename, d.status devicestatus, d.familyname, d.manufacturer, d.insulator, d.insulatorname, d.devicetypename,
        d."local", d.substation, d.tag, ah.ocorrencia received, l.revisao revision, a.tamb tenvironment, a.toleo tsample, a.tequip tdevice, d.volume,
        ass.hash, ass.titles, ass.results, ass.assays, l.destinatario customer
   from public.labamostras_rel l
       join public.labamostras a
-        on a.recno = l.amostra     
+        on a.recno = l.amostra
       left join labamostras_hist ah
-        on ah.amostra = l.amostra 
+        on ah.amostra = l.amostra
        and ah.estado = 40
       join public.labrel lr
         on lr.recno = l.relato_recno
       join public.servicos s
         on s.codserv = l.codserv
       join api.devicesbycustomers d
-        on d.tenantid = a.codigo 
+        on d.tenantid = a.codigo
        and d.device = a.equip_recno
-      join vlaudocrit rc 
-        on rc.relato_recno = l.relato_recno 
+      join vlaudocrit rc
+        on rc.relato_recno = l.relato_recno
        and rc.recno  = l.labcrit_recno
       left join api.reports_assays ass
          on ass.report = l.recno;

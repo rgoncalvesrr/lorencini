@@ -1,0 +1,8 @@
+create or replace view public.vop_materiais as
+select m.op, m.pedido, m.material, m.qtd, pm.vvenda, m.qtd * pm.vvenda vtotal
+  from public.op_materiais m
+       join public.pedido_mat pm
+         on pm.pedido = m.pedido
+        and pm.material = m.material;
+
+alter view public.vop_materiais owner to lorencini;

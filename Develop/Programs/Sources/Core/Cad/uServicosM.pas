@@ -7,7 +7,7 @@ uses
   Dialogs, uIBrowseDet, ActnList, Grids, DBGrids, ComCtrls, ExtCtrls, ToolWin,
   StdCtrls, Mask, DBCtrls, ZSqlUpdate, DB, ZAbstractRODataset,
   ZAbstractDataset, ZDataset, JvExMask, JvToolEdit, JvBaseEdits, JvDBControls,
-  JvExStdCtrls, JvCombobox, JvDBCombobox, CheckLst;
+  JvExStdCtrls, JvCombobox, JvDBCombobox, CheckLst, Buttons;
 
 type
   TServicosM = class(TIDefBrowseEdit)
@@ -39,16 +39,24 @@ type
     Panel12: TPanel;
     Label7: TLabel;
     JvDBCalcEdit2: TJvDBCalcEdit;
-    Panel13: TPanel;
-    Label8: TLabel;
-    JvDBComboBox2: TJvDBComboBox;
     TabSheet2: TTabSheet;
     CheckListBox1: TCheckListBox;
     ToolBar2: TToolBar;
     ToolButton5: TToolButton;
     ToolButton15: TToolButton;
+    Panel14: TPanel;
+    Label9: TLabel;
+    DBEdit8: TDBEdit;
+    Panel35: TPanel;
+    SpeedButton1: TSpeedButton;
+    Panel15: TPanel;
+    Label10: TLabel;
+    DBEdit9: TDBEdit;
+    actFindRecipiente: TAction;
     procedure CheckListBox1ClickCheck(Sender: TObject);
     procedure PageControl3Change(Sender: TObject);
+    procedure DBEdit8Exit(Sender: TObject);
+    procedure actFindRecipienteExecute(Sender: TObject);
   private
     { Private declarations }
     procedure RefreshControls; override;
@@ -67,9 +75,26 @@ implementation
 
 {$R *.dfm}
 
-uses uServicos, uIUtils, uServicosMDet, uDM;
+uses
+  uServicos, uIUtils, uServicosMDet, uDM, mcUtils, uLabRecipientes;
 
 { TServicosM }
+
+procedure TServicosM.actFindRecipienteExecute(Sender: TObject);
+begin
+  LabRecipientes := TLabRecipientes.Create(nil);
+  try
+    LabRecipientes.DisplayMode := dmQuery;
+    LabRecipientes.ShowModal;
+    if (LabRecipientes.Execute) then
+    begin
+      Self.DataSet.FieldByName('vidraria').AsInteger := LabRecipientes.IBrwSrcrecno.AsInteger;
+      DBEdit8Exit(DBEdit8);
+    end;
+  finally
+    FreeAndNil(LabRecipientes);
+  end;
+end;
 
 procedure TServicosM.CheckListBox1ClickCheck(Sender: TObject);
 var
@@ -93,13 +118,37 @@ begin
   end;
 end;
 
+procedure TServicosM.DBEdit8Exit(Sender: TObject);
+var
+  fLkp: TStringList;
+begin
+  inherited;
+  if mcEmpty(DBEdit8.Text) or not (DataSet.State in [dsEdit, dsInsert])  then
+    Exit;
+
+  fLkp:= TStringList.Create;
+  try
+    fLkp.Add('descri');
+
+    if U.Data.CheckFK('labtipo_recipiente', 'recno', DBEdit8.Text, fLkp) then
+      DataSet.FieldByName('recipiente').AsString := fLkp[0]
+    else
+    begin
+      U.Out.ShowErro('Recipiente não cadastrado.');
+      DBEdit8.SetFocus;
+    end;
+  finally
+    fLkp.Free;
+  end;
+end;
+
 procedure TServicosM.LoadTipoRel;
 var
   oBM: TBookmark;
 begin
   if not Assigned(DataSet) then
     Exit;
-    
+
   with Servicos, CheckListBox1 do
   try
     qTipoLaudo.First;
@@ -143,6 +192,8 @@ begin
   inherited;
   if PageControl3.ActivePage = TabSheet2 then
     RefreshTipoRel;
+    
+  actFindRecipiente.Enabled := Assigned(DataSet) and (DataSet.State in [dsEdit, dsInsert]);
 end;
 
 procedure TServicosM.RefreshTipoRel;

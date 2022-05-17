@@ -57,7 +57,7 @@ Declare
    icol        integer;
 
    iensaio     labamostras_res.ensaio_recno%type;
-   
+
    -- Variáveis que guardam a assinatura digital
    vass_p1     varchar(32);
    vass_p2     varchar(32);
@@ -85,11 +85,11 @@ BEGIN
       if new.baixado then
          raise '[[O laudo % não pode sofrer alterações porque baixado pelo cliente via internet.]]', new.recno;
       end if;
-      
+
       -- Trata inserção
       if tg_op = 'INSERT' then
          new.status := _SREL_DIGITACAO;
-         new.criacao := localtimestamp;
+         new.criacao := clock_timestamp();
          new.analise_automatica := false;
 
          -- Obtem informações do laudo
@@ -119,10 +119,10 @@ BEGIN
                      where er.relato_recno = new.relato_recno
                        and er.ensaio_recno = res.ensaio_recno);
 
-            delete 
+            delete
               from labamostras_res
-             where recno in ( 
-                   select res.recno 
+             where recno in (
+                   select res.recno
                      from labamostras_res res
                     where res.laudo = new.recno
                       and not exists(
@@ -181,7 +181,7 @@ BEGIN
              where account = account_;
             
             -- Responsável técnico
-            select idcodigo 
+            select idcodigo
               into new.idcodigo
               from tbfuncionarios 
              where resptec;
@@ -191,7 +191,7 @@ BEGIN
             -- Tenta fazer a revisão automática de resultados
             --
             -- Por padrão o campo "analise_automatica" é preenchido com falso.
-            -- 
+            --
             -- Caso passe em todos os critérios a seguir é marcado como verdadeiro.            
             --
             select rel.recno, c.exige_revisao, rel.diagnostico, rel.recomendacao, rel.obs, rel.labcrit_recno, 
@@ -426,6 +426,7 @@ BEGIN
                new.pendencia := null;
             end if;
          elsif old.status = _SREL_CANCELADO then
+            
             raise '[[O laudo % não pode sofrer alterações porque está cancelado.]]', new.recno;
          elsif (new.status < old.status) then                     
             -- Gerando revisão do laudo

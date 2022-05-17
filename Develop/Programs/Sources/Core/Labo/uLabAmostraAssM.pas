@@ -215,6 +215,7 @@ type
   private
     FLaudo: TLaudo;
     FLastRow: Integer;
+    procedure MarcarLaudo;
     procedure SetLaudo(const Value: TLaudo);
     procedure RefreshControls; override;
     procedure ChangeRow(Sender: TObject; ACol, ARow: Integer;
@@ -231,7 +232,7 @@ var
 
 implementation
 
-uses uLabAmostraAss, uIUtils, mcUtils, uDM, uClientes;
+uses uLabAmostraAss, uIUtils, mcUtils, uDM, uClientes, uLaudoService;
 
 {$R *.dfm}
 
@@ -255,6 +256,9 @@ end;
 procedure TLabAmostraAssM.actSignExecute(Sender: TObject);
 begin
   inherited;
+
+  MarcarLaudo;
+
   if not (DataSet.State in [dsEdit, dsInsert]) then
     DataSet.Edit;
 
@@ -264,6 +268,8 @@ begin
   G.RefreshDataSet(DataSet);
   RefreshControls;
   DataSet.First;
+
+  TLaudoService.ShowReportsWithIssue;
 end;
 
 procedure TLabAmostraAssM.ChangeRow(Sender: TObject; ACol, ARow: Integer;
@@ -321,6 +327,21 @@ procedure TLabAmostraAssM.FormDestroy(Sender: TObject);
 begin
   FreeAndNil(LabLaudoUI);
   inherited;
+end;
+
+procedure TLabAmostraAssM.MarcarLaudo;
+begin
+  with U.Query do
+  try
+    SQL.Text := 'select sys_flag_mark(:tabela, :registro)';
+
+    ParamByName('tabela').AsString := 'labamostras_rel';
+    ParamByName('registro').AsInteger := DataSet.FieldByName('recno').AsInteger;
+
+    ExecSQL;
+  finally
+    Close;
+  end;
 end;
 
 procedure TLabAmostraAssM.OnLoad;

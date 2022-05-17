@@ -15,10 +15,36 @@ $$
 declare
    table_id   sys_tables.recno%type := sys_origem(in_table_);
 begin
-   if not sys_flag(in_table_, in_recno) then
-		insert into sys_flags (table_,    recno)
-		values                (table_id, in_recno);
-	end if;
+   perform sys_flag_mark(table_id, in_recno);
 END;
+$$
+language plpgsql;
+
+Create or Replace Function sys_flag_mark(
+	in in_table_ varchar,
+	in in_recno bigint )
+Returns void as
+$$
+begin
+   perform sys_flag_mark(in_table_, in_recno::integer);
+END;
+$$
+language plpgsql;
+
+Create or Replace Function sys_flag_mark(
+	in in_table_ integer,
+	in in_recno integer)
+Returns void as
+$$
+declare
+   session_ session$ := sys_session();
+begin
+   insert into sys_flags
+      (session, table_, recno)
+	values
+      (session_, in_table_, in_recno)
+   on conflict (session, table_, recno)
+      do nothing;
+end;
 $$
 language plpgsql;

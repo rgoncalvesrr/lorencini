@@ -126,7 +126,7 @@ inherited OS: TOS
             Height = 15
             Align = alTop
             AutoSize = False
-            Caption = '01/04/2021 a 30/04/2021'
+            Caption = '01/02/2022 a 28/02/2022'
             Transparent = True
             ExplicitLeft = 29
             ExplicitTop = 26
@@ -157,7 +157,7 @@ inherited OS: TOS
             end
             inherited CCalendarDiff1: TCCalendarDiff
               Interval = diMonthly
-              Date = 44294.751736469910000000
+              Date = 44594.574130069440000000
               DisplayInterval = Label4
               OnChange = actQueryProcessExecute
             end

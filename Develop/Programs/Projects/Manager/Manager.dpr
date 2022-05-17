@@ -303,7 +303,13 @@ uses
   uClientesInativos in '..\..\Sources\Core\Vendas\uClientesInativos.pas' {ClienteInativos},
   uGestaoProducao in '..\..\Sources\Core\Dash\uGestaoProducao.pas' {GestaoProducao},
   uFiscal in '..\..\Sources\Application\uFiscal.pas',
-  uLabLaudoBloq in '..\..\Sources\Core\Labo\uLabLaudoBloq.pas' {LabLaudoBloq};
+  uLabLaudoBloq in '..\..\Sources\Core\Labo\uLabLaudoBloq.pas' {LabLaudoBloq},
+  uLabAmostraAssBloq in '..\..\Sources\Core\Labo\uLabAmostraAssBloq.pas' {LabAmostraAssBloq},
+  uLaudoService in '..\..\Sources\Core\Labo\uLaudoService.pas',
+  uOP in '..\..\Sources\Core\Producao\uOP.pas' {OP},
+  uLabRecipientes in '..\..\Sources\Core\Labo\uLabRecipientes.pas' {LabRecipientes},
+  uLabRecipientesM in '..\..\Sources\Core\Labo\uLabRecipientesM.pas' {LabRecipientesM},
+  uAnaliseDeCredito in '..\..\Sources\Core\Financ\uAnaliseDeCredito.pas' {AnaliseDeCredito};
 
 {$R *.res}
 

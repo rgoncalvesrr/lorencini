@@ -97,7 +97,7 @@ inherited Servicos: TServicos
         ExplicitWidth = 823
         ExplicitHeight = 374
         inherited DBGrid1: TDBGrid
-          Height = 374
+          Height = 368
         end
       end
     end
@@ -153,10 +153,12 @@ inherited Servicos: TServicos
     SQL.Strings = (
       'select a.codserv, a.descri, a.un, a.valor, '
       '       a.tipo,    a.grupo,  b.descri, a.prnsecserv, a.recno,'
-      '       a.consumo, a.vidraria'
+      '       a.consumo, a.vidraria, r.descri recipiente'
       '  from servicos a'
       '       join servicos_grupo b'
-      '         on b.recno = a.grupo')
+      '         on b.recno = a.grupo'
+      '       left join labtipo_recipiente r'
+      '         on r.recno = a.vidraria')
     Sequence = sBrwSrc
     SequenceField = 'recno'
     Left = 264
@@ -226,9 +228,13 @@ inherited Servicos: TServicos
       Alignment = taLeftJustify
       DisplayLabel = 'Vidraria'
       FieldName = 'vidraria'
-      Required = True
-      OnGetText = IBrwSrcvidrariaGetText
-      OnSetText = IBrwSrcvidrariaSetText
+      Visible = False
+      OnChange = IBrwSrcvidrariaChange
+    end
+    object IBrwSrcrecipiente: TStringField
+      DisplayLabel = 'Recipiente'
+      FieldName = 'recipiente'
+      Size = 60
     end
   end
   inherited zIBrwSrc: TZUpdateSQL

@@ -11,7 +11,7 @@
 
    22/11/2011  Ricardo Gonçalves.
       [-] Quando o campo de temperatura do óleo estava nulo a checagem de conteúdo contra 0 estava falhando. Foi adicionada
-         chamada a função coalesce.   
+         chamada a função coalesce.
 
    28/10/2021  Ricardo Gonçalves.
       [+] Preenchimento das datas quando a amostra muda de estado.
@@ -29,13 +29,13 @@ CREATE OR REPLACE FUNCTION b_labamostras()
   RETURNS trigger AS
 $$
 Declare
-   _EGERADA       constant integer := 10;
-   _EIMPRESSA     constant integer := 20;
-   _EENVIADA      constant integer := 30;
-   _ERECEBIDA     constant integer := 40;
-   _EDISPONIVEL   constant integer := 50;
-   _EUTILIZADA    constant integer := 60;
-   _ECANCELADA    constant integer := 70;
+   _EGERADA          constant integer := 10;
+   _EEXPEDIDA        constant integer := 20;
+   _ECOLETANDO       constant integer := 30;
+   _ERECEBIDA        constant integer := 40;
+   _EDISPONIVEL      constant integer := 50;
+   _ECONSUMIDA       constant integer := 60;
+   _ECANCELADA       constant integer := 70;
 
    _ST_LAUDO_DIGIT   constant integer := 0;
    _ST_LAUDO_APONT   constant integer := 1;
@@ -43,122 +43,181 @@ Declare
    _ST_LAUDO_ASSIN   constant integer := 3;
    _ST_LAUDO_CANCE   constant integer := 5;
 
-   rrow        record;
+   _ST_PROC_EXPEDICAO   constant integer = 4;
+   _ST_PROC_FINALIZADO  constant integer = 6;
+
+   rrow           record;
+   estado_atual_  public.labamostras_status.descri%type;
+   estado_novo_   public.labamostras_status.descri%type;
+   status_label_  public.labamostras_status.descri%type;
 BEGIN
    if tg_op <> 'DELETE' then
       new.saldo := new.qtd - new.consumido - new.descartado;
       new.comodato := coalesce(new.comodato, new.recno);
+   else
+      return old;
    end if;
 
    if tg_op = 'INSERT' then
       -- preenche origem da amostra
       if new.origem is null then
          new.origem := sys_origem('labamostras');
-         new.origem_recno := new.recno;                  
+         new.origem_recno := new.recno;
       end if;
 
       new.estado_data := current_date;
       new.geracao := clock_timestamp();
       new.cliente := coalesce(new.cliente, new.codigo);
-   end if;
 
-   if tg_op = 'UPDATE' then
-      if new.estado <> old.estado then
-         new.estado_data := current_date;
-
-         case new.estado
-            when _EIMPRESSA then new.emissao = clock_timestamp();
-            when _EENVIADA then new.remessa = clock_timestamp();
-            when _ERECEBIDA then new.recebimento = clock_timestamp();
-            when _EDISPONIVEL then new.liberacao = clock_timestamp();
-            when _EUTILIZADA then new.utilizacao = clock_timestamp();        
-            when _ECANCELADA then new.cancelamento = clock_timestamp();
-         end case;
-
-      end if;
-
-      -- Tratamento da revisão de laudos
-      if old.estado in (_EDISPONIVEL, _EUTILIZADA) and  
-         (new.tpamostra_recno <> old.tpamostra_recno or new.toleo <> old.toleo or new.tensao <> old.tensao or 
-          new.coleta <> old.coleta or new.equip_recno <> old.equip_recno or new.destinatario <> old.destinatario or
-          new.local <> old.local or new.tamb <> old.tamb or new.cliente <> old.cliente or new.codigo <> old.codigo) then
-
-         update labamostras_rel
-            set status = _ST_LAUDO_DIGIT
-          where amostra = new.recno
-            and revisao is null;  
-      end if;
-
-      -- Validação da amostra
-      if new.estado in (_EDISPONIVEL, _EUTILIZADA) then
-         -- Verifica se o tipo e tensão estão preenchidas
-         if new.tpamostra_recno is null then
-            raise '[[A amostra % não pode ser gravada porque o tipo não está definido.]]', new.recno;
-         end if;
-
-         -- Verifica a data de coleta
-         if new.coleta is null then
-            raise '[[A amostra % deve ter a data de coleta preenchida.]]', new.recno;
-         end if;
-
-         -- Valida a temperatura do óleo no ponto de coleta
-         if coalesce(new.toleo, 0) <= 0 then
-            raise '[[A amostra % deve ter temperatura no ponto de coleta maior que zero.]]', new.recno;
-         end if;
-
-         -- Validação e preenchimento da classe de tensão
-         if exists(
-            select 1
-              from labtipo
-             where recno = new.tpamostra_recno
-               and inf_te)
-         then
-            -- Recupera as informações do tipo de equipamento e tensão
-            if new.equip_recno is null then
-               raise '[[O tipo associado a amostra % exige que o equipamento seja informado.]]', new.recno;
-            end if;
-
-            -- Preenche tensão com informação cadastral
-            select tensao
-              into new.tensao
-              from labequip
-             where recno = new.equip_recno;
-
-            -- Associa equipamento ao cliente
-            if not exists(
-               select 1
-                 from labequipxcli
-                where codigo = new.codigo
-                  and equip = new.equip_recno)
-            then
-               -- Cria associação
-               insert into labequipxcli(
-                  codigo, equip, subest, tag, local)
-               values (
-                  new.codigo, new.equip_recno, new.labsubest_recno, new.tag, new.local);
-            else
-               -- Atualiza informações
-               update labequipxcli
-                  set tag = new.tag, local = new.local
-                where codigo = new.codigo
-                  and equip = new.equip_recno;
-            end if;
-         else
-            new.equip_recno := null;
-         end if;
-
-         -- Verifica o preenchimento da tensão
-         if coalesce(new.tensao, 0) = 0 then
-            raise '[[A amostra % não pode ser gravada porque a tensão não foi informada.]]', new.recno;
-         end if;
-      end if;
-   end if;
-
-   if tg_op <> 'DELETE' then
       return new;
-   else
-      return old;
    end if;
+
+   -- Encerra amostra
+   if old.estado = _EDISPONIVEL and new.saldo = 0 then
+      new.estado := _ECONSUMIDA;
+   end if;
+
+   if new.estado <> old.estado then
+      new.estado_data := current_date;
+
+      case new.estado
+         when _EEXPEDIDA then new.emissao = clock_timestamp();
+         when _ECOLETANDO then new.remessa = clock_timestamp();
+         when _ERECEBIDA then new.recebimento = clock_timestamp();
+         when _EDISPONIVEL then new.liberacao = clock_timestamp();
+         when _ECONSUMIDA then new.utilizacao = clock_timestamp();
+         when _ECANCELADA then new.cancelamento = clock_timestamp();
+      end case;
+   end if;
+
+   select descri
+     into status_label_
+     from labamostras_status
+    where status = new.estado;
+
+   -- Tratamento da revisão de laudos
+   if old.estado in (_EDISPONIVEL, _ECONSUMIDA) and
+      (new.tpamostra_recno <> old.tpamostra_recno or new.toleo <> old.toleo             or new.tensao <> old.tensao or
+       new.coleta <> old.coleta                   or new.equip_recno <> old.equip_recno or new.destinatario <> old.destinatario or
+       new.local <> old.local                     or new.tamb <> old.tamb               or new.cliente <> old.cliente or
+       new.codigo <> old.codigo)
+   then
+      update labamostras_rel
+         set status = _ST_LAUDO_DIGIT
+       where amostra = new.recno
+         and revisao is null;
+   end if;
+
+   if new.estado = _EEXPEDIDA and old.estado = _EGERADA then
+      if not exists(
+         select 1
+           from labprocxequip
+          where amostra = new.amostra)
+      then
+         raise '[[A amostra % não pode ser marcada como "%" porque a etiqueta não foi impressa.]]', new.recno, status_label_;
+      end if;
+   elsif new.estado = _ECOLETANDO and old.estado = _EEXPEDIDA then
+      if not exists(
+         select 1
+           from labproc p
+                join labprocxequip a
+                  on a.labproc_recno = p.recno
+                 and a.amostra = new.recno
+          where p.situacao between _ST_PROC_EXPEDICAO and _ST_PROC_FINALIZADO)
+      then
+         raise '[[A amostra % não pode ser marcada como "%" porque não foi expedida ainda.]]', new.recno, status_label_;
+      end if;
+   elsif new.estado = _ERECEBIDA and old.estado = _ECOLETANDO then
+      if not exists(
+         select 1
+           from labret
+          where amostra = new.recno
+            and labport_recno is not null)
+      then
+         raise '[[A amostra % não pode ser marcada como "%" porque não foi registrada pelo setor de recebimento da Lorencini.]]', new.recno, status_label_;
+      end if;
+   elsif new.estado = _EDISPONIVEL and old.estado = _ERECEBIDA then
+      -- Verifica se o tipo e tensão estão preenchidas
+      if new.tpamostra_recno is null then
+         raise '[[A amostra % não pode ser gravada porque o tipo não está definido.]]', new.recno;
+      end if;
+
+      -- Verifica a data de coleta
+      if new.coleta is null then
+         raise '[[A amostra % deve ter a data de coleta preenchida.]]', new.recno;
+      end if;
+
+      -- Valida a temperatura do óleo no ponto de coleta
+      if coalesce(new.toleo, 0) <= 0 then
+         raise '[[A amostra % deve ter temperatura no ponto de coleta maior que zero.]]', new.recno;
+      end if;
+
+      -- Validação e preenchimento da classe de tensão
+      if exists(
+         select 1
+            from labtipo
+            where recno = new.tpamostra_recno
+            and inf_te)
+      then
+         -- Recupera as informações do tipo de equipamento e tensão
+         if new.equip_recno is null then
+            raise '[[O tipo associado a amostra % exige que o equipamento seja informado.]]', new.recno;
+         end if;
+
+         -- Preenche tensão com informação cadastral
+         select tensao
+            into new.tensao
+            from labequip
+            where recno = new.equip_recno;
+
+         -- Associa equipamento ao cliente
+         if not exists(
+            select 1
+               from labequipxcli
+               where codigo = new.codigo
+               and equip = new.equip_recno)
+         then
+            -- Cria associação
+            insert into labequipxcli(
+               codigo, equip, subest, tag, local)
+            values (
+               new.codigo, new.equip_recno, new.labsubest_recno, new.tag, new.local);
+         else
+            -- Atualiza informações
+            update labequipxcli
+               set tag = new.tag, local = new.local
+               where codigo = new.codigo
+               and equip = new.equip_recno;
+         end if;
+      else
+         new.equip_recno := null;
+      end if;
+
+      -- Verifica o preenchimento da tensão
+      if coalesce(new.tensao, 0) = 0 then
+         raise '[[A amostra % não pode ser gravada porque a tensão não foi informada.]]', new.recno;
+      end if;
+   elsif new.estado = _ECONSUMIDA and old.estado = _EDISPONIVEL then
+
+   elsif new.estado = _ECANCELADA and old.estado <> _ECANCELADA then
+      if old.estado = _ERECEBIDA then
+
+      end if;
+   elsif new.estado <> old.estado then
+      select descri
+        into estado_atual_
+        from labamostras_status
+       where status = old.estado;
+
+      select descri
+        into estado_novo_
+        from labamostras_status
+       where status = new.estado;
+
+      raise '[[Amostra % entrou em estado inválido. Transição inválida de "%"" para "%"]]', new.recno, estado_atual_, estado_novo_;
+   end if;
+
+   return new;
 END;
 $$
   LANGUAGE 'plpgsql' VOLATILE;

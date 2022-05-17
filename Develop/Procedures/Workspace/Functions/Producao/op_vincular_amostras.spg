@@ -1,0 +1,54 @@
+/**
+   Faz associação entre serviços da OS e amostras
+
+	@author    Ricardo Gonçalves
+	@date      02/02/2022
+	@trigger
+
+   @op_  op de serviço
+   @pedido_ pedido da op de serviço   
+
+	Histórico
+	-------------------------------------------------------------------------------------------------------------------
+   15/02/2022  Ricardo Gonçalves
+      [*] Adição de filtragem de amostras levando em consideração o tipo de recipiente da amostra
+*/
+create or replace function op_vincular_amostras(
+   in op_      bigint,
+   in pedido_  integer)
+returns void as
+$$
+declare
+   r  record;
+begin
+   for r in (
+      select ops.codserv, (ops.qtd - ops.amostras) necessidade, s.consumo, p.codigo, s.vidraria
+        from op_servicos ops
+             join servicos s
+               on s.codserv = ops.codserv
+              and s.vidraria > 0
+              and s.consumo > 0
+             join pedido p
+               on p.recno = ops.pedido
+       where ops.op = op_
+         and ops.pedido = pedido_
+         and ops.amostras <> ops.qtd)
+   loop
+      insert into op_amostras
+         (op, pedido, codserv, amostra, consumo)
+      select
+         op_, pedido_, r.codserv, a.recno, r.consumo
+        from labamostras a
+       where a.codigo = r.codigo
+         and a.pedido = pedido_
+         and a.estado = 50
+         and a.saldo >= r.consumo
+         and a.recipiente = r.vidraria
+       order by a.recebimento
+       limit r.necessidade
+      on conflict (op, pedido, codserv, amostra)
+         do nothing;
+   end loop;
+end;
+$$
+language plpgsql;

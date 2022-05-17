@@ -39,7 +39,9 @@ const
 
 procedure TSYSFNLoader.PersistFileToDB(Directory: string; SearchRec: TSearchRec);
 var
-  procType: Integer;
+  procType, i: Integer;
+  procName: string;
+  schemaName: string;
 begin
   if FIsTrigger then
     procType := _TRIGGER
@@ -47,9 +49,18 @@ begin
     procType := _PROC;
 
   with U.Data.GetQuery(
-    'select sys_fn(:fn, :descri, :tipo, :modification, :stmt, :remove)') do
+    'select sys_fn(:schema, :fn, :descri, :tipo, :modification, :stmt, :remove)') do
   try
-    ParamByName('fn').AsString := StringReplace(SearchRec.Name, ExtractFileExt(SearchRec.Name), EmptyStr, []);
+    procName := StringReplace(SearchRec.Name, ExtractFileExt(SearchRec.Name), EmptyStr, []);
+    schemaName := 'public';
+    i := Pos('.', procName);
+    if i > 0 then
+      schemaName := Copy(procName, 1, i - 1);
+
+    procName := Copy(procName, i + 1, length(procName));
+
+    ParamByName('schema').AsString := schemaName;
+    ParamByName('fn').AsString :=  procName;
     ParamByName('descri').AsString := StringReplace(SearchRec.Name, ExtractFileExt(SearchRec.Name), EmptyStr, []);
     ParamByName('tipo').AsInteger := procType;
     ParamByName('modification').AsDateTime := FileDateToDateTime(SearchRec.Time);

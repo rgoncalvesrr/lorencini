@@ -1,0 +1,83 @@
+/**
+   Realiza uma consulta ao Serasa a partir de uma análise de crédito
+
+   @author    Ricardo Gonçalves
+   @date      01/04/2022
+   @trigger   public.cred_consultar_serasa B IUD
+
+   @param   analise_    código da análise que gerou a consulta ao Serasa
+   @param   tipo_       tipo de consulta que será realizada no Serasa
+   @param   producao_   ser verdadeiro envia consulta em ambiente de produção, caso contrário,
+                        em ambiente de homologação
+
+   @return código da consulta ao SERASA
+
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+create or replace function public.cred_consultar_serasa(
+   analise_    bigint,
+   tipo_       integer,
+   producao_   boolean = true)
+returns bigint as
+$$
+declare
+   r        public.cred_analise%rowtype;   
+begin
+   select *
+     into r
+     from public.cred_analise
+    where recno = analise_;
+
+   if not Found then
+      raise '[[Análise de crédito % não existe. Impossível enviar consulta ao SERASA.]]', analise_;
+   end if;
+
+   return public.cred_consultar_serasa(r, tipo_, producao_);
+end;
+$$
+language plpgsql;
+
+/**
+   Consulta SERASA a partir de uma análise
+
+   @author    Ricardo Gonçalves
+   @date      28/04/2022
+   @trigger   
+
+   @param   analise_    registro da análise que gerou a consulta ao Serasa
+   @param   tipo_       tipo de consulta que será realizada no Serasa
+   @param   producao_   ser verdadeiro envia consulta em ambiente de produção, caso contrário,
+                        em ambiente de homologação
+
+   @return código da consulta ao SERASA
+
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+
+create or replace function public.cred_consultar_serasa(
+   analise_    public.cred_analise,
+   tipo_       integer,
+   producao_   boolean = true)
+returns bigint as
+$$
+declare   
+   request_ public.svc_cliapi.recno%type;
+begin   
+   if analise_.serasa is null then
+      request_ := tspeed.scc_consultar_documento(analise_.cliente, tipo_, sys_origem('cred_analise'), analise_.recno, producao_);
+
+      -- Recupera informações da consulta
+      select consulta
+        into analise_.serasa
+        from tspeed.cred_cliapi
+       where request = request_;
+   end if;
+
+   return analise_.serasa;
+end;
+$$
+language plpgsql;

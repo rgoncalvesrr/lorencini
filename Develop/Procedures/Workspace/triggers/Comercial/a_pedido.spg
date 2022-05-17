@@ -24,7 +24,7 @@ Declare
    ilastserv      servicos.codserv%type;
    irelato_recno  labrel.recno%type;
    iqtd           pedido_serv.qtd%type;
-   nunitario      pedido_serv.unitario%type;   
+   nunitario      pedido_serv.unitario%type;
    tdescricao     tb_orcamentos.descricao%type;
    ios            tb_orcamentos.os%type;
    iamostra       labamostras.recno%type;
@@ -54,7 +54,7 @@ BEGIN
          perform atualiza_contatos_pedido(new.recno);
       end if;
 
-      xlog.title := 'Pedido colocado';      
+      xlog.title := 'Pedido colocado';
       perform log(xlog);
    else      
       -- Exclui último frete por correio gerado
@@ -89,8 +89,11 @@ BEGIN
          xlog.title := Format('Remessa número %s com %s frasco(s) e %s seringa(s) gerada.', iremessa, new.frascos, new.seringas);
          perform log(xlog);
       ----elsif old.status in (30, 40) and new.status = 50 then ---- Aguardando amostras
-         
+
       elsif old.status in (30, 50) and new.status = 60 then ---- Produção
+
+
+
          ---- Gera ordem de serviço
          --------------------------------------------------------------------------------------------------------
          select coalesce(max(os), 0) + 1
@@ -101,9 +104,9 @@ BEGIN
 
          if new.laboratorio then
             -- Totalizando amostras
-            select sum(amostras) 
+            select sum(amostras)
              into iqtd
-             from pedido_serv 
+             from pedido_serv
             where pedido = new.recno;
 
             tdescricao := tdescricao || LF || format('Quantidade de amostras do pedido %s.', to_char(iqtd, 'FM999999990'));
@@ -154,9 +157,9 @@ BEGIN
          FROM pedido_mo
          where pedido = new.recno;
 
-         -- perform cpDocParaDoc(
-         --    sys_origem('orca_grupo'), 1,
-         --    sys_origem('tb_orcamentos'), irecno);
+         perform cpDocParaDoc(
+            sys_origem('orca_grupo'), 1,
+            sys_origem('tb_orcamentos'), irecno);
 
          -- Associando despesas com a cobrança gerada
          update fin_caixa
@@ -165,6 +168,42 @@ BEGIN
 
          -- Registrando as amostras para geração de relatórios
          itable_ := sys_origem('pedido');
+
+         --perform produzir_pedido(new.recno);
+
+         -- Serviços
+         if new.laboratorio then
+            ilastserv := -1;
+
+            for r in (
+               select p.amostra, p.codserv,  s.descri
+                 from pedido_amostras p
+                      join servicos s
+                        on s.codserv = p.codserv
+                where p.pedido = new.recno
+                order by p.codserv, p.amostra)
+            loop
+               if ilastserv <> r.codserv then
+                  select relato_recno
+                    into irelato_recno
+                    from labrel_serv
+                   where codserv = r.codserv
+                   limit 1;
+
+                  ilastserv := r.codserv;
+               end if;
+
+               if irelato_recno is null then
+                  raise '[[O serviço % - % do pedido % não possui tipo de laudos ativos.]]', r.codserv, r.descri, new.recno;
+               end if;
+
+               -- Insere laudo em estado de digitação
+               insert into labamostras_rel
+                  (amostra,  codserv,   relato_recno,  pedido,    os,  cliente,    destinatario)
+               values
+                  (r.amostra, r.codserv, irelato_recno, new.recno, ios, new.cliente, new.destinatario);
+            end loop;
+         end if;
 
          if new.laboratorio then
             ilastserv := -1;
@@ -186,13 +225,13 @@ BEGIN
 
                   ilastserv := r.codserv;
                end if;
-               
+
                if irelato_recno is null then
                   raise '[[O serviço % - % do pedido % não possui tipo de laudos ativos.]]', r.codserv, r.descri, new.recno;
                end if;
 
                -- Insere laudo em estado de digitação
-               insert into labamostras_rel 
+               insert into labamostras_rel
                   (amostra,  codserv,   relato_recno,  pedido,    os,  cliente,    destinatario)
                values
                   (r.amostra, r.codserv, irelato_recno, new.recno, ios, new.cliente, new.destinatario);

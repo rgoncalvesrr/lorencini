@@ -161,8 +161,6 @@ inherited LabProc: TLabProc
       object TabSheet2: TTabSheet
         Caption = 'Aguardando A'#231#227'o'
         ImageIndex = 213
-        ExplicitLeft = 6
-        ExplicitTop = 37
       end
       object TabSheet3: TTabSheet
         Caption = 'Em Processamento'
@@ -344,9 +342,7 @@ inherited LabProc: TLabProc
       
         'select p.recno, p.descri, p.criacao, p.emissao, p.remessa, p.ret' +
         'orno,'
-      
-        '       p.situacao, p.os,c.codigo, c.nome_chave, c.cnpj, c.telefo' +
-        'ne,'
+      '       p.situacao, c.codigo, c.nome_chave, c.cnpj, c.telefone,'
       
         '       c.estado, p.frascos, p.seringas, p.envio, p.correio, p.fr' +
         'ete,'
@@ -435,10 +431,6 @@ inherited LabProc: TLabProc
       FieldName = 'frete'
       Required = True
       DisplayFormat = ',0.#0'
-    end
-    object IBrwSrcos: TIntegerField
-      DisplayLabel = 'OS'
-      FieldName = 'os'
     end
     object IBrwSrccodigo: TIntegerField
       DisplayLabel = 'C'#243'digo'

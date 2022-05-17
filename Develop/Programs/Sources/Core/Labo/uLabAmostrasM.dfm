@@ -11,10 +11,8 @@ inherited LabAmostrasM: TLabAmostrasM
   PixelsPerInch = 96
   TextHeight = 15
   inherited Panel1: TPanel
-    Top = 44
     Width = 1160
     Height = 488
-    ExplicitTop = 44
     ExplicitWidth = 1160
     ExplicitHeight = 488
     inherited Panel3: TPanel
@@ -26,11 +24,8 @@ inherited LabAmostrasM: TLabAmostrasM
       ExplicitWidth = 999
       ExplicitHeight = 205
       inherited PageControl3: TPageControl
-        Top = 47
         Width = 993
         Height = 155
-        ExplicitLeft = 3
-        ExplicitTop = 47
         ExplicitWidth = 993
         ExplicitHeight = 155
         inherited tsDet: TTabSheet
@@ -47,14 +42,9 @@ inherited LabAmostrasM: TLabAmostrasM
       end
       inherited ControlBar2: TControlBar
         Width = 993
-        Height = 38
-        ExplicitLeft = 3
-        ExplicitTop = 3
         ExplicitWidth = 993
-        ExplicitHeight = 38
         inherited ToolBar3: TToolBar
           Width = 980
-          ButtonWidth = 129
           ExplicitWidth = 980
           inherited ToolButton10: TToolButton
             ExplicitWidth = 32
@@ -83,8 +73,6 @@ inherited LabAmostrasM: TLabAmostrasM
     inherited PageControl1: TPageControl
       Width = 1154
       Height = 482
-      ExplicitLeft = 3
-      ExplicitTop = 3
       ExplicitWidth = 1154
       ExplicitHeight = 482
       inherited TabSheet1: TTabSheet
@@ -1121,22 +1109,12 @@ inherited LabAmostrasM: TLabAmostrasM
               DataField = 'estado'
               DataSource = dsAmostra
               Items.Strings = (
-                'Gerada'
-                'Impressa'
-                'Enviada'
                 'Recebida'
-                'Dispon'#237'vel'
-                'Utilizada'
-                'Cancelada')
+                'Dispon'#237'vel')
               TabOrder = 0
               Values.Strings = (
-                '10'
-                '20'
-                '30'
                 '40'
-                '50'
-                '60'
-                '70')
+                '50')
               ListSettings.OutfilteredValueFont.Charset = DEFAULT_CHARSET
               ListSettings.OutfilteredValueFont.Color = clRed
               ListSettings.OutfilteredValueFont.Height = -11
@@ -1923,20 +1901,16 @@ inherited LabAmostrasM: TLabAmostrasM
               Width = 1142
               ExplicitWidth = 1142
               inherited Panel2: TPanel
-                ExplicitHeight = 50
                 inherited Label9: TLabel
                   Width = 70
                 end
                 inherited DBEdit8: TDBEdit
                   DataField = 'cliente'
-                  ExplicitTop = 24
-                  ExplicitHeight = 23
                 end
               end
               inherited Panel35: TPanel
                 Width = 28
                 ExplicitWidth = 28
-                ExplicitHeight = 50
                 inherited SpeedButton1: TSpeedButton
                   Width = 25
                   ExplicitTop = 23
@@ -1945,58 +1919,49 @@ inherited LabAmostrasM: TLabAmostrasM
               end
               inherited Panel4: TPanel
                 Left = 104
-                Width = 498
+                Width = 544
                 ExplicitLeft = 104
-                ExplicitWidth = 498
-                ExplicitHeight = 50
+                ExplicitWidth = 544
                 inherited Label10: TLabel
-                  Width = 492
+                  Width = 538
                 end
                 inherited DBEdit9: TDBEdit
-                  Width = 492
+                  Width = 538
                   DataField = 'empresacli'
-                  ExplicitTop = 24
-                  ExplicitWidth = 492
-                  ExplicitHeight = 23
+                  ExplicitWidth = 538
                 end
               end
               inherited Panel5: TPanel
-                Left = 602
-                ExplicitLeft = 602
-                ExplicitHeight = 50
+                Left = 648
+                ExplicitLeft = 648
                 inherited Label11: TLabel
-                  Width = 243
+                  Width = 248
                 end
                 inherited DBEdit10: TDBEdit
                   DataField = 'nome_chavecli'
-                  ExplicitTop = 24
-                  ExplicitHeight = 23
+                  ExplicitWidth = 248
                 end
               end
               inherited Panel6: TPanel
-                Left = 851
-                ExplicitLeft = 851
-                ExplicitHeight = 50
+                Left = 902
+                ExplicitLeft = 902
                 inherited Label12: TLabel
-                  Width = 154
+                  Width = 122
                 end
                 inherited DBEdit11: TDBEdit
                   DataField = 'cnpj_cli'
-                  ExplicitTop = 24
-                  ExplicitHeight = 23
+                  ExplicitWidth = 122
                 end
               end
               inherited Panel7: TPanel
-                Left = 1011
-                ExplicitLeft = 1011
-                ExplicitHeight = 50
+                Left = 1030
+                ExplicitLeft = 1030
                 inherited Label13: TLabel
-                  Width = 125
+                  Width = 106
                 end
                 inherited DBEdit12: TDBEdit
                   DataField = 'cpf_cli'
-                  ExplicitTop = 24
-                  ExplicitHeight = 23
+                  ExplicitWidth = 106
                 end
               end
             end
@@ -2006,53 +1971,41 @@ inherited LabAmostrasM: TLabAmostrasM
               inherited Panel8: TPanel
                 Width = 641
                 ExplicitWidth = 641
-                ExplicitHeight = 50
                 inherited Label1: TLabel
                   Width = 635
                 end
                 inherited DBEdit1: TDBEdit
                   Width = 635
                   DataField = 'cidade_cli'
-                  ExplicitTop = 24
                   ExplicitWidth = 635
-                  ExplicitHeight = 23
                 end
               end
               inherited Panel9: TPanel
                 Left = 962
                 ExplicitLeft = 962
-                ExplicitHeight = 50
                 inherited Label2: TLabel
                   Width = 46
                 end
                 inherited DBEdit2: TDBEdit
                   DataField = 'estado_1'
-                  ExplicitTop = 24
-                  ExplicitHeight = 23
                 end
               end
               inherited Panel30: TPanel
-                ExplicitHeight = 50
                 inherited Label20: TLabel
                   Width = 315
                 end
                 inherited DBEdit17: TDBEdit
                   DataField = 'email_cli'
-                  ExplicitTop = 24
-                  ExplicitHeight = 23
                 end
               end
               inherited Panel10: TPanel
                 Left = 1014
                 ExplicitLeft = 1014
-                ExplicitHeight = 50
                 inherited Label3: TLabel
                   Width = 122
                 end
                 inherited DBEdit3: TDBEdit
                   DataField = 'telefone_cli'
-                  ExplicitTop = 24
-                  ExplicitHeight = 23
                 end
               end
             end
@@ -2233,14 +2186,9 @@ inherited LabAmostrasM: TLabAmostrasM
   end
   inherited ControlBar1: TControlBar
     Width = 1154
-    Height = 38
-    ExplicitLeft = 3
-    ExplicitTop = 3
     ExplicitWidth = 1154
-    ExplicitHeight = 38
     inherited ToolBar1: TToolBar
       Width = 980
-      ButtonWidth = 115
       ExplicitWidth = 980
       inherited ToolButton6: TToolButton
         ExplicitWidth = 32

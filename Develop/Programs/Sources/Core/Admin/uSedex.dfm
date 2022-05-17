@@ -1523,7 +1523,7 @@ inherited Sedex: TSedex
         Width = 623
         Height = 33
         Caption = 'Nesta tela podemos calcular o frete para determinado CEP'
-        ExplicitWidth = 324
+        ExplicitWidth = 623
       end
     end
   end

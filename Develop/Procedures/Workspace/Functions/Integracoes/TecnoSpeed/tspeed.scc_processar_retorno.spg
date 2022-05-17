@@ -1,0 +1,180 @@
+/**
+   Processa retorno da consulta no SERASA
+
+	@author    Ricardo Gonçalves
+	@date      24/03/2022
+	@trigger
+
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+create or replace function tspeed.scc_processar_retorno(
+   recno_   bigint)
+returns moeda$ as
+$$
+declare
+   _CHEQUE     constant integer := 1;	-- Cheques Sem Fundos
+   _PEFIN      constant integer := 2;	--Pefin - Débitos com empresas/pessoas
+   _REFIN      constant integer := 3;	-- Refin - Débitos com bancos/instituições financeiras
+   _DIVIDA     constant integer := 4;  -- Dívidas vencidas
+   _PROTESTO   constant integer := 5;	-- Protestos
+   _PENDENCIAS constant integer := 6;	-- Pendências internas
+
+   rres           tspeed.cred_resumos%rowtype;
+   r              record;
+   json_          jsonb;
+   total_dividas_ moeda$ := 0;
+   status_        tspeed.cred_consultas.status%type;
+   situacao_      tspeed.cred_situacoes.recno%type;
+   classe_        tspeed.classes$;
+begin
+   total_dividas_ := 0;
+   status_ := 'sempendencias';
+
+   select res_body, res_code, env
+     into r
+     from svc_cliapi
+    where recno = recno_;
+
+   if not Found then
+      raise '[[Requisição % não localizada]]', recno_;
+   end if;
+
+   -- Recupedando a consulta a partir da requisição passada como callback
+   select consulta
+     into rres.consulta
+     from tspeed.cred_cliapi
+    where request = recno_;
+
+   json_ := jsonb_array_elements((r.res_body->'data'->'message'->>'header')::jsonb);
+
+   if json_ is not null then
+      if json_->>'TipoPessoa' = 'F' then
+         classe_ := 'PF';
+      end if;
+
+      if json_->>'TipoPessoa' = 'J' then
+         classe_ := 'PJ';
+      end if;
+   end if;
+
+   if classe_ is null then
+      raise '[[Não foi possível determinar a classe de pessoal para consulta % request %]]', rres.consulta, recno_;
+   end if;
+
+   json_ := jsonb_array_elements((r.res_body->'data'->'message'->>'BlocoInformacoesDoConfirmei')::jsonb);
+
+   if json_ is not null then
+      select recno
+        into situacao_
+        from tspeed.cred_situacoes
+       where situacao = (json_->>'SituacaoDocumento')::integer
+         and classe = classe_;
+
+      update tspeed.cred_consultas
+         set nome = json_->>'NomeRazao', registro = replace (json_->>'DataNascimento', '/', '-')::date, situacao = situacao_
+       where recno = rres.consulta;
+   end if;
+
+   -- Montando resumo da consulta
+
+   -- =====================================================================================================================================================
+   -- Protestos
+   -- =====================================================================================================================================================
+   json_ := jsonb_array_elements((r.res_body->'data'->'message'->>'TotalProtesto')::jsonb);
+   if json_ is not null then
+      rres.tipo := _PROTESTO;
+      rres.qtd := (json_->>'TotalOcorrencia')::integer;
+      rres.total := (json_->>'ValorTotal')::moeda$;
+      rres.ocorrencia_antiga := json_->>'DataOcorrenciaMaisAntiga';
+      rres.ocorrencia_recente := json_->>'DataOcorrenciaMaisRecente';
+
+      perform tspeed.criar_resumo(rres);
+
+      total_dividas_ := total_dividas_ + rres.total;
+   end if;
+
+   -- =====================================================================================================================================================
+   -- Pendências finaceiras
+   -- =====================================================================================================================================================
+   for json_ in (select (jsonb_array_elements((r.res_body->'data'->'message'->>'TotalPendenciasFinanceirasTipos')::jsonb)))
+	loop
+      if json_->>'TipoAnotacao' = 'V' then
+         rres.tipo := _PEFIN;
+      elsif json_->>'TipoAnotacao' = 'I' then
+         rres.tipo := _REFIN;
+      elsif json_->>'TipoAnotacao' = '5' then
+         rres.tipo := _DIVIDA;
+      else
+         raise '[[Tipo de anotação financeira desconhecida! Tipo %]]', json_->>'TipoAnotacao';
+      end if;
+
+      rres.qtd := (json_->>'TotalOcorrencia')::integer;
+      rres.total := (json_->>'ValorTotalPendencias')::moeda$;
+      rres.ocorrencia_antiga := json_->>'DataOcorrenciaMaisAntiga';
+      rres.ocorrencia_recente := json_->>'DataOcorrenciaMaisRecente';
+
+      perform tspeed.criar_resumo(rres);
+
+      total_dividas_ := total_dividas_ + rres.total;
+ 	end loop;
+
+   -- =====================================================================================================================================================
+   -- Pendências internas
+   -- =====================================================================================================================================================
+   json_ := jsonb_array_elements((r.res_body->'data'->'message'->>'TotalPendenciasInternas')::jsonb);
+   if json_ is not null then
+      rres.tipo := _PENDENCIAS;
+      rres.qtd := (json_->>'TotalOcorrencia')::integer;
+      rres.total := (json_->>'ValorTotalPendencias')::moeda$;
+      rres.ocorrencia_antiga := json_->>'DataOcorrenciaMaisAntiga';
+      rres.ocorrencia_recente := json_->>'DataOcorrenciaMaisRecente';
+
+      perform tspeed.criar_resumo(rres);
+
+      total_dividas_ := total_dividas_ + rres.total;
+   end if;
+
+   -- =====================================================================================================================================================
+   -- Cheque sem fundos
+   -- =====================================================================================================================================================
+   json_ := jsonb_array_elements((r.res_body->'data'->'message'->>'TotalChequeSemFundoBacen')::jsonb);
+   if json_ is not null then
+      rres.tipo := _CHEQUE;
+      rres.qtd := (json_->>'TotalOcorrencia')::integer;
+      rres.total := 0;
+      rres.ocorrencia_antiga := json_->>'DataOcorrenciaMaisAntiga';
+      rres.ocorrencia_recente := json_->>'DataOcorrenciaMaisRecente';
+
+      perform tspeed.criar_resumo(rres);
+      status_ := 'compendencias';
+   end if;
+
+   if total_dividas_ <> 0 then
+      status_ := 'compendencias';
+   end if;
+
+   update tspeed.cred_consultas
+      set status = status_
+    where recno = rres.consulta;
+
+   return total_dividas_;
+end;
+$$
+language plpgsql;
+
+create or replace function tspeed.criar_resumo(
+   r_ record)
+returns void as
+$$
+begin
+   insert into tspeed.cred_resumos
+      (consulta, tipo, qtd, total, ocorrencia_antiga, ocorrencia_recente)
+   values
+      (r_.consulta, r_.tipo, r_.qtd, r_.total, r_.ocorrencia_antiga, r_.ocorrencia_recente)
+   on conflict(consulta, tipo)
+      do nothing;
+end;
+$$
+language plpgsql;

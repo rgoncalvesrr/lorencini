@@ -12,7 +12,7 @@
 	     [*] Reformulação da rotina.
 */
 Create or Replace Function sys_cpf(
-   in cpf varchar(11))
+   in cpf varchar)
 Returns void
 as $$
 Declare
@@ -21,11 +21,11 @@ Begin
    ErrorCode := sys_cpf_check(cpf);
 
    if ErrorCode = 1 then
-      Raise Exception '[[C.P.F. inválido. O CPF deve ser composto de 11 números]]';
+      Raise '[[C.P.F. inválido. O CPF deve ser composto de 11 números]]';
    end if;
 
    if ErrorCode = 2 then
-      raise exception '[[C.P.F. % inválido. Verifique.]]', mask_00003(cpf);
+      raise '[[C.P.F. % inválido. Verifique.]]', mask_00003(cpf);
    end if;
 End;
 $$ language 'plpgsql';

@@ -12,18 +12,23 @@ inherited SysFn: TSysFn
   inherited Panel1: TPanel
     inherited pctlFind: TPageControl
       inherited tsQuery: TTabSheet
-        ExplicitLeft = 4
-        ExplicitTop = 6
+        ExplicitLeft = 3
+        ExplicitTop = 7
         ExplicitWidth = 819
         ExplicitHeight = 75
+        inherited BitBtn2: TBitBtn
+          TabOrder = 4
+          ExplicitLeft = 712
+        end
         object Panel7: TPanel
-          Left = 274
+          Left = 411
           Top = 0
           Width = 153
           Height = 75
           Align = alLeft
           BevelOuter = bvNone
-          TabOrder = 1
+          TabOrder = 3
+          ExplicitLeft = 274
           object Label4: TLabel
             AlignWithMargins = True
             Left = 3
@@ -68,7 +73,7 @@ inherited SysFn: TSysFn
               ExplicitWidth = 147
             end
             inherited CCalendarDiff1: TCCalendarDiff
-              Date = 44489.805734675920000000
+              Date = 44643.461648263890000000
               DisplayInterval = Label5
               OnChange = FrameData1CCalendarDiff1Change
             end
@@ -81,7 +86,9 @@ inherited SysFn: TSysFn
           Height = 75
           Align = alLeft
           BevelOuter = bvNone
-          TabOrder = 2
+          TabOrder = 0
+          ExplicitLeft = -3
+          ExplicitTop = 1
           object Label1: TLabel
             AlignWithMargins = True
             Left = 3
@@ -112,13 +119,15 @@ inherited SysFn: TSysFn
           end
         end
         object Panel4: TPanel
-          Left = 137
+          Left = 274
           Top = 0
           Width = 137
           Height = 75
           Align = alLeft
           BevelOuter = bvNone
-          TabOrder = 3
+          TabOrder = 2
+          ExplicitLeft = 271
+          ExplicitTop = 1
           object Label3: TLabel
             AlignWithMargins = True
             Left = 3
@@ -146,6 +155,43 @@ inherited SysFn: TSysFn
               'Todos'
               'Procedure '
               'Trigger')
+          end
+        end
+        object Panel5: TPanel
+          Left = 137
+          Top = 0
+          Width = 137
+          Height = 75
+          Align = alLeft
+          BevelOuter = bvNone
+          TabOrder = 1
+          ExplicitLeft = 134
+          ExplicitTop = 1
+          object Label6: TLabel
+            AlignWithMargins = True
+            Left = 3
+            Top = 3
+            Width = 131
+            Height = 15
+            Align = alTop
+            Caption = 'Esquema'
+            ExplicitWidth = 48
+          end
+          object cbEsquema: TComboBox
+            AlignWithMargins = True
+            Left = 3
+            Top = 24
+            Width = 131
+            Height = 23
+            Align = alTop
+            Style = csDropDownList
+            ItemHeight = 15
+            ItemIndex = 0
+            TabOrder = 0
+            Text = 'Todos'
+            OnChange = cbStatusChange
+            Items.Strings = (
+              'Todos')
           end
         end
       end
@@ -191,6 +237,9 @@ inherited SysFn: TSysFn
               Width = 798
               ButtonWidth = 109
               ExplicitWidth = 798
+              inherited ToolButton13: TToolButton
+                ExplicitWidth = 79
+              end
               inherited ToolButton12: TToolButton
                 ExplicitWidth = 113
               end
@@ -276,6 +325,11 @@ inherited SysFn: TSysFn
       ImageIndex = 309
       OnExecute = actSyncExecute
     end
+    object actReady: TAction
+      Caption = 'Marca como dispon'#237'vel'
+      ImageIndex = 208
+      OnExecute = actReadyExecute
+    end
   end
   inherited pmRel: TPopupMenu
     Left = 248
@@ -301,9 +355,10 @@ inherited SysFn: TSysFn
     SQL.Strings = (
       
         'select (m.recno is not null) mark, f.fn, f.descri, f.tipo, f.tab' +
-        'le_recno, t.tabela, t.descri table_name, f.evento, f.ins, f.upd,' +
-        ' f.del, f.recno,'
-      '       f.status, f.modification, f.stmt, f.checksum'
+        'le_recno, t.tabela, t.descri table_name, f.evento,'
+      
+        '       f.ins, f.upd, f.del, f.recno, f.status, f.modification, f' +
+        '.stmt, f.checksum, f.schema_'
       '  from sys_fn f'
       '       left join sys_tables t'
       '         on t.recno = f.table_recno'
@@ -323,6 +378,13 @@ inherited SysFn: TSysFn
       DisplayLabel = ' '
       FieldName = 'status'
       Required = True
+    end
+    object IBrwSrcschema_: TStringField
+      DisplayLabel = 'Esquema'
+      DisplayWidth = 25
+      FieldName = 'schema_'
+      Required = True
+      Size = 40
     end
     object IBrwSrcfn: TStringField
       DisplayLabel = 'Fun'#231#227'o'
@@ -420,6 +482,9 @@ inherited SysFn: TSysFn
     Top = 240
     object Sincronizar1: TMenuItem
       Action = actSync
+    end
+    object Marcacomodisponvel1: TMenuItem
+      Action = actReady
     end
     object CarregarAtualizarRotinas1: TMenuItem
       Action = actFilesLoad

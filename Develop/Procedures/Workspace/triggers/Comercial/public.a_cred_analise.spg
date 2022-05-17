@@ -1,0 +1,36 @@
+/**
+   Notifica os solicitantes da análise de credito
+
+   @author    Ricardo Gonçalves
+   @date      04/04/2022
+   @trigger   public.a_cred_analise A IUD
+
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+create or replace function public.a_cred_analise()
+returns trigger as
+$$
+declare
+   _STAUTORIZACAO constant integer := 30; -- Status pedido
+begin
+   if tg_op = 'DELETE' then
+      return old;
+   end if;
+
+   if tg_op = 'UPDATE' then
+      -- Encerramento da análise
+      if new.status > 1 and old.status < 2 then
+         if new.source_table = sys_origem('pedido') then
+            update pedido
+               set status = _STAUTORIZACAO
+             where recno = new.source_recno;
+         end if;
+      end if;
+   end if;
+
+   return null;
+end;
+$$
+language plpgsql;

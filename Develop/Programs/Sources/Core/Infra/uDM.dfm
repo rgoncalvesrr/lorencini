@@ -2,8 +2,8 @@ object DM: TDM
   OldCreateOrder = False
   OnCreate = DataModuleCreate
   OnDestroy = DataModuleDestroy
-  Height = 669
-  Width = 871
+  Height = 773
+  Width = 938
   object Query: TZReadOnlyQuery
     Params = <>
     Left = 88
@@ -17,13 +17,13 @@ object DM: TDM
       'codepage=LATIN1'
       'controls_cp=GET_ACP'
       'AutoEncodeStrings=True')
-    HostName = '127.0.0.1'
+    HostName = 'felicia'
     Port = 5432
     Database = 'lorencini'
     User = 'postgres'
     Password = 'postgres.'
     Protocol = 'postgresql'
-    LibraryLocation = 'D:\Projetos\Lorencini\Lib\libpq.dll'
+    LibraryLocation = 'D:\Lorencini\Lib\libpq.dll'
     Left = 88
     Top = 8
   end

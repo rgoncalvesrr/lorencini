@@ -50,7 +50,16 @@ uses mcUtils, uIUtils, ZDataset, DB, iExcept, uSysSecurityChangePass, uResources
 procedure TILogin.actPassRenewExecute(Sender: TObject);
 begin
   inherited;
-  ShowMessage(Format('Senha provisória enviada para %s', [edUserName.Text]));
+  with U.Data.Query do
+  try
+    SQL.Text := 'select sys_account_reset_pass(:email)';
+    ParamByName('email').AsString := edUserName.Text;
+    ExecSQL;
+    
+    ShowMessage(Format('Senha provisória enviada para %s', [edUserName.Text]));
+  finally
+    Close;
+  end;
 end;
 
 procedure TILogin.edUserNameChange(Sender: TObject);

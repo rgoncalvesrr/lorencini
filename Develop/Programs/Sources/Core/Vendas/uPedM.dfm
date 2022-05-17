@@ -287,8 +287,6 @@ inherited PedM: TPedM
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 1
-            ExplicitLeft = 85
-            ExplicitTop = 16
             object Label10: TLabel
               AlignWithMargins = True
               Left = 3
@@ -455,8 +453,6 @@ inherited PedM: TPedM
             Align = alLeft
             BevelOuter = bvNone
             TabOrder = 6
-            ExplicitLeft = 62
-            ExplicitTop = 16
             object SpeedButton1: TSpeedButton
               AlignWithMargins = True
               Left = 0
@@ -945,45 +941,15 @@ inherited PedM: TPedM
               TabOrder = 0
             end
           end
-          object Panel27: TPanel
-            Left = 321
-            Top = 0
-            Width = 88
-            Height = 50
-            Align = alLeft
-            BevelOuter = bvNone
-            TabOrder = 2
-            object Label17: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 82
-              Height = 15
-              Align = alTop
-              Caption = 'Pedido Cliente'
-              FocusControl = DBEdit15
-              ExplicitWidth = 77
-            end
-            object DBEdit15: TDBEdit
-              AlignWithMargins = True
-              Left = 3
-              Top = 24
-              Width = 82
-              Height = 23
-              Align = alClient
-              DataField = 'pedido_cliente'
-              DataSource = Ped.DataSource1
-              TabOrder = 0
-            end
-          end
           object Panel28: TPanel
-            Left = 409
+            Left = 321
             Top = 0
             Width = 96
             Height = 50
             Align = alLeft
             BevelOuter = bvNone
-            TabOrder = 3
+            TabOrder = 2
+            ExplicitLeft = 409
             object Label18: TLabel
               AlignWithMargins = True
               Left = 3
@@ -1016,18 +982,20 @@ inherited PedM: TPedM
             end
           end
           object Panel29: TPanel
-            Left = 505
+            Left = 417
             Top = 0
-            Width = 511
+            Width = 599
             Height = 50
             Align = alClient
             BevelOuter = bvNone
-            TabOrder = 4
+            TabOrder = 3
+            ExplicitLeft = 505
+            ExplicitWidth = 511
             object Label19: TLabel
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 505
+              Width = 593
               Height = 15
               Align = alTop
               Caption = 'Condi'#231#227'o Pagamento'
@@ -1038,12 +1006,13 @@ inherited PedM: TPedM
               AlignWithMargins = True
               Left = 3
               Top = 24
-              Width = 505
+              Width = 593
               Height = 23
               Align = alClient
               DataField = 'condicaopg'
               DataSource = Ped.DataSource1
               TabOrder = 0
+              ExplicitWidth = 505
             end
           end
           object Panel57: TPanel
@@ -1053,7 +1022,7 @@ inherited PedM: TPedM
             Height = 50
             Align = alRight
             BevelOuter = bvNone
-            TabOrder = 5
+            TabOrder = 4
             object Label42: TLabel
               AlignWithMargins = True
               Left = 3

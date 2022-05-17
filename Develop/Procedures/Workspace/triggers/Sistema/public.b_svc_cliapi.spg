@@ -1,0 +1,32 @@
+/**
+   Checa se as alterações são válidas
+
+	@author    Ricardo Gonçalves
+	@date      11/06/2007
+	@trigger
+
+	@param  in_recno recno do laudo que terá os valores de refência atualizados
+
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+
+   08/06/2018  Ricardo Gonçalves.
+      [*]
+*/
+Create or Replace Function public.b_svc_cliapi()
+Returns trigger as
+$$
+begin
+   if tg_op = 'DELETE' then
+      return old;
+   end if;
+
+   if tg_op = 'INSERT' then
+      new.account := coalesce(new.account, public.sys_account(), public.sys_account_def());
+   end if;
+
+   return new;
+end;
+$$
+language 'plpgsql';

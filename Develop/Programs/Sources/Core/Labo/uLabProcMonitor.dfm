@@ -59,6 +59,7 @@ inherited LabProcMonitor: TLabProcMonitor
           Left = 992
           TabOrder = 4
           ExplicitLeft = 992
+          ExplicitTop = 11
         end
         object cbStatus: TComboBox
           Left = 109
@@ -169,34 +170,18 @@ inherited LabProcMonitor: TLabProcMonitor
       object tsAcao: TTabSheet
         Caption = 'Aguardando A'#231#227'o'
         ImageIndex = 213
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object tsProc: TTabSheet
         Caption = 'Remessas em Processamento'
         ImageIndex = 210
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object TabSheet4: TTabSheet
         Caption = 'Montagem de Volumes'
         ImageIndex = 205
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object TabSheet5: TTabSheet
         Caption = 'Prepara'#231#227'o de Despacho'
         ImageIndex = 214
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object Splitter1: TSplitter
           Left = 0
           Top = 130
@@ -204,8 +189,7 @@ inherited LabProcMonitor: TLabProcMonitor
           Height = 6
           Cursor = crVSplit
           Align = alBottom
-          ExplicitTop = 47
-          ExplicitWidth = 823
+          ExplicitTop = 127
         end
         object PageControl2: TPageControl
           AlignWithMargins = True
@@ -219,10 +203,6 @@ inherited LabProcMonitor: TLabProcMonitor
           OnChange = PageControl2Change
           object tsVolumes: TTabSheet
             Caption = 'Volumes e Rastreamento'
-            ExplicitLeft = 0
-            ExplicitTop = 0
-            ExplicitWidth = 0
-            ExplicitHeight = 0
             object DBGrid2: TDBGrid
               Tag = 1
               AlignWithMargins = True
@@ -331,10 +311,11 @@ inherited LabProcMonitor: TLabProcMonitor
                 Left = 41
                 Top = 3
                 Width = 79
-                Height = 15
+                Height = 30
                 Align = alLeft
                 Caption = 'Volume Aberto'
                 Layout = tlCenter
+                ExplicitHeight = 15
               end
               object JvImage2: TJvImage
                 AlignWithMargins = True
@@ -409,20 +390,22 @@ inherited LabProcMonitor: TLabProcMonitor
                 Left = 164
                 Top = 3
                 Width = 88
-                Height = 15
+                Height = 30
                 Align = alLeft
                 Caption = 'Volume Fechado'
                 Layout = tlCenter
+                ExplicitHeight = 15
               end
               object lbLeg3: TLabel
                 AlignWithMargins = True
                 Left = 296
                 Top = 3
                 Width = 95
-                Height = 15
+                Height = 30
                 Align = alLeft
                 Caption = 'Volume Rastreado'
                 Layout = tlCenter
+                ExplicitHeight = 15
               end
               object JvImage3: TJvImage
                 AlignWithMargins = True
@@ -497,10 +480,6 @@ inherited LabProcMonitor: TLabProcMonitor
           object tsEtiquetas: TTabSheet
             Caption = 'Etiquetas'
             ImageIndex = 1
-            ExplicitLeft = 0
-            ExplicitTop = 0
-            ExplicitWidth = 0
-            ExplicitHeight = 0
             object DBGrid3: TDBGrid
               Tag = 1
               AlignWithMargins = True
@@ -534,34 +513,18 @@ inherited LabProcMonitor: TLabProcMonitor
       object TabSheet6: TTabSheet
         Caption = 'Liberado Expedi'#231#227'o'
         ImageIndex = 208
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object TabSheet2: TTabSheet
         Caption = 'Registro de Rastreio'
         ImageIndex = 209
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object TabSheet3: TTabSheet
         Caption = 'Finalizado'
         ImageIndex = 211
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object TabSheet7: TTabSheet
         Caption = 'Canceladas'
         ImageIndex = 204
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
     end
   end

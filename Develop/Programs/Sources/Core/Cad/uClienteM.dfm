@@ -10,10 +10,8 @@ inherited ClientesM: TClientesM
   PixelsPerInch = 96
   TextHeight = 15
   inherited Panel1: TPanel
-    Top = 44
     Width = 1237
     Height = 645
-    ExplicitTop = 44
     ExplicitWidth = 1237
     ExplicitHeight = 645
     inherited pnLookup: TPanel
@@ -29,11 +27,8 @@ inherited ClientesM: TClientesM
       ExplicitWidth = 1237
       ExplicitHeight = 317
       inherited PageControl3: TPageControl
-        Top = 47
         Width = 1231
         Height = 267
-        ExplicitLeft = 3
-        ExplicitTop = 47
         ExplicitWidth = 1231
         ExplicitHeight = 267
         inherited tsDet: TTabSheet
@@ -82,14 +77,9 @@ inherited ClientesM: TClientesM
       end
       inherited ControlBar2: TControlBar
         Width = 1231
-        Height = 38
-        ExplicitLeft = 3
-        ExplicitTop = 3
         ExplicitWidth = 1231
-        ExplicitHeight = 38
         inherited ToolBar3: TToolBar
           Width = 735
-          ButtonWidth = 129
           ExplicitWidth = 735
           inherited ToolButton10: TToolButton
             ExplicitWidth = 32
@@ -118,8 +108,6 @@ inherited ClientesM: TClientesM
     inherited PageControl1: TPageControl
       Width = 1231
       Height = 322
-      ExplicitLeft = 3
-      ExplicitTop = 3
       ExplicitWidth = 1231
       ExplicitHeight = 322
       inherited TabSheet1: TTabSheet
@@ -1962,14 +1950,9 @@ inherited ClientesM: TClientesM
   end
   inherited ControlBar1: TControlBar
     Width = 1231
-    Height = 38
-    ExplicitLeft = 3
-    ExplicitTop = 3
     ExplicitWidth = 1231
-    ExplicitHeight = 38
     inherited ToolBar1: TToolBar
       Width = 746
-      ButtonWidth = 115
       ExplicitWidth = 746
       inherited ToolButton6: TToolButton
         ExplicitWidth = 32
