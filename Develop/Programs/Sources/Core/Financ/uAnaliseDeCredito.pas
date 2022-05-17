@@ -439,12 +439,15 @@ procedure TAnaliseDeCredito.ProcessarAnalisesTimer(Sender: TObject);
 var
   table: integer;
   atualizar: Boolean;
+  title: string;
 begin
   inherited;
 
   if FAtualizando then
     Exit;
 
+  title := Caption;
+  Caption := Caption + '. Processando análises pendentes...';
   atualizar := False;
   ProcessarAnalises.Enabled := False;
   FAtualizando := True;
@@ -487,7 +490,7 @@ begin
       except
         on E:Exception do
         begin
-          
+
         end;
       end;
 
@@ -496,11 +499,13 @@ begin
   finally
     Close;
     ProcessarAnalises.Enabled := True;
-    
+
     if atualizar then
       G.RefreshDataSet(IBrwSrc);
 
     FAtualizando := False;
+    Caption := title
+    ;
   end;
 end;
 
