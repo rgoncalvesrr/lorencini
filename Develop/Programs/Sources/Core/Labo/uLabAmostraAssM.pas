@@ -333,7 +333,7 @@ procedure TLabAmostraAssM.MarcarLaudo;
 begin
   with U.Query do
   try
-    SQL.Text := 'select sys_flag_mark(:tabela, :registro)';
+    SQL.Text := 'select sys_flag_mark(:tabela, :registro::::integer)';
 
     ParamByName('tabela').AsString := 'labamostras_rel';
     ParamByName('registro').AsInteger := DataSet.FieldByName('recno').AsInteger;
