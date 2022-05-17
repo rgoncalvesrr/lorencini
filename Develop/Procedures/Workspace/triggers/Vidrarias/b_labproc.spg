@@ -49,13 +49,6 @@ BEGIN
          new.situacao := AGUARDANDO;
          new.atualizacao := localtimestamp;
          new.emissao := localtimestamp;
-
-         -- Checagem de pendências financeiras
-         msg := fin_ckbloqueio(new.codigo);
-
-         if msg <> '' then
-            raise '[[%]]', msg;
-         end if;
       else
          -- Não permite mudanças de quantidade de frascos e seringas quando o sistema passa da etapa de solicitação
          if new.situacao <> AGUARDANDO and old.situacao <> AGUARDANDO then
