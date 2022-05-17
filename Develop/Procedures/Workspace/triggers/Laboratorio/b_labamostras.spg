@@ -112,7 +112,7 @@ BEGIN
       if not exists(
          select 1
            from labprocxequip
-          where amostra = new.amostra)
+          where amostra = new.recno)
       then
          raise '[[A amostra % não pode ser marcada como "%" porque a etiqueta não foi impressa.]]', new.recno, status_label_;
       end if;
