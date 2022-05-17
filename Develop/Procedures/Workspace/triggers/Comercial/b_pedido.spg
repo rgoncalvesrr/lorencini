@@ -142,27 +142,22 @@ BEGIN
                raise '[[O pedido % não pode ser liberado porque apresenta as inconsistências:%]]', new.recno, msg;
             end if;
          -- Aprovação do pedido
-         elsif old.status = 20 and new.status = 30 then
+         elsif old.status = 20 and new.status = 30 then         
             -- Gera análise de crédito para o pedido
-            if new.analise is null then
+            if new.analise is null then            
                select vlsrvvar + vlsrvfixo + vlmat + vlmobra + vldespe
                  into valor_
                  from markup
                 where recno = new.markup;
 
-               insert into public.cred_analise
-                  (cliente, valor, source_table, source_recno)
-               values
-                  (new.codigo, valor_, sys_origem('pedido'), new.recno)
-               returning recno into new.analise;
-
+               new.analise := fin_ckbloqueio(new.codigo, valor_, 'pedido', new.recno);
                new.status := 20;
-            else
+            else            
                -- consultando situação da análise
                select status
-                 into status_analise_
-                 from public.cred_analise
-                where recno = new.analise;
+               into status_analise_
+               from public.cred_analise
+               where recno = new.analise;
 
                -- Deixa o pedido em análise de crédito
                if status_analise_ < _STAPROVSIS then
@@ -177,7 +172,7 @@ BEGIN
                   end if;
 
                   new.obs := format('%sPedido cancelado pelo analista de crédito!', new.obs);
-               end if;
+               end if;            
             end if;
          elsif old.status = 30 and new.status = 40 then
             if not new.remessa then

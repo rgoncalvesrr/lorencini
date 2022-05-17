@@ -43,7 +43,7 @@ Declare
    _ST_LAUDO_ASSIN   constant integer := 3;
    _ST_LAUDO_CANCE   constant integer := 5;
 
-   _ST_PROC_EXPEDICAO   constant integer = 4;
+   _ST_PROC_DESPACHO    constant integer = 3;
    _ST_PROC_FINALIZADO  constant integer = 6;
 
    rrow           record;
@@ -123,7 +123,7 @@ BEGIN
                 join labprocxequip a
                   on a.labproc_recno = p.recno
                  and a.amostra = new.recno
-          where p.situacao between _ST_PROC_EXPEDICAO and _ST_PROC_FINALIZADO)
+          where p.situacao between _ST_PROC_DESPACHO and _ST_PROC_FINALIZADO)
       then
          raise '[[A amostra % não pode ser marcada como "%" porque não foi expedida ainda.]]', new.recno, status_label_;
       end if;
