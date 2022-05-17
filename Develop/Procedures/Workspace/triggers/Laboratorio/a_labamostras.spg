@@ -88,9 +88,9 @@ BEGIN
          end if;
 
          -- Tenta vincular amostra a uma OS
-         if old.estado = _ERECEBIDA and new.estado = _EDISPONIVEL then
-            perform op_vincular_amostra(new.recno);
-         end if;
+         -- if old.estado = _ERECEBIDA and new.estado = _EDISPONIVEL then
+         --    perform op_vincular_amostra(new.recno);
+         -- end if;
       end if;
 
       return new;
