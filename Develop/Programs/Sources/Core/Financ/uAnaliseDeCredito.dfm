@@ -9,24 +9,24 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
   inherited StatusBar1: TStatusBar
     Top = 702
     Width = 1338
-    ExplicitTop = 760
-    ExplicitWidth = 961
+    ExplicitTop = 702
+    ExplicitWidth = 1338
   end
   inherited Panel1: TPanel
     Width = 1344
-    ExplicitWidth = 967
+    ExplicitWidth = 1344
     inherited pctlFind: TPageControl
       Width = 1334
-      ExplicitWidth = 957
+      ExplicitWidth = 1334
       inherited tsQuery: TTabSheet
         ExplicitLeft = 4
         ExplicitTop = 6
-        ExplicitWidth = 949
+        ExplicitWidth = 1326
         ExplicitHeight = 75
         inherited BitBtn2: TBitBtn
           Left = 1225
           TabOrder = 5
-          ExplicitLeft = 848
+          ExplicitLeft = 1225
         end
         object Panel46: TPanel
           Left = 513
@@ -196,7 +196,7 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
       inherited tsFind: TTabSheet
         ExplicitLeft = 4
         ExplicitTop = 6
-        ExplicitWidth = 949
+        ExplicitWidth = 1326
         ExplicitHeight = 75
       end
     end
@@ -204,21 +204,21 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
   inherited Panel2: TPanel
     Width = 1344
     Height = 570
-    ExplicitWidth = 967
-    ExplicitHeight = 628
+    ExplicitWidth = 1344
+    ExplicitHeight = 570
     inherited PageControl1: TPageControl
       Width = 1338
       Height = 234
       Images = Resources.medium_n
-      ExplicitWidth = 961
-      ExplicitHeight = 191
+      ExplicitWidth = 1338
+      ExplicitHeight = 234
       inherited TabSheet1: TTabSheet
         Caption = 'An'#225'lises Pendentes'
         ImageIndex = 210
         ExplicitLeft = 4
         ExplicitTop = 33
-        ExplicitWidth = 953
-        ExplicitHeight = 154
+        ExplicitWidth = 1330
+        ExplicitHeight = 197
         inherited DBGrid1: TDBGrid
           Width = 1324
           Height = 191
@@ -227,20 +227,14 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
       object TabSheet2: TTabSheet
         Caption = 'Aprovadas Sistema'
         ImageIndex = 208
-        ExplicitWidth = 953
-        ExplicitHeight = 154
       end
       object TabSheet3: TTabSheet
         Caption = 'Aprovadas Analista'
         ImageIndex = 205
-        ExplicitWidth = 953
-        ExplicitHeight = 154
       end
       object TabSheet4: TTabSheet
         Caption = 'Reprovadas Analista'
         ImageIndex = 204
-        ExplicitWidth = 953
-        ExplicitHeight = 154
       end
     end
     object Panel3: TPanel
@@ -262,12 +256,9 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
         Images = Resources.medium_n
         TabOrder = 0
         OnChange = PageControl2Change
-        ExplicitHeight = 284
         object tsAnalise: TTabSheet
           Caption = 'Dados da An'#225'lise'
           ImageIndex = 209
-          ExplicitWidth = 953
-          ExplicitHeight = 388
           object ControlBar1: TControlBar
             AlignWithMargins = True
             Left = 3
@@ -281,7 +272,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
             BorderWidth = 1
             DrawingStyle = dsGradient
             TabOrder = 0
-            ExplicitWidth = 947
             object ToolBar2: TToolBar
               AlignWithMargins = True
               Left = 11
@@ -341,10 +331,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 1
-            ExplicitLeft = 384
-            ExplicitTop = 176
-            ExplicitWidth = 185
-            ExplicitHeight = 41
             object Panel52: TPanel
               Left = 0
               Top = 0
@@ -353,8 +339,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
               Align = alLeft
               BevelOuter = bvNone
               TabOrder = 0
-              ExplicitWidth = 427
-              ExplicitHeight = 133
               object Panel8: TPanel
                 Left = 0
                 Top = 0
@@ -363,8 +347,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                 Align = alTop
                 BevelOuter = bvNone
                 TabOrder = 0
-                ExplicitTop = 46
-                ExplicitWidth = 953
                 object GroupBox2: TGroupBox
                   AlignWithMargins = True
                   Left = 3
@@ -489,7 +471,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                   Align = alClient
                   Caption = ' Solicitante '
                   TabOrder = 1
-                  ExplicitWidth = 583
                   object Panel9: TPanel
                     Left = 2
                     Top = 17
@@ -498,7 +479,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                     Align = alClient
                     BevelOuter = bvNone
                     TabOrder = 0
-                    ExplicitWidth = 579
                     object Panel10: TPanel
                       Left = 0
                       Top = 0
@@ -539,7 +519,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                       Align = alClient
                       BevelOuter = bvNone
                       TabOrder = 1
-                      ExplicitWidth = 338
                       object Label6: TLabel
                         AlignWithMargins = True
                         Left = 3
@@ -562,7 +541,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                         DataSource = DataSource1
                         ReadOnly = True
                         TabOrder = 0
-                        ExplicitWidth = 332
                       end
                     end
                   end
@@ -577,9 +555,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                 Align = alClient
                 Caption = ' Cliente '
                 TabOrder = 1
-                ExplicitTop = 49
-                ExplicitWidth = 947
-                ExplicitHeight = 128
                 inline FrameCliente1: TFrameCliente
                   Left = 2
                   Top = 17
@@ -597,11 +572,11 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                   TabOrder = 0
                   ExplicitLeft = 2
                   ExplicitTop = 17
-                  ExplicitWidth = 943
-                  ExplicitHeight = 109
+                  ExplicitWidth = 893
+                  ExplicitHeight = 141
                   inherited Panel1: TPanel
                     Width = 893
-                    ExplicitWidth = 943
+                    ExplicitWidth = 893
                     inherited Panel2: TPanel
                       inherited Label9: TLabel
                         Width = 70
@@ -612,18 +587,18 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                     end
                     inherited Panel4: TPanel
                       Width = 294
-                      ExplicitWidth = 344
+                      ExplicitWidth = 294
                       inherited Label10: TLabel
                         Width = 288
                       end
                       inherited DBEdit9: TDBEdit
                         Width = 288
-                        ExplicitWidth = 338
+                        ExplicitWidth = 288
                       end
                     end
                     inherited Panel5: TPanel
                       Left = 399
-                      ExplicitLeft = 449
+                      ExplicitLeft = 399
                       inherited Label11: TLabel
                         Width = 248
                       end
@@ -633,7 +608,7 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                     end
                     inherited Panel6: TPanel
                       Left = 653
-                      ExplicitLeft = 703
+                      ExplicitLeft = 653
                       inherited Label12: TLabel
                         Width = 122
                       end
@@ -643,7 +618,7 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                     end
                     inherited Panel7: TPanel
                       Left = 781
-                      ExplicitLeft = 831
+                      ExplicitLeft = 781
                       inherited Label13: TLabel
                         Width = 106
                       end
@@ -654,21 +629,21 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                   end
                   inherited Panel3: TPanel
                     Width = 893
-                    ExplicitWidth = 943
+                    ExplicitWidth = 893
                     inherited Panel8: TPanel
                       Width = 392
-                      ExplicitWidth = 442
+                      ExplicitWidth = 392
                       inherited Label1: TLabel
                         Width = 386
                       end
                       inherited DBEdit1: TDBEdit
                         Width = 386
-                        ExplicitWidth = 436
+                        ExplicitWidth = 386
                       end
                     end
                     inherited Panel9: TPanel
                       Left = 713
-                      ExplicitLeft = 763
+                      ExplicitLeft = 713
                       inherited Label2: TLabel
                         Width = 46
                       end
@@ -680,7 +655,7 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                     end
                     inherited Panel10: TPanel
                       Left = 765
-                      ExplicitLeft = 815
+                      ExplicitLeft = 765
                       inherited Label3: TLabel
                         Width = 122
                       end
@@ -700,9 +675,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
               Align = alClient
               BevelOuter = bvNone
               TabOrder = 1
-              ExplicitLeft = 528
-              ExplicitTop = 24
-              ExplicitHeight = 133
               object GroupBox4: TGroupBox
                 AlignWithMargins = True
                 Left = 3
@@ -712,9 +684,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                 Align = alClient
                 Caption = ' Observa'#231#227'o '
                 TabOrder = 0
-                ExplicitTop = 258
-                ExplicitWidth = 947
-                ExplicitHeight = 127
                 object DBMemo1: TDBMemo
                   AlignWithMargins = True
                   Left = 5
@@ -725,8 +694,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                   DataField = 'obs'
                   DataSource = DataSource1
                   TabOrder = 0
-                  ExplicitWidth = 937
-                  ExplicitHeight = 102
                 end
               end
             end
@@ -735,69 +702,62 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
         object tsPosFin: TTabSheet
           Caption = 'Posi'#231#227'o Financeira'
           ImageIndex = 208
-          ExplicitWidth = 953
-          ExplicitHeight = 388
           object GroupBox11: TGroupBox
             AlignWithMargins = True
-            Left = 652
+            Left = 588
             Top = 3
-            Width = 675
+            Width = 739
             Height = 281
             Align = alClient
             Caption = ' Restri'#231#227'o Interna '
             TabOrder = 0
-            ExplicitLeft = 3
-            ExplicitTop = 246
-            ExplicitWidth = 947
-            ExplicitHeight = 139
+            ExplicitLeft = 652
+            ExplicitWidth = 675
             object DBMemo2: TDBMemo
               AlignWithMargins = True
               Left = 5
               Top = 20
-              Width = 665
+              Width = 729
               Height = 256
               Align = alClient
               DataField = 'restrmotiv'
               DataSource = DataSource1
               TabOrder = 0
-              ExplicitWidth = 937
-              ExplicitHeight = 114
+              ExplicitWidth = 665
             end
           end
           object Panel54: TPanel
             Left = 0
             Top = 0
-            Width = 649
+            Width = 585
             Height = 287
             Align = alLeft
             BevelOuter = bvNone
             TabOrder = 1
-            ExplicitHeight = 247
             object GroupBox5: TGroupBox
               AlignWithMargins = True
               Left = 3
-              Top = 165
-              Width = 643
+              Top = 3
+              Width = 579
               Height = 75
               Align = alTop
               Caption = ' T'#237'tulos '
               TabOrder = 0
-              ExplicitTop = 3
-              ExplicitWidth = 1324
+              ExplicitWidth = 643
               object Panel12: TPanel
                 AlignWithMargins = True
                 Left = 5
                 Top = 20
-                Width = 633
+                Width = 569
                 Height = 50
                 Align = alClient
                 BevelOuter = bvNone
                 TabOrder = 0
-                ExplicitWidth = 1314
+                ExplicitWidth = 633
                 object Panel13: TPanel
                   Left = 0
                   Top = 0
-                  Width = 126
+                  Width = 95
                   Height = 50
                   Align = alLeft
                   BevelOuter = bvNone
@@ -806,7 +766,7 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                     AlignWithMargins = True
                     Left = 3
                     Top = 3
-                    Width = 120
+                    Width = 89
                     Height = 15
                     Align = alTop
                     Caption = 'Quantidade'
@@ -817,28 +777,30 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                     AlignWithMargins = True
                     Left = 3
                     Top = 24
-                    Width = 120
+                    Width = 89
                     Height = 23
                     Align = alClient
                     DataField = 'titulos'
                     DataSource = dsPosFin
                     ReadOnly = True
                     TabOrder = 0
+                    ExplicitWidth = 120
                   end
                 end
                 object Panel14: TPanel
-                  Left = 252
+                  Left = 190
                   Top = 0
-                  Width = 126
+                  Width = 95
                   Height = 50
                   Align = alLeft
                   BevelOuter = bvNone
                   TabOrder = 1
+                  ExplicitLeft = 180
                   object Label8: TLabel
                     AlignWithMargins = True
                     Left = 3
                     Top = 3
-                    Width = 120
+                    Width = 89
                     Height = 15
                     Align = alTop
                     Caption = 'A Vencer'
@@ -849,30 +811,32 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                     AlignWithMargins = True
                     Left = 3
                     Top = 24
-                    Width = 120
+                    Width = 89
                     Height = 23
                     Align = alClient
                     DataField = 'titulos_a_vencer'
                     DataSource = dsPosFin
                     ReadOnly = True
                     TabOrder = 0
+                    ExplicitWidth = 120
                   end
                 end
                 object Panel15: TPanel
-                  Left = 126
+                  Left = 95
                   Top = 0
-                  Width = 126
+                  Width = 95
                   Height = 50
                   Align = alLeft
                   BevelOuter = bvNone
                   Color = 9211135
                   ParentBackground = False
                   TabOrder = 2
+                  ExplicitLeft = 90
                   object Label9: TLabel
                     AlignWithMargins = True
                     Left = 3
                     Top = 3
-                    Width = 120
+                    Width = 89
                     Height = 15
                     Align = alTop
                     Caption = 'Em Atraso'
@@ -883,28 +847,30 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                     AlignWithMargins = True
                     Left = 3
                     Top = 24
-                    Width = 120
+                    Width = 89
                     Height = 23
                     Align = alClient
                     DataField = 'titulos_atraso'
                     DataSource = dsPosFin
                     ReadOnly = True
                     TabOrder = 0
+                    ExplicitWidth = 120
                   end
                 end
                 object Panel16: TPanel
-                  Left = 378
+                  Left = 285
                   Top = 0
-                  Width = 126
+                  Width = 95
                   Height = 50
                   Align = alLeft
                   BevelOuter = bvNone
                   TabOrder = 3
+                  ExplicitLeft = 378
                   object Label10: TLabel
                     AlignWithMargins = True
                     Left = 3
                     Top = 3
-                    Width = 120
+                    Width = 89
                     Height = 15
                     Align = alTop
                     Caption = #205'ndice de Atrasos'
@@ -915,47 +881,83 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                     AlignWithMargins = True
                     Left = 3
                     Top = 24
-                    Width = 120
+                    Width = 89
                     Height = 23
                     Align = alClient
                     DataField = 'ptitulos_atrasados'
                     DataSource = dsPosFin
                     ReadOnly = True
                     TabOrder = 0
+                    ExplicitWidth = 120
                   end
                 end
                 object Panel17: TPanel
-                  Left = 504
+                  Left = 380
                   Top = 0
-                  Width = 126
+                  Width = 95
                   Height = 50
                   Align = alLeft
                   BevelOuter = bvNone
                   Color = 4103935
                   ParentBackground = False
                   TabOrder = 4
+                  ExplicitLeft = 365
                   object Label11: TLabel
                     AlignWithMargins = True
                     Left = 3
                     Top = 3
-                    Width = 120
+                    Width = 89
                     Height = 15
                     Align = alTop
-                    Caption = 'Quitados em Atraso'
+                    Caption = 'Quitados Atraso'
                     FocusControl = DBEdit10
-                    ExplicitWidth = 105
+                    ExplicitWidth = 85
                   end
                   object DBEdit10: TDBEdit
                     AlignWithMargins = True
                     Left = 3
                     Top = 24
-                    Width = 120
+                    Width = 89
                     Height = 23
                     Align = alClient
                     DataField = 'titulos_quitados_atraso'
                     DataSource = dsPosFin
                     ReadOnly = True
                     TabOrder = 0
+                    ExplicitWidth = 120
+                  end
+                end
+                object Panel28: TPanel
+                  Left = 475
+                  Top = 0
+                  Width = 95
+                  Height = 50
+                  Align = alLeft
+                  BevelOuter = bvNone
+                  TabOrder = 5
+                  object Label20: TLabel
+                    AlignWithMargins = True
+                    Left = 3
+                    Top = 3
+                    Width = 89
+                    Height = 15
+                    Align = alTop
+                    Caption = 'Maior Atraso'
+                    FocusControl = DBEdit19
+                    ExplicitWidth = 68
+                  end
+                  object DBEdit19: TDBEdit
+                    AlignWithMargins = True
+                    Left = 3
+                    Top = 24
+                    Width = 89
+                    Height = 23
+                    Align = alClient
+                    DataField = 'maior_atraso'
+                    DataSource = dsPosFin
+                    ReadOnly = True
+                    TabOrder = 0
+                    ExplicitWidth = 120
                   end
                 end
               end
@@ -964,23 +966,23 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
               AlignWithMargins = True
               Left = 3
               Top = 84
-              Width = 643
+              Width = 579
               Height = 75
               Align = alTop
               Caption = ' Valores '
               TabOrder = 1
-              ExplicitTop = 3
-              ExplicitWidth = 1324
+              ExplicitTop = 69
+              ExplicitWidth = 643
               object Panel18: TPanel
                 AlignWithMargins = True
                 Left = 5
                 Top = 20
-                Width = 633
+                Width = 569
                 Height = 50
                 Align = alClient
                 BevelOuter = bvNone
                 TabOrder = 0
-                ExplicitWidth = 1314
+                ExplicitWidth = 633
                 object Panel19: TPanel
                   Left = 0
                   Top = 0
@@ -1118,23 +1120,24 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
             object GroupBox7: TGroupBox
               AlignWithMargins = True
               Left = 3
-              Top = 3
-              Width = 643
+              Top = 165
+              Width = 579
               Height = 75
               Align = alTop
               Caption = ' Hist'#243'rico de Compras '
               TabOrder = 2
-              ExplicitWidth = 1324
+              ExplicitTop = 3
+              ExplicitWidth = 643
               object Panel23: TPanel
                 AlignWithMargins = True
                 Left = 5
                 Top = 20
-                Width = 633
+                Width = 569
                 Height = 50
                 Align = alClient
                 BevelOuter = bvNone
                 TabOrder = 0
-                ExplicitWidth = 1314
+                ExplicitWidth = 633
                 object Panel25: TPanel
                   Left = 126
                   Top = 0
@@ -1263,38 +1266,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                     TabOrder = 0
                   end
                 end
-                object Panel28: TPanel
-                  Left = 504
-                  Top = 0
-                  Width = 126
-                  Height = 50
-                  Align = alLeft
-                  BevelOuter = bvNone
-                  TabOrder = 4
-                  object Label20: TLabel
-                    AlignWithMargins = True
-                    Left = 3
-                    Top = 3
-                    Width = 120
-                    Height = 15
-                    Align = alTop
-                    Caption = 'Maior Atraso (Dias)'
-                    FocusControl = DBEdit19
-                    ExplicitWidth = 101
-                  end
-                  object DBEdit19: TDBEdit
-                    AlignWithMargins = True
-                    Left = 3
-                    Top = 24
-                    Width = 120
-                    Height = 23
-                    Align = alClient
-                    DataField = 'maior_atraso'
-                    DataSource = dsPosFin
-                    ReadOnly = True
-                    TabOrder = 0
-                  end
-                end
               end
             end
           end
@@ -1302,8 +1273,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
         object tsSerasa: TTabSheet
           Caption = 'Serasa'
           ImageIndex = 208
-          ExplicitWidth = 953
-          ExplicitHeight = 388
           object GroupBox9: TGroupBox
             AlignWithMargins = True
             Left = 668
@@ -1313,9 +1282,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
             Align = alClient
             Caption = ' Resumo de Ocorr'#234'ncias '
             TabOrder = 0
-            ExplicitLeft = 564
-            ExplicitWidth = 763
-            ExplicitHeight = 241
             object DBGrid2: TDBGrid
               Tag = 1
               AlignWithMargins = True
@@ -1351,7 +1317,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
             Align = alLeft
             BevelOuter = bvNone
             TabOrder = 1
-            ExplicitHeight = 247
             object GroupBox8: TGroupBox
               AlignWithMargins = True
               Left = 3
@@ -1361,7 +1326,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
               Align = alBottom
               Caption = ' Consulta '
               TabOrder = 0
-              ExplicitTop = 104
               object Panel30: TPanel
                 Left = 2
                 Top = 17
@@ -1370,7 +1334,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                 Align = alTop
                 BevelOuter = bvNone
                 TabOrder = 0
-                ExplicitWidth = 551
                 object Panel31: TPanel
                   Left = 0
                   Top = 0
@@ -1507,7 +1470,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                   Align = alClient
                   BevelOuter = bvNone
                   TabOrder = 4
-                  ExplicitWidth = 244
                   object Label25: TLabel
                     AlignWithMargins = True
                     Left = 3
@@ -1530,7 +1492,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                     DataSource = dsSerasa
                     ReadOnly = True
                     TabOrder = 0
-                    ExplicitWidth = 238
                   end
                 end
               end
@@ -1542,7 +1503,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                 Align = alTop
                 BevelOuter = bvNone
                 TabOrder = 1
-                ExplicitWidth = 551
                 object Panel37: TPanel
                   Left = 0
                   Top = 0
@@ -1583,7 +1543,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                   Align = alRight
                   BevelOuter = bvNone
                   TabOrder = 1
-                  ExplicitLeft = 424
                   object Label27: TLabel
                     AlignWithMargins = True
                     Left = 3
@@ -1616,7 +1575,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                   Align = alClient
                   BevelOuter = bvNone
                   TabOrder = 2
-                  ExplicitWidth = 325
                   object Label30: TLabel
                     AlignWithMargins = True
                     Left = 3
@@ -1639,7 +1597,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                     DataSource = dsSerasa
                     ReadOnly = True
                     TabOrder = 0
-                    ExplicitWidth = 319
                   end
                 end
                 object Panel39: TPanel
@@ -1650,7 +1607,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                   Align = alRight
                   BevelOuter = bvNone
                   TabOrder = 3
-                  ExplicitLeft = 359
                   object Label28: TLabel
                     AlignWithMargins = True
                     Left = 3
@@ -1686,7 +1642,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
               Align = alClient
               Caption = ' Dados Retornados '
               TabOrder = 1
-              ExplicitHeight = 109
               object Panel55: TPanel
                 Left = 2
                 Top = 17
@@ -1695,7 +1650,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                 Align = alTop
                 BevelOuter = bvNone
                 TabOrder = 0
-                ExplicitTop = 0
                 object Panel44: TPanel
                   AlignWithMargins = True
                   Left = 3
@@ -1718,7 +1672,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                     Caption = 'Pend'#234'ncias'
                     FocusControl = DBEdit32
                     Layout = tlCenter
-                    ExplicitLeft = 88
                     ExplicitHeight = 15
                   end
                   object DBEdit32: TDBEdit
@@ -1732,8 +1685,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                     DataSource = dsSerasa
                     ReadOnly = True
                     TabOrder = 0
-                    ExplicitLeft = 154
-                    ExplicitWidth = 492
                   end
                 end
                 object Panel45: TPanel
@@ -1747,9 +1698,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                   Color = 9211135
                   ParentBackground = False
                   TabOrder = 1
-                  ExplicitLeft = 3
-                  ExplicitTop = 12
-                  ExplicitWidth = 179
                   object Label34: TLabel
                     AlignWithMargins = True
                     Left = 3
@@ -1761,7 +1709,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                     Caption = 'Pend'#234'ncias'
                     FocusControl = DBEdit33
                     Layout = tlCenter
-                    ExplicitLeft = 88
                     ExplicitHeight = 15
                   end
                   object DBEdit33: TDBEdit
@@ -1775,8 +1722,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                     DataSource = dsSerasa
                     ReadOnly = True
                     TabOrder = 0
-                    ExplicitLeft = 154
-                    ExplicitWidth = 492
                   end
                 end
                 object Panel43: TPanel
@@ -1799,7 +1744,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                     Caption = 'Situa'#231#227'o Cadastral'
                     FocusControl = DBEdit31
                     Layout = tlCenter
-                    ExplicitLeft = 7
                     ExplicitHeight = 15
                   end
                   object DBEdit31: TDBEdit
@@ -1813,8 +1757,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                     DataSource = dsSerasa
                     ReadOnly = True
                     TabOrder = 0
-                    ExplicitLeft = 154
-                    ExplicitWidth = 492
                   end
                 end
               end
@@ -1835,7 +1777,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                   Align = alClient
                   BevelOuter = bvNone
                   TabOrder = 0
-                  ExplicitWidth = 206
                   object Label29: TLabel
                     AlignWithMargins = True
                     Left = 3
@@ -1847,7 +1788,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                     Caption = 'Nome'
                     FocusControl = DBEdit28
                     Layout = tlCenter
-                    ExplicitLeft = 115
                     ExplicitHeight = 15
                   end
                   object DBEdit28: TDBEdit
@@ -1861,8 +1801,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                     DataSource = dsSerasa
                     ReadOnly = True
                     TabOrder = 0
-                    ExplicitLeft = 154
-                    ExplicitWidth = 492
                   end
                 end
                 object Panel42: TPanel
@@ -1885,7 +1823,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                     Caption = 'Registro / Funda'#231#227'o'
                     FocusControl = DBEdit30
                     Layout = tlCenter
-                    ExplicitLeft = 42
                     ExplicitHeight = 15
                   end
                   object DBEdit30: TDBEdit
@@ -1899,8 +1836,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                     DataSource = dsSerasa
                     ReadOnly = True
                     TabOrder = 0
-                    ExplicitLeft = 154
-                    ExplicitWidth = 492
                   end
                 end
               end
@@ -1912,7 +1847,7 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
   end
   inherited ctrlBarTop: TControlBar
     Width = 1338
-    ExplicitWidth = 961
+    ExplicitWidth = 1338
     inherited ToolBar1: TToolBar
       inherited ToolButton2: TToolButton
         ExplicitWidth = 32
@@ -2269,6 +2204,7 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
     object qPosFinmaior_atraso: TIntegerField
       FieldName = 'maior_atraso'
       ReadOnly = True
+      DisplayFormat = '#,0 Dias'
     end
   end
   object dsPosFin: TDataSource
