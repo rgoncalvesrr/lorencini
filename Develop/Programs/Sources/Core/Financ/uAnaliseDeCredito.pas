@@ -251,6 +251,12 @@ type
     IBrwSrcanalista_email: TStringField;
     IBrwSrcanalisado_em: TDateTimeField;
     ProcessarAnalises: TTimer;
+    Panel51: TPanel;
+    Panel52: TPanel;
+    Panel53: TPanel;
+    Panel54: TPanel;
+    Panel55: TPanel;
+    Panel56: TPanel;
     procedure IBrwSrcAfterScroll(DataSet: TDataSet);
     procedure actQueryProcessExecute(Sender: TObject);
     procedure edEmpresaChange(Sender: TObject);

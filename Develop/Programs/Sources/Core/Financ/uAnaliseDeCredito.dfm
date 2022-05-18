@@ -1,22 +1,22 @@
 inherited AnaliseDeCredito: TAnaliseDeCredito
   Caption = 'An'#225'lise de Cr'#233'dito'
-  ClientHeight = 787
-  ClientWidth = 967
-  ExplicitWidth = 983
-  ExplicitHeight = 826
+  ClientHeight = 729
+  ClientWidth = 1344
+  ExplicitWidth = 1360
+  ExplicitHeight = 768
   PixelsPerInch = 96
   TextHeight = 15
   inherited StatusBar1: TStatusBar
-    Top = 760
-    Width = 961
+    Top = 702
+    Width = 1338
     ExplicitTop = 760
     ExplicitWidth = 961
   end
   inherited Panel1: TPanel
-    Width = 967
+    Width = 1344
     ExplicitWidth = 967
     inherited pctlFind: TPageControl
-      Width = 957
+      Width = 1334
       ExplicitWidth = 957
       inherited tsQuery: TTabSheet
         ExplicitLeft = 4
@@ -24,7 +24,7 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
         ExplicitWidth = 949
         ExplicitHeight = 75
         inherited BitBtn2: TBitBtn
-          Left = 848
+          Left = 1225
           TabOrder = 5
           ExplicitLeft = 848
         end
@@ -202,13 +202,13 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
     end
   end
   inherited Panel2: TPanel
-    Width = 967
-    Height = 628
+    Width = 1344
+    Height = 570
     ExplicitWidth = 967
     ExplicitHeight = 628
     inherited PageControl1: TPageControl
-      Width = 961
-      Height = 191
+      Width = 1338
+      Height = 234
       Images = Resources.medium_n
       ExplicitWidth = 961
       ExplicitHeight = 191
@@ -220,28 +220,34 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
         ExplicitWidth = 953
         ExplicitHeight = 154
         inherited DBGrid1: TDBGrid
-          Width = 947
-          Height = 148
+          Width = 1324
+          Height = 191
         end
       end
       object TabSheet2: TTabSheet
         Caption = 'Aprovadas Sistema'
         ImageIndex = 208
+        ExplicitWidth = 953
+        ExplicitHeight = 154
       end
       object TabSheet3: TTabSheet
         Caption = 'Aprovadas Analista'
         ImageIndex = 205
+        ExplicitWidth = 953
+        ExplicitHeight = 154
       end
       object TabSheet4: TTabSheet
         Caption = 'Reprovadas Analista'
         ImageIndex = 204
+        ExplicitWidth = 953
+        ExplicitHeight = 154
       end
     end
     object Panel3: TPanel
       Left = 0
-      Top = 197
-      Width = 967
-      Height = 431
+      Top = 240
+      Width = 1344
+      Height = 330
       Align = alBottom
       BevelOuter = bvNone
       TabOrder = 1
@@ -249,369 +255,24 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 961
-        Height = 425
+        Width = 1338
+        Height = 324
         ActivePage = tsAnalise
         Align = alClient
         Images = Resources.medium_n
         TabOrder = 0
         OnChange = PageControl2Change
+        ExplicitHeight = 284
         object tsAnalise: TTabSheet
           Caption = 'Dados da An'#225'lise'
           ImageIndex = 209
-          object GroupBox1: TGroupBox
-            AlignWithMargins = True
-            Left = 3
-            Top = 124
-            Width = 947
-            Height = 128
-            Align = alTop
-            Caption = ' Cliente '
-            TabOrder = 0
-            inline FrameCliente1: TFrameCliente
-              Left = 2
-              Top = 17
-              Width = 943
-              Height = 109
-              Align = alClient
-              AutoSize = True
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -12
-              Font.Name = 'Segoe UI'
-              Font.Pitch = fpVariable
-              Font.Style = []
-              ParentFont = False
-              TabOrder = 0
-              ExplicitLeft = 2
-              ExplicitTop = 17
-              ExplicitWidth = 943
-              ExplicitHeight = 109
-              inherited Panel1: TPanel
-                Width = 943
-                ExplicitWidth = 943
-                inherited Panel2: TPanel
-                  inherited Label9: TLabel
-                    Width = 70
-                  end
-                  inherited DBEdit8: TDBEdit
-                    DataField = 'cliente'
-                  end
-                end
-                inherited Panel4: TPanel
-                  Width = 344
-                  ExplicitWidth = 344
-                  inherited Label10: TLabel
-                    Width = 338
-                  end
-                  inherited DBEdit9: TDBEdit
-                    Width = 338
-                    ExplicitWidth = 338
-                  end
-                end
-                inherited Panel5: TPanel
-                  Left = 449
-                  ExplicitLeft = 449
-                  inherited Label11: TLabel
-                    Width = 248
-                  end
-                  inherited DBEdit10: TDBEdit
-                    ExplicitWidth = 248
-                  end
-                end
-                inherited Panel6: TPanel
-                  Left = 703
-                  ExplicitLeft = 703
-                  inherited Label12: TLabel
-                    Width = 122
-                  end
-                  inherited DBEdit11: TDBEdit
-                    ExplicitWidth = 122
-                  end
-                end
-                inherited Panel7: TPanel
-                  Left = 831
-                  ExplicitLeft = 831
-                  inherited Label13: TLabel
-                    Width = 106
-                  end
-                  inherited DBEdit12: TDBEdit
-                    ExplicitWidth = 106
-                  end
-                end
-              end
-              inherited Panel3: TPanel
-                Width = 943
-                ExplicitWidth = 943
-                inherited Panel8: TPanel
-                  Width = 442
-                  ExplicitWidth = 442
-                  inherited Label1: TLabel
-                    Width = 436
-                  end
-                  inherited DBEdit1: TDBEdit
-                    Width = 436
-                    ExplicitWidth = 436
-                  end
-                end
-                inherited Panel9: TPanel
-                  Left = 763
-                  ExplicitLeft = 763
-                  inherited Label2: TLabel
-                    Width = 46
-                  end
-                end
-                inherited Panel30: TPanel
-                  inherited Label20: TLabel
-                    Width = 315
-                  end
-                end
-                inherited Panel10: TPanel
-                  Left = 815
-                  ExplicitLeft = 815
-                  inherited Label3: TLabel
-                    Width = 122
-                  end
-                end
-              end
-              inherited dsCliente: TDataSource
-                DataSet = IBrwSrc
-              end
-            end
-          end
-          object Panel8: TPanel
-            Left = 0
-            Top = 46
-            Width = 953
-            Height = 75
-            Align = alTop
-            BevelOuter = bvNone
-            TabOrder = 1
-            object GroupBox2: TGroupBox
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 358
-              Height = 69
-              Align = alLeft
-              Caption = ' Alvo da An'#225'lise '
-              TabOrder = 0
-              object Panel4: TPanel
-                Left = 2
-                Top = 17
-                Width = 354
-                Height = 50
-                Align = alClient
-                BevelOuter = bvNone
-                TabOrder = 0
-                object Panel5: TPanel
-                  Left = 0
-                  Top = 0
-                  Width = 102
-                  Height = 50
-                  Align = alLeft
-                  BevelOuter = bvNone
-                  TabOrder = 0
-                  object Label1: TLabel
-                    AlignWithMargins = True
-                    Left = 3
-                    Top = 3
-                    Width = 96
-                    Height = 15
-                    Align = alTop
-                    Caption = 'An'#225'lise'
-                    FocusControl = DBEdit1
-                    ExplicitWidth = 38
-                  end
-                  object DBEdit1: TDBEdit
-                    AlignWithMargins = True
-                    Left = 3
-                    Top = 24
-                    Width = 96
-                    Height = 23
-                    Align = alClient
-                    DataField = 'recno'
-                    DataSource = DataSource1
-                    ReadOnly = True
-                    TabOrder = 0
-                  end
-                end
-                object Panel6: TPanel
-                  Left = 102
-                  Top = 0
-                  Width = 125
-                  Height = 50
-                  Align = alLeft
-                  BevelOuter = bvNone
-                  TabOrder = 1
-                  object Label3: TLabel
-                    AlignWithMargins = True
-                    Left = 3
-                    Top = 3
-                    Width = 119
-                    Height = 15
-                    Align = alTop
-                    Caption = 'Emiss'#227'o'
-                    FocusControl = DBEdit2
-                    ExplicitWidth = 43
-                  end
-                  object DBEdit2: TDBEdit
-                    AlignWithMargins = True
-                    Left = 3
-                    Top = 24
-                    Width = 119
-                    Height = 23
-                    Align = alClient
-                    DataField = 'emissao'
-                    DataSource = DataSource1
-                    ReadOnly = True
-                    TabOrder = 0
-                  end
-                end
-                object Panel7: TPanel
-                  Left = 227
-                  Top = 0
-                  Width = 125
-                  Height = 50
-                  Align = alLeft
-                  BevelOuter = bvNone
-                  TabOrder = 2
-                  object Label4: TLabel
-                    AlignWithMargins = True
-                    Left = 3
-                    Top = 3
-                    Width = 119
-                    Height = 15
-                    Align = alTop
-                    Caption = 'Valor'
-                    FocusControl = DBEdit3
-                    ExplicitWidth = 26
-                  end
-                  object DBEdit3: TDBEdit
-                    AlignWithMargins = True
-                    Left = 3
-                    Top = 24
-                    Width = 119
-                    Height = 23
-                    Align = alClient
-                    DataField = 'valor'
-                    DataSource = DataSource1
-                    ReadOnly = True
-                    TabOrder = 0
-                  end
-                end
-              end
-            end
-            object GroupBox3: TGroupBox
-              AlignWithMargins = True
-              Left = 367
-              Top = 3
-              Width = 583
-              Height = 69
-              Align = alClient
-              Caption = ' Solicitante '
-              TabOrder = 1
-              object Panel9: TPanel
-                Left = 2
-                Top = 17
-                Width = 579
-                Height = 50
-                Align = alClient
-                BevelOuter = bvNone
-                TabOrder = 0
-                object Panel10: TPanel
-                  Left = 0
-                  Top = 0
-                  Width = 241
-                  Height = 50
-                  Align = alLeft
-                  BevelOuter = bvNone
-                  TabOrder = 0
-                  object Label5: TLabel
-                    AlignWithMargins = True
-                    Left = 3
-                    Top = 3
-                    Width = 235
-                    Height = 15
-                    Align = alTop
-                    Caption = 'Nome'
-                    FocusControl = DBEdit4
-                    ExplicitWidth = 33
-                  end
-                  object DBEdit4: TDBEdit
-                    AlignWithMargins = True
-                    Left = 3
-                    Top = 24
-                    Width = 235
-                    Height = 23
-                    Align = alClient
-                    DataField = 'nome'
-                    DataSource = DataSource1
-                    ReadOnly = True
-                    TabOrder = 0
-                  end
-                end
-                object Panel11: TPanel
-                  Left = 241
-                  Top = 0
-                  Width = 338
-                  Height = 50
-                  Align = alClient
-                  BevelOuter = bvNone
-                  TabOrder = 1
-                  object Label6: TLabel
-                    AlignWithMargins = True
-                    Left = 3
-                    Top = 3
-                    Width = 332
-                    Height = 15
-                    Align = alTop
-                    Caption = 'E-mail'
-                    FocusControl = DBEdit5
-                    ExplicitWidth = 34
-                  end
-                  object DBEdit5: TDBEdit
-                    AlignWithMargins = True
-                    Left = 3
-                    Top = 24
-                    Width = 332
-                    Height = 23
-                    Align = alClient
-                    DataField = 'email'
-                    DataSource = DataSource1
-                    ReadOnly = True
-                    TabOrder = 0
-                  end
-                end
-              end
-            end
-          end
-          object GroupBox4: TGroupBox
-            AlignWithMargins = True
-            Left = 3
-            Top = 258
-            Width = 947
-            Height = 127
-            Align = alClient
-            Caption = ' Observa'#231#227'o '
-            TabOrder = 2
-            object DBMemo1: TDBMemo
-              AlignWithMargins = True
-              Left = 5
-              Top = 20
-              Width = 937
-              Height = 102
-              Align = alClient
-              DataField = 'obs'
-              DataSource = DataSource1
-              TabOrder = 0
-            end
-          end
+          ExplicitWidth = 953
+          ExplicitHeight = 388
           object ControlBar1: TControlBar
             AlignWithMargins = True
             Left = 3
             Top = 3
-            Width = 947
+            Width = 1324
             Height = 40
             Align = alTop
             AutoSize = True
@@ -619,7 +280,8 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
             BevelKind = bkNone
             BorderWidth = 1
             DrawingStyle = dsGradient
-            TabOrder = 3
+            TabOrder = 0
+            ExplicitWidth = 947
             object ToolBar2: TToolBar
               AlignWithMargins = True
               Left = 11
@@ -671,567 +333,996 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
               end
             end
           end
+          object Panel51: TPanel
+            Left = 0
+            Top = 46
+            Width = 1330
+            Height = 241
+            Align = alClient
+            BevelOuter = bvNone
+            TabOrder = 1
+            ExplicitLeft = 384
+            ExplicitTop = 176
+            ExplicitWidth = 185
+            ExplicitHeight = 41
+            object Panel52: TPanel
+              Left = 0
+              Top = 0
+              Width = 903
+              Height = 241
+              Align = alLeft
+              BevelOuter = bvNone
+              TabOrder = 0
+              ExplicitWidth = 427
+              ExplicitHeight = 133
+              object Panel8: TPanel
+                Left = 0
+                Top = 0
+                Width = 903
+                Height = 75
+                Align = alTop
+                BevelOuter = bvNone
+                TabOrder = 0
+                ExplicitTop = 46
+                ExplicitWidth = 953
+                object GroupBox2: TGroupBox
+                  AlignWithMargins = True
+                  Left = 3
+                  Top = 3
+                  Width = 358
+                  Height = 69
+                  Align = alLeft
+                  Caption = ' Alvo da An'#225'lise '
+                  TabOrder = 0
+                  object Panel4: TPanel
+                    Left = 2
+                    Top = 17
+                    Width = 354
+                    Height = 50
+                    Align = alClient
+                    BevelOuter = bvNone
+                    TabOrder = 0
+                    object Panel5: TPanel
+                      Left = 0
+                      Top = 0
+                      Width = 102
+                      Height = 50
+                      Align = alLeft
+                      BevelOuter = bvNone
+                      TabOrder = 0
+                      object Label1: TLabel
+                        AlignWithMargins = True
+                        Left = 3
+                        Top = 3
+                        Width = 96
+                        Height = 15
+                        Align = alTop
+                        Caption = 'An'#225'lise'
+                        FocusControl = DBEdit1
+                        ExplicitWidth = 38
+                      end
+                      object DBEdit1: TDBEdit
+                        AlignWithMargins = True
+                        Left = 3
+                        Top = 24
+                        Width = 96
+                        Height = 23
+                        Align = alClient
+                        DataField = 'recno'
+                        DataSource = DataSource1
+                        ReadOnly = True
+                        TabOrder = 0
+                      end
+                    end
+                    object Panel6: TPanel
+                      Left = 102
+                      Top = 0
+                      Width = 125
+                      Height = 50
+                      Align = alLeft
+                      BevelOuter = bvNone
+                      TabOrder = 1
+                      object Label3: TLabel
+                        AlignWithMargins = True
+                        Left = 3
+                        Top = 3
+                        Width = 119
+                        Height = 15
+                        Align = alTop
+                        Caption = 'Emiss'#227'o'
+                        FocusControl = DBEdit2
+                        ExplicitWidth = 43
+                      end
+                      object DBEdit2: TDBEdit
+                        AlignWithMargins = True
+                        Left = 3
+                        Top = 24
+                        Width = 119
+                        Height = 23
+                        Align = alClient
+                        DataField = 'emissao'
+                        DataSource = DataSource1
+                        ReadOnly = True
+                        TabOrder = 0
+                      end
+                    end
+                    object Panel7: TPanel
+                      Left = 227
+                      Top = 0
+                      Width = 125
+                      Height = 50
+                      Align = alLeft
+                      BevelOuter = bvNone
+                      TabOrder = 2
+                      object Label4: TLabel
+                        AlignWithMargins = True
+                        Left = 3
+                        Top = 3
+                        Width = 119
+                        Height = 15
+                        Align = alTop
+                        Caption = 'Valor'
+                        FocusControl = DBEdit3
+                        ExplicitWidth = 26
+                      end
+                      object DBEdit3: TDBEdit
+                        AlignWithMargins = True
+                        Left = 3
+                        Top = 24
+                        Width = 119
+                        Height = 23
+                        Align = alClient
+                        DataField = 'valor'
+                        DataSource = DataSource1
+                        ReadOnly = True
+                        TabOrder = 0
+                      end
+                    end
+                  end
+                end
+                object GroupBox3: TGroupBox
+                  AlignWithMargins = True
+                  Left = 367
+                  Top = 3
+                  Width = 533
+                  Height = 69
+                  Align = alClient
+                  Caption = ' Solicitante '
+                  TabOrder = 1
+                  ExplicitWidth = 583
+                  object Panel9: TPanel
+                    Left = 2
+                    Top = 17
+                    Width = 529
+                    Height = 50
+                    Align = alClient
+                    BevelOuter = bvNone
+                    TabOrder = 0
+                    ExplicitWidth = 579
+                    object Panel10: TPanel
+                      Left = 0
+                      Top = 0
+                      Width = 241
+                      Height = 50
+                      Align = alLeft
+                      BevelOuter = bvNone
+                      TabOrder = 0
+                      object Label5: TLabel
+                        AlignWithMargins = True
+                        Left = 3
+                        Top = 3
+                        Width = 235
+                        Height = 15
+                        Align = alTop
+                        Caption = 'Nome'
+                        FocusControl = DBEdit4
+                        ExplicitWidth = 33
+                      end
+                      object DBEdit4: TDBEdit
+                        AlignWithMargins = True
+                        Left = 3
+                        Top = 24
+                        Width = 235
+                        Height = 23
+                        Align = alClient
+                        DataField = 'nome'
+                        DataSource = DataSource1
+                        ReadOnly = True
+                        TabOrder = 0
+                      end
+                    end
+                    object Panel11: TPanel
+                      Left = 241
+                      Top = 0
+                      Width = 288
+                      Height = 50
+                      Align = alClient
+                      BevelOuter = bvNone
+                      TabOrder = 1
+                      ExplicitWidth = 338
+                      object Label6: TLabel
+                        AlignWithMargins = True
+                        Left = 3
+                        Top = 3
+                        Width = 282
+                        Height = 15
+                        Align = alTop
+                        Caption = 'E-mail'
+                        FocusControl = DBEdit5
+                        ExplicitWidth = 34
+                      end
+                      object DBEdit5: TDBEdit
+                        AlignWithMargins = True
+                        Left = 3
+                        Top = 24
+                        Width = 282
+                        Height = 23
+                        Align = alClient
+                        DataField = 'email'
+                        DataSource = DataSource1
+                        ReadOnly = True
+                        TabOrder = 0
+                        ExplicitWidth = 332
+                      end
+                    end
+                  end
+                end
+              end
+              object GroupBox1: TGroupBox
+                AlignWithMargins = True
+                Left = 3
+                Top = 78
+                Width = 897
+                Height = 160
+                Align = alClient
+                Caption = ' Cliente '
+                TabOrder = 1
+                ExplicitTop = 49
+                ExplicitWidth = 947
+                ExplicitHeight = 128
+                inline FrameCliente1: TFrameCliente
+                  Left = 2
+                  Top = 17
+                  Width = 893
+                  Height = 141
+                  Align = alClient
+                  AutoSize = True
+                  Font.Charset = DEFAULT_CHARSET
+                  Font.Color = clWindowText
+                  Font.Height = -12
+                  Font.Name = 'Segoe UI'
+                  Font.Pitch = fpVariable
+                  Font.Style = []
+                  ParentFont = False
+                  TabOrder = 0
+                  ExplicitLeft = 2
+                  ExplicitTop = 17
+                  ExplicitWidth = 943
+                  ExplicitHeight = 109
+                  inherited Panel1: TPanel
+                    Width = 893
+                    ExplicitWidth = 943
+                    inherited Panel2: TPanel
+                      inherited Label9: TLabel
+                        Width = 70
+                      end
+                      inherited DBEdit8: TDBEdit
+                        DataField = 'cliente'
+                      end
+                    end
+                    inherited Panel4: TPanel
+                      Width = 294
+                      ExplicitWidth = 344
+                      inherited Label10: TLabel
+                        Width = 288
+                      end
+                      inherited DBEdit9: TDBEdit
+                        Width = 288
+                        ExplicitWidth = 338
+                      end
+                    end
+                    inherited Panel5: TPanel
+                      Left = 399
+                      ExplicitLeft = 449
+                      inherited Label11: TLabel
+                        Width = 248
+                      end
+                      inherited DBEdit10: TDBEdit
+                        ExplicitWidth = 248
+                      end
+                    end
+                    inherited Panel6: TPanel
+                      Left = 653
+                      ExplicitLeft = 703
+                      inherited Label12: TLabel
+                        Width = 122
+                      end
+                      inherited DBEdit11: TDBEdit
+                        ExplicitWidth = 122
+                      end
+                    end
+                    inherited Panel7: TPanel
+                      Left = 781
+                      ExplicitLeft = 831
+                      inherited Label13: TLabel
+                        Width = 106
+                      end
+                      inherited DBEdit12: TDBEdit
+                        ExplicitWidth = 106
+                      end
+                    end
+                  end
+                  inherited Panel3: TPanel
+                    Width = 893
+                    ExplicitWidth = 943
+                    inherited Panel8: TPanel
+                      Width = 392
+                      ExplicitWidth = 442
+                      inherited Label1: TLabel
+                        Width = 386
+                      end
+                      inherited DBEdit1: TDBEdit
+                        Width = 386
+                        ExplicitWidth = 436
+                      end
+                    end
+                    inherited Panel9: TPanel
+                      Left = 713
+                      ExplicitLeft = 763
+                      inherited Label2: TLabel
+                        Width = 46
+                      end
+                    end
+                    inherited Panel30: TPanel
+                      inherited Label20: TLabel
+                        Width = 315
+                      end
+                    end
+                    inherited Panel10: TPanel
+                      Left = 765
+                      ExplicitLeft = 815
+                      inherited Label3: TLabel
+                        Width = 122
+                      end
+                    end
+                  end
+                  inherited dsCliente: TDataSource
+                    DataSet = IBrwSrc
+                  end
+                end
+              end
+            end
+            object Panel53: TPanel
+              Left = 903
+              Top = 0
+              Width = 427
+              Height = 241
+              Align = alClient
+              BevelOuter = bvNone
+              TabOrder = 1
+              ExplicitLeft = 528
+              ExplicitTop = 24
+              ExplicitHeight = 133
+              object GroupBox4: TGroupBox
+                AlignWithMargins = True
+                Left = 3
+                Top = 3
+                Width = 421
+                Height = 235
+                Align = alClient
+                Caption = ' Observa'#231#227'o '
+                TabOrder = 0
+                ExplicitTop = 258
+                ExplicitWidth = 947
+                ExplicitHeight = 127
+                object DBMemo1: TDBMemo
+                  AlignWithMargins = True
+                  Left = 5
+                  Top = 20
+                  Width = 411
+                  Height = 210
+                  Align = alClient
+                  DataField = 'obs'
+                  DataSource = DataSource1
+                  TabOrder = 0
+                  ExplicitWidth = 937
+                  ExplicitHeight = 102
+                end
+              end
+            end
+          end
         end
         object tsPosFin: TTabSheet
           Caption = 'Posi'#231#227'o Financeira'
           ImageIndex = 208
-          object GroupBox5: TGroupBox
-            AlignWithMargins = True
-            Left = 3
-            Top = 3
-            Width = 947
-            Height = 75
-            Align = alTop
-            Caption = ' T'#237'tulos '
-            TabOrder = 0
-            object Panel12: TPanel
-              AlignWithMargins = True
-              Left = 5
-              Top = 20
-              Width = 937
-              Height = 50
-              Align = alClient
-              BevelOuter = bvNone
-              TabOrder = 0
-              object Panel13: TPanel
-                Left = 0
-                Top = 0
-                Width = 126
-                Height = 50
-                Align = alLeft
-                BevelOuter = bvNone
-                TabOrder = 0
-                object Label7: TLabel
-                  AlignWithMargins = True
-                  Left = 3
-                  Top = 3
-                  Width = 120
-                  Height = 15
-                  Align = alTop
-                  Caption = 'Quantidade'
-                  FocusControl = DBEdit6
-                  ExplicitWidth = 62
-                end
-                object DBEdit6: TDBEdit
-                  AlignWithMargins = True
-                  Left = 3
-                  Top = 24
-                  Width = 120
-                  Height = 23
-                  Align = alClient
-                  DataField = 'titulos'
-                  DataSource = dsPosFin
-                  ReadOnly = True
-                  TabOrder = 0
-                end
-              end
-              object Panel14: TPanel
-                Left = 252
-                Top = 0
-                Width = 126
-                Height = 50
-                Align = alLeft
-                BevelOuter = bvNone
-                TabOrder = 1
-                object Label8: TLabel
-                  AlignWithMargins = True
-                  Left = 3
-                  Top = 3
-                  Width = 120
-                  Height = 15
-                  Align = alTop
-                  Caption = 'A Vencer'
-                  FocusControl = DBEdit7
-                  ExplicitWidth = 46
-                end
-                object DBEdit7: TDBEdit
-                  AlignWithMargins = True
-                  Left = 3
-                  Top = 24
-                  Width = 120
-                  Height = 23
-                  Align = alClient
-                  DataField = 'titulos_a_vencer'
-                  DataSource = dsPosFin
-                  ReadOnly = True
-                  TabOrder = 0
-                end
-              end
-              object Panel15: TPanel
-                Left = 126
-                Top = 0
-                Width = 126
-                Height = 50
-                Align = alLeft
-                BevelOuter = bvNone
-                Color = 9211135
-                ParentBackground = False
-                TabOrder = 2
-                object Label9: TLabel
-                  AlignWithMargins = True
-                  Left = 3
-                  Top = 3
-                  Width = 120
-                  Height = 15
-                  Align = alTop
-                  Caption = 'Em Atraso'
-                  FocusControl = DBEdit8
-                  ExplicitWidth = 54
-                end
-                object DBEdit8: TDBEdit
-                  AlignWithMargins = True
-                  Left = 3
-                  Top = 24
-                  Width = 120
-                  Height = 23
-                  Align = alClient
-                  DataField = 'titulos_atraso'
-                  DataSource = dsPosFin
-                  ReadOnly = True
-                  TabOrder = 0
-                end
-              end
-              object Panel16: TPanel
-                Left = 378
-                Top = 0
-                Width = 126
-                Height = 50
-                Align = alLeft
-                BevelOuter = bvNone
-                TabOrder = 3
-                object Label10: TLabel
-                  AlignWithMargins = True
-                  Left = 3
-                  Top = 3
-                  Width = 120
-                  Height = 15
-                  Align = alTop
-                  Caption = #205'ndice de Atrasos'
-                  FocusControl = DBEdit9
-                  ExplicitWidth = 90
-                end
-                object DBEdit9: TDBEdit
-                  AlignWithMargins = True
-                  Left = 3
-                  Top = 24
-                  Width = 120
-                  Height = 23
-                  Align = alClient
-                  DataField = 'ptitulos_atrasados'
-                  DataSource = dsPosFin
-                  ReadOnly = True
-                  TabOrder = 0
-                end
-              end
-              object Panel17: TPanel
-                Left = 504
-                Top = 0
-                Width = 126
-                Height = 50
-                Align = alLeft
-                BevelOuter = bvNone
-                Color = 4103935
-                ParentBackground = False
-                TabOrder = 4
-                object Label11: TLabel
-                  AlignWithMargins = True
-                  Left = 3
-                  Top = 3
-                  Width = 120
-                  Height = 15
-                  Align = alTop
-                  Caption = 'Quitados em Atraso'
-                  FocusControl = DBEdit10
-                  ExplicitWidth = 105
-                end
-                object DBEdit10: TDBEdit
-                  AlignWithMargins = True
-                  Left = 3
-                  Top = 24
-                  Width = 120
-                  Height = 23
-                  Align = alClient
-                  DataField = 'titulos_quitados_atraso'
-                  DataSource = dsPosFin
-                  ReadOnly = True
-                  TabOrder = 0
-                end
-              end
-            end
-          end
-          object GroupBox6: TGroupBox
-            AlignWithMargins = True
-            Left = 3
-            Top = 84
-            Width = 947
-            Height = 75
-            Align = alTop
-            Caption = ' Valores '
-            TabOrder = 1
-            object Panel18: TPanel
-              AlignWithMargins = True
-              Left = 5
-              Top = 20
-              Width = 937
-              Height = 50
-              Align = alClient
-              BevelOuter = bvNone
-              TabOrder = 0
-              object Panel19: TPanel
-                Left = 0
-                Top = 0
-                Width = 126
-                Height = 50
-                Align = alLeft
-                BevelOuter = bvNone
-                Color = 7133440
-                ParentBackground = False
-                TabOrder = 0
-                object Label12: TLabel
-                  AlignWithMargins = True
-                  Left = 3
-                  Top = 3
-                  Width = 120
-                  Height = 15
-                  Align = alTop
-                  Caption = 'Recebido'
-                  FocusControl = DBEdit11
-                  ExplicitWidth = 49
-                end
-                object DBEdit11: TDBEdit
-                  AlignWithMargins = True
-                  Left = 3
-                  Top = 24
-                  Width = 120
-                  Height = 23
-                  Align = alClient
-                  DataField = 'recebido'
-                  DataSource = dsPosFin
-                  ReadOnly = True
-                  TabOrder = 0
-                end
-              end
-              object Panel20: TPanel
-                Left = 252
-                Top = 0
-                Width = 126
-                Height = 50
-                Align = alLeft
-                BevelOuter = bvNone
-                TabOrder = 1
-                object Label13: TLabel
-                  AlignWithMargins = True
-                  Left = 3
-                  Top = 3
-                  Width = 120
-                  Height = 15
-                  Align = alTop
-                  Caption = 'A Receber'
-                  FocusControl = DBEdit12
-                  ExplicitWidth = 53
-                end
-                object DBEdit12: TDBEdit
-                  AlignWithMargins = True
-                  Left = 3
-                  Top = 24
-                  Width = 120
-                  Height = 23
-                  Align = alClient
-                  DataField = 'receber'
-                  DataSource = dsPosFin
-                  ReadOnly = True
-                  TabOrder = 0
-                end
-              end
-              object Panel21: TPanel
-                Left = 126
-                Top = 0
-                Width = 126
-                Height = 50
-                Align = alLeft
-                BevelOuter = bvNone
-                Color = 9211135
-                ParentBackground = False
-                TabOrder = 2
-                object Label14: TLabel
-                  AlignWithMargins = True
-                  Left = 3
-                  Top = 3
-                  Width = 120
-                  Height = 15
-                  Align = alTop
-                  Caption = 'Em Atraso'
-                  FocusControl = DBEdit13
-                  ExplicitWidth = 54
-                end
-                object DBEdit13: TDBEdit
-                  AlignWithMargins = True
-                  Left = 3
-                  Top = 24
-                  Width = 120
-                  Height = 23
-                  Align = alClient
-                  DataField = 'atrasado'
-                  DataSource = dsPosFin
-                  ReadOnly = True
-                  TabOrder = 0
-                end
-              end
-              object Panel22: TPanel
-                Left = 378
-                Top = 0
-                Width = 126
-                Height = 50
-                Align = alLeft
-                BevelOuter = bvNone
-                TabOrder = 3
-                object Label15: TLabel
-                  AlignWithMargins = True
-                  Left = 3
-                  Top = 3
-                  Width = 120
-                  Height = 15
-                  Align = alTop
-                  Caption = 'Total'
-                  FocusControl = DBEdit14
-                  ExplicitWidth = 25
-                end
-                object DBEdit14: TDBEdit
-                  AlignWithMargins = True
-                  Left = 3
-                  Top = 24
-                  Width = 120
-                  Height = 23
-                  Align = alClient
-                  DataField = 'total'
-                  DataSource = dsPosFin
-                  ReadOnly = True
-                  TabOrder = 0
-                end
-              end
-            end
-          end
-          object GroupBox7: TGroupBox
-            AlignWithMargins = True
-            Left = 3
-            Top = 165
-            Width = 947
-            Height = 75
-            Align = alTop
-            Caption = ' Hist'#243'rico de Compras '
-            TabOrder = 2
-            object Panel23: TPanel
-              AlignWithMargins = True
-              Left = 5
-              Top = 20
-              Width = 937
-              Height = 50
-              Align = alClient
-              BevelOuter = bvNone
-              TabOrder = 0
-              object Panel25: TPanel
-                Left = 126
-                Top = 0
-                Width = 126
-                Height = 50
-                Align = alLeft
-                BevelOuter = bvNone
-                TabOrder = 0
-                object Label17: TLabel
-                  AlignWithMargins = True
-                  Left = 3
-                  Top = 3
-                  Width = 120
-                  Height = 15
-                  Align = alTop
-                  Caption = 'Compra mais Recente'
-                  FocusControl = DBEdit16
-                  ExplicitWidth = 116
-                end
-                object DBEdit16: TDBEdit
-                  AlignWithMargins = True
-                  Left = 3
-                  Top = 24
-                  Width = 120
-                  Height = 23
-                  Align = alClient
-                  DataField = 'ult_compra'
-                  DataSource = dsPosFin
-                  ReadOnly = True
-                  TabOrder = 0
-                end
-              end
-              object Panel27: TPanel
-                Left = 378
-                Top = 0
-                Width = 126
-                Height = 50
-                Align = alLeft
-                BevelOuter = bvNone
-                TabOrder = 1
-                object Label19: TLabel
-                  AlignWithMargins = True
-                  Left = 3
-                  Top = 3
-                  Width = 120
-                  Height = 15
-                  Align = alTop
-                  Caption = 'Maior Compra'
-                  FocusControl = DBEdit18
-                  ExplicitWidth = 77
-                end
-                object DBEdit18: TDBEdit
-                  AlignWithMargins = True
-                  Left = 3
-                  Top = 24
-                  Width = 120
-                  Height = 23
-                  Align = alClient
-                  DataField = 'maior_compra'
-                  DataSource = dsPosFin
-                  ReadOnly = True
-                  TabOrder = 0
-                end
-              end
-              object Panel24: TPanel
-                Left = 0
-                Top = 0
-                Width = 126
-                Height = 50
-                Align = alLeft
-                BevelOuter = bvNone
-                TabOrder = 2
-                object Label16: TLabel
-                  AlignWithMargins = True
-                  Left = 3
-                  Top = 3
-                  Width = 120
-                  Height = 15
-                  Align = alTop
-                  Caption = 'Compra mais Antiga'
-                  FocusControl = DBEdit15
-                  ExplicitWidth = 109
-                end
-                object DBEdit15: TDBEdit
-                  AlignWithMargins = True
-                  Left = 3
-                  Top = 24
-                  Width = 120
-                  Height = 23
-                  Align = alClient
-                  DataField = 'pri_compra'
-                  DataSource = dsPosFin
-                  ReadOnly = True
-                  TabOrder = 0
-                end
-              end
-              object Panel26: TPanel
-                Left = 252
-                Top = 0
-                Width = 126
-                Height = 50
-                Align = alLeft
-                BevelOuter = bvNone
-                TabOrder = 3
-                object Label18: TLabel
-                  AlignWithMargins = True
-                  Left = 3
-                  Top = 3
-                  Width = 120
-                  Height = 15
-                  Align = alTop
-                  Caption = 'Menor Compra'
-                  FocusControl = DBEdit17
-                  ExplicitWidth = 81
-                end
-                object DBEdit17: TDBEdit
-                  AlignWithMargins = True
-                  Left = 3
-                  Top = 24
-                  Width = 120
-                  Height = 23
-                  Align = alClient
-                  DataField = 'menor_compra'
-                  DataSource = dsPosFin
-                  ReadOnly = True
-                  TabOrder = 0
-                end
-              end
-              object Panel28: TPanel
-                Left = 504
-                Top = 0
-                Width = 126
-                Height = 50
-                Align = alLeft
-                BevelOuter = bvNone
-                TabOrder = 4
-                object Label20: TLabel
-                  AlignWithMargins = True
-                  Left = 3
-                  Top = 3
-                  Width = 120
-                  Height = 15
-                  Align = alTop
-                  Caption = 'Maior Atraso (Dias)'
-                  FocusControl = DBEdit19
-                  ExplicitWidth = 101
-                end
-                object DBEdit19: TDBEdit
-                  AlignWithMargins = True
-                  Left = 3
-                  Top = 24
-                  Width = 120
-                  Height = 23
-                  Align = alClient
-                  DataField = 'maior_atraso'
-                  DataSource = dsPosFin
-                  ReadOnly = True
-                  TabOrder = 0
-                end
-              end
-            end
-          end
+          ExplicitWidth = 953
+          ExplicitHeight = 388
           object GroupBox11: TGroupBox
             AlignWithMargins = True
-            Left = 3
-            Top = 246
-            Width = 947
-            Height = 139
+            Left = 652
+            Top = 3
+            Width = 675
+            Height = 281
             Align = alClient
             Caption = ' Restri'#231#227'o Interna '
-            TabOrder = 3
+            TabOrder = 0
+            ExplicitLeft = 3
+            ExplicitTop = 246
+            ExplicitWidth = 947
+            ExplicitHeight = 139
             object DBMemo2: TDBMemo
               AlignWithMargins = True
               Left = 5
               Top = 20
-              Width = 937
-              Height = 114
+              Width = 665
+              Height = 256
               Align = alClient
               DataField = 'restrmotiv'
               DataSource = DataSource1
               TabOrder = 0
+              ExplicitWidth = 937
+              ExplicitHeight = 114
+            end
+          end
+          object Panel54: TPanel
+            Left = 0
+            Top = 0
+            Width = 649
+            Height = 287
+            Align = alLeft
+            BevelOuter = bvNone
+            TabOrder = 1
+            ExplicitHeight = 247
+            object GroupBox5: TGroupBox
+              AlignWithMargins = True
+              Left = 3
+              Top = 165
+              Width = 643
+              Height = 75
+              Align = alTop
+              Caption = ' T'#237'tulos '
+              TabOrder = 0
+              ExplicitTop = 3
+              ExplicitWidth = 1324
+              object Panel12: TPanel
+                AlignWithMargins = True
+                Left = 5
+                Top = 20
+                Width = 633
+                Height = 50
+                Align = alClient
+                BevelOuter = bvNone
+                TabOrder = 0
+                ExplicitWidth = 1314
+                object Panel13: TPanel
+                  Left = 0
+                  Top = 0
+                  Width = 126
+                  Height = 50
+                  Align = alLeft
+                  BevelOuter = bvNone
+                  TabOrder = 0
+                  object Label7: TLabel
+                    AlignWithMargins = True
+                    Left = 3
+                    Top = 3
+                    Width = 120
+                    Height = 15
+                    Align = alTop
+                    Caption = 'Quantidade'
+                    FocusControl = DBEdit6
+                    ExplicitWidth = 62
+                  end
+                  object DBEdit6: TDBEdit
+                    AlignWithMargins = True
+                    Left = 3
+                    Top = 24
+                    Width = 120
+                    Height = 23
+                    Align = alClient
+                    DataField = 'titulos'
+                    DataSource = dsPosFin
+                    ReadOnly = True
+                    TabOrder = 0
+                  end
+                end
+                object Panel14: TPanel
+                  Left = 252
+                  Top = 0
+                  Width = 126
+                  Height = 50
+                  Align = alLeft
+                  BevelOuter = bvNone
+                  TabOrder = 1
+                  object Label8: TLabel
+                    AlignWithMargins = True
+                    Left = 3
+                    Top = 3
+                    Width = 120
+                    Height = 15
+                    Align = alTop
+                    Caption = 'A Vencer'
+                    FocusControl = DBEdit7
+                    ExplicitWidth = 46
+                  end
+                  object DBEdit7: TDBEdit
+                    AlignWithMargins = True
+                    Left = 3
+                    Top = 24
+                    Width = 120
+                    Height = 23
+                    Align = alClient
+                    DataField = 'titulos_a_vencer'
+                    DataSource = dsPosFin
+                    ReadOnly = True
+                    TabOrder = 0
+                  end
+                end
+                object Panel15: TPanel
+                  Left = 126
+                  Top = 0
+                  Width = 126
+                  Height = 50
+                  Align = alLeft
+                  BevelOuter = bvNone
+                  Color = 9211135
+                  ParentBackground = False
+                  TabOrder = 2
+                  object Label9: TLabel
+                    AlignWithMargins = True
+                    Left = 3
+                    Top = 3
+                    Width = 120
+                    Height = 15
+                    Align = alTop
+                    Caption = 'Em Atraso'
+                    FocusControl = DBEdit8
+                    ExplicitWidth = 54
+                  end
+                  object DBEdit8: TDBEdit
+                    AlignWithMargins = True
+                    Left = 3
+                    Top = 24
+                    Width = 120
+                    Height = 23
+                    Align = alClient
+                    DataField = 'titulos_atraso'
+                    DataSource = dsPosFin
+                    ReadOnly = True
+                    TabOrder = 0
+                  end
+                end
+                object Panel16: TPanel
+                  Left = 378
+                  Top = 0
+                  Width = 126
+                  Height = 50
+                  Align = alLeft
+                  BevelOuter = bvNone
+                  TabOrder = 3
+                  object Label10: TLabel
+                    AlignWithMargins = True
+                    Left = 3
+                    Top = 3
+                    Width = 120
+                    Height = 15
+                    Align = alTop
+                    Caption = #205'ndice de Atrasos'
+                    FocusControl = DBEdit9
+                    ExplicitWidth = 90
+                  end
+                  object DBEdit9: TDBEdit
+                    AlignWithMargins = True
+                    Left = 3
+                    Top = 24
+                    Width = 120
+                    Height = 23
+                    Align = alClient
+                    DataField = 'ptitulos_atrasados'
+                    DataSource = dsPosFin
+                    ReadOnly = True
+                    TabOrder = 0
+                  end
+                end
+                object Panel17: TPanel
+                  Left = 504
+                  Top = 0
+                  Width = 126
+                  Height = 50
+                  Align = alLeft
+                  BevelOuter = bvNone
+                  Color = 4103935
+                  ParentBackground = False
+                  TabOrder = 4
+                  object Label11: TLabel
+                    AlignWithMargins = True
+                    Left = 3
+                    Top = 3
+                    Width = 120
+                    Height = 15
+                    Align = alTop
+                    Caption = 'Quitados em Atraso'
+                    FocusControl = DBEdit10
+                    ExplicitWidth = 105
+                  end
+                  object DBEdit10: TDBEdit
+                    AlignWithMargins = True
+                    Left = 3
+                    Top = 24
+                    Width = 120
+                    Height = 23
+                    Align = alClient
+                    DataField = 'titulos_quitados_atraso'
+                    DataSource = dsPosFin
+                    ReadOnly = True
+                    TabOrder = 0
+                  end
+                end
+              end
+            end
+            object GroupBox6: TGroupBox
+              AlignWithMargins = True
+              Left = 3
+              Top = 84
+              Width = 643
+              Height = 75
+              Align = alTop
+              Caption = ' Valores '
+              TabOrder = 1
+              ExplicitTop = 3
+              ExplicitWidth = 1324
+              object Panel18: TPanel
+                AlignWithMargins = True
+                Left = 5
+                Top = 20
+                Width = 633
+                Height = 50
+                Align = alClient
+                BevelOuter = bvNone
+                TabOrder = 0
+                ExplicitWidth = 1314
+                object Panel19: TPanel
+                  Left = 0
+                  Top = 0
+                  Width = 126
+                  Height = 50
+                  Align = alLeft
+                  BevelOuter = bvNone
+                  Color = 7133440
+                  ParentBackground = False
+                  TabOrder = 0
+                  object Label12: TLabel
+                    AlignWithMargins = True
+                    Left = 3
+                    Top = 3
+                    Width = 120
+                    Height = 15
+                    Align = alTop
+                    Caption = 'Recebido'
+                    FocusControl = DBEdit11
+                    ExplicitWidth = 49
+                  end
+                  object DBEdit11: TDBEdit
+                    AlignWithMargins = True
+                    Left = 3
+                    Top = 24
+                    Width = 120
+                    Height = 23
+                    Align = alClient
+                    DataField = 'recebido'
+                    DataSource = dsPosFin
+                    ReadOnly = True
+                    TabOrder = 0
+                  end
+                end
+                object Panel20: TPanel
+                  Left = 252
+                  Top = 0
+                  Width = 126
+                  Height = 50
+                  Align = alLeft
+                  BevelOuter = bvNone
+                  TabOrder = 1
+                  object Label13: TLabel
+                    AlignWithMargins = True
+                    Left = 3
+                    Top = 3
+                    Width = 120
+                    Height = 15
+                    Align = alTop
+                    Caption = 'A Receber'
+                    FocusControl = DBEdit12
+                    ExplicitWidth = 53
+                  end
+                  object DBEdit12: TDBEdit
+                    AlignWithMargins = True
+                    Left = 3
+                    Top = 24
+                    Width = 120
+                    Height = 23
+                    Align = alClient
+                    DataField = 'receber'
+                    DataSource = dsPosFin
+                    ReadOnly = True
+                    TabOrder = 0
+                  end
+                end
+                object Panel21: TPanel
+                  Left = 126
+                  Top = 0
+                  Width = 126
+                  Height = 50
+                  Align = alLeft
+                  BevelOuter = bvNone
+                  Color = 9211135
+                  ParentBackground = False
+                  TabOrder = 2
+                  object Label14: TLabel
+                    AlignWithMargins = True
+                    Left = 3
+                    Top = 3
+                    Width = 120
+                    Height = 15
+                    Align = alTop
+                    Caption = 'Em Atraso'
+                    FocusControl = DBEdit13
+                    ExplicitWidth = 54
+                  end
+                  object DBEdit13: TDBEdit
+                    AlignWithMargins = True
+                    Left = 3
+                    Top = 24
+                    Width = 120
+                    Height = 23
+                    Align = alClient
+                    DataField = 'atrasado'
+                    DataSource = dsPosFin
+                    ReadOnly = True
+                    TabOrder = 0
+                  end
+                end
+                object Panel22: TPanel
+                  Left = 378
+                  Top = 0
+                  Width = 126
+                  Height = 50
+                  Align = alLeft
+                  BevelOuter = bvNone
+                  TabOrder = 3
+                  object Label15: TLabel
+                    AlignWithMargins = True
+                    Left = 3
+                    Top = 3
+                    Width = 120
+                    Height = 15
+                    Align = alTop
+                    Caption = 'Total'
+                    FocusControl = DBEdit14
+                    ExplicitWidth = 25
+                  end
+                  object DBEdit14: TDBEdit
+                    AlignWithMargins = True
+                    Left = 3
+                    Top = 24
+                    Width = 120
+                    Height = 23
+                    Align = alClient
+                    DataField = 'total'
+                    DataSource = dsPosFin
+                    ReadOnly = True
+                    TabOrder = 0
+                  end
+                end
+              end
+            end
+            object GroupBox7: TGroupBox
+              AlignWithMargins = True
+              Left = 3
+              Top = 3
+              Width = 643
+              Height = 75
+              Align = alTop
+              Caption = ' Hist'#243'rico de Compras '
+              TabOrder = 2
+              ExplicitWidth = 1324
+              object Panel23: TPanel
+                AlignWithMargins = True
+                Left = 5
+                Top = 20
+                Width = 633
+                Height = 50
+                Align = alClient
+                BevelOuter = bvNone
+                TabOrder = 0
+                ExplicitWidth = 1314
+                object Panel25: TPanel
+                  Left = 126
+                  Top = 0
+                  Width = 126
+                  Height = 50
+                  Align = alLeft
+                  BevelOuter = bvNone
+                  TabOrder = 0
+                  object Label17: TLabel
+                    AlignWithMargins = True
+                    Left = 3
+                    Top = 3
+                    Width = 120
+                    Height = 15
+                    Align = alTop
+                    Caption = 'Compra mais Recente'
+                    FocusControl = DBEdit16
+                    ExplicitWidth = 116
+                  end
+                  object DBEdit16: TDBEdit
+                    AlignWithMargins = True
+                    Left = 3
+                    Top = 24
+                    Width = 120
+                    Height = 23
+                    Align = alClient
+                    DataField = 'ult_compra'
+                    DataSource = dsPosFin
+                    ReadOnly = True
+                    TabOrder = 0
+                  end
+                end
+                object Panel27: TPanel
+                  Left = 378
+                  Top = 0
+                  Width = 126
+                  Height = 50
+                  Align = alLeft
+                  BevelOuter = bvNone
+                  TabOrder = 1
+                  object Label19: TLabel
+                    AlignWithMargins = True
+                    Left = 3
+                    Top = 3
+                    Width = 120
+                    Height = 15
+                    Align = alTop
+                    Caption = 'Maior Compra'
+                    FocusControl = DBEdit18
+                    ExplicitWidth = 77
+                  end
+                  object DBEdit18: TDBEdit
+                    AlignWithMargins = True
+                    Left = 3
+                    Top = 24
+                    Width = 120
+                    Height = 23
+                    Align = alClient
+                    DataField = 'maior_compra'
+                    DataSource = dsPosFin
+                    ReadOnly = True
+                    TabOrder = 0
+                  end
+                end
+                object Panel24: TPanel
+                  Left = 0
+                  Top = 0
+                  Width = 126
+                  Height = 50
+                  Align = alLeft
+                  BevelOuter = bvNone
+                  TabOrder = 2
+                  object Label16: TLabel
+                    AlignWithMargins = True
+                    Left = 3
+                    Top = 3
+                    Width = 120
+                    Height = 15
+                    Align = alTop
+                    Caption = 'Compra mais Antiga'
+                    FocusControl = DBEdit15
+                    ExplicitWidth = 109
+                  end
+                  object DBEdit15: TDBEdit
+                    AlignWithMargins = True
+                    Left = 3
+                    Top = 24
+                    Width = 120
+                    Height = 23
+                    Align = alClient
+                    DataField = 'pri_compra'
+                    DataSource = dsPosFin
+                    ReadOnly = True
+                    TabOrder = 0
+                  end
+                end
+                object Panel26: TPanel
+                  Left = 252
+                  Top = 0
+                  Width = 126
+                  Height = 50
+                  Align = alLeft
+                  BevelOuter = bvNone
+                  TabOrder = 3
+                  object Label18: TLabel
+                    AlignWithMargins = True
+                    Left = 3
+                    Top = 3
+                    Width = 120
+                    Height = 15
+                    Align = alTop
+                    Caption = 'Menor Compra'
+                    FocusControl = DBEdit17
+                    ExplicitWidth = 81
+                  end
+                  object DBEdit17: TDBEdit
+                    AlignWithMargins = True
+                    Left = 3
+                    Top = 24
+                    Width = 120
+                    Height = 23
+                    Align = alClient
+                    DataField = 'menor_compra'
+                    DataSource = dsPosFin
+                    ReadOnly = True
+                    TabOrder = 0
+                  end
+                end
+                object Panel28: TPanel
+                  Left = 504
+                  Top = 0
+                  Width = 126
+                  Height = 50
+                  Align = alLeft
+                  BevelOuter = bvNone
+                  TabOrder = 4
+                  object Label20: TLabel
+                    AlignWithMargins = True
+                    Left = 3
+                    Top = 3
+                    Width = 120
+                    Height = 15
+                    Align = alTop
+                    Caption = 'Maior Atraso (Dias)'
+                    FocusControl = DBEdit19
+                    ExplicitWidth = 101
+                  end
+                  object DBEdit19: TDBEdit
+                    AlignWithMargins = True
+                    Left = 3
+                    Top = 24
+                    Width = 120
+                    Height = 23
+                    Align = alClient
+                    DataField = 'maior_atraso'
+                    DataSource = dsPosFin
+                    ReadOnly = True
+                    TabOrder = 0
+                  end
+                end
+              end
             end
           end
         end
         object tsSerasa: TTabSheet
           Caption = 'Serasa'
           ImageIndex = 208
+          ExplicitWidth = 953
+          ExplicitHeight = 388
           object GroupBox9: TGroupBox
             AlignWithMargins = True
-            Left = 564
+            Left = 668
             Top = 3
-            Width = 386
-            Height = 382
+            Width = 659
+            Height = 281
             Align = alClient
             Caption = ' Resumo de Ocorr'#234'ncias '
             TabOrder = 0
+            ExplicitLeft = 564
+            ExplicitWidth = 763
+            ExplicitHeight = 241
             object DBGrid2: TDBGrid
               Tag = 1
               AlignWithMargins = True
               Left = 5
               Top = 20
-              Width = 376
-              Height = 357
+              Width = 649
+              Height = 256
               Align = alClient
               BorderStyle = bsNone
               Ctl3D = False
@@ -1255,28 +1346,31 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
           object Panel29: TPanel
             Left = 0
             Top = 0
-            Width = 561
-            Height = 388
+            Width = 665
+            Height = 287
             Align = alLeft
             BevelOuter = bvNone
             TabOrder = 1
+            ExplicitHeight = 247
             object GroupBox8: TGroupBox
               AlignWithMargins = True
               Left = 3
-              Top = 259
-              Width = 555
-              Height = 126
+              Top = 144
+              Width = 659
+              Height = 140
               Align = alBottom
               Caption = ' Consulta '
               TabOrder = 0
+              ExplicitTop = 104
               object Panel30: TPanel
                 Left = 2
                 Top = 17
-                Width = 551
+                Width = 655
                 Height = 50
                 Align = alTop
                 BevelOuter = bvNone
                 TabOrder = 0
+                ExplicitWidth = 551
                 object Panel31: TPanel
                   Left = 0
                   Top = 0
@@ -1408,16 +1502,17 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                 object Panel35: TPanel
                   Left = 307
                   Top = 0
-                  Width = 244
+                  Width = 348
                   Height = 50
                   Align = alClient
                   BevelOuter = bvNone
                   TabOrder = 4
+                  ExplicitWidth = 244
                   object Label25: TLabel
                     AlignWithMargins = True
                     Left = 3
                     Top = 3
-                    Width = 238
+                    Width = 342
                     Height = 15
                     Align = alTop
                     Caption = 'Motivo da Consulta'
@@ -1428,24 +1523,26 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                     AlignWithMargins = True
                     Left = 3
                     Top = 24
-                    Width = 238
+                    Width = 342
                     Height = 23
                     Align = alClient
                     DataField = 'descri_1'
                     DataSource = dsSerasa
                     ReadOnly = True
                     TabOrder = 0
+                    ExplicitWidth = 238
                   end
                 end
               end
               object Panel36: TPanel
                 Left = 2
                 Top = 67
-                Width = 551
+                Width = 655
                 Height = 50
                 Align = alTop
                 BevelOuter = bvNone
                 TabOrder = 1
+                ExplicitWidth = 551
                 object Panel37: TPanel
                   Left = 0
                   Top = 0
@@ -1479,13 +1576,14 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                   end
                 end
                 object Panel38: TPanel
-                  Left = 424
+                  Left = 528
                   Top = 0
                   Width = 127
                   Height = 50
                   Align = alRight
                   BevelOuter = bvNone
                   TabOrder = 1
+                  ExplicitLeft = 424
                   object Label27: TLabel
                     AlignWithMargins = True
                     Left = 3
@@ -1513,16 +1611,17 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                 object Panel41: TPanel
                   Left = 34
                   Top = 0
-                  Width = 325
+                  Width = 429
                   Height = 50
                   Align = alClient
                   BevelOuter = bvNone
                   TabOrder = 2
+                  ExplicitWidth = 325
                   object Label30: TLabel
                     AlignWithMargins = True
                     Left = 3
                     Top = 3
-                    Width = 319
+                    Width = 423
                     Height = 15
                     Align = alTop
                     Caption = 'Descri'#231#227'o'
@@ -1533,23 +1632,25 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                     AlignWithMargins = True
                     Left = 3
                     Top = 24
-                    Width = 319
+                    Width = 423
                     Height = 23
                     Align = alClient
                     DataField = 'nome_1'
                     DataSource = dsSerasa
                     ReadOnly = True
                     TabOrder = 0
+                    ExplicitWidth = 319
                   end
                 end
                 object Panel39: TPanel
-                  Left = 359
+                  Left = 463
                   Top = 0
                   Width = 65
                   Height = 50
                   Align = alRight
                   BevelOuter = bvNone
                   TabOrder = 3
+                  ExplicitLeft = 359
                   object Label28: TLabel
                     AlignWithMargins = True
                     Left = 3
@@ -1580,188 +1681,227 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 555
-              Height = 250
+              Width = 659
+              Height = 135
               Align = alClient
               Caption = ' Dados Retornados '
               TabOrder = 1
-              object Panel40: TPanel
-                AlignWithMargins = True
-                Left = 5
-                Top = 90
-                Width = 545
-                Height = 29
+              ExplicitHeight = 109
+              object Panel55: TPanel
+                Left = 2
+                Top = 17
+                Width = 655
+                Height = 35
                 Align = alTop
                 BevelOuter = bvNone
                 TabOrder = 0
-                object Label29: TLabel
+                ExplicitTop = 0
+                object Panel44: TPanel
                   AlignWithMargins = True
                   Left = 3
                   Top = 3
-                  Width = 145
-                  Height = 23
+                  Width = 183
+                  Height = 29
                   Align = alLeft
-                  Alignment = taRightJustify
-                  AutoSize = False
-                  Caption = 'Nome'
-                  FocusControl = DBEdit28
-                  Layout = tlCenter
-                end
-                object DBEdit28: TDBEdit
-                  AlignWithMargins = True
-                  Left = 154
-                  Top = 3
-                  Width = 388
-                  Height = 23
-                  Align = alClient
-                  DataField = 'nome'
-                  DataSource = dsSerasa
-                  ReadOnly = True
+                  BevelOuter = bvNone
+                  Color = 9211135
+                  ParentBackground = False
                   TabOrder = 0
+                  object Label33: TLabel
+                    AlignWithMargins = True
+                    Left = 3
+                    Top = 3
+                    Width = 60
+                    Height = 23
+                    Align = alLeft
+                    Alignment = taRightJustify
+                    Caption = 'Pend'#234'ncias'
+                    FocusControl = DBEdit32
+                    Layout = tlCenter
+                    ExplicitLeft = 88
+                    ExplicitHeight = 15
+                  end
+                  object DBEdit32: TDBEdit
+                    AlignWithMargins = True
+                    Left = 69
+                    Top = 3
+                    Width = 111
+                    Height = 23
+                    Align = alClient
+                    DataField = 'qtd'
+                    DataSource = dsSerasa
+                    ReadOnly = True
+                    TabOrder = 0
+                    ExplicitLeft = 154
+                    ExplicitWidth = 492
+                  end
+                end
+                object Panel45: TPanel
+                  AlignWithMargins = True
+                  Left = 192
+                  Top = 3
+                  Width = 188
+                  Height = 29
+                  Align = alClient
+                  BevelOuter = bvNone
+                  Color = 9211135
+                  ParentBackground = False
+                  TabOrder = 1
+                  ExplicitLeft = 3
+                  ExplicitTop = 12
+                  ExplicitWidth = 179
+                  object Label34: TLabel
+                    AlignWithMargins = True
+                    Left = 3
+                    Top = 3
+                    Width = 60
+                    Height = 23
+                    Align = alLeft
+                    Alignment = taRightJustify
+                    Caption = 'Pend'#234'ncias'
+                    FocusControl = DBEdit33
+                    Layout = tlCenter
+                    ExplicitLeft = 88
+                    ExplicitHeight = 15
+                  end
+                  object DBEdit33: TDBEdit
+                    AlignWithMargins = True
+                    Left = 69
+                    Top = 3
+                    Width = 116
+                    Height = 23
+                    Align = alClient
+                    DataField = 'total'
+                    DataSource = dsSerasa
+                    ReadOnly = True
+                    TabOrder = 0
+                    ExplicitLeft = 154
+                    ExplicitWidth = 492
+                  end
+                end
+                object Panel43: TPanel
+                  AlignWithMargins = True
+                  Left = 386
+                  Top = 3
+                  Width = 266
+                  Height = 29
+                  Align = alRight
+                  BevelOuter = bvNone
+                  TabOrder = 2
+                  object Label32: TLabel
+                    AlignWithMargins = True
+                    Left = 3
+                    Top = 3
+                    Width = 97
+                    Height = 23
+                    Align = alLeft
+                    Alignment = taRightJustify
+                    Caption = 'Situa'#231#227'o Cadastral'
+                    FocusControl = DBEdit31
+                    Layout = tlCenter
+                    ExplicitLeft = 7
+                    ExplicitHeight = 15
+                  end
+                  object DBEdit31: TDBEdit
+                    AlignWithMargins = True
+                    Left = 106
+                    Top = 3
+                    Width = 157
+                    Height = 23
+                    Align = alClient
+                    DataField = 'descri'
+                    DataSource = dsSerasa
+                    ReadOnly = True
+                    TabOrder = 0
+                    ExplicitLeft = 154
+                    ExplicitWidth = 492
+                  end
                 end
               end
-              object Panel42: TPanel
-                AlignWithMargins = True
-                Left = 5
-                Top = 125
-                Width = 545
-                Height = 29
+              object Panel56: TPanel
+                Left = 2
+                Top = 52
+                Width = 655
+                Height = 35
                 Align = alTop
                 BevelOuter = bvNone
                 TabOrder = 1
-                object Label31: TLabel
+                object Panel40: TPanel
                   AlignWithMargins = True
                   Left = 3
                   Top = 3
-                  Width = 145
-                  Height = 23
-                  Align = alLeft
-                  Alignment = taRightJustify
-                  AutoSize = False
-                  Caption = 'Registro / Funda'#231#227'o'
-                  FocusControl = DBEdit30
-                  Layout = tlCenter
-                end
-                object DBEdit30: TDBEdit
-                  AlignWithMargins = True
-                  Left = 154
-                  Top = 3
-                  Width = 388
-                  Height = 23
+                  Width = 377
+                  Height = 29
                   Align = alClient
-                  DataField = 'registro'
-                  DataSource = dsSerasa
-                  ReadOnly = True
+                  BevelOuter = bvNone
                   TabOrder = 0
+                  ExplicitWidth = 206
+                  object Label29: TLabel
+                    AlignWithMargins = True
+                    Left = 3
+                    Top = 3
+                    Width = 33
+                    Height = 23
+                    Align = alLeft
+                    Alignment = taRightJustify
+                    Caption = 'Nome'
+                    FocusControl = DBEdit28
+                    Layout = tlCenter
+                    ExplicitLeft = 115
+                    ExplicitHeight = 15
+                  end
+                  object DBEdit28: TDBEdit
+                    AlignWithMargins = True
+                    Left = 42
+                    Top = 3
+                    Width = 332
+                    Height = 23
+                    Align = alClient
+                    DataField = 'nome'
+                    DataSource = dsSerasa
+                    ReadOnly = True
+                    TabOrder = 0
+                    ExplicitLeft = 154
+                    ExplicitWidth = 492
+                  end
                 end
-              end
-              object Panel43: TPanel
-                AlignWithMargins = True
-                Left = 5
-                Top = 160
-                Width = 545
-                Height = 29
-                Align = alTop
-                BevelOuter = bvNone
-                TabOrder = 2
-                object Label32: TLabel
+                object Panel42: TPanel
                   AlignWithMargins = True
-                  Left = 3
+                  Left = 386
                   Top = 3
-                  Width = 145
-                  Height = 23
-                  Align = alLeft
-                  Alignment = taRightJustify
-                  AutoSize = False
-                  Caption = 'Situa'#231#227'o Cadastral'
-                  FocusControl = DBEdit31
-                  Layout = tlCenter
-                end
-                object DBEdit31: TDBEdit
-                  AlignWithMargins = True
-                  Left = 154
-                  Top = 3
-                  Width = 388
-                  Height = 23
-                  Align = alClient
-                  DataField = 'descri'
-                  DataSource = dsSerasa
-                  ReadOnly = True
-                  TabOrder = 0
-                end
-              end
-              object Panel44: TPanel
-                AlignWithMargins = True
-                Left = 5
-                Top = 20
-                Width = 545
-                Height = 29
-                Align = alTop
-                BevelOuter = bvNone
-                Color = 9211135
-                ParentBackground = False
-                TabOrder = 3
-                object Label33: TLabel
-                  AlignWithMargins = True
-                  Left = 3
-                  Top = 3
-                  Width = 145
-                  Height = 23
-                  Align = alLeft
-                  Alignment = taRightJustify
-                  AutoSize = False
-                  Caption = 'Quantidade de Pend'#234'ncias'
-                  FocusControl = DBEdit32
-                  Layout = tlCenter
-                end
-                object DBEdit32: TDBEdit
-                  AlignWithMargins = True
-                  Left = 154
-                  Top = 3
-                  Width = 388
-                  Height = 23
-                  Align = alClient
-                  DataField = 'qtd'
-                  DataSource = dsSerasa
-                  ReadOnly = True
-                  TabOrder = 0
-                end
-              end
-              object Panel45: TPanel
-                AlignWithMargins = True
-                Left = 5
-                Top = 55
-                Width = 545
-                Height = 29
-                Align = alTop
-                BevelOuter = bvNone
-                Color = 9211135
-                ParentBackground = False
-                TabOrder = 4
-                object Label34: TLabel
-                  AlignWithMargins = True
-                  Left = 3
-                  Top = 3
-                  Width = 145
-                  Height = 23
-                  Align = alLeft
-                  Alignment = taRightJustify
-                  AutoSize = False
-                  Caption = 'Total de Pend'#234'ncias'
-                  FocusControl = DBEdit33
-                  Layout = tlCenter
-                end
-                object DBEdit33: TDBEdit
-                  AlignWithMargins = True
-                  Left = 154
-                  Top = 3
-                  Width = 388
-                  Height = 23
-                  Align = alClient
-                  DataField = 'total'
-                  DataSource = dsSerasa
-                  ReadOnly = True
-                  TabOrder = 0
+                  Width = 266
+                  Height = 29
+                  Align = alRight
+                  BevelOuter = bvNone
+                  TabOrder = 1
+                  object Label31: TLabel
+                    AlignWithMargins = True
+                    Left = 3
+                    Top = 3
+                    Width = 106
+                    Height = 23
+                    Align = alLeft
+                    Alignment = taRightJustify
+                    Caption = 'Registro / Funda'#231#227'o'
+                    FocusControl = DBEdit30
+                    Layout = tlCenter
+                    ExplicitLeft = 42
+                    ExplicitHeight = 15
+                  end
+                  object DBEdit30: TDBEdit
+                    AlignWithMargins = True
+                    Left = 115
+                    Top = 3
+                    Width = 148
+                    Height = 23
+                    Align = alClient
+                    DataField = 'registro'
+                    DataSource = dsSerasa
+                    ReadOnly = True
+                    TabOrder = 0
+                    ExplicitLeft = 154
+                    ExplicitWidth = 492
+                  end
                 end
               end
             end
@@ -1771,7 +1911,7 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
     end
   end
   inherited ctrlBarTop: TControlBar
-    Width = 961
+    Width = 1338
     ExplicitWidth = 961
     inherited ToolBar1: TToolBar
       inherited ToolButton2: TToolButton
