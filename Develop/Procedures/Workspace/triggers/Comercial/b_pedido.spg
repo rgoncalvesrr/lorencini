@@ -35,8 +35,7 @@ Declare
    rx                record;
    msg               text;
    CRLF              text;
-   xlog              log$;
-   valor_            public.cred_analise.valor%type;
+   xlog              log$;   
    status_analise_   public.cred_analise.status%type;
 BEGIN
    CRLF := chr(13) || chr(10);
@@ -144,15 +143,7 @@ BEGIN
          -- Aprovação do pedido
          elsif old.status = 20 and new.status = 30 then         
             -- Gera análise de crédito para o pedido
-            if new.analise is null then            
-               select vlsrvvar + vlsrvfixo + vlmat + vlmobra + vldespe
-                 into valor_
-                 from markup
-                where recno = new.markup;
-
-               new.analise := fin_ckbloqueio(new.codigo, valor_, 'pedido', new.recno);
-               new.status := 20;
-            else            
+            if new.analise is not null then                           
                -- consultando situação da análise
                select status
                into status_analise_

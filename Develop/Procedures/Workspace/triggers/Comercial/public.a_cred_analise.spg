@@ -21,12 +21,27 @@ begin
 
    if tg_op = 'UPDATE' then
       -- Encerramento da análise
-      if new.status > 1 and old.status < 2 then
+      
          if new.source_table = sys_origem('pedido') then
-            update pedido
-               set status = _STAUTORIZACAO
-             where recno = new.source_recno;
-         end if;
+            if new.status > 1 and old.status < 2 then
+               update 
+                  pedido
+               set 
+                  status = _STAUTORIZACAO, 
+                  analise = new.recno
+               where 
+                  recno = new.source_recno;
+            end if;
+
+            if new.status < 2 then
+               update 
+                  pedido
+               set 
+                  analise = new.recno
+               where 
+                  recno = new.source_recno and 
+                  analise is null;
+            end if;
       end if;
    end if;
 
