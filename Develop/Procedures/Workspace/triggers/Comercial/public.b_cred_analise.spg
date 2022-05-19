@@ -27,7 +27,7 @@ $$
 declare
    _ANALISE       constant integer := 1; -- Em Análise
 
-   source_table_  public.cred_analise.source_table%type := sys_origem('cred_analise');
+   source_table_  public.cred_analise.source_table%type;
 begin
    if tg_op = 'DELETE' then
       return old;
@@ -35,7 +35,7 @@ begin
 
    if tg_op = 'INSERT' then
       new.solicitante := coalesce(new.solicitante, public.sys_account(), public.sys_account_def());
-      new.source_table := coalesce(new.source_table, source_table_);
+      new.source_table := coalesce(new.source_table, sys_origem('cred_analise'));
       new.source_recno := coalesce(new.source_recno, new.recno);
    end if;
 

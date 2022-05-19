@@ -103,7 +103,7 @@ inherited Cota: TCota
             ExplicitWidth = 156
           end
           inherited CCalendarDiff1: TCCalendarDiff
-            Date = 44294.662436527770000000
+            Date = 44700.681331967590000000
             DisplayInterval = Label4
             OnChange = FrameData1CCalendarDiff1Change
           end
@@ -241,6 +241,10 @@ inherited Cota: TCota
       object TabSheet2: TTabSheet
         Caption = 'Digita'#231#227'o'
         ImageIndex = 214
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object ControlBar1: TControlBar
           AlignWithMargins = True
           Left = 3
@@ -311,30 +315,58 @@ inherited Cota: TCota
       object TabSheet3: TTabSheet
         Caption = 'Em Aprova'#231#227'o'
         ImageIndex = 213
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
       object TabSheet4: TTabSheet
         Caption = 'Aprovadas'
         ImageIndex = 211
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
       object TabSheet5: TTabSheet
         Caption = 'Em Estudo'
         ImageIndex = 208
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
       object TabSheet6: TTabSheet
         Caption = 'Autorizadas'
         ImageIndex = 205
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
       object TabSheet9: TTabSheet
         Caption = 'Executadas'
         ImageIndex = 210
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
       object TabSheet7: TTabSheet
         Caption = 'Expiradas'
         ImageIndex = 204
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
       object TabSheet8: TTabSheet
         Caption = 'Canceladas'
         ImageIndex = 209
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
     end
   end

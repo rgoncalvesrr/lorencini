@@ -33,6 +33,7 @@ Declare
    ldelcorreio    boolean;
    xlog           log$;
    iremessa       labproc.recno%type;
+   valor_         public.cred_analise.valor%type;
 BEGIN
    LF := chr(13)||chr(10);
 
@@ -72,6 +73,16 @@ BEGIN
 
    if tg_op = 'UPDATE' then
       if old.status = 10 and new.status = 20 then ---- Aprovação Financeira
+         
+         if new.analise is null then            
+            select vlsrvvar + vlsrvfixo + vlmat + vlmobra + vldespe
+              into valor_
+              from markup
+              where recno = new.markup;
+
+            perform fin_ckbloqueio(new.codigo, valor_, 'pedido', new.recno);         
+         end if;
+
          xlog.title := 'Pedido liberado pelo financeiro';
          perform log(xlog);
       elsif old.status = 20 and new.status = 30 then ---- Autorização para execução
