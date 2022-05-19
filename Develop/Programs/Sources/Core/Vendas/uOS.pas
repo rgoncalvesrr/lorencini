@@ -319,7 +319,7 @@ begin
   if not U.Out.ConfWarn('Confirma execução da OS %s?', [IBrwSrcidos.DisplayText]) then
     exit;
 
-  U.Data.ExecSQL('select sys_flag_mark(''tb_orcamentos'', %d)',
+  U.Data.ExecSQL('select sys_flag_mark(''tb_orcamentos'', %d::::integer)',
         [IBrwSrcrecno.AsInteger]);
   try
     try
@@ -333,7 +333,7 @@ begin
       end;
     end;
   finally
-    U.Data.ExecSQL('select sys_flag_del(''tb_orcamentos'', %d)',
+    U.Data.ExecSQL('select sys_flag_del(''tb_orcamentos'', %d::::integer)',
         [IBrwSrcrecno.AsInteger]);
   end;
 end;
