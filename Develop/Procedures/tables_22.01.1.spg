@@ -366,7 +366,7 @@ alter table public.pedido
 
 create table api.json_reports (
 	laudo integer not null,
-	content jsonb not null,
+	content json not null,
 	recno bigserial not null,
 	constraint pk_json_reports primary key(laudo),
 	constraint fk_json_reports_1 foreign key(laudo)
@@ -375,15 +375,13 @@ create table api.json_reports (
 	constraint uk_json_reports_1 unique(recno)
 );
 
-create index idx_json_reports_1 on api.json_reports using gin(content);
-
 alter table api.json_reports owner to lorencini;
 
 do $$
 begin
    perform api.json_laudo(recno, true)
       from labamostras_rel
-     where status = 4;
+     where status in (4,5);
 end;$$
 
 do $$
