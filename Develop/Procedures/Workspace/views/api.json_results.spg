@@ -16,23 +16,23 @@ select r.laudo, r.relato_recno, json_build_object('assay', r.ensaio_recno, 'titl
          on u.recno = e.unidade_recno
        left join labmetodos m
          on m.recno = e.metodo_recno
-       join (select laudo, relato_recno, ensaio_recno, json_agg(collection.json_obj) obj
+       left join (select laudo, relato_recno, ensaio_recno, json_agg(collection.json_obj) obj
                from (select h.laudo, r.relato_recno, r.ensaio_recno, json_build_object('report', r.laudo, 'emmited_at', l.emissao, 'result', r.valor) json_obj
                        from labamostras_res r
- 	                        join labamostras_hres h
-	                          on h.laudo_dep = r.laudo
-	                         and h.relato_recno = r.relato_recno
-	                         and h.ensaio_recno = r.ensaio_recno
-  	                        join labamostras_rel l
-	                          on l.recno = r.laudo
-	                         and l.relato_recno = r.relato_recno
-	                         and l.status = 4
-	                         and l.revisao is null
+                          join labamostras_hres h
+                            on h.laudo_dep = r.laudo
+                           and h.relato_recno = r.relato_recno
+                           and h.ensaio_recno = r.ensaio_recno
+                          join labamostras_rel l
+                            on l.recno = r.laudo
+                           and l.relato_recno = r.relato_recno
+                           and l.status = 4
+                           and l.revisao is null
                       order by r.ensaio_recno, l.emissao desc) collection
               group by laudo, relato_recno, ensaio_recno) h
          on h.laudo = r.laudo
         and h.relato_recno = r.relato_recno
-        and h.ensaio_recno = r.ensaio_recno
+        and h.ensaio_recno = r.ensaio_recno        
  order by le.ordem, le.ensaio_recno) collection
  group by collection.laudo, collection.relato_recno;
  
