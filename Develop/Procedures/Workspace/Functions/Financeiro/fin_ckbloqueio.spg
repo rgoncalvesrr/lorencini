@@ -152,13 +152,13 @@ begin
       analise.status := _ANALISE;
    end if;
 
-   if r.titulos_quitados_atraso > 0 then
+   if r.titulos_quitados_atraso > 0 and r.maior_atraso > 20 then
       palavra := 'títulos quitados';
       if r.titulos_quitados_atraso = 1 then
          palavra := 'título quitado';
       end if;
 
-      cred_lore := array_append(cred_lore, format('%s %s em atraso.', r.titulos_quitados_atraso, palavra));
+      cred_lore := array_append(cred_lore, format('%s %s em atraso com maior superior a 20 dias.', r.titulos_quitados_atraso, palavra));
       analise.status := _ANALISE;
    end if;
 
