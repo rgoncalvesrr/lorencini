@@ -238,7 +238,7 @@ BEGIN
                   msg := 'O pedido não pode entrar em produção porque:' || CRLF || msg;
 
                   raise '[[%s]]', msg;
-               end if;
+               end if;               
             end if;
 
          -- Cancelamento do pedido, verificação de remessa em processo
