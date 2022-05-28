@@ -41,6 +41,7 @@ object DMReport: TDMReport
     PreviewOptions.Zoom = 1.000000000000000000
     PrintOptions.Printer = 'Padr'#227'o'
     PrintOptions.PrintOnSheet = 0
+    ReportOptions.Compressed = True
     ReportOptions.CreateDate = 39757.585007557900000000
     ReportOptions.LastChange = 43310.997849687500000000
     ScriptLanguage = 'PascalScript'
@@ -263,7 +264,6 @@ object DMReport: TDMReport
     CreationTime = 42926.623377650460000000
     DataOnly = False
     EmbeddedFonts = True
-    EmbedFontsIfProtected = False
     InteractiveFormsFontSubset = 'A-Z,a-z,0-9,#43-#47 '
     OpenAfterExport = False
     PrintOptimized = True
@@ -285,8 +285,8 @@ object DMReport: TDMReport
     CenterWindow = False
     PrintScaling = True
     PdfA = True
-    PDFStandard = psPDFA_1a
-    PDFVersion = pv14
+    PDFStandard = psPDFA_3b
+    PDFVersion = pv17
     Left = 160
     Top = 24
   end
