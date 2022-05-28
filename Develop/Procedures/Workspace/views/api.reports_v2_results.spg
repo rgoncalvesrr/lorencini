@@ -1,0 +1,35 @@
+create or replace view api.reports_v2_results as 
+select r.laudo report, r.relato_recno, r.ensaio_recno assay, e.nome title, u.descri unit, m.descri "method",
+       sys_iif(r.ref_valor is null, null, sys_iif(r.ref_tipo = 1, 'Min. ', 'Max. ')) ref_type,
+       r.ref_valor ref_value, r.incerteza U, r.valor result, 
+       h.report history_report, h.emmited_at history_emmited_at, h.result history_result
+  from labamostras_res r
+       join labamostras_rel l
+         on l.recno = r.laudo
+       join labrel_ens le
+         on le.relato_recno = r.relato_recno
+        and le.ensaio_recno = r.ensaio_recno
+       join labens e
+         on e.recno = le.ensaio_recno
+       left join labunidades u
+         on u.recno = e.unidade_recno
+       left join labmetodos m
+         on m.recno = e.metodo_recno
+       left join (select h.laudo, r.relato_recno, r.ensaio_recno, r.laudo report, l.emissao emmited_at, r.valor result
+                    from labamostras_res r
+                         join labamostras_hres h
+                           on h.laudo_dep = r.laudo
+                          and h.relato_recno = r.relato_recno
+                          and h.ensaio_recno = r.ensaio_recno
+                         join labamostras_rel l
+                           on l.recno = r.laudo
+                          and l.relato_recno = r.relato_recno
+                          and l.status = 4
+                          and l.revisao is null
+                   order by r.ensaio_recno, l.emissao desc) h
+         on h.laudo = r.laudo
+        and h.relato_recno = r.relato_recno
+        and h.ensaio_recno = r.ensaio_recno        
+ order by le.ordem, le.ensaio_recno, h.emmited_at, h.laudo;
+  
+alter view api.reports_v2_results owner to lorencini;
