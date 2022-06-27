@@ -15,7 +15,7 @@ returns moeda$ as
 $$
 declare
    _CHEQUE     constant integer := 1;	-- Cheques Sem Fundos
-   _PEFIN      constant integer := 2;	--Pefin - Débitos com empresas/pessoas
+   _PEFIN      constant integer := 2;	-- Pefin - Débitos com empresas/pessoas
    _REFIN      constant integer := 3;	-- Refin - Débitos com bancos/instituições financeiras
    _DIVIDA     constant integer := 4;  -- Dívidas vencidas
    _PROTESTO   constant integer := 5;	-- Protestos
