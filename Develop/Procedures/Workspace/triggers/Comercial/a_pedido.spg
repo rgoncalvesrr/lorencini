@@ -116,7 +116,7 @@ BEGIN
 
          if new.laboratorio then
             -- Totalizando amostras
-            select sum(amostras)
+            select sum(qtd)
              into iqtd
              from pedido_serv
             where pedido = new.recno;
