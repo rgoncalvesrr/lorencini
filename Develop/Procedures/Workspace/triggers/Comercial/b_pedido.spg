@@ -220,7 +220,7 @@ BEGIN
                msg := '';
 
                for r in (
-                  select a.codserv, b.descri, a.qtd, a.amostras
+                  select a.codserv, b.descri, a.qtd, a.saldo
                     from pedido_serv a
                          join servicos b
                            on b.codserv = a.codserv
@@ -228,17 +228,17 @@ BEGIN
                            on c.recno = b.grupo
                           and c.laboratorio
                    where a.pedido = new.recno
-                     and a.qtd <> a.amostras)
+                     and a.saldo > 0)
                loop
-                  msg := msg || CRLF || format('O serviço %s - %s exige %s amostras e foram associadas somente %s amostras',
-                     r.codserv, r.descri, to_char(r.qtd, 'FM99999990'), to_char(r.qtd, 'FM99999990'));
+                  msg := msg || CRLF || format('O serviço %s - %s exige %s amostras. Falta associar %s amostras',
+                     r.codserv, r.descri, to_char(r.qtd, 'FM99999990'), to_char(r.saldo, 'FM99999990'));
                end loop;
 
                if msg <> '' then
                   msg := 'O pedido não pode entrar em produção porque:' || CRLF || msg;
 
                   raise '[[%s]]', msg;
-               end if;
+               end if;               
             end if;
 
          -- Cancelamento do pedido, verificação de remessa em processo

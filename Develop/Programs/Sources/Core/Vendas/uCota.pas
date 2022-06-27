@@ -330,9 +330,9 @@ begin
         else
         begin
           // Colocando em digitação
-          U.ExecuteSQL('select sys_flag_mark(''cota'', %d::::integer);', [irecno]);
+          U.ExecuteSQL('select sys_flag_mark(''cota'', cast(%d as integer));', [irecno]);
           U.ExecuteSQL('update cota set status = 1 where recno = %d;', [irecno]);
-          U.ExecuteSQL('select sys_flag_del(''cota'', %d::::integer);', [irecno]);
+          U.ExecuteSQL('select sys_flag_del(''cota'', cast(%d as integer));', [irecno]);
         end;
 
         U.Commit;

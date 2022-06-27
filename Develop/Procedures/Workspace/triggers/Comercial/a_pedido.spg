@@ -89,22 +89,23 @@ BEGIN
          xlog.title := 'Execução autorizada';
          perform log(xlog);
       elsif old.status = 30 and new.status = 40 then ---- Gerar remessa
-         insert into labproc
-            (descri,                 codigo,     frascos,     seringas,     envio, 
-             coleta,                 frete,      correio,     pedido)
-         values
-            ('Pedido ' || new.recno, new.codigo, new.frascos, new.seringas, new.envio, 
-             new.coleta,             new.frete,  new.correio, new.recno)
-         returning recno into iremessa;
+         if not exists(
+            select 1
+              from labproc
+             where pedido = new.recno)
+         then
+            insert into labproc
+               (descri,                 codigo,     frascos,     seringas,     envio, 
+               coleta,                 frete,      correio,     pedido)
+            values
+               ('Pedido ' || new.recno, new.codigo, new.frascos, new.seringas, new.envio, 
+               new.coleta,             new.frete,  new.correio, new.recno)
+            returning recno into iremessa;
 
-         xlog.title := Format('Remessa número %s com %s frasco(s) e %s seringa(s) gerada.', iremessa, new.frascos, new.seringas);
-         perform log(xlog);
-      ----elsif old.status in (30, 40) and new.status = 50 then ---- Aguardando amostras
-
+            xlog.title := Format('Remessa número %s com %s frasco(s) e %s seringa(s) gerada.', iremessa, new.frascos, new.seringas);
+            perform log(xlog);
+         end if;
       elsif old.status in (30, 50) and new.status = 60 then ---- Produção
-
-
-
          ---- Gera ordem de serviço
          --------------------------------------------------------------------------------------------------------
          select coalesce(max(os), 0) + 1
@@ -115,7 +116,7 @@ BEGIN
 
          if new.laboratorio then
             -- Totalizando amostras
-            select sum(amostras)
+            select sum(qtd)
              into iqtd
              from pedido_serv
             where pedido = new.recno;

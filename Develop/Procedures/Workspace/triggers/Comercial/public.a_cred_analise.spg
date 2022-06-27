@@ -13,35 +13,36 @@ create or replace function public.a_cred_analise()
 returns trigger as
 $$
 declare
+   _STAPROVACAO   constant integer := 20; -- Status pedido
    _STAUTORIZACAO constant integer := 30; -- Status pedido
 begin
    if tg_op = 'DELETE' then
       return old;
    end if;
 
-   if tg_op = 'UPDATE' then
-      -- Encerramento da análise
-      
-         if new.source_table = sys_origem('pedido') then
-            if new.status > 1 and old.status < 2 then
-               update 
-                  pedido
-               set 
-                  status = _STAUTORIZACAO, 
-                  analise = new.recno
-               where 
-                  recno = new.source_recno;
-            end if;
+   if tg_op = 'UPDATE' then   
+      -- Encerramento da análise      
+      if new.source_table = sys_origem('pedido') then
+         if new.status > 1 and old.status < 2 then
+            update 
+               pedido
+            set 
+               status = _STAUTORIZACAO, 
+               analise = new.recno
+            where 
+               recno = new.source_recno and 
+               status = _STAPROVACAO;
+         end if;
 
-            if new.status < 2 then
-               update 
-                  pedido
-               set 
-                  analise = new.recno
-               where 
-                  recno = new.source_recno and 
-                  analise is null;
-            end if;
+         if new.status < 2 then
+            update 
+               pedido
+            set 
+               analise = new.recno
+            where 
+               recno = new.source_recno and 
+               analise is null;
+         end if;
       end if;
    end if;
 

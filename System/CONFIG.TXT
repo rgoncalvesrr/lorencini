@@ -1,5 +1,5 @@
 [Localhost_desenvolvimento]
-HostName=felicia
+HostName=127.0.0.1
 Database=lorencini
 User_Name=postgres
 Password=postgres.

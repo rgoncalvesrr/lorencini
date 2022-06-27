@@ -9,51 +9,67 @@
    ---------------------------------------------------------------------------------------------------------------------
    Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
    
-   [*] Trigger passa para o before da tabela
+   08/06/2022  Ricardo
+      [*] Sistema deixa de usar o campo amostras da tabela pedido_serv em detrimento do campo saldo
+      [*] Trigger passa para o before da tabela   
 */
 CREATE OR REPLACE FUNCTION a_pedido_amostras()
   RETURNS trigger AS
 $$
 Declare
-   r           record;
-   ipedido     pedido_serv.recno%type;
-   icodserv    pedido_serv.codserv%type;
-   iamostra    labamostras.recno%type;
-   iamostras   pedido_serv.amostras%type;   
+   pedido_     pedido_serv.recno%type;
+   codserv_    pedido_serv.codserv%type;
+   qtd_        pedido_serv.qtd%type;
+   amostra_    labamostras.recno%type;   
    nconumido   pedido_amostras.consumo%type;
 BEGIN   
    if tg_op <> 'DELETE' then      
-      ipedido  := new.pedido;
-      icodserv := new.codserv;
-      iamostra := new.amostra;
+      pedido_  := new.pedido;
+      codserv_ := new.codserv;
+      amostra_ := new.amostra;
    else
-      ipedido  := old.pedido;
-      icodserv := old.codserv;
-      iamostra := old.amostra;
+      pedido_  := old.pedido;
+      codserv_ := old.codserv;
+      amostra_ := old.amostra;
    end if;
 
-   select count(*)
-     into iamostras
-     from pedido_amostras
-    where pedido = ipedido
-      and codserv = icodserv; 
+   -- Obtendo quantidade de amostras associadas ao pedido
+   select 
+      count(amostra)  
+   into
+      qtd_
+   from 
+      pedido_amostras 
+   where 
+      pedido = pedido_ and
+      codserv = codserv_;
 
-   update pedido_serv
-      set amostras = iamostras
-    where pedido = ipedido
-      and codserv = icodserv; 
+   update 
+      pedido_serv
+   set 
+      saldo = qtd - qtd_
+   where 
+      pedido = pedido_ and 
+      codserv = codserv_;   
 
    -- Atualizando saldo de fluído
-   select coalesce(sum(consumo), 0)
-     into nconumido
-     from pedido_amostras
-    where pedido = ipedido
-      and amostra = iamostra
-      and codserv = icodserv; 
+   select 
+      coalesce(sum(consumo), 0)
+   into 
+      nconumido
+   from 
+      pedido_amostras
+   where 
+      pedido = pedido_ and
+      amostra = amostra_ and 
+      codserv = codserv_; 
 
-   update labamostras
-      set consumido = nconumido
-    where recno = iamostra;
+   update 
+      labamostras
+   set 
+      consumido = nconumido
+   where 
+      recno = amostra_;
 
    return null;
 END;

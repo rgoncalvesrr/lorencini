@@ -65,7 +65,7 @@ begin
          msg := msg || chr(10); 
       end if;
 
-      msg := msg + fin_ckbloqueio(r.codigo);
+      -- msg := msg + fin_ckbloqueio(r.codigo);
    end if;
 
    return msg;

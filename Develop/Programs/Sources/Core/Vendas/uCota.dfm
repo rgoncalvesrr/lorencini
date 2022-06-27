@@ -103,7 +103,7 @@ inherited Cota: TCota
             ExplicitWidth = 156
           end
           inherited CCalendarDiff1: TCCalendarDiff
-            Date = 44700.681331967590000000
+            Date = 44720.961115601850000000
             DisplayInterval = Label4
             OnChange = FrameData1CCalendarDiff1Change
           end

@@ -949,7 +949,6 @@ inherited PedM: TPedM
             Align = alLeft
             BevelOuter = bvNone
             TabOrder = 2
-            ExplicitLeft = 409
             object Label18: TLabel
               AlignWithMargins = True
               Left = 3
@@ -989,8 +988,6 @@ inherited PedM: TPedM
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 3
-            ExplicitLeft = 505
-            ExplicitWidth = 511
             object Label19: TLabel
               AlignWithMargins = True
               Left = 3
@@ -1012,7 +1009,6 @@ inherited PedM: TPedM
               DataField = 'condicaopg'
               DataSource = Ped.DataSource1
               TabOrder = 0
-              ExplicitWidth = 505
             end
           end
           object Panel57: TPanel
@@ -1544,6 +1540,8 @@ inherited PedM: TPedM
             DataField = 'obs'
             DataSource = Ped.DataSource1
             TabOrder = 0
+            ExplicitLeft = 7
+            ExplicitTop = 22
           end
         end
         object GroupBox6: TGroupBox
@@ -1565,6 +1563,8 @@ inherited PedM: TPedM
             DataField = 'obs_remessa'
             DataSource = Ped.DataSource1
             TabOrder = 0
+            ExplicitLeft = 7
+            ExplicitTop = 22
           end
         end
       end

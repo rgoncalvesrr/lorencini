@@ -711,8 +711,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
             Align = alClient
             Caption = ' Restri'#231#227'o Interna '
             TabOrder = 0
-            ExplicitLeft = 652
-            ExplicitWidth = 675
             object DBMemo2: TDBMemo
               AlignWithMargins = True
               Left = 5
@@ -723,7 +721,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
               DataField = 'restrmotiv'
               DataSource = DataSource1
               TabOrder = 0
-              ExplicitWidth = 665
             end
           end
           object Panel54: TPanel
@@ -743,7 +740,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
               Align = alTop
               Caption = ' T'#237'tulos '
               TabOrder = 0
-              ExplicitWidth = 643
               object Panel12: TPanel
                 AlignWithMargins = True
                 Left = 5
@@ -753,7 +749,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                 Align = alClient
                 BevelOuter = bvNone
                 TabOrder = 0
-                ExplicitWidth = 633
                 object Panel13: TPanel
                   Left = 0
                   Top = 0
@@ -784,7 +779,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                     DataSource = dsPosFin
                     ReadOnly = True
                     TabOrder = 0
-                    ExplicitWidth = 120
                   end
                 end
                 object Panel14: TPanel
@@ -795,7 +789,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                   Align = alLeft
                   BevelOuter = bvNone
                   TabOrder = 1
-                  ExplicitLeft = 180
                   object Label8: TLabel
                     AlignWithMargins = True
                     Left = 3
@@ -818,7 +811,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                     DataSource = dsPosFin
                     ReadOnly = True
                     TabOrder = 0
-                    ExplicitWidth = 120
                   end
                 end
                 object Panel15: TPanel
@@ -831,7 +823,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                   Color = 9211135
                   ParentBackground = False
                   TabOrder = 2
-                  ExplicitLeft = 90
                   object Label9: TLabel
                     AlignWithMargins = True
                     Left = 3
@@ -854,7 +845,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                     DataSource = dsPosFin
                     ReadOnly = True
                     TabOrder = 0
-                    ExplicitWidth = 120
                   end
                 end
                 object Panel16: TPanel
@@ -865,7 +855,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                   Align = alLeft
                   BevelOuter = bvNone
                   TabOrder = 3
-                  ExplicitLeft = 378
                   object Label10: TLabel
                     AlignWithMargins = True
                     Left = 3
@@ -888,7 +877,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                     DataSource = dsPosFin
                     ReadOnly = True
                     TabOrder = 0
-                    ExplicitWidth = 120
                   end
                 end
                 object Panel17: TPanel
@@ -901,7 +889,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                   Color = 4103935
                   ParentBackground = False
                   TabOrder = 4
-                  ExplicitLeft = 365
                   object Label11: TLabel
                     AlignWithMargins = True
                     Left = 3
@@ -924,7 +911,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                     DataSource = dsPosFin
                     ReadOnly = True
                     TabOrder = 0
-                    ExplicitWidth = 120
                   end
                 end
                 object Panel28: TPanel
@@ -957,7 +943,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                     DataSource = dsPosFin
                     ReadOnly = True
                     TabOrder = 0
-                    ExplicitWidth = 120
                   end
                 end
               end
@@ -971,8 +956,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
               Align = alTop
               Caption = ' Valores '
               TabOrder = 1
-              ExplicitTop = 69
-              ExplicitWidth = 643
               object Panel18: TPanel
                 AlignWithMargins = True
                 Left = 5
@@ -982,7 +965,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                 Align = alClient
                 BevelOuter = bvNone
                 TabOrder = 0
-                ExplicitWidth = 633
                 object Panel19: TPanel
                   Left = 0
                   Top = 0
@@ -1126,8 +1108,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
               Align = alTop
               Caption = ' Hist'#243'rico de Compras '
               TabOrder = 2
-              ExplicitTop = 3
-              ExplicitWidth = 643
               object Panel23: TPanel
                 AlignWithMargins = True
                 Left = 5
@@ -1137,7 +1117,6 @@ inherited AnaliseDeCredito: TAnaliseDeCredito
                 Align = alClient
                 BevelOuter = bvNone
                 TabOrder = 0
-                ExplicitWidth = 633
                 object Panel25: TPanel
                   Left = 126
                   Top = 0

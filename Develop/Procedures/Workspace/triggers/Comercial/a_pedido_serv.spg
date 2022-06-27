@@ -55,9 +55,10 @@ Begin
 
       perform sys_flag_del('pedido', ipedido);
    end if;
-
+   
+   /* TODO: ELIMINAR A EXECUÇÃO AUTOMÁTICA DO PEDIDO */   
    if tg_op = 'UPDATE' then
-      -- Verificando se o serviço refereção a área de laboratório
+      -- Verificando se o serviço refere-se a área de laboratório
       if exists(
          select 1 
            from servicos_grupo a
@@ -76,7 +77,7 @@ Begin
                      on c.recno = b.grupo
                     and c.laboratorio
              where a.pedido = new.pedido
-               and a.qtd <> a.amostras)
+               and a.saldo > 0)
          then
             update pedido
                set status = 60

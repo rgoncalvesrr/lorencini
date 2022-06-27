@@ -160,6 +160,8 @@ type
     IBrwSrcliberacao: TDateTimeField;
     IBrwSrcutilizacao: TDateTimeField;
     IBrwSrccancelamento: TDateTimeField;
+    JvImage6: TJvImage;
+    Label12: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure actQueryProcessExecute(Sender: TObject);
@@ -393,8 +395,9 @@ begin
           0: small_n.GetBitmap(213, fBitMap); // Digitação
           1: small_n.GetBitmap(215, fBitMap); // Apontamento
           2: small_n.GetBitmap(205, fBitMap); // Executando
-          3: small_n.GetBitmap(208, fBitMap); // Assinado
-          4: small_n.GetBitmap(204, fBitMap); // Cancelado
+          3: small_n.GetBitmap(212, fBitMap); // Assinado
+          4: small_n.GetBitmap(208, fBitMap); // Liberado
+          5: small_n.GetBitmap(204, fBitMap); // Cancelado
         else
           small_n.GetBitmap(122, fBitMap); // Inválido
         end;

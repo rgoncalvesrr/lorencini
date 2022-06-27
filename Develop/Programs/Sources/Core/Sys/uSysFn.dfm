@@ -12,13 +12,12 @@ inherited SysFn: TSysFn
   inherited Panel1: TPanel
     inherited pctlFind: TPageControl
       inherited tsQuery: TTabSheet
-        ExplicitLeft = 3
-        ExplicitTop = 7
+        ExplicitLeft = 4
+        ExplicitTop = 6
         ExplicitWidth = 819
         ExplicitHeight = 75
         inherited BitBtn2: TBitBtn
           TabOrder = 4
-          ExplicitLeft = 712
         end
         object Panel7: TPanel
           Left = 411
@@ -28,7 +27,6 @@ inherited SysFn: TSysFn
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 3
-          ExplicitLeft = 274
           object Label4: TLabel
             AlignWithMargins = True
             Left = 3
@@ -73,7 +71,7 @@ inherited SysFn: TSysFn
               ExplicitWidth = 147
             end
             inherited CCalendarDiff1: TCCalendarDiff
-              Date = 44643.461648263890000000
+              Date = 44720.955618067130000000
               DisplayInterval = Label5
               OnChange = FrameData1CCalendarDiff1Change
             end
@@ -87,8 +85,6 @@ inherited SysFn: TSysFn
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 0
-          ExplicitLeft = -3
-          ExplicitTop = 1
           object Label1: TLabel
             AlignWithMargins = True
             Left = 3
@@ -126,8 +122,6 @@ inherited SysFn: TSysFn
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 2
-          ExplicitLeft = 271
-          ExplicitTop = 1
           object Label3: TLabel
             AlignWithMargins = True
             Left = 3
@@ -165,8 +159,6 @@ inherited SysFn: TSysFn
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 1
-          ExplicitLeft = 134
-          ExplicitTop = 1
           object Label6: TLabel
             AlignWithMargins = True
             Left = 3

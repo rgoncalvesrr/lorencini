@@ -52,7 +52,7 @@ begin
 
   with U.Data.Query do
   try
-    SQL.Text := 'select sys_flag_mark(:table, :recno::::integer);';
+    SQL.Text := 'select sys_flag_mark(:table, cast(:recno as integer));';
     ParamByName('table').AsString := 'tb_orcamentos';
     ParamByName('recno').AsInteger := DataSet.FieldByName('recno').AsInteger;
     ExecSQL;

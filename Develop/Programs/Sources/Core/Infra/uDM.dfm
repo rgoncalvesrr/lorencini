@@ -17,13 +17,13 @@ object DM: TDM
       'codepage=LATIN1'
       'controls_cp=GET_ACP'
       'AutoEncodeStrings=True')
-    HostName = 'felicia'
+    HostName = '127.0.0.1'
     Port = 5432
     Database = 'lorencini'
     User = 'postgres'
     Password = 'postgres.'
     Protocol = 'postgresql'
-    LibraryLocation = 'D:\Lorencini\Lib\libpq.dll'
+    LibraryLocation = 'D:\Projetos\Lorencini\Lib\libpq.dll'
     Left = 88
     Top = 8
   end

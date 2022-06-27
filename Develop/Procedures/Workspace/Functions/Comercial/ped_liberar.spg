@@ -7,6 +7,8 @@
 
 	Histórico
 	-------------------------------------------------------------------------------------------------------------------
+   
+   TODO: Verificar os usos deste fonte
  */
 Create or Replace Function ped_liberar(
    in in_pedido integer)

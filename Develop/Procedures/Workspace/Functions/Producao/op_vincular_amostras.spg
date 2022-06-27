@@ -23,7 +23,7 @@ declare
 begin
    for r in (
       select ops.codserv, (ops.qtd - ops.amostras) necessidade, s.consumo, p.codigo, s.vidraria
-        from op_servicos ops
+        from op_serv ops
              join servicos s
                on s.codserv = ops.codserv
               and s.vidraria > 0

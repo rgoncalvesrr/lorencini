@@ -1,0 +1,136 @@
+/**
+   Validação da criação da produção
+
+	@author    Ricardo Gonçalves
+	@date      14/01/2022
+	@trigger   op B IUD
+
+	Histórico
+	-------------------------------------------------------------------------------------------------------------------
+ */
+Create or Replace Function public.b_oe()
+Returns trigger As
+$$
+declare
+   _SDIGITACAO    constant integer = 10;
+   _SPRONTA       constant integer = 20;
+   _SEXECUTANDO   constant integer = 30;
+   _SEXECUTADA    constant integer = 40;
+   _SENCERRADA    constant integer = 50;
+   _SCANCELADA    constant integer = 99;
+
+   r              record;
+   rs             record;
+   msgerr         text;
+   frase1         text;
+   frase2         text;
+begin
+   if tg_op = 'DELETE' then
+      return old;
+   end if;
+
+   -- Validando criação da OS
+   -- select status, remessa, laboratorio
+   --   into r
+   --   from pedido
+   --  where recno = new.pedido;
+
+   -- if not found then
+   --    raise '[[Pedido % não foi localizado!]]', new.pedido;
+   -- end if;
+
+   if tg_op = 'INSERT' then
+      -- Verifique se há alguma OS em aberto para o pedido informado
+      select 
+         oe
+      into 
+         rs
+      from 
+         oe
+      where 
+         oe <> new.oe
+         and cliente = new.cliente
+         and status = _SDIGITACAO;
+
+      if found then
+         raise '[[Utilize a ordem de produção %', rs.op;
+      end if;
+
+      return new;
+   end if;
+
+   if new.status = 20 and old.status = 10 then
+      -- Verificando a quantidade de amostras para a quantidade de serviços que exigem amostras
+      for rs in (
+         select 
+            oss.codserv, s.descri, oss.qtd, oss.amostras
+         from 
+            oe_serv oss
+         join 
+            servicos s
+            on s.codserv = oss.codserv
+            and s.consumo > 0
+            and s.vidraria > 0
+         where 
+            oss.oe = new.oe
+            and oss.qtd <> oss.amostras)
+      loop
+         if rs.qtd = rs.amostras then
+            continue;
+         end if;
+
+         if rs.qtd = 1 then
+            frase1 := '1 amostra';
+         else
+            frase1 := format('%s amostras', rs.qtd);
+         end if;
+
+         frase2 := 'Não foram associadas amostras';
+
+         if rs.amostras = 1 then
+            frase2 := 'Foi associada 1 amostra';
+         elsif rs.amostras > 1 then
+            frase2 := format('Foram associadas %s amostras', rs.amostras);
+         end if;
+
+         msgerr := format('%s- O serviço %s - %s exige %s. %s. ',
+            coalesce(msgerr || chr(13) || chr(10), ''), rs.codserv, rs.descri, frase1, frase2);
+      end loop;
+
+      -- Verificando a existências de itens na OS
+      if not exists(
+            select 
+               1
+            from 
+               oe_serv
+            where 
+               oe = new.oe) and
+         not exists(
+            select 
+               1
+            from 
+               oe_mat
+            where 
+               oe = new.oe) and
+         not exists(
+            select 
+               1
+            from 
+               oe_mo
+            where 
+               oe = new.oe)
+      then
+         msgerr := format('%s- Não foram localizados itens para ordem de produção. ', coalesce(msgerr || chr(13) || chr(10), ''));
+      end if;
+
+      if msgerr is not null then
+         raise '[[A ordem de produção % não pode sair da etapa de digitação. Lista de inconsistências:% %]]', new.oe, chr(13) || chr(10), msgerr;
+      end if;
+   else
+      raise '[[A ordem de produção % executou uma sequência inválida de alteração de status.', new.oe;
+   end if;
+
+   return new;
+end;
+$$
+language plpgsql;

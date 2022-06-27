@@ -9,15 +9,16 @@ from
 -----------------------------------------------------------------------------------------------------------------------
 --- Atualização ORDEM DE PRODUÇÃO
 -----------------------------------------------------------------------------------------------------------------------
-drop table if exists public.op cascade;
-drop table if exists public.op_pedidos cascade;
-drop table if exists public.op_servicos cascade;
-drop table if exists public.op_amostras cascade;
-drop table if exists public.op_materiais cascade;
-drop table if exists public.op_mo cascade;
+drop table if exists public.oe cascade;
+drop table if exists public.oe_pedidos cascade;
+drop table if exists public.oe_serv cascade;
+drop table if exists public.oe_amostras cascade;
+drop table if exists public.oe_mat cascade;
+drop table if exists public.oe_mo cascade;
 
-create table public.op (
-	op bigserial not null,
+--- Ordem de Execução
+create table public.oe (
+	oe serial not null,
 	cliente integer not null,
 	status integer default(10) not null,
 	criada timestamp default(clock_timestamp()) not null,
@@ -25,216 +26,219 @@ create table public.op (
 	executada timestamp,
 	produzida timestamp,
 	cancelada timestamp,
-	recno bigserial not null,
-	constraint pk_op primary key(op),
-	constraint fk_op_1 foreign key(cliente)
+	recno serial not null,
+	constraint pk_oe primary key(oe),
+	constraint fk_oe_1 foreign key(cliente)
 		references tbclientes(codigo) on update cascade on delete cascade,
-	constraint uk_op_1 unique(recno),
-	constraint ck_op_1 check(status in (10,20,30,40,50,99)),
-	constraint ck_op_2 check(emitida is null or emitida >= criada),
-	constraint ck_op_3 check(executada is null or executada >= emitida),
-	constraint ck_op_4 check(produzida is null or produzida >= executada),
-	constraint ck_op_6 check(cancelada is null or cancelada >= emitida));
+	constraint uk_oe_1 unique(recno),
+	constraint ck_oe_1 check(status in (10,20,30,40,50,99)),
+	constraint ck_oe_2 check(emitida is null or emitida >= criada),
+	constraint ck_oe_3 check(executada is null or executada >= emitida),
+	constraint ck_oe_4 check(produzida is null or produzida >= executada),
+	constraint ck_oe_6 check(cancelada is null or cancelada >= emitida));
 
-alter table public.op owner to lorencini;
+alter table public.oe owner to lorencini;
 
-create index idx_op_1 on public.op(cliente) where (status = 10);
+create index idx_oe_1 on public.oe(cliente) where (status = 10);
 
-create table op_pedidos (
-   op bigint not null,
-   pedido int not null,
-   recno bigserial not null,
-   constraint pk_op_pedidos primary key(op, pedido),
-   constraint fk_op_pedidos_1 foreign key(op)
-      references public.op(op) on update cascade on delete cascade,
-   constraint fk_op_pedidos_2 foreign key(pedido)
-      references public.pedido(recno) on update cascade on delete restrict,
-   constraint uk_op_pedidos_1 unique(recno));
-
-alter table public.op_pedidos owner to lorencini;
-
-create table public.op_servicos(
-	op bigint not null,
+create table public.oe_serv(
+	oe integer not null,
 	pedido integer not null,
 	codserv integer not null,
 	qtd integer default(1) not null,
-   amostras integer default(0) not null,
-	recno bigserial not null,
-	constraint pk_op_servicos primary key(op, pedido, codserv),
-	constraint fk_op_servicos_1 foreign key(op, pedido)
-		references public.op_pedidos(op, pedido) on update cascade on delete cascade,
-	constraint fk_op_servicos_2 foreign key(pedido, codserv)
+   unitario moeda$ not null,
+   vvenda moeda$ not null,
+   vtotal moeda$ not null,
+	amostras integer default(0) not null,
+	recno serial not null,
+	constraint pk_oe_serv primary key(oe, pedido, codserv),
+	constraint fk_oe_serv_1 foreign key(oe)
+		references public.oe(oe) on update cascade on delete cascade,
+	constraint fk_oe_serv_2 foreign key(pedido, codserv)
 		references public.pedido_serv(pedido, codserv) on update cascade on delete cascade,
-	constraint uk_op_servicos_1 unique(recno),
-	constraint ck_op_servicos_1 check(qtd > 0),
-   constraint ck_op_servicos_2 check(amostras between 0 and qtd));
+	constraint uk_oe_serv_1 unique(recno),
+	constraint ck_oe_serv_1 check(qtd > 0),
+   constraint ck_oe_serv_2 check(amostras between 0 and qtd),
+   constraint ck_oe_serv_3 check(unitario >= 0),
+   constraint ck_oe_serv_4 check(vvenda >= 0),
+   constraint ck_oe_serv_5 check(vtotal >= 0));
 
-alter table public.op_servicos owner to lorencini;
+alter table public.oe_serv owner to lorencini;
 
-create table public.op_amostras(
-	op bigint not null,
+create table public.oe_amostras(
+	oe integer not null,
 	pedido integer not null,
 	codserv integer not null,
 	amostra integer not null,
 	consumo qtd$,
-	recno bigserial not null,
-	constraint pk_op_amostras primary key(op, pedido, codserv, amostra),
-	constraint fk_op_amostras_1 foreign key(op, pedido, codserv)
-		references public.op_servicos(op, pedido, codserv) on update cascade on delete cascade,
-	constraint fk_op_amostras_2 foreign key(amostra)
+	recno serial not null,
+	constraint pk_oe_amostras primary key(oe, pedido, codserv, amostra),
+	constraint fk_oe_amostras_1 foreign key(oe, pedido, codserv)
+		references public.oe_serv(oe, pedido, codserv) on update cascade on delete cascade,
+	constraint fk_oe_amostras_2 foreign key(amostra)
 		references public.labamostras(recno) on update cascade on delete cascade,
-	constraint uk_op_amostras_1 unique(recno),
-	constraint ck_op_amostras_1 check(consumo > 0));
+	constraint uk_oe_amostras_1 unique(recno),
+	constraint ck_oe_amostras_1 check(consumo > 0));
 
-alter table public.op_amostras owner to lorencini;
+alter table public.oe_amostras owner to lorencini;
 
-create index idx_op_amostras on op_amostras(amostra);
+create index idx_oe_amostras on oe_amostras(amostra);
 
-create table public.op_materiais(
-	op bigint not null,
+create table public.oe_mat(
+	oe integer not null,
 	pedido integer not null,
 	material integer not null,
 	qtd qtd$ default(1) not null,
-	recno bigint not null,
-	constraint pk_op_materiais primary key(op, pedido, material),
-	constraint fk_op_materiais_1 foreign key(op, pedido)
-		references public.op_pedidos(op, pedido) on update cascade on delete cascade,
-	constraint fk_op_materiais_2 foreign key(pedido, material)
+   unitario moeda$ not null,
+   vvenda moeda$ not null,
+   vtotal moeda$ not null,
+	recno serial not null,
+	constraint pk_oe_mat primary key(oe, pedido, material),
+	constraint fk_oe_mat_1 foreign key(oe)
+		references public.oe(oe) on update cascade on delete cascade,
+	constraint fk_oe_mat_2 foreign key(pedido, material)
 		references public.pedido_mat(pedido, material) on update cascade on delete cascade,
-	constraint uk_op_materiais_1 unique(recno),
-	constraint ck_op_materiais_1 check(qtd > 0));
+	constraint uk_oe_mat_1 unique(recno),
+	constraint ck_oe_mat_1 check(qtd > 0),
+   constraint ck_oe_mat_2 check(unitario >= 0),
+   constraint ck_oe_mat_3 check(vvenda >= 0),
+   constraint ck_oe_mat_4 check(vtotal >= 0));
 
-alter table public.op_materiais owner to lorencini;
+alter table public.oe_mat owner to lorencini;
 
-create table public.op_mo(
-	op bigint not null,
+create table public.oe_mo(
+	oe integer not null,
 	pedido integer not null,
 	funcao integer not null,
 	qtd integer default(1) not null,
-	recno bigserial not null,
-	constraint pk_op_mo primary key(op, pedido, funcao),
-	constraint fk_op_mo_1 foreign key(op, pedido)
-		references public.op_pedidos(op, pedido) on update cascade on delete cascade,
-	constraint fk_op_mo_2 foreign key(pedido, funcao)
+   unitario moeda$ not null,
+   vvenda moeda$ not null,
+   vtotal moeda$ not null,
+	recno serial not null,
+	constraint pk_oe_mo primary key(oe, pedido, funcao),
+	constraint fk_oe_mo_1 foreign key(oe)
+		references public.oe(oe) on update cascade on delete cascade,
+	constraint fk_oe_mo_2 foreign key(pedido, funcao)
 		references public.pedido_mo(pedido, funcao) on update cascade on delete cascade,
-	constraint uk_op_mo_1 unique(recno),
-	constraint ck_op_mo_1 check(qtd > 0));
+	constraint uk_oe_mo_1 unique(recno),
+	constraint ck_oe_mo_1 check(qtd > 0),
+   constraint ck_oe_mo_2 check(unitario >= 0),
+   constraint ck_oe_mo_3 check(vvenda >= 0),
+   constraint ck_oe_mo_4 check(vtotal >= 0));
 
-alter table public.op_mo owner to lorencini;
+alter table public.oe_mo owner to lorencini;
 
-create or replace view public.vop_materiais as
-select m.op, m.pedido, m.material, m.qtd, pm.vvenda, m.qtd * pm.vvenda vtotal
-  from public.op_materiais m
-       join public.pedido_mat pm
-         on pm.pedido = m.pedido
-        and pm.material = m.material;
-
-alter view public.vop_materiais owner to lorencini;
-
-create or replace view public.vop_servicos as
-select s.op, s.pedido, s.codserv, s.qtd, ps.vvenda, s.qtd * ps.vvenda vtotal
-  from public.op_servicos s
-       join public.pedido_serv ps
-         on ps.pedido = s.pedido
-        and ps.codserv = s.codserv;
-
-alter view public.vop_servicos owner to lorencini;
-
-create or replace view public.vop_mo as
-select mo.op, mo.pedido, mo.funcao, mo.qtd, pmo.vvenda, mo.qtd * pmo.vvenda vtotal
-  from public.op_mo mo
-       join public.pedido_mo pmo
-         on pmo.pedido = mo.pedido
-        and pmo.funcao = mo.funcao;
-
-alter view public.vop_mo owner to lorencini;
-
-create or replace view public.vop_totais as
-select o.op, sum(s.vtotal) vlserv, sum(m.vtotal) vlmat, sum(mo.vtotal) vlmo
-  from public.op o
-       left join public.vop_servicos s
-         on s.op = o.op
-       left join public.vop_materiais m
-         on m.op = o.op
-       left join public.vop_mo mo
-         on mo.op = o.op
- group by o.op;
-
-alter view public.vop_totais owner to lorencini;
 
 alter table labamostras_rel
-	add op bigint,
-	add constraint fk_labamostras_rel_9 foreign key(op, pedido, codserv, amostra)
-		references op_amostras(op, pedido, codserv, amostra)
+	add oe integer;
+
+alter table labamostras_rel   
+	add constraint fk_labamostras_rel_9 foreign key(oe, pedido, codserv, amostra)
+		references public.oe_amostras(oe, pedido, codserv, amostra)
 		on update cascade on delete restrict;
 
-select sys_login('informatica@lorencini.com.br', 'a4406a88a03a0eae5a7b10000beab648');
+ALTER TABLE public.pedido_serv 
+	drop CONSTRAINT ckpedido_serv_5,
+   drop amostras;
+
+-- Atualiza saldo dos itens de serviço do pedidos
+alter table pedido_serv disable trigger all;
+update 
+	pedido_serv ps
+set
+	saldo = qtd - pa.amostras
+from (
+	select 
+	 	pedido, codserv, count(amostra) amostras
+	from 
+		pedido_amostras 
+	group by 
+		pedido, codserv) pa
+where
+	pa.pedido = ps.pedido and
+	pa.codserv = ps.codserv;
+alter table pedido_serv enable trigger all;
+
+-- Zera saldo dos itens de serviço do pedidos
+alter table pedido_serv disable trigger all;
+update 
+	pedido_serv ps
+set
+	saldo = 0
+from 
+	servicos  s
+where	
+	s.codserv = ps.codserv and
+    s.vidraria is null;
+alter table pedido_serv enable trigger all;
+
+select sys_login('suporte@lorencini.com.br', 'a4406a88a03a0eae5a7b10000beab648');
 
 -- Amostras disponíveis já utilizadas
-update labamostras a
-   set estado = h.estado, descartado = saldo
-  from (select h.amostra, max(h.estado) estado
-          from labamostras_hist h
-               join labamostras a
-                 on a.recno = h.amostra
-                and a.estado = 50
-         group by h.amostra
-        having max(h.estado) > 50) h
- where a.recno = h.amostra
-   and a.coleta < current_date - interval '15 days';
+-- update labamostras a
+--    set estado = h.estado, descartado = saldo
+--   from (select h.amostra, max(h.estado) estado
+--           from labamostras_hist h
+--                join labamostras a
+--                  on a.recno = h.amostra
+--                 and a.estado = 50
+--          group by h.amostra
+--         having max(h.estado) > 50) h
+--  where a.recno = h.amostra
+--    and a.coleta < current_date - interval '15 days';
 
-update labamostras set estado = 60
- where estado = 50
-   and coleta < current_date - interval '15 days';
+-- update labamostras set estado = 60
+--  where estado = 50
+--    and coleta < current_date - interval '15 days';
 
--- Amostras recebidas já utilizadas
-update labamostras a
-   set estado = h.estado, descartado = qtd - saldo, saldo = 0
-  from (select h.amostra, max(h.estado) estado
-          from labamostras_hist h
-               join labamostras a
-                 on a.recno = h.amostra
-                and a.estado < 40
-         group by h.amostra
-        having max(h.estado) > 40) h
- where a.recno = h.amostra
-   and a.coleta < current_date - interval '15 days';
+-- -- Amostras recebidas já utilizadas
+-- update labamostras a
+--    set estado = h.estado, descartado = qtd - saldo, saldo = 0
+--   from (select h.amostra, max(h.estado) estado
+--           from labamostras_hist h
+--                join labamostras a
+--                  on a.recno = h.amostra
+--                 and a.estado < 40
+--          group by h.amostra
+--         having max(h.estado) > 40) h
+--  where a.recno = h.amostra
+--    and a.coleta < current_date - interval '15 days';
 
--- Amostras utilizadas
-update labamostras a
-   set estado = 60
-  from (select a.recno
-          from labamostras a
-         where a.estado = 40
-           and a.coleta < current_date - interval '15 days'
-           and exists(
-  		         select 1
-           	     from labamostras_rel r
-     	          where r.amostra = a.recno)) x
- where x.recno = a.recno;
+-- -- Amostras utilizadas
+-- update labamostras a
+--    set estado = 60
+--   from (select a.recno
+--           from labamostras a
+--          where a.estado = 40
+--            and a.coleta < current_date - interval '15 days'
+--            and exists(
+--   		         select 1
+--            	     from labamostras_rel r
+--      	          where r.amostra = a.recno)) x
+--  where x.recno = a.recno;
 
 -- Amostras cancelas
- update labamostras a
-   set estado = 70, saldo = 0
- from (select a.recno
-         from labamostras a
-        where a.estado = 40
-          and a.coleta < current_date - interval '15 days'
-          and not exists(
-  		      select 1
-           	    from labamostras_rel r
-     	       where r.amostra = a.recno)) x
- where x.recno = a.recno;
+--  update labamostras a
+--    set estado = 70, saldo = 0
+--  from (select a.recno
+--          from labamostras a
+--         where a.estado = 40
+--           and a.coleta < current_date - interval '15 days'
+--           and not exists(
+--   		      select 1
+--            	    from labamostras_rel r
+--      	       where r.amostra = a.recno)) x
+--  where x.recno = a.recno;
 
-set session authorization postgres;
-alter table labamostras disable trigger all;
-update labamostras a
-   set estado = 60
- from (select a.recno
-         from labamostras a
-        where a.estado = 40
-          and a.estado_data < current_date - interval '15 days') x
- where x.recno = a.recno;
-alter table labamostras enable trigger all;
+-- set session authorization postgres;
+-- alter table labamostras disable trigger all;
+-- update labamostras a
+--    set estado = 60
+--  from (select a.recno
+--          from labamostras a
+--         where a.estado = 40
+--           and a.estado_data < current_date - interval '15 days') x
+--  where x.recno = a.recno;
+-- alter table labamostras enable trigger all;
 
-alter table labproc drop os cascade;
+-- alter table labproc drop os cascade;

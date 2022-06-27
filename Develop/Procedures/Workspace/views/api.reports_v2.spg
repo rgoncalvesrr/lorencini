@@ -1,0 +1,51 @@
+drop view if exists api.reports_v2;
+create or replace view api.reports_v2 as
+select
+   r.recno report, r.pedido "order", r.revisao revision, rs.label status, r.criacao created, a.recebimento received, 
+	r.apontado executed_at, r.emissao emmited, r.pcoleta nextCollect, r.relato_recno reportType, re.titulo typetitle, 
+	re.sigla typeabbreviation, re.descri typedescription, s.descri description, r.diagnostico diagnostic, 
+	r.recomendacao recommendation, r.obs observation, r.assinatura sign, rc.recno criticality_recno, rc.descri criticality_label, rc.label criticality_level,
+   r.destinatario customer, 
+   r.amostra sample_sample, a.comodato sample_ticket, tp.descri sample_type, a.amostrador sample_sampler, a.tamb sample_tenvironment, 
+   a.toleo sample_tsample, a.tequip sample_tdevice, a.umidade sample_humidity, a.tensao sample_voltage, a.coleta sample_collect_date,
+   a.validade sample_expiration_at, ast.descri sample_samplestatus, a.emissao sample_created_at, a.emissao sample_emitted_at, a.remessa sample_sent_at,
+   a.recebimento sample_received_at, a.liberacao sample_released, a.utilizacao sample_consumed_at, a.cancelamento sample_cancelled_at,       
+   d.device, d.serie device_serie, d.devicename device_name, sys_iif(d.status = 1, 'Operação', 'Reserva') device_status, d.familyname device_familyname, 
+   d.manufacturer device_manufacturer, d.insulatorname device_insulatorname, d.devicetypename device_typename, d.devicetypeabbreviation device_typeabreviation,
+   d.local device_local, d.substation device_substation, d.tag tag, d.volume device_volume, d.power device_power, d.powera device_powera, 
+   d.powerb device_powerb, d.powerunit device_powerunit, d.phases device_phases, d.lote device_lote, d.impedance device_impedance, d.impedancea device_impedancea, 
+   d.impedanceb device_impedanceb, d.voltage device_voltage, d.voltagea device_voltagea, d.voltageb device_voltageb, d.voltageunit device_voltageunit, 
+   d.electriccurrent device_electriccurrent, d.electriccurrenta device_electriccurrenta, d.electriccurrentb device_electriccurrentb, d.year device_year,
+   re.legendas legend, re.regras decisionRule, a.codigo tenantid
+from 
+   labamostras_rel r
+join 
+   labamostras a on 
+   a.recno = r.amostra         
+join 
+   labtipo tp on 
+   tp.recno = a.tpamostra_recno
+join 
+   labamostras_status ast on 
+   ast.status = a.estado
+join 
+   api.devicesbycustomers d on 
+   d.tenantid = a.codigo and 
+   d.device = a.equip_recno
+join 
+   public.servicos s on 
+   s.codserv = r.codserv
+join 
+   vlaudocrit rc on 
+   rc.relato_recno = r.relato_recno and 
+   rc.recno  = r.labcrit_recno
+join 
+   labamostras_rel_status rs on 
+   rs.status = r.status
+join 
+   labrel re on 
+   re.recno = r.relato_recno
+where 
+   r.status = 4;
+  
+alter view api.reports_v2 owner to lorencini;
