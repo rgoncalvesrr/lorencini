@@ -984,7 +984,7 @@ object DMR00014: TDMR00014
     Outline = False
     Background = False
     HTMLTags = True
-    Quality = 95
+    Quality = 60
     Transparency = False
     Title = 'Laudo'
     Author = 'Lorencini Brasil Ldta'

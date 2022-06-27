@@ -17,7 +17,7 @@ object DM: TDM
       'codepage=LATIN1'
       'controls_cp=GET_ACP'
       'AutoEncodeStrings=True')
-    HostName = 'felicia'
+    HostName = '127.0.0.1'
     Port = 5432
     Database = 'lorencini'
     User = 'postgres'

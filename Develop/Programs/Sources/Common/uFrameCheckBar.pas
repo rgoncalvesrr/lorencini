@@ -126,9 +126,9 @@ begin
         bMark := not table.FieldByName('mark').AsBoolean;
 
       if bMark then
-        cmd := 'select sys_flag_mark(%d::::integer, %d::::integer)'
+        cmd := 'select sys_flag_mark(cast(%d as integer), cast(%d as integer))'
       else
-        cmd := 'select sys_flag_del(%d::::integer, %d::::integer)';
+        cmd := 'select sys_flag_del(cast(%d as integer), cast(%d as integer))';
 
       U.Data.ExecSQL(cmd, [FTableId, table.FieldByName('recno').AsInteger]);
 

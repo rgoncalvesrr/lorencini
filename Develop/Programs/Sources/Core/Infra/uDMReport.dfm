@@ -32,7 +32,7 @@ object DMReport: TDMReport
     Top = 24
   end
   object ReportBase: TfrxReport
-    Version = '6.9.3'
+    Version = '6.3.1'
     DotMatrixReport = False
     EngineOptions.PrintIfEmpty = False
     IniFile = '\Software\Fast Reports'
@@ -258,19 +258,19 @@ object DMReport: TDMReport
   end
   object frxPDF: TfrxPDFExport
     FileName = 'D:\Users\ricar\Desktop\r00018.pdf'
+    ExportNotPrintable = True
     UseFileCache = True
     ShowProgress = True
     OverwritePrompt = False
     CreationTime = 42926.623377650460000000
     DataOnly = False
     EmbeddedFonts = True
-    InteractiveFormsFontSubset = 'A-Z,a-z,0-9,#43-#47 '
     OpenAfterExport = False
     PrintOptimized = True
     Outline = False
     Background = False
     HTMLTags = True
-    Quality = 95
+    Quality = 40
     Transparency = False
     Title = 'Laudo'
     Author = 'Lorencini Brasil Ldta'
@@ -285,8 +285,8 @@ object DMReport: TDMReport
     CenterWindow = False
     PrintScaling = True
     PdfA = True
-    PDFStandard = psPDFA_3b
-    PDFVersion = pv17
+    PDFStandard = psPDFA_1a
+    PDFVersion = pv14
     Left = 160
     Top = 24
   end

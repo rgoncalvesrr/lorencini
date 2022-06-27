@@ -446,11 +446,14 @@ var
   table: integer;
   atualizar: Boolean;
   title: string;
+  format: TFormatSettings;
 begin
   inherited;
 
-  if FAtualizando then
+  if FAtualizando or (PageControl1.ActivePageIndex <> 0) then
     Exit;
+
+  format.DecimalSeparator := '.';
 
   title := Caption;
   Caption := Caption + '. Processando análises pendentes...';
@@ -489,8 +492,8 @@ begin
     begin
       try
         if FieldByName('status').AsInteger = 0 then
-          U.Data.ExecSQL('select fin_ckbloqueio(%d, %s);',
-            [FieldByName('cliente').AsInteger, FloatToStr(FieldByName('valor').AsFloat)]);
+          U.Data.ExecSQL('select fin_ckbloqueio(%d, cast(%s as moeda$));',
+            [FieldByName('cliente').AsInteger, FloatToStr(FieldByName('valor').AsFloat, format)]);
 
         atualizar := True;
       except
@@ -575,7 +578,7 @@ begin
   with U.Query do
   try
     SQL.Text :=
-    'select public.cred_consultar_serasa(:recno::::bigint, :tipo::::integer)';
+    'select public.cred_consultar_serasa(cast(:recno as bigint), cast(:tipo as integer))';
     ParamByName('recno').AsInteger := IBrwSrcrecno.AsInteger;
     ParamByName('tipo').AsInteger := MenuItemSerasa.Recno;
 

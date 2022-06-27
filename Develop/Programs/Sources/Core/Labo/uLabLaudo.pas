@@ -224,6 +224,10 @@ begin
     .PrintToPDF(True);
 
   DMReport.frxPDF.ShowProgress := False;
+  DMReport.frxPDF.Compressed := True;
+  DMReport.frxPDF.PrintOptimized := True;
+  DMReport.frxPDF.Quality := 60;
+  DMReport.frxPDF.Background := False;
 
   pathTarget := Format('%s%s', [U.Path.Reports, Trim(IBrwSrcnome_chave.AsString)]);
 
