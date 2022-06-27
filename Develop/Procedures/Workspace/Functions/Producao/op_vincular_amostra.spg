@@ -40,7 +40,7 @@ begin
    select op.op, ops.codserv
      into r
      from public.op
-          join public.op_servicos ops 
+          join public.op_serv ops 
             on ops.op = op.op 
            and ops.pedido = ra.pedido 
            and ops.qtd <> ops.amostras

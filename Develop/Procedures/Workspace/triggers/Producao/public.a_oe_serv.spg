@@ -1,0 +1,50 @@
+/**
+   Atualiza saldo do pedido
+
+	@author    Ricardo Gonçalves
+	@date      11/01/2022
+	@trigger   oe_serv A IUD
+
+	Histórico
+	-------------------------------------------------------------------------------------------------------------------
+ */
+ Create or Replace Function public.a_oe_serv()
+Returns trigger As
+$$
+declare
+   qtd_     pedido_serv.qtd%type;
+   pedido_  oe_serv.pedido%type;
+   codserv_ oe_serv.codserv%type;
+begin
+   if tg_op <> 'DELETE' then
+      pedido_  := new.pedido;
+      codserv_ := new.codserv;
+   else
+      pedido_  := old.pedido;
+      codserv_ := old.codserv;
+   end if;
+
+   select 
+      sum(qtd)
+   into 
+      qtd_
+   from 
+      oe_serv
+   where 
+      pedido = pedido_ 
+      and codserv = codserv_;
+
+   qtd_ := coalesce(qtd_, 0);
+
+   update 
+      pedido_serv
+   set 
+      saldo = qtd - qtd_
+   where 
+      pedido = pedido_
+      and codserv = codserv_;
+
+   return null;
+end;
+$$
+language plpgsql;
