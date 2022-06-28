@@ -19,6 +19,9 @@ begin
    if tg_op <> 'DELETE' then
       pedido_  := new.pedido;
       codserv_ := new.codserv;
+
+      new.vtotal := new.vvenda * new.qtd;
+
    else
       pedido_  := old.pedido;
       codserv_ := old.codserv;

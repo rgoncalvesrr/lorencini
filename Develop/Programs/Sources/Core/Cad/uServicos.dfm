@@ -222,7 +222,7 @@ inherited Servicos: TServicos
       DisplayLabel = 'Consumo'
       FieldName = 'consumo'
       Required = True
-      DisplayFormat = ',0.####0 ml'
+      DisplayFormat = ',0 ml'
     end
     object IBrwSrcvidraria: TIntegerField
       Alignment = taLeftJustify

@@ -27,7 +27,7 @@ declare
    recno_         tb_orcamentos.recno%type;
    amostra_       labamostras.recno%type;
    LF             text;
-   amostras_      op_serv.amostras%type;
+   amostras_      oe_serv.amostras%type;
 begin
    if tg_op = 'DELETE' then
       return old;
