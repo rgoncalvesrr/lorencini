@@ -324,8 +324,6 @@ inherited ServicosM: TServicosM
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 5
-            ExplicitLeft = 785
-            ExplicitTop = 3
             object Label4: TLabel
               AlignWithMargins = True
               Left = 3
@@ -357,8 +355,6 @@ inherited ServicosM: TServicosM
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 6
-            ExplicitLeft = 923
-            ExplicitTop = 3
             object DBCheckBox1: TDBCheckBox
               AlignWithMargins = True
               Left = 3
@@ -373,8 +369,6 @@ inherited ServicosM: TServicosM
               TabOrder = 0
               ValueChecked = 'True'
               ValueUnchecked = 'False'
-              ExplicitLeft = 40
-              ExplicitWidth = 229
             end
           end
           object Panel12: TPanel
@@ -385,8 +379,6 @@ inherited ServicosM: TServicosM
             Align = alLeft
             BevelOuter = bvNone
             TabOrder = 1
-            ExplicitLeft = 195
-            ExplicitTop = 3
             object Label7: TLabel
               AlignWithMargins = True
               Left = 3
@@ -419,8 +411,6 @@ inherited ServicosM: TServicosM
             Align = alLeft
             BevelOuter = bvNone
             TabOrder = 2
-            ExplicitLeft = 346
-            ExplicitTop = 3
             object Label9: TLabel
               AlignWithMargins = True
               Left = 3
@@ -454,8 +444,6 @@ inherited ServicosM: TServicosM
             Align = alLeft
             BevelOuter = bvNone
             TabOrder = 3
-            ExplicitLeft = 392
-            ExplicitTop = 3
             object SpeedButton1: TSpeedButton
               AlignWithMargins = True
               Left = 0
@@ -512,9 +500,6 @@ inherited ServicosM: TServicosM
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 4
-            ExplicitLeft = 438
-            ExplicitTop = 3
-            ExplicitWidth = 314
             object Label10: TLabel
               AlignWithMargins = True
               Left = 3
@@ -538,7 +523,6 @@ inherited ServicosM: TServicosM
               DataSource = Servicos.DataSource1
               ReadOnly = True
               TabOrder = 0
-              ExplicitWidth = 472
             end
           end
         end
@@ -587,8 +571,8 @@ inherited ServicosM: TServicosM
     end
   end
   inherited alDef: TActionList
-    Left = 168
-    Top = 8
+    Left = 424
+    Top = 48
     object actFindRecipiente: TAction
       ImageIndex = 332
       OnExecute = actFindRecipienteExecute
@@ -597,19 +581,19 @@ inherited ServicosM: TServicosM
   object dsNatDet: TDataSource
     AutoEdit = False
     DataSet = Servicos.qNatDet
-    Left = 104
-    Top = 8
+    Left = 368
+    Top = 48
   end
   object dsCategorias: TDataSource
     AutoEdit = False
     DataSet = Servicos.qCate
-    Left = 40
-    Top = 8
+    Left = 256
+    Top = 48
   end
   object dsUnidades: TDataSource
     AutoEdit = False
     DataSet = Servicos.qUnidade
-    Left = 72
-    Top = 8
+    Left = 304
+    Top = 48
   end
 end

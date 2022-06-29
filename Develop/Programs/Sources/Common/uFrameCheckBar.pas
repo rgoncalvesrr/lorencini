@@ -141,7 +141,7 @@ begin
   end;
   dsMark.DataSet.DisableControls;
   rec := dsMark.DataSet.GetBookmark;
-  dsMark.DataSet.Refresh;                               
+  dsMark.DataSet.Refresh;
   dsMark.DataSet.GotoBookmark(rec);
   dsMark.DataSet.FreeBookmark(rec);
   dsMark.DataSet.EnableControls;

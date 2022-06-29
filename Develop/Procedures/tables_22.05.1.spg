@@ -124,7 +124,6 @@ create table public.oe_mo(
 
 alter table public.oe_mo owner to lorencini;
 
-
 alter table labamostras_rel
 	add oe integer;
 
@@ -238,3 +237,12 @@ select sys_login('suporte@lorencini.com.br', 'a4406a88a03a0eae5a7b10000beab648')
 -- alter table labamostras enable trigger all;
 
 -- alter table labproc drop os cascade;
+
+
+alter table servicos
+   add status smallint default 0 not null,
+   add constraint ck_servicos_1 check(status between 0 and 1);
+
+alter table servicos disable trigger all;
+update servicos set status = 1;
+alter table servicos enable trigger all;

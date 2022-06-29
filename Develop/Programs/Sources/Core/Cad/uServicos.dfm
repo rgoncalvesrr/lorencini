@@ -12,68 +12,155 @@ inherited Servicos: TServicos
   inherited Panel1: TPanel
     inherited pctlFind: TPageControl
       inherited tsQuery: TTabSheet
-        ExplicitLeft = 4
-        ExplicitTop = 6
+        ExplicitLeft = 3
+        ExplicitTop = 7
         ExplicitWidth = 819
         ExplicitHeight = 75
-        object Label1: TLabel [0]
-          Left = 3
-          Top = 8
-          Width = 51
-          Height = 15
-          Caption = 'Categoria'
-        end
-        object Label3: TLabel [1]
-          Left = 293
-          Top = 8
-          Width = 47
-          Height = 15
-          Caption = 'Natureza'
-        end
-        object Label4: TLabel [2]
-          Left = 389
-          Top = 8
-          Width = 40
-          Height = 15
-          Caption = 'Vidraria'
-        end
-        object cbCat: TComboBox
-          Left = 3
-          Top = 29
-          Width = 280
-          Height = 23
-          Style = csDropDownList
-          ItemHeight = 15
+        object Panel3: TPanel
+          Left = 0
+          Top = 0
+          Width = 283
+          Height = 75
+          Align = alLeft
+          BevelOuter = bvNone
           TabOrder = 1
-          OnChange = cbCatChange
+          ExplicitTop = -2
+          object Label1: TLabel
+            AlignWithMargins = True
+            Left = 3
+            Top = 3
+            Width = 277
+            Height = 15
+            Align = alTop
+            Caption = 'Categoria'
+            ExplicitTop = 8
+            ExplicitWidth = 51
+          end
+          object cbCat: TComboBox
+            AlignWithMargins = True
+            Left = 3
+            Top = 24
+            Width = 277
+            Height = 23
+            Align = alTop
+            Style = csDropDownList
+            ItemHeight = 15
+            TabOrder = 0
+            OnChange = cbCatChange
+            ExplicitTop = 29
+            ExplicitWidth = 280
+          end
         end
-        object edServico: TJvCalcEdit
-          Left = 291
-          Top = 29
-          Width = 91
-          Height = 23
-          DisplayFormat = '#'
-          ShowButton = False
+        object Panel4: TPanel
+          Left = 283
+          Top = 0
+          Width = 110
+          Height = 75
+          Align = alLeft
+          BevelOuter = bvNone
           TabOrder = 2
-          DecimalPlacesAlwaysShown = False
-          OnChange = edServicoChange
+          object Label3: TLabel
+            AlignWithMargins = True
+            Left = 3
+            Top = 3
+            Width = 104
+            Height = 15
+            Align = alTop
+            Caption = 'Servi'#231'o'
+            ExplicitWidth = 38
+          end
+          object edServico: TJvCalcEdit
+            AlignWithMargins = True
+            Left = 3
+            Top = 24
+            Width = 104
+            Height = 23
+            Align = alTop
+            DisplayFormat = '#'
+            ShowButton = False
+            TabOrder = 0
+            DecimalPlacesAlwaysShown = False
+            OnChange = edServicoChange
+            ExplicitLeft = 19
+            ExplicitTop = 29
+            ExplicitWidth = 91
+          end
         end
-        object cbVidraria: TComboBox
-          Left = 389
-          Top = 29
-          Width = 104
-          Height = 23
-          Style = csDropDownList
-          ItemHeight = 15
-          ItemIndex = 3
+        object Panel5: TPanel
+          Left = 571
+          Top = 0
+          Width = 144
+          Height = 75
+          Align = alRight
+          BevelOuter = bvNone
           TabOrder = 3
-          Text = 'Sem Filtro'
-          OnChange = cbVidrariaChange
-          Items.Strings = (
-            'Nenhuma'
-            'Frasco'
-            'Seringa'
-            'Sem Filtro')
+          ExplicitLeft = 568
+          ExplicitTop = 1
+          object Label4: TLabel
+            AlignWithMargins = True
+            Left = 3
+            Top = 3
+            Width = 138
+            Height = 15
+            Align = alTop
+            Caption = 'Recipiente'
+            ExplicitWidth = 55
+          end
+          object cbVidraria: TComboBox
+            AlignWithMargins = True
+            Left = 3
+            Top = 24
+            Width = 138
+            Height = 23
+            Align = alTop
+            Style = csDropDownList
+            ItemHeight = 15
+            ItemIndex = 3
+            TabOrder = 0
+            Text = 'Sem Filtro'
+            OnChange = cbVidrariaChange
+            Items.Strings = (
+              'Nenhuma'
+              'Frasco'
+              'Seringa'
+              'Sem Filtro')
+            ExplicitLeft = 40
+            ExplicitTop = 29
+            ExplicitWidth = 104
+          end
+        end
+        object Panel6: TPanel
+          Left = 393
+          Top = 0
+          Width = 178
+          Height = 75
+          Align = alClient
+          BevelOuter = bvNone
+          TabOrder = 4
+          ExplicitLeft = 286
+          ExplicitTop = 1
+          object Label5: TLabel
+            AlignWithMargins = True
+            Left = 3
+            Top = 3
+            Width = 172
+            Height = 15
+            Align = alTop
+            Caption = 'Descri'#231#227'o'
+            ExplicitWidth = 51
+          end
+          object edDescri: TEdit
+            AlignWithMargins = True
+            Left = 3
+            Top = 24
+            Width = 172
+            Height = 23
+            Align = alTop
+            TabOrder = 0
+            OnChange = edServicoChange
+            ExplicitLeft = 6
+            ExplicitWidth = 121
+          end
         end
       end
       inherited tsFind: TTabSheet
@@ -86,19 +173,65 @@ inherited Servicos: TServicos
   end
   inherited Panel2: TPanel
     Height = 410
+    ExplicitTop = 128
     ExplicitHeight = 410
     inherited PageControl1: TPageControl
       Height = 404
+      Images = Resources.medium_n
+      ExplicitTop = 2
       ExplicitHeight = 404
       inherited TabSheet1: TTabSheet
-        Caption = 'Naturezas'
+        Caption = 'Servi'#231'os Ativos'
+        ImageIndex = 208
         ExplicitLeft = 4
         ExplicitTop = 26
         ExplicitWidth = 823
         ExplicitHeight = 374
         inherited DBGrid1: TDBGrid
-          Height = 368
+          Top = 47
+          Height = 317
         end
+        inline FrameCheckBar1: TFrameCheckBar
+          Left = 0
+          Top = 0
+          Width = 823
+          Height = 44
+          Align = alTop
+          AutoSize = True
+          TabOrder = 1
+          ExplicitWidth = 823
+          inherited ControlBar1: TControlBar
+            Width = 817
+            ExplicitWidth = 817
+            inherited ToolBar2: TToolBar
+              ButtonWidth = 109
+              inherited ToolButton12: TToolButton
+                ExplicitWidth = 113
+              end
+              inherited ToolButton17: TToolButton
+                Left = 192
+                ExplicitLeft = 192
+                ExplicitWidth = 70
+              end
+              inherited ToolButton16: TToolButton
+                Left = 262
+                ExplicitLeft = 262
+                ExplicitWidth = 86
+              end
+              inherited ToolButton1: TToolButton
+                Left = 348
+                ExplicitLeft = 348
+              end
+            end
+          end
+          inherited dsMark: TDataSource
+            DataSet = IBrwSrc
+          end
+        end
+      end
+      object TabSheet2: TTabSheet
+        Caption = 'Servi'#231'os Inativos'
+        ImageIndex = 209
       end
     end
   end
@@ -139,6 +272,27 @@ inherited Servicos: TServicos
       end
     end
   end
+  inherited alDef: TActionList
+    Left = 288
+    Top = 104
+    object actProcessMarked: TAction
+      Caption = 'Desativar Marcados'
+      Enabled = False
+      ImageIndex = 69
+      OnExecute = actProcessMarkedExecute
+    end
+  end
+  inherited pmRel: TPopupMenu
+    Left = 336
+    Top = 112
+  end
+  inherited pmOrder: TPopupMenu
+    Left = 394
+    Top = 102
+  end
+  inherited alRunTime: TActionList
+    Top = 102
+  end
   inherited DataSource1: TDataSource
     Left = 336
     Top = 200
@@ -151,18 +305,55 @@ inherited Servicos: TServicos
     OnCalcFields = IBrwSrcCalcFields
     AfterInsert = IBrwSrcAfterInsert
     SQL.Strings = (
-      'select a.codserv, a.descri, a.un, a.valor, '
-      '       a.tipo,    a.grupo,  b.descri, a.prnsecserv, a.recno,'
-      '       a.consumo, a.vidraria, r.descri recipiente'
-      '  from servicos a'
-      '       join servicos_grupo b'
-      '         on b.recno = a.grupo'
-      '       left join labtipo_recipiente r'
-      '         on r.recno = a.vidraria')
+      'select'
+      
+        '  (m.recno is not null) mark, a.codserv, a.descri, a.un, a.valor' +
+        ','
+      '  a.tipo,    a.grupo,  b.descri, a.prnsecserv, a.recno,'
+      '  a.consumo, a.vidraria, r.descri recipiente, a.status'
+      'from'
+      '  servicos a'
+      'join'
+      '  servicos_grupo b on'
+      '  b.recno = a.grupo'
+      'left join'
+      '  labtipo_recipiente r on'
+      '  r.recno = a.vidraria'
+      'left join'
+      '  sys_flags m on'
+      '  m.recno = a.recno and'
+      '  m.session = sys_session() and'
+      '  m.table_ = sys_origem('#39'servicos'#39')'
+      'where'
+      '  status = :status')
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'status'
+        ParamType = ptUnknown
+        Value = '1'
+      end>
     Sequence = sBrwSrc
     SequenceField = 'recno'
     Left = 264
     Top = 200
+    ParamData = <
+      item
+        DataType = ftInteger
+        Name = 'status'
+        ParamType = ptUnknown
+        Value = '1'
+      end>
+    object IBrwSrcmark: TBooleanField
+      DisplayLabel = ' '
+      FieldName = 'mark'
+      ReadOnly = True
+    end
+    object IBrwSrcstatus: TSmallintField
+      DisplayLabel = ' '
+      FieldName = 'status'
+      Visible = False
+    end
     object IBrwSrcdescri_1: TStringField
       DisplayLabel = 'Catagoria'
       DisplayWidth = 30
@@ -237,6 +428,17 @@ inherited Servicos: TServicos
       Size = 60
     end
   end
+  inherited pmOpcao: TPopupMenu
+    Left = 520
+    Top = 104
+    object N2: TMenuItem
+      Caption = '-'
+    end
+    object DesativarMarcados1: TMenuItem
+      Action = actProcessMarked
+      Caption = 'Desativar Servi'#231'os Marcados'
+    end
+  end
   inherited zIBrwSrc: TZUpdateSQL
     DeleteSQL.Strings = (
       'DELETE FROM servicos'
@@ -246,22 +448,23 @@ inherited Servicos: TServicos
       'INSERT INTO servicos'
       
         '  (descri, un, valor, tipo, grupo, recno, prnsecserv, consumo, v' +
-        'idraria)'
+        'idraria, status)'
       'VALUES'
       
         '  (:descri, :un, :valor, :tipo, :grupo, :recno, :prnsecserv, :co' +
-        'nsumo, :vidraria)')
+        'nsumo, :vidraria, :status)')
     ModifySQL.Strings = (
       'UPDATE servicos SET'
       '  descri = :descri,'
-      '  un = :un,                           '
+      '  un = :un,'
       '  valor = :valor,'
       '  tipo = :tipo,'
       '  grupo = :grupo,'
       '  recno = :recno,'
       '  prnsecserv = :prnsecserv,'
       '  consumo = :consumo,'
-      '  vidraria = :vidraria'
+      '  vidraria = :vidraria,'
+      '  status = :status'
       'WHERE'
       '  servicos.codserv = :OLD_codserv')
     Left = 184
@@ -310,6 +513,11 @@ inherited Servicos: TServicos
       item
         DataType = ftUnknown
         Name = 'vidraria'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'status'
         ParamType = ptUnknown
       end
       item
