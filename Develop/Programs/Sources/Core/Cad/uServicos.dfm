@@ -12,8 +12,8 @@ inherited Servicos: TServicos
   inherited Panel1: TPanel
     inherited pctlFind: TPageControl
       inherited tsQuery: TTabSheet
-        ExplicitLeft = 3
-        ExplicitTop = 7
+        ExplicitLeft = 4
+        ExplicitTop = 6
         ExplicitWidth = 819
         ExplicitHeight = 75
         object Panel3: TPanel
@@ -24,7 +24,6 @@ inherited Servicos: TServicos
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 1
-          ExplicitTop = -2
           object Label1: TLabel
             AlignWithMargins = True
             Left = 3
@@ -33,7 +32,6 @@ inherited Servicos: TServicos
             Height = 15
             Align = alTop
             Caption = 'Categoria'
-            ExplicitTop = 8
             ExplicitWidth = 51
           end
           object cbCat: TComboBox
@@ -47,8 +45,6 @@ inherited Servicos: TServicos
             ItemHeight = 15
             TabOrder = 0
             OnChange = cbCatChange
-            ExplicitTop = 29
-            ExplicitWidth = 280
           end
         end
         object Panel4: TPanel
@@ -81,9 +77,6 @@ inherited Servicos: TServicos
             TabOrder = 0
             DecimalPlacesAlwaysShown = False
             OnChange = edServicoChange
-            ExplicitLeft = 19
-            ExplicitTop = 29
-            ExplicitWidth = 91
           end
         end
         object Panel5: TPanel
@@ -94,8 +87,6 @@ inherited Servicos: TServicos
           Align = alRight
           BevelOuter = bvNone
           TabOrder = 3
-          ExplicitLeft = 568
-          ExplicitTop = 1
           object Label4: TLabel
             AlignWithMargins = True
             Left = 3
@@ -124,9 +115,6 @@ inherited Servicos: TServicos
               'Frasco'
               'Seringa'
               'Sem Filtro')
-            ExplicitLeft = 40
-            ExplicitTop = 29
-            ExplicitWidth = 104
           end
         end
         object Panel6: TPanel
@@ -137,8 +125,6 @@ inherited Servicos: TServicos
           Align = alClient
           BevelOuter = bvNone
           TabOrder = 4
-          ExplicitLeft = 286
-          ExplicitTop = 1
           object Label5: TLabel
             AlignWithMargins = True
             Left = 3
@@ -158,8 +144,6 @@ inherited Servicos: TServicos
             Align = alTop
             TabOrder = 0
             OnChange = edServicoChange
-            ExplicitLeft = 6
-            ExplicitWidth = 121
           end
         end
       end
@@ -173,20 +157,18 @@ inherited Servicos: TServicos
   end
   inherited Panel2: TPanel
     Height = 410
-    ExplicitTop = 128
     ExplicitHeight = 410
     inherited PageControl1: TPageControl
       Height = 404
       Images = Resources.medium_n
-      ExplicitTop = 2
       ExplicitHeight = 404
       inherited TabSheet1: TTabSheet
         Caption = 'Servi'#231'os Ativos'
         ImageIndex = 208
         ExplicitLeft = 4
-        ExplicitTop = 26
+        ExplicitTop = 33
         ExplicitWidth = 823
-        ExplicitHeight = 374
+        ExplicitHeight = 367
         inherited DBGrid1: TDBGrid
           Top = 47
           Height = 317
@@ -205,6 +187,9 @@ inherited Servicos: TServicos
             ExplicitWidth = 817
             inherited ToolBar2: TToolBar
               ButtonWidth = 109
+              inherited ToolButton13: TToolButton
+                ExplicitWidth = 79
+              end
               inherited ToolButton12: TToolButton
                 ExplicitWidth = 113
               end
@@ -303,6 +288,7 @@ inherited Servicos: TServicos
     AfterOpen = IBrwSrcAfterOpen
     AfterScroll = IBrwSrcAfterScroll
     OnCalcFields = IBrwSrcCalcFields
+    Filter = 'status = 1'
     AfterInsert = IBrwSrcAfterInsert
     SQL.Strings = (
       'select'

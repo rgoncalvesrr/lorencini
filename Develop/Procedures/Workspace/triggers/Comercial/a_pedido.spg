@@ -72,6 +72,15 @@ BEGIN
    end if;
 
    if tg_op = 'UPDATE' then
+
+      if new.status <> old.status then
+         xlog.title := 'Pedido mudou de status';
+         xlog.detail := format('Status mudou de %s - %s para %s - %s', old.status, status(old.status), new.status, status(new.status));
+         perform log(xlog);
+
+         xlog.detail := null;
+      end if;
+
       if old.status = 10 and new.status = 20 then ---- Aprovação Financeira
          
          if new.analise is null then            
@@ -249,3 +258,29 @@ BEGIN
 END;
 $$
   LANGUAGE 'plpgsql' VOLATILE;
+
+
+create or replace function status(
+   in status_ integer)
+returns text as
+$$
+declare
+   result_   text;
+begin
+   case 
+      when status_ = 10 then result_ := 'Digitação';
+      when status_ = 20 then result_ := 'Aprovação de Crédito';
+      when status_ = 30 then result_ := 'Autorização';
+      when status_ = 40 then result_ := 'Coletando';
+      when status_ = 50 then result_ := 'Aguardando Fluído';
+      when status_ = 60 then result_ := 'Executando';
+      when status_ = 70 then result_ := 'Executado';
+      when status_ = 99 then result_ := 'Cancelado';
+   else
+      result_ := format('Status %s desconhecido', status_);
+   end case;
+
+   return result_;
+end;
+$$
+language 'plpgsql';

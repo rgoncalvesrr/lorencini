@@ -45,7 +45,7 @@ inherited IWizard: TIWizard
       Left = 8
       Top = 3
       Width = 48
-      Height = 64
+      Height = 48
       Margins.Left = 8
       Margins.Right = 5
       Align = alLeft
@@ -274,6 +274,7 @@ inherited IWizard: TIWizard
       Transparent = True
       ExplicitLeft = 3
       ExplicitTop = 0
+      ExplicitHeight = 64
     end
     object pnTitle: TPanel
       Left = 61
@@ -287,7 +288,7 @@ inherited IWizard: TIWizard
         AlignWithMargins = True
         Left = 3
         Top = 10
-        Width = 280
+        Width = 150
         Height = 19
         Margins.Top = 10
         Margins.Bottom = 0
@@ -297,17 +298,17 @@ inherited IWizard: TIWizard
         Font.Color = clWindowText
         Font.Height = -16
         Font.Name = 'Arial'
+        Font.Pitch = fpVariable
         Font.Style = [fsBold]
         ParentFont = False
         Transparent = True
-        ExplicitWidth = 150
       end
       object Label2: TLabel
         AlignWithMargins = True
         Left = 10
         Top = 34
-        Width = 273
-        Height = 33
+        Width = 134
+        Height = 15
         Margins.Left = 10
         Margins.Top = 5
         Align = alClient
@@ -316,17 +317,15 @@ inherited IWizard: TIWizard
         Font.Color = clGray
         Font.Height = -12
         Font.Name = 'Arial'
+        Font.Pitch = fpVariable
         Font.Style = []
         ParentFont = False
         Transparent = True
         WordWrap = True
-        ExplicitWidth = 134
-        ExplicitHeight = 15
       end
     end
   end
   inherited alDef: TActionList
-    Images = Resources.medium_n
     Left = 280
   end
 end

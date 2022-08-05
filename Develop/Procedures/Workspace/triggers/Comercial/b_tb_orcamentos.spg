@@ -9,14 +9,17 @@
 	---------------------------------------------------------------------------------------------------------------------
    Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
 
-   08/09/2011 18:33:16  v2    Ricardo Gonçalves.
-      [*] Preenche o campo new.os somente se o campo estiver nulo.
+   07/07/2022  Ricardo
+      [-] Remoção da validação financeira. Esse validação está ocorrendo na aprovação do pedido
 
-   11/10/2011 11:08:46  v3    Ricardo Gonçalves.
+   26/07/2016  Ricardo Gonçalves.
+      [+] Verificação de pendência financeira impede criação de orçamentos.
+
+   11/10/2011  Ricardo Gonçalves.
       [*] Preenche o campo new.origem somente se o campo estiver nulo.
 
-   26/07/2016 10:27:34  v4    Ricardo Gonçalves.
-      [+] Verificação de pendência financeira impede criação de orçamentos.
+   08/09/2011  Ricardo Gonçalves.
+      [*] Preenche o campo new.os somente se o campo estiver nulo.
 */
 Create or Replace Function b_tb_orcamentos()
 Returns trigger
@@ -49,13 +52,6 @@ Declare
    bFaturSrv         boolean;
 Begin
    if tg_op = 'INSERT' then
-      -- Verificação de pendência financeira
-      vmsg := fin_ckbloqueio(new.idcliente);
-
-      if vmsg <> '' then
-         raise '[[ERRO ao criar orçamento. %]]', vmsg;
-      end if;
-
       new.status := coalesce(new.status , 1);
 
       if new.os is null then

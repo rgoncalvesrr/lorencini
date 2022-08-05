@@ -39,7 +39,7 @@ begin
    delete
      from sys_sessions
     where account = account_
-      and heartbeat + interval '3 min' < clock_timestamp();
+      and heartbeat + interval '1 hour' < clock_timestamp();
       
    new_session := md5(cast(account_ as varchar));
       
