@@ -321,40 +321,22 @@ begin
   ReportMemoryLeaksOnShutdown := True;
   {$ENDIF}
 
-  //  GlobalCEFApp := TCefApplication.Create;
-//  try
-//    GlobalCEFApp.FrameworkDirPath     := TEnvironment.Lib + '\Chrome';
-//    GlobalCEFApp.ResourcesDirPath     := TEnvironment.Lib + '\Chrome';
-//    GlobalCEFApp.LocalesDirPath       := TEnvironment.Lib + '\Chrome\locales';
-//    GlobalCEFApp.cache                := TEnvironment.Data + '\Cache';
-//    GlobalCEFApp.UserDataPath         := TEnvironment.Data + '\User Data';
-//
-//    if GlobalCEFApp.StartMainProcess then
-      try
-        Application.Initialize;
+  try
+    Application.Initialize;
+    Application.Title := 'Manager';
+    Application.CreateForm(TResources, Resources);
+    Application.CreateForm(TDM, DM);
+    Application.CreateForm(TDMReport, DMReport);
+    Application.CreateForm(TMain, Main);
+    Application.CreateForm(TILogin, ILogin);
+    ILogin.ShowModal;
 
-        chave := TNFEChave.New('26210910572014000133558900008649811314604774');
-
-        if not chave.CNPJ.IsValid then
-          Exit;
-
-        Application.Title := 'Manager';
-        Application.CreateForm(TResources, Resources);
-  Application.CreateForm(TDM, DM);
-  Application.CreateForm(TDMReport, DMReport);
-  Application.CreateForm(TMain, Main);
-  Application.CreateForm(TILogin, ILogin);
-  ILogin.ShowModal;
-
-        if ILogin.Execute then
-          Application.Run;
-      finally
-        U.ExecuteSQL('select sys_session_release();');
-        FreeAndNil(DM);
-        FreeAndNil(DMReport);
-        FreeAndNil(Main);
-      end;
-//  finally
-//    FreeAndNil(GlobalCEFApp);
-//  end;
+    if ILogin.Execute then
+      Application.Run;
+  finally
+    U.ExecuteSQL('select sys_session_release();');
+    FreeAndNil(DM);
+    FreeAndNil(DMReport);
+    FreeAndNil(Main);
+  end;
 end.

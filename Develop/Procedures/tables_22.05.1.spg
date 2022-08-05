@@ -42,8 +42,7 @@ alter table public.oe owner to lorencini;
 create index idx_oe_1 on public.oe(cliente) where (status = 10);
 
 create table public.oe_serv(
-	oe integer not null,
-	pedido integer not null,
+	oe integer not null,	
 	codserv integer not null,
 	qtd integer default(1) not null,
    unitario moeda$ not null,
@@ -51,11 +50,11 @@ create table public.oe_serv(
    vtotal moeda$ not null,
 	amostras integer default(0) not null,
 	recno serial not null,
-	constraint pk_oe_serv primary key(oe, pedido, codserv),
+	constraint pk_oe_serv primary key(oe, codserv),
 	constraint fk_oe_serv_1 foreign key(oe)
 		references public.oe(oe) on update cascade on delete cascade,
-	constraint fk_oe_serv_2 foreign key(pedido, codserv)
-		references public.pedido_serv(pedido, codserv) on update cascade on delete cascade,
+	constraint fk_oe_serv_2 foreign key(codserv)
+		references public.servicos(codserv) on update cascade on delete restrict,
 	constraint uk_oe_serv_1 unique(recno),
 	constraint ck_oe_serv_1 check(qtd > 0),
    constraint ck_oe_serv_2 check(amostras between 0 and qtd),
@@ -66,15 +65,14 @@ create table public.oe_serv(
 alter table public.oe_serv owner to lorencini;
 
 create table public.oe_amostras(
-	oe integer not null,
-	pedido integer not null,
+	oe integer not null,	
 	codserv integer not null,
 	amostra integer not null,
 	consumo qtd$,
 	recno serial not null,
-	constraint pk_oe_amostras primary key(oe, pedido, codserv, amostra),
-	constraint fk_oe_amostras_1 foreign key(oe, pedido, codserv)
-		references public.oe_serv(oe, pedido, codserv) on update cascade on delete cascade,
+	constraint pk_oe_amostras primary key(oe, codserv, amostra),
+	constraint fk_oe_amostras_1 foreign key(oe, codserv)
+		references public.oe_serv(oe, codserv) on update cascade on delete cascade,
 	constraint fk_oe_amostras_2 foreign key(amostra)
 		references public.labamostras(recno) on update cascade on delete cascade,
 	constraint uk_oe_amostras_1 unique(recno),
@@ -86,18 +84,17 @@ create index idx_oe_amostras on oe_amostras(amostra);
 
 create table public.oe_mat(
 	oe integer not null,
-	pedido integer not null,
 	material integer not null,
 	qtd qtd$ default(1) not null,
    unitario moeda$ not null,
    vvenda moeda$ not null,
    vtotal moeda$ not null,
 	recno serial not null,
-	constraint pk_oe_mat primary key(oe, pedido, material),
+	constraint pk_oe_mat primary key(oe, material),
 	constraint fk_oe_mat_1 foreign key(oe)
 		references public.oe(oe) on update cascade on delete cascade,
-	constraint fk_oe_mat_2 foreign key(pedido, material)
-		references public.pedido_mat(pedido, material) on update cascade on delete cascade,
+	constraint fk_oe_mat_2 foreign key(material)
+		references public.produtos(codigo) on update cascade on delete restrict,
 	constraint uk_oe_mat_1 unique(recno),
 	constraint ck_oe_mat_1 check(qtd > 0),
    constraint ck_oe_mat_2 check(unitario >= 0),
@@ -107,19 +104,18 @@ create table public.oe_mat(
 alter table public.oe_mat owner to lorencini;
 
 create table public.oe_mo(
-	oe integer not null,
-	pedido integer not null,
+	oe integer not null,	
 	funcao integer not null,
 	qtd integer default(1) not null,
    unitario moeda$ not null,
    vvenda moeda$ not null,
    vtotal moeda$ not null,
 	recno serial not null,
-	constraint pk_oe_mo primary key(oe, pedido, funcao),
+	constraint pk_oe_mo primary key(oe, funcao),
 	constraint fk_oe_mo_1 foreign key(oe)
 		references public.oe(oe) on update cascade on delete cascade,
-	constraint fk_oe_mo_2 foreign key(pedido, funcao)
-		references public.pedido_mo(pedido, funcao) on update cascade on delete cascade,
+	constraint fk_oe_mo_2 foreign key(funcao)
+		references public.tb_funcoes(id) on update cascade on delete restrict,
 	constraint uk_oe_mo_1 unique(recno),
 	constraint ck_oe_mo_1 check(qtd > 0),
    constraint ck_oe_mo_2 check(unitario >= 0),
@@ -128,13 +124,12 @@ create table public.oe_mo(
 
 alter table public.oe_mo owner to lorencini;
 
-
 alter table labamostras_rel
 	add oe integer;
 
 alter table labamostras_rel   
-	add constraint fk_labamostras_rel_9 foreign key(oe, pedido, codserv, amostra)
-		references public.oe_amostras(oe, pedido, codserv, amostra)
+	add constraint fk_labamostras_rel_9 foreign key(oe, codserv, amostra)
+		references public.oe_amostras(oe, codserv, amostra)
 		on update cascade on delete restrict;
 
 ALTER TABLE public.pedido_serv 
@@ -242,3 +237,12 @@ select sys_login('suporte@lorencini.com.br', 'a4406a88a03a0eae5a7b10000beab648')
 -- alter table labamostras enable trigger all;
 
 -- alter table labproc drop os cascade;
+
+
+alter table servicos
+   add status smallint default 0 not null,
+   add constraint ck_servicos_1 check(status between 0 and 1);
+
+alter table servicos disable trigger all;
+update servicos set status = 1;
+alter table servicos enable trigger all;
