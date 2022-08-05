@@ -8,6 +8,7 @@ inherited SysVersions: TSysVersions
   TextHeight = 15
   inherited bvDiv: TBevel
     Width = 744
+    ExplicitWidth = 744
   end
   object HTMLViewer1: THTMLViewer [1]
     Left = 0
@@ -28,13 +29,14 @@ inherited SysVersions: TSysVersions
     PrintMarginTop = 2.000000000000000000
     PrintMarginBottom = 2.000000000000000000
     PrintScale = 1.000000000000000000
+    ExplicitTop = 76
   end
   inherited Panel1: TPanel
     Width = 744
     ExplicitWidth = 744
     inherited Shape1: TShape
-      Left = 38
-      Width = 706
+      Left = 45
+      Width = 699
       ExplicitLeft = 54
       ExplicitTop = 0
       ExplicitWidth = 739
@@ -42,6 +44,7 @@ inherited SysVersions: TSysVersions
     end
     inherited Image1: TImage
       Width = 32
+      Height = 64
       Picture.Data = {
         055449636F6E0000010001002020000001000800A80800001600000028000000
         2000000040000000010008000000000000000000000000000000000000000000
@@ -116,20 +119,20 @@ inherited SysVersions: TSysVersions
         FFFFFFFF}
     end
     inherited pnTitle: TPanel
-      Left = 38
-      Width = 706
-      ExplicitLeft = 38
-      ExplicitWidth = 706
+      Left = 45
+      Width = 699
+      ExplicitLeft = 45
+      ExplicitWidth = 699
       inherited Label1: TLabel
-        Width = 700
+        Width = 693
         Caption = 'Hist'#243'rico de Vers'#245'es'
         ExplicitWidth = 158
       end
       inherited Label2: TLabel
-        Width = 693
+        Width = 686
+        Height = 33
         Caption = 'Hist'#243'rico de vers'#245'es do Manager'
-        ExplicitWidth = 133
-        ExplicitHeight = 30
+        ExplicitWidth = 181
       end
     end
   end

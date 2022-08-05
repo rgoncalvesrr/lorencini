@@ -93,6 +93,9 @@ type
     procedure IBrwSrcBeforeOpen(DataSet: TDataSet);
     procedure IBrwSrcAfterScroll(DataSet: TDataSet);
     procedure actRefreshContatosExecute(Sender: TObject);
+    procedure edLaudoChange(Sender: TObject);
+    procedure FrameData2CCalendarDiff1Change(Sender: TObject);
+    procedure FrameData1CCalendarDiff1Change(Sender: TObject);
   private
     FRefresh: Boolean;
   public
@@ -223,6 +226,24 @@ procedure TLabLaudoBloq.actRefreshContatosExecute(Sender: TObject);
 begin
   inherited;
   G.RefreshDataSet(qContatos);
+end;
+
+procedure TLabLaudoBloq.edLaudoChange(Sender: TObject);
+begin
+  inherited;
+  actQueryProcess.Enabled := True;
+end;
+
+procedure TLabLaudoBloq.FrameData1CCalendarDiff1Change(Sender: TObject);
+begin
+  inherited;
+  actQueryProcessExecute(actQueryProcess);
+end;
+
+procedure TLabLaudoBloq.FrameData2CCalendarDiff1Change(Sender: TObject);
+begin
+  inherited;
+  actQueryProcessExecute(actQueryProcess);
 end;
 
 procedure TLabLaudoBloq.IBrwSrcAfterScroll(DataSet: TDataSet);

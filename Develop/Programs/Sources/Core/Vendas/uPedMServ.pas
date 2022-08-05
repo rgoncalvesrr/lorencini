@@ -83,6 +83,7 @@ begin
   Servicos := TServicos.Create(nil);
   try
     Servicos.DisplayMode := dmQuery;
+    Servicos.IBrwSrc.Filtered := (DataSet.State = dsInsert);
     Servicos.ShowModal;
     if (Servicos.Execute) then
     begin
@@ -97,20 +98,25 @@ end;
 procedure TPedMServ.DBEdit5Exit(Sender: TObject);
 var
   fLkp: TStringList;
+  where: string;
 begin
   inherited;
   if mcEmpty(TDBEdit(Sender).Text) or not (DataSet.State in [dsEdit, dsInsert])  then
     Exit;
 
+  fLkp:= TStringList.Create;
   try
-    fLkp:= TStringList.Create;
     fLkp.Add('descri');
     fLkp.Add('valor');
     fLkp.Add('un');
     fLkp.Add('consumo');
     fLkp.Add('tipo');
 
-    if U.Data.CheckFK('servicos', 'codserv', TDBEdit(Sender).Text, fLkp) then
+    where := EmptyStr;    
+    if (DataSet.State = dsInsert) then
+      where := 'status = 1';
+
+    if U.Data.CheckFK('servicos', 'codserv', TDBEdit(Sender).Text, fLkp, where) then
     begin
       DataSet.FieldByName('descri').AsString := fLkp[0];
       if DataSet.FieldByName('unitario').AsFloat = 0 then

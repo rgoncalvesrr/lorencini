@@ -26,7 +26,6 @@ object IForm: TIForm
   PixelsPerInch = 96
   TextHeight = 15
   object alDef: TActionList
-    Images = Resources.small_n
     Left = 16
     Top = 8
     object actOk: TAction

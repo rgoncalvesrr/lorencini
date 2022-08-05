@@ -9,7 +9,7 @@ inherited LabLaudoBloq: TLabLaudoBloq
   inherited StatusBar1: TStatusBar
     Top = 682
     Width = 1282
-    ExplicitTop = 473
+    ExplicitTop = 682
     ExplicitWidth = 1282
   end
   inherited Panel1: TPanel
@@ -26,6 +26,7 @@ inherited LabLaudoBloq: TLabLaudoBloq
         inherited BitBtn2: TBitBtn
           Left = 1169
           ExplicitLeft = 1169
+          ExplicitTop = 11
         end
         object Panel3: TPanel
           Left = 0
@@ -58,6 +59,7 @@ inherited LabLaudoBloq: TLabLaudoBloq
             ShowButton = False
             TabOrder = 0
             DecimalPlacesAlwaysShown = False
+            OnChange = edLaudoChange
           end
         end
         object Panel4: TPanel
@@ -91,6 +93,7 @@ inherited LabLaudoBloq: TLabLaudoBloq
             ShowButton = False
             TabOrder = 0
             DecimalPlacesAlwaysShown = False
+            OnChange = edLaudoChange
           end
         end
         object Panel5: TPanel
@@ -124,6 +127,7 @@ inherited LabLaudoBloq: TLabLaudoBloq
             ShowButton = False
             TabOrder = 0
             DecimalPlacesAlwaysShown = False
+            OnChange = edLaudoChange
           end
         end
         object Panel6: TPanel
@@ -157,6 +161,7 @@ inherited LabLaudoBloq: TLabLaudoBloq
             ShowButton = False
             TabOrder = 0
             DecimalPlacesAlwaysShown = False
+            OnChange = edLaudoChange
           end
         end
         object Panel7: TPanel
@@ -190,6 +195,7 @@ inherited LabLaudoBloq: TLabLaudoBloq
             ShowButton = False
             TabOrder = 0
             DecimalPlacesAlwaysShown = False
+            OnChange = edLaudoChange
           end
         end
         object Panel8: TPanel
@@ -245,8 +251,9 @@ inherited LabLaudoBloq: TLabLaudoBloq
               ExplicitWidth = 134
             end
             inherited CCalendarDiff1: TCCalendarDiff
-              Date = 44544.841278425930000000
+              Date = 44746.964209074070000000
               DisplayInterval = Label11
+              OnChange = FrameData2CCalendarDiff1Change
             end
           end
         end
@@ -265,7 +272,7 @@ inherited LabLaudoBloq: TLabLaudoBloq
             Width = 134
             Height = 15
             Align = alTop
-            Caption = '01/12/2021 a 31/12/2021'
+            Caption = '01/07/2022 a 31/07/2022'
             ExplicitWidth = 128
           end
           object Label3: TLabel
@@ -306,8 +313,9 @@ inherited LabLaudoBloq: TLabLaudoBloq
             end
             inherited CCalendarDiff1: TCCalendarDiff
               Interval = diMonthly
-              Date = 44544.841278425930000000
+              Date = 44746.964209074070000000
               DisplayInterval = Label1
+              OnChange = FrameData1CCalendarDiff1Change
               Left = 96
             end
           end
@@ -338,6 +346,7 @@ inherited LabLaudoBloq: TLabLaudoBloq
             Height = 23
             Align = alTop
             TabOrder = 0
+            OnChange = edLaudoChange
           end
         end
         object Panel13: TPanel
@@ -366,6 +375,7 @@ inherited LabLaudoBloq: TLabLaudoBloq
             Height = 23
             Align = alTop
             TabOrder = 0
+            OnChange = edLaudoChange
           end
         end
         object Panel11: TPanel
@@ -394,6 +404,7 @@ inherited LabLaudoBloq: TLabLaudoBloq
             Height = 23
             Align = alTop
             TabOrder = 0
+            OnChange = edLaudoChange
           end
         end
         object Panel10: TPanel
@@ -422,6 +433,7 @@ inherited LabLaudoBloq: TLabLaudoBloq
             Height = 23
             Align = alTop
             TabOrder = 0
+            OnChange = edLaudoChange
           end
         end
       end
@@ -437,16 +449,16 @@ inherited LabLaudoBloq: TLabLaudoBloq
     Width = 1288
     Height = 550
     ExplicitWidth = 1288
-    ExplicitHeight = 341
+    ExplicitHeight = 550
     inherited PageControl1: TPageControl
       Width = 1282
       Height = 250
       ExplicitWidth = 1282
-      ExplicitHeight = 335
+      ExplicitHeight = 250
       inherited TabSheet1: TTabSheet
         Caption = 'Laudos'
-        ExplicitLeft = 6
-        ExplicitTop = 27
+        ExplicitLeft = 4
+        ExplicitTop = 26
         ExplicitWidth = 1274
         ExplicitHeight = 220
         inherited DBGrid1: TDBGrid
@@ -463,8 +475,6 @@ inherited LabLaudoBloq: TLabLaudoBloq
       Align = alBottom
       BevelOuter = bvNone
       TabOrder = 1
-      ExplicitTop = 320
-      ExplicitWidth = 1161
       object PageControl2: TPageControl
         AlignWithMargins = True
         Left = 3
@@ -476,8 +486,6 @@ inherited LabLaudoBloq: TLabLaudoBloq
         TabOrder = 0
         object TabSheet3: TTabSheet
           Caption = 'Pend'#234'ncias'
-          ExplicitLeft = 6
-          ExplicitTop = 30
           object DBMemo1: TDBMemo
             AlignWithMargins = True
             Left = 3
@@ -490,15 +498,10 @@ inherited LabLaudoBloq: TLabLaudoBloq
             ReadOnly = True
             ScrollBars = ssBoth
             TabOrder = 0
-            ExplicitLeft = 5
-            ExplicitTop = 20
-            ExplicitWidth = 1258
-            ExplicitHeight = 141
           end
         end
         object TabSheet2: TTabSheet
           Caption = 'Contatos'
-          ExplicitHeight = 214
           object DBGrid2: TDBGrid
             Tag = 1
             AlignWithMargins = True
