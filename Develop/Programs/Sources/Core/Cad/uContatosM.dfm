@@ -7,10 +7,8 @@ inherited ContatosM: TContatosM
   PixelsPerInch = 96
   TextHeight = 15
   inherited Panel1: TPanel
-    Top = 44
     Width = 1029
     Height = 558
-    ExplicitTop = 44
     ExplicitWidth = 1029
     ExplicitHeight = 558
     inherited Panel3: TPanel
@@ -21,19 +19,16 @@ inherited ContatosM: TContatosM
       ExplicitWidth = 1029
       ExplicitHeight = 318
       inherited PageControl3: TPageControl
-        Top = 47
         Width = 1023
         Height = 268
-        ExplicitLeft = 3
-        ExplicitTop = 47
         ExplicitWidth = 1023
-        ExplicitHeight = 356
+        ExplicitHeight = 268
         inherited tsDet: TTabSheet
           Caption = 'Clientes'
           ExplicitLeft = 4
           ExplicitTop = 26
           ExplicitWidth = 1015
-          ExplicitHeight = 326
+          ExplicitHeight = 238
           inherited DBGrid1: TDBGrid
             Width = 1015
             Height = 238
@@ -43,14 +38,9 @@ inherited ContatosM: TContatosM
       end
       inherited ControlBar2: TControlBar
         Width = 1023
-        Height = 38
-        ExplicitLeft = 3
-        ExplicitTop = 3
         ExplicitWidth = 1023
-        ExplicitHeight = 38
         inherited ToolBar3: TToolBar
           Width = 1008
-          ButtonWidth = 129
           ExplicitWidth = 1008
           inherited ToolButton10: TToolButton
             ExplicitWidth = 32
@@ -79,16 +69,14 @@ inherited ContatosM: TContatosM
     inherited PageControl1: TPageControl
       Width = 1023
       Height = 234
-      ExplicitLeft = 3
-      ExplicitTop = 3
       ExplicitWidth = 1023
-      ExplicitHeight = 146
+      ExplicitHeight = 234
       inherited TabSheet1: TTabSheet
         Caption = 'Dados do Contato'
         ExplicitLeft = 4
         ExplicitTop = 26
         ExplicitWidth = 1015
-        ExplicitHeight = 116
+        ExplicitHeight = 204
         object Label8: TLabel
           AlignWithMargins = True
           Left = 3
@@ -325,8 +313,6 @@ inherited ContatosM: TContatosM
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 3
-            ExplicitLeft = 280
-            ExplicitWidth = 735
             object Label7: TLabel
               AlignWithMargins = True
               Left = 3
@@ -349,7 +335,6 @@ inherited ContatosM: TContatosM
               DataField = 'email'
               DataSource = Contatos.DataSource1
               TabOrder = 0
-              ExplicitWidth = 729
             end
           end
           object Panel12: TPanel
@@ -381,7 +366,6 @@ inherited ContatosM: TContatosM
               DataField = 'ramal'
               DataSource = Contatos.DataSource1
               TabOrder = 0
-              ExplicitWidth = 134
             end
           end
         end
@@ -395,24 +379,15 @@ inherited ContatosM: TContatosM
           DataField = 'obs'
           DataSource = Contatos.DataSource1
           TabOrder = 2
-          ExplicitLeft = 80
-          ExplicitTop = 144
-          ExplicitWidth = 185
-          ExplicitHeight = 89
         end
       end
     end
   end
   inherited ControlBar1: TControlBar
     Width = 1023
-    Height = 38
-    ExplicitLeft = 3
-    ExplicitTop = 3
     ExplicitWidth = 1023
-    ExplicitHeight = 38
     inherited ToolBar1: TToolBar
       Width = 715
-      ButtonWidth = 115
       ExplicitWidth = 715
       inherited ToolButton6: TToolButton
         ExplicitWidth = 32

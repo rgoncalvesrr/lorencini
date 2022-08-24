@@ -15,6 +15,7 @@ object Main: TMain
   Position = poScreenCenter
   WindowState = wsMaximized
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   OnKeyDown = FormKeyDown
   PixelsPerInch = 96
   TextHeight = 13
@@ -23,76 +24,95 @@ object Main: TMain
     Left = 3
     Top = 3
     Width = 874
-    Height = 646
-    ActivePage = TabSheet1
+    Height = 431
+    ActivePage = TabSheet5
     Align = alClient
     TabOrder = 0
     TabStop = False
+    OnChange = PageControl1Change
+    ExplicitLeft = -2
+    ExplicitHeight = 391
     object TabSheet1: TTabSheet
-      Caption = 'Aplica'#231#227'o'
-      object GroupBox2: TGroupBox
+      Caption = 'Rotina Original'
+      ExplicitTop = 28
+      ExplicitHeight = 363
+    end
+    object TabSheet5: TTabSheet
+      Caption = 'Rotina Saneada'
+      ImageIndex = 1
+      ExplicitHeight = 363
+      object SynEdit1: TSynEdit
+        Left = 0
+        Top = 0
+        Width = 866
+        Height = 403
+        Align = alClient
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -12
+        Font.Name = 'Consolas'
+        Font.Pitch = fpFixed
+        Font.Style = []
+        TabOrder = 0
+        BookMarkOptions.LeftMargin = 0
+        BookMarkOptions.XOffset = 0
+        BorderStyle = bsNone
+        ExtraLineSpacing = 2
+        Gutter.AutoSize = True
+        Gutter.Font.Charset = DEFAULT_CHARSET
+        Gutter.Font.Color = clWindowText
+        Gutter.Font.Height = -11
+        Gutter.Font.Name = 'Courier New'
+        Gutter.Font.Style = []
+        Gutter.LeftOffset = 12
+        Gutter.ShowLineNumbers = True
+        Gutter.Width = 23
+        Gutter.Gradient = True
+        Highlighter = SynSQLSyn1
+        RightEdge = 120
+        FontSmoothing = fsmClearType
+        ExplicitHeight = 202
+      end
+    end
+    object TabSheet6: TTabSheet
+      Caption = 'Rotina Aplicada'
+      ImageIndex = 2
+      ExplicitHeight = 363
+    end
+  end
+  object PageControl2: TPageControl
+    AlignWithMargins = True
+    Left = 3
+    Top = 440
+    Width = 874
+    Height = 177
+    ActivePage = TabSheet2
+    Align = alBottom
+    TabOrder = 1
+    ExplicitLeft = -2
+    object TabSheet2: TTabSheet
+      Caption = 'Resultados'
+      ExplicitHeight = 221
+      object GroupBox3: TGroupBox
         AlignWithMargins = True
         Left = 3
         Top = 3
         Width = 860
-        Height = 481
+        Height = 143
         Align = alClient
-        Caption = ' C'#243'digo Aplicado '
-        Padding.Left = 5
-        Padding.Right = 5
-        Padding.Bottom = 5
-        TabOrder = 0
-        object SynEdit1: TSynEdit
-          Left = 7
-          Top = 15
-          Width = 846
-          Height = 459
-          Align = alClient
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -13
-          Font.Name = 'Fira Code'
-          Font.Pitch = fpFixed
-          Font.Style = []
-          TabOrder = 0
-          BookMarkOptions.LeftMargin = 0
-          BookMarkOptions.XOffset = 0
-          BorderStyle = bsNone
-          Gutter.AutoSize = True
-          Gutter.Font.Charset = DEFAULT_CHARSET
-          Gutter.Font.Color = clWindowText
-          Gutter.Font.Height = -8
-          Gutter.Font.Name = 'Courier New'
-          Gutter.Font.Style = []
-          Gutter.LeftOffset = 12
-          Gutter.ShowLineNumbers = True
-          Gutter.Width = 23
-          Gutter.Gradient = True
-          Highlighter = SynSQLSyn1
-          RightEdge = 120
-          FontSmoothing = fsmClearType
-          ExplicitLeft = 6
-          ExplicitTop = 14
-        end
-      end
-      object GroupBox3: TGroupBox
-        AlignWithMargins = True
-        Left = 3
-        Top = 490
-        Width = 860
-        Height = 125
-        Align = alBottom
         Caption = ' Resultados '
         Padding.Left = 5
         Padding.Right = 5
         Padding.Bottom = 5
-        TabOrder = 1
+        TabOrder = 0
+        ExplicitTop = 235
+        ExplicitHeight = 125
         object Memo2: TMemo
           AlignWithMargins = True
           Left = 10
           Top = 18
           Width = 840
-          Height = 97
+          Height = 115
           Align = alClient
           BorderStyle = bsNone
           Font.Charset = ANSI_CHARSET
@@ -104,29 +124,33 @@ object Main: TMain
           ReadOnly = True
           ScrollBars = ssBoth
           TabOrder = 0
+          ExplicitHeight = 97
         end
       end
     end
-    object TabSheet2: TTabSheet
-      Caption = 'Op'#231#245'es'
+    object TabSheet3: TTabSheet
+      Caption = 'Par'#226'metros'
       ImageIndex = 1
+      ExplicitWidth = 852
+      ExplicitHeight = 301
       object GroupBox1: TGroupBox
         AlignWithMargins = True
         Left = 3
         Top = 3
         Width = 860
-        Height = 146
-        Align = alTop
-        Caption = ' Lista de Par'#226'metros '
+        Height = 143
+        Align = alClient
+        Caption = ' Par'#226'metros '
         Padding.Left = 5
         Padding.Right = 5
         Padding.Bottom = 5
         TabOrder = 0
+        ExplicitHeight = 146
         object ListView1: TListView
           Left = 7
           Top = 15
           Width = 846
-          Height = 124
+          Height = 121
           Align = alClient
           BorderStyle = bsNone
           Columns = <
@@ -140,13 +164,63 @@ object Main: TMain
             end>
           TabOrder = 0
           ViewStyle = vsReport
+          ExplicitHeight = 124
         end
       end
     end
   end
+  object StatusBar1: TStatusBar
+    AlignWithMargins = True
+    Left = 3
+    Top = 623
+    Width = 874
+    Height = 26
+    Panels = <
+      item
+        Alignment = taCenter
+        Text = 'Tamanho Original'
+        Width = 105
+      end
+      item
+        Width = 70
+      end
+      item
+        Alignment = taCenter
+        Text = 'Tamanho Sanitizado'
+        Width = 115
+      end
+      item
+        Width = 70
+      end
+      item
+        Alignment = taCenter
+        Text = 'Tamanho Consumido'
+        Width = 125
+      end
+      item
+        Width = 70
+      end
+      item
+        Alignment = taCenter
+        Text = 'Compress'#227'o'
+        Width = 90
+      end
+      item
+        Width = 70
+      end
+      item
+        Alignment = taCenter
+        Text = 'Tempo Banco de Dados'
+        Width = 140
+      end
+      item
+        Width = 50
+      end>
+    ExplicitLeft = -2
+  end
   object ZConnection1: TZConnection
     ControlsCodePage = cGET_ACP
-    AutoEncodeStrings = False
+    AutoEncodeStrings = True
     Properties.Strings = (
       'codepage=latin1')
     SQLHourGlass = True

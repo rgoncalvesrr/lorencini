@@ -5,8 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, Dialogs, StdCtrls, ExtCtrls, Buttons,
   ActnList, Menus, ComCtrls, ToolWin, db, uFrameData, JvExStdCtrls, JvCombobox, JvColorCombo, JvExControls, 
-  zdataset, uCEFWinControl, uCEFLinkedWinControlBase, uCEFChromiumWindow, 
-  uCEFApplication;
+  zdataset;
 
 type
   TMain = class(TForm)
