@@ -1,19 +1,16 @@
 inherited SysSchedulerM: TSysSchedulerM
   Caption = 'Edi'#231#227'o de Agendamento'
-  ClientHeight = 298
+  ClientHeight = 291
   ClientWidth = 673
   ExplicitWidth = 679
-  ExplicitHeight = 327
+  ExplicitHeight = 320
   PixelsPerInch = 96
   TextHeight = 15
   inherited Panel1: TPanel
-    Top = 44
     Width = 673
-    Height = 254
-    ExplicitLeft = -3
-    ExplicitTop = 45
+    Height = 247
     ExplicitWidth = 673
-    ExplicitHeight = 521
+    ExplicitHeight = 254
     inherited Panel3: TPanel
       Top = 286
       Width = 673
@@ -21,13 +18,8 @@ inherited SysSchedulerM: TSysSchedulerM
       ExplicitTop = 286
       ExplicitWidth = 673
       inherited PageControl3: TPageControl
-        Top = 47
         Width = 667
-        Height = 185
-        ExplicitLeft = 3
-        ExplicitTop = 47
         ExplicitWidth = 667
-        ExplicitHeight = 185
         inherited tsDet: TTabSheet
           ExplicitLeft = 4
           ExplicitTop = 26
@@ -35,20 +27,14 @@ inherited SysSchedulerM: TSysSchedulerM
           ExplicitHeight = 155
           inherited DBGrid1: TDBGrid
             Width = 659
-            Height = 155
           end
         end
       end
       inherited ControlBar2: TControlBar
         Width = 667
-        Height = 38
-        ExplicitLeft = 3
-        ExplicitTop = 3
         ExplicitWidth = 667
-        ExplicitHeight = 38
         inherited ToolBar3: TToolBar
           Width = 652
-          ButtonWidth = 129
           ExplicitWidth = 652
           inherited ToolButton10: TToolButton
             ExplicitWidth = 32
@@ -76,17 +62,15 @@ inherited SysSchedulerM: TSysSchedulerM
     end
     inherited PageControl1: TPageControl
       Width = 667
-      Height = 248
-      ExplicitLeft = 3
-      ExplicitTop = 3
+      Height = 241
       ExplicitWidth = 667
-      ExplicitHeight = 280
+      ExplicitHeight = 248
       inherited TabSheet1: TTabSheet
         Caption = 'Agendamento'
         ExplicitLeft = 4
         ExplicitTop = 26
         ExplicitWidth = 659
-        ExplicitHeight = 250
+        ExplicitHeight = 218
         object Panel2: TPanel
           Left = 0
           Top = 0
@@ -228,6 +212,7 @@ inherited SysSchedulerM: TSysSchedulerM
               Font.Style = []
               ParentFont = False
               TabOrder = 0
+              ExplicitHeight = 22
             end
           end
         end
@@ -247,8 +232,6 @@ inherited SysSchedulerM: TSysSchedulerM
             Align = alLeft
             BevelOuter = bvNone
             TabOrder = 0
-            ExplicitLeft = -3
-            ExplicitTop = 3
             object Label6: TLabel
               AlignWithMargins = True
               Left = 3
@@ -270,7 +253,6 @@ inherited SysSchedulerM: TSysSchedulerM
               DataSource = SysScheduler.DataSource1
               ShowNullDate = False
               TabOrder = 0
-              ExplicitLeft = 0
             end
           end
           object Panel15: TPanel
@@ -303,7 +285,6 @@ inherited SysSchedulerM: TSysSchedulerM
               DataSource = SysScheduler.DataSource1
               ShowNullDate = False
               TabOrder = 0
-              ExplicitLeft = 6
             end
           end
         end
@@ -318,7 +299,7 @@ inherited SysSchedulerM: TSysSchedulerM
           object Panel10: TPanel
             Left = 0
             Top = 0
-            Width = 113
+            Width = 209
             Height = 50
             Align = alLeft
             BevelOuter = bvNone
@@ -327,7 +308,7 @@ inherited SysSchedulerM: TSysSchedulerM
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 107
+              Width = 203
               Height = 15
               Align = alTop
               Caption = 'Rotina'
@@ -337,7 +318,7 @@ inherited SysSchedulerM: TSysSchedulerM
               AlignWithMargins = True
               Left = 3
               Top = 24
-              Width = 110
+              Width = 206
               Height = 23
               Margins.Right = 0
               Align = alClient
@@ -346,10 +327,11 @@ inherited SysSchedulerM: TSysSchedulerM
               DataSource = SysScheduler.DataSource1
               TabOrder = 0
               OnExit = DBEdit8Exit
+              ExplicitWidth = 110
             end
           end
           object Panel11: TPanel
-            Left = 113
+            Left = 209
             Top = 0
             Width = 29
             Height = 50
@@ -357,6 +339,7 @@ inherited SysSchedulerM: TSysSchedulerM
             Align = alLeft
             BevelOuter = bvNone
             TabOrder = 1
+            ExplicitLeft = 113
             object SpeedButton1: TSpeedButton
               AlignWithMargins = True
               Left = 0
@@ -365,6 +348,7 @@ inherited SysSchedulerM: TSysSchedulerM
               Height = 23
               Margins.Left = 0
               Margins.Top = 24
+              Action = actFindFn
               Align = alClient
               Glyph.Data = {
                 36040000424D3604000000000000360000002800000010000000100000000100
@@ -408,18 +392,20 @@ inherited SysSchedulerM: TSysSchedulerM
             end
           end
           object Panel12: TPanel
-            Left = 142
+            Left = 238
             Top = 0
-            Width = 517
+            Width = 421
             Height = 50
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 2
+            ExplicitLeft = 142
+            ExplicitWidth = 517
             object Label4: TLabel
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 511
+              Width = 415
               Height = 15
               Align = alTop
               Caption = 'Descri'#231#227'o'
@@ -429,7 +415,7 @@ inherited SysSchedulerM: TSysSchedulerM
               AlignWithMargins = True
               Left = 3
               Top = 24
-              Width = 511
+              Width = 415
               Height = 23
               TabStop = False
               Align = alClient
@@ -437,6 +423,7 @@ inherited SysSchedulerM: TSysSchedulerM
               DataSource = SysScheduler.DataSource1
               ReadOnly = True
               TabOrder = 0
+              ExplicitWidth = 511
             end
           end
         end
@@ -445,13 +432,8 @@ inherited SysSchedulerM: TSysSchedulerM
   end
   inherited ControlBar1: TControlBar
     Width = 667
-    Height = 38
-    ExplicitLeft = 3
-    ExplicitTop = 3
     ExplicitWidth = 667
-    ExplicitHeight = 38
     inherited ToolBar1: TToolBar
-      ButtonWidth = 115
       inherited ToolButton6: TToolButton
         ExplicitWidth = 32
       end
@@ -485,6 +467,13 @@ inherited SysSchedulerM: TSysSchedulerM
       inherited tbClose: TToolButton
         ExplicitWidth = 32
       end
+    end
+  end
+  inherited alDef: TActionList
+    Images = Resources.small_n
+    object actFindFn: TAction
+      ImageIndex = 332
+      OnExecute = actFindFnExecute
     end
   end
 end

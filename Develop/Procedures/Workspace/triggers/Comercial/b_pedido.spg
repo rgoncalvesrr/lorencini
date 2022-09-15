@@ -145,10 +145,14 @@ BEGIN
             -- Gera análise de crédito para o pedido
             if new.analise is not null then                           
                -- consultando situação da análise
-               select status
-               into status_analise_
-               from public.cred_analise
-               where recno = new.analise;
+               select 
+                  status
+               into 
+                  status_analise_
+               from 
+                  public.cred_analise
+               where 
+                  recno = new.analise;
 
                -- Deixa o pedido em análise de crédito
                if status_analise_ < _STAPROVSIS then

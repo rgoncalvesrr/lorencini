@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ZSqlProcessor, ZConnection, StdCtrls, ComCtrls, DB,
   ZAbstractRODataset, ZDataset, SynEdit, SynEditHighlighter, SynHighlighterSQL,
-  SynHighlighterGeneral, ZAbstractConnection;
+  SynHighlighterGeneral, ZAbstractConnection, ExtCtrls;
 
 type
   TMain = class(TForm)
@@ -14,19 +14,28 @@ type
     ExecProc: TZReadOnlyQuery;
     PageControl1: TPageControl;
     TabSheet1: TTabSheet;
-    GroupBox2: TGroupBox;
     GroupBox3: TGroupBox;
     Memo2: TMemo;
-    TabSheet2: TTabSheet;
-    GroupBox1: TGroupBox;
-    ListView1: TListView;
     SynEdit1: TSynEdit;
     SynSQLSyn1: TSynSQLSyn;
+    GroupBox1: TGroupBox;
+    ListView1: TListView;
+    PageControl2: TPageControl;
+    TabSheet2: TTabSheet;
+    TabSheet3: TTabSheet;
+    StatusBar1: TStatusBar;
+    TabSheet5: TTabSheet;
+    TabSheet6: TTabSheet;
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure FormDestroy(Sender: TObject);
+    procedure PageControl1Change(Sender: TObject);
   private
     { Private declarations }
     FTimeApp: TDateTime;
+    FStmt: TStrings;
+    FStmtSanitized: TStrings;
+    FStmtApplied: TStrings;
   public
     { Public declarations }
   end;
@@ -49,6 +58,10 @@ var
   tApp: TDateTime;
   stmt: string;
 begin
+  FStmt := TStringList.Create;
+  FStmtSanitized := TStringList.Create;
+  FStmtApplied := TStringList.Create;
+
   shift := False;
   ZConnection1.LibraryLocation := TEnvironment.Lib + 'libpq.dll';
 
@@ -122,34 +135,35 @@ begin
 
   ZConnection1.Connect;
 
+  FStmt.Text := SynEdit1.Text;
+  
   Memo2.Clear;
   Memo2.ParentFont := True;
   ExecProc.ParamCheck := True;
   ExecProc.SQL.Clear;
   ExecProc.SQL.Add('select sys_parse(:stmt, false);');
-  ExecProc.ParamByName('stmt').AsString := SynEdit1.Text;
+  ExecProc.ParamByName('stmt').AsString := FStmt.Text;
   tApp := Now;
   try
     ExecProc.Open;
-    stmt := ExecProc.Fields[0].AsString;
-    SynEdit1.Text := stmt;
+    FStmtSanitized.Text := ExecProc.Fields[0].AsString;
 
     ExecProc.SQL.Clear;
     ExecProc.SQL.Add('select sys_parse(:stmt);');
-    ExecProc.ParamByName('stmt').AsString := SynEdit1.Text;
+    ExecProc.ParamByName('stmt').AsString := FStmtSanitized.Text;
     ExecProc.Open;
-    stmt := ExecProc.Fields[0].AsString;
+    FStmtApplied.Text := ExecProc.Fields[0].AsString;
 
     ExecProc.ParamCheck := False;
     ExecProc.SQL.Clear;
-    ExecProc.SQL.Add(stmt);
+    ExecProc.SQL.Add(FStmtApplied.Text);
     ExecProc.ExecSQL;
+
     tApp := Now - tApp;
     Memo2.Font.Color := clNavy;
     Memo2.Lines.Add('Rotina aplicada com sucesso.');
-    Memo2.Lines.Add(EmptyStr);
-    Memo2.Lines.Add('Tempo de conexão com o banco: ' +
-    FormatDateTime('nn:zzz', tApp) + ' ms');
+
+    StatusBar1.Panels[9].Text := FormatDateTime('nn:zzz', tApp) + ' ms';
   except
     on E:Exception do
     begin
@@ -167,6 +181,14 @@ begin
 //  oParse.Resume;
 
   Application.ProcessMessages;
+  PageControl1Change(PageControl2);
+end;
+
+procedure TMain.FormDestroy(Sender: TObject);
+begin
+  FreeAndNil(FStmt);
+  FreeAndNil(FStmtSanitized);
+  FreeAndNil(FStmtApplied);
 end;
 
 procedure TMain.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -175,6 +197,39 @@ begin
   begin
     Key := 0;
     Close;
+  end;
+end;
+
+procedure TMain.PageControl1Change(Sender: TObject);
+var
+  CompressRate: Double;
+  Stmt: TStrings;
+begin
+  case PageControl1.ActivePageIndex of
+    0: Stmt := FStmt;
+    1: Stmt := FStmtSanitized;
+    2: Stmt := FStmtApplied;
+  end;
+
+  SynEdit1.Lines.EndUpdate;
+  try
+    SynEdit1.WordWrap := PageControl1.ActivePageIndex = 3;
+    SynEdit1.WantReturns := PageControl1.ActivePageIndex = 3;
+
+    SynEdit1.Text := Stmt.Text;
+    SynEdit1.Parent := PageControl1.ActivePage;
+  finally
+    SynEdit1.Lines.EndUpdate;
+  end;
+
+  if (StatusBar1.Panels[1].Text = EmptyStr) then
+  begin
+    CompressRate := 100 * (1 - Length(FStmtApplied.Text) / Length(FStmt.Text));
+
+    StatusBar1.Panels[1].Text := Format('%d Bytes', [Length(FStmt.Text)]);
+    StatusBar1.Panels[3].Text := Format('%d Bytes', [Length(FStmtSanitized.Text)]);
+    StatusBar1.Panels[5].Text := Format('%d Bytes', [Length(FStmtApplied.Text)]);
+    StatusBar1.Panels[7].Text := Format('%f%%', [CompressRate]);
   end;
 end;
 

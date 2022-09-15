@@ -76,6 +76,7 @@ type
     procedure OnChangeMark(Sender: TObject);
   public
     { Public declarations }
+    procedure SetDataSet(const Value: TZQuery); override;
   end;
 
 var
@@ -427,6 +428,14 @@ begin
   inherited;
   actFilesLoad.Enabled := (IBrwSrc.State = dsBrowse);
   actReady.Enabled := (IBrwSrc.State = dsBrowse) and (FrameCheckBar1.CheckedCount > 0);
+end;
+
+procedure TSysFn.SetDataSet(const Value: TZQuery);
+begin
+  inherited;
+
+  if DisplayMode = dmQuery then
+    actQueryProcessExecute(actQueryProcess);
 end;
 
 initialization

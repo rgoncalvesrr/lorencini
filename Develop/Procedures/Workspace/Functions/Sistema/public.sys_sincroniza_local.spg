@@ -1,0 +1,131 @@
+create or replace function public.sys_sincroniza_local()
+returns text as
+$$
+declare
+   xcur        refcursor;
+   r           record;
+   stmt        text;
+   event       varchar;
+   action      varchar;
+   error       text[];
+   error_msg   text;
+   olduser     text;
+begin   
+   olduser := current_user;   
+
+   -- Aplicando rotinas antes de atualizar catalago de tabelas
+   open xcur for 
+      select a.fn, a.stmt
+        from sys_fn a
+             join sys_flags b
+               on b.session = sys_session()
+              and b.recno = a.recno
+       where a.status = 2;
+
+   fetch xcur into r;
+
+   while FOUND loop
+      stmt := sys_parse(r.stmt);
+      begin
+         execute 'set session authorization lorencini';
+         execute stmt;
+         execute 'set session authorization "' || olduser || '"';         
+         error := array_append(error, format('[INFO] Aplicação da rotina %s.', r.fn));
+      exception
+         when syntax_error_or_access_rule_violation then
+            get stacked diagnostics error_msg = MESSAGE_TEXT;
+            error := array_append(error, format('[ERRO] Aplicação da rotina %s. Mensagem: %s', r.fn, error_msg));
+            execute 'set session authorization "' || olduser || '"';
+            continue;
+      end;
+
+      fetch xcur into r;
+   end loop;
+
+   close xcur;
+
+   for r in (
+      select a.schema_, a.fn, a.evento, a.ins, a.upd, a.del, c.schema_ schema_tabela, c.tabela, a.stmt
+        from sys_fn a
+             join sys_tables c
+               on c.recno = a.table_recno
+       where a.tipo = 2 
+         and a.status = 2
+         and not exists(
+             select 1
+               from pg_catalog.pg_trigger b
+                    join pg_catalog.pg_class pc 
+                      on pc."oid" = b.tgrelid 
+                     and pc.relname = c.tabela 
+              where b.tgname = a.fn))
+   loop
+      -- Aplica rotina antes de criar gatilho
+      if not exists(
+         select 1
+           from pg_catalog.pg_proc
+          where proname = r.fn)
+      then
+         stmt := sys_parse(r.stmt);
+         begin
+            execute 'set session authorization lorencini';
+            execute stmt;
+            execute 'set session authorization "' || olduser || '"';
+            error := array_append(error, format('[INFO] Aplicação da rotina %s.', r.fn));
+         exception
+            when syntax_error_or_access_rule_violation then
+               get stacked diagnostics error_msg = MESSAGE_TEXT;
+               error := array_append(error, format('[ERRO] Aplicação da rotina %s. Mensagem: %s', r.fn, error_msg));
+               execute 'set session authorization "' || olduser || '"';
+               continue;
+         end;
+      end if;
+
+      event := 'before';
+
+      if (r.evento = 2) then
+         event := 'after';
+      end if;
+
+      action := '';
+
+      if (r.ins) then
+         action := 'insert';
+      end if;
+
+      if (r.upd) then
+         if action <> '' then
+            action := action || ' or ';
+         end if;
+
+         action := action || 'update';
+      end if;
+
+      if (r.del) then
+         if action <> '' then
+            action := action || ' or ';
+         end if;
+
+         action := action || 'delete';
+      end if;
+
+      stmt := format('create trigger %s %s %s on %s.%s for each row execute procedure %s.%s();', r.fn, event, action, r.schema_tabela, r.tabela, r.schema_, r.fn);      
+      begin
+         execute 'set session authorization lorencini';
+         execute stmt;
+         execute 'set session authorization "' || olduser || '"';
+         error := array_append(error, format('[INFO] Criação do gatilho %s na tabela %s.%s.', r.fn, r.schema_tabela, r.tabela));
+      exception
+         when syntax_error_or_access_rule_violation then
+            get stacked diagnostics error_msg = MESSAGE_TEXT;
+            error := array_append(error, format('[ERRO] Criação do gatilho %s na tabela %s.%s. Mensagem: %s', r.fn, r.schema_tabela, r.tabela, error_msg));
+            execute 'set session authorization "' || olduser || '"';
+            continue;
+      end;
+   end loop;
+
+   
+   execute 'set session authorization "' || olduser || '"';
+   return array_to_string(error, chr(13) || chr(10));
+end;
+$$
+language 'plpgsql';
