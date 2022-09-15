@@ -181,86 +181,86 @@ begin
    --------------------------------------------------------------------------------------------------------------------
    --- Restrições Externas - SERASA
    --------------------------------------------------------------------------------------------------------------------
-   if analise.serasa is null and consultar_serasa then
-      -- Tenta localiza um consulta ao Serasa com emissão inferior a 10 dias
-      -- t - 10 dias
-      emissao_ := clock_timestamp() - interval '10 days';
+   -- if analise.serasa is null and consultar_serasa then
+   --    -- Tenta localiza um consulta ao Serasa com emissão inferior a 10 dias
+   --    -- t - 10 dias
+   --    emissao_ := clock_timestamp() - interval '10 days';
 
-      -- Tentando recuperar última análise para este cliente
-      select
-         *
-      into
-         ra
-      from
-         public.cred_analise
-      where
-         cliente = cliente_ and
-         status > _ANALISE and
-         emissao > emissao_
-      order by
-         recno desc;
+   --    -- Tentando recuperar última análise para este cliente
+   --    select
+   --       *
+   --    into
+   --       ra
+   --    from
+   --       public.cred_analise
+   --    where
+   --       cliente = cliente_ and
+   --       status > _ANALISE and
+   --       emissao > emissao_
+   --    order by
+   --       recno desc;
 
-      if not FOUND then -- análise anterior não existe
-         select
-            recno
-         into
-            analise.serasa
-         from
-            tspeed.cred_consultas
-         where
-            cliente = cliente_ and
-            emissao > emissao_ and
-            env = 'prod';
-      else
-         -- Usa consulta ao serasa da análise anterior caso tenha sido uma aprovação automática
-         if ra.status < _APROVADO_ANALISTA then
-            analise.serasa := ra.serasa;
-         end if;
-      end if;
+   --    if not FOUND then -- análise anterior não existe
+   --       select
+   --          recno
+   --       into
+   --          analise.serasa
+   --       from
+   --          tspeed.cred_consultas
+   --       where
+   --          cliente = cliente_ and
+   --          emissao > emissao_ and
+   --          env = 'prod';
+   --    else
+   --       -- Usa consulta ao serasa da análise anterior caso tenha sido uma aprovação automática
+   --       if ra.status < _APROVADO_ANALISTA then
+   --          analise.serasa := ra.serasa;
+   --       end if;
+   --    end if;
 
-      -- consulta SERASA
-      if analise.serasa is null then
-         analise.serasa := public.cred_consultar_serasa(analise, r.tipo);
-      end if;
-   end if;
+   --    -- consulta SERASA
+   --    if analise.serasa is null then
+   --       analise.serasa := public.cred_consultar_serasa(analise, r.tipo);
+   --    end if;
+   -- end if;
 
    status_ := null;
 
-   if analise.serasa is not null then
-      select 
-         c.status, s.regular, s.descri
-      into 
-         status_, regular_, descri_
-      from 
-         tspeed.cred_consultas c
-      join 
-         tspeed.cred_situacoes s on 
-         s.recno = c.situacao
-      where 
-         c.recno = analise.serasa;
+   -- if analise.serasa is not null then
+   --    select 
+   --       c.status, s.regular, s.descri
+   --    into 
+   --       status_, regular_, descri_
+   --    from 
+   --       tspeed.cred_consultas c
+   --    join 
+   --       tspeed.cred_situacoes s on 
+   --       s.recno = c.situacao
+   --    where 
+   --       c.recno = analise.serasa;
 
-      if not regular_ then
-         cred_serasa := array_append(cred_serasa, format('Documento irregular. Motivo: %s', descri_));
-         analise.status := _ANALISE;
-      end if;
+   --    if not regular_ then
+   --       cred_serasa := array_append(cred_serasa, format('Documento irregular. Motivo: %s', descri_));
+   --       analise.status := _ANALISE;
+   --    end if;
 
-      if status_ = 'compendencias' then
-         -- Cria resumo de pendências
-         select 
-            sum(qtd), sum(total)
-         into 
-            qtd_,     total_
-         from 
-            tspeed.cred_resumos
-         where 
-            consulta = analise.serasa;
+   --    if status_ = 'compendencias' then
+   --       -- Cria resumo de pendências
+   --       select 
+   --          sum(qtd), sum(total)
+   --       into 
+   --          qtd_,     total_
+   --       from 
+   --          tspeed.cred_resumos
+   --       where 
+   --          consulta = analise.serasa;
          
-         cred_serasa := array_append(cred_serasa, format('%s título(s) pendente(s) no valor de R$ %s',
-               to_char(qtd_, 'FM999G990'), to_char(total_, 'FM999G999G990D00')));
+   --       cred_serasa := array_append(cred_serasa, format('%s título(s) pendente(s) no valor de R$ %s',
+   --             to_char(qtd_, 'FM999G990'), to_char(total_, 'FM999G999G990D00')));
 
-         analise.status := _ANALISE;
-      end if;
-   end if;
+   --       analise.status := _ANALISE;
+   --    end if;
+   -- end if;
 
    analise.obs := null;
 

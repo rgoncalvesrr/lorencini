@@ -33,8 +33,13 @@ begin
    loop
       rstmt := replace(rstmt, chr(13), '');
       rstmt := replace(rstmt, chr(10), '');
+      
       if trim(rstmt) = '' then
          continue;
+      end if;
+
+      if in_compact then
+         rstmt := trim(rstmt);
       end if;
 
       rstmt := rstmt || ' ';

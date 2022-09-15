@@ -9,6 +9,9 @@
 	---------------------------------------------------------------------------------------------------------------------
    Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
 
+   30/8/2022   Ricardo Gonçalves.
+      [*] Preenchimento dos campos com a data de notificação das próximas coletas
+      
    3/12/2021   Ricardo Gonçalves.
       [*] Inclusão do tratamento para laudos com status "liberado"
 
@@ -406,6 +409,12 @@ BEGIN
                 where relato_recno = new.relato_recno
                   and recno = new.labdiag_recno;
             end if;
+
+            -- Preenche os campos de aviso
+            new.notificacao1 = pcoleta - interval '30 days';
+            new.notificacao2 = pcoleta - interval '15 days';
+            new.notificacao3 = pcoleta - interval '7 days';
+            new.notificacao4 = pcoleta + interval '30 days';
 
             -- Verifica se o laudo está liberado
             new.pendencia := liberar_laudo(new.recno);

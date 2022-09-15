@@ -43,6 +43,9 @@ var
 
 implementation
 
+uses
+  uResources;
+
 {$R *.dfm}
 
 procedure TIConnection.actCancelExecute(Sender: TObject);
