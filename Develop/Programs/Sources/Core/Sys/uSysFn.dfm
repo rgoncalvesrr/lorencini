@@ -71,7 +71,7 @@ inherited SysFn: TSysFn
               ExplicitWidth = 147
             end
             inherited CCalendarDiff1: TCCalendarDiff
-              Date = 44802.887032870370000000
+              Date = 44819.036004027780000000
               DisplayInterval = Label5
               OnChange = FrameData1CCalendarDiff1Change
             end
@@ -259,10 +259,18 @@ inherited SysFn: TSysFn
       object TabSheet2: TTabSheet
         Caption = 'Desenvolvimento'
         ImageIndex = 213
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
       object TabSheet3: TTabSheet
         Caption = 'Pronta'
         ImageIndex = 208
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
     end
   end

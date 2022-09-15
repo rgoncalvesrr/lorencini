@@ -59,7 +59,7 @@ end;
 procedure TServiceSMTP.DoExec;
 var
   idEMA : TIdEMailAddressItem;
-  sAnexo: String;
+  sAnexo, result_: String;
   iStatus: Integer; 
 begin
   inherited;
@@ -155,14 +155,16 @@ begin
       end;
     end;
     iStatus := 2;
-    Log('E-mail enviado com sucesso.');
+    result_ := 'E-mail enviado com sucesso.';
   except
     on E:Exception do
     begin
-      Log(E.Message);
+      result_ := E.Message;
       iStatus := 3;
     end;
   end;
+
+  Log(result_);
 
   with Qry do
   begin
@@ -178,11 +180,12 @@ begin
 
     SQL.Text :=
     'update sys_emailto '+
-       'set status = :status, send_ = localtimestamp '+
+       'set status = :status, send_ = clock_timestamp(), result_ = :result_ '+
      'where message = :recno ';
 
     Params[0].AsInteger := iStatus;
-    Params[1].AsInteger := FRecno;
+    Params[1].AsString := result_;
+    Params[2].AsInteger := FRecno;
 
     ExecSQL;
   end;

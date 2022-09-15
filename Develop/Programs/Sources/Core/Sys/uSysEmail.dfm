@@ -112,7 +112,7 @@ inherited SysEmail: TSysEmail
             end
             inherited CCalendarDiff1: TCCalendarDiff
               Interval = diMonthly
-              Date = 44818.900162534720000000
+              Date = 44818.930204618050000000
               DisplayInterval = Label6
               OnChange = FrameData2CCalendarDiff1Change
             end
@@ -179,7 +179,7 @@ inherited SysEmail: TSysEmail
             end
             inherited CCalendarDiff1: TCCalendarDiff
               Interval = diMonthly
-              Date = 44818.900162534720000000
+              Date = 44818.930204618050000000
               DisplayInterval = Label4
               OnChange = FrameData2CCalendarDiff1Change
             end
@@ -246,7 +246,7 @@ inherited SysEmail: TSysEmail
             end
             inherited CCalendarDiff1: TCCalendarDiff
               Interval = diMonthly
-              Date = 44818.900162534720000000
+              Date = 44818.930204618050000000
               DisplayInterval = Label7
               OnChange = FrameData2CCalendarDiff1Change
             end
@@ -487,6 +487,7 @@ inherited SysEmail: TSysEmail
   end
   inherited IBrwSrc: TZQuery
     Connection = DM.Design
+    BeforeRefresh = IBrwSrcBeforeRefresh
     SQL.Strings = (
       
         'select (m.recno is not null) mark, mt.status, mt.to_, mt.to_name' +
@@ -498,10 +499,32 @@ inherited SysEmail: TSysEmail
       '         on e.recno = mt.message'
       '       left join sys_flags m'
       '         on m.recno = mt.recno'
-      '        and m.session = sys_session()'
-      '        and m.table_ = sys_origem('#39'sys_emailto'#39')')
+      '        and m.session = :session'
+      '        and m.table_ = :table')
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'session'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'table'
+        ParamType = ptUnknown
+      end>
     Left = 224
     Top = 184
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'session'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'table'
+        ParamType = ptUnknown
+      end>
     object IBrwSrcmark: TBooleanField
       DisplayLabel = ' '
       FieldName = 'mark'
