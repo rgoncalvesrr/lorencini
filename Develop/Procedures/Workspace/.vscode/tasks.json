@@ -13,10 +13,10 @@
 				"command": "E:\\Projects\\Lorencini\\Desktop\\_release\\Parser.exe"
 			},
 			"args": [
-				//   "-h", "felicia", "-p","6432", "-U", "postgres", "-P", "postgres.", "-db", "lorencini", "-f", "${file}"
+				  "-h", "felicia", "-p","6432", "-U", "postgres", "-P", "postgres.", "-db", "lorencini", "-f", "${file}"
 				// "-h", "127.0.0.1", "-p","6432", "-U", "postgres", "-P", "postgres.", "-db", "lorencini", "-f", "${file}"
 				// "-h", "lorencini.net.br", "-p", "54321", "-U", "postgres", "-P", "C0nc31th0.", "-db", "lorencini", "-f", "${file}"
-				"-h", "172.16.0.5", "-p", "5432", "-U", "postgres", "-P", "C0nc31th0.", "-db", "lorencini", "-f", "${file}"
+				// "-h", "172.16.0.5", "-p", "5432", "-U", "postgres", "-P", "C0nc31th0.", "-db", "lorencini", "-f", "${file}"
 			],
 			"presentation": {
 				"echo": false,
