@@ -14,52 +14,58 @@ create or replace function public.notificar_proxima_coleta()
 returns text as
 $$
 declare
-   xcur        record;
-   xant        record;
-   found_      boolean;      
-   refcur      refcursor;
-   html        text;
-   html_head   text;
-   message_    public.sys_email.recno%type;
-   class_row   text = 'zebra_impar';
-   recno_      public.laudos_notificacoes_contatos.recno%type;
+   xcur           record;
+   xant           record;
+   found_         boolean;      
+   refcur         refcursor;
+   html           text;
+   html_head      text;
+   message_       public.sys_email.recno%type;
+   class_row      text = 'zebra_impar';
+   recno_         public.laudos_notificacoes_contatos.recno%type;
+   notificacao_   public.notificacoes.notificacao%type;
 begin
    html_head := html$head('Lembrete de coleta de amostras', '<style>
-        .zebra_par {
+         .zebra_par {
             background-color: #e8f1f2;
             color: black;
-        }
-        .zebra_impar {
+         }
+         .zebra_impar {
             background-color: white;
             color: black;
-        }
-        .crit_nivel1 {
+         }
+         .crit_nivel1 {
             background-color: green;
             color: white;
-        }
-        .crit_nivel2 {
+         }
+         .crit_nivel2 {
             background-color: yellow;
             color: black;
-        }
-        .crit_nivel3 {
+         }
+         .crit_nivel3 {
             background-color: red;
             color: white;
-        }
-        .titulo {
+         }
+         .titulo {
             background-color: #13293d;
             color: #e8f1f2; 
             padding: 0.4rem;
-        }
-        .subtitulo {
+         }
+         .subtitulo {
             background-color: #247ba0;
             color: #e8f1f2;
-        }
-        th {
+         }
+         .destaque {
+            background-color: #247ba0;
+            color: #e8f1f2;
+            padding: 0.5rem;    
+         }
+         th {
             padding: 0.3rem;
-        }
-        td {
+         }
+         td {
             padding: 0.2rem;
-        }
+         }
     </style>');
 
    open refcur for 
@@ -67,11 +73,11 @@ begin
          cc.contato, co.nome, co.email, c.codigo, c.nome_chave, mask_cnpj_cpf(coalesce(c.cnpj, c.cpf)) cnpj_cpf, lc."label", lc.descri, lc.nivel,
          r.recno laudo, lr.titulo, r.emissao, r.pcoleta, r.destinatario, x.tipo notificacao,
          case 
-            when x.tipo = 0 then'Coletar hoje'		
             when x.tipo = 1 then'Coletar em 30 dias'
             when x.tipo = 2 then'Coletar em 15 dias'
             when x.tipo = 3 then'Coletar em 7 dias'
-            when x.tipo = 4 then'Expirado a 30 dias'
+            when x.tipo = 4 then'Coletar hoje'		
+            when x.tipo = 5 then'Expirado a 30 dias'
          end status_coleta,
          e.serie, ec.tag, et.descri tipo, efi.nome isolante, efa.nome fabricante, sys_iif(ec.status = 1, 'Em Operação', 'Desligado') status, 
          a."local"
@@ -109,7 +115,7 @@ begin
             r.notificar
          union	
          select 
-            0 tipo, r.recno laudo
+            4 tipo, r.recno laudo
          from
             labamostras_rel r
          where
@@ -119,7 +125,7 @@ begin
             r.notificar
          union	
          select 
-            4 tipo, r.recno laudo
+            5 tipo, r.recno laudo
          from
             labamostras_rel r
          where
@@ -168,31 +174,31 @@ begin
          co.situacao = 1 and
          co.email is not null
       order by 
-         cc.contato, a.codigo, lc.nivel desc;
+         cc.contato, a.codigo, x.tipo desc, lc.nivel desc;
    
    fetch refcur into xcur;
    found_ := found;
 
    xant := xcur;
    xant.codigo := -1;
-   xant.contato := -1;
+   xant.contato := -1;   
 
    while found_ loop
       
       if xant.contato <> xcur.contato then
          html := format('%s<p>Olá %s,</p>', html_head, trim(xcur.nome));
-         html := html + '<p>Para sua comodidade estamos enviado a lista de coletas que devem ser realizadas nos próximos 30 dias</p>';
-         html := html + '<table style="width: 100%;">';
+         html := html + '<p>Para sua comodidade estamos enviado o cronograma das próximas coletas de amostras</p>';
+         html := html + '<table style="width: 100%;">';         
       end if;
 
       if xant.codigo <> xcur.codigo then
          html := html + format(
             '<tr>
-               <th colspan="14" class="titulo">%s (%s)</th>
+               <th colspan="12" class="titulo">%s (%s)</th>
             </tr>', xcur.nome_chave, xcur.cnpj_cpf);
          html := html + '<tr class="subtitulo">';
          html := html + '<th colspan="2">Criticidade</th>';
-         html := html + '<th colspan="5">Laudo</th>';
+         html := html + '<th colspan="3">Laudo</th>';
          html := html + '<th colspan="7">Equipamento</th>';
          html := html + '</tr>';
          html := html + '<tr class="subtitulo">';
@@ -200,9 +206,7 @@ begin
             html := html + '<th>Descrição</th>';
             html := html + '<th>Nº</th>';
             html := html + '<th>Título</th>';
-            html := html + '<th>Emissão</th>';
-            html := html + '<th>Próxima Coleta</th>';
-            html := html + '<th>Status Coleta</th>';
+            html := html + '<th>Emissão</th>';            
             html := html + '<th>Série</th>';
             html := html + '<th>Tag</th>';
             html := html + '<th>Tipo</th>';
@@ -211,24 +215,30 @@ begin
             html := html + '<th>Status</th>';
             html := html + '<th>Localização</th>';
          html := html + '</tr>';
+
+         notificacao_ := -1;
       end if;
 
-
       html := html + format('<tr class="%s">', class_row);
-      html := html + format('<td class="crit_nivel%s">%s</td>', xcur.nivel, xcur.label);
-      html := html + format('<td>%s</td>', coalesce(xcur.descri, ''));
-      html := html + format('<td>%s</td>', xcur.laudo);
-      html := html + format('<td>%s</td>', coalesce(xcur.titulo, ''));
-      html := html + format('<td>%s</td>', to_char(xcur.emissao, 'DD/MM/YYYY'));
-      html := html + format('<td>%s</td>', to_char(xcur.pcoleta, 'DD/MM/YYYY'));
-      html := html + format('<td>%s</td>', coalesce(xcur.status_coleta, ''));
-      html := html + format('<td>%s</td>', coalesce(xcur.serie, ''));
-      html := html + format('<td>%s</td>', coalesce(xcur.tag, ''));
-      html := html + format('<td>%s</td>', coalesce(xcur.tipo, ''));
-      html := html + format('<td>%s</td>', coalesce(xcur.isolante, ''));
-      html := html + format('<td>%s</td>', coalesce(xcur.fabricante, ''));
-      html := html + format('<td>%s</td>', coalesce(xcur.status, ''));
-      html := html + format('<td>%s</td>', coalesce(xcur.local, ''));            
+      
+      if notificacao_ <> xcur.notificacao then
+         html := html + format('<td class="destaque" colspan="6"><strong>Próxima Coleta: %s</strong></td>', to_char(xcur.pcoleta, 'DD/MM/YYYY'));
+         html := html + format('<td class="destaque" colspan="6"><strong>Cronograma: %s</strong></td>', coalesce(xcur.status_coleta, ''));
+         notificacao_ := xcur.notificacao;
+      else         
+         html := html + format('<td class="crit_nivel%s">%s</td>', xcur.nivel, xcur.label);
+         html := html + format('<td>%s</td>', coalesce(xcur.descri, ''));
+         html := html + format('<td>%s</td>', xcur.laudo);
+         html := html + format('<td>%s</td>', coalesce(xcur.titulo, ''));
+         html := html + format('<td>%s</td>', to_char(xcur.emissao, 'DD/MM/YYYY'));      
+         html := html + format('<td>%s</td>', coalesce(xcur.serie, ''));
+         html := html + format('<td>%s</td>', coalesce(xcur.tag, ''));
+         html := html + format('<td>%s</td>', coalesce(xcur.tipo, ''));
+         html := html + format('<td>%s</td>', coalesce(xcur.isolante, ''));
+         html := html + format('<td>%s</td>', coalesce(xcur.fabricante, ''));
+         html := html + format('<td>%s</td>', coalesce(xcur.status, ''));
+         html := html + format('<td>%s</td>', coalesce(xcur.local, ''));            
+      end if;
       html := html + '</tr>';
 
       class_row := sys_iif(class_row = 'zebra_impar', 'zebra_par', 'zebra_impar');
@@ -261,7 +271,7 @@ begin
          insert into sys_email 
             (subject, message, table_, recno_)
          values           
-            ('PROGRAME-SE! Lista de Coletas para o próximos 30 dias', html, sys_origem('laudos_notificacoes_contatos'), recno_)
+            ('PROGRAME-SE! Segue cronograma de coleta de amostras', html, sys_origem('laudos_notificacoes_contatos'), recno_)
          returning recno into message_;
 
          insert into sys_emailto 
