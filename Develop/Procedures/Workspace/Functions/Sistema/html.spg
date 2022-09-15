@@ -31,14 +31,15 @@ create or replace function html$head(
    in css_ text)
 returns text as
 $$
-declare
-   html  text;
 begin
-   html = format('<html><head><title>%s</title>%s</head>', title_, css_);
-   html = html + '<meta charset="iso-8859-1">';
-   html = html + '<body>';
-
-   return html;
+   return format(
+      '<!DOCTYPE html>
+      <html lang="pt_BR">
+      <head>
+      <meta charset="iso-8859-1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>%s</title>%s</head><body>', title_, css_);   
 end;
 $$
 language plpgsql;

@@ -38,11 +38,13 @@ type
     Label7: TLabel;
     JvDBDateEdit1: TJvDBDateEdit;
     JvDBDateEdit2: TJvDBDateEdit;
+    actFindFn: TAction;
     procedure DBEdit8Exit(Sender: TObject);
+    procedure actFindFnExecute(Sender: TObject);
   private
     { Private declarations }
   public
-    { Public declarations }
+    procedure RefreshControls; override;
   end;
 
 var
@@ -50,9 +52,28 @@ var
 
 implementation
 
-uses uSysScheduler, mcutils, DateUtils;
+uses uSysScheduler, mcutils, DateUtils, uResources, uSysFn;
 
 {$R *.dfm}
+
+procedure TSysSchedulerM.actFindFnExecute(Sender: TObject);
+begin
+  SysFn := TSysFn.Create(nil);
+  try
+    SysFn.DisplayMode := dmQuery;
+    SysFn.cbTipo.ItemIndex := 1;
+    SysFn.cbTipo.Enabled := False;
+    SysFn.ShowModal;
+    if (SysFn.Execute) then
+    begin
+      DataSet.FieldByName('fn').AsString := SysFn.IBrwSrcfn.AsString;
+      DBEdit8Exit(DBEdit8);
+    end;
+  finally
+    FreeAndNil(SysFn);
+  end;
+
+end;
 
 procedure TSysSchedulerM.DBEdit8Exit(Sender: TObject);
 var
@@ -76,6 +97,13 @@ begin
   finally
     fLkp.Free;
   end;
+end;
+
+procedure TSysSchedulerM.RefreshControls;
+begin
+  inherited;
+
+  actFindFn.Enabled := Assigned(DataSet) and (DataSet.State in [dsEdit, dsInsert]);
 end;
 
 end.

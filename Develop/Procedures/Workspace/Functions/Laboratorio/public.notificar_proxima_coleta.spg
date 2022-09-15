@@ -1,0 +1,284 @@
+/**
+   Disapra envio de mensagens de lembrete para execução de próxima coleta
+
+   @author	Ricardo Gonçalves
+   @date		29/08/2022
+
+   @return	void  Não há retorno para função
+
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+create or replace function public.notificar_proxima_coleta()
+returns text as
+$$
+declare
+   xcur        record;
+   xant        record;
+   found_      boolean;      
+   refcur      refcursor;
+   html        text;
+   html_head   text;
+   message_    public.sys_email.recno%type;
+   class_row   text = 'zebra_impar';
+   recno_      public.laudos_notificacoes_contatos.recno%type;
+begin
+   html_head := html$head('Lembrete de coleta de amostras', '<style>
+        .zebra_par {
+            background-color: #e8f1f2;
+            color: black;
+        }
+        .zebra_impar {
+            background-color: white;
+            color: black;
+        }
+        .crit_nivel1 {
+            background-color: green;
+            color: white;
+        }
+        .crit_nivel2 {
+            background-color: yellow;
+            color: black;
+        }
+        .crit_nivel3 {
+            background-color: red;
+            color: white;
+        }
+        .titulo {
+            background-color: #13293d;
+            color: #e8f1f2; 
+            padding: 0.4rem;
+        }
+        .subtitulo {
+            background-color: #247ba0;
+            color: #e8f1f2;
+        }
+        th {
+            padding: 0.3rem;
+        }
+        td {
+            padding: 0.2rem;
+        }
+    </style>');
+
+   open refcur for 
+      select 
+         cc.contato, co.nome, co.email, c.codigo, c.nome_chave, mask_cnpj_cpf(coalesce(c.cnpj, c.cpf)) cnpj_cpf, lc."label", lc.descri, lc.nivel,
+         r.recno laudo, lr.titulo, r.emissao, r.pcoleta, r.destinatario, x.tipo notificacao,
+         case 
+            when x.tipo = 0 then'Coletar hoje'		
+            when x.tipo = 1 then'Coletar em 30 dias'
+            when x.tipo = 2 then'Coletar em 15 dias'
+            when x.tipo = 3 then'Coletar em 7 dias'
+            when x.tipo = 4 then'Expirado a 30 dias'
+         end status_coleta,
+         e.serie, ec.tag, et.descri tipo, efi.nome isolante, efa.nome fabricante, sys_iif(ec.status = 1, 'Em Operação', 'Desligado') status, 
+         a."local"
+      from 
+         labamostras_rel r 
+      join ( 
+         select 
+            1 tipo, r.recno laudo
+         from
+            labamostras_rel r
+         where
+            r.status = 4 and
+            r.revisao is null and
+            r.notificacao1 = current_date and
+            r.notificar
+         union 	
+         select 
+            2 tipo, r.recno laudo
+         from
+            labamostras_rel r
+         where
+            r.status = 4 and
+            r.revisao is null and
+            r.notificacao2 = current_date and
+            r.notificar
+         union	
+         select 
+            3 tipo, r.recno laudo
+         from
+            labamostras_rel r
+         where
+            r.status = 4 and
+            r.revisao is null and
+            r.notificacao3 = current_date and
+            r.notificar
+         union	
+         select 
+            0 tipo, r.recno laudo
+         from
+            labamostras_rel r
+         where
+            r.status = 4 and
+            r.revisao is null and
+            r.pcoleta = current_date and
+            r.notificar
+         union	
+         select 
+            4 tipo, r.recno laudo
+         from
+            labamostras_rel r
+         where
+            r.status = 4 and
+            r.revisao is null and
+            r.notificacao4 = current_date and
+            r.notificar) x on
+         x.laudo = r.recno	
+      join
+         labrel lr on
+         lr.recno = r.relato_recno 
+      join
+         vlaudocrit lc on
+         lc.relato_recno = r.relato_recno and
+         lc.recno  = r.labcrit_recno 
+      join
+         labamostras a on
+         a.recno = r.amostra 
+      join 
+         tbclientes c on
+         c.codigo = a.codigo 
+      join
+         labequipxcli ec on
+         ec.codigo = a.codigo and
+         ec.equip = a.equip_recno 
+      join
+         labequip e on
+         e.recno = a.equip_recno 
+      join 
+         labfabri efa on
+         efa.recno = e.fabricante 
+      join 
+         labisolante efi on	
+         efi.recno = e.isolante	
+      join
+         labequip_tipo et on
+         et.tipo = e.tipo
+      join
+         tbclientes_contatos cc on
+         cc.cliente = a.codigo and
+         cc.situacao = 1 and
+         (cc.contato_tecnico or cc.contato_comercial)
+      join 
+         contatos co on
+         co.recno = cc.contato and
+         co.situacao = 1 and
+         co.email is not null
+      order by 
+         cc.contato, a.codigo, lc.nivel desc;
+   
+   fetch refcur into xcur;
+   found_ := found;
+
+   xant := xcur;
+   xant.codigo := -1;
+   xant.contato := -1;
+
+   while found_ loop
+      
+      if xant.contato <> xcur.contato then
+         html := format('%s<p>Olá %s,</p>', html_head, trim(xcur.nome));
+         html := html + '<p>Para sua comodidade estamos enviado a lista de coletas que devem ser realizadas nos próximos 30 dias</p>';
+         html := html + '<table style="width: 100%;">';
+      end if;
+
+      if xant.codigo <> xcur.codigo then
+         html := html + format(
+            '<tr>
+               <th colspan="14" class="titulo">%s (%s)</th>
+            </tr>', xcur.nome_chave, xcur.cnpj_cpf);
+         html := html + '<tr class="subtitulo">';
+         html := html + '<th colspan="2">Criticidade</th>';
+         html := html + '<th colspan="5">Laudo</th>';
+         html := html + '<th colspan="7">Equipamento</th>';
+         html := html + '</tr>';
+         html := html + '<tr class="subtitulo">';
+            html := html + '<th>Nível</th>';
+            html := html + '<th>Descrição</th>';
+            html := html + '<th>Nº</th>';
+            html := html + '<th>Título</th>';
+            html := html + '<th>Emissão</th>';
+            html := html + '<th>Próxima Coleta</th>';
+            html := html + '<th>Status Coleta</th>';
+            html := html + '<th>Série</th>';
+            html := html + '<th>Tag</th>';
+            html := html + '<th>Tipo</th>';
+            html := html + '<th>Isolante</th>';
+            html := html + '<th>Fabricante</th>';
+            html := html + '<th>Status</th>';
+            html := html + '<th>Localização</th>';
+         html := html + '</tr>';
+      end if;
+
+
+      html := html + format('<tr class="%s">', class_row);
+      html := html + format('<td class="crit_nivel%s">%s</td>', xcur.nivel, xcur.label);
+      html := html + format('<td>%s</td>', coalesce(xcur.descri, ''));
+      html := html + format('<td>%s</td>', xcur.laudo);
+      html := html + format('<td>%s</td>', coalesce(xcur.titulo, ''));
+      html := html + format('<td>%s</td>', to_char(xcur.emissao, 'DD/MM/YYYY'));
+      html := html + format('<td>%s</td>', to_char(xcur.pcoleta, 'DD/MM/YYYY'));
+      html := html + format('<td>%s</td>', coalesce(xcur.status_coleta, ''));
+      html := html + format('<td>%s</td>', coalesce(xcur.serie, ''));
+      html := html + format('<td>%s</td>', coalesce(xcur.tag, ''));
+      html := html + format('<td>%s</td>', coalesce(xcur.tipo, ''));
+      html := html + format('<td>%s</td>', coalesce(xcur.isolante, ''));
+      html := html + format('<td>%s</td>', coalesce(xcur.fabricante, ''));
+      html := html + format('<td>%s</td>', coalesce(xcur.status, ''));
+      html := html + format('<td>%s</td>', coalesce(xcur.local, ''));            
+      html := html + '</tr>';
+
+      class_row := sys_iif(class_row = 'zebra_impar', 'zebra_par', 'zebra_impar');
+
+      xant := xcur;
+      fetch refcur into xcur;      
+      found_ := found;
+
+      if xant.contato <> xcur.contato or not found_ then         
+         html := html + format('</table>%s', html$footer());
+
+         -- Registra notificação
+         insert into laudos_notificacoes
+            (laudo, notificacao)
+         values
+            (xant.laudo, xant.notificacao)
+         on conflict (laudo, notificacao)
+            do nothing;
+         
+         -- Registra contato
+         insert into laudos_notificacoes_contatos
+            (laudo, notificacao, cliente, contato)
+         values
+            (xant.laudo, xant.notificacao, xant.codigo, xant.contato)
+         returning recno into recno_;
+         -- on conflict (laudo, notificacao, cliente, contato)
+         --    do nothing;
+
+         -- cria mensagem
+         insert into sys_email 
+            (subject, message, table_, recno_)
+         values           
+            ('PROGRAME-SE! Lista de Coletas para o próximos 30 dias', html, sys_origem('laudos_notificacoes_contatos'), recno_)
+         returning recno into message_;
+
+         insert into sys_emailto 
+            (message, to_, to_name)
+         values             
+            (message_, xant.email, xant.nome);
+         
+         -- dispara envio do email
+         update sys_email
+            set status = 1
+         where recno = message_;
+      end if;
+   end loop;
+
+   close refcur;
+
+   return html;
+end;
+$$
+language plpgsql;
