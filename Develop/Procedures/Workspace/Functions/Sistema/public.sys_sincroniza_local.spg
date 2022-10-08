@@ -7,80 +7,89 @@ declare
    stmt        text;
    event       varchar;
    action      varchar;
-   error       text[];
+   stats_      text[];
+   result_     text[];
    error_msg   text;
+   tipo_       text;
    olduser     text;
+   
+   count_fn_   smallint := 0;
+   count_tgf_  smallint := 0;
+   count_tg_   smallint := 0;
+   count_er_   smallint := 0;
+
+   session_    text;
 begin   
    olduser := current_user;   
+   session_ := sys_session();
 
-   -- Aplicando rotinas antes de atualizar catalago de tabelas
-   open xcur for 
-      select a.fn, a.stmt
-        from sys_fn a
-             join sys_flags b
-               on b.session = sys_session()
-              and b.recno = a.recno
-       where a.status = 2;
 
-   fetch xcur into r;
-
-   while FOUND loop
+   for r in (
+      select 
+         a.fn, a.stmt, a.tipo
+      from 
+         sys_fn a
+      join 
+         sys_flags b on 
+         b.session = session_ and 
+         b.recno = a.recno
+      where
+         a.status = 2
+      order by 
+         a.tipo)
+   loop
+      tipo_ := sys_iif(r.tipo = 1, 'procedure', 'trigger');      
       stmt := sys_parse(r.stmt);
 
       begin
          execute 'set session authorization lorencini';
          execute stmt;
          execute 'set session authorization "' || olduser || '"';         
-         error := array_append(error, format('[INFO] Aplicação da rotina %s.', r.fn));
+         stats_ := array_append(stats_, format('[Sucesso] Aplicação da rotina %s (%s).', r.fn, tipo_));
+
+         if r.tipo = 1 then
+            count_fn_ := count_fn_ + 1;
+         else         
+            count_tgf_ := count_tgf_ + 1;
+         end if;
       exception
           when syntax_error_or_access_rule_violation then
              get stacked diagnostics error_msg = MESSAGE_TEXT;
-             error := array_append(error, format('[ERRO] Aplicação da rotina %s. Mensagem: %s', r.fn, error_msg));
+             stats_ := array_append(stats_, format('[Falha] Aplicação da rotina %s (%s).', r.fn, r.tipo));
+             stats_ := array_append(stats_, format('======> Mensagem: %s', error_msg));
              execute 'set session authorization "' || olduser || '"';             
+             count_er_ := count_er_ + 1;
       end;
-
-      fetch xcur into r;
    end loop;
 
-   close xcur;
-
+   -- Criação dos gatilhos
    for r in (
-      select a.schema_, a.fn, a.evento, a.ins, a.upd, a.del, c.schema_ schema_tabela, c.tabela, a.stmt
-        from sys_fn a
-             join sys_tables c
-               on c.recno = a.table_recno
-       where a.tipo = 2 
-         and a.status = 2
-         and not exists(
-             select 1
-               from pg_catalog.pg_trigger b
-                    join pg_catalog.pg_class pc 
-                      on pc."oid" = b.tgrelid 
-                     and pc.relname = c.tabela 
-              where b.tgname = a.fn))
+      select 
+         a.schema_, a.fn, a.evento, a.ins, a.upd, a.del, c.schema_ schema_tabela, c.tabela, a.stmt
+      from 
+         sys_fn a
+      join 
+         sys_flags b on 
+         b.session = session_ and 
+         b.recno = a.recno
+      join 
+         sys_tables c on 
+         c.recno = a.table_recno
+      where 
+         a.tipo = 2 and 
+         a.status = 2 and 
+         not exists(
+            select 
+               1
+            from 
+               pg_catalog.pg_trigger b
+            join 
+               pg_catalog.pg_class pc on 
+               pc."oid" = b.tgrelid and 
+               pc.relname = c.tabela 
+            where 
+               b.tgname = a.fn))
    loop
-      -- Aplica rotina antes de criar gatilho
-      if not exists(
-         select 1
-           from pg_catalog.pg_proc
-          where proname = r.fn)
-      then         
-         stmt := sys_parse(r.stmt);
-
-         begin
-            execute 'set session authorization lorencini';
-            execute stmt;
-            execute 'set session authorization "' || olduser || '"';
-            error := array_append(error, format('[INFO] Aplicação da rotina %s.', r.fn));
-         exception
-            when syntax_error_or_access_rule_violation then
-               get stacked diagnostics error_msg = MESSAGE_TEXT;
-               error := array_append(error, format('[ERRO] Aplicação da rotina %s. Mensagem: %s', r.fn, error_msg));
-               execute 'set session authorization "' || olduser || '"';
-               continue;
-         end;
-      end if;
-
       event := 'before';
 
       if (r.evento = 2) then
@@ -106,7 +115,7 @@ begin
             action := action || ' or ';
          end if;
 
-         action := action || 'delete';
+         action := action || 'delete'; 
       end if;
 
       stmt := format('create trigger %s %s %s on %s.%s for each row execute procedure %s.%s();', r.fn, event, action, r.schema_tabela, r.tabela, r.schema_, r.fn);      
@@ -114,19 +123,46 @@ begin
          execute 'set session authorization lorencini';
          execute stmt;
          execute 'set session authorization "' || olduser || '"';
-         error := array_append(error, format('[INFO] Criação do gatilho %s na tabela %s.%s.', r.fn, r.schema_tabela, r.tabela));
+         stats_ := array_append(stats_, format('[Sucesso] Criação do gatilho %s na tabela %s.%s.', r.fn, r.schema_tabela, r.tabela));
+         count_tg_ := count_tg_ + 1;
       exception
          when syntax_error_or_access_rule_violation then
             get stacked diagnostics error_msg = MESSAGE_TEXT;
-            error := array_append(error, format('[ERRO] Criação do gatilho %s na tabela %s.%s. Mensagem: %s', r.fn, r.schema_tabela, r.tabela, error_msg));
+            stats_ := array_append(stats_, format('[Falha] Criação do gatilho %s na tabela %s.%s.', r.fn, r.schema_tabela, r.tabela));
+            stats_ := array_append(stats_, format('======> Mensagem: %s', error_msg));
             execute 'set session authorization "' || olduser || '"';
-            continue;
+            count_er_ := count_er_ + 1;
       end;
    end loop;
+ 
+   if count_fn_ + count_tgf_ + count_tg_ + count_er_ > 0 then
+      result_ := array_append(result_, 'Resumo do processamento');
+      result_ := array_append(result_, repeat('-', 100)); 
+      
+      if count_er_ > 0 then
+         result_ := array_append(result_, format('====> Falhas(s)             : %s', count_er_));
+      end if;
+      
+      if count_fn_ > 0 then
+         result_ := array_append(result_, format('====> Rotinas aplicada(s)   : %s', count_fn_));
+      end if;
 
-   
+      if count_tgf_ > 0 then
+         result_ := array_append(result_, format('====> Gatilho(s) aplicado(s): %s', count_tgf_));
+      end if;
+
+      if count_tg_ > 0 then
+         result_ := array_append(result_, format('====> Gatilho(s) criado(s)  : %s', count_tg_));
+      end if;
+
+      result_ := array_append(result_, ' ');
+      result_ := array_append(result_, 'Resultado do Processamento');
+      result_ := array_append(result_, repeat('-', 100));
+      result_ := array_cat(result_, stats_);
+   end if;   
+
    execute 'set session authorization "' || olduser || '"';
-   return array_to_string(error, chr(13) || chr(10));
+   return array_to_string(result_, chr(13) || chr(10));
 end;
 $$
 language 'plpgsql';

@@ -26,15 +26,6 @@ BEGIN
             aplicar := tg_op = 'UPDATE' and (new.checksum <> old.checksum or old.status <> 2);
          end if;
       end if;
-
-      -- if aplicar then         
-      --    perform public.sys_flag_mark('sys_fn', new.recno);
-      --    errors := public.sys_sincroniza_local();
-      --    if errors <> '' then
-      --       raise '[[%]]', errors;
-      --    end if;
-      --    perform public.sys_flag_del('sys_fn', new.recno);               
-      -- end if;  
    end if;
 
    return null;
