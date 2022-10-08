@@ -1,0 +1,29 @@
+create or replace function public.sys_fn(
+   in in_schema varchar,
+   in in_fn varchar,
+   in in_descri varchar,
+   in in_tipo integer,
+   in in_modification timestamp,
+   in in_stmt text,
+   in in_remove boolean)
+returns void as
+$$
+begin
+   if not exists(
+      select 1
+        from public.sys_fn
+       where fn = in_fn)
+   then
+      insert into public.sys_fn
+         (fn,    schema_,   descri,    tipo,    modification,    stmt,    remove)
+      values
+         (in_fn, in_schema, in_descri, in_tipo, in_modification, in_stmt, in_remove);
+   else
+      update public.sys_fn
+         set descri = in_descri, tipo = in_tipo, modification = in_modification,
+             stmt = in_stmt, remove = in_remove, schema_ = in_schema
+       where fn = in_fn;
+   end if;
+end;
+$$
+language plpgsql;
