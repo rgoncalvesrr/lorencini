@@ -26,17 +26,17 @@ begin
 
    while FOUND loop
       stmt := sys_parse(r.stmt);
+
       begin
          execute 'set session authorization lorencini';
          execute stmt;
          execute 'set session authorization "' || olduser || '"';         
          error := array_append(error, format('[INFO] Aplicação da rotina %s.', r.fn));
       exception
-         when syntax_error_or_access_rule_violation then
-            get stacked diagnostics error_msg = MESSAGE_TEXT;
-            error := array_append(error, format('[ERRO] Aplicação da rotina %s. Mensagem: %s', r.fn, error_msg));
-            execute 'set session authorization "' || olduser || '"';
-            continue;
+          when syntax_error_or_access_rule_violation then
+             get stacked diagnostics error_msg = MESSAGE_TEXT;
+             error := array_append(error, format('[ERRO] Aplicação da rotina %s. Mensagem: %s', r.fn, error_msg));
+             execute 'set session authorization "' || olduser || '"';             
       end;
 
       fetch xcur into r;
@@ -64,8 +64,9 @@ begin
          select 1
            from pg_catalog.pg_proc
           where proname = r.fn)
-      then
+      then         
          stmt := sys_parse(r.stmt);
+
          begin
             execute 'set session authorization lorencini';
             execute stmt;
