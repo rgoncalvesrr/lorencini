@@ -33,6 +33,7 @@ begin
    loop
       rstmt := replace(rstmt, chr(13), '');
       rstmt := replace(rstmt, chr(10), '');
+      rstmt := replace(rstmt, chr(9), '');
       
       if trim(rstmt) = '' then
          continue;

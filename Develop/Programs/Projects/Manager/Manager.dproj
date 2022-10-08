@@ -3,10 +3,10 @@
   <PropertyGroup>
     <ProjectGuid>{54297583-1487-4f1b-8f57-0b8d383bdb4d}</ProjectGuid>
     <MainSource>Manager.dpr</MainSource>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
-    <DCC_DependencyCheckOutputName>..\..\..\..\_Debug\Manager.exe</DCC_DependencyCheckOutputName>
+    <DCC_DependencyCheckOutputName>..\..\..\..\_Release\Manager.exe</DCC_DependencyCheckOutputName>
     <DCC_UsePackage>LMDP;BaseCore</DCC_UsePackage>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

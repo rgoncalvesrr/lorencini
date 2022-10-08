@@ -93,6 +93,7 @@ procedure TSysFn.actFilesLoadExecute(Sender: TObject);
 var
   functionLoader: TSysFnLoader;
   cursorSave: TCursor;
+  I: Integer;
 begin
   inherited;
   IBrwSrc.DisableControls;
@@ -106,7 +107,7 @@ begin
     if functionLoader.Errors.Count > 0 then
       U.Out.ShowErro(functionLoader.Errors.Text)
     else
-      U.Out.ShowInfo('Processamento efetuado com sucesso!');
+      actSyncExecute(actSync);
   finally
     IBrwSrc.EnableControls;
     FreeAndNil(functionLoader);
@@ -232,7 +233,7 @@ begin
       end;
     end
     else
-      U.Out.ShowInfo('Nenhum processamento realizado!');
+      U.Out.ShowInfo('Nenhuma rotina atualizada!');
   finally
     Close;
   end;
