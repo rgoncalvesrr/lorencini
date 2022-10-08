@@ -411,10 +411,10 @@ BEGIN
             end if;
 
             -- Preenche os campos de aviso
-            new.notificacao1 = pcoleta - interval '30 days';
-            new.notificacao2 = pcoleta - interval '15 days';
-            new.notificacao3 = pcoleta - interval '7 days';
-            new.notificacao4 = pcoleta + interval '30 days';
+            new.notificacao1 = new.pcoleta - interval '30 days';
+            new.notificacao2 = new.pcoleta - interval '15 days';
+            new.notificacao3 = new.pcoleta - interval '7 days';
+            new.notificacao4 = new.pcoleta + interval '30 days';
 
             -- Verifica se o laudo está liberado
             new.pendencia := liberar_laudo(new.recno);
