@@ -13,10 +13,10 @@ insert into notificacoes
    (notificacao, descricao)
 values
    (0, 'Expirado a 30 dias'),
-   (1, 'Aviso de expira√ß√£o do laudo em 30 dias'),
-   (2, 'Aviso de expira√ß√£o do laudo em 15 dias'),
-   (3, 'Aviso de expira√ß√£o do laudo em 7 dias'),
-   (4, 'Aviso de laudo expirado h√° 30 dias');
+   (1, 'Aviso de expiraÁ„o do laudo em 30 dias'),
+   (2, 'Aviso de expiraÁ„o do laudo em 15 dias'),
+   (3, 'Aviso de expiraÁ„o do laudo em 7 dias'),
+   (4, 'Aviso de laudo expirado h· 30 dias');
 
 create table laudos_notificacoes (
    laudo integer not null,
@@ -64,7 +64,7 @@ where
 
 alter table labamostras_rel enable trigger all;
 
-insert into sys_tables (tabela, descri) values ('laudos_notificacoes_contatos', 'Tabela de notifica√ß√£o de coleta');
+insert into sys_tables (tabela, descri) values ('laudos_notificacoes_contatos', 'Tabela de notificaÁ„o de coleta');
 
 create index idx_labamostras_rel_16 on labamostras_rel(notificacao1) where (status = 4 and revisao is null and notificar);
 create index idx_labamostras_rel_17 on labamostras_rel(notificacao2) where (status = 4 and revisao is null and notificar);
