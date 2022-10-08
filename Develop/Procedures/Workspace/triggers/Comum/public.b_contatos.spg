@@ -1,0 +1,30 @@
+/**
+   Validação dos dados do contato
+
+   @author	Ricardo Gonçalves
+   @date		22/09/2022
+
+   @return	void  Não há retorno para função
+
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+create or replace function public.b_contatos()
+returns trigger as
+$$
+begin
+   if tg_op = 'DELETE' then
+      return old;
+   end if;
+
+   if lower(new.nome) <> 'conta interna' and new.email is not null then
+      if new.email !~ '^[a-za-z0-9][a-za-z0-9\._-]+@([a-za-z0-9\._-]+\.)[a-za-z0-9]{2}' then
+         raise '[[E-mail % é inválido. Verifique]]', new.email;
+      end if;
+   end if;
+
+   return new;
+end;
+$$
+language plpgsql;
