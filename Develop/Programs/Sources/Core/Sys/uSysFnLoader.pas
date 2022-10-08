@@ -6,12 +6,17 @@ uses
   SysUtils, uIUtils, Classes;
 
 type
+  TMarkeds = array of integer;
+
   TSYSFNLoader = class
   private
     FIsTrigger: Boolean;
     FErrors: TStrings;
+    FIndex: Integer;
+    FMarkeds: TMarkeds;
     procedure ScanFiles(Diretory: string);
     procedure PersistFileToDB(Directory: string; SearchRec: TSearchRec);
+    procedure Clear;
   public
     constructor Create; reintroduce;
     destructor Destroy; override;
@@ -26,7 +31,7 @@ type
 implementation
 
 uses
-  db, uHelpers;
+  db, uHelpers, ZDataset;
 
 const
   _EXTPROC: string = '.spg';
@@ -68,13 +73,45 @@ begin
     ParamByName('remove').AsBoolean := False;
 
     try
-      ExecSQL;
+      Open;
+
+      if not IsEmpty and (Fields[0].AsInteger <> -1) then
+      begin
+        if Length(FMarkeds) - 1 < FIndex then
+          SetLength(FMarkeds, Length(FMarkeds) * 2 + 1);
+
+        FMarkeds[FIndex] := Fields[0].AsInteger;
+
+        SQL.Text :=
+        'select sys_flag_mark(214, :recno);';
+
+        ParamByName('recno').AsInteger := FMarkeds[FIndex];
+
+        ExecSQL;
+        
+        Inc(FIndex);
+      end;
     except
       on E: Exception do
         FErrors.Add(E.Message);
     end;
   finally
     Close;
+  end;
+end;
+
+procedure TSYSFNLoader.Clear;
+var
+  i: Integer;
+  qry: TZReadOnlyQuery;
+begin
+  qry := U.Query;
+  qry.SQL.Text := 'select sys_flag_del(214, :recno)';
+
+  for i := Low(FMarkeds) to High(FMarkeds) do
+  begin
+    qry.ParamByName('recno').AsInteger := FMarkeds[i];
+    qry.ExecSQL;
   end;
 end;
 
@@ -85,6 +122,7 @@ end;
 
 destructor TSYSFNLoader.Destroy;
 begin
+  Clear;
   FreeAndNil(FErrors);
   inherited;
 end;
