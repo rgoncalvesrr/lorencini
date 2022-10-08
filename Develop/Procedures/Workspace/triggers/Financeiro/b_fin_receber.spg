@@ -7,20 +7,23 @@
 
 	Histórico
 	-------------------------------------------------------------------------------------------------------------------
-   05/11/2009 11:34:55  v1.1  Ricardo Gonçalves.
-      [*] Preenchimento automático da data de baixa
+   05/10/2022  Ricardo Gonçalves
+      [-] Quebra do campo de baixa em dia, mês e ano
 
-   10/11/2009 21:24:46  v1.2  Ricardo Gonçalves.
-      [*] Data da baixa passa ser preenchida com a data de vencimento real.
-
-   23/11/2009 13:56:06  v1.3  Ricardo Gonçalves.
-      [*] Remoção do tratamento de parcelas por documento.
-      
-   12/08/2016 11:34:16  v2    Ricardo Gonçalves
-      [+] Inclusão de ratreamento da origem do lançamento
-      
    25/03/2021  Ricardo Gonçalves
       [-] Correçã da exclusão de lançamento do caixa
+
+   12/08/2016  Ricardo Gonçalves
+      [+] Inclusão de ratreamento da origem do lançamento
+   
+   23/11/2009  Ricardo Gonçalves.
+      [*] Remoção do tratamento de parcelas por documento.
+   
+   10/11/2009  Ricardo Gonçalves.
+      [*] Data da baixa passa ser preenchida com a data de vencimento real.
+
+   05/11/2009  Ricardo Gonçalves.
+      [*] Preenchimento automático da data de baixa            
  */
 Create or Replace Function b_fin_receber()
 Returns trigger As
@@ -41,6 +44,16 @@ Begin
       new.total := new.valor + coalesce(new.juros,0) + coalesce(new.multa,0) - coalesce(new.descto,0);
       
       new.valor_baixado := coalesce(new.valor_baixado, 0);
+
+      if new.baixa is not null then
+         new.baixa_dia := extract(day from new.baixa);
+	      new.baixa_mes := extract(month from new.baixa);
+	      new.baixa_ano := extract(year from new.baixa);
+      else
+         new.baixa_dia := null;
+	      new.baixa_mes := null;
+	      new.baixa_ano := null;
+      end if;
 
       if ((new.valor_baixado > 0) and (new.baixa is not null) and (new.cc is null)) then
          raise '[[Para que a baixa possa ser processada a conta corrente deve ser informada.]]';

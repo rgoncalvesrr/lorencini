@@ -7,15 +7,19 @@
 
 	Histórico
 	-------------------------------------------------------------------------------------------------------------------
-   +  Implementa atualização de contatos na inserção
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+
+   [+] 28/09/2022 Ricardo  Utilização do tipo composto para registro de log
+
  */
 Create or Replace Function a_cota()
 Returns trigger As
 $$
 Declare
    newStatus   varchar;
-   oldStatus   varchar;
-Begin
+   oldStatus   varchar;   
+   xlog        log$;
+Begin   
    if tg_op = 'INSERT' then
       perform cpDocParaDoc(
          sys_origem('orca_grupo'), new.grupo,
@@ -52,8 +56,15 @@ Begin
             when old.status = 8 then oldStatus := 'Cancelada';
          end case;
 
-         perform log('Mudança de status', format('A cotação mudou saiu do status "%s" para "%s"',oldStatus, newStatus),
-            sys_origem('cota'), new.recno);
+         xlog.title := 'Mudança de status';
+         xlog.detail := format('A cotação mudou saiu do status "%s" para "%s"',oldStatus, newStatus);
+         xlog.rotate := false;  
+         xlog.source_table := sys_origem('cota');
+         xlog.source_recno := new.recno;    
+         xlog.level := 'info';
+         xlog.status_code := new.status;
+
+         perform log(xlog);
       end if;
    else
       perform log('Exclusão da cotação', sys_origem('cota'), old.recno);
