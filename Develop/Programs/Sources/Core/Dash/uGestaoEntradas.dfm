@@ -53,7 +53,7 @@ inherited GestaoEntradas: TGestaoEntradas
             Width = 185
             Height = 15
             Align = alTop
-            Caption = '01/09/2021 a 30/09/2021'
+            Caption = '01/09/2022 a 30/09/2022'
             Transparent = True
             ExplicitWidth = 128
           end
@@ -84,7 +84,7 @@ inherited GestaoEntradas: TGestaoEntradas
             end
             inherited CCalendarDiff1: TCCalendarDiff
               Interval = diMonthly
-              Date = 44454.885865740740000000
+              Date = 44832.944649583330000000
               DisplayInterval = Label6
               OnChange = FrameData1CCalendarDiff1Change
             end
@@ -1109,8 +1109,6 @@ inherited GestaoEntradas: TGestaoEntradas
       object TabSheet2: TTabSheet
         Caption = 'Evolu'#231#227'o'
         ImageIndex = 3
-        ExplicitLeft = 6
-        ExplicitTop = 30
         object pnCharts: TPanel
           Left = 0
           Top = 0
@@ -1120,10 +1118,6 @@ inherited GestaoEntradas: TGestaoEntradas
           BevelOuter = bvNone
           TabOrder = 0
           OnResize = pnChartsResize
-          ExplicitLeft = 288
-          ExplicitTop = 32
-          ExplicitWidth = 185
-          ExplicitHeight = 41
           object Panel4: TPanel
             Left = 0
             Top = 0
@@ -1145,9 +1139,6 @@ inherited GestaoEntradas: TGestaoEntradas
               Align = alLeft
               BevelOuter = bvNone
               TabOrder = 0
-              ExplicitLeft = 71
-              ExplicitTop = 88
-              ExplicitHeight = 250
               object Series1: TFastLineSeries
                 Marks.Callout.Brush.Color = clBlack
                 Marks.ShapeStyle = fosRoundRectangle
@@ -1244,9 +1235,6 @@ inherited GestaoEntradas: TGestaoEntradas
               Align = alClient
               BevelOuter = bvNone
               TabOrder = 1
-              ExplicitLeft = 627
-              ExplicitTop = 0
-              ExplicitWidth = 400
             end
           end
           object Panel7: TPanel
@@ -1257,7 +1245,6 @@ inherited GestaoEntradas: TGestaoEntradas
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 1
-            ExplicitTop = 276
             object DBChart3: TDBChart
               AlignWithMargins = True
               Left = 3
@@ -1269,9 +1256,6 @@ inherited GestaoEntradas: TGestaoEntradas
               Align = alLeft
               BevelOuter = bvNone
               TabOrder = 0
-              ExplicitLeft = 71
-              ExplicitTop = 88
-              ExplicitHeight = 250
             end
             object DBChart4: TDBChart
               AlignWithMargins = True
@@ -1284,9 +1268,6 @@ inherited GestaoEntradas: TGestaoEntradas
               Align = alClient
               BevelOuter = bvNone
               TabOrder = 1
-              ExplicitLeft = 595
-              ExplicitTop = -21
-              ExplicitWidth = 400
             end
           end
         end

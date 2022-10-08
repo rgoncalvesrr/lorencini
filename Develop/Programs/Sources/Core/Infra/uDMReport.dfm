@@ -41,9 +41,8 @@ object DMReport: TDMReport
     PreviewOptions.Zoom = 1.000000000000000000
     PrintOptions.Printer = 'Padr'#227'o'
     PrintOptions.PrintOnSheet = 0
-    ReportOptions.Compressed = True
     ReportOptions.CreateDate = 39757.585007557900000000
-    ReportOptions.LastChange = 43310.997849687500000000
+    ReportOptions.LastChange = 44300.019422986100000000
     ScriptLanguage = 'PascalScript'
     StoreInDFM = False
     OnReportPrint = 'ReportBaseOnReportPrint'

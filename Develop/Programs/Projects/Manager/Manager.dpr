@@ -309,7 +309,13 @@ uses
   uOP in '..\..\Sources\Core\Producao\uOP.pas' {OP},
   uLabRecipientes in '..\..\Sources\Core\Labo\uLabRecipientes.pas' {LabRecipientes},
   uLabRecipientesM in '..\..\Sources\Core\Labo\uLabRecipientesM.pas' {LabRecipientesM},
-  uAnaliseDeCredito in '..\..\Sources\Core\Financ\uAnaliseDeCredito.pas' {AnaliseDeCredito};
+  uAnaliseDeCredito in '..\..\Sources\Core\Financ\uAnaliseDeCredito.pas' {AnaliseDeCredito},
+  uGestaoComercial in '..\..\Sources\Core\Dash\uGestaoComercial.pas' {GestaoComercial},
+  uIChart in '..\..\Sources\Core\Infra\uIChart.pas' {IChart},
+  uChartCotaEvolucao in '..\..\Sources\Core\Gestao\uChartCotaEvolucao.pas' {ChartCotaEvolucao},
+  uChartCotaDesempenho in '..\..\Sources\Core\Gestao\uChartCotaDesempenho.pas' {ChartCotaDesempenho},
+  uChartLabEvolucaoValor in '..\..\Sources\Core\Gestao\uChartLabEvolucaoValor.pas' {ChartLabEvolucaoValor},
+  uChartReceberEvolucaoValor in '..\..\Sources\Core\Gestao\uChartReceberEvolucaoValor.pas' {ChartReceberEvolucaoValor};
 
 {$R *.res}
 
@@ -325,11 +331,11 @@ begin
     Application.Initialize;
     Application.Title := 'Manager';
     Application.CreateForm(TResources, Resources);
-    Application.CreateForm(TDM, DM);
-    Application.CreateForm(TDMReport, DMReport);
-    Application.CreateForm(TMain, Main);
-    Application.CreateForm(TILogin, ILogin);
-    ILogin.ShowModal;
+  Application.CreateForm(TDM, DM);
+  Application.CreateForm(TDMReport, DMReport);
+  Application.CreateForm(TMain, Main);
+  Application.CreateForm(TILogin, ILogin);
+  ILogin.ShowModal;
 
     if ILogin.Execute then
       Application.Run;
