@@ -5,14 +5,6 @@
    @date    11/01/2011 14:38:53
    @trigger
 
-   Histórico
-   ---------------------------------------------------------------------------------------------------------------------
-   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
-*/
-
-/*
-   Rotina completa.
-
    @param vlog Log - titleção curta
    @param thist Histórico
    @param itable Tabela de source do log
@@ -21,6 +13,9 @@
    @param itipo Tipo de log: 1 - Criação / 2 - Alteração / 3 - Exclusão / 4 - Outros
    @param ilevel Nível de log: 1 - Informação / 2 - Atenção / 3 - Crítico / 4 - Debug
 
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
 */
 create or replace function log(
    in vlog varchar,
