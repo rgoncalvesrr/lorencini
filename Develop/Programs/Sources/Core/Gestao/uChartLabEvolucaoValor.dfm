@@ -2,6 +2,25 @@ inherited ChartLabEvolucaoValor: TChartLabEvolucaoValor
   Caption = 'ChartLabEvolucaoValor'
   PixelsPerInch = 96
   TextHeight = 15
+  inherited ControlBar1: TControlBar
+    inherited ToolBar1: TToolBar
+      inherited ToolButton1: TToolButton
+        ExplicitWidth = 77
+      end
+      inherited ToolButton2: TToolButton
+        ExplicitWidth = 53
+      end
+      inherited tbZoomWindow: TToolButton
+        ExplicitWidth = 84
+      end
+      inherited ToolButton5: TToolButton
+        ExplicitWidth = 72
+      end
+      inherited ToolButton4: TToolButton
+        ExplicitWidth = 32
+      end
+    end
+  end
   inherited PageControl1: TPageControl
     inherited tsChart: TTabSheet
       inherited DBChart1: TDBChart
@@ -62,14 +81,15 @@ inherited ChartLabEvolucaoValor: TChartLabEvolucaoValor
       end
     end
     inherited tsData: TTabSheet
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
+      ExplicitLeft = 4
+      ExplicitTop = 26
+      ExplicitWidth = 722
+      ExplicitHeight = 432
     end
   end
   inherited dsDataGrid: TDataSource
     DataSet = qData
+    Left = 208
   end
   object qData: TZReadOnlyQuery
     Connection = DM.Design
@@ -115,8 +135,8 @@ inherited ChartLabEvolucaoValor: TChartLabEvolucaoValor
         ParamType = ptUnknown
         Value = '8'
       end>
-    Left = 144
-    Top = 64
+    Left = 160
+    Top = 72
     ParamData = <
       item
         DataType = ftString

@@ -206,6 +206,8 @@ begin
       Next;
     end;
   finally
+    actSyncExecute(actSync);
+
     GotoBookmark(bBookMark);
     FreeBookmark(bBookMark);
     
