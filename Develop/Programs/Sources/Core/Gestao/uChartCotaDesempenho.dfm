@@ -7,7 +7,7 @@ inherited ChartCotaDesempenho: TChartCotaDesempenho
       Left = 11
       ExplicitLeft = 11
       object ToolButton6: TToolButton
-        Left = 242
+        Left = 326
         Top = 0
         Width = 8
         Caption = 'ToolButton6'
@@ -15,7 +15,7 @@ inherited ChartCotaDesempenho: TChartCotaDesempenho
         Style = tbsSeparator
       end
       object tbMesSelecionado: TToolButton
-        Left = 250
+        Left = 334
         Top = 0
         Caption = 'Janeiro'
         DropdownMenu = pmMeses
@@ -25,8 +25,6 @@ inherited ChartCotaDesempenho: TChartCotaDesempenho
     end
   end
   inherited PageControl1: TPageControl
-    ExplicitLeft = 3
-    ExplicitTop = 41
     inherited tsChart: TTabSheet
       inherited DBChart1: TDBChart
         Legend.CheckBoxes = False
@@ -63,10 +61,10 @@ inherited ChartCotaDesempenho: TChartCotaDesempenho
       end
     end
     inherited tsData: TTabSheet
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
+      ExplicitLeft = 4
+      ExplicitTop = 26
+      ExplicitWidth = 722
+      ExplicitHeight = 432
     end
   end
   inherited dsDataGrid: TDataSource
@@ -103,8 +101,8 @@ inherited ChartCotaDesempenho: TChartCotaDesempenho
         Value = '8'
       end>
     IndexFieldNames = 'cotacoes Desc'
-    Left = 160
-    Top = 56
+    Left = 176
+    Top = 128
     ParamData = <
       item
         DataType = ftString

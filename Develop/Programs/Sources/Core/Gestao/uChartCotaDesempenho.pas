@@ -19,8 +19,6 @@ type
     Series1: TBarSeries;
     procedure qCotaMesAtualCalcFields(DataSet: TDataSet);
   private
-    procedure ClickMes(Sender: TObject);
-    procedure BuildMenuMeses;
     procedure OnLoad; override;
     procedure RefreshData; override;
     procedure RefreshControls; override;
@@ -38,45 +36,10 @@ uses
 
 {$R *.dfm}
 
-procedure TChartCotaDesempenho.BuildMenuMeses;
-var
-  Item: TMenuItem;
-  Items: array of TMenuItem;
-  I, MesLimite: Byte;
-begin
-  MesLimite := MonthOf(Now);
-  SetLength(Items, MesLimite);
-
-  for I := 1 to MesLimite do
-  begin
-    Item := TMenuItem.Create(nil);
-    Item.Caption := FMeses[i];
-    Item.Tag := I;
-
-    Items[i-1] := Item;
-  end;
-
-  BuildRadioMenu(pmMeses, Items, ClickMes);
-  ClickMes(Items[MesLimite-1]);
-end;
-
-procedure TChartCotaDesempenho.ClickMes(Sender: TObject);
-var
-  Mes: TMenuItem;
-begin
-  Mes := TMenuItem(Sender);
-  Mes.Checked := True;
-
-  tbMesSelecionado.Caption := Mes.Caption;
-  tbMesSelecionado.Tag := Mes.Tag;
-
-  RefreshData;
-end;
-
 procedure TChartCotaDesempenho.OnLoad;
 begin
-  BuildMenuMeses;
   inherited;
+  BuildMenuMeses(pmMeses, tbMesSelecionado);
 end;
 
 procedure TChartCotaDesempenho.qCotaMesAtualCalcFields(DataSet: TDataSet);
@@ -100,17 +63,13 @@ var
   MesTitulo: string;
 begin
   inherited;
-  
-  if not (tbMesSelecionado.Tag in [1..12]) then
-    Exit;
 
   MesTitulo := EmptyStr;
 
   if tbMesSelecionado.Tag = MonthOf(Now) then
     MesTitulo:= ' (Em Andamento)';
 
-  DBChart1.Title.Text.Text := Format('Evolução Mensal - %s de %d%s', [FMeses[tbMesSelecionado.Tag], YearOf(Now), MesTitulo]);
-
+  DBChart1.Title.Text.Text := Format('Contações do mês de %s de %d%s', [FMeses[Mes], YearOf(Now), MesTitulo]);
 end;
 
 procedure TChartCotaDesempenho.RefreshData;
@@ -119,7 +78,7 @@ begin
   with qCotaMesAtual do
   begin
     ParamByName('ano').AsInteger := YearOf(Now);
-    ParamByName('mes').AsInteger := tbMesSelecionado.Tag;
+    ParamByName('mes').AsInteger := Mes;
     Close;
   end;
   

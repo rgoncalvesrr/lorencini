@@ -9,13 +9,12 @@ inherited ChartCotaEvolucao: TChartCotaEvolucao
     ExplicitWidth = 887
     inherited ToolBar1: TToolBar
       Width = 757
-      ButtonWidth = 80
       ExplicitWidth = 757
       inherited ToolButton3: TToolButton
         Down = True
       end
       object ToolButton12: TToolButton
-        Left = 242
+        Left = 326
         Top = 0
         Width = 8
         Caption = 'ToolButton12'
@@ -23,7 +22,7 @@ inherited ChartCotaEvolucao: TChartCotaEvolucao
         Style = tbsSeparator
       end
       object tbTipoCota: TToolButton
-        Left = 250
+        Left = 334
         Top = 0
         AutoSize = True
         Caption = 'Emitidas'
@@ -35,8 +34,6 @@ inherited ChartCotaEvolucao: TChartCotaEvolucao
   end
   inherited PageControl1: TPageControl
     Width = 887
-    ExplicitLeft = 3
-    ExplicitTop = 41
     ExplicitWidth = 887
     inherited tsChart: TTabSheet
       ExplicitWidth = 879
@@ -50,7 +47,7 @@ inherited ChartCotaEvolucao: TChartCotaEvolucao
           15
           31)
         object Series2: TBarSeries
-          BarPen.Color = clGray
+          BarPen.Color = clSilver
           BarPen.SmallDots = True
           Marks.Callout.Brush.Color = clBlack
           Marks.Callout.Length = 8
@@ -75,7 +72,7 @@ inherited ChartCotaEvolucao: TChartCotaEvolucao
           YValues.ValueSource = 'emitidas'
         end
         object Series1: TBarSeries
-          BarPen.Color = clGray
+          BarPen.Color = 16744448
           BarPen.SmallDots = True
           Marks.Callout.Brush.Color = clBlack
           Marks.Callout.Length = 8
@@ -102,10 +99,7 @@ inherited ChartCotaEvolucao: TChartCotaEvolucao
       end
     end
     inherited tsData: TTabSheet
-      ExplicitLeft = 0
-      ExplicitTop = 0
       ExplicitWidth = 879
-      ExplicitHeight = 0
       inherited PageControl2: TPageControl
         Width = 879
         ExplicitWidth = 879
@@ -119,10 +113,6 @@ inherited ChartCotaEvolucao: TChartCotaEvolucao
         object TabSheet2: TTabSheet
           Caption = 'Ano Anterior'
           ImageIndex = 1
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
         end
       end
     end
