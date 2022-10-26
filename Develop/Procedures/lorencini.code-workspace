@@ -8,10 +8,20 @@
       "files.defaultLanguage": "oracle",
       "files.encoding": "iso88591",
       "files.associations": {
-         "*.spg": "oracle"
+         "*.spg": "postgres"
       },
       "editor.tabSize": 3,
       "editor.detectIndentation": false,
-      "editor.insertSpaces": true
+      "editor.insertSpaces": true,
+      "plpgsqlLanguageServer.password": "postgres.",
+      "plpgsqlLanguageServer.port": 6432,
+      "plpgsqlLanguageServer.host": "127.0.0.1",
+      "plpgsqlLanguageServer.database": "lorencini",
+      "plpgsqlLanguageServer.definitionFiles": [
+         "**/*.psql",
+         "**/*.pgsql",
+         "**/*.spg"
+      ],
+      "plpgsqlLanguageServer.user": "postgres"
    }
 }

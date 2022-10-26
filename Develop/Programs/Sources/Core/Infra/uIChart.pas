@@ -50,23 +50,29 @@ type
     procedure FormResize(Sender: TObject);
     procedure ControlBar1Resize(Sender: TObject);
   private
+    FTbMesSelecionado: TToolButton;
+    FMes: Byte;
     procedure LocalRefreshControls;
     procedure LocalRefreshData;
+    procedure SetMes(const Value: Byte);
   protected
     FLastParent: TWinControl;
     FMeses: Array[1..12] of String;
+    procedure ClickMes(Sender: TObject);
     procedure OnLoad; override;
     procedure LoadChartDefaults; virtual;
     procedure RefreshData; virtual;
     procedure RefreshControls; virtual;
-    procedure BuildRadioMenu(Menu: TPopupMenu; const Items: array of TMenuItem; ExecEvent: TNotifyEvent);
+    procedure BuildRadioMenu(AMenu: TPopupMenu; const Items: array of TMenuItem; ExecEvent: TNotifyEvent);
+    procedure BuildMenuMeses(AMenu: TPopupMenu; AToolButton: TToolButton);
   public
+    property Mes: Byte read FMes write SetMes;
     class function New(AParent: TWinControl; AllowConfig: Boolean = True): TIChart;
   end;
 
 implementation
 
-uses uResources, uDM, uIUtils;
+uses uResources, uDM, uIUtils, dateutils;
 
 {$R *.dfm}
 
@@ -140,7 +146,30 @@ begin
   end;
 end;
 
-procedure TIChart.BuildRadioMenu(Menu: TPopupMenu; const Items: array of TMenuItem; ExecEvent: TNotifyEvent);
+procedure TIChart.BuildMenuMeses(AMenu: TPopupMenu; AToolButton: TToolButton);
+var
+  Item: TMenuItem;
+  Items: array of TMenuItem;
+  I, MesLimite: Byte;
+begin
+  FTbMesSelecionado := AToolButton;
+  MesLimite := MonthOf(Now);
+  SetLength(Items, MesLimite);
+
+  for I := 1 to MesLimite do
+  begin
+    Item := TMenuItem.Create(nil);
+    Item.Caption := FMeses[i];
+    Item.Tag := I;
+
+    Items[i-1] := Item;
+  end;
+
+  BuildRadioMenu(AMenu, Items, ClickMes);
+  ClickMes(Items[MesLimite-1]);
+end;
+
+procedure TIChart.BuildRadioMenu(AMenu: TPopupMenu; const Items: array of TMenuItem; ExecEvent: TNotifyEvent);
 var
   Item: TMenuItem;
   Group, I: Byte;
@@ -157,8 +186,21 @@ begin
     Item.GroupIndex := Group;
     Item.RadioItem := True;
     Item.OnClick := ExecEvent;
-    Menu.Items.Add(Item);
+    AMenu.Items.Add(Item);
   end;
+end;
+
+procedure TIChart.ClickMes(Sender: TObject);
+var
+  Mes: TMenuItem;
+begin
+  Mes := TMenuItem(Sender);
+  Mes.Checked := True;
+
+  FTbMesSelecionado.Caption := Mes.Caption;
+  FTbMesSelecionado.Tag := Mes.Tag;
+  
+  SetMes(Mes.Tag);
 end;
 
 procedure TIChart.ControlBar1Resize(Sender: TObject);
@@ -182,6 +224,16 @@ end;
 
 procedure TIChart.RefreshData;
 begin
+end;
+
+procedure TIChart.SetMes(const Value: Byte);
+begin
+  if FMes = Value then
+    Exit;
+
+  FMes := Value;
+
+  LocalRefreshData;
 end;
 
 procedure TIChart.tsChartResize(Sender: TObject);
@@ -309,6 +361,7 @@ end;
 procedure TIChart.OnLoad;
 begin
   inherited;
+  FMes := MonthOf(Now);
   TabSheet1.TabVisible := PageControl2.PageCount > 1;
   PageControl2.ActivePage := TabSheet1;
 

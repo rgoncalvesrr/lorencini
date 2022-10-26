@@ -315,13 +315,16 @@ uses
   uChartCotaEvolucao in '..\..\Sources\Core\Gestao\uChartCotaEvolucao.pas' {ChartCotaEvolucao},
   uChartCotaDesempenho in '..\..\Sources\Core\Gestao\uChartCotaDesempenho.pas' {ChartCotaDesempenho},
   uChartLabEvolucaoValor in '..\..\Sources\Core\Gestao\uChartLabEvolucaoValor.pas' {ChartLabEvolucaoValor},
-  uChartReceberEvolucaoValor in '..\..\Sources\Core\Gestao\uChartReceberEvolucaoValor.pas' {ChartReceberEvolucaoValor};
+  uChartReceberEvolucaoValor in '..\..\Sources\Core\Gestao\uChartReceberEvolucaoValor.pas' {ChartReceberEvolucaoValor},
+  uContratos in '..\..\Sources\Core\Vendas\uContratos.pas' {Contratos},
+  uContratosM in '..\..\Sources\Core\Vendas\uContratosM.pas' {ContratosM},
+  uChartFaturamentoMesCorrente in '..\..\Sources\Core\Gestao\uChartFaturamentoMesCorrente.pas' {ChartFaturamentoMesCorrente},
+  uChartFaturamentoAcumuladoMesCorrente in '..\..\Sources\Core\Gestao\uChartFaturamentoAcumuladoMesCorrente.pas' {ChartFaturamentoAcumuladoMesCorrente},
+  uChartFaturamentoAnoCorrente in '..\..\Sources\Core\Gestao\uChartFaturamentoAnoCorrente.pas' {ChartFaturamentoAnoCorrente},
+  uChartFaturamentoHistorico in '..\..\Sources\Core\Gestao\uChartFaturamentoHistorico.pas' {ChartFaturamentoHistorico};
 
 {$R *.res}
 
-//{$SetPEFlags $20}
-var
-  chave: INFeChave;
 begin
   {$IFDEF DEBUG}
   ReportMemoryLeaksOnShutdown := True;
@@ -331,11 +334,11 @@ begin
     Application.Initialize;
     Application.Title := 'Manager';
     Application.CreateForm(TResources, Resources);
-  Application.CreateForm(TDM, DM);
-  Application.CreateForm(TDMReport, DMReport);
-  Application.CreateForm(TMain, Main);
-  Application.CreateForm(TILogin, ILogin);
-  ILogin.ShowModal;
+    Application.CreateForm(TDM, DM);
+    Application.CreateForm(TDMReport, DMReport);
+    Application.CreateForm(TMain, Main);
+    Application.CreateForm(TILogin, ILogin);
+    ILogin.ShowModal;
 
     if ILogin.Execute then
       Application.Run;
