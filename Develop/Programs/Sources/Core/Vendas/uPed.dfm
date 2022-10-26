@@ -175,7 +175,7 @@ inherited Ped: TPed
             Width = 185
             Height = 15
             Align = alTop
-            Caption = '01/05/2022 a 31/05/2022'
+            Caption = '01/10/2022 a 31/10/2022'
             Transparent = True
             ExplicitWidth = 128
           end
@@ -207,7 +207,7 @@ inherited Ped: TPed
             end
             inherited CCalendarDiff1: TCCalendarDiff
               Interval = diMonthly
-              Date = 44683.674599976850000000
+              Date = 44859.986981921300000000
               DisplayInterval = Label6
               OnChange = FrameData1CCalendarDiff1Change
             end
@@ -232,7 +232,6 @@ inherited Ped: TPed
       Height = 486
       ActivePage = TabSheet2
       Images = Resources.medium_n
-      ExplicitTop = 2
       ExplicitWidth = 1113
       ExplicitHeight = 486
       inherited TabSheet1: TTabSheet

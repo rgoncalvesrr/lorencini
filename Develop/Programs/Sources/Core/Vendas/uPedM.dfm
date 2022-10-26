@@ -1610,30 +1610,30 @@ inherited PedM: TPedM
             inherited Panel3: TPanel
               inherited Panel8: TPanel
                 Left = 241
-                Width = 732
+                Width = 727
                 ExplicitLeft = 241
-                ExplicitWidth = 732
+                ExplicitWidth = 727
                 inherited Label1: TLabel
-                  Width = 726
+                  Width = 721
                 end
                 inherited DBEdit1: TDBEdit
-                  Width = 726
+                  Width = 721
                   DataField = 'cliente_cidade'
-                  ExplicitWidth = 726
+                  ExplicitWidth = 721
                 end
               end
               inherited Panel9: TPanel
-                Left = 973
-                Width = 39
-                ExplicitLeft = 973
-                ExplicitWidth = 39
+                Left = 968
+                Width = 44
+                ExplicitLeft = 968
+                ExplicitWidth = 44
                 inherited Label2: TLabel
-                  Width = 33
+                  Width = 38
                 end
                 inherited DBEdit2: TDBEdit
-                  Width = 33
+                  Width = 38
                   DataField = 'cliente_estado'
-                  ExplicitWidth = 33
+                  ExplicitWidth = 38
                 end
               end
               inherited Panel30: TPanel
