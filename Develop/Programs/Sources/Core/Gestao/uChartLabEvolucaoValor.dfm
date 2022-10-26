@@ -24,6 +24,9 @@ inherited ChartLabEvolucaoValor: TChartLabEvolucaoValor
   inherited PageControl1: TPageControl
     inherited tsChart: TTabSheet
       inherited DBChart1: TDBChart
+        Title.Text.Strings = (
+          'Produ'#231#227'o Anual')
+        LeftAxis.AxisValuesFormat = 'R$ #,0k'
         LeftAxis.Title.Caption = 'Valor Produzido'
         PrintMargins = (
           15
@@ -43,19 +46,19 @@ inherited ChartLabEvolucaoValor: TChartLabEvolucaoValor
           DataSource = qData
           SeriesColor = clSilver
           Title = 'Ano Anterior'
-          ValueFormat = 'R$ ###,##0.#0'
-          XLabelsSource = 'Mes'
+          ValueFormat = 'R$ 0,#k'
+          XLabelsSource = 'label'
           BarStyle = bsCilinder
           Gradient.Direction = gdTopBottom
           XValues.Name = 'X'
           XValues.Order = loAscending
-          XValues.ValueSource = 'emissao_mes'
+          XValues.ValueSource = 'mes'
           YValues.Name = 'Bar'
           YValues.Order = loNone
           YValues.ValueSource = 'ano_anterior'
         end
         object Series2: TBarSeries
-          BarPen.Color = clGray
+          BarPen.Color = 16744448
           BarPen.SmallDots = True
           Marks.Callout.Brush.Color = clBlack
           Marks.Callout.Length = 8
@@ -67,16 +70,36 @@ inherited ChartLabEvolucaoValor: TChartLabEvolucaoValor
           DataSource = qData
           SeriesColor = 16744448
           Title = 'Ano Atual'
-          ValueFormat = 'R$ ###,##0.#0'
-          XLabelsSource = 'Mes'
+          ValueFormat = 'R$ #,#k'
+          XLabelsSource = 'label'
           BarStyle = bsCilinder
           Gradient.Direction = gdTopBottom
           XValues.Name = 'X'
           XValues.Order = loAscending
-          XValues.ValueSource = 'emissao_mes'
+          XValues.ValueSource = 'mes'
           YValues.Name = 'Bar'
           YValues.Order = loNone
           YValues.ValueSource = 'ano_corrente'
+        end
+        object Series3: TFastLineSeries
+          Active = False
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = Series1
+          SeriesColor = 33023
+          Title = 'M'#233'dia'
+          LinePen.Color = 33023
+          LinePen.Style = psDot
+          LinePen.Width = 2
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          DataSources = (
+            'Series1'
+            'Series2')
+          object TeeFunction1: TAverageTeeFunction
+          end
         end
       end
     end
@@ -93,29 +116,27 @@ inherited ChartLabEvolucaoValor: TChartLabEvolucaoValor
   end
   object qData: TZReadOnlyQuery
     Connection = DM.Design
+    SortedFields = 'mes'
     OnCalcFields = qDataCalcFields
     SQL.Strings = (
       'select '
-      '  l.emissao_mes,'
+      '  extract('#39'month'#39' from l.emissao)::::smallint mes,'
       
-        '  sum(ps.vtotal / ps.qtd) filter(where l.emissao_ano = :ano_de) ' +
-        'ano_anterior,'
+        '  sum(l.preco) filter(where extract('#39'year'#39' from l.emissao) = :an' +
+        'o_de) / 1000 ano_anterior,'
       
-        '  sum(ps.vtotal / ps.qtd) filter(where l.emissao_ano = :ano_ate)' +
-        ' ano_corrente'
+        '  sum(l.preco) filter(where extract('#39'year'#39' from l.emissao) = :an' +
+        'o_ate) / 1000 ano_corrente'
       'from'
       '  labamostras_rel l'
-      'join'
-      '  pedido_serv ps on'
-      '  ps.pedido = l.pedido and'
-      '  ps.codserv = l.codserv'
       'where'
       '  l.status = 4 and'
       '  l.revisao is null and'
-      '  l.emissao_mes between 1 and :mes and'
-      '  l.emissao_ano between :ano_de and :ano_ate'
+      
+        '  date_trunc('#39'day'#39', l.emissao) between :emissao_de and :emissao_' +
+        'ate'
       'group by'
-      '  l.emissao_mes')
+      '  extract('#39'month'#39' from l.emissao)')
     Params = <
       item
         DataType = ftString
@@ -130,11 +151,18 @@ inherited ChartLabEvolucaoValor: TChartLabEvolucaoValor
         Value = '2022'
       end
       item
-        DataType = ftString
-        Name = 'mes'
+        DataType = ftDate
+        Name = 'emissao_de'
         ParamType = ptUnknown
-        Value = '8'
+        Value = 44197d
+      end
+      item
+        DataType = ftDate
+        Name = 'emissao_ate'
+        ParamType = ptUnknown
+        Value = '31/12/2022'
       end>
+    IndexFieldNames = 'mes Asc'
     Left = 160
     Top = 72
     ParamData = <
@@ -151,26 +179,32 @@ inherited ChartLabEvolucaoValor: TChartLabEvolucaoValor
         Value = '2022'
       end
       item
-        DataType = ftString
-        Name = 'mes'
+        DataType = ftDate
+        Name = 'emissao_de'
         ParamType = ptUnknown
-        Value = '8'
+        Value = 44197d
+      end
+      item
+        DataType = ftDate
+        Name = 'emissao_ate'
+        ParamType = ptUnknown
+        Value = '31/12/2022'
       end>
-    object qDataMes: TStringField
-      DisplayLabel = 'M'#234's'
-      DisplayWidth = 17
-      FieldKind = fkCalculated
-      FieldName = 'Mes'
-      Calculated = True
-    end
-    object qDataemissao_mes: TSmallintField
-      FieldName = 'emissao_mes'
+    object qDatames: TSmallintField
+      FieldName = 'mes'
       ReadOnly = True
       Visible = False
     end
+    object qDatalabel: TStringField
+      DisplayLabel = 'M'#234's'
+      DisplayWidth = 20
+      FieldKind = fkCalculated
+      FieldName = 'label'
+      Calculated = True
+    end
     object qDataano_anterior: TFloatField
       DisplayLabel = 'Ano Anterior'
-      DisplayWidth = 46
+      DisplayWidth = 45
       FieldName = 'ano_anterior'
       ReadOnly = True
       DisplayFormat = ',0.#0'
@@ -178,7 +212,7 @@ inherited ChartLabEvolucaoValor: TChartLabEvolucaoValor
     end
     object qDataano_corrente: TFloatField
       DisplayLabel = 'Ano Corrente'
-      DisplayWidth = 49
+      DisplayWidth = 48
       FieldName = 'ano_corrente'
       ReadOnly = True
       DisplayFormat = ',0.#0'

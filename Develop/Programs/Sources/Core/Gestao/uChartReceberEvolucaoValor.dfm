@@ -2,11 +2,29 @@ inherited ChartReceberEvolucaoValor: TChartReceberEvolucaoValor
   Caption = 'ChartReceberEvolucaoValor'
   PixelsPerInch = 96
   TextHeight = 15
+  inherited ControlBar1: TControlBar
+    inherited ToolBar1: TToolBar
+      inherited ToolButton1: TToolButton
+        ExplicitWidth = 77
+      end
+      inherited ToolButton2: TToolButton
+        ExplicitWidth = 53
+      end
+      inherited tbZoomWindow: TToolButton
+        ExplicitWidth = 84
+      end
+      inherited ToolButton5: TToolButton
+        ExplicitWidth = 72
+      end
+      inherited ToolButton4: TToolButton
+        ExplicitWidth = 32
+      end
+    end
+  end
   inherited PageControl1: TPageControl
-    ExplicitLeft = 3
-    ExplicitTop = 41
     inherited tsChart: TTabSheet
       inherited DBChart1: TDBChart
+        LeftAxis.AxisValuesFormat = 'R$ #,0k'
         LeftAxis.Title.Caption = 'Valor Recebido'
         PrintMargins = (
           15
@@ -14,7 +32,7 @@ inherited ChartReceberEvolucaoValor: TChartReceberEvolucaoValor
           15
           20)
         object Series1: TBarSeries
-          BarPen.Color = clGray
+          BarPen.Color = clSilver
           BarPen.SmallDots = True
           Marks.Callout.Brush.Color = clBlack
           Marks.Frame.Color = clSilver
@@ -25,7 +43,7 @@ inherited ChartReceberEvolucaoValor: TChartReceberEvolucaoValor
           DataSource = qData
           SeriesColor = clSilver
           Title = 'Anterior'
-          ValueFormat = 'R$ #,###.00'
+          ValueFormat = 'R$ #,0k'
           XLabelsSource = 'Mes'
           BarStyle = bsCilinder
           Gradient.Direction = gdTopBottom
@@ -37,7 +55,7 @@ inherited ChartReceberEvolucaoValor: TChartReceberEvolucaoValor
           YValues.ValueSource = 'ano_anterior'
         end
         object Series2: TBarSeries
-          BarPen.Color = clGray
+          BarPen.Color = 16744448
           BarPen.SmallDots = True
           Marks.Callout.Brush.Color = clBlack
           Marks.Frame.Color = clSilver
@@ -48,7 +66,7 @@ inherited ChartReceberEvolucaoValor: TChartReceberEvolucaoValor
           DataSource = qData
           SeriesColor = 16744448
           Title = 'Corrente'
-          ValueFormat = 'R$ #,###.00'
+          ValueFormat = 'R$ #,0k'
           XLabelsSource = 'Mes'
           BarStyle = bsCilinder
           Gradient.Direction = gdTopBottom
@@ -60,6 +78,12 @@ inherited ChartReceberEvolucaoValor: TChartReceberEvolucaoValor
           YValues.ValueSource = 'ano_corrente'
         end
       end
+    end
+    inherited tsData: TTabSheet
+      ExplicitLeft = 4
+      ExplicitTop = 26
+      ExplicitWidth = 722
+      ExplicitHeight = 432
     end
   end
   inherited dsDataGrid: TDataSource
@@ -74,11 +98,11 @@ inherited ChartReceberEvolucaoValor: TChartReceberEvolucaoValor
       'select'
       #9'baixa_mes, '
       
-        #9'sum(valor_baixado) filter (where baixa_ano = :anoanterior) ano_' +
-        'anterior,'
+        #9'sum(valor_baixado) filter (where baixa_ano = :anoanterior) / 10' +
+        '00 ano_anterior,'
       
-        #9'sum(valor_baixado) filter (where baixa_ano = :anocorrente) ano_' +
-        'corrente'
+        #9'sum(valor_baixado) filter (where baixa_ano = :anocorrente) / 10' +
+        '00 ano_corrente'
       'from'
       #9'fin_receber'
       'where'

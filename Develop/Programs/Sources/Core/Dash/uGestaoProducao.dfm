@@ -36,6 +36,7 @@ inherited GestaoProducao: TGestaoProducao
         Align = alLeft
         BevelOuter = bvNone
         TabOrder = 0
+        ExplicitLeft = 0
         PrintMargins = (
           15
           26
@@ -122,8 +123,6 @@ inherited GestaoProducao: TGestaoProducao
         PrintMarginTop = 2.000000000000000000
         PrintMarginBottom = 2.000000000000000000
         PrintScale = 1.000000000000000000
-        ExplicitLeft = 575
-        ExplicitTop = 3
       end
     end
     object Panel7: TPanel
