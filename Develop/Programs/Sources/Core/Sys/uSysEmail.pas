@@ -59,7 +59,10 @@ type
     procedure ckEntradaClick(Sender: TObject);
     procedure FrameData2CCalendarDiff1Change(Sender: TObject);
     procedure edTo_Change(Sender: TObject);
+    procedure IBrwSrcBeforeRefresh(DataSet: TDataSet);
   private
+    FSession: string;
+    FTable: Integer;
     procedure OnLoad; override;
     procedure RefreshCtrl; override;
   public
@@ -96,55 +99,24 @@ begin
     sWhere := 'e.status = :status ';
 
     if ckEntrada.Checked and (ACalEntrada.Interval <> diNone) then
-    begin
-      if swhere <> EmptyStr then
-        swhere := swhere + 'and ';
-
-      swhere := swhere + 'mt.entry_ between :entrada_de and :entrada_ate ';
-    end;
+      swhere := swhere + 'and mt.entry_ between :entrada_de and :entrada_ate ';
 
     if ckAgendada.Checked and (ACalAgendada.Interval <> diNone) then
-    begin
-      if swhere <> EmptyStr then
-        swhere := swhere + 'and ';
-
-      swhere := swhere + 'mt.schedule between :agendada_de and :agendada_ate ';
-    end;
+      swhere := swhere + 'and mt.schedule between :agendada_de and :agendada_ate ';
 
     if ckEnviada.Checked and (ACalEnviada.Interval <> diNone) then
-    begin
-      if swhere <> EmptyStr then
-        swhere := swhere + 'and ';
-
-      swhere := swhere + 'mt.send_ between :enviada_de and :enviada_ate ';
-    end;
+      swhere := swhere + 'and mt.send_ between :enviada_de and :enviada_ate ';
 
     if Length(edTo_.Text) > 0 then
-    begin
-      if sWhere <> EmptyStr then
-        sWhere := sWhere + 'and ';
-
-      sWhere := sWhere + 'mt.to_ ilike :para ';
-    end;
+      sWhere := sWhere + 'and mt.to_ ilike :para ';
 
     if Length(edTo_Name.Text) > 0 then
-    begin
-      if sWhere <> EmptyStr then
-        sWhere := sWhere + 'and ';
-
-      sWhere := sWhere + 'mt.to_name ilike :dest ';
-    end;
+      sWhere := sWhere + 'and mt.to_name ilike :dest ';
 
     if Length(edSubject.Text) > 0 then
-    begin
-      if sWhere <> EmptyStr then
-        sWhere := sWhere + 'and ';
+      sWhere := sWhere + 'and e.subject ilike :titulo ';
 
-      sWhere := sWhere + 'e.subject ilike :titulo ';
-    end;
-
-    if sWhere <> EmptyStr then
-      SQL.Add('where ' + sWhere);
+    SQL.Add('where ' + sWhere);
 
     if Assigned(Params.FindParam('status')) then
       ParamByName('status').AsInteger := cbStatus.ItemIndex;
@@ -261,12 +233,30 @@ begin
   actQueryProcessExecute(actQueryProcess);
 end;
 
+procedure TSysEmail.IBrwSrcBeforeRefresh(DataSet: TDataSet);
+begin
+  inherited;
+  IBrwSrc.ParamByName('session').AsString := FSession;
+  IBrwSrc.ParamByName('table').AsInteger := FTable;
+end;
+
 procedure TSysEmail.OnLoad;
 begin
   inherited;
   cbStatus.ItemIndex := 1;
   cbStatusChange(cbStatus);
   DataSet := IBrwSrc;
+
+  with U.Query do
+  try
+    SQL.Text := 'select sys_session(), sys_origem(''sys_emailto'')';
+    Open;
+
+    FSession := Fields[0].AsString;
+    FTable := Fields[1].AsInteger;
+  finally
+    Close;
+  end;
 end;
 
 procedure TSysEmail.PageControl1Change(Sender: TObject);
@@ -288,7 +278,7 @@ begin
   TabSheet3.Caption := 'Sucesso';
   TabSheet4.Caption := 'Falha';
 
-  PageControl1.ActivePage.Caption := Format('%s (%d)', [PageControl1.ActivePage.Caption, DataSet.RecordCount]);
+  PageControl1.ActivePage.Caption := Format('%s (%d)', [PageControl1.ActivePage.Caption, IBrwSrc.RecordCount]);
 
   ckEntrada.Enabled := (cbStatus.ItemIndex > 0);
   ckAgendada.Enabled := (cbStatus.ItemIndex > 0);

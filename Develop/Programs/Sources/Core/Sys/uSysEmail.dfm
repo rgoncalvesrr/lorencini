@@ -9,20 +9,23 @@ inherited SysEmail: TSysEmail
   inherited StatusBar1: TStatusBar
     Top = 354
     Width = 1215
+    ExplicitTop = 354
+    ExplicitWidth = 1215
   end
   inherited Panel1: TPanel
     Width = 1221
+    ExplicitWidth = 1221
     inherited pctlFind: TPageControl
       Width = 1211
+      ExplicitWidth = 1211
       inherited tsQuery: TTabSheet
-        ExplicitLeft = 3
-        ExplicitTop = 4
+        ExplicitLeft = 4
+        ExplicitTop = 6
         ExplicitWidth = 1203
         ExplicitHeight = 75
         inherited BitBtn2: TBitBtn
           Left = 1102
           ExplicitLeft = 1102
-          ExplicitTop = 11
         end
         object Panel6: TPanel
           Left = 0
@@ -40,8 +43,7 @@ inherited SysEmail: TSysEmail
             Height = 15
             Align = alTop
             Caption = 'Status'
-            ExplicitLeft = 5
-            ExplicitWidth = 228
+            ExplicitWidth = 32
           end
           object cbStatus: TComboBox
             AlignWithMargins = True
@@ -61,8 +63,6 @@ inherited SysEmail: TSysEmail
               'Agendadas'
               'Sucesso'
               'Falha')
-            ExplicitLeft = 5
-            ExplicitWidth = 179
           end
         end
         object Panel8: TPanel
@@ -80,7 +80,7 @@ inherited SysEmail: TSysEmail
             Width = 144
             Height = 15
             Align = alTop
-            Caption = '01/10/2020 a 31/10/2020'
+            Caption = '01/09/2022 a 30/09/2022'
             Transparent = True
             ExplicitWidth = 128
           end
@@ -102,17 +102,17 @@ inherited SysEmail: TSysEmail
             TabOrder = 0
             ExplicitLeft = 3
             ExplicitTop = 24
-            ExplicitWidth = 185
+            ExplicitWidth = 144
             inherited ComboBox1: TComboBox
               Width = 144
               Enabled = False
               ItemIndex = 2
               Text = 'Trimestralmente'
-              ExplicitWidth = 185
+              ExplicitWidth = 144
             end
             inherited CCalendarDiff1: TCCalendarDiff
               Interval = diMonthly
-              Date = 44132.076527719910000000
+              Date = 44818.930204618050000000
               DisplayInterval = Label6
               OnChange = FrameData2CCalendarDiff1Change
             end
@@ -130,7 +130,6 @@ inherited SysEmail: TSysEmail
             Enabled = False
             TabOrder = 1
             OnClick = ckEntradaClick
-            ExplicitWidth = 185
           end
         end
         object Panel3: TPanel
@@ -148,7 +147,7 @@ inherited SysEmail: TSysEmail
             Width = 144
             Height = 15
             Align = alTop
-            Caption = '01/10/2020 a 31/10/2020'
+            Caption = '01/09/2022 a 30/09/2022'
             Transparent = True
             ExplicitWidth = 128
           end
@@ -170,17 +169,17 @@ inherited SysEmail: TSysEmail
             TabOrder = 0
             ExplicitLeft = 3
             ExplicitTop = 24
-            ExplicitWidth = 185
+            ExplicitWidth = 144
             inherited ComboBox1: TComboBox
               Width = 144
               Enabled = False
               ItemIndex = 2
               Text = 'Trimestralmente'
-              ExplicitWidth = 185
+              ExplicitWidth = 144
             end
             inherited CCalendarDiff1: TCCalendarDiff
               Interval = diMonthly
-              Date = 44132.076865312500000000
+              Date = 44818.930204618050000000
               DisplayInterval = Label4
               OnChange = FrameData2CCalendarDiff1Change
             end
@@ -198,9 +197,6 @@ inherited SysEmail: TSysEmail
             Enabled = False
             TabOrder = 1
             OnClick = ckEntradaClick
-            ExplicitLeft = 0
-            ExplicitTop = 3
-            ExplicitWidth = 185
           end
         end
         object Panel4: TPanel
@@ -211,8 +207,6 @@ inherited SysEmail: TSysEmail
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 4
-          ExplicitLeft = 436
-          ExplicitTop = 1
           object Label7: TLabel
             AlignWithMargins = True
             Left = 3
@@ -220,7 +214,7 @@ inherited SysEmail: TSysEmail
             Width = 144
             Height = 15
             Align = alTop
-            Caption = '01/10/2020 a 31/10/2020'
+            Caption = '01/09/2022 a 30/09/2022'
             Transparent = True
             ExplicitWidth = 128
           end
@@ -242,17 +236,17 @@ inherited SysEmail: TSysEmail
             TabOrder = 0
             ExplicitLeft = 3
             ExplicitTop = 24
-            ExplicitWidth = 185
+            ExplicitWidth = 144
             inherited ComboBox1: TComboBox
               Width = 144
               Enabled = False
               ItemIndex = 2
               Text = 'Trimestralmente'
-              ExplicitWidth = 185
+              ExplicitWidth = 144
             end
             inherited CCalendarDiff1: TCCalendarDiff
               Interval = diMonthly
-              Date = 44132.078325312500000000
+              Date = 44818.930204618050000000
               DisplayInterval = Label7
               OnChange = FrameData2CCalendarDiff1Change
             end
@@ -270,7 +264,6 @@ inherited SysEmail: TSysEmail
             Enabled = False
             TabOrder = 1
             OnClick = ckEntradaClick
-            ExplicitWidth = 185
           end
         end
         object Panel5: TPanel
@@ -281,8 +274,6 @@ inherited SysEmail: TSysEmail
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 5
-          ExplicitLeft = 589
-          ExplicitTop = -2
           object Label3: TLabel
             AlignWithMargins = True
             Left = 3
@@ -302,7 +293,6 @@ inherited SysEmail: TSysEmail
             Align = alTop
             TabOrder = 0
             OnChange = edTo_Change
-            ExplicitWidth = 206
           end
         end
         object Panel7: TPanel
@@ -313,8 +303,6 @@ inherited SysEmail: TSysEmail
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 6
-          ExplicitLeft = 781
-          ExplicitTop = -5
           object Label5: TLabel
             AlignWithMargins = True
             Left = 3
@@ -344,9 +332,6 @@ inherited SysEmail: TSysEmail
           Align = alClient
           BevelOuter = bvNone
           TabOrder = 7
-          ExplicitLeft = 825
-          ExplicitTop = 1
-          ExplicitWidth = 239
           object Label8: TLabel
             AlignWithMargins = True
             Left = 3
@@ -366,30 +351,35 @@ inherited SysEmail: TSysEmail
             Align = alTop
             TabOrder = 0
             OnChange = edTo_Change
-            ExplicitWidth = 233
           end
         end
       end
       inherited tsFind: TTabSheet
-        inherited BitBtn1: TBitBtn
-          Glyph.Data = {00000000}
-        end
+        ExplicitLeft = 4
+        ExplicitTop = 6
+        ExplicitWidth = 1203
+        ExplicitHeight = 75
       end
     end
   end
   inherited Panel2: TPanel
     Width = 1221
     Height = 222
-    ExplicitLeft = 3
-    ExplicitTop = 128
+    ExplicitWidth = 1221
+    ExplicitHeight = 222
     inherited PageControl1: TPageControl
       Width = 1215
       Height = 216
       Images = Resources.medium_n
+      ExplicitWidth = 1215
       ExplicitHeight = 216
       inherited TabSheet1: TTabSheet
         Caption = 'Enfileirando'
         ImageIndex = 209
+        ExplicitLeft = 4
+        ExplicitTop = 33
+        ExplicitWidth = 1207
+        ExplicitHeight = 179
         inherited DBGrid1: TDBGrid
           Top = 47
           Width = 1201
@@ -403,10 +393,10 @@ inherited SysEmail: TSysEmail
           Align = alTop
           AutoSize = True
           TabOrder = 1
-          ExplicitLeft = 4
-          ExplicitTop = 40
+          ExplicitWidth = 1207
           inherited ControlBar1: TControlBar
             Width = 1201
+            ExplicitWidth = 1201
             inherited ToolBar2: TToolBar
               ButtonWidth = 109
               inherited ToolButton13: TToolButton
@@ -420,14 +410,14 @@ inherited SysEmail: TSysEmail
                 ExplicitLeft = 192
                 ExplicitWidth = 70
               end
-              inherited ToolButton1: TToolButton
+              inherited ToolButton16: TToolButton
                 Left = 262
                 ExplicitLeft = 262
-              end
-              inherited ToolButton16: TToolButton
-                Left = 270
-                ExplicitLeft = 270
                 ExplicitWidth = 86
+              end
+              inherited ToolButton1: TToolButton
+                Left = 348
+                ExplicitLeft = 348
               end
             end
           end
@@ -439,26 +429,20 @@ inherited SysEmail: TSysEmail
       object TabSheet2: TTabSheet
         Caption = 'Agendadas'
         ImageIndex = 210
-        ExplicitLeft = 2
-        ExplicitTop = 37
-        ExplicitWidth = 823
       end
       object TabSheet3: TTabSheet
         Caption = 'Sucesso'
         ImageIndex = 208
-        ExplicitLeft = 6
-        ExplicitTop = 37
       end
       object TabSheet4: TTabSheet
         Caption = 'Falha'
         ImageIndex = 213
-        ExplicitLeft = 6
-        ExplicitTop = 37
       end
     end
   end
   inherited ctrlBarTop: TControlBar
     Width = 1215
+    ExplicitWidth = 1215
     inherited ToolBar1: TToolBar
       Width = 817
       ExplicitWidth = 817
@@ -503,6 +487,7 @@ inherited SysEmail: TSysEmail
   end
   inherited IBrwSrc: TZQuery
     Connection = DM.Design
+    BeforeRefresh = IBrwSrcBeforeRefresh
     SQL.Strings = (
       
         'select (m.recno is not null) mark, mt.status, mt.to_, mt.to_name' +
@@ -512,12 +497,34 @@ inherited SysEmail: TSysEmail
       '  from sys_emailto mt '
       '       join sys_email e'
       '         on e.recno = mt.message'
-      '       left join sys_flag m'
+      '       left join sys_flags m'
       '         on m.recno = mt.recno'
-      '        and m.session = sys_session()'
-      '        and m.table_ = '#39'sys_emailto'#39)
+      '        and m.session = :session'
+      '        and m.table_ = :table')
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'session'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'table'
+        ParamType = ptUnknown
+      end>
     Left = 224
     Top = 184
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'session'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'table'
+        ParamType = ptUnknown
+      end>
     object IBrwSrcmark: TBooleanField
       DisplayLabel = ' '
       FieldName = 'mark'
