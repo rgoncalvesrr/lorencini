@@ -1,0 +1,73 @@
+/**
+   Atualizações após atualização do contrato
+
+   @author	Ricardo Gonçalves
+   @date		11/10/2022
+   @trigger	a_contratos A IUD
+
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+create or replace function a_contratos()
+returns trigger as
+$$
+declare
+   ATIVO constant integer := 1;
+
+   xlog  log$;
+begin   
+   if tg_op = 'DELETE' then
+      return null;
+   end if;
+
+   xlog.source_table := sys_origem('contratos');
+   xlog.source_recno := new.recno;
+   xlog.status_code := new.status;
+
+   if tg_op = 'INSERT' then
+      xlog.title := 'Criação do contrato';
+      xlog.detail := 'Registro do contrato no sistema';
+      perform log(xlog);
+
+      -- Preenche contatos do contrato
+      insert into contratos_contatos
+         (cliente, contrato, contato)
+      select
+         cliente, new.contrato, contato
+      from
+         tbclientes_contatos
+      where
+         cliente = new.cliente and
+         situacao = ATIVO;
+   else
+      if new.status <> old.status then
+         xlog.title := 'Mudança de Status';
+         xlog.detail := format('Status alterado de %s.%s para %s.%s', 
+            old.status, a_contratos_status(old.status), 
+            new.status, a_contratos_status(new.status));
+         perform log(xlog);
+      end if;
+   end if;
+   
+   return null;
+end;
+$$
+language plpgsql;
+
+create or replace function a_contratos_status(
+   in status_ smallint)
+returns text as
+$$
+begin
+   case status_ 
+      when 1 then 
+         return 'Elaboração';
+      when 2 then 
+         return 'Vigente';
+      when 3 then 
+         return 'Encerrado';
+   end case;
+end;
+$$
+language plpgsql;

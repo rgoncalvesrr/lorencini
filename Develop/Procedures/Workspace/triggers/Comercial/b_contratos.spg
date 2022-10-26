@@ -1,0 +1,40 @@
+/**
+   Valida inserção do contrato
+
+   @author	Ricardo Gonçalves
+   @date		12/10/2022
+   @trigger	b_contatos B IUD
+
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+create or replace function b_contratos()
+returns trigger as
+$$
+declare
+   
+begin
+   if tg_op = 'DELETE' then
+      return old;
+   end if;
+
+   if tg_op = 'INSERT' then
+      if exists(
+         select 
+            1
+         from
+            contratos
+         where
+            cliente = new.cliente and
+            contrato <> new.contrato and
+            status < 3)
+      then
+         raise '[[Há um contrato ativo para o cliente.]]';
+      end if;
+   end if;
+
+   return new;
+end;
+$$
+language plpgsql;
