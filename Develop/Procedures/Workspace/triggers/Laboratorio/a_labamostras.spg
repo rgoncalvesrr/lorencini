@@ -8,6 +8,8 @@
 	Histórico
 	---------------------------------------------------------------------------------------------------------------------
    Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+   21/10/2022  Ricardo
+      [*] Atualização da sintaxe
 */
 CREATE OR REPLACE FUNCTION a_labamostras()
   RETURNS trigger AS
@@ -32,65 +34,88 @@ BEGIN
           -- Marca processo como emitido e atualiza a data de emissão caso todos os comadatos tenham sido impressos
          if new.estado = _EIMPRESSA and old.estado = _EGERADA then
             if not exists(
-               select 1
-                 from labamostras c
-                      join (select l.amostra
-                              from labprocxequip l
-                                   join (select labproc_recno
-                                           from labprocxequip
-                                          where amostra = new.recno) p
-                                     on p.labproc_recno = l.labproc_recno) pe
-                                on pe.amostra = c.recno
-                where c.estado = _EGERADA
-                  and c.recno <> new.recno)
+               select 
+                  1
+               from 
+                  labamostras c
+               join (
+                  select 
+                     l.amostra
+                  from 
+                     labprocxequip l
+                  join (
+                        select 
+                           labproc_recno
+                        from 
+                           labprocxequip
+                        where 
+                           amostra = new.recno) p on 
+                     p.labproc_recno = l.labproc_recno) pe on 
+                  pe.amostra = c.recno
+               where 
+                  c.estado = _EGERADA and 
+                  c.recno <> new.recno)
             then
-               update labproc lp
-                  set situacao = 2, emissao = localtimestamp
-                 from labprocxequip le
-                where le.labproc_recno = lp.recno
-                  and le.amostra = new.recno;
+               update 
+                  labproc lp
+               set 
+                  situacao = 2, emissao = localtimestamp
+               from 
+                  labprocxequip le
+               where 
+                  le.labproc_recno = lp.recno and 
+                  le.amostra = new.recno;
             end if;
          end if;
 
          -- Registrando mudança de estado na amostra
-         if lRegHist then            
-            begin
-               insert into labamostras_hist (amostra,   estado)
-               values                       (new.recno, new.estado);
-            exception
-               when unique_violation then
-            end;
-
+         if lRegHist then                        
+            insert into labamostras_hist 
+               (amostra,   estado)
+            values                       
+               (new.recno, new.estado)
+            on conflict(amostra,   estado)
+               do nothing;
+            
             perform tsearch_amostra(new.recno);
          end if;
 
          -- Marca processo como retornado e atualiza a data de baixa caso todos os comadatos tenham sido retornados
          if old.estado = _EENVIADA and new.estado = _ERECEBIDA then
             if not exists(
-               select 1
-                 from labamostras c
-                      join (select l.amostra
-                              from labprocxequip l
-                                   join (select labproc_recno
-                                           from labprocxequip
-                                          where amostra = new.recno) p
-                                     on p.labproc_recno = l.labproc_recno) pe
-                        on pe.amostra = c.recno
-                where c.estado = _EENVIADA
-                  and c.recno <> new.recno)
+               select 
+                  1
+               from 
+                  labamostras c
+               join (
+                  select 
+                     l.amostra
+                  from 
+                     labprocxequip l
+                  join (
+                     select 
+                        labproc_recno
+                     from 
+                        labprocxequip
+                     where 
+                        amostra = new.recno) p on 
+                     p.labproc_recno = l.labproc_recno) pe on 
+                  pe.amostra = c.recno
+               where 
+                  c.estado = _EENVIADA and 
+                  c.recno <> new.recno)
             then
-               update labproc lp
-                  set situacao = 6, retorno = localtimestamp
-                 from labprocxequip le
-                where le.labproc_recno = lp.recno
-                  and le.amostra = new.recno;
+               update 
+                  labproc lp
+               set 
+                  situacao = 6, retorno = localtimestamp
+               from 
+                  labprocxequip le
+               where 
+                  le.labproc_recno = lp.recno and 
+                  le.amostra = new.recno;
             end if;
-         end if;
-
-         -- Tenta vincular amostra a uma OS
-         -- if old.estado = _ERECEBIDA and new.estado = _EDISPONIVEL then
-         --    perform op_vincular_amostra(new.recno);
-         -- end if;
+         end if;         
       end if;
 
       return new;

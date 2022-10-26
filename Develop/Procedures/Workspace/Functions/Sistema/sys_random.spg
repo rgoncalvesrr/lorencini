@@ -13,6 +13,6 @@ CREATE OR REPLACE FUNCTION sys_random(low INT ,high INT)
    RETURNS INT AS
 $$
 BEGIN
-   RETURN floor(random()* (high-low + 1) + low);
+   RETURN floor(random() * (high-low + 1) + low);
 END;
 $$ language 'plpgsql' STRICT;

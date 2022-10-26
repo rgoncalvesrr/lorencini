@@ -17,25 +17,34 @@ BEGIN
       if new.situacao = 4 and old.situacao != 4 and new.remessa is not null then
          if new.correio is not null then
             -- Marca o frete com estimado
-            update correio
-               set status = 2, codigo = new.codigo
-            where recno = new.correio
-               and status = 1;
+            update 
+               correio
+            set 
+               status = 2, codigo = new.codigo
+            where 
+               recno = new.correio and 
+               status = 1;
          end if;
 
          if new.pedido is not null then
-            update pedido
-               set status = 50
-             where recno = new.pedido;
+            update 
+               pedido
+            set 
+               status = 50
+            where 
+               recno = new.pedido;
          end if;
       end if;
       
       if new.situacao = 5 and old.situacao != 5 and new.correio is not null then
          -- Lançamento para o caixa
-         update correio
-            set status = 3
-          where recno = new.correio
-            and status = 2;
+         update 
+            correio
+         set 
+            status = 3
+         where 
+            recno = new.correio and 
+            status = 2;
       end if;
    end if;
 

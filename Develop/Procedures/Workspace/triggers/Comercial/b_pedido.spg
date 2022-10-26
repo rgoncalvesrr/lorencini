@@ -50,25 +50,37 @@ BEGIN
          xlog.source_recno := new.recno;
 
          if new.indice is null then
-            select recno
-              into new.indice
-              from indices
-             where vigencia <= new.criado
-             order by vigencia desc
-             limit 1;
+            select 
+               recno
+            into 
+               new.indice
+            from 
+               indices
+            where 
+               vigencia <= new.criado
+            order by 
+               vigencia desc
+            limit 
+               1;
          end if;
 
          -- Tenta localizar um contato
          if new.solicitante is null then
-            select nome
-              into new.solicitante
-              from clientes_contatos
-             where cliente = new.codigo
-               and contato_comercial
-               and ativo
-               and email is not null
-             order by padrao desc, nome
-             limit 1;
+            select 
+               nome
+            into 
+               new.solicitante
+            from 
+               clientes_contatos
+            where 
+               cliente = new.codigo and 
+               contato_comercial and 
+               ativo and 
+               email is not null
+            order by 
+               padrao desc, nome
+            limit 
+               1;
          end if;
 
          if new.solicitante is null then
@@ -103,10 +115,14 @@ BEGIN
                msg := msg || CRLF || '- Markup não aprovado.';
             end if;
 
-            select email, contato_mail, id_vendedor
-              into r
-              from tbclientes
-             where codigo = new.codigo;
+            select 
+               email, contato_mail, id_vendedor
+            into 
+               r
+            from 
+               tbclientes            
+            where 
+               codigo = new.codigo;
 
             if r.email is null and r.contato_mail is null then
                msg := msg || CRLF || '- E-mail no cadastro do cliente não está preenchido.';

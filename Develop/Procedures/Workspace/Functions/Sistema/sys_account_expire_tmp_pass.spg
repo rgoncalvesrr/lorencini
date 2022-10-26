@@ -14,25 +14,31 @@
 */
 create or replace function sys_account_expire_tmp_pass(
    account_ account$)
-returns void as
+returns void 
+language 'plpgsql' as
 $$
 begin
-   update sys_genpass
-      set expire_at = clock_timestamp() - interval '1 min'
-    where account = account_
-      and expire_at > clock_timestamp();
+   update 
+      sys_genpass
+   set 
+      expire_at = clock_timestamp() - interval '1 min'
+   where 
+      account = account_ and 
+      expire_at > clock_timestamp();
 end
-$$
-language 'plpgsql';
+$$;
 
 create or replace function sys_account_expire_tmp_pass(
    email_ email$)
-returns void as
+ returns void 
+ language 'plpgsql' as
 $$
 begin
-   perform sys_account_expire_tmp_pass(account)
-      from contatos
-     where email = email_;    
+   perform 
+      sys_account_expire_tmp_pass(account)
+   from 
+      contatos
+   where 
+      email = email_;    
 end
-$$
-language 'plpgsql';
+$$;

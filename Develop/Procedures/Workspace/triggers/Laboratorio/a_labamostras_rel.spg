@@ -36,13 +36,19 @@ Declare
    rinst       record;   
 BEGIN
    if tg_op <> 'DELETE' then
+
       -- Recupera informações da amostra
-      select a.tpamostra_recno, a.equip_recno, t.descri
-        into ra
-        from labamostras a
-             left join labtipo t
-               on t.recno = a.tpamostra_recno
-       where a.recno = new.amostra;
+      select 
+         a.tpamostra_recno, a.equip_recno, t.descri
+      into 
+         ra
+      from 
+         labamostras a
+      left join 
+         labtipo t on 
+         t.recno = a.tpamostra_recno
+      where 
+         a.recno = new.amostra;
 
       -- Trata inserção
       if tg_op = 'INSERT' then
@@ -53,10 +59,11 @@ BEGIN
 
          -- Atualiza lista de contatos do laudo
          perform atualiza_contatos_laudo(new.recno);
-
       else
          -- Laudo aguardando revisão ainda
          if new.status = _SREL_DIGITACAO and old.status = _SREL_DIGITACAO and ra.descri is not null then
+         
+            -- Atualizando histórico
             if new.relato_recno is not null and new.relato_recno <> old.relato_recno then
                perform labamostras_res_atu(new.recno);
             end if;
@@ -67,37 +74,54 @@ BEGIN
             if new.status in (_SREL_ASSINADO, _SREL_LIBERADO) then
                -- Caso não haja laudos em aberto para pedido, marca como executado
                if not exists(
-                  select 1
-                    from labamostras_rel 
-                   where pedido = new.pedido
-                     and revisao is null
-                     and status not in (_SREL_LIBERADO, _SREL_CANCELADO))
+                  select 
+                     1
+                  from 
+                     labamostras_rel 
+                  where 
+                     pedido = new.pedido and 
+                     revisao is null and 
+                     status not in (_SREL_LIBERADO, _SREL_CANCELADO))
                then
-                  update pedido
-                     set status = _SPED_EXECUTADO
-                   where recno = new.pedido
-                     and status <> _SPED_EXECUTADO; 
+                  update 
+                     pedido
+                  set 
+                     status = _SPED_EXECUTADO
+                  where 
+                     recno = new.pedido and 
+                     status <> _SPED_EXECUTADO; 
                end if;
 
                -- Gera informações para o portal
                delete 
-                 from api.reports_assays
-                where report = new.recno;
+                 from 
+                  api.reports_assays
+                where 
+                  report = new.recno;
                
                insert into api.reports_assays
                   (report,                   reporttype,        hash, 
                    assays,                   titles,            results)
-               select new.recno, new.relato_recno, md5(string_agg(g.ensaio_recno::text, '|')), array_agg(g.ensaio_recno), array_agg(g.nome), array_agg(g.valor)
-                 from (select r.ensaio_recno, e.nome, ensaio_mascara(r.ensaio_recno, r.valor) valor
-                         from labamostras_res r
-                              join labrel_ens le
-                                on le.relato_recno = r.relato_recno
-                               and le.ensaio_recno = r.ensaio_recno
-                              join labens e
-                                on e.recno = le.ensaio_recno
-                        where r.laudo = new.recno
-                          and r.relato_recno = new.relato_recno
-                       order by le.ordem, le.ensaio_recno) g;
+               select 
+                  new.recno, new.relato_recno, md5(string_agg(g.ensaio_recno::text, '|')), 
+                  array_agg(g.ensaio_recno), array_agg(g.nome), array_agg(g.valor)
+               from (
+                  select 
+                     r.ensaio_recno, e.nome, ensaio_mascara(r.ensaio_recno, r.valor) valor
+                  from 
+                     labamostras_res r
+                  join 
+                     labrel_ens le on 
+                     le.relato_recno = r.relato_recno and 
+                     le.ensaio_recno = r.ensaio_recno 
+                  join 
+                     labens e on 
+                     e.recno = le.ensaio_recno
+                  where 
+                     r.laudo = new.recno and 
+                     r.relato_recno = new.relato_recno
+                  order by 
+                     le.ordem, le.ensaio_recno) g;
             end if;
 
             -- Gerando consulta para laudos
@@ -112,22 +136,30 @@ BEGIN
          -- Cancelamento
          elsif new.status = _SREL_CANCELADO and old.status in (_SREL_ASSINADO, _SREL_LIBERADO) then
             -- Coloca o pedido em execução
-            update pedido
-               set status = _SPED_EXECUTANDO
-             where recno = new.pedido
-               and status = _SPED_EXECUTADO;  
+            update 
+               pedido
+            set 
+               status = _SPED_EXECUTANDO
+            where 
+               recno = new.pedido and 
+               status = _SPED_EXECUTADO;  
          elsif new.status < old.status then
             -- Apaga histórico de resultados associados a amostra
             delete
-              from labamostras_hres 
-             where laudo = new.recno
-               and relato_recno = new.relato_recno;
+            from 
+               labamostras_hres 
+            where 
+               laudo = new.recno and 
+               relato_recno = new.relato_recno;
             
             -- Coloca o pedido em execução
-            update pedido
-               set status = _SPED_EXECUTANDO
-             where recno = new.pedido
-               and status = _SPED_EXECUTADO;  
+            update 
+               pedido
+            set 
+               status = _SPED_EXECUTANDO
+            where 
+               recno = new.pedido and 
+               status = _SPED_EXECUTADO;  
          end if;
       end if;
 
