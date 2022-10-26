@@ -1,47 +1,28 @@
 inherited LabProcSolM: TLabProcSolM
   Caption = 'Edi'#231#227'o de Remessas'
-  ClientHeight = 261
+  ClientHeight = 322
   ClientWidth = 715
   ExplicitWidth = 721
-  ExplicitHeight = 289
+  ExplicitHeight = 351
   PixelsPerInch = 96
   TextHeight = 15
   inherited Panel1: TPanel
-    Top = 44
     Width = 715
-    Height = 217
-    ExplicitTop = 35
+    Height = 278
     ExplicitWidth = 715
-    ExplicitHeight = 183
+    ExplicitHeight = 217
     inherited Panel3: TPanel
       Align = alNone
-      ExplicitTop = 204
       inherited PageControl3: TPageControl
-        Top = 47
-        Height = 185
-        ExplicitLeft = 3
-        ExplicitTop = 38
-        ExplicitWidth = 633
-        ExplicitHeight = 194
         inherited tsDet: TTabSheet
           ExplicitLeft = 4
           ExplicitTop = 26
           ExplicitWidth = 625
-          ExplicitHeight = 164
-          inherited DBGrid1: TDBGrid
-            Width = 625
-            Height = 155
-          end
+          ExplicitHeight = 155
         end
       end
       inherited ControlBar2: TControlBar
-        Height = 38
-        ExplicitLeft = 3
-        ExplicitTop = 3
-        ExplicitWidth = 633
-        ExplicitHeight = 38
         inherited ToolBar3: TToolBar
-          ButtonWidth = 129
           inherited ToolButton10: TToolButton
             ExplicitWidth = 32
           end
@@ -68,17 +49,15 @@ inherited LabProcSolM: TLabProcSolM
     end
     inherited PageControl1: TPageControl
       Width = 709
-      Height = 211
-      ExplicitLeft = 3
-      ExplicitTop = 3
+      Height = 272
       ExplicitWidth = 709
-      ExplicitHeight = 177
+      ExplicitHeight = 211
       inherited TabSheet1: TTabSheet
         Caption = 'Solicita'#231#227'o de Remessa de Vidrarias'
         ExplicitLeft = 4
         ExplicitTop = 26
         ExplicitWidth = 701
-        ExplicitHeight = 147
+        ExplicitHeight = 181
         object Panel2: TPanel
           AlignWithMargins = True
           Left = 3
@@ -96,16 +75,16 @@ inherited LabProcSolM: TLabProcSolM
             Align = alLeft
             BevelOuter = bvNone
             TabOrder = 0
-            ExplicitHeight = 45
             object Label1: TLabel
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 57
+              Width = 63
               Height = 15
               Align = alTop
               Caption = 'Solicita'#231#227'o'
               FocusControl = DBEdit1
+              ExplicitWidth = 57
             end
             object DBEdit1: TDBEdit
               AlignWithMargins = True
@@ -129,12 +108,11 @@ inherited LabProcSolM: TLabProcSolM
             Align = alLeft
             BevelOuter = bvNone
             TabOrder = 1
-            ExplicitHeight = 45
             object Label7: TLabel
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 39
+              Width = 56
               Height = 14
               Align = alTop
               Caption = 'Cliente'
@@ -146,6 +124,7 @@ inherited LabProcSolM: TLabProcSolM
               Font.Pitch = fpVariable
               Font.Style = [fsBold]
               ParentFont = False
+              ExplicitWidth = 39
             end
             object DBEdit7: TDBEdit
               AlignWithMargins = True
@@ -180,43 +159,7 @@ inherited LabProcSolM: TLabProcSolM
               Margins.Top = 24
               Action = actFindCli
               Align = alClient
-              Glyph.Data = {
-                36040000424D3604000000000000360000002800000010000000100000000100
-                2000000000000004000000000000000000000000000000000000FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF000A0A
-                0A000A0A0A000A0A0A000A0A0A000A0A0A000A0A0A00FF00FF00FF00FF000A0A
-                0A000A0A0A000A0A0A000A0A0A000A0A0A000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00121212001E1E1E000B0B0B000A0A0A000A0A0A00FF00FF00FF00FF000A0A
-                0A0015151500222222000B0B0B000A0A0A000A0A0A00FF00FF00FF00FF007549
-                4900A0725E00EFE1D200EBC8A3009F674D0070414000FF00FF00FF00FF007549
-                4900A0725E00EFE1D200EBC8A3009F674D0070414000FF00FF00FF00FF008461
-                610085554C00F5E5D400EAC5A000865043007D565500FF00FF00FF00FF008461
-                610085554C00F5E5D400EAC5A000865043007D565500FF00FF00FF00FF009A82
-                820074444000F5E4D300E1B488007443400093777700FF00FF00FF00FF009A82
-                820074444000F5E4D300E1B488007443400093777700FF00FF00FF00FF00B7AE
-                AE006C3C3C00E9C8A800D19669006C3C3C00B2A7A700FF00FF00FF00FF00B7AE
-                AE006C3C3C00E9C8A800D19669006C3C3C00B2A7A700FF00FF00FF00FF00FF00
-                FF006E3E3E00734444006B3B3B006B3B3B000B0B0B000A0A0A000A0A0A000E0D
-                0D006C3C3C006B3B3B006B3B3B006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF006C3B3B00F1D8BE00E8BF9300C78657000A0A0A00C4C4C400696969001010
-                1000F9DEB700E2B38600BD7B51006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF006C3B3B00F6E6D600E9BF9500C88759000A0A0A00C4C4C400696969000C0C
-                0C00E3C6A900CA9B7600A5694B006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF006D3D3D00724343006B3B3B006B3B3B00141010000A0A0A000A0A0A002416
-                14006C3B3B006C3B3B006C3B3B006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF000A0A0A00C4C4C400696969000A0A0A00FF00FF00FF00FF000A0A
-                0A00C4C4C400696969000A0A0A00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF000A0A0A000A0A0A000A0A0A001D1D1D00FF00FF00FF00FF000A0A
-                0A000A0A0A000A0A0A001D1D1D00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00}
-              ExplicitTop = 20
-              ExplicitWidth = 25
+              ExplicitTop = 27
             end
           end
           object Panel7: TPanel
@@ -227,19 +170,17 @@ inherited LabProcSolM: TLabProcSolM
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 3
-            ExplicitLeft = 157
-            ExplicitWidth = 322
-            ExplicitHeight = 45
             object Label8: TLabel
               AlignWithMargins = True
               Left = 1
               Top = 3
-              Width = 65
+              Width = 315
               Height = 15
               Margins.Left = 1
               Align = alTop
               Caption = 'Raz'#227'o Social'
               FocusControl = DBEdit8
+              ExplicitWidth = 65
             end
             object DBEdit8: TDBEdit
               AlignWithMargins = True
@@ -254,7 +195,6 @@ inherited LabProcSolM: TLabProcSolM
               DataSource = LabProcSol.DataSource1
               ReadOnly = True
               TabOrder = 0
-              ExplicitWidth = 318
             end
           end
           object Panel8: TPanel
@@ -265,16 +205,16 @@ inherited LabProcSolM: TLabProcSolM
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 4
-            ExplicitHeight = 45
             object Label9: TLabel
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 40
+              Width = 108
               Height = 15
               Align = alTop
               Caption = 'C.N.P.J.'
               FocusControl = DBEdit9
+              ExplicitWidth = 40
             end
             object DBEdit9: TDBEdit
               AlignWithMargins = True
@@ -298,16 +238,16 @@ inherited LabProcSolM: TLabProcSolM
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 5
-            ExplicitHeight = 45
             object Label4: TLabel
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 30
+              Width = 96
               Height = 15
               Align = alTop
               Caption = 'C.P.F.'
               FocusControl = DBEdit4
+              ExplicitWidth = 30
             end
             object DBEdit4: TDBEdit
               AlignWithMargins = True
@@ -327,12 +267,13 @@ inherited LabProcSolM: TLabProcSolM
         object Panel10: TPanel
           AlignWithMargins = True
           Left = 3
-          Top = 59
+          Top = 115
           Width = 695
           Height = 50
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 1
+          ExplicitTop = 59
           object Panel11: TPanel
             Left = 0
             Top = 0
@@ -341,16 +282,17 @@ inherited LabProcSolM: TLabProcSolM
             Align = alLeft
             BevelOuter = bvNone
             TabOrder = 0
-            ExplicitHeight = 45
+            ExplicitLeft = -3
             object Label5: TLabel
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 39
+              Width = 69
               Height = 15
               Align = alTop
               Caption = 'Frascos'
               FocusControl = DBEdit5
+              ExplicitWidth = 39
             end
             object DBEdit5: TDBEdit
               AlignWithMargins = True
@@ -373,16 +315,16 @@ inherited LabProcSolM: TLabProcSolM
             Align = alLeft
             BevelOuter = bvNone
             TabOrder = 1
-            ExplicitHeight = 45
             object Label6: TLabel
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 44
+              Width = 69
               Height = 15
               Align = alTop
               Caption = 'Seringas'
               FocusControl = DBEdit6
+              ExplicitWidth = 44
             end
             object DBEdit6: TDBEdit
               AlignWithMargins = True
@@ -405,7 +347,6 @@ inherited LabProcSolM: TLabProcSolM
             Align = alLeft
             BevelOuter = bvNone
             TabOrder = 2
-            ExplicitHeight = 45
             object Label11: TLabel
               AlignWithMargins = True
               Left = 3
@@ -447,15 +388,15 @@ inherited LabProcSolM: TLabProcSolM
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 4
-            ExplicitHeight = 45
             object Label12: TLabel
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 26
+              Width = 235
               Height = 15
               Align = alTop
               Caption = 'Frete'
+              ExplicitWidth = 26
             end
             object SpeedButton1: TSpeedButton
               AlignWithMargins = True
@@ -467,41 +408,6 @@ inherited LabProcSolM: TLabProcSolM
               Margins.Top = 2
               Action = actSedex
               Align = alRight
-              Glyph.Data = {
-                36040000424D3604000000000000360000002800000010000000100000000100
-                2000000000000004000000000000000000000000000000000000FF00FF00FF00
-                FF00FF00FF00C1C3C5004B769500275E87006A8AA200B4BAC000FF00FF00FF00
-                FF00C1C5C6000A6B9B000A6B9B00BBC1C500FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF00597E9B0010508100306E99001D5D8B000D4E7E003D6D9000829B
-                AD000A6B9B00B3FCFC00AEFCFC000A6B9B00BBC1C500FF00FF00FF00FF00FF00
-                FF0090A3B1000B4C7C003F7EAA00447FA7003775A20033739F00246492000A6B
-                9B00BFFCFC00BAFAFB00A6CFE900AEFCFC000A6B9B00BBC1C500FF00FF00B6BC
-                C1001A558100306F9B005A98C0005288AE003977A4003775A2000A6B9B00C7FC
-                FC00C6FAFB00A6CFE900B7FCFC00A6CFE900AEFCFC000A6B9B00FF00FF00406E
-                90001F5F8D005795BE0063A0C8006193B5003C7AA6003977A4000A6B9B00D0F8
-                FA00CCFCFC00C3FCFC00A6CFE900B3FCFC00B3FCFC000A6B9B007692A7001454
-                84004F8EB700619DC5005E9BC300336C96002C6C99003775A2000A6B9B00D8FC
-                FC00104F8000C7FCFC00BFFCFC00BCFCFC000A6B9B00BDC3C500275E87004181
-                AC005D99C200518FB900155484003F759D001B5C8A000D4E7E000A6B9B00DCFC
-                FC00D4FCFC00CAFAFB00C7FCFC000A6B9B00BFC4C600FF00FF0020598400508E
-                B8004785AF0013538300619EC60087AEC9004483AD004180AB0017729F000A6B
-                9B000A6B9B000A6B9B000A6B9B000F508000FF00FF00FF00FF00205984003373
-                9F001656860066A4CB0087C2E60094B8D0004685AF004382AC004180AB001C5D
-                8B002A6997003775A2002A699700104F8000FF00FF00FF00FF00185481001B5B
-                8A006DABD10083BFE4008FCAEE00A7C4D8004987B2004685AF004382AC001D5E
-                8C002C6B98003C7AA6003977A30012528200FF00FF00FF00FF002059830066A3
-                CC0080BDE2008CC7EB00A4D7F700D8E4ED0086AECB005E95BB004685AF001E5E
-                8C002D6D99003E7DA8003C7AA60013528200FF00FF00FF00FF002059840070AC
-                D30089C4E900ACD7F200C1DDEE0099D0F000A0CFEB009CC1D90094B7CF002A63
-                8E004C80A700558CB3003F7DA90013538300FF00FF00FF00FF00205984007BB5
-                DB00ACD2E900A6CFE90086C1E6007CB8DE0073AFD5004B89B300155484002564
-                9200558FB6005B91B5005487AC001C598600FF00FF00FF00FF00255C86008FBA
-                D50090C5E4007BB7DD0072AED4005996BF0021618F00175786003C7AA6004381
-                AC002E6E9A00165585002C61890099A9B400FF00FF00FF00FF0097A8B4002A5F
-                88000F4F7F001E5E8C00286795000D4E7E00266593003C7BA6002A6997001352
-                830035678C0093A5B300FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF00A4B0B900899EAE006C8BA2004F78980030648A00447193009EAC
-                B700FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00}
               ParentShowHint = False
               ShowHint = True
               ExplicitLeft = 214
@@ -518,7 +424,6 @@ inherited LabProcSolM: TLabProcSolM
               DecimalPlacesAlwaysShown = False
               DataField = 'frete'
               DataSource = LabProcSol.DataSource1
-              ExplicitWidth = 207
             end
           end
           object Panel19: TPanel
@@ -529,7 +434,6 @@ inherited LabProcSolM: TLabProcSolM
             Align = alLeft
             BevelOuter = bvNone
             TabOrder = 3
-            ExplicitHeight = 45
             object Label13: TLabel
               AlignWithMargins = True
               Left = 3
@@ -570,12 +474,13 @@ inherited LabProcSolM: TLabProcSolM
         object Panel17: TPanel
           AlignWithMargins = True
           Left = 3
-          Top = 115
+          Top = 171
           Width = 695
           Height = 50
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 2
+          ExplicitTop = 115
           object Panel16: TPanel
             Left = 579
             Top = 0
@@ -584,16 +489,16 @@ inherited LabProcSolM: TLabProcSolM
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 0
-            ExplicitHeight = 45
             object Label3: TLabel
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 43
+              Width = 110
               Height = 15
               Align = alTop
               Caption = 'Emiss'#227'o'
               FocusControl = DBEdit3
+              ExplicitWidth = 43
             end
             object DBEdit3: TDBEdit
               AlignWithMargins = True
@@ -617,16 +522,16 @@ inherited LabProcSolM: TLabProcSolM
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 1
-            ExplicitHeight = 45
             object Label2: TLabel
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 61
+              Width = 108
               Height = 15
               Align = alTop
               Caption = 'Atualiza'#231#227'o'
               FocusControl = DBEdit2
+              ExplicitWidth = 61
             end
             object DBEdit2: TDBEdit
               AlignWithMargins = True
@@ -650,16 +555,17 @@ inherited LabProcSolM: TLabProcSolM
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 2
-            ExplicitHeight = 45
+            ExplicitLeft = -3
             object Label10: TLabel
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 62
+              Width = 459
               Height = 15
               Align = alTop
               Caption = 'Observa'#231#227'o'
               FocusControl = DBEdit10
+              ExplicitWidth = 62
             end
             object DBEdit10: TDBEdit
               AlignWithMargins = True
@@ -674,19 +580,131 @@ inherited LabProcSolM: TLabProcSolM
             end
           end
         end
+        object Panel20: TPanel
+          AlignWithMargins = True
+          Left = 3
+          Top = 59
+          Width = 695
+          Height = 50
+          Align = alTop
+          BevelOuter = bvNone
+          Color = 12171775
+          TabOrder = 3
+          object Panel21: TPanel
+            Left = 0
+            Top = 0
+            Width = 180
+            Height = 50
+            Align = alLeft
+            BevelOuter = bvNone
+            TabOrder = 0
+            object Label14: TLabel
+              AlignWithMargins = True
+              Left = 3
+              Top = 3
+              Width = 174
+              Height = 15
+              Align = alTop
+              Caption = 'Frascos em Poder do Cliente'
+              FocusControl = DBEdit11
+              ExplicitWidth = 150
+            end
+            object DBEdit11: TDBEdit
+              AlignWithMargins = True
+              Left = 3
+              Top = 24
+              Width = 174
+              Height = 23
+              TabStop = False
+              Align = alClient
+              DataField = 'saldo_frascos'
+              DataSource = LabProcSol.DataSource1
+              ReadOnly = True
+              TabOrder = 0
+              OnChange = DBEdit5Change
+              ExplicitWidth = 69
+            end
+          end
+          object Panel22: TPanel
+            Left = 180
+            Top = 0
+            Width = 180
+            Height = 50
+            Align = alLeft
+            BevelOuter = bvNone
+            TabOrder = 1
+            object Label15: TLabel
+              AlignWithMargins = True
+              Left = 3
+              Top = 3
+              Width = 174
+              Height = 15
+              Align = alTop
+              Caption = 'Seringas em Poder do Cliente'
+              FocusControl = DBEdit12
+              ExplicitWidth = 155
+            end
+            object DBEdit12: TDBEdit
+              AlignWithMargins = True
+              Left = 3
+              Top = 24
+              Width = 174
+              Height = 23
+              TabStop = False
+              Align = alClient
+              DataField = 'saldo_seringas'
+              DataSource = LabProcSol.DataSource1
+              ReadOnly = True
+              TabOrder = 0
+              OnChange = DBEdit5Change
+              ExplicitLeft = 6
+            end
+          end
+          object Panel23: TPanel
+            Left = 515
+            Top = 0
+            Width = 180
+            Height = 50
+            Align = alRight
+            BevelOuter = bvNone
+            TabOrder = 2
+            ExplicitLeft = 360
+            object Label16: TLabel
+              AlignWithMargins = True
+              Left = 3
+              Top = 3
+              Width = 174
+              Height = 15
+              Align = alTop
+              Caption = 'Recipientes em Poder do Cliente'
+              FocusControl = DBEdit13
+              ExplicitWidth = 171
+            end
+            object DBEdit13: TDBEdit
+              AlignWithMargins = True
+              Left = 3
+              Top = 24
+              Width = 174
+              Height = 23
+              TabStop = False
+              Align = alClient
+              DataField = 'saldo_recipientes'
+              DataSource = LabProcSol.DataSource1
+              ReadOnly = True
+              TabOrder = 0
+              OnChange = DBEdit5Change
+              ExplicitWidth = 69
+            end
+          end
+        end
       end
     end
   end
   inherited ControlBar1: TControlBar
     Width = 709
-    Height = 38
-    ExplicitLeft = 3
-    ExplicitTop = 3
     ExplicitWidth = 709
-    ExplicitHeight = 38
     inherited ToolBar1: TToolBar
       Width = 696
-      ButtonWidth = 115
       ExplicitWidth = 696
       inherited ToolButton6: TToolButton
         ExplicitWidth = 32

@@ -11,74 +11,205 @@ inherited LabProcSol: TLabProcSol
   end
   inherited Panel1: TPanel
     Width = 829
-    ExplicitTop = 35
     ExplicitWidth = 829
     inherited pctlFind: TPageControl
       Width = 819
       ExplicitWidth = 819
       inherited tsQuery: TTabSheet
-        ExplicitLeft = 4
-        ExplicitTop = 6
+        ExplicitLeft = 3
+        ExplicitTop = 4
         ExplicitWidth = 811
-        ExplicitHeight = 65
-        object Label18: TLabel [0]
-          Left = 3
-          Top = 3
-          Width = 90
-          Height = 15
-          Caption = 'Vizualizar cliente:'
-          Transparent = True
+        ExplicitHeight = 75
+        inherited BitBtn2: TBitBtn
+          Left = 710
+          ExplicitLeft = 710
+          ExplicitTop = 11
         end
-        object ComboBox1: TComboBox
-          Left = 3
-          Top = 21
-          Width = 264
-          Height = 23
-          DropDownCount = 30
-          ItemHeight = 15
+        object Panel5: TPanel
+          Left = 0
+          Top = 0
+          Width = 92
+          Height = 75
+          Align = alLeft
+          BevelOuter = bvNone
           TabOrder = 1
-          OnChange = ComboBox1Change
-          Items.Strings = (
-            '<TODOS>'
-            'JANEIRO'
-            'FEVEREIRO'
-            'MAR'#199'O'
-            'ABRIL'
-            'MAIO'
-            'JUNHO'
-            'JULHO'
-            'AGOSTO'
-            'SETEMBRO'
-            'OUTUBRO'
-            'NOVEMBRO'
-            'DEZEMBRO')
+          ExplicitLeft = 113
+          object Label4: TLabel
+            AlignWithMargins = True
+            Left = 3
+            Top = 3
+            Width = 86
+            Height = 15
+            Align = alTop
+            Caption = 'C'#243'digo'
+            ExplicitWidth = 39
+          end
+          object edCodigo: TJvCalcEdit
+            AlignWithMargins = True
+            Left = 3
+            Top = 24
+            Width = 86
+            Height = 23
+            Align = alTop
+            DecimalPlaceRound = True
+            DecimalPlaces = 0
+            DisplayFormat = ',0'
+            ShowButton = False
+            TabOrder = 0
+            ZeroEmpty = False
+            DecimalPlacesAlwaysShown = False
+            OnChange = edCodigoChange
+          end
+        end
+        object Panel6: TPanel
+          Left = 92
+          Top = 0
+          Width = 124
+          Height = 75
+          Align = alLeft
+          BevelOuter = bvNone
+          TabOrder = 2
+          ExplicitLeft = 202
+          ExplicitTop = 1
+          object Label1: TLabel
+            AlignWithMargins = True
+            Left = 3
+            Top = 3
+            Width = 118
+            Height = 15
+            Align = alTop
+            Caption = 'CNPJ'
+            ExplicitWidth = 27
+          end
+          object edCNPJ: TMaskEdit
+            AlignWithMargins = True
+            Left = 3
+            Top = 24
+            Width = 118
+            Height = 23
+            Align = alTop
+            EditMask = '99.999.999/9999-99;0;'
+            MaxLength = 18
+            TabOrder = 0
+            OnChange = edCodigoChange
+          end
+        end
+        object Panel7: TPanel
+          Left = 216
+          Top = 0
+          Width = 124
+          Height = 75
+          Align = alLeft
+          BevelOuter = bvNone
+          TabOrder = 3
+          ExplicitLeft = 329
+          object Label3: TLabel
+            AlignWithMargins = True
+            Left = 3
+            Top = 3
+            Width = 118
+            Height = 15
+            Align = alTop
+            Caption = 'CPF'
+            ExplicitWidth = 21
+          end
+          object edCPF: TMaskEdit
+            AlignWithMargins = True
+            Left = 3
+            Top = 24
+            Width = 118
+            Height = 23
+            Align = alTop
+            EditMask = '999.999.999-99;0;'
+            MaxLength = 14
+            TabOrder = 0
+            OnChange = edCodigoChange
+          end
+        end
+        object Panel8: TPanel
+          Left = 340
+          Top = 0
+          Width = 212
+          Height = 75
+          Align = alLeft
+          BevelOuter = bvNone
+          TabOrder = 4
+          ExplicitLeft = 453
+          object Label6: TLabel
+            AlignWithMargins = True
+            Left = 3
+            Top = 3
+            Width = 206
+            Height = 15
+            Align = alTop
+            Caption = 'Nome Fantasia'
+            ExplicitWidth = 79
+          end
+          object edEmpresa: TEdit
+            AlignWithMargins = True
+            Left = 3
+            Top = 24
+            Width = 206
+            Height = 23
+            Align = alTop
+            TabOrder = 0
+            OnChange = edCodigoChange
+          end
+        end
+        object Panel9: TPanel
+          Left = 552
+          Top = 0
+          Width = 155
+          Height = 75
+          Align = alClient
+          BevelOuter = bvNone
+          TabOrder = 5
+          ExplicitLeft = 665
+          ExplicitWidth = 327
+          object Label7: TLabel
+            AlignWithMargins = True
+            Left = 3
+            Top = 3
+            Width = 149
+            Height = 15
+            Align = alTop
+            Caption = 'Nome Empresarial'
+            ExplicitWidth = 97
+          end
+          object edRazao: TEdit
+            AlignWithMargins = True
+            Left = 3
+            Top = 24
+            Width = 149
+            Height = 23
+            Align = alTop
+            TabOrder = 0
+            OnChange = edCodigoChange
+          end
         end
       end
       inherited tsFind: TTabSheet
         ExplicitLeft = 4
         ExplicitTop = 6
-        ExplicitWidth = 1087
-        ExplicitHeight = 90
+        ExplicitWidth = 811
+        ExplicitHeight = 75
       end
     end
   end
   inherited Panel2: TPanel
     Width = 829
-    ExplicitTop = 110
     ExplicitWidth = 829
-    ExplicitHeight = 202
     inherited PageControl1: TPageControl
       Width = 823
       ExplicitWidth = 823
-      ExplicitHeight = 196
       inherited TabSheet1: TTabSheet
         Caption = 'Remessa de Vidraria'
         ExplicitLeft = 4
         ExplicitTop = 26
         ExplicitWidth = 815
-        ExplicitHeight = 166
+        ExplicitHeight = 147
         inherited DBGrid1: TDBGrid
-          Width = 815
+          Width = 809
         end
       end
     end
@@ -130,23 +261,51 @@ inherited LabProcSol: TLabProcSol
   end
   inherited IBrwSrc: TZQuery
     Connection = DM.Design
+    AfterScroll = IBrwSrcAfterScroll
+    OnCalcFields = IBrwSrcCalcFields
     AfterInsert = IBrwSrcAfterInsert
     SQL.Strings = (
+      'select'
       
-        'select r.situacao, r.recno, r.atualizacao, r.emissao, r.frascos,' +
-        ' r.seringas,'
+        '  r.situacao, r.recno, r.atualizacao, r.emissao, r.frascos, r.se' +
+        'ringas,'
       
-        '       r.codigo, c.empresa, c.nome_chave, r.descri, c.cnpj, c.cp' +
-        'f, c.cep, '
-      
-        '       r.coleta, r.frete, r.correio, r.envio, r.cotacao, r.pedid' +
-        'o'
-      '  from labproc r'
-      '       join tbclientes c'
-      '         on c.codigo = r.codigo'
-      ' where r.situacao = 0')
+        '  r.codigo, c.empresa, c.nome_chave, r.descri, c.cnpj, c.cpf, c.' +
+        'cep,'
+      '  r.coleta, r.frete, r.correio, r.envio, r.cotacao, r.pedido,'
+      '  coalesce(x.saldo_frascos, 0) saldo_frascos,'
+      '  coalesce(x.saldo_seringas, 0) saldo_seringas,'
+      '  coalesce(x.saldo_recipientes, 0) saldo_recipientes'
+      'from'
+      '  labproc r'
+      'join'
+      '  tbclientes c on'
+      '  c.codigo = r.codigo'
+      'left join'
+      '  (select'
+      '    codigo,'
+      '    count(*) filter (where recipiente = 1) saldo_frascos,'
+      #9'  count(*) filter (where recipiente = 2) saldo_seringas,'
+      #9'  count(*) saldo_recipientes'
+      '  from'
+      #9'  labamostras'
+      '  where'
+      #9'  estado = 30'
+      '  group by'
+      '    codigo) x on'
+      '  x.codigo = r.codigo'
+      'where'
+      '  r.situacao = 0')
+    Sequence = sIBrwSrc
+    SequenceField = 'recno'
     Left = 192
     Top = 200
+    object IBrwSrcstatus: TIntegerField
+      DisplayLabel = ' '
+      FieldKind = fkCalculated
+      FieldName = 'status'
+      Calculated = True
+    end
     object IBrwSrcsituacao: TIntegerField
       FieldName = 'situacao'
       Visible = False
@@ -182,6 +341,22 @@ inherited LabProcSol: TLabProcSol
       DisplayLabel = 'Seringas'
       FieldName = 'seringas'
       Required = True
+    end
+    object IBrwSrcsaldo_frascos: TLargeintField
+      DisplayLabel = 'Saldo Frascos'
+      FieldName = 'saldo_frascos'
+      DisplayFormat = ',0'
+    end
+    object IBrwSrcsaldo_seringas: TLargeintField
+      DisplayLabel = 'Saldo Seringas'
+      FieldName = 'saldo_seringas'
+      DisplayFormat = ',0'
+    end
+    object IBrwSrcsaldo_recipientes: TLargeintField
+      DisplayLabel = 'Saldo Recipientes'
+      FieldName = 'saldo_recipientes'
+      OnChange = IBrwSrcsaldo_recipientesChange
+      DisplayFormat = ',0'
     end
     object IBrwSrcenvio: TIntegerField
       Alignment = taLeftJustify
@@ -263,14 +438,13 @@ inherited LabProcSol: TLabProcSol
       'INSERT INTO labproc'
       
         '  (descri, codigo, frascos, seringas, coleta, frete, correio, en' +
-        'vio)'
+        'vio, recno)'
       'VALUES'
       
         '  (:descri, :codigo, :frascos, :seringas, :coleta, :frete, :corr' +
-        'eio, :envio)')
+        'eio, :envio, :recno)')
     ModifySQL.Strings = (
       'UPDATE labproc SET'
-      '  recno = :recno,'
       '  descri = :descri,'
       '  codigo = :codigo,'
       '  frascos = :frascos,'
@@ -284,11 +458,6 @@ inherited LabProcSol: TLabProcSol
     Left = 128
     Top = 200
     ParamData = <
-      item
-        DataType = ftUnknown
-        Name = 'recno'
-        ParamType = ptUnknown
-      end
       item
         DataType = ftUnknown
         Name = 'descri'
@@ -333,6 +502,72 @@ inherited LabProcSol: TLabProcSol
         DataType = ftUnknown
         Name = 'OLD_recno'
         ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'recno'
+        ParamType = ptUnknown
       end>
+  end
+  object sIBrwSrc: TZSequence
+    Connection = DM.Design
+    SequenceName = 'public.labproc_recno_seq'
+    Left = 56
+    Top = 200
+  end
+  object qSaldo: TZQuery
+    Connection = DM.Design
+    SQL.Strings = (
+      'select    '
+      #9'count(*) filter (where recipiente = 1) saldo_frascos,'
+      #9'count(*) filter (where recipiente = 2) saldo_seringas,'
+      #9'count(*) saldo_recipientes'
+      'from'
+      #9'labamostras'
+      'where'
+      #9'codigo = :cliente and'#9
+      #9'estado = 30')
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'cliente'
+        ParamType = ptUnknown
+      end>
+    FetchRow = 50
+    Left = 192
+    Top = 248
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'cliente'
+        ParamType = ptUnknown
+      end>
+    object qSaldosaldo_frascos: TLargeintField
+      DefaultExpression = '0'
+      DisplayLabel = 'Frascos'
+      FieldName = 'saldo_frascos'
+      ReadOnly = True
+      DisplayFormat = ',0'
+    end
+    object qSaldosaldo_seringas: TLargeintField
+      DefaultExpression = '0'
+      DisplayLabel = 'Seringas'
+      FieldName = 'saldo_seringas'
+      ReadOnly = True
+      DisplayFormat = ',0'
+    end
+    object qSaldosaldo_recipientes: TLargeintField
+      DefaultExpression = '0'
+      DisplayLabel = 'Recipientes'
+      FieldName = 'saldo_recipientes'
+      ReadOnly = True
+      DisplayFormat = ',0'
+    end
+  end
+  object dsSaldo: TDataSource
+    AutoEdit = False
+    DataSet = qSaldo
+    Left = 264
+    Top = 248
   end
 end

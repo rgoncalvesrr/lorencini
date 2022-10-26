@@ -80,7 +80,7 @@ inherited SysEmail: TSysEmail
             Width = 144
             Height = 15
             Align = alTop
-            Caption = '01/09/2022 a 30/09/2022'
+            Caption = '01/10/2022 a 31/10/2022'
             Transparent = True
             ExplicitWidth = 128
           end
@@ -112,7 +112,7 @@ inherited SysEmail: TSysEmail
             end
             inherited CCalendarDiff1: TCCalendarDiff
               Interval = diMonthly
-              Date = 44818.930204618050000000
+              Date = 44847.773935347220000000
               DisplayInterval = Label6
               OnChange = FrameData2CCalendarDiff1Change
             end
@@ -147,7 +147,7 @@ inherited SysEmail: TSysEmail
             Width = 144
             Height = 15
             Align = alTop
-            Caption = '01/09/2022 a 30/09/2022'
+            Caption = '01/10/2022 a 31/10/2022'
             Transparent = True
             ExplicitWidth = 128
           end
@@ -179,7 +179,7 @@ inherited SysEmail: TSysEmail
             end
             inherited CCalendarDiff1: TCCalendarDiff
               Interval = diMonthly
-              Date = 44818.930204618050000000
+              Date = 44847.773935347220000000
               DisplayInterval = Label4
               OnChange = FrameData2CCalendarDiff1Change
             end
@@ -214,7 +214,7 @@ inherited SysEmail: TSysEmail
             Width = 144
             Height = 15
             Align = alTop
-            Caption = '01/09/2022 a 30/09/2022'
+            Caption = '01/10/2022 a 31/10/2022'
             Transparent = True
             ExplicitWidth = 128
           end
@@ -246,7 +246,7 @@ inherited SysEmail: TSysEmail
             end
             inherited CCalendarDiff1: TCCalendarDiff
               Interval = diMonthly
-              Date = 44818.930204618050000000
+              Date = 44847.773935347220000000
               DisplayInterval = Label7
               OnChange = FrameData2CCalendarDiff1Change
             end

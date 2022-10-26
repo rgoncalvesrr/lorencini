@@ -2,7 +2,6 @@ inherited LabAmostraPed: TLabAmostraPed
   Caption = 'Amostras por Pedido'
   ClientHeight = 394
   Constraints.MinWidth = 634
-  ExplicitWidth = 320
   ExplicitHeight = 433
   PixelsPerInch = 96
   TextHeight = 15
@@ -91,7 +90,7 @@ inherited LabAmostraPed: TLabAmostraPed
         ExplicitWidth = 823
         ExplicitHeight = 199
         inherited DBGrid1: TDBGrid
-          Height = 199
+          Height = 193
         end
       end
     end

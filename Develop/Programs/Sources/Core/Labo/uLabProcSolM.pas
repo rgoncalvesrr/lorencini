@@ -58,6 +58,16 @@ type
     Panel19: TPanel;
     Label13: TLabel;
     JvDBComboBox2: TJvDBComboBox;
+    Panel20: TPanel;
+    Panel21: TPanel;
+    Label14: TLabel;
+    DBEdit11: TDBEdit;
+    Panel22: TPanel;
+    Label15: TLabel;
+    DBEdit12: TDBEdit;
+    Panel23: TPanel;
+    Label16: TLabel;
+    DBEdit13: TDBEdit;
     procedure actFindCliExecute(Sender: TObject);
     procedure DBEdit7Exit(Sender: TObject);
     procedure actSedexExecute(Sender: TObject);
@@ -70,7 +80,6 @@ type
     { Private declarations }
     FFreteCalculado: Boolean;
     procedure RefreshControls; override;
-    procedure OnLoad; override;
   public
     { Public declarations }
   end;
@@ -199,17 +208,12 @@ begin
   RefreshControls;
 end;
 
-procedure TLabProcSolM.OnLoad;
-begin
-  inherited;
-  ReadOnly := True;  
-end;
 
 procedure TLabProcSolM.RefreshControls;
 begin
   inherited;
   JvDBCalcEdit1.ReadOnly := False;
-  
+
   if not Assigned(DataSet) then
     Exit;
 
