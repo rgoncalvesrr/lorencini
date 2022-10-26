@@ -47,7 +47,8 @@ BEGIN
    update 
       pedido_serv
    set 
-      saldo = qtd - qtd_
+      saldo = qtd - qtd_,
+      amostras = qtd_
    where 
       pedido = pedido_ and 
       codserv = codserv_;   
