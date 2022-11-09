@@ -575,11 +575,14 @@ begin
   with U.Data.Query do
   try
     SQL.Text :=
-    'select co.servico, co.formato, co.cepo, co.cepd, co.volumes, co.peso, '+
-           'co.diametro, co.comprimento, co.altura, co.largura, co.fator, '+
-           'co.valor, co.valorc, co.prazo, co.obs, co.descri, co.codigo '+
-      'from correio co '+
-     'where co.recno = :recno ';
+    'select '+
+      'co.servico, co.formato, co.cepo, co.cepd, co.volumes, co.peso, '+
+      'co.diametro, co.comprimento, co.altura, co.largura, co.fator, '+
+      'co.valor, co.valorc, co.prazo, co.obs, co.descri, co.codigo '+
+    'from '+
+      'correio co '+
+    'where '+
+      'co.recno = :recno ';
 
     ParamByName('recno').AsInteger := FCorreio;
 

@@ -16,18 +16,24 @@ Returns void As
 $$
 begin
    delete 
-     from cota_contatos
-    where cotacao = in_cotacao;
+   from 
+      cota_contatos
+   where 
+      cotacao = in_cotacao;
 
    insert into cota_contatos
       (cotacao, cliente, contato)      
-   select in_cotacao, cc.cliente, cc.contato
-     from clientes_contatos cc
-          join cota co
-            on co.recno = in_cotacao
-           and co.cliente = cc.cliente 
-    where contato_comercial 
-      and ativo;
+   select 
+      in_cotacao, cc.cliente, cc.contato
+   from 
+      clientes_contatos cc
+   join 
+      cota co on 
+      co.recno = in_cotacao and 
+      co.cliente = cc.cliente 
+   where 
+      contato_comercial and 
+      ativo;
 end
 $$
 language plpgsql;

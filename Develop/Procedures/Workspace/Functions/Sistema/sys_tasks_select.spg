@@ -27,10 +27,14 @@ declare
    erro        boolean := false;
    pagesize    integer;
 begin   
-   select status, maxprocs, name
-     into r
-     from sys_services 
-    where recno = in_service;
+   select 
+      status, maxprocs, name
+   into 
+      r
+   from 
+      sys_services 
+   where 
+      recno = in_service;
 
    if not found then
       perform log(format('Serviço %s não existe!', in_service));
@@ -43,29 +47,42 @@ begin
    end if;
 
    if (not erro) then
-      select count(*) 
-        into executing
-        from sys_tasks 
-       where service = in_service
-         and id = in_id
-         and phase in (_INICIANDO, _EXECUTANDO);
+      select 
+         count(*) 
+      into 
+         executing
+      from 
+         sys_tasks 
+      where 
+         service = in_service and 
+         id = in_id and 
+         phase in (_INICIANDO, _EXECUTANDO);
       
       pagesize := r.maxprocs - executing;
 
       if (pagesize > 0) then
          for r in (
-            select recno
-              from sys_tasks
-             where service = in_service               
-               and phase = _AGENDADO
-               and phase_date <= localtimestamp
-             order by priority, phase_date
-             limit pagesize
-            for update skip locked)
+            select 
+               recno
+            from 
+               sys_tasks
+            where 
+               service = in_service and 
+               phase = _AGENDADO and 
+               phase_date <= localtimestamp
+            order by 
+               priority, phase_date
+            limit 
+               pagesize
+            for update 
+               skip locked)
          loop
-            update sys_tasks
-               set phase = _INICIANDO, id = in_id, pulse = clock_timestamp()
-             where recno = r.recno;
+            update 
+               sys_tasks
+            set 
+               phase = _INICIANDO, id = in_id, pulse = clock_timestamp()
+            where 
+               recno = r.recno;
 
             selected := selected + 1;
          end loop;
