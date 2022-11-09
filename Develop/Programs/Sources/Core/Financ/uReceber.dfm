@@ -119,7 +119,7 @@ inherited Receber: TReceber
               ExplicitWidth = 157
             end
             inherited CCalendarDiff1: TCCalendarDiff
-              Date = 44438.901552546300000000
+              Date = 44873.956204803240000000
               DisplayInterval = Label4
               OnChange = FrameData1CCalendarDiff1Change
             end
@@ -207,7 +207,7 @@ inherited Receber: TReceber
       object TabSheet2: TTabSheet
         Caption = 'T'#237'tulo em Aberto'
         ImageIndex = 205
-        ExplicitLeft = 2
+        ExplicitLeft = 6
         ExplicitTop = 37
       end
       object TabSheet3: TTabSheet
@@ -295,7 +295,7 @@ inherited Receber: TReceber
       
         '       a.vencimento, a.vencimento_real, a.baixa, a.valor, a.valo' +
         'r_baixado, a.obs, a.cc, a.historico, a.juros, a.multa,'
-      '       a.descto'
+      '       a.descto, a.recno_nf'
       '  from fin_receber a'
       '       join tbclientes b'
       '         on b.codigo = a.id_cli'
@@ -483,6 +483,11 @@ inherited Receber: TReceber
       FieldName = 'cc'
       Size = 25
     end
+    object IBrwSrcrecno_nf: TIntegerField
+      DisplayLabel = 'NF'
+      FieldName = 'recno_nf'
+      Visible = False
+    end
   end
   inherited pmOpcao: TPopupMenu
     Left = 480
@@ -532,8 +537,8 @@ inherited Receber: TReceber
       'WHERE'
       '  recno = :OLD_recno')
     UseSequenceFieldForRefreshSQL = False
-    Left = 136
-    Top = 352
+    Left = 144
+    Top = 200
     ParamData = <
       item
         DataType = ftUnknown
@@ -784,5 +789,158 @@ inherited Receber: TReceber
     DataSet = qContatos
     Left = 264
     Top = 304
+  end
+  object qItens: TZQuery
+    Connection = DM.Design
+    OnCalcFields = qItensCalcFields
+    SQL.Strings = (
+      'select '
+      
+        #9'nfi.recno_nf, cast('#39'Servi'#231'o'#39' as varchar(20)) tipo, nfi.os, os.i' +
+        'dos, oss.codserv, cast(s.descri as varchar(150)) descri, oss.qtd' +
+        ', oss.vl_venda'
+      'from'
+      #9'nf_itens nfi'
+      'join'
+      #9'nf on'
+      #9'nf.recno = nfi.recno_nf'
+      'join'
+      #9'nf_serie nfs on'
+      #9'nfs.serie = nf.serie and'
+      #9'nfs.tipo = 2'
+      'join'
+      #9'tb_orcamentos os on'
+      #9'os.os = nfi.os'
+      'join'
+      #9'servicos_os oss on'
+      ' '#9'oss.os = nfi.os'
+      ' join'
+      ' '#9'servicos s on'
+      ' '#9's.codserv = oss.codserv'
+      'where'
+      #9'nf.recno = :nf'
+      'union'
+      'select'
+      
+        #9'nfi.recno_nf, cast('#39'M'#227'o de Obra'#39' as varchar(20)) tipo, nfi.os, ' +
+        'os.idos, osm.func, cast(f.descricao as varchar(150)), osm.qtde, ' +
+        'osm.vl_venda'
+      'from'
+      #9'nf_itens nfi'
+      'join'
+      #9'nf on'
+      #9'nf.recno = nfi.recno_nf'
+      'join'
+      #9'nf_serie nfs on'
+      #9'nfs.serie = nf.serie and'
+      #9'nfs.tipo = 2'
+      'join'
+      #9'tb_orcamentos os on'
+      #9'os.os = nfi.os'
+      'join'
+      #9'tb_orcamentos_lucratividade_lorencini osm on'
+      ' '#9'osm.os = nfi.os'
+      ' join'
+      ' '#9'tb_funcoes f on'
+      ' '#9'f.id = osm.func'
+      'where'
+      #9'nf.recno = :nf'
+      'union'
+      'select'
+      
+        #9'nfi.recno_nf, cast('#39'Material'#39' as varchar(20)) tipo, nfi.os, os.' +
+        'idos, osm.codigo, cast(p.descricao as varchar(150)), osm.qtd, os' +
+        'm.vl_venda'
+      'from'
+      #9'nf_itens nfi'
+      'join'
+      #9'nf on'
+      #9'nf.recno = nfi.recno_nf'
+      'join'
+      #9'nf_serie nfs on'
+      #9'nfs.serie = nf.serie and'
+      #9'nfs.tipo = 1'
+      'join'
+      #9'tb_orcamentos os on'
+      #9'os.os = nfi.os'
+      'join'
+      #9'orca_mat osm on'
+      ' '#9'osm.os = nfi.os'
+      ' join'
+      ' '#9'produtos p on'
+      ' '#9'p.codigo = osm.item'
+      'where'
+      #9'nf.recno = :nf')
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'nf'
+        ParamType = ptUnknown
+      end>
+    FetchRow = 50
+    Left = 200
+    Top = 352
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'nf'
+        ParamType = ptUnknown
+      end>
+    object qItensrecno_nf: TIntegerField
+      FieldName = 'recno_nf'
+      ReadOnly = True
+      Visible = False
+    end
+    object qItensos: TIntegerField
+      DisplayLabel = 'OS'
+      FieldName = 'os'
+      ReadOnly = True
+    end
+    object qItensidos: TStringField
+      DisplayLabel = 'ID OS'
+      FieldName = 'idos'
+      ReadOnly = True
+      Size = 10
+    end
+    object qItenstipo: TStringField
+      DisplayLabel = 'Tipo'
+      FieldName = 'tipo'
+      ReadOnly = True
+    end
+    object qItenscodserv: TIntegerField
+      DisplayLabel = 'Item'
+      FieldName = 'codserv'
+      ReadOnly = True
+    end
+    object qItensdescri: TStringField
+      DisplayLabel = 'Descri'#231#227'o'
+      FieldName = 'descri'
+      ReadOnly = True
+      Size = 150
+    end
+    object qItensqtd: TFloatField
+      DisplayLabel = 'Quantidade'
+      FieldName = 'qtd'
+      ReadOnly = True
+    end
+    object qItensvl_venda: TFloatField
+      DisplayLabel = 'Unit'#225'rio'
+      FieldName = 'vl_venda'
+      ReadOnly = True
+      DisplayFormat = ',0.#0'
+    end
+    object qItenstotal: TFloatField
+      DisplayLabel = 'Total'
+      FieldKind = fkCalculated
+      FieldName = 'total'
+      DisplayFormat = ',0.#0'
+      Calculated = True
+    end
+  end
+  object dsItens: TDataSource
+    AutoEdit = False
+    DataSet = qItens
+    Left = 264
+    Top = 352
   end
 end

@@ -63,6 +63,18 @@ type
     dsContatos: TDataSource;
     qContatostitulo: TIntegerField;
     qContatoscontato: TIntegerField;
+    qItens: TZQuery;
+    dsItens: TDataSource;
+    IBrwSrcrecno_nf: TIntegerField;
+    qItensrecno_nf: TIntegerField;
+    qItensos: TIntegerField;
+    qItensidos: TStringField;
+    qItenscodserv: TIntegerField;
+    qItensqtd: TFloatField;
+    qItensvl_venda: TFloatField;
+    qItenstotal: TFloatField;
+    qItenstipo: TStringField;
+    qItensdescri: TStringField;
     procedure IBrwSrcAfterInsert(DataSet: TDataSet);
     procedure IBrwSrctipoGetText(Sender: TField; var Text: string;
       DisplayText: Boolean);
@@ -79,6 +91,7 @@ type
     procedure ComboBox1Change(Sender: TObject);
     procedure IBrwSrcbaixaChange(Sender: TField);
     procedure IBrwSrcAfterScroll(DataSet: TDataSet);
+    procedure qItensCalcFields(DataSet: TDataSet);
   private
     { Private declarations }
     FCBClientes: TComboList;
@@ -250,7 +263,9 @@ procedure TReceber.IBrwSrcAfterScroll(DataSet: TDataSet);
 begin
   inherited;
   qContatos.Params.ParamByName('titulo').AsInteger := IBrwSrcrecno.AsInteger;
+  qItens.Params.ParamByName('nf').AsInteger := IBrwSrcrecno_nf.AsInteger;
   G.RefreshDataSet(qContatos);
+  G.RefreshDataSet(qItens);
 end;
 
 procedure TReceber.IBrwSrcbaixaChange(Sender: TField);
@@ -332,6 +347,12 @@ begin
     cbStatus.ItemIndex := PageControl1.ActivePageIndex;
     cbStatusChange(cbStatus);
   end;
+end;
+
+procedure TReceber.qItensCalcFields(DataSet: TDataSet);
+begin
+  inherited;
+  qItenstotal.AsFloat := qItensqtd.AsFloat * qItensvl_venda.AsFloat;
 end;
 
 initialization

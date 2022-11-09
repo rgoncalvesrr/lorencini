@@ -17,7 +17,6 @@ object DM: TDM
       'codepage=LATIN1'
       'controls_cp=GET_ACP'
       'AutoEncodeStrings=True')
-    Connected = True
     HostName = '127.0.0.1'
     Port = 5432
     Database = 'lorencini'

@@ -90,6 +90,8 @@ type
     Panel31: TPanel;
     Panel32: TPanel;
     actAtuContatos: TAction;
+    TabSheet2: TTabSheet;
+    DBGrid2: TDBGrid;
     procedure DBEdit4Exit(Sender: TObject);
     procedure DBEdit7Exit(Sender: TObject);
     procedure findNatuExecute(Sender: TObject);

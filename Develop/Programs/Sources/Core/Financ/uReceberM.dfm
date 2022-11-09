@@ -15,32 +15,27 @@ inherited ReceberM: TReceberM
     Height = 24
   end
   inherited Panel1: TPanel
-    Top = 44
     Width = 1036
     Height = 599
-    ExplicitTop = 44
-    ExplicitWidth = 1046
-    ExplicitHeight = 609
+    ExplicitWidth = 1036
+    ExplicitHeight = 599
     inherited Panel3: TPanel
       Top = 372
       Width = 1036
       Height = 227
-      ExplicitTop = 382
-      ExplicitWidth = 1046
+      ExplicitTop = 372
+      ExplicitWidth = 1036
       ExplicitHeight = 227
       inherited PageControl3: TPageControl
-        Top = 47
         Width = 1030
         Height = 177
-        ExplicitLeft = 3
-        ExplicitTop = 47
-        ExplicitWidth = 1040
+        ExplicitWidth = 1030
         ExplicitHeight = 177
         inherited tsDet: TTabSheet
           Caption = 'Contatos'
           ExplicitLeft = 4
           ExplicitTop = 26
-          ExplicitWidth = 1032
+          ExplicitWidth = 1022
           ExplicitHeight = 147
           inherited DBGrid1: TDBGrid
             Width = 1022
@@ -48,17 +43,43 @@ inherited ReceberM: TReceberM
             DataSource = Receber.dsContatos
           end
         end
+        object TabSheet2: TTabSheet
+          Caption = 'Itens'
+          ImageIndex = 1
+          object DBGrid2: TDBGrid
+            Tag = 1
+            Left = 0
+            Top = 0
+            Width = 1022
+            Height = 147
+            Align = alClient
+            BorderStyle = bsNone
+            Ctl3D = False
+            DataSource = Receber.dsItens
+            DefaultDrawing = False
+            Enabled = False
+            Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
+            ParentCtl3D = False
+            ReadOnly = True
+            TabOrder = 0
+            TitleFont.Charset = ANSI_CHARSET
+            TitleFont.Color = clWindowText
+            TitleFont.Height = -12
+            TitleFont.Name = 'Segoe UI'
+            TitleFont.Pitch = fpVariable
+            TitleFont.Style = []
+            OnDrawColumnCell = ChildGridDrawColumnCell
+            OnDblClick = ChildGridDblClick
+            OnEnter = ChildGridEnter
+            OnKeyPress = ChildGridKeyPress
+          end
+        end
       end
       inherited ControlBar2: TControlBar
         Width = 1030
-        Height = 38
-        ExplicitLeft = 3
-        ExplicitTop = 3
-        ExplicitWidth = 1040
-        ExplicitHeight = 38
+        ExplicitWidth = 1030
         inherited ToolBar3: TToolBar
           Width = 718
-          ButtonWidth = 129
           ExplicitWidth = 718
           inherited ToolButton10: TToolButton
             Action = actAtuContatos
@@ -88,16 +109,14 @@ inherited ReceberM: TReceberM
     inherited PageControl1: TPageControl
       Width = 1030
       Height = 366
-      ExplicitLeft = 3
-      ExplicitTop = 3
-      ExplicitWidth = 1040
-      ExplicitHeight = 376
+      ExplicitWidth = 1030
+      ExplicitHeight = 366
       inherited TabSheet1: TTabSheet
         Caption = 'T'#237'tulo a Receber'
         ExplicitLeft = 4
         ExplicitTop = 26
-        ExplicitWidth = 1032
-        ExplicitHeight = 346
+        ExplicitWidth = 1022
+        ExplicitHeight = 336
         object Label18: TLabel
           AlignWithMargins = True
           Left = 3
@@ -129,8 +148,6 @@ inherited ReceberM: TReceberM
           DataField = 'obs'
           DataSource = Receber.DataSource1
           TabOrder = 1
-          ExplicitWidth = 1032
-          ExplicitHeight = 75
         end
         object DBEdit3: TDBEdit
           AlignWithMargins = True
@@ -142,7 +159,6 @@ inherited ReceberM: TReceberM
           DataField = 'historico'
           DataSource = Receber.DataSource1
           TabOrder = 0
-          ExplicitWidth = 1026
         end
         object Panel2: TPanel
           Left = 0
@@ -152,7 +168,6 @@ inherited ReceberM: TReceberM
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 2
-          ExplicitWidth = 1032
           object Panel4: TPanel
             Left = 0
             Top = 0
@@ -309,41 +324,6 @@ inherited ReceberM: TReceberM
               Margins.Bottom = 2
               Action = findNatu
               Align = alClient
-              Glyph.Data = {
-                36040000424D3604000000000000360000002800000010000000100000000100
-                2000000000000004000000000000000000000000000000000000FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF000A0A
-                0A000A0A0A000A0A0A000A0A0A000A0A0A000A0A0A00FF00FF00FF00FF000A0A
-                0A000A0A0A000A0A0A000A0A0A000A0A0A000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00121212001E1E1E000B0B0B000A0A0A000A0A0A00FF00FF00FF00FF000A0A
-                0A0015151500222222000B0B0B000A0A0A000A0A0A00FF00FF00FF00FF007549
-                4900A0725E00EFE1D200EBC8A3009F674D0070414000FF00FF00FF00FF007549
-                4900A0725E00EFE1D200EBC8A3009F674D0070414000FF00FF00FF00FF008461
-                610085554C00F5E5D400EAC5A000865043007D565500FF00FF00FF00FF008461
-                610085554C00F5E5D400EAC5A000865043007D565500FF00FF00FF00FF009A82
-                820074444000F5E4D300E1B488007443400093777700FF00FF00FF00FF009A82
-                820074444000F5E4D300E1B488007443400093777700FF00FF00FF00FF00B7AE
-                AE006C3C3C00E9C8A800D19669006C3C3C00B2A7A700FF00FF00FF00FF00B7AE
-                AE006C3C3C00E9C8A800D19669006C3C3C00B2A7A700FF00FF00FF00FF00FF00
-                FF006E3E3E00734444006B3B3B006B3B3B000B0B0B000A0A0A000A0A0A000E0D
-                0D006C3C3C006B3B3B006B3B3B006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF006C3B3B00F1D8BE00E8BF9300C78657000A0A0A00C4C4C400696969001010
-                1000F9DEB700E2B38600BD7B51006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF006C3B3B00F6E6D600E9BF9500C88759000A0A0A00C4C4C400696969000C0C
-                0C00E3C6A900CA9B7600A5694B006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF006D3D3D00724343006B3B3B006B3B3B00141010000A0A0A000A0A0A002416
-                14006C3B3B006C3B3B006C3B3B006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF000A0A0A00C4C4C400696969000A0A0A00FF00FF00FF00FF000A0A
-                0A00C4C4C400696969000A0A0A00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF000A0A0A000A0A0A000A0A0A001D1D1D00FF00FF00FF00FF000A0A
-                0A000A0A0A000A0A0A001D1D1D00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00}
               ExplicitTop = 20
               ExplicitWidth = 67
             end
@@ -356,7 +336,6 @@ inherited ReceberM: TReceberM
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 5
-            ExplicitWidth = 544
             object Label5: TLabel
               AlignWithMargins = True
               Left = 3
@@ -380,7 +359,6 @@ inherited ReceberM: TReceberM
               DataSource = Receber.DataSource1
               ReadOnly = True
               TabOrder = 0
-              ExplicitWidth = 538
             end
           end
           object Panel10: TPanel
@@ -391,7 +369,6 @@ inherited ReceberM: TReceberM
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 6
-            ExplicitLeft = 962
             object Label6: TLabel
               AlignWithMargins = True
               Left = 3
@@ -426,7 +403,6 @@ inherited ReceberM: TReceberM
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 3
-          ExplicitWidth = 1032
           object Panel12: TPanel
             Left = 0
             Top = 0
@@ -486,41 +462,6 @@ inherited ReceberM: TReceberM
               Margins.Bottom = 2
               Action = findCli
               Align = alClient
-              Glyph.Data = {
-                36040000424D3604000000000000360000002800000010000000100000000100
-                2000000000000004000000000000000000000000000000000000FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF000A0A
-                0A000A0A0A000A0A0A000A0A0A000A0A0A000A0A0A00FF00FF00FF00FF000A0A
-                0A000A0A0A000A0A0A000A0A0A000A0A0A000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00121212001E1E1E000B0B0B000A0A0A000A0A0A00FF00FF00FF00FF000A0A
-                0A0015151500222222000B0B0B000A0A0A000A0A0A00FF00FF00FF00FF007549
-                4900A0725E00EFE1D200EBC8A3009F674D0070414000FF00FF00FF00FF007549
-                4900A0725E00EFE1D200EBC8A3009F674D0070414000FF00FF00FF00FF008461
-                610085554C00F5E5D400EAC5A000865043007D565500FF00FF00FF00FF008461
-                610085554C00F5E5D400EAC5A000865043007D565500FF00FF00FF00FF009A82
-                820074444000F5E4D300E1B488007443400093777700FF00FF00FF00FF009A82
-                820074444000F5E4D300E1B488007443400093777700FF00FF00FF00FF00B7AE
-                AE006C3C3C00E9C8A800D19669006C3C3C00B2A7A700FF00FF00FF00FF00B7AE
-                AE006C3C3C00E9C8A800D19669006C3C3C00B2A7A700FF00FF00FF00FF00FF00
-                FF006E3E3E00734444006B3B3B006B3B3B000B0B0B000A0A0A000A0A0A000E0D
-                0D006C3C3C006B3B3B006B3B3B006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF006C3B3B00F1D8BE00E8BF9300C78657000A0A0A00C4C4C400696969001010
-                1000F9DEB700E2B38600BD7B51006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF006C3B3B00F6E6D600E9BF9500C88759000A0A0A00C4C4C400696969000C0C
-                0C00E3C6A900CA9B7600A5694B006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF006D3D3D00724343006B3B3B006B3B3B00141010000A0A0A000A0A0A002416
-                14006C3B3B006C3B3B006C3B3B006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF000A0A0A00C4C4C400696969000A0A0A00FF00FF00FF00FF000A0A
-                0A00C4C4C400696969000A0A0A00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF000A0A0A000A0A0A000A0A0A001D1D1D00FF00FF00FF00FF000A0A
-                0A000A0A0A000A0A0A001D1D1D00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00}
               ExplicitLeft = 39
               ExplicitTop = 26
               ExplicitWidth = 25
@@ -535,7 +476,6 @@ inherited ReceberM: TReceberM
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 2
-            ExplicitWidth = 641
             object Label8: TLabel
               AlignWithMargins = True
               Left = 3
@@ -559,7 +499,6 @@ inherited ReceberM: TReceberM
               DataSource = Receber.DataSource1
               ReadOnly = True
               TabOrder = 0
-              ExplicitWidth = 635
             end
           end
           object Panel15: TPanel
@@ -570,7 +509,6 @@ inherited ReceberM: TReceberM
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 3
-            ExplicitLeft = 753
             object Label9: TLabel
               AlignWithMargins = True
               Left = 3
@@ -604,7 +542,6 @@ inherited ReceberM: TReceberM
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 4
-            ExplicitLeft = 903
             object Label10: TLabel
               AlignWithMargins = True
               Left = 3
@@ -639,7 +576,6 @@ inherited ReceberM: TReceberM
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 4
-          ExplicitWidth = 1032
           object Panel20: TPanel
             Left = 0
             Top = 0
@@ -802,7 +738,6 @@ inherited ReceberM: TReceberM
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 5
-          ExplicitWidth = 1032
           object Panel18: TPanel
             Left = 0
             Top = 0
@@ -1054,14 +989,9 @@ inherited ReceberM: TReceberM
   end
   inherited ControlBar1: TControlBar
     Width = 1030
-    Height = 38
-    ExplicitLeft = 3
-    ExplicitTop = 3
-    ExplicitWidth = 1040
-    ExplicitHeight = 38
+    ExplicitWidth = 1030
     inherited ToolBar1: TToolBar
       Width = 718
-      ButtonWidth = 115
       ExplicitWidth = 718
       inherited ToolButton6: TToolButton
         ExplicitWidth = 32

@@ -2,52 +2,17 @@ inherited LabSol: TLabSol
   Caption = 'Solu'#231#245'es'
   PixelsPerInch = 96
   TextHeight = 15
-  inherited ToolBar1: TToolBar
-    inherited ToolButton2: TToolButton
-      ExplicitWidth = 32
-    end
-    inherited ToolButton5: TToolButton
-      ExplicitWidth = 32
-    end
-    inherited ToolButton9: TToolButton
-      ExplicitWidth = 32
-    end
-    inherited ToolButton6: TToolButton
-      ExplicitWidth = 32
-    end
-    inherited ToolButton1: TToolButton
-      ExplicitWidth = 32
-    end
-    inherited ToolButton8: TToolButton
-      ExplicitWidth = 32
-    end
-    inherited ToolButton3: TToolButton
-      ExplicitWidth = 32
-    end
-    inherited tbOrder: TToolButton
-      ExplicitWidth = 76
-    end
-    inherited tbReport: TToolButton
-      ExplicitWidth = 32
-    end
-    inherited tbOpcao: TToolButton
-      ExplicitWidth = 32
-    end
-    inherited ToolButton10: TToolButton
-      ExplicitWidth = 32
-    end
-  end
   inherited Panel1: TPanel
     inherited pctlFind: TPageControl
       inherited tsQuery: TTabSheet
         ExplicitLeft = 4
         ExplicitTop = 6
         ExplicitWidth = 819
-        ExplicitHeight = 65
+        ExplicitHeight = 75
         object Label1: TLabel [0]
           Left = 172
           Top = 3
-          Width = 24
+          Width = 23
           Height = 15
           Caption = 'Tipo'
         end
@@ -68,13 +33,9 @@ inherited LabSol: TLabSol
         object Label5: TLabel [3]
           Left = 1
           Top = 3
-          Width = 24
+          Width = 23
           Height = 15
           Caption = 'Tipo'
-        end
-        inherited BitBtn2: TBitBtn
-          Left = 718
-          ExplicitLeft = 718
         end
         object cbTipo: TComboBox
           Left = 174
@@ -130,7 +91,7 @@ inherited LabSol: TLabSol
         ExplicitLeft = 4
         ExplicitTop = 6
         ExplicitWidth = 819
-        ExplicitHeight = 65
+        ExplicitHeight = 75
       end
     end
   end
@@ -142,24 +103,57 @@ inherited LabSol: TLabSol
         Caption = 'Todos'
         ImageIndex = -1
         ExplicitLeft = 4
-        ExplicitTop = 26
+        ExplicitTop = 33
         ExplicitWidth = 823
-        ExplicitHeight = 163
+        ExplicitHeight = 140
         inherited DBGrid1: TDBGrid
-          Height = 156
+          Height = 134
         end
       end
       object TabSheet2: TTabSheet
         Caption = 'Dispon'#237'vel'
         ImageIndex = 208
-        ExplicitTop = 26
-        ExplicitHeight = 163
       end
       object TabSheet3: TTabSheet
         Caption = 'Indispon'#237'vel'
         ImageIndex = 209
-        ExplicitTop = 26
-        ExplicitHeight = 163
+      end
+    end
+  end
+  inherited ctrlBarTop: TControlBar
+    inherited ToolBar1: TToolBar
+      inherited ToolButton2: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton5: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton9: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton6: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton1: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton8: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton3: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited tbOrder: TToolButton
+        ExplicitWidth = 76
+      end
+      inherited tbReport: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited tbOpcao: TToolButton
+        ExplicitWidth = 32
+      end
+      inherited ToolButton10: TToolButton
+        ExplicitWidth = 32
       end
     end
   end
@@ -197,7 +191,7 @@ inherited LabSol: TLabSol
       '         on f.codigo = s.codigo')
     Sequence = ZSequence1
     SequenceField = 'recno'
-    Left = 480
+    Left = 456
     Top = 160
     object IBrwSrcrecno: TIntegerField
       DisplayLabel = 'Lote'
@@ -287,7 +281,7 @@ inherited LabSol: TLabSol
       '  qtd = :qtd'
       'WHERE'
       '  labsol.recno = :OLD_recno')
-    Left = 448
+    Left = 408
     Top = 160
     ParamData = <
       item
@@ -334,7 +328,7 @@ inherited LabSol: TLabSol
   object ZSequence1: TZSequence
     Connection = DM.Design
     SequenceName = 'labsol_recno_seq'
-    Left = 416
+    Left = 344
     Top = 160
   end
 end
