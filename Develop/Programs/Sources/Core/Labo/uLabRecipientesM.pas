@@ -15,6 +15,15 @@ type
     DBEdit1: TDBEdit;
     Label2: TLabel;
     DBEdit2: TDBEdit;
+    Panel6: TPanel;
+    Label3: TLabel;
+    DBEdit3: TDBEdit;
+    Panel7: TPanel;
+    Label4: TLabel;
+    DBComboBox1: TDBComboBox;
+    Panel8: TPanel;
+    Label5: TLabel;
+    DBComboBox2: TDBComboBox;
   private
     { Private declarations }
   public

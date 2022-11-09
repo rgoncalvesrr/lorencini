@@ -325,3 +325,35 @@ using (
 				pg.tablename = t.tabela)) x
 where
 	t.recno = x.recno;
+
+CREATE TYPE public.tipo_recipiente AS ENUM (
+	'frasco',
+	'seringa');
+
+alter type public.tipo_recipiente owner to lorencini;
+
+alter table labtipo_recipiente 
+	add capacidade smallint default(1) not null check(capacidade > 0),
+	add status smallint default(1) not null check(status in (1, 2)),
+   add tipo public.tipo_recipiente default('frasco') not null;
+
+update
+	labtipo_recipiente
+set
+	descri = 'Frasco de Vidro Âmbar 1L', capacidade = 1000
+where 
+	recno = 1;
+	
+update
+	labtipo_recipiente
+set
+	descri = 'Seringa de vidro 50ml', capacidade = 50, tipo = 'seringa'
+where 
+	recno = 2;
+
+insert into labtipo_recipiente
+	(recno, descri, capacidade, tipo)
+values
+	(3, 'Frasco de vidro 50ml', 50, 'frasco'),
+	(4, 'Frasco pead 250ml', 250, 'frasco'),
+	(5, 'Seringa de vidro 20ml', 20, 'seringa');

@@ -16,14 +16,13 @@ inherited LabProcSol: TLabProcSol
       Width = 819
       ExplicitWidth = 819
       inherited tsQuery: TTabSheet
-        ExplicitLeft = 3
-        ExplicitTop = 4
+        ExplicitLeft = 4
+        ExplicitTop = 6
         ExplicitWidth = 811
         ExplicitHeight = 75
         inherited BitBtn2: TBitBtn
           Left = 710
           ExplicitLeft = 710
-          ExplicitTop = 11
         end
         object Panel5: TPanel
           Left = 0
@@ -33,7 +32,6 @@ inherited LabProcSol: TLabProcSol
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 1
-          ExplicitLeft = 113
           object Label4: TLabel
             AlignWithMargins = True
             Left = 3
@@ -69,8 +67,6 @@ inherited LabProcSol: TLabProcSol
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 2
-          ExplicitLeft = 202
-          ExplicitTop = 1
           object Label1: TLabel
             AlignWithMargins = True
             Left = 3
@@ -102,7 +98,6 @@ inherited LabProcSol: TLabProcSol
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 3
-          ExplicitLeft = 329
           object Label3: TLabel
             AlignWithMargins = True
             Left = 3
@@ -134,7 +129,6 @@ inherited LabProcSol: TLabProcSol
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 4
-          ExplicitLeft = 453
           object Label6: TLabel
             AlignWithMargins = True
             Left = 3
@@ -164,8 +158,6 @@ inherited LabProcSol: TLabProcSol
           Align = alClient
           BevelOuter = bvNone
           TabOrder = 5
-          ExplicitLeft = 665
-          ExplicitWidth = 327
           object Label7: TLabel
             AlignWithMargins = True
             Left = 3

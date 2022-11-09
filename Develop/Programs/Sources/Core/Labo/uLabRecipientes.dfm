@@ -5,18 +5,16 @@ inherited LabRecipientes: TLabRecipientes
   inherited Panel1: TPanel
     inherited pctlFind: TPageControl
       inherited tsQuery: TTabSheet
-        inherited BitBtn2: TBitBtn
-          Glyph.Data = {00000000}
-        end
+        ExplicitLeft = 4
+        ExplicitTop = 6
+        ExplicitWidth = 819
+        ExplicitHeight = 75
       end
       inherited tsFind: TTabSheet
         ExplicitLeft = 4
         ExplicitTop = 6
         ExplicitWidth = 819
         ExplicitHeight = 75
-        inherited BitBtn1: TBitBtn
-          Glyph.Data = {00000000}
-        end
       end
     end
   end
@@ -24,6 +22,10 @@ inherited LabRecipientes: TLabRecipientes
     inherited PageControl1: TPageControl
       inherited TabSheet1: TTabSheet
         Caption = 'Tipos de Recipientes'
+        ExplicitLeft = 4
+        ExplicitTop = 26
+        ExplicitWidth = 823
+        ExplicitHeight = 147
       end
     end
   end
@@ -66,19 +68,47 @@ inherited LabRecipientes: TLabRecipientes
   end
   inherited IBrwSrc: TZQuery
     Connection = DM.Design
+    SortedFields = 'descri'
     SQL.Strings = (
-      'select recno, descri from labtipo_recipiente')
+      'select'
+      '  recno, descri, capacidade, status, tipo'
+      'from'
+      '  labtipo_recipiente')
+    IndexFieldNames = 'descri Asc'
     Sequence = sIbrwSrc
     SequenceField = 'recno'
     object IBrwSrcrecno: TLargeintField
       DisplayLabel = 'Tipo'
       FieldName = 'recno'
     end
+    object IBrwSrcstatus: TSmallintField
+      Alignment = taLeftJustify
+      DisplayLabel = 'Status'
+      FieldName = 'status'
+      Required = True
+      OnGetText = IBrwSrcstatusGetText
+      OnSetText = IBrwSrcstatusSetText
+    end
     object IBrwSrcdescri: TStringField
       DisplayLabel = 'Recipiente'
       FieldName = 'descri'
       Required = True
       Size = 60
+    end
+    object IBrwSrccapacidade: TSmallintField
+      DisplayLabel = 'Capacidade'
+      FieldName = 'capacidade'
+      Required = True
+      DisplayFormat = '0 ml'
+    end
+    object IBrwSrctipo: TStringField
+      DisplayLabel = 'Tipo'
+      DisplayWidth = 15
+      FieldName = 'tipo'
+      Required = True
+      OnGetText = IBrwSrctipoGetText
+      OnSetText = IBrwSrctipoSetText
+      Size = 255
     end
   end
   inherited zIBrwSrc: TZUpdateSQL
@@ -94,7 +124,10 @@ inherited LabRecipientes: TLabRecipientes
     ModifySQL.Strings = (
       'UPDATE labtipo_recipiente SET'
       '  recno = :recno,'
-      '  descri = :descri'
+      '  descri = :descri,'
+      '  capacidade = :capacidade,'
+      '  status = :status,'
+      '  tipo = :tipo '
       'WHERE'
       '  labtipo_recipiente.recno = :OLD_recno')
     ParamData = <
@@ -106,6 +139,21 @@ inherited LabRecipientes: TLabRecipientes
       item
         DataType = ftUnknown
         Name = 'descri'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'capacidade'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'status'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'tipo'
         ParamType = ptUnknown
       end
       item
