@@ -268,6 +268,8 @@ end;
 procedure TServicos.IBrwSrcBeforeOpen(DataSet: TDataSet);
 begin
   inherited;
+  IBrwSrc.ParamByName('session').AsString := U.Info.Session;
+  IBrwSrc.ParamByName('origem').AsInteger := U.Data.TableIdFromName('servicos');
   qTipoLaudo.Open;
 end;
 

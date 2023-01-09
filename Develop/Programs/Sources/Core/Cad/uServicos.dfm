@@ -288,7 +288,6 @@ inherited Servicos: TServicos
     AfterOpen = IBrwSrcAfterOpen
     AfterScroll = IBrwSrcAfterScroll
     OnCalcFields = IBrwSrcCalcFields
-    Filter = 'status = 1'
     AfterInsert = IBrwSrcAfterInsert
     SQL.Strings = (
       'select'
@@ -308,11 +307,21 @@ inherited Servicos: TServicos
       'left join'
       '  sys_flags m on'
       '  m.recno = a.recno and'
-      '  m.session = sys_session() and'
-      '  m.table_ = sys_origem('#39'servicos'#39')'
+      '  m.session = :session and'
+      '  m.table_ = :origem'
       'where'
-      '  status = :status')
+      '  a.status = :status')
     Params = <
+      item
+        DataType = ftUnknown
+        Name = 'session'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'origem'
+        ParamType = ptUnknown
+      end
       item
         DataType = ftInteger
         Name = 'status'
@@ -324,6 +333,16 @@ inherited Servicos: TServicos
     Left = 264
     Top = 200
     ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'session'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'origem'
+        ParamType = ptUnknown
+      end
       item
         DataType = ftInteger
         Name = 'status'

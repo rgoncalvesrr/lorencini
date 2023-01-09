@@ -727,11 +727,6 @@ type
     R00017reg_nome: TStringField;
     R00017nome_1: TStringField;
     R00017crq: TStringField;
-    R00017nome_2: TStringField;
-    R00017funcao: TStringField;
-    R00017telefone_1: TStringField;
-    R00017celular: TStringField;
-    R00017email_1: TStringField;
     R00017ass_arquivo: TStringField;
     R00017cargo: TStringField;
     R00017idos: TStringField;
