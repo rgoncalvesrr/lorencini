@@ -30,7 +30,23 @@ begin
             contrato <> new.contrato and
             status < 3)
       then
+         select 
+            
          raise '[[Há um contrato ativo para o cliente.]]';
+      end if;
+
+      -- Tenta localizar o contato padrão
+      if new.email is null then
+         select 
+            cc.email
+         into
+            new.email
+         from 
+            clientes_contatos cc
+         where 
+            cc.cliente = new.cliente and
+            cc.ativo and 
+            cc.padrao;
       end if;
    end if;
 

@@ -27,6 +27,7 @@ inherited Clientes: TClientes
         inherited BitBtn2: TBitBtn
           Left = 995
           ExplicitLeft = 995
+          ExplicitTop = 11
         end
         object Panel4: TPanel
           Left = 0
@@ -109,8 +110,6 @@ inherited Clientes: TClientes
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 3
-          ExplicitLeft = 202
-          ExplicitTop = 1
           object Label1: TLabel
             AlignWithMargins = True
             Left = 3

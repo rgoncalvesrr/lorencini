@@ -36,22 +36,6 @@ Begin
       perform log_error(format('Agendamento %s - %s não poder executado porque está desabilitado!', in_recno, r.descri));
       return 1;
    end if;
-   
-   -- Exclui dos os agendamento que não iniciaram o processamento ainda
-   -- delete 
-   --   from [(ss104)]
-   --  where agendamento = in_recno
-   --    and estado < 1;     
-   
-   -- Verifica se agendamento está vigente ou expirou
-   -- if r.expiracao is not null and (r.expiracao < clock_timestamp()) then   
-      -- Desabilita o agendamento
-      -- update [(ss103)]
-      --    set estado = 0
-      --  where recno = in_recno;
-       
-      -- return 1;
-   -- end if;
 
    data := clock_timestamp() + interval '1 min';
 

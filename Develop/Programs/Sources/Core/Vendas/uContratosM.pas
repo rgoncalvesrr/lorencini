@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uIBrowseDet, ActnList, ComCtrls, ToolWin, ExtCtrls, Grids, DBGrids, uIFrameCliente, StdCtrls, Mask, DBCtrls,
-  JvExMask, JvToolEdit, JvBaseEdits, JvDBControls;
+  JvExMask, JvToolEdit, JvBaseEdits, JvDBControls, db;
 
 type
   TContratosM = class(TIDefBrowseEdit)
@@ -54,6 +54,7 @@ type
     procedure DBGrid2DrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn;
       State: TGridDrawState);
     procedure FormResize(Sender: TObject);
+    procedure FrameCliente1dsClienteDataChange(Sender: TObject; Field: TField);
   private
     procedure OnLoad; override;
     procedure RefreshControls; override;
@@ -63,7 +64,7 @@ type
 
 implementation
 
-uses uContratos, db, uResources;
+uses uContratos, uResources;
 
 {$R *.dfm}
 
@@ -104,6 +105,15 @@ begin
   Panel3.Height := Round(Panel3.Parent.ClientHeight * 0.5);
 end;
 
+procedure TContratosM.FrameCliente1dsClienteDataChange(Sender: TObject; Field: TField);
+begin
+  inherited;
+  FrameCliente1.Filter := EmptyStr;
+
+  if Assigned(Field) and Assigned(Field.DataSet) and (Field.DataSet.State = dsInsert) then
+    FrameCliente1.Filter := 'situacao = ''ATIVO'' ';
+end;
+
 procedure TContratosM.OnLoad;
 begin
   inherited;
@@ -122,6 +132,7 @@ begin
   finally
     dbeContrato.ReadOnly := Assigned(DataSet) and (DataSet.State <> dsInsert);
     cbStatus.ReadOnly := not dbeContrato.ReadOnly;
+    cbStatus.Enabled := not cbStatus.ReadOnly;
     FrameCliente1.DBEdit8.ReadOnly := dbeContrato.ReadOnly;
 
     dbeInicio.ReadOnly := Assigned(DataSet) and (cbStatus.ItemIndex > 0) and not (DataSet.State in [dsEdit, dsInsert]);

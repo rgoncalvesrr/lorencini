@@ -1,25 +1,26 @@
 inherited ContratosM: TContratosM
+  BorderStyle = bsSizeable
   Caption = 'Manuten'#231#227'o de Contratos'
-  ClientHeight = 739
-  ClientWidth = 1145
+  ClientHeight = 729
+  ClientWidth = 1135
   ExplicitWidth = 1151
   ExplicitHeight = 768
   PixelsPerInch = 96
   TextHeight = 15
   inherited Panel1: TPanel
-    Width = 1145
-    Height = 695
+    Width = 1135
+    Height = 685
     ExplicitWidth = 1145
     ExplicitHeight = 695
     inherited Panel3: TPanel
-      Top = 432
-      Width = 1145
+      Top = 422
+      Width = 1135
       Height = 263
       ExplicitTop = 432
       ExplicitWidth = 1145
       ExplicitHeight = 263
       inherited PageControl3: TPageControl
-        Width = 1139
+        Width = 1129
         Height = 213
         ExplicitWidth = 1139
         ExplicitHeight = 213
@@ -30,7 +31,7 @@ inherited ContratosM: TContratosM
           ExplicitWidth = 1131
           ExplicitHeight = 183
           inherited DBGrid1: TDBGrid
-            Width = 1131
+            Width = 1121
             Height = 183
             DataSource = Contratos.dsServicos
           end
@@ -38,11 +39,12 @@ inherited ContratosM: TContratosM
         object TabSheet2: TTabSheet
           Caption = 'Contatos'
           ImageIndex = 1
+          ExplicitWidth = 1131
           object DBGrid2: TDBGrid
             Tag = 1
             Left = 0
             Top = 0
-            Width = 1131
+            Width = 1121
             Height = 183
             Align = alClient
             BorderStyle = bsNone
@@ -68,8 +70,8 @@ inherited ContratosM: TContratosM
         end
       end
       inherited ControlBar2: TControlBar
-        Width = 1139
-        ExplicitWidth = 1139
+        Width = 1129
+        ExplicitWidth = 1129
         inherited ToolBar3: TToolBar
           inherited ToolButton10: TToolButton
             ExplicitWidth = 32
@@ -96,8 +98,9 @@ inherited ContratosM: TContratosM
       end
     end
     inherited PageControl1: TPageControl
-      Width = 1139
-      Height = 426
+      Width = 1129
+      Height = 416
+      ExplicitTop = 5
       ExplicitWidth = 1139
       ExplicitHeight = 426
       inherited TabSheet1: TTabSheet
@@ -110,7 +113,7 @@ inherited ContratosM: TContratosM
           AlignWithMargins = True
           Left = 3
           Top = 273
-          Width = 1125
+          Width = 1115
           Height = 15
           Align = alTop
           Caption = 'Observa'#231#227'o'
@@ -121,26 +124,29 @@ inherited ContratosM: TContratosM
           AlignWithMargins = True
           Left = 3
           Top = 294
-          Width = 1125
-          Height = 99
+          Width = 1115
+          Height = 89
           Align = alClient
           DataField = 'obs'
           DataSource = Contratos.DataSource1
           TabOrder = 2
+          ExplicitWidth = 1125
+          ExplicitHeight = 99
         end
         object GroupBox1: TGroupBox
           AlignWithMargins = True
           Left = 3
           Top = 135
-          Width = 1125
+          Width = 1115
           Height = 132
           Align = alTop
           Caption = ' Cliente '
           TabOrder = 1
+          ExplicitWidth = 1125
           inline FrameCliente1: TFrameCliente
             Left = 2
             Top = 17
-            Width = 1121
+            Width = 1111
             Height = 113
             Align = alClient
             AutoSize = True
@@ -157,97 +163,73 @@ inherited ContratosM: TContratosM
             ExplicitWidth = 1121
             ExplicitHeight = 113
             inherited Panel1: TPanel
-              Width = 1121
+              Width = 1111
               ExplicitWidth = 1121
               inherited Panel2: TPanel
-                inherited Label9: TLabel
-                  Width = 70
-                end
                 inherited DBEdit8: TDBEdit
                   DataField = 'cliente'
                 end
               end
+              inherited Panel35: TPanel
+                inherited SpeedButton1: TSpeedButton
+                  OnClick = nil
+                end
+              end
               inherited Panel4: TPanel
-                Width = 522
+                Width = 512
                 ExplicitWidth = 522
                 inherited Label10: TLabel
-                  Width = 516
+                  Width = 506
                 end
                 inherited DBEdit9: TDBEdit
-                  Width = 516
+                  Width = 506
                   ExplicitWidth = 516
                 end
               end
               inherited Panel5: TPanel
-                Left = 627
+                Left = 617
                 ExplicitLeft = 627
-                inherited Label11: TLabel
-                  Width = 248
-                end
-                inherited DBEdit10: TDBEdit
-                  ExplicitWidth = 248
-                end
               end
               inherited Panel6: TPanel
-                Left = 881
+                Left = 871
                 ExplicitLeft = 881
-                inherited Label12: TLabel
-                  Width = 122
-                end
-                inherited DBEdit11: TDBEdit
-                  ExplicitWidth = 122
-                end
               end
               inherited Panel7: TPanel
-                Left = 1009
+                Left = 999
                 ExplicitLeft = 1009
-                inherited Label13: TLabel
-                  Width = 106
-                end
-                inherited DBEdit12: TDBEdit
-                  ExplicitWidth = 106
-                end
               end
             end
             inherited Panel3: TPanel
-              Width = 1121
+              Width = 1111
               ExplicitWidth = 1121
               inherited Panel8: TPanel
-                Width = 620
+                Width = 610
                 ExplicitWidth = 620
                 inherited Label1: TLabel
-                  Width = 614
+                  Width = 604
                 end
                 inherited DBEdit1: TDBEdit
-                  Width = 614
+                  Width = 604
                   ExplicitWidth = 614
                 end
               end
               inherited Panel9: TPanel
-                Left = 941
+                Left = 931
                 ExplicitLeft = 941
-                inherited Label2: TLabel
-                  Width = 46
-                end
               end
               inherited Panel30: TPanel
-                inherited Label20: TLabel
-                  Width = 315
-                end
                 inherited DBEdit17: TDBEdit
                   DataField = 'email_1'
                 end
               end
               inherited Panel10: TPanel
-                Left = 993
+                Left = 983
                 ExplicitLeft = 993
-                inherited Label3: TLabel
-                  Width = 122
-                end
               end
             end
             inherited dsCliente: TDataSource
               DataSet = Contratos.IBrwSrc
+              OnDataChange = FrameCliente1dsClienteDataChange
             end
           end
         end
@@ -255,19 +237,21 @@ inherited ContratosM: TContratosM
           AlignWithMargins = True
           Left = 3
           Top = 3
-          Width = 1125
+          Width = 1115
           Height = 126
           Align = alTop
           Caption = ' Contrato '
           TabOrder = 0
+          ExplicitWidth = 1125
           object Panel2: TPanel
             Left = 2
             Top = 17
-            Width = 1121
+            Width = 1111
             Height = 50
             Align = alTop
             BevelOuter = bvNone
             TabOrder = 0
+            ExplicitWidth = 1121
             object Panel4: TPanel
               Left = 0
               Top = 0
@@ -297,6 +281,7 @@ inherited ContratosM: TContratosM
                 CharCase = ecUpperCase
                 DataField = 'contrato'
                 DataSource = Contratos.DataSource1
+                ReadOnly = True
                 TabOrder = 0
               end
             end
@@ -536,11 +521,13 @@ inherited ContratosM: TContratosM
                 AutoDropDown = True
                 DataField = 'status'
                 DataSource = Contratos.DataSource1
+                Enabled = False
                 ItemHeight = 15
                 Items.Strings = (
                   'Elabora'#231#227'o'
                   'Vigente'
                   'Encerrado')
+                ReadOnly = True
                 TabOrder = 0
               end
             end
@@ -548,11 +535,12 @@ inherited ContratosM: TContratosM
           object Panel13: TPanel
             Left = 2
             Top = 67
-            Width = 1121
+            Width = 1111
             Height = 50
             Align = alTop
             BevelOuter = bvNone
             TabOrder = 1
+            ExplicitWidth = 1121
             object Panel20: TPanel
               Left = 0
               Top = 0
@@ -628,16 +616,17 @@ inherited ContratosM: TContratosM
             object Panel22: TPanel
               Left = 210
               Top = 0
-              Width = 911
+              Width = 901
               Height = 50
               Align = alClient
               BevelOuter = bvNone
               TabOrder = 2
+              ExplicitWidth = 911
               object Label19: TLabel
                 AlignWithMargins = True
                 Left = 3
                 Top = 3
-                Width = 905
+                Width = 895
                 Height = 15
                 Align = alTop
                 Caption = 'E-mail'
@@ -648,12 +637,13 @@ inherited ContratosM: TContratosM
                 AlignWithMargins = True
                 Left = 3
                 Top = 24
-                Width = 905
+                Width = 895
                 Height = 23
                 Align = alClient
                 DataField = 'email'
                 DataSource = FrameCliente1.dsCliente
                 TabOrder = 0
+                ExplicitWidth = 905
               end
             end
           end
@@ -662,8 +652,8 @@ inherited ContratosM: TContratosM
     end
   end
   inherited ControlBar1: TControlBar
-    Width = 1139
-    ExplicitWidth = 1139
+    Width = 1129
+    ExplicitWidth = 1129
     inherited ToolBar1: TToolBar
       inherited ToolButton6: TToolButton
         ExplicitWidth = 32

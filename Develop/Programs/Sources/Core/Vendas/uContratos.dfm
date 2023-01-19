@@ -1,40 +1,44 @@
 inherited Contratos: TContratos
   Caption = 'Contratos'
   ClientHeight = 614
-  ClientWidth = 1344
-  ExplicitWidth = 1360
+  ClientWidth = 1075
+  ExplicitWidth = 1091
   ExplicitHeight = 653
   PixelsPerInch = 96
   TextHeight = 15
   inherited StatusBar1: TStatusBar
     Top = 587
-    Width = 1338
+    Width = 1069
     ExplicitTop = 587
     ExplicitWidth = 1338
   end
   inherited Panel1: TPanel
-    Width = 1344
+    Width = 1075
     ExplicitWidth = 1344
     inherited pctlFind: TPageControl
-      Width = 1334
+      Width = 1065
       ExplicitWidth = 1334
       inherited tsQuery: TTabSheet
-        ExplicitLeft = 4
-        ExplicitTop = 6
-        ExplicitWidth = 1326
+        ExplicitLeft = 2
+        ExplicitTop = 7
+        ExplicitWidth = 1057
         ExplicitHeight = 75
         inherited BitBtn2: TBitBtn
-          Left = 1225
-          ExplicitLeft = 1225
+          Left = 956
+          TabOrder = 6
+          ExplicitLeft = 956
+          ExplicitTop = 11
         end
         object Panel6: TPanel
-          Left = 161
+          Left = 0
           Top = 0
           Width = 128
           Height = 75
           Align = alLeft
           BevelOuter = bvNone
-          TabOrder = 1
+          TabOrder = 0
+          ExplicitLeft = -27
+          ExplicitTop = -16
           object Label1: TLabel
             AlignWithMargins = True
             Left = 3
@@ -66,13 +70,14 @@ inherited Contratos: TContratos
           end
         end
         object Panel5: TPanel
-          Left = 0
+          Left = 128
           Top = 0
           Width = 161
           Height = 75
           Align = alLeft
           BevelOuter = bvNone
-          TabOrder = 2
+          TabOrder = 1
+          ExplicitLeft = 0
           object Label3: TLabel
             AlignWithMargins = True
             Left = 3
@@ -95,6 +100,136 @@ inherited Contratos: TContratos
             OnChange = edContratoChange
           end
         end
+        object Panel3: TPanel
+          Left = 289
+          Top = 0
+          Width = 92
+          Height = 75
+          Align = alLeft
+          BevelOuter = bvNone
+          TabOrder = 2
+          ExplicitLeft = 113
+          object Label4: TLabel
+            AlignWithMargins = True
+            Left = 3
+            Top = 3
+            Width = 86
+            Height = 15
+            Align = alTop
+            Caption = 'Cliente'
+            ExplicitWidth = 37
+          end
+          object edCodigo: TJvCalcEdit
+            AlignWithMargins = True
+            Left = 3
+            Top = 24
+            Width = 86
+            Height = 23
+            Align = alTop
+            DecimalPlaceRound = True
+            DecimalPlaces = 0
+            DisplayFormat = ',0'
+            ShowButton = False
+            TabOrder = 0
+            ZeroEmpty = False
+            DecimalPlacesAlwaysShown = False
+            OnChange = edContratoChange
+          end
+        end
+        object Panel4: TPanel
+          Left = 381
+          Top = 0
+          Width = 124
+          Height = 75
+          Align = alLeft
+          BevelOuter = bvNone
+          TabOrder = 3
+          ExplicitLeft = 205
+          object Label5: TLabel
+            AlignWithMargins = True
+            Left = 3
+            Top = 3
+            Width = 118
+            Height = 15
+            Align = alTop
+            Caption = 'CNPJ'
+            ExplicitWidth = 27
+          end
+          object edCNPJ: TMaskEdit
+            AlignWithMargins = True
+            Left = 3
+            Top = 24
+            Width = 118
+            Height = 23
+            Align = alTop
+            EditMask = '99.999.999/9999-99;0;'
+            MaxLength = 18
+            TabOrder = 0
+            OnChange = edContratoChange
+          end
+        end
+        object Panel7: TPanel
+          Left = 505
+          Top = 0
+          Width = 124
+          Height = 75
+          Align = alLeft
+          BevelOuter = bvNone
+          TabOrder = 4
+          ExplicitLeft = 329
+          object Label6: TLabel
+            AlignWithMargins = True
+            Left = 3
+            Top = 3
+            Width = 118
+            Height = 15
+            Align = alTop
+            Caption = 'CPF'
+            ExplicitWidth = 21
+          end
+          object edCPF: TMaskEdit
+            AlignWithMargins = True
+            Left = 3
+            Top = 24
+            Width = 118
+            Height = 23
+            Align = alTop
+            EditMask = '999.999.999-99;0;'
+            MaxLength = 14
+            TabOrder = 0
+            OnChange = edContratoChange
+          end
+        end
+        object Panel8: TPanel
+          Left = 629
+          Top = 0
+          Width = 212
+          Height = 75
+          Align = alLeft
+          BevelOuter = bvNone
+          TabOrder = 5
+          ExplicitLeft = 453
+          object Label7: TLabel
+            AlignWithMargins = True
+            Left = 3
+            Top = 3
+            Width = 206
+            Height = 15
+            Align = alTop
+            Caption = 'Nome Fantasia'
+            ExplicitWidth = 79
+          end
+          object edEmpresa: TEdit
+            AlignWithMargins = True
+            Left = 3
+            Top = 24
+            Width = 206
+            Height = 23
+            Align = alTop
+            TabOrder = 0
+            OnChange = edContratoChange
+          end
+        end
       end
       inherited tsFind: TTabSheet
         ExplicitLeft = 4
@@ -105,12 +240,12 @@ inherited Contratos: TContratos
     end
   end
   inherited Panel2: TPanel
-    Width = 1344
+    Width = 1075
     Height = 455
     ExplicitWidth = 1344
     ExplicitHeight = 455
     inherited PageControl1: TPageControl
-      Width = 1338
+      Width = 1069
       Height = 449
       ActivePage = TabSheet3
       Images = Resources.medium_n
@@ -124,29 +259,30 @@ inherited Contratos: TContratos
         ExplicitWidth = 1330
         ExplicitHeight = 412
         inherited DBGrid1: TDBGrid
-          Width = 1324
+          Width = 1055
           Height = 406
         end
       end
       object TabSheet2: TTabSheet
         Caption = 'Elabora'#231#227'o'
         ImageIndex = 215
+        ExplicitWidth = 1330
       end
       object TabSheet3: TTabSheet
         Caption = 'Vigentes'
         ImageIndex = 208
-        ExplicitLeft = 6
-        ExplicitTop = 37
+        ExplicitWidth = 1330
       end
       object TabSheet4: TTabSheet
         Caption = 'Encerrados'
         ImageIndex = 209
+        ExplicitWidth = 1330
       end
     end
   end
   inherited ctrlBarTop: TControlBar
-    Width = 1338
-    ExplicitWidth = 1338
+    Width = 1069
+    ExplicitWidth = 1069
     inherited ToolBar1: TToolBar
       inherited ToolButton2: TToolButton
         ExplicitWidth = 32
@@ -207,7 +343,9 @@ inherited Contratos: TContratos
       #9'contratos co'
       'join'#9
       #9'tbclientes cli on'
-      #9'cli.codigo = co.cliente')
+      #9'cli.codigo = co.cliente'
+      'where'
+      '  1 = 1  ')
     Sequence = sBrwSrc
     SequenceField = 'recno'
     Left = 208
@@ -364,7 +502,6 @@ inherited Contratos: TContratos
       '   :prazo_rec, :email, :transporte, :coleta, :obs, :recno)')
     ModifySQL.Strings = (
       'UPDATE contratos SET'
-      '  contrato = :contrato,'
       '  status = :status,'
       '  inicio = :inicio,'
       '  termino = :termino,'
@@ -374,20 +511,13 @@ inherited Contratos: TContratos
       '  email = :email,'
       '  transporte = :transporte,'
       '  coleta = :coleta,'
-      '  obs = :obs,'
-      '  recno = :recno'
+      '  obs = :obs'
       'WHERE'
       '  contratos.cliente = :OLD_cliente AND'
-      
-        '  ((contratos.contrato IS NULL AND :OLD_contrato IS NULL) OR (co' +
-        'ntratos.contrato = :OLD_contrato))')
+      '  contratos.contrato = :OLD_contrato')
+    UseSequenceFieldForRefreshSQL = True
     Top = 88
     ParamData = <
-      item
-        DataType = ftUnknown
-        Name = 'contrato'
-        ParamType = ptUnknown
-      end
       item
         DataType = ftUnknown
         Name = 'status'
@@ -440,11 +570,6 @@ inherited Contratos: TContratos
       end
       item
         DataType = ftUnknown
-        Name = 'recno'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
         Name = 'OLD_cliente'
         ParamType = ptUnknown
       end
@@ -456,6 +581,16 @@ inherited Contratos: TContratos
       item
         DataType = ftUnknown
         Name = 'cliente'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'contrato'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'recno'
         ParamType = ptUnknown
       end>
   end

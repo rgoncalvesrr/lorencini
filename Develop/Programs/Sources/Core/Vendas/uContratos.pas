@@ -10,7 +10,6 @@ uses
 type
   TContratos = class(TIDefBrowse)
     IBrwSrccontrato: TStringField;
-    IBrwSrcstatus: TIntegerField;
     IBrwSrcemissao: TDateTimeField;
     IBrwSrcinicio: TDateField;
     IBrwSrctermino: TDateField;
@@ -72,6 +71,19 @@ type
     uServicos: TZUpdateSQL;
     sServicos: TZSequence;
     dsServicos: TDataSource;
+    Panel3: TPanel;
+    Label4: TLabel;
+    edCodigo: TJvCalcEdit;
+    Panel4: TPanel;
+    Label5: TLabel;
+    edCNPJ: TMaskEdit;
+    Panel7: TPanel;
+    Label6: TLabel;
+    edCPF: TMaskEdit;
+    Panel8: TPanel;
+    Label7: TLabel;
+    edEmpresa: TEdit;
+    IBrwSrcstatus: TIntegerField;
     procedure IBrwSrctransporteGetText(Sender: TField; var Text: string; DisplayText: Boolean);
     procedure IBrwSrctransporteSetText(Sender: TField; const Text: string);
     procedure cbStatusChange(Sender: TObject);
@@ -96,7 +108,7 @@ type
 
 implementation
 
-uses uDM, uResources, uIUtils, uContratosM, iTypes;
+uses uDM, uResources, uIUtils, uContratosM, iTypes, dateutils;
 
 {$R *.dfm}
 
@@ -112,13 +124,44 @@ begin
   with DataSet do
   try
     if cbStatus.ItemIndex > 0 then
-      sWhere := 'co.status = :status ';
+      sWhere := 'and co.status = :status ';
+
+    if Length(edContrato.Text) > 0 then
+      sWhere := 'and co.contrato ilike :contrato ';
+
+    if edCodigo.Value > 0 then
+      sWhere := 'and co.cliente = :cliente ';
+
+    if Length(edCNPJ.Text) > 0 then
+      sWhere := sWhere + 'and cli.cnpj like :cnpj ';
+
+    if Length(edCPF.Text) > 0 then
+      sWhere := sWhere + 'and cli.cpf like :cpf ';
+
+    if Length(edEmpresa.Text) > 0 then
+      sWhere := sWhere + 'and cli.nome_chave ilike :empresa ';
 
     if sWhere <> EmptyStr then
-      SQL.Add('where ' + sWhere);
+      SQL.Add(sWhere);
+
+    if Assigned(Params.FindParam('cliente')) then
+      ParamByName('cliente').AsInteger := Round(edCodigo.Value);
 
     if Assigned(Params.FindParam('status')) then
       ParamByName('status').AsInteger := cbStatus.ItemIndex;
+
+    if Assigned(Params.FindParam('contrato')) then
+      ParamByName('contrato').AsString := '%' + edContrato.Text + '%';
+
+    if Assigned(Params.FindParam('cnpj')) then
+      ParamByName('cnpj').AsString := edCNPJ.Text + '%';
+
+    if Assigned(Params.FindParam('cpf')) then
+      ParamByName('cpf').AsString := edCPF.Text + '%';
+
+    if Assigned(Params.FindParam('empresa')) then
+      ParamByName('empresa').AsString := '%' + edEmpresa.Text + '%';
+
   finally
     G.RefreshDataSet(DataSet);
     RefreshCtrl;
@@ -181,6 +224,8 @@ begin
   DataSet.FieldByName('status').AsInteger := 1;
   DataSet.FieldByName('transporte').AsInteger := 1;
   DataSet.FieldByName('coleta').AsInteger := 1;
+  DataSet.FieldByName('inicio').AsDateTime := Now;
+  DataSet.FieldByName('termino').AsDateTime := IncYear(Now, 1);
 end;
 
 procedure TContratos.IBrwSrcAfterScroll(DataSet: TDataSet);

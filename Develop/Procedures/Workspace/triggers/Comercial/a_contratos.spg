@@ -34,12 +34,12 @@ begin
       insert into contratos_contatos
          (cliente, contrato, contato)
       select
-         cliente, new.contrato, contato
+         new.cliente, new.contrato, c.contato
       from
-         tbclientes_contatos
+         clientes_contatos c
       where
-         cliente = new.cliente and
-         situacao = ATIVO;
+         c.cliente = new.cliente and
+         c.ativo;
    else
       if new.status <> old.status then
          xlog.title := 'Mudança de Status';
@@ -56,7 +56,7 @@ $$
 language plpgsql;
 
 create or replace function a_contratos_status(
-   in status_ smallint)
+   in status_ integer)
 returns text as
 $$
 begin
