@@ -394,11 +394,24 @@ BEGIN
                order by 
                   e.ensaio_recno, rel.emissao desc)
             Loop
+               if not exists(
+                  select 
+                     1
+                  from 
+                     labamostras_res
+                  where
+                     laudo = new.recno and
+                     relato_recno = new.relato_recno and
+                     ensaio_recno = rh.ensaio_recno)
+               then
+                  continue;
+               end if;
+
                -- Insere na lista de histórico da amostra
                insert into labamostras_hres 
                   (relato_recno, ensaio_recno, laudo, laudo_dep)
                values                  
-                  (rh.relato_recno, rh.ensaio_recno, new.recno, rh.recno);
+                  (rh.relato_recno, rh.ensaio_recno, new.recno, rh.recno);               
 
                if rh.ensaio_recno <> iensaio then
                   iensaio := rh.ensaio_recno;
