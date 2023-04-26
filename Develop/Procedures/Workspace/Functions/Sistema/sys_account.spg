@@ -1,5 +1,5 @@
 /**
-   Retorno a conta logada no sistema pela sessão atual
+   Retorna a conta logada no sistema pela sessão atual
 
 	@author    Ricardo Gonçalves
 	@date      09/03/2011 17:47:35
@@ -14,11 +14,13 @@ CREATE OR REPLACE FUNCTION sys_account()
 $$
 Declare
    account_    sys_accounts.recno%type;
+   session_    session$;
 BEGIN
+   session_ := sys_session();
    select account
      into account_
      from sys_sessions
-    where session = sys_session();
+    where session = session_;
 
    return account_;
 END;
