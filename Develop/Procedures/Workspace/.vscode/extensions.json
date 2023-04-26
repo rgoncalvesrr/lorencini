@@ -1,5 +1,7 @@
 {
    "recommendations": [
-      "alefragnani.project-manager"
+      "alefragnani.project-manager",
+      "uniquevision.vscode-plpgsql-lsp",
+      "mycelo.oracle-plsql"
    ]
 }

@@ -23,5 +23,11 @@
          "**/*.spg"
       ],
       "plpgsqlLanguageServer.user": "postgres"
+   },
+   "extensions": {
+      "recommendations": [
+         "uniquevision.vscode-plpgsql-lsp",
+         "mycelo.oracle-plsql"
+      ]
    }
 }
