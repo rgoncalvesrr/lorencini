@@ -8,16 +8,17 @@
    Histórico
    ---------------------------------------------------------------------------------------------------------------------
    Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
-   
+
 */
 create or replace function a_sys_accounts()
 returns trigger as
 $$
-declare   
-   _S_ATIVO    constant integer = 2;   
-begin   
+declare
+   _S_ATIVO    constant integer = 2;
+begin
    if tg_op = 'UPDATE' then
       if new.status = _S_ATIVO and old.status <> _S_ATIVO then
+         -- Expira todas as senhas temporárias
          perform sys_account_expire_tmp_pass(new.recno);
       end if;
    end if;
