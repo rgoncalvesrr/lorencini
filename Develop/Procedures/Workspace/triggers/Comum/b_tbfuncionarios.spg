@@ -16,9 +16,12 @@ Begin
    if tg_op <> 'DELETE' then
       if tg_op = 'INSERT' then
          if new.idcodigo is null then
-            select coalesce(max(idcodigo), 0) + 1 
-              into new.idcodigo
-              from tbfuncionarios;
+            select
+               coalesce(max(idcodigo), 0) + 1
+            into
+               new.idcodigo
+            from
+               tbfuncionarios;
          end if;
       end if;
 

@@ -13,7 +13,7 @@ CREATE OR REPLACE FUNCTION public.a_contatos()
   RETURNS trigger AS
 $$
 Declare
-   _ACCOUNT_INACTIVE  constant integer = 3;
+   _ACCOUNT_INACTIVE constant integer = 3;
    _CONTATO_INATIVO  constant integer = 0;
    account_          account$;
    contato_          contatos.recno%type;
@@ -28,23 +28,23 @@ BEGIN
       contato_ := new.recno;
    end if;
 
-   if tg_op = 'UPDATE' then      
+   if tg_op = 'UPDATE' then
       blockAccount := new.situacao = 0 and old.situacao = 1;
    end if;
 
    if blockAccount then
-      update 
+      update
          sys_accounts
-      set 
+      set
          status = _ACCOUNT_INACTIVE
-      where 
+      where
          recno = account_;
-         
-      update 
+
+      update
          tbclientes_contatos
-      set 
+      set
          situacao = _CONTATO_INATIVO
-      where 
+      where
          contato = new.recno;
    end if;
 

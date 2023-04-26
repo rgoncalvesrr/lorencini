@@ -16,7 +16,7 @@ $$
 declare
    xcur           record;
    xant           record;
-   found_         boolean;      
+   found_         boolean;
    refcur         refcursor;
    html           text;
    html_head      text;
@@ -48,7 +48,7 @@ begin
          }
          .titulo {
             background-color: #13293d;
-            color: #e8f1f2; 
+            color: #e8f1f2;
             padding: 0.4rem;
          }
          .subtitulo {
@@ -58,7 +58,7 @@ begin
          .destaque {
             background-color: #247ba0;
             color: #e8f1f2;
-            padding: 0.5rem;    
+            padding: 0.5rem;
          }
          th {
             padding: 0.3rem;
@@ -68,23 +68,23 @@ begin
          }
     </style>');
 
-   open refcur for 
-      select 
+   open refcur for
+      select
          cc.contato, co.nome, co.email, c.codigo, c.nome_chave, mask_cnpj_cpf(coalesce(c.cnpj, c.cpf)) cnpj_cpf, lc."label", lc.descri, lc.nivel,
          r.recno laudo, lr.titulo, r.emissao, r.pcoleta, r.destinatario, x.tipo notificacao,
-         case 
+         case
             when x.tipo = 1 then'Coletar em 30 dias'
             when x.tipo = 2 then'Coletar em 15 dias'
             when x.tipo = 3 then'Coletar em 7 dias'
-            when x.tipo = 4 then'Coletar hoje'		
+            when x.tipo = 4 then'Coletar hoje'
             when x.tipo = 5 then'Expirado a 30 dias'
          end status_coleta,
-         e.serie, ec.tag, et.descri tipo, efi.nome isolante, efa.nome fabricante, sys_iif(ec.status = 1, 'Em Operação', 'Desligado') status, 
+         e.serie, ec.tag, et.descri tipo, efi.nome isolante, efa.nome fabricante, sys_iif(ec.status = 1, 'Em Operação', 'Desligado') status,
          a."local"
-      from 
-         labamostras_rel r 
-      join ( 
-         select 
+      from
+         labamostras_rel r
+      join (
+         select
             1 tipo, r.recno laudo
          from
             labamostras_rel r
@@ -93,8 +93,8 @@ begin
             r.revisao is null and
             r.notificacao1 = current_date and
             r.notificar
-         union 	
-         select 
+         union
+         select
             2 tipo, r.recno laudo
          from
             labamostras_rel r
@@ -103,8 +103,8 @@ begin
             r.revisao is null and
             r.notificacao2 = current_date and
             r.notificar
-         union	
-         select 
+         union
+         select
             3 tipo, r.recno laudo
          from
             labamostras_rel r
@@ -113,8 +113,8 @@ begin
             r.revisao is null and
             r.notificacao3 = current_date and
             r.notificar
-         union	
-         select 
+         union
+         select
             4 tipo, r.recno laudo
          from
             labamostras_rel r
@@ -123,8 +123,8 @@ begin
             r.revisao is null and
             r.pcoleta = current_date and
             r.notificar
-         union	
-         select 
+         union
+         select
             5 tipo, r.recno laudo
          from
             labamostras_rel r
@@ -133,33 +133,33 @@ begin
             r.revisao is null and
             r.notificacao4 = current_date and
             r.notificar) x on
-         x.laudo = r.recno	
+         x.laudo = r.recno
       join
          labrel lr on
-         lr.recno = r.relato_recno 
+         lr.recno = r.relato_recno
       join
          vlaudocrit lc on
          lc.relato_recno = r.relato_recno and
-         lc.recno  = r.labcrit_recno 
+         lc.recno  = r.labcrit_recno
       join
          labamostras a on
-         a.recno = r.amostra 
-      join 
+         a.recno = r.amostra
+      join
          tbclientes c on
-         c.codigo = a.codigo 
+         c.codigo = a.codigo
       join
          labequipxcli ec on
          ec.codigo = a.codigo and
-         ec.equip = a.equip_recno 
+         ec.equip = a.equip_recno
       join
          labequip e on
-         e.recno = a.equip_recno 
-      join 
+         e.recno = a.equip_recno
+      join
          labfabri efa on
-         efa.recno = e.fabricante 
-      join 
-         labisolante efi on	
-         efi.recno = e.isolante	
+         efa.recno = e.fabricante
+      join
+         labisolante efi on
+         efi.recno = e.isolante
       join
          labequip_tipo et on
          et.tipo = e.tipo
@@ -168,27 +168,27 @@ begin
          cc.cliente = a.codigo and
          cc.situacao = 1 and
          (cc.contato_tecnico or cc.contato_comercial)
-      join 
+      join
          contatos co on
          co.recno = cc.contato and
          co.situacao = 1 and
          co.email is not null
-      order by 
+      order by
          cc.contato, a.codigo, x.tipo desc, lc.nivel desc;
-   
+
    fetch refcur into xcur;
    found_ := found;
 
    xant := xcur;
    xant.codigo := -1;
-   xant.contato := -1;   
+   xant.contato := -1;
 
    while found_ loop
-      
+
       if xant.contato <> xcur.contato then
          html := format('%s<p>Olá %s,</p>', html_head, trim(xcur.nome));
          html := html + '<p>Para sua comodidade estamos enviado o cronograma das próximas coletas de amostras</p>';
-         html := html + '<table style="width: 100%;">';         
+         html := html + '<table style="width: 100%;">';
       end if;
 
       if xant.codigo <> xcur.codigo then
@@ -206,7 +206,7 @@ begin
             html := html + '<th>Descrição</th>';
             html := html + '<th>Nº</th>';
             html := html + '<th>Título</th>';
-            html := html + '<th>Emissão</th>';            
+            html := html + '<th>Emissão</th>';
             html := html + '<th>Série</th>';
             html := html + '<th>Tag</th>';
             html := html + '<th>Tipo</th>';
@@ -220,34 +220,34 @@ begin
       end if;
 
       html := html + format('<tr class="%s">', class_row);
-      
+
       if notificacao_ <> xcur.notificacao then
          html := html + format('<td class="destaque" colspan="6"><strong>Próxima Coleta: %s</strong></td>', to_char(xcur.pcoleta, 'DD/MM/YYYY'));
          html := html + format('<td class="destaque" colspan="6"><strong>Cronograma: %s</strong></td>', coalesce(xcur.status_coleta, ''));
          notificacao_ := xcur.notificacao;
-      else         
+      else
          html := html + format('<td class="crit_nivel%s">%s</td>', xcur.nivel, xcur.label);
          html := html + format('<td>%s</td>', coalesce(xcur.descri, ''));
          html := html + format('<td>%s</td>', xcur.laudo);
          html := html + format('<td>%s</td>', coalesce(xcur.titulo, ''));
-         html := html + format('<td>%s</td>', to_char(xcur.emissao, 'DD/MM/YYYY'));      
+         html := html + format('<td>%s</td>', to_char(xcur.emissao, 'DD/MM/YYYY'));
          html := html + format('<td>%s</td>', coalesce(xcur.serie, ''));
          html := html + format('<td>%s</td>', coalesce(xcur.tag, ''));
          html := html + format('<td>%s</td>', coalesce(xcur.tipo, ''));
          html := html + format('<td>%s</td>', coalesce(xcur.isolante, ''));
          html := html + format('<td>%s</td>', coalesce(xcur.fabricante, ''));
          html := html + format('<td>%s</td>', coalesce(xcur.status, ''));
-         html := html + format('<td>%s</td>', coalesce(xcur.local, ''));            
+         html := html + format('<td>%s</td>', coalesce(xcur.local, ''));
       end if;
       html := html + '</tr>';
 
       class_row := sys_iif(class_row = 'zebra_impar', 'zebra_par', 'zebra_impar');
 
       xant := xcur;
-      fetch refcur into xcur;      
+      fetch refcur into xcur;
       found_ := found;
 
-      if xant.contato <> xcur.contato or not found_ then         
+      if xant.contato <> xcur.contato or not found_ then
          html := html + format('</table>%s', html$footer());
 
          -- Registra notificação
@@ -257,7 +257,7 @@ begin
             (xant.laudo, xant.notificacao)
          on conflict (laudo, notificacao)
             do nothing;
-         
+
          -- Registra contato
          insert into laudos_notificacoes_contatos
             (laudo, notificacao, cliente, contato)
@@ -268,17 +268,17 @@ begin
          --    do nothing;
 
          -- cria mensagem
-         insert into sys_email 
+         insert into sys_email
             (subject, message, table_, recno_)
-         values           
+         values
             ('PROGRAME-SE! Segue cronograma de coleta de amostras', html, sys_origem('laudos_notificacoes_contatos'), recno_)
          returning recno into message_;
 
-         insert into sys_emailto 
+         insert into sys_emailto
             (message, to_, to_name)
-         values             
+         values
             (message_, xant.email, xant.nome);
-         
+
          -- dispara envio do email
          update sys_email
             set status = 1

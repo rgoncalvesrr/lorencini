@@ -35,7 +35,7 @@ Declare
    rx                record;
    msg               text;
    CRLF              text;
-   xlog              log$;   
+   xlog              log$;
    status_analise_   public.cred_analise.status%type;
 BEGIN
    CRLF := chr(13) || chr(10);
@@ -50,36 +50,36 @@ BEGIN
          xlog.source_recno := new.recno;
 
          if new.indice is null then
-            select 
+            select
                recno
-            into 
+            into
                new.indice
-            from 
+            from
                indices
-            where 
+            where
                vigencia <= new.criado
-            order by 
+            order by
                vigencia desc
-            limit 
+            limit
                1;
          end if;
 
          -- Tenta localizar um contato
          if new.solicitante is null then
-            select 
+            select
                nome
-            into 
+            into
                new.solicitante
-            from 
+            from
                clientes_contatos
-            where 
-               cliente = new.codigo and 
-               contato_comercial and 
-               ativo and 
+            where
+               cliente = new.codigo and
+               contato_comercial and
+               ativo and
                email is not null
-            order by 
+            order by
                padrao desc, nome
-            limit 
+            limit
                1;
          end if;
 
@@ -115,13 +115,13 @@ BEGIN
                msg := msg || CRLF || '- Markup não aprovado.';
             end if;
 
-            select 
+            select
                email, contato_mail, id_vendedor
-            into 
+            into
                r
-            from 
-               tbclientes            
-            where 
+            from
+               tbclientes
+            where
                codigo = new.codigo;
 
             if r.email is null and r.contato_mail is null then
@@ -157,17 +157,17 @@ BEGIN
                raise '[[O pedido % não pode ser liberado porque apresenta as inconsistências:%]]', new.recno, msg;
             end if;
          -- Aprovação do pedido
-         elsif old.status = 20 and new.status = 30 then         
+         elsif old.status = 20 and new.status = 30 then
             -- Gera análise de crédito para o pedido
-            if new.analise is not null then                           
+            if new.analise is not null then
                -- consultando situação da análise
-               select 
+               select
                   status
-               into 
+               into
                   status_analise_
-               from 
+               from
                   public.cred_analise
-               where 
+               where
                   recno = new.analise;
 
                -- Deixa o pedido em análise de crédito
@@ -183,7 +183,7 @@ BEGIN
                   end if;
 
                   new.obs := format('%sPedido cancelado pelo analista de crédito!', new.obs);
-               end if;            
+               end if;
             end if;
          elsif old.status = 30 and new.status = 40 then
             if not new.remessa then
@@ -258,7 +258,7 @@ BEGIN
                   msg := 'O pedido não pode entrar em produção porque:' || CRLF || msg;
 
                   raise '[[%s]]', msg;
-               end if;               
+               end if;
             end if;
 
          -- Cancelamento do pedido, verificação de remessa em processo
@@ -286,7 +286,7 @@ BEGIN
    end if;
 
    perform sys_flag_mark('pedido', old.recno);
-   
+
    return old;
 END;
 $$

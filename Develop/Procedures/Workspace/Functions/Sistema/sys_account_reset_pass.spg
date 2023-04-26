@@ -3,12 +3,12 @@
 
    @author    Ricardo Gonçalves
    @date      15/08/2021
-   @trigger   
+   @trigger
 
    Histórico
    ---------------------------------------------------------------------------------------------------------------------
    Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
-   
+
 */
 create or replace function sys_account_reset_pass(
    email_ email$)
@@ -16,8 +16,8 @@ returns varchar as
 $$
 declare
    _STATUS_NOVO      constant integer = 1;
-   
-   r           record;   
+
+   r           record;
    password_   descri$;
 begin
    select account, nome
@@ -48,7 +48,7 @@ begin
       (account, password)
    values
       (r.account, password_);
-   
+
    perform sys_account_notify(r.account);
 
    return password_;
