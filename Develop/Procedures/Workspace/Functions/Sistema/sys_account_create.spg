@@ -3,12 +3,12 @@
 
    @author    Ricardo Gonçalves
    @date      15/08/2021
-   @trigger   
+   @trigger
 
    Histórico
    ---------------------------------------------------------------------------------------------------------------------
    Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
-   
+
 */
 create or replace function sys_account_create(
    email_ email$)
@@ -24,17 +24,24 @@ declare
 begin
 
    if not exists(
-      select 1
-        from contatos
-       where email = email_)
+      select
+         1
+      from
+         contatos
+      where
+         email = email_)
    then
       raise '[[Não existe contato associado ao e-mail %]]', email_;
    end if;
 
-   select account, status, nome
-     into r
-     from vaccounts
-    where email = email_;
+   select
+      account, status, nome
+   into
+      r
+   from
+      vaccounts
+   where
+      email = email_;
 
    if found then
       if r.status <> _STATUS_INATIVO then
@@ -50,18 +57,22 @@ begin
       (password, status, changepass)
    values
       (md5(password_), _STATUS_NOVO, true)
-   returning recno into account_;
+   returning
+      recno into account_;
 
    -- Registrando senha gerada
    insert into sys_genpass
       (account, password)
    values
       (account_, password_);
-   
+
    -- Atualizando contato
-   update contatos
-      set account = account_
-    where email = email_;
+   update
+      contatos
+   set
+      account = account_
+   where
+      email = email_;
 
    perform sys_account_notify(account_);
 

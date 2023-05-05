@@ -3,7 +3,7 @@
 
    @author    Ricardo Gonçalves
    @date      17/08/2021
-   @trigger   
+   @trigger
 
    @param account_ código da conta
    @param role_ código do papel
@@ -11,12 +11,12 @@
    Histórico
    ---------------------------------------------------------------------------------------------------------------------
    Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
-   
+
 */
 create or replace function sys_role_privilege(
    account_ account$,
-   role_ integer,
-   type_ varchar)
+   role_    integer,
+   type_    varchar)
 returns void as
 $$
 declare
@@ -29,35 +29,48 @@ begin
       insert into sys_rlusers
          (role, account, enabled)
       values
-         (role_, account_, true)   
-      on conflict (account, role) do nothing
-      returning recno into recno_;
-      
+         (role_, account_, true)
+      on conflict
+         (account, role) do nothing
+      returning
+         recno into recno_;
+
       xlog.title = 'Concessão de Privilégio';
       xlog.detail = 'Privilégio "%s - %s" concedido para conta "%s - %s"';
    end if;
 
    if type_ = 'revoke' then
       delete
-        from sys_rlusers
-       where account = account_
-         and role = role_
-      returning recno into recno_;
+      from
+         sys_rlusers
+      where
+         account = account_ and
+         role = role_
+      returning
+         recno into recno_;
 
       xlog.title = 'Revogação de Privilégio';
       xlog.detail = 'Privilégio "%s - %s" revogado para conta "%s - %s"';
    end if;
 
    if recno_ is not null then
-      select nome 
-        into nome_
-        from vaccounts
-       where account = account_;
+      select
+         nome
+      into
+         nome_
+      from
+         vaccounts
+      where
+         account = account_;
 
-      select descri 
-        into descri_
-        from sys_roles
-       where recno = role_;
+      select
+         descri
+      into
+         descri_
+      from
+         sys_roles
+      where
+         recno = role_;
 
       xlog.detail = format(xlog.detail, role_, descri_, account_, nome_);
       xlog.source_table = sys_origem('sys_rlusers');
@@ -65,20 +78,27 @@ begin
       perform log(xlog);
 
       -- Redefinindo perfil padrão
-      select role
-        into role_
-        from sys_rlusers
-       where account = account_
-       limit 1;
-      
-      
+      select
+         role
+      into
+         role_
+      from
+         sys_rlusers
+      where
+         account = account_
+      limit 1;
+
       xlog.title = 'Redefinição do privilégio padrão';
       xlog.detail = null;
 
-      select descri 
-        into descri_
-        from sys_roles
-       where recno = role_;
+      select
+         descri
+      into
+         descri_
+      from
+         sys_roles
+      where
+         recno = role_;
 
       if found then
          xlog.detail = format('Perfil padrão da conta "%s - %s" definido para "%s - %s"', account_, nome_, role_, descri_ );
@@ -86,35 +106,42 @@ begin
 
       perform log(xlog);
 
-      update sys_accounts
-         set role = role_
-       where recno = account_;
+      update
+         sys_accounts
+      set
+         role = role_
+      where
+         recno = account_;
    end if;
-   
+
 end;
 $$
 language plpgsql;
 
 create or replace function sys_role_privilege(
-   email_ email$,
-   role_ integer,
-   type_ varchar)
+   email_   email$,
+   role_    integer,
+   type_    varchar)
 returns void as
 $$
 declare
    account_ account$;
 begin
-   select account
-     into account_
-     from contatos
-    where email = email_;
+   select
+      account
+   into
+      account_
+   from
+      contatos
+   where
+      email = email_;
 
    if not found then
       raise '[[Não foi possível localizar contato associado ao e-mail "%"]]', email_;
-   end if; 
+   end if;
 
    if account_ is null then
-      if type_ <> 'revoke' then         
+      if type_ <> 'revoke' then
          account_ = sys_account_create(email_);
       end if;
    end if;
