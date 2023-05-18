@@ -5,14 +5,9 @@
 	@date      11/06/2007
 	@trigger
 
-	@param  in_recno recno do laudo que terá os valores de refência atualizados
-
 	Histórico
 	---------------------------------------------------------------------------------------------------------------------
    Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
-
-   08/06/2018  Ricardo Gonçalves.
-      [*]
 */
 Create or Replace Function public.b_sys_users()
 Returns trigger as
