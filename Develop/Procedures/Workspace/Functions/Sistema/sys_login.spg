@@ -12,14 +12,14 @@ DROP FUNCTION if exists sys_login(character varying,character varying);
    Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
 */
 create or replace function sys_login(
-   in user_ varchar, 
+   in user_ varchar,
    in pass_ varchar)
 returns integer as
 $$
 declare
    account_       account$;
    transaction_   sys_login_events.recno%type;
-begin  
+begin
    transaction_ = sys_auth(user_, pass_);
 
    select account
@@ -28,7 +28,7 @@ begin
     where recno = transaction_
       and event = 0;
 
-   if account_ is not null then         
+   if account_ is not null then
       perform sys_session_select(sys_session_create(account_));
    end if;
 

@@ -17,8 +17,8 @@ Declare
    nome_       constant contatos.nome%type = 'Conta interna';
    email_      varchar = sys_param('smtp_user');
    password_   varchar = md5(sys_param('smtp_pass'));
-   account_    sys_accounts.recno%type;    
-BEGIN   
+   account_    sys_accounts.recno%type;
+BEGIN
    select account
      into account_
      from contatos
@@ -49,7 +49,7 @@ BEGIN
    then
       perform sys_session_create(account_);
    else
-      update sys_sessions 
+      update sys_sessions
          set heartbeat = clock_timestamp()
        where account = account_;
    end if;

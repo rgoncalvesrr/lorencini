@@ -15,7 +15,7 @@
    Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
 */
 create or replace function sys_auth(
-   in user_ varchar, 
+   in user_ varchar,
    in pass_ varchar)
 returns int8 as
 $$
@@ -24,7 +24,7 @@ declare
    _ACCOUNT_NOT_FOUND   constant int2 = 90;
    _EMAIL_INACTIVE      constant int2 = 100;
 
-   contato_       constant boolean := user_ ~ '@';   
+   contato_       constant boolean := user_ ~ '@';
    account_       sys_accounts.recno%type;
    r              record;
    stack_         text;
@@ -38,20 +38,20 @@ begin
        where email = usertmp_;
 
       if not found then
-         GET DIAGNOSTICS stack_ = PG_CONTEXT;         
+         GET DIAGNOSTICS stack_ = PG_CONTEXT;
          return sys_auth_event(usertmp_, _EMAIL_NOT_FOUND, stack_);
-      end if; 
+      end if;
 
       if r.account is null then
          GET DIAGNOSTICS stack_ = PG_CONTEXT;
 
          return sys_auth_event(usertmp_, _ACCOUNT_NOT_FOUND, stack_);
-      end if; 
+      end if;
 
       if r.situacao <> 1 then
          GET DIAGNOSTICS stack_ = PG_CONTEXT;
          return sys_auth_event(usertmp_, _EMAIL_INACTIVE, stack_);
-      end if; 
+      end if;
 
       account_ := r.account;
    else
@@ -64,7 +64,7 @@ begin
    return sys_auth_event(usertmp_, sys_auth(account_, pass_));
 end;
 $$
-language plpgsql;   
+language plpgsql;
 
 /**
    Verifica se o usuário tem autorização para acessar o sistema
@@ -81,11 +81,11 @@ language plpgsql;
    Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
 */
 create or replace function sys_auth(
-   in account_ account$, 
+   in account_ account$,
    in pass_ varchar)
 returns int2 as
 $$
-declare   
+declare
    _STATUS_NOVO      constant integer = 1;
    _STATUS_INATIVO   constant integer = 3;
 
@@ -111,7 +111,7 @@ begin
    select password, status
      into r
      from sys_accounts
-    where recno = account_; 
+    where recno = account_;
 
    if not found then
       return _ACCOUNT_NOT_FOUND;
@@ -125,13 +125,13 @@ begin
       return _ACCOUNT_INACTIVE;
    end if;
 
-   if r.status = _STATUS_NOVO then      
+   if r.status = _STATUS_NOVO then
       select password
         into r
         from sys_genpass
        where account = account_
          and expire_at > clock_timestamp();
-      
+
       if not found then
          return _TEMP_PASSWORD_EXPIRED;
       end if;
@@ -144,7 +144,7 @@ begin
    return _SUCCESS;
 end;
 $$
-language plpgsql;   
+language plpgsql;
 
 -- DROP FUNCTION if exists sys_auth(character varying,character varying);
 -- DROP FUNCTION if exists sys_auth("account$",character varying);

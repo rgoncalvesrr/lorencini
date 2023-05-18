@@ -16,7 +16,7 @@
 Create or Replace Function calcula_markup(
    in in_tabela   integer,
    in in_recno    integer,
-   out out_recno  integer)   
+   out out_recno  integer)
 As
 $$
 Declare
@@ -55,82 +55,82 @@ Begin
    fvldesp := 0;
 
    if in_tabela = sys_origem('tb_orcamentos') then
-      select 
+      select
          a.data emissao, b.mat_bdi vlbdi_mat, mat_comissao comis_mat, b.serv_comissao comis_srv,
          b.serv_bdi vlbdi_srv, a.grupo cod_grupo, a.os numero_orc, cast(a.frete as numeric(15, 2)) valor_despe,
          a.idcliente cliente, a.indice
-      into 
+      into
          rCab
-      from 
+      from
          tb_orcamentos a
-      join 
-         orca_grupo b on 
+      join
+         orca_grupo b on
          a.grupo = b.recno
-      where 
+      where
          a.recno = in_recno;
 
       -- Atualizar valor da com despesas em cobrança
-      select 
+      select
          coalesce(sum(f.valor), 0)
-      into 
+      into
          fvldesp
-      from 
+      from
          fin_caixa f
-      join 
-         orca_desp d on 
-         d.os = rCab.numero_orc and 
+      join
+         orca_desp d on
+         d.os = rCab.numero_orc and
          d.despesa = f.recno;
    elsif in_tabela = sys_origem('cota') then
-      select 
+      select
          cast(coalesce(a.emissao, current_date) as date) emissao, b.mat_bdi vlbdi_mat, mat_comissao comis_mat, b.serv_comissao comis_srv,
          b.serv_bdi vlbdi_srv, a.grupo cod_grupo, a.recno numero_orc, cast(a.frete as numeric(15, 2)) valor_despe,
          a.cliente, a.indice
-      into 
+      into
          rCab
-      from 
+      from
          cota a
-      join 
-         orca_grupo b on 
+      join
+         orca_grupo b on
          a.grupo = b.recno
-      where 
+      where
          a.recno = in_recno;
 
       -- Atualizar valor da com despesas em cobrança
-      select 
+      select
          coalesce(sum(f.valor), 0)
-      into 
+      into
          fvldesp
-      from 
+      from
          fin_caixa f
-      join 
-         cota_desp d on 
-         d.cotacao = in_recno and 
+      join
+         cota_desp d on
+         d.cotacao = in_recno and
          d.despesa = f.recno;
    elsif in_tabela = sys_origem('pedido') then
-      select 
+      select
          cast(coalesce(a.emitido, current_date) as date) emissao, b.mat_bdi vlbdi_mat, mat_comissao comis_mat, b.serv_comissao comis_srv,
          b.serv_bdi vlbdi_srv, a.grupo cod_grupo, a.recno numero_orc, cast(a.frete as numeric(15, 2)) valor_despe,
          a.codigo cliente, a.indice
-      into 
+      into
          rCab
-      from 
+      from
          pedido a
-      join 
-         orca_grupo b on 
+      join
+         orca_grupo b on
          a.grupo = b.recno
-       where 
+       where
          a.recno = in_recno;
 
-      -- Despesas financeiras do pedido 
-      select 
+      -- Despesas financeiras do pedido
+      select
          coalesce(sum(f.valor), 0)
-      into 
+      into
          fvldesp
-      from 
-         fin_caixa f 
-      join 
-         pedido_desp d on 
-         d.pedido = in_recno and 
+      from
+         fin_caixa f
+      join
+         pedido_desp d on
+         d.pedido = in_recno and
          d.despesa = f.recno;
    end if;
 
@@ -138,17 +138,17 @@ Begin
    fvldesp := coalesce(fvldesp * -1, 0);
 
    if rCab.indice is null then
-      select 
+      select
          recno
-      into 
+      into
          rCab.indice
-      from 
+      from
          indices
-      where 
+      where
          vigencia <= rCab.emissao
-      order by 
+      order by
          vigencia desc
-      limit 
+      limit
          1;
    end if;
 
@@ -157,14 +157,14 @@ Begin
    end if;
 
    -- Obtem as aliquotas com base na data de emissão
-   select 
+   select
       regime, iss, icms, aliq_mat, pis, cofins, irpj_mat, cssl_mat, inss_mat,
       aliq_srv, pis_srv, cofins_srv, irpj_srv, cssl_srv, inss_srv
-   into 
+   into
       rIdx
-   from 
+   from
       indices
-   where 
+   where
       recno = rCab.indice;
 
    if not FOUND then
@@ -174,13 +174,13 @@ Begin
    -- Recupera aliquota de ISS do orçamento
    -- Regime 1 = Lucro Presumido / 2 = Simples Nacional
    if rIdx.regime <> 2 then
-      select 
+      select
          iss
-      into 
+      into
          rIdx.iss
-      from 
+      from
          vatividades
-      where 
+      where
          item = rCab.cod_grupo;
    end if;
 
@@ -198,27 +198,27 @@ Begin
    -- Processa markup de materiais -- =========================================================
    if in_tabela = sys_origem('tb_orcamentos') then
       Open xCur for
-         select 
+         select
             cast(qtd as qtd$) qtd, cast(unitario as numeric(15, 2)) custo, sys_iif(rIdx.regime = 2, rIdx.icms, coalesce(icms_compra, 0)) picms, recno
-         from 
+         from
             orca_mat
-         where 
+         where
             os = rCab.numero_orc;
    elsif in_tabela = sys_origem('cota') then
       Open xCur for
-         select 
+         select
             qtd, cast(unitario as numeric(15, 2)) custo, sys_iif(rIdx.regime = 2, rIdx.icms, coalesce(picms, 0)) picms, recno
-         from 
+         from
             cota_mat
-         where 
+         where
             cotacao = rCab.numero_orc;
    elsif in_tabela = sys_origem('pedido') then
       Open xCur for
-         select 
+         select
             qtd, cast(unitario as numeric(15, 2)) custo, sys_iif(rIdx.regime = 2, rIdx.icms, coalesce(picms, 0)) picms, recno
-         from 
+         from
             pedido_mat
-         where 
+         where
             pedido = rCab.numero_orc;
    end if;
 
@@ -235,33 +235,33 @@ Begin
       if in_tabela = sys_origem('tb_orcamentos') then
          perform sys_flag_mark('orca_mat', r.recno);
 
-         update 
+         update
             orca_mat
-         set 
+         set
             vl_venda = fvalor_tmp
-         where 
+         where
             recno = r.recno;
 
          perform sys_flag_del('orca_mat', r.recno);
       elsif in_tabela = sys_origem('cota') then
          perform sys_flag_mark('cota_mat', r.recno);
-         
-         update 
+
+         update
             cota_mat
-         set 
+         set
             vvenda = fvalor_tmp
-         where 
+         where
             recno = r.recno;
 
          perform sys_flag_del('cota_mat', r.recno);
       elsif in_tabela = sys_origem('pedido') then
          perform sys_flag_mark('pedido_mat', r.recno);
 
-         update 
+         update
             pedido_mat
-         set 
+         set
             vvenda = fvalor_tmp
-         where 
+         where
             recno = r.recno;
 
          perform sys_flag_del('pedido_mat', r.recno);
@@ -319,27 +319,27 @@ Begin
 
    if in_tabela = sys_origem('tb_orcamentos') then
       open xcur for
-         select 
+         select
             cast(unitario as moeda$) custo, qtde qtd, recno
-         from 
+         from
             tb_orcamentos_lucratividade_lorencini
-         where 
+         where
             os = rCab.numero_orc;
    elsif in_tabela = sys_origem('cota') then
       open xcur for
-         select 
+         select
             unitario custo, qtd, recno
-         from 
+         from
             cota_mo
-         where 
+         where
             cotacao = rCab.numero_orc;
    elsif in_tabela = sys_origem('pedido') then
       open xcur for
-         select 
+         select
             unitario custo, qtd, recno
-         from 
+         from
            pedido_mo
-         where 
+         where
             pedido = rCab.numero_orc;
    end if;
 
@@ -355,33 +355,33 @@ Begin
       if in_tabela = sys_origem('tb_orcamentos') then
          perform sys_flag_mark('tb_orcamentos_lucratividade_lorencini', r.recno);
 
-         update 
+         update
             tb_orcamentos_lucratividade_lorencini
-         set 
+         set
             vl_venda = fvalor_tmp
-         where 
+         where
             recno = r.recno;
 
          perform sys_flag_del('tb_orcamentos_lucratividade_lorencini', r.recno);
       elsif in_tabela = sys_origem('cota') then
          perform sys_flag_mark('cota_mo', r.recno);
 
-         update 
+         update
             cota_mo
-         set 
+         set
             vvenda = fvalor_tmp
-         where 
+         where
             recno = r.recno;
 
          perform sys_flag_del('cota_mo', r.recno);
       elsif in_tabela = sys_origem('pedido') then
          perform sys_flag_mark('pedido_mo', r.recno);
-         
-         update 
+
+         update
             pedido_mo
-         set 
+         set
             vvenda = fvalor_tmp
-         where 
+         where
             recno = r.recno;
 
          perform sys_flag_del('pedido_mo', r.recno);
@@ -397,36 +397,36 @@ Begin
    -- Processa markup de serviços (naturezas) -- =========================================================
    if in_tabela = sys_origem('tb_orcamentos') then
       Open xCur for
-         select 
+         select
             cast(a.qtd as qtd$) qtd, cast(a.valor as moeda$) custo, b.tipo, a.recno
-         from 
+         from
             servicos_os a
-         join 
-            servicos b on 
+         join
+            servicos b on
             b.codserv = a.codserv
-         where 
+         where
             os = rCab.numero_orc;
    elsif in_tabela = sys_origem('cota') then
       Open xCur for
-         select 
+         select
             cast(a.qtd as qtd$) qtd, cast(a.unitario as moeda$) custo, b.tipo, a.recno
-         from 
+         from
             cota_serv a
-         join 
-            servicos b on 
+         join
+            servicos b on
             b.codserv = a.servico
-         where 
+         where
             a.cotacao = rCab.numero_orc;
    elsif in_tabela = sys_origem('pedido') then
       Open xCur for
-         select 
+         select
             cast(a.qtd as qtd$) qtd, cast(a.unitario as moeda$) custo, b.tipo, a.recno
-         from 
+         from
             pedido_serv a
-         join 
-            servicos b on 
+         join
+            servicos b on
             b.codserv = a.codserv
-         where 
+         where
             a.pedido = rCab.numero_orc;
    end if;
 
@@ -449,29 +449,29 @@ Begin
 
       if in_tabela = sys_origem('tb_orcamentos') then
          perform sys_flag_mark('servicos_os', r.recno);
-         update 
+         update
             servicos_os
-         set 
+         set
             vl_venda = fvalor_tmp
-         where 
+         where
             recno = r.recno;
          perform sys_flag_del('servicos_os', r.recno);
       elsif in_tabela = sys_origem('cota') then
          perform sys_flag_mark('cota_serv', r.recno);
-         update 
+         update
             cota_serv
-         set 
+         set
             vvenda = fvalor_tmp
-         where 
+         where
             recno = r.recno;
          perform sys_flag_del('cota_serv', r.recno);
       elsif in_tabela = sys_origem('pedido') then
          perform sys_flag_mark('pedido_serv', r.recno);
-         update 
+         update
             pedido_serv
-         set 
+         set
             vvenda = fvalor_tmp
-         where 
+         where
             recno = r.recno;
          perform sys_flag_del('pedido_serv', r.recno);
       end if;
@@ -530,18 +530,18 @@ Begin
       fimpos_fix := round((fvlfix_srv + rCab.valor_despe) * rIdx.aliq_srv / 100, 2);
 
       -- Recupera o recno da tabela de Markup
-      select 
+      select
          recno
-      into 
+      into
          out_recno
-      from 
+      from
          markup
-      where 
-         _tabela = in_tabela and 
+      where
+         _tabela = in_tabela and
          _recno = in_recno;
 
       -- Inclui ou altera um registro na tabela de Markup
-      if out_recno is null then         
+      if out_recno is null then
          insert into markup
             (_tabela, _recno, bdi_mat, vliqui_mat, vlmat, vlcssl_mat, vlirpj_mat, vlpis_mat, vlcofins_mat, vlicms,
             vlcom_mat, vlinss_mat, bdi_srv, vliqui_srv, vlmobra, vlcssl_srv, vlirpj_srv, vlpis_srv, vlcofins_srv,
@@ -551,14 +551,14 @@ Begin
             fvlfin_mat, fvalor_icm, fcomis_mat, fvinss_mat, rCab.vlbdi_srv, fliqui_srv, fvlr_mobra, fvcsll_srv,
             fvirpj_srv, fvlpis_srv, fvlfin_srv, fvlvar_srv, fvlfix_srv, fvalor_iss, fcomis_srv,
             fvinss_srv, fimpos_mat, fimpos_srv, fimpos_fix, rCab.valor_despe)
-         returning 
-            recno 
-         into 
+         returning
+            recno
+         into
             out_recno;
       else
-         update 
+         update
             markup
-         set 
+         set
             bdi_mat    = rCab.vlbdi_mat, bdi_srv      = rCab.vlbdi_srv, vliqui_mat = fliqui_mat,
             vlmat      = fvalor_mat,     vlcssl_mat   = fvcsll_mat,     vlirpj_mat = fvirpj_mat,
             vlpis_mat  = fvlpis_mat,     vlcofins_mat = fvlfin_mat,     vlicms     = fvalor_icm,
@@ -568,7 +568,7 @@ Begin
             vlsrvfixo  = fvlfix_srv,     vliss        = fvalor_iss,     vlcom_srv  = fcomis_srv,
             vlinss_srv = fvinss_srv,     vimpos_mat   = fimpos_mat,     vimpos_srv = fimpos_srv,
             vimpos_fix = fimpos_fix,     vldespe      = rCab.valor_despe
-         where 
+         where
             recno = out_recno;
      end if;
 End;
@@ -580,11 +580,11 @@ Create or Replace Function calcula_markup(in in_recno integer)
 returns integer as
 $$
 begin
-   perform 
+   perform
       calcula_markup(_tabela, _recno)
-   from 
+   from
       markup
-   where 
+   where
       recno = in_recno;
 
    return in_recno;

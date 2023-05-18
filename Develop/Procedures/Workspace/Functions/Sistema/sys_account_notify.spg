@@ -3,14 +3,14 @@
 
    @author    Ricardo Gonçalves
    @date      16/08/2021
-   @trigger   
+   @trigger
 
    @param account_ código da conta que dever ter as senhas temporárias expiradas
 
    Histórico
    ---------------------------------------------------------------------------------------------------------------------
    Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
-   
+
 */
 create or replace function sys_account_notify(account_ account$)
 returns void as
@@ -20,14 +20,14 @@ declare
    html     text;
    message_ sys_email.recno%type;
 begin
-   select c.nome, c.email, p."password", p.expire_at 
+   select c.nome, c.email, p."password", p.expire_at
      into r
      from sys_accounts a
           left join sys_genpass p
             on p.account = a.recno
            and p.expire_at > clock_timestamp()
           join contatos c
-            on c.account = a.recno 
+            on c.account = a.recno
     where a.recno = account_;
 
    if r.password is null then
@@ -37,24 +37,24 @@ begin
    html := html$head('Acesso ao sistema Manager da Lorencini Brasil');
    html := html + format('<h1>Olá %s</h1>', r.nome);
    html := html + '<p>Você está recebendo uma senha temporária para acesso ao sistema.</p>';
-   html := html + '<p>Ao acessar o sistema informe a senha temporária. O sistema solicitará a troca para nova senha.</p>';   
-   html := html + '<p>A nova senha deve conter letras e números e ter comprimento mínimo de 6 caracteres.</p><br />';   
+   html := html + '<p>Ao acessar o sistema informe a senha temporária. O sistema solicitará a troca para nova senha.</p>';
+   html := html + '<p>A nova senha deve conter letras e números e ter comprimento mínimo de 6 caracteres.</p><br />';
    html := html + format('<p>Senha temporária <strong><code>%s</code></strong> ', r.password);
    html := html + format('válida até <strong><code>%s</code></strong></p>', to_char(r.expire_at, 'DD/MM/YYYY HH24:MI:SS'));
    html := html + html$footer();
 
    -- cria mensagem
-   insert into sys_email 
+   insert into sys_email
       (subject, message, table_, recno_)
-   values           
+   values
       ('Acesso ao Sistema Manager ', html, sys_origem('sys_accounts'), account_)
    returning recno into message_;
 
-   insert into sys_emailto 
+   insert into sys_emailto
       (message, to_, to_name)
-   values             
+   values
       (message_, r.email, r.nome);
-   
+
    -- dispara envio do email
    update sys_email
       set status = 1

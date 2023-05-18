@@ -14,7 +14,7 @@
    Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
 */
 create or replace function sys_auth_event(
-   in email_ email$, 
+   in email_ email$,
    in event_ int2,
    in detail_ text)
 returns int8 as
@@ -25,8 +25,8 @@ declare
 begin
    select account
      into account_
-     from contatos 
-    where email = email_; 
+     from contatos
+    where email = email_;
 
    insert into sys_login_events
       (event, email, account, detail)
@@ -40,7 +40,7 @@ $$
 language plpgsql;
 
 create or replace function sys_auth_event(
-   in email_ email$, 
+   in email_ email$,
    in event_ int2)
 returns int8 as
 $$
