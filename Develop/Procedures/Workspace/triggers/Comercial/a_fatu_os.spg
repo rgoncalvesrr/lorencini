@@ -12,7 +12,7 @@
  */
 
 Create or Replace Function a_fatu_os()
-Returns trigger As 
+Returns trigger As
 $$
 Declare
    orc         tb_orcamentos%rowtype;
@@ -22,22 +22,31 @@ Begin
    -- Processa faturamento
    if tg_op <> 'DELETE' then
       -- Recupera o valor total da OS
-      select *
-        into orc
-        from vos
-       where os = new.os
-         and status = 3;
+      select
+         *
+      into
+         orc
+      from
+         vos
+      where
+         os = new.os and
+         status = 3;
 
       if orc is null then
          raise '[[Somente orçamentos Finalizados podem ser faturados.]]';
       end if;
 
       -- Soma o valor dos faturamentos
-      select sum(valor)
-        into ffaturado
-        from fatu_os
-       where os = new.os
-       group by os;
+      select
+         sum(valor)
+      into
+         ffaturado
+      from
+         fatu_os
+      where
+         os = new.os
+      group by
+         os;
 
       -- Checa se o valor  pode ser faturado
       if ffaturado > (orc.vlsrv + orc.vlmat) then
@@ -58,9 +67,12 @@ Begin
          -- Marcação de faturamento
          perform sys_flag_mark('tb_orcamentos', orc.recno);
 
-         update tb_orcamentos
-            set status = istatus
-          where os = new.os;
+         update
+            tb_orcamentos
+         set
+            status = istatus
+         where
+            os = new.os;
 
          -- Gera título a receber
          if istatus = 4 then
@@ -69,20 +81,23 @@ Begin
             end if;
 
             if not Exists(
-               select 1
-                 from fin_naturezas
-                where natureza = new.natureza
-                  and tipo = 'R')
+               select
+                  1
+               from
+                  fin_naturezas
+               where
+                  natureza = new.natureza and
+                  tipo = 'R')
             then
                raise  '[[Para que o sistema possa gerar o título no contas a receber é necessário informar uma natureza de receita.]]';
             end if;
 
-            insert into fin_receber 
-               (os,     natureza,     id_cli,        emissao,     vencimento, vencimento_real, valor, 
-                obs)
-            values 
-               (new.os, new.natureza, orc.idcliente, new.emissao, new.dtvenc, new.dtvenc,      new.valor, 
-                'Título criado automaticamente pela rotina de faturamento.');
+            insert into fin_receber (
+               os,     natureza,     id_cli,        emissao,     vencimento, vencimento_real, valor,
+               obs)
+            values (
+               new.os, new.natureza, orc.idcliente, new.emissao, new.dtvenc, new.dtvenc,      new.valor,
+               'Título criado automaticamente pela rotina de faturamento.');
          end if;
       end if;
 

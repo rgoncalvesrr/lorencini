@@ -11,9 +11,9 @@
 Create or Replace Function a_cota_mo()
 Returns trigger As
 $$
-Declare   
+Declare
    icotacao cota.recno%type;
-   irecno   cota_mo.recno%type;   
+   irecno   cota_mo.recno%type;
 Begin
    if tg_op <> 'DELETE' then
       icotacao := new.cotacao;
@@ -27,7 +27,7 @@ Begin
       perform atualiza_markup_cotacao(icotacao);
    end if;
 
-   return null;   
+   return null;
 End
 $$
 language plpgsql;

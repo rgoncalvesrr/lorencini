@@ -17,9 +17,9 @@ Returns trigger As
 $$
 Declare
    newStatus   varchar;
-   oldStatus   varchar;   
+   oldStatus   varchar;
    xlog        log$;
-Begin   
+Begin
    if tg_op = 'INSERT' then
       perform cpDocParaDoc(
          sys_origem('orca_grupo'), new.grupo,
@@ -58,9 +58,9 @@ Begin
 
          xlog.title := 'Mudança de status';
          xlog.detail := format('A cotação mudou saiu do status "%s" para "%s"',oldStatus, newStatus);
-         xlog.rotate := false;  
+         xlog.rotate := false;
          xlog.source_table := sys_origem('cota');
-         xlog.source_recno := new.recno;    
+         xlog.source_recno := new.recno;
          xlog.level := 'info';
          xlog.status_code := new.status;
 

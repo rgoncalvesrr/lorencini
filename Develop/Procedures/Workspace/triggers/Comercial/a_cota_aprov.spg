@@ -19,13 +19,13 @@ Begin
 
       -- Geração do pedido
       if new.status = 1 and old.status = 0 then
-         select a.cliente, a.coleta, a.status, a.markup,  a.validade, a.grupo, a.remessa, a.laboratorio, a.envio, 
+         select a.cliente, a.coleta, a.status, a.markup,  a.validade, a.grupo, a.remessa, a.laboratorio, a.envio,
                 a.correio, a.indice, a.condicaopg, a.dec_conf
            into r
-           from cota a                
+           from cota a
           where a.recno = new.cotacao;
 
-         if r.status != 4 then            
+         if r.status != 4 then
             raise '[[Não foi possível aprovar a cotação % porque não está em estudo!]]', new.cotacao;
          end if;
 
@@ -35,19 +35,19 @@ Begin
 
          -- Registra a OS como aprovada status = 1
          insert into pedido (
-            codigo, grupo, pedido_cliente, frete, frascos, seringas, remessa, laboratorio, lote_aprov,  envio, correio, coleta, 
+            codigo, grupo, pedido_cliente, frete, frascos, seringas, remessa, laboratorio, lote_aprov,  envio, correio, coleta,
             indice, condicaopg, dec_conf)
          Values (
-            r.cliente, r.grupo,  new.pedido_cliente, new.frete, new.frascos, new.seringas, r.remessa, r.laboratorio, new.recno, r.envio, r.correio, r.coleta, 
+            r.cliente, r.grupo,  new.pedido_cliente, new.frete, new.frascos, new.seringas, r.remessa, r.laboratorio, new.recno, r.envio, r.correio, r.coleta,
             r.indice, r.condicaopg, r.dec_conf)
          returning recno into ipedido;
 
          -- Inserindo materiais
          insert into pedido_mat(
             pedido, material,    qtd,    unitario,    lote_aprov)
-         select 
-            ipedido, om.material, om.qtd, om.unitario, new.recno 
-           from cota_mat om                  
+         select
+            ipedido, om.material, om.qtd, om.unitario, new.recno
+           from cota_mat om
           where om.lote_aprov = new.recno;
 
          -- Inserindo Naturezas
@@ -74,13 +74,13 @@ Begin
          insert into pedido_desp (pedido, despesa)
          select ipedido, despesa
            from cota_desp
-          where lote_aprov = new.recno;  
+          where lote_aprov = new.recno;
 
          -- Contatos
          insert into pedido_contatos (pedido, cliente, contato)
          select ipedido, cliente, contato
            from cota_contatos
-          where cotacao = new.cotacao; 
+          where cotacao = new.cotacao;
 
          update cota
             set status = 5, pedcli = new.pedido_cliente, aprovacao = new.historico

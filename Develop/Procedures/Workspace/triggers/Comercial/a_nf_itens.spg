@@ -14,7 +14,7 @@ Create or Replace Function a_nf_itens()
 Returns Trigger
 as
 $$
-Declare   
+Declare
    rIdx        indices%rowtype;
    rNF         record;
    rCli        record;
@@ -24,26 +24,38 @@ Begin
    xlog.source_table := sys_origem('nf');
    -- Obtem o recno
    if tg_op = 'DELETE' then
-      xlog.source_recno := old.recno_nf;      
+      xlog.source_recno := old.recno_nf;
    else
       xlog.source_recno := new.recno_nf;
    end if;
 
-   select a.*, b.tipo
-     into rNF
-     from nf a
-          join nf_serie b
-            on b.serie = a.serie
-    where a.recno = xlog.source_recno;
+   select
+      a.*, b.tipo
+   into
+      rNF
+   from
+      nf a
+   join
+      nf_serie b on
+      b.serie = a.serie
+   where
+      a.recno = xlog.source_recno;
 
    -- Obtem as aliquotas com base na data de emissão
-   select *
-     into rIdx
-     from indices a
-          join (select coalesce(max(vigencia), (select min(vigencia) from indices)) as vigencia
-                  from indices
-                 where vigencia <= rNF.emissao) b
-       on b.vigencia = a.vigencia;
+   select
+      *
+   into
+      rIdx
+   from
+      indices a
+   join (
+      select
+         coalesce(max(vigencia), (select min(vigencia) from indices)) as vigencia
+      from
+         indices
+      where
+         vigencia <= rNF.emissao) b on
+      b.vigencia = a.vigencia;
 
    if not FOUND then
       raise '[[É necessário que a tabela de índices contenha, ao menos, um registro.]]';
@@ -100,13 +112,17 @@ Begin
 
    if tg_op <> 'INSERT' then
       if tg_op = 'DELETE' then
-         select *
-           into rOrc
-           from tb_orcamentos
-          where os = old.os;
+         select
+            *
+         into
+            rOrc
+         from
+            tb_orcamentos
+         where
+            os = old.os;
 
          xlog.title := 'Remoção da OS: ' || rOrc.idos;
-         perform log(xlog);         
+         perform log(xlog);
       end if;
 
       -- Calcula os valores da NF
@@ -126,42 +142,61 @@ Begin
          rNF.vlcofins := rNF.vlcofins - old.valor * rIdx.cofins_srv;
       end if;
 
-      update nf
-         set valor = valor - old.valor, vlicms = rNF.vlicms, vlirpj = rNF.vlirpj,
-             vlcssl = rNF.vlcssl, vlcom = vlcom - old.vlcom, vlinss = rNF.vlinss,
-             vlpis = rNF.vlpis, vlcofins = rNF.vlcofins, vliss = rNF.vliss
-       where recno = old.recno_nf;
+      update
+         nf
+      set
+         valor = valor - old.valor, vlicms = rNF.vlicms, vlirpj = rNF.vlirpj,
+         vlcssl = rNF.vlcssl, vlcom = vlcom - old.vlcom, vlinss = rNF.vlinss,
+         vlpis = rNF.vlpis, vlcofins = rNF.vlcofins, vliss = rNF.vliss
+      where
+         recno = old.recno_nf;
    end if;
 
    if tg_op <> 'DELETE' then
-      select *
-        into rOrc
-        from tb_orcamentos
-       where os = new.os;
+      select
+         *
+      into
+         rOrc
+      from
+         tb_orcamentos
+      where
+         os = new.os;
 
       if not exists(
-         select 1
-           from tb_orcamentos a
-                join nf b
-                  on b.codigo = a.idcliente
-                 and b.recno = new.recno_nf
-           where a.os = new.os)
+         select
+            1
+         from
+            tb_orcamentos a
+         join
+            nf b on
+            b.codigo = a.idcliente and
+            b.recno = new.recno_nf
+         where
+            a.os = new.os)
       then
-         select *
-           into rCli
-           from tbclientes a
-                join nf b
-                  on b.codigo = a.codigo
-                 and b.recno = new.recno_nf;
+         select
+            *
+         into
+            rCli
+         from
+            tbclientes a
+         join
+            nf b on
+            b.codigo = a.codigo and
+            b.recno = new.recno_nf;
 
          -- verifica se o cliente pertence ao grupo
          if not exists(
-            select 1
-              from tbclixgrupos g
-                   join tbclixgrupos cg
-                     on cg.tbcli_grupos_recno = g.tbcli_grupos_recno
-                    and cg.codigo = rOrc.idcliente
-              where g.codigo = rCli.codigo)
+            select
+               1
+            from
+               tbclixgrupos g
+            join
+               tbclixgrupos cg on
+               cg.tbcli_grupos_recno = g.tbcli_grupos_recno and
+               cg.codigo = rOrc.idcliente
+            where
+               g.codigo = rCli.codigo)
          then
             raise '[[OS % não pertence ao cliente %. Verifique!]]', rOrc.idos, rCli.nome_chave;
          end if;
@@ -189,11 +224,14 @@ Begin
          rNF.vlcofins := rNF.vlcofins + new.valor * rIdx.cofins_srv;
       end if;
 
-      update nf
-         set valor = valor + new.valor, vlicms = rNF.vlicms, vlirpj = rNF.vlirpj,
-             vlcssl = rNF.vlcssl, vlcom = vlcom + new.vlcom, vlinss = rNF.vlinss,
-             vlpis = rNF.vlpis, vlcofins = rNF.vlcofins, vliss = rNF.vliss
-       where recno = new.recno_nf;
+      update
+         nf
+      set
+         valor = valor + new.valor, vlicms = rNF.vlicms, vlirpj = rNF.vlirpj,
+         vlcssl = rNF.vlcssl, vlcom = vlcom + new.vlcom, vlinss = rNF.vlinss,
+         vlpis = rNF.vlpis, vlcofins = rNF.vlcofins, vliss = rNF.vliss
+      where
+         recno = new.recno_nf;
    end if;
 
    return null;

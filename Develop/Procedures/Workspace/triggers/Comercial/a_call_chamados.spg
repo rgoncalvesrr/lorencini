@@ -16,16 +16,16 @@ $$
 begin
 	if tg_op = 'INSERT' then
       -- Gera primeiro registro de atividade.
-      insert into call_atividade 
+      insert into call_atividade
          (codigo, chamado, username, descri, contato)
-      values 
+      values
          (new.codigo, new.chamado, new.username, new.assunto, new.contato);
    end if;
 
    if tg_op = 'DELETE' then
       return old;
    end if;
-   
+
    return new;
 end;
 $$

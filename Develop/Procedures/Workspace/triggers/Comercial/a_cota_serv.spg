@@ -19,9 +19,11 @@ Begin
       insert into cota_servdet
          (cotacao,     servico,     detalhe)
       select
-          new.cotacao, new.servico, recno
-        from servicos_det
-       where codserv = new.servico;
+         new.cotacao, new.servico, recno
+      from
+         servicos_det
+      where
+         codserv = new.servico;
    end if;
 
    if tg_op <> 'DELETE' then

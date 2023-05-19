@@ -16,7 +16,7 @@ declare
    ATIVO constant integer := 1;
 
    xlog  log$;
-begin   
+begin
    if tg_op = 'DELETE' then
       return null;
    end if;
@@ -43,13 +43,13 @@ begin
    else
       if new.status <> old.status then
          xlog.title := 'Mudança de Status';
-         xlog.detail := format('Status alterado de %s.%s para %s.%s', 
-            old.status, a_contratos_status(old.status), 
+         xlog.detail := format('Status alterado de %s.%s para %s.%s',
+            old.status, a_contratos_status(old.status),
             new.status, a_contratos_status(new.status));
          perform log(xlog);
       end if;
    end if;
-   
+
    return null;
 end;
 $$
@@ -60,12 +60,12 @@ create or replace function a_contratos_status(
 returns text as
 $$
 begin
-   case status_ 
-      when 1 then 
+   case status_
+      when 1 then
          return 'Elaboração';
-      when 2 then 
+      when 2 then
          return 'Vigente';
-      when 3 then 
+      when 3 then
          return 'Encerrado';
    end case;
 end;
