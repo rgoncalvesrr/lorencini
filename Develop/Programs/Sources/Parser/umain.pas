@@ -61,6 +61,7 @@ begin
   FStmt := TStringList.Create;
   FStmtSanitized := TStringList.Create;
   FStmtApplied := TStringList.Create;
+  SynEdit1.Font.Name := 'Courier New';
 
   shift := False;
   ZConnection1.LibraryLocation := TEnvironment.Lib + 'libpq.dll';
@@ -205,10 +206,18 @@ var
   CompressRate: Double;
   Stmt: TStrings;
 begin
+  SynEdit1.WordWrap := False;
+  SynEdit1.ScrollBars := ssBoth;
+
   case PageControl1.ActivePageIndex of
     0: Stmt := FStmt;
     1: Stmt := FStmtSanitized;
-    2: Stmt := FStmtApplied;
+    2:
+      begin
+        Stmt := FStmtApplied;
+        SynEdit1.WordWrap := True;
+        SynEdit1.ScrollBars := ssVertical;
+      end;
   end;
 
   SynEdit1.Lines.EndUpdate;
@@ -216,7 +225,8 @@ begin
     SynEdit1.WordWrap := PageControl1.ActivePageIndex = 3;
     SynEdit1.WantReturns := PageControl1.ActivePageIndex = 3;
 
-    SynEdit1.Text := Stmt.Text;
+    SynEdit1.Lines.Clear;
+    SynEdit1.Lines.AddStrings(Stmt);
     SynEdit1.Parent := PageControl1.ActivePage;
   finally
     SynEdit1.Lines.EndUpdate;

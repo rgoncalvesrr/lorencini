@@ -22,7 +22,10 @@
          "**/*.pgsql",
          "**/*.spg"
       ],
-      "plpgsqlLanguageServer.user": "postgres"
+      "plpgsqlLanguageServer.user": "postgres",
+      "gitlens.proxy": {
+         
+      }
    },
    "extensions": {
       "recommendations": [

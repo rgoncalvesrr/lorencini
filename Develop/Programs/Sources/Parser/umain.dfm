@@ -30,17 +30,13 @@ object Main: TMain
     TabOrder = 0
     TabStop = False
     OnChange = PageControl1Change
-    ExplicitLeft = -2
-    ExplicitHeight = 391
+    ExplicitLeft = 8
     object TabSheet1: TTabSheet
       Caption = 'Rotina Original'
-      ExplicitTop = 28
-      ExplicitHeight = 363
     end
     object TabSheet5: TTabSheet
       Caption = 'Rotina Saneada'
       ImageIndex = 1
-      ExplicitHeight = 363
       object SynEdit1: TSynEdit
         Left = 0
         Top = 0
@@ -71,13 +67,12 @@ object Main: TMain
         Highlighter = SynSQLSyn1
         RightEdge = 120
         FontSmoothing = fsmClearType
-        ExplicitHeight = 202
+        ExplicitTop = 4
       end
     end
     object TabSheet6: TTabSheet
       Caption = 'Rotina Aplicada'
       ImageIndex = 2
-      ExplicitHeight = 363
     end
   end
   object PageControl2: TPageControl
@@ -89,10 +84,8 @@ object Main: TMain
     ActivePage = TabSheet2
     Align = alBottom
     TabOrder = 1
-    ExplicitLeft = -2
     object TabSheet2: TTabSheet
       Caption = 'Resultados'
-      ExplicitHeight = 221
       object GroupBox3: TGroupBox
         AlignWithMargins = True
         Left = 3
@@ -105,8 +98,6 @@ object Main: TMain
         Padding.Right = 5
         Padding.Bottom = 5
         TabOrder = 0
-        ExplicitTop = 235
-        ExplicitHeight = 125
         object Memo2: TMemo
           AlignWithMargins = True
           Left = 10
@@ -124,15 +115,12 @@ object Main: TMain
           ReadOnly = True
           ScrollBars = ssBoth
           TabOrder = 0
-          ExplicitHeight = 97
         end
       end
     end
     object TabSheet3: TTabSheet
       Caption = 'Par'#226'metros'
       ImageIndex = 1
-      ExplicitWidth = 852
-      ExplicitHeight = 301
       object GroupBox1: TGroupBox
         AlignWithMargins = True
         Left = 3
@@ -145,7 +133,6 @@ object Main: TMain
         Padding.Right = 5
         Padding.Bottom = 5
         TabOrder = 0
-        ExplicitHeight = 146
         object ListView1: TListView
           Left = 7
           Top = 15
@@ -164,7 +151,6 @@ object Main: TMain
             end>
           TabOrder = 0
           ViewStyle = vsReport
-          ExplicitHeight = 124
         end
       end
     end
@@ -216,7 +202,6 @@ object Main: TMain
       item
         Width = 50
       end>
-    ExplicitLeft = -2
   end
   object ZConnection1: TZConnection
     ControlsCodePage = cGET_ACP
