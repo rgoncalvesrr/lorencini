@@ -10,12 +10,12 @@
    Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
 */
 create or replace function tspeed.scc_consultar_documento(
-   documento_ varchar,
-   uf_ varchar,
-   tipo_ integer,
-   table_ integer,
-   recno_ bigint,
-   producao_ boolean = true)
+   documento_  varchar,
+   uf_         varchar,
+   tipo_       integer,
+   table_      integer,
+   recno_      bigint,
+   producao_   boolean = true)
 returns bigint as
 $$
 declare
@@ -27,10 +27,14 @@ declare
    request_    public.svc_cliapi.recno%type;
    accept_     text := '*/*';
 begin
-   select *
-     from tspeed.tipos
-     into rtipo
-    where recno = tipo_;
+   select
+      *
+   from
+      tspeed.tipos
+   into
+      rtipo
+   where
+      recno = tipo_;
 
    if not found then
       raise '[[Tipo de consulta % não localizado. Verifique os tipos de consulta a crédito disponíveis]]', tipo_;
@@ -75,24 +79,30 @@ begin
       convert_from(decode(sys_paramv('scc_login'), 'base64'), 'utf-8'),
       convert_from(decode(sys_paramv('scc_pass'), 'base64'), 'utf-8'));
 
-   insert into public.svc_cliapi
-      (uri, req_method, req_headers, req_body, res_callback, status, env)
-   values
-      (r.uri, r.req_method, r.req_headers, r.req_body, r.res_callback, r.status, r.env)
-   returning recno into request_;
+   insert into public.svc_cliapi (
+      uri, req_method, req_headers, req_body, res_callback, status, env)
+   values (
+      r.uri, r.req_method, r.req_headers, r.req_body, r.res_callback, r.status, r.env)
+   returning
+      recno
+   into
+      request_;
 
    -- Cria a consulta
-   insert into tspeed.cred_consultas
-      (documento, uf, tipo, env, custo, source_table, source_recno)
-   values
-      (documento_, uf_, tipo_, r.env, rtipo.custo, table_, recno_)
-   returning recno into consulta_;
+   insert into tspeed.cred_consultas (
+      documento, uf, tipo, env, custo, source_table, source_recno)
+   values (
+      documento_, uf_, tipo_, r.env, rtipo.custo, table_, recno_)
+   returning
+      recno
+   into
+      consulta_;
 
    -- Associando request com consulta
-   insert into tspeed.cred_cliapi
-      (consulta, request)
-   values
-      (consulta_, request_);
+   insert into tspeed.cred_cliapi (
+      consulta, request)
+   values (
+      consulta_, request_);
 
    return request_;
 end;
@@ -100,20 +110,24 @@ $$
 language plpgsql;
 
 create or replace function tspeed.scc_consultar_documento(
-   codigo_ integer,
-   tipo_ integer,
-   table_ integer,
-   recno_ bigint,
-   producao_ boolean = true)
+   codigo_     integer,
+   tipo_       integer,
+   table_      integer,
+   recno_      bigint,
+   producao_   boolean = true)
 returns bigint as
 $$
 declare
    request_   public.svc_cliapi.recno%type;
 begin
-   select tspeed.scc_consultar_documento(coalesce(cnpj, cpf), estado, tipo_, table_, recno_, producao_)
-     into request_
-      from public.tbclientes
-     where codigo = codigo_;
+   select
+      tspeed.scc_consultar_documento(coalesce(cnpj, cpf), estado, tipo_, table_, recno_, producao_)
+   into
+      request_
+   from
+      public.tbclientes
+   where
+      codigo = codigo_;
 
    return request_;
 end;

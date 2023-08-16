@@ -1,13 +1,13 @@
 /**
    Atualiza contatos para cotação informada
 
-  @author    Ricardo Gonçalves
-  @date      08/04/2021
+   @author    Ricardo Gonçalves
+   @date      08/04/2021
 
-  @param in_cotacao número da cotação que será atualizada
+   @param in_cotacao número da cotação que será atualizada
 
-  Histórico
-  ---------------------------------------------------------------------------------------------------------------------
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
    Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
 */
 Create or Replace Function atualiza_contatos_cotacao(
@@ -15,24 +15,24 @@ Create or Replace Function atualiza_contatos_cotacao(
 Returns void As
 $$
 begin
-   delete 
-   from 
+   delete
+   from
       cota_contatos
-   where 
+   where
       cotacao = in_cotacao;
 
-   insert into cota_contatos
-      (cotacao, cliente, contato)      
-   select 
+   insert into cota_contatos (
+      cotacao, cliente, contato)
+   select
       in_cotacao, cc.cliente, cc.contato
-   from 
+   from
       clientes_contatos cc
-   join 
-      cota co on 
-      co.recno = in_cotacao and 
-      co.cliente = cc.cliente 
-   where 
-      contato_comercial and 
+   join
+      cota co on
+      co.recno = in_cotacao and
+      co.cliente = cc.cliente
+   where
+      contato_comercial and
       ativo;
 end
 $$

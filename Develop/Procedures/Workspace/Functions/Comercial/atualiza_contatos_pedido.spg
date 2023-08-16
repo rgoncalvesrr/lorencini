@@ -1,13 +1,13 @@
 /**
    Atualiza contatos para pedido informado
 
-  @author    Ricardo Gonçalves
-  @date      08/04/2021
+   @author    Ricardo Gonçalves
+   @date      08/04/2021
 
-  @param in_pedido número da cotação que será atualizada
+   @param in_pedido número da cotação que será atualizada
 
-  Histórico
-  ---------------------------------------------------------------------------------------------------------------------
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
    Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
 */
 Create or Replace Function atualiza_contatos_pedido(
@@ -15,19 +15,25 @@ Create or Replace Function atualiza_contatos_pedido(
 Returns void As
 $$
 begin
-   delete 
-     from pedido_contatos
-    where pedido = in_pedido;
+   delete
+   from
+      pedido_contatos
+   where
+      pedido = in_pedido;
 
-   insert into pedido_contatos
-      (pedido, cliente, contato)      
-   select in_pedido, cc.cliente, cc.contato
-     from clientes_contatos cc
-          join pedido co
-            on co.recno = in_pedido
-           and co.cliente = cc.cliente 
-    where contato_comercial 
-      and ativo;
+   insert into pedido_contatos (
+      pedido, cliente, contato)
+   select
+      in_pedido, cc.cliente, cc.contato
+   from
+      clientes_contatos cc
+   join
+      pedido co on
+      co.recno = in_pedido and
+      co.cliente = cc.cliente
+   where
+      contato_comercial and
+      ativo;
 end
 $$
 language plpgsql;

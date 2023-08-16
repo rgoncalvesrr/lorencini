@@ -1,13 +1,13 @@
 /**
    Atualiza contatos para titulo informado
 
-  @author    Ricardo Gonçalves
-  @date      08/04/2021
+   @author    Ricardo Gonçalves
+   @date      08/04/2021
 
-  @param in_titulo número do título a receber que será atualizada
+   @param in_titulo número do título a receber que será atualizada
 
-  Histórico
-  ---------------------------------------------------------------------------------------------------------------------
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
    Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
 */
 Create or Replace Function atualiza_contatos_receber(
@@ -15,19 +15,25 @@ Create or Replace Function atualiza_contatos_receber(
 Returns void As
 $$
 begin
-   delete 
-     from fin_receber_contatos
-    where titulo = in_titulo;
+   delete
+   from
+      fin_receber_contatos
+   where
+      titulo = in_titulo;
 
-   insert into fin_receber_contatos
-      (titulo, cliente, contato)      
-   select in_titulo, cc.cliente, cc.contato
-     from clientes_contatos cc
-          join fin_receber co
-            on co.recno = in_titulo
-           and co.id_cli = cc.cliente 
-    where contato_financeiro
-      and ativo;
+   insert into fin_receber_contatos (
+      titulo, cliente, contato)
+   select
+      in_titulo, cc.cliente, cc.contato
+   from
+      clientes_contatos cc
+   join
+      fin_receber co on
+      co.recno = in_titulo and
+      co.id_cli = cc.cliente
+   where
+      contato_financeiro and
+      ativo;
 end
 $$
 language plpgsql;

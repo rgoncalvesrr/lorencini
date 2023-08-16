@@ -17,15 +17,22 @@ $$
 declare
    r  record;
 begin
-   select recno amostra, estado
-     into r
-     from labamostras
-    where comodato = in_etiqueta;
+   select 
+      recno amostra, estado
+   into 
+      r
+   from 
+      labamostras
+   where 
+      comodato = in_etiqueta;
 
    if exists(
-      select 1
-        from labret
-       where amostra = r.amostra) 
+      select 
+         1
+      from 
+         labret
+      where 
+         amostra = r.amostra) 
    then
       raise '[[Etiqueta % já retornada.]]', in_etiqueta;
    end if;
@@ -46,7 +53,10 @@ begin
       raise '[[Etiqueta % está cancelada]]', in_etiqueta;
    end if;
 
-   insert into labret (amostra) values (r.amostra);
+   insert into labret 
+      (amostra) 
+   values 
+      (r.amostra);
 end;
 $$  
 language plpgsql; 

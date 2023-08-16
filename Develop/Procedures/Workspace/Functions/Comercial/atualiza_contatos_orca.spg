@@ -1,13 +1,13 @@
 /**
    Atualiza contatos para OS informada
 
-  @author    Ricardo Gonçalves
-  @date      08/04/2021
+   @author    Ricardo Gonçalves
+   @date      08/04/2021
 
-  @param in_os número da cotação que será atualizada
+   @param in_os número da cotação que será atualizada
 
-  Histórico
-  ---------------------------------------------------------------------------------------------------------------------
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
    Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
 */
 Create or Replace Function atualiza_contatos_orca(
@@ -16,23 +16,23 @@ Returns void As
 $$
 begin
    delete
-   from 
+   from
       orca_contatos
-   where 
+   where
       os = in_os;
 
-   insert into orca_contatos
-      (os, cliente, contato)
-   select 
+   insert into orca_contatos (
+      os, cliente, contato)
+   select
       in_os, cc.cliente, cc.contato
-   from 
+   from
       clientes_contatos cc
-   join 
-      tb_orcamentos co on 
-      co.os = in_os and 
+   join
+      tb_orcamentos co on
+      co.os = in_os and
       co.idcliente = cc.cliente
-    where 
-      contato_comercial and 
+   where
+      contato_comercial and
       ativo;
 end
 $$

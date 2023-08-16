@@ -32,20 +32,28 @@ begin
    total_dividas_ := 0;
    status_ := 'sempendencias';
 
-   select res_body, res_code, env
-     into r
-     from svc_cliapi
-    where recno = recno_;
+   select
+      res_body, res_code, env
+   into
+      r
+   from
+      svc_cliapi
+   where
+      recno = recno_;
 
    if not Found then
       raise '[[Requisição % não localizada]]', recno_;
    end if;
 
    -- Recupedando a consulta a partir da requisição passada como callback
-   select consulta
-     into rres.consulta
-     from tspeed.cred_cliapi
-    where request = recno_;
+   select
+      consulta
+   into
+      rres.consulta
+   from
+      tspeed.cred_cliapi
+   where
+      request = recno_;
 
    json_ := jsonb_array_elements((r.res_body->'data'->'message'->>'header')::jsonb);
 
@@ -66,15 +74,22 @@ begin
    json_ := jsonb_array_elements((r.res_body->'data'->'message'->>'BlocoInformacoesDoConfirmei')::jsonb);
 
    if json_ is not null then
-      select recno
-        into situacao_
-        from tspeed.cred_situacoes
-       where situacao = (json_->>'SituacaoDocumento')::integer
-         and classe = classe_;
+      select
+         recno
+      into
+         situacao_
+      from
+         tspeed.cred_situacoes
+      where
+         situacao = (json_->>'SituacaoDocumento')::integer and
+         classe = classe_;
 
-      update tspeed.cred_consultas
-         set nome = json_->>'NomeRazao', registro = replace (json_->>'DataNascimento', '/', '-')::date, situacao = situacao_
-       where recno = rres.consulta;
+      update
+         tspeed.cred_consultas
+      set
+         nome = json_->>'NomeRazao', registro = replace (json_->>'DataNascimento', '/', '-')::date, situacao = situacao_
+      where
+         recno = rres.consulta;
    end if;
 
    -- Montando resumo da consulta
@@ -118,7 +133,7 @@ begin
       perform tspeed.criar_resumo(rres);
 
       total_dividas_ := total_dividas_ + rres.total;
- 	end loop;
+   end loop;
 
    -- =====================================================================================================================================================
    -- Pendências internas
@@ -155,9 +170,12 @@ begin
       status_ := 'compendencias';
    end if;
 
-   update tspeed.cred_consultas
-      set status = status_
-    where recno = rres.consulta;
+   update
+      tspeed.cred_consultas
+   set
+      status = status_
+   where
+      recno = rres.consulta;
 
    return total_dividas_;
 end;
@@ -169,11 +187,11 @@ create or replace function tspeed.criar_resumo(
 returns void as
 $$
 begin
-   insert into tspeed.cred_resumos
-      (consulta, tipo, qtd, total, ocorrencia_antiga, ocorrencia_recente)
-   values
-      (r_.consulta, r_.tipo, r_.qtd, r_.total, r_.ocorrencia_antiga, r_.ocorrencia_recente)
-   on conflict(consulta, tipo)
+   insert into tspeed.cred_resumos (
+      consulta, tipo, qtd, total, ocorrencia_antiga, ocorrencia_recente)
+   values (
+      r_.consulta, r_.tipo, r_.qtd, r_.total, r_.ocorrencia_antiga, r_.ocorrencia_recente)
+   on conflict (consulta, tipo)
       do nothing;
 end;
 $$

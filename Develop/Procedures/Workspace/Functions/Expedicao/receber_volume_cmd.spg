@@ -24,12 +24,18 @@ declare
    r        record;
    istatus  labret.status%type;
 begin
-   select recno
-     into r
-     from labret
-    where labport_recno is null
-    order by recno desc
-    limit 1;
+   select 
+      recno
+   into 
+      r
+   from 
+      labret
+   where 
+      labport_recno is null
+   order by 
+      recno desc
+   limit 
+      1;
 
    if not Found then
       raise '[[Não há etiqueta para receber o comando.]]';
@@ -49,9 +55,12 @@ begin
       istatus = _QUEBRADO;
    end if;
 
-   update labret
-      set status = istatus
-    where recno = r.recno;     
+   update 
+      labret
+   set 
+      status = istatus
+   where 
+      recno = r.recno;     
 end;
 $$  
 language plpgsql; 

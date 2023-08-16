@@ -118,7 +118,7 @@ Begin
       join
          orca_grupo b on
          a.grupo = b.recno
-       where
+      where
          a.recno = in_recno;
 
       -- Despesas financeiras do pedido
@@ -542,12 +542,12 @@ Begin
 
       -- Inclui ou altera um registro na tabela de Markup
       if out_recno is null then
-         insert into markup
-            (_tabela, _recno, bdi_mat, vliqui_mat, vlmat, vlcssl_mat, vlirpj_mat, vlpis_mat, vlcofins_mat, vlicms,
+         insert into markup (
+            _tabela, _recno, bdi_mat, vliqui_mat, vlmat, vlcssl_mat, vlirpj_mat, vlpis_mat, vlcofins_mat, vlicms,
             vlcom_mat, vlinss_mat, bdi_srv, vliqui_srv, vlmobra, vlcssl_srv, vlirpj_srv, vlpis_srv, vlcofins_srv,
             vlsrvvar, vlsrvfixo, vliss, vlcom_srv, vlinss_srv, vimpos_mat, vimpos_srv, vimpos_fix, vldespe)
-         values
-            (in_tabela, in_recno, rCab.vlbdi_mat, fliqui_mat, fvalor_mat, fvcsll_mat, fvirpj_mat, fvlpis_mat,
+         values (
+            in_tabela, in_recno, rCab.vlbdi_mat, fliqui_mat, fvalor_mat, fvcsll_mat, fvirpj_mat, fvlpis_mat,
             fvlfin_mat, fvalor_icm, fcomis_mat, fvinss_mat, rCab.vlbdi_srv, fliqui_srv, fvlr_mobra, fvcsll_srv,
             fvirpj_srv, fvlpis_srv, fvlfin_srv, fvlvar_srv, fvlfix_srv, fvalor_iss, fcomis_srv,
             fvinss_srv, fimpos_mat, fimpos_srv, fimpos_fix, rCab.valor_despe)
