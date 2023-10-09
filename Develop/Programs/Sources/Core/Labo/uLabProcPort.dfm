@@ -10,8 +10,8 @@ inherited LabProcPort: TLabProcPort
   inherited Panel1: TPanel
     Width = 886
     Height = 617
-    ExplicitWidth = 779
-    ExplicitHeight = 609
+    ExplicitWidth = 886
+    ExplicitHeight = 617
     inherited pnLookup: TPanel
       Top = 1
       ExplicitTop = 1
@@ -20,19 +20,19 @@ inherited LabProcPort: TLabProcPort
       Top = 328
       Width = 886
       Height = 289
-      ExplicitTop = 320
-      ExplicitWidth = 779
+      ExplicitTop = 328
+      ExplicitWidth = 886
       ExplicitHeight = 289
       inherited PageControl3: TPageControl
         Width = 880
         Height = 239
-        ExplicitWidth = 773
+        ExplicitWidth = 880
         ExplicitHeight = 239
         inherited tsDet: TTabSheet
           Caption = 'Itens Retornados'
           ExplicitLeft = 4
           ExplicitTop = 26
-          ExplicitWidth = 765
+          ExplicitWidth = 872
           ExplicitHeight = 209
           inherited DBGrid1: TDBGrid
             Width = 872
@@ -43,7 +43,7 @@ inherited LabProcPort: TLabProcPort
       end
       inherited ControlBar2: TControlBar
         Width = 880
-        ExplicitWidth = 773
+        ExplicitWidth = 880
         inherited ToolBar3: TToolBar
           Width = 760
           ExplicitWidth = 760
@@ -74,14 +74,14 @@ inherited LabProcPort: TLabProcPort
     inherited PageControl1: TPageControl
       Width = 880
       Height = 322
-      ExplicitWidth = 773
-      ExplicitHeight = 314
+      ExplicitWidth = 880
+      ExplicitHeight = 322
       inherited TabSheet1: TTabSheet
         Caption = 'Portador'
         ExplicitLeft = 4
-        ExplicitTop = 27
-        ExplicitWidth = 934
-        ExplicitHeight = 488
+        ExplicitTop = 26
+        ExplicitWidth = 872
+        ExplicitHeight = 292
         object Label17: TLabel
           AlignWithMargins = True
           Left = 3
@@ -91,7 +91,6 @@ inherited LabProcPort: TLabProcPort
           Align = alTop
           Caption = 'Observa'#231#245'es'
           FocusControl = DBMemo1
-          ExplicitTop = 393
           ExplicitWidth = 67
         end
         object DBMemo1: TDBMemo
@@ -104,9 +103,6 @@ inherited LabProcPort: TLabProcPort
           DataField = 'obs'
           DataSource = dsPort
           TabOrder = 4
-          ExplicitLeft = 0
-          ExplicitTop = 414
-          ExplicitWidth = 748
         end
         object Panel2: TPanel
           Left = 0
@@ -116,9 +112,6 @@ inherited LabProcPort: TLabProcPort
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 0
-          ExplicitLeft = 376
-          ExplicitTop = 224
-          ExplicitWidth = 185
           object Panel4: TPanel
             Left = 0
             Top = 0
@@ -143,7 +136,6 @@ inherited LabProcPort: TLabProcPort
               Font.Pitch = fpVariable
               Font.Style = [fsBold]
               ParentFont = False
-              ExplicitTop = 35
               ExplicitWidth = 39
             end
             object DBEdit1: TDBEdit
@@ -157,8 +149,6 @@ inherited LabProcPort: TLabProcPort
               DataSource = dsPort
               TabOrder = 0
               OnExit = DBEdit1Exit
-              ExplicitTop = 27
-              ExplicitWidth = 42
             end
           end
           object Panel5: TPanel
@@ -169,9 +159,6 @@ inherited LabProcPort: TLabProcPort
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 1
-            ExplicitLeft = 82
-            ExplicitTop = -6
-            ExplicitWidth = 469
             object Label8: TLabel
               AlignWithMargins = True
               Left = 3
@@ -181,8 +168,6 @@ inherited LabProcPort: TLabProcPort
               Align = alTop
               Caption = 'Raz'#227'o Social'
               FocusControl = DBEdit8
-              ExplicitLeft = -15
-              ExplicitTop = 35
               ExplicitWidth = 65
             end
             object DBEdit8: TDBEdit
@@ -197,8 +182,6 @@ inherited LabProcPort: TLabProcPort
               DataSource = dsPort
               ReadOnly = True
               TabOrder = 0
-              ExplicitLeft = 6
-              ExplicitWidth = 44
             end
           end
           object Panel6: TPanel
@@ -209,7 +192,6 @@ inherited LabProcPort: TLabProcPort
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 2
-            ExplicitLeft = 225
             object Label9: TLabel
               AlignWithMargins = True
               Left = 3
@@ -219,8 +201,6 @@ inherited LabProcPort: TLabProcPort
               Align = alTop
               Caption = 'C.N.P.J.'
               FocusControl = DBEdit9
-              ExplicitLeft = 10
-              ExplicitTop = 35
               ExplicitWidth = 40
             end
             object DBEdit9: TDBEdit
@@ -235,9 +215,6 @@ inherited LabProcPort: TLabProcPort
               DataSource = dsPort
               ReadOnly = True
               TabOrder = 0
-              ExplicitLeft = -73
-              ExplicitTop = 27
-              ExplicitWidth = 123
             end
           end
           object Panel7: TPanel
@@ -248,8 +225,6 @@ inherited LabProcPort: TLabProcPort
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 3
-            ExplicitLeft = 278
-            ExplicitTop = -6
             object Label10: TLabel
               AlignWithMargins = True
               Left = 3
@@ -259,8 +234,6 @@ inherited LabProcPort: TLabProcPort
               Align = alTop
               Caption = 'Telefone'
               FocusControl = DBEdit10
-              ExplicitLeft = 6
-              ExplicitTop = 35
               ExplicitWidth = 44
             end
             object DBEdit10: TDBEdit
@@ -275,9 +248,6 @@ inherited LabProcPort: TLabProcPort
               DataSource = dsPort
               ReadOnly = True
               TabOrder = 0
-              ExplicitLeft = -67
-              ExplicitTop = 27
-              ExplicitWidth = 117
             end
           end
           object Panel8: TPanel
@@ -288,7 +258,6 @@ inherited LabProcPort: TLabProcPort
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 4
-            ExplicitLeft = 325
             object Label5: TLabel
               AlignWithMargins = True
               Left = 3
@@ -298,8 +267,6 @@ inherited LabProcPort: TLabProcPort
               Align = alTop
               Caption = 'Opera'#231#227'o'
               FocusControl = DBEdit5
-              ExplicitLeft = -1
-              ExplicitTop = 35
               ExplicitWidth = 51
             end
             object DBEdit5: TDBEdit
@@ -314,9 +281,6 @@ inherited LabProcPort: TLabProcPort
               DataSource = dsPort
               ReadOnly = True
               TabOrder = 0
-              ExplicitLeft = -14
-              ExplicitTop = 27
-              ExplicitWidth = 64
             end
           end
           object Panel9: TPanel
@@ -327,7 +291,6 @@ inherited LabProcPort: TLabProcPort
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 5
-            ExplicitLeft = 840
             object Label18: TLabel
               AlignWithMargins = True
               Left = 3
@@ -336,8 +299,6 @@ inherited LabProcPort: TLabProcPort
               Height = 15
               Align = alTop
               Caption = 'Estado'
-              ExplicitLeft = 43
-              ExplicitTop = 35
               ExplicitWidth = 35
             end
             object DBComboBox4: TDBComboBox
@@ -355,9 +316,6 @@ inherited LabProcPort: TLabProcPort
                 'Digita'#231#227'o'
                 'Encerrado')
               TabOrder = 0
-              ExplicitLeft = 50
-              ExplicitTop = 27
-              ExplicitWidth = 75
             end
           end
           object Panel10: TPanel
@@ -368,8 +326,6 @@ inherited LabProcPort: TLabProcPort
             Align = alLeft
             BevelOuter = bvNone
             TabOrder = 6
-            ExplicitLeft = 47
-            ExplicitTop = -3
             object SpeedButton3: TSpeedButton
               AlignWithMargins = True
               Left = 0
@@ -380,41 +336,6 @@ inherited LabProcPort: TLabProcPort
               Margins.Top = 24
               Action = actFindCli
               Align = alClient
-              Glyph.Data = {
-                36040000424D3604000000000000360000002800000010000000100000000100
-                2000000000000004000000000000000000000000000000000000FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF000A0A
-                0A000A0A0A000A0A0A000A0A0A000A0A0A000A0A0A00FF00FF00FF00FF000A0A
-                0A000A0A0A000A0A0A000A0A0A000A0A0A000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00121212001E1E1E000B0B0B000A0A0A000A0A0A00FF00FF00FF00FF000A0A
-                0A0015151500222222000B0B0B000A0A0A000A0A0A00FF00FF00FF00FF007549
-                4900A0725E00EFE1D200EBC8A3009F674D0070414000FF00FF00FF00FF007549
-                4900A0725E00EFE1D200EBC8A3009F674D0070414000FF00FF00FF00FF008461
-                610085554C00F5E5D400EAC5A000865043007D565500FF00FF00FF00FF008461
-                610085554C00F5E5D400EAC5A000865043007D565500FF00FF00FF00FF009A82
-                820074444000F5E4D300E1B488007443400093777700FF00FF00FF00FF009A82
-                820074444000F5E4D300E1B488007443400093777700FF00FF00FF00FF00B7AE
-                AE006C3C3C00E9C8A800D19669006C3C3C00B2A7A700FF00FF00FF00FF00B7AE
-                AE006C3C3C00E9C8A800D19669006C3C3C00B2A7A700FF00FF00FF00FF00FF00
-                FF006E3E3E00734444006B3B3B006B3B3B000B0B0B000A0A0A000A0A0A000E0D
-                0D006C3C3C006B3B3B006B3B3B006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF006C3B3B00F1D8BE00E8BF9300C78657000A0A0A00C4C4C400696969001010
-                1000F9DEB700E2B38600BD7B51006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF006C3B3B00F6E6D600E9BF9500C88759000A0A0A00C4C4C400696969000C0C
-                0C00E3C6A900CA9B7600A5694B006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF006D3D3D00724343006B3B3B006B3B3B00141010000A0A0A000A0A0A002416
-                14006C3B3B006C3B3B006C3B3B006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF000A0A0A00C4C4C400696969000A0A0A00FF00FF00FF00FF000A0A
-                0A00C4C4C400696969000A0A0A00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF000A0A0A000A0A0A000A0A0A001D1D1D00FF00FF00FF00FF000A0A
-                0A000A0A0A000A0A0A001D1D1D00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00}
               ExplicitLeft = -3
               ExplicitTop = -6
               ExplicitWidth = 29
@@ -430,8 +351,6 @@ inherited LabProcPort: TLabProcPort
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 1
-          ExplicitTop = 53
-          ExplicitWidth = 934
           object Panel12: TPanel
             Left = 0
             Top = 0
@@ -449,7 +368,6 @@ inherited LabProcPort: TLabProcPort
               Align = alTop
               Caption = 'Emiss'#227'o'
               FocusControl = DBEdit6
-              ExplicitTop = 35
               ExplicitWidth = 43
             end
             object DBEdit6: TDBEdit
@@ -464,9 +382,6 @@ inherited LabProcPort: TLabProcPort
               DataSource = dsPort
               ReadOnly = True
               TabOrder = 0
-              ExplicitLeft = -78
-              ExplicitTop = 27
-              ExplicitWidth = 128
             end
           end
           object Panel13: TPanel
@@ -486,8 +401,6 @@ inherited LabProcPort: TLabProcPort
               Align = alTop
               Caption = 'Tipo de Portador'
               FocusControl = DBEdit6
-              ExplicitLeft = -38
-              ExplicitTop = 35
               ExplicitWidth = 88
             end
             object DBComboBox1: TDBComboBox
@@ -509,9 +422,6 @@ inherited LabProcPort: TLabProcPort
                 'Outros')
               TabOrder = 0
               OnChange = DBComboBox1Change
-              ExplicitLeft = -63
-              ExplicitTop = 27
-              ExplicitWidth = 113
             end
           end
           object Panel14: TPanel
@@ -522,9 +432,6 @@ inherited LabProcPort: TLabProcPort
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 2
-            ExplicitLeft = 255
-            ExplicitTop = 3
-            ExplicitWidth = 213
             object Label12: TLabel
               AlignWithMargins = True
               Left = 3
@@ -534,8 +441,6 @@ inherited LabProcPort: TLabProcPort
               Align = alTop
               Caption = 'Outros'
               FocusControl = DBEdit11
-              ExplicitLeft = 14
-              ExplicitTop = 35
               ExplicitWidth = 36
             end
             object DBEdit11: TDBEdit
@@ -549,9 +454,6 @@ inherited LabProcPort: TLabProcPort
               DataSource = dsPort
               Enabled = False
               TabOrder = 0
-              ExplicitLeft = -132
-              ExplicitTop = 27
-              ExplicitWidth = 182
             end
           end
           object Panel15: TPanel
@@ -562,8 +464,6 @@ inherited LabProcPort: TLabProcPort
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 3
-            ExplicitLeft = 468
-            ExplicitTop = 3
             object Label2: TLabel
               AlignWithMargins = True
               Left = 3
@@ -580,8 +480,6 @@ inherited LabProcPort: TLabProcPort
               Font.Pitch = fpVariable
               Font.Style = [fsBold]
               ParentFont = False
-              ExplicitLeft = 36
-              ExplicitTop = 35
               ExplicitWidth = 14
             end
             object DBEdit2: TDBEdit
@@ -594,9 +492,6 @@ inherited LabProcPort: TLabProcPort
               DataField = 'nf'
               DataSource = dsPort
               TabOrder = 0
-              ExplicitLeft = 9
-              ExplicitTop = 27
-              ExplicitWidth = 41
             end
           end
           object Panel16: TPanel
@@ -607,8 +502,6 @@ inherited LabProcPort: TLabProcPort
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 4
-            ExplicitLeft = 532
-            ExplicitTop = 3
             object Label3: TLabel
               AlignWithMargins = True
               Left = 3
@@ -625,7 +518,6 @@ inherited LabProcPort: TLabProcPort
               Font.Pitch = fpVariable
               Font.Style = [fsBold]
               ParentFont = False
-              ExplicitTop = 35
               ExplicitWidth = 47
             end
             object DBEdit3: TDBEdit
@@ -638,9 +530,6 @@ inherited LabProcPort: TLabProcPort
               DataField = 'nf_serie'
               DataSource = dsPort
               TabOrder = 0
-              ExplicitLeft = -9
-              ExplicitTop = 27
-              ExplicitWidth = 59
             end
           end
           object Panel17: TPanel
@@ -651,7 +540,6 @@ inherited LabProcPort: TLabProcPort
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 5
-            ExplicitLeft = 250
             object Label4: TLabel
               AlignWithMargins = True
               Left = 3
@@ -667,8 +555,6 @@ inherited LabProcPort: TLabProcPort
               Font.Pitch = fpVariable
               Font.Style = [fsBold]
               ParentFont = False
-              ExplicitLeft = 59
-              ExplicitTop = 35
               ExplicitWidth = 66
             end
             object JvDBDateEdit1: TJvDBDateEdit
@@ -683,9 +569,6 @@ inherited LabProcPort: TLabProcPort
               ButtonWidth = 23
               ShowNullDate = False
               TabOrder = 0
-              ExplicitLeft = 35
-              ExplicitTop = 27
-              ExplicitWidth = 90
             end
           end
           object Panel18: TPanel
@@ -696,7 +579,6 @@ inherited LabProcPort: TLabProcPort
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 6
-            ExplicitLeft = 816
             object Label7: TLabel
               AlignWithMargins = True
               Left = 3
@@ -712,8 +594,6 @@ inherited LabProcPort: TLabProcPort
               Font.Pitch = fpVariable
               Font.Style = [fsBold]
               ParentFont = False
-              ExplicitLeft = 4
-              ExplicitTop = 35
               ExplicitWidth = 46
             end
             object JvDBCalcEdit1: TJvDBCalcEdit
@@ -729,9 +609,6 @@ inherited LabProcPort: TLabProcPort
               DecimalPlacesAlwaysShown = False
               DataField = 'nf_valor'
               DataSource = dsPort
-              ExplicitLeft = -50
-              ExplicitTop = 27
-              ExplicitWidth = 100
             end
           end
         end
@@ -743,8 +620,6 @@ inherited LabProcPort: TLabProcPort
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 2
-          ExplicitTop = 103
-          ExplicitWidth = 934
           object Panel20: TPanel
             Left = 0
             Top = 0
@@ -769,7 +644,6 @@ inherited LabProcPort: TLabProcPort
               Font.Pitch = fpVariable
               Font.Style = [fsBold]
               ParentFont = False
-              ExplicitTop = 35
               ExplicitWidth = 41
             end
             object DBEdit12: TDBEdit
@@ -784,8 +658,6 @@ inherited LabProcPort: TLabProcPort
               Enabled = False
               TabOrder = 0
               OnExit = DBEdit12Exit
-              ExplicitTop = 27
-              ExplicitWidth = 121
             end
           end
           object Panel21: TPanel
@@ -812,8 +684,6 @@ inherited LabProcPort: TLabProcPort
               Font.Pitch = fpVariable
               Font.Style = [fsBold]
               ParentFont = False
-              ExplicitLeft = 92
-              ExplicitTop = 35
               ExplicitWidth = 28
             end
             object DBEdit4: TDBEdit
@@ -828,9 +698,6 @@ inherited LabProcPort: TLabProcPort
               Enabled = False
               TabOrder = 0
               OnExit = DBEdit12Exit
-              ExplicitLeft = 9
-              ExplicitTop = 27
-              ExplicitWidth = 111
             end
           end
           object Panel22: TPanel
@@ -841,9 +708,6 @@ inherited LabProcPort: TLabProcPort
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 2
-            ExplicitLeft = 238
-            ExplicitTop = 3
-            ExplicitWidth = 50
             object Label14: TLabel
               AlignWithMargins = True
               Left = 3
@@ -859,8 +723,6 @@ inherited LabProcPort: TLabProcPort
               Font.Pitch = fpVariable
               Font.Style = [fsBold]
               ParentFont = False
-              ExplicitLeft = -1
-              ExplicitTop = 35
               ExplicitWidth = 51
             end
             object DBComboBox2: TDBComboBox
@@ -877,9 +739,6 @@ inherited LabProcPort: TLabProcPort
               ItemHeight = 15
               TabOrder = 0
               OnExit = DBComboBox3Exit
-              ExplicitLeft = 187
-              ExplicitTop = 27
-              ExplicitWidth = 503
             end
           end
         end
@@ -891,9 +750,6 @@ inherited LabProcPort: TLabProcPort
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 3
-          ExplicitLeft = -16
-          ExplicitTop = 239
-          ExplicitWidth = 934
           object Panel28: TPanel
             Left = 0
             Top = 0
@@ -902,7 +758,6 @@ inherited LabProcPort: TLabProcPort
             Align = alLeft
             BevelOuter = bvNone
             TabOrder = 0
-            ExplicitTop = 3
             object Label15: TLabel
               AlignWithMargins = True
               Left = 3
@@ -919,7 +774,6 @@ inherited LabProcPort: TLabProcPort
               Font.Pitch = fpVariable
               Font.Style = [fsBold]
               ParentFont = False
-              ExplicitTop = 35
               ExplicitWidth = 28
             end
             object DBEdit14: TDBEdit
@@ -933,9 +787,6 @@ inherited LabProcPort: TLabProcPort
               DataSource = dsPort
               TabOrder = 0
               OnExit = DBEdit14Exit
-              ExplicitLeft = -2
-              ExplicitTop = 27
-              ExplicitWidth = 123
             end
           end
           object Panel29: TPanel
@@ -946,9 +797,6 @@ inherited LabProcPort: TLabProcPort
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 1
-            ExplicitLeft = 124
-            ExplicitTop = 3
-            ExplicitWidth = 50
             object Label16: TLabel
               AlignWithMargins = True
               Left = 3
@@ -964,8 +812,6 @@ inherited LabProcPort: TLabProcPort
               Font.Pitch = fpVariable
               Font.Style = [fsBold]
               ParentFont = False
-              ExplicitLeft = 0
-              ExplicitTop = 35
               ExplicitWidth = 50
             end
             object DBComboBox3: TDBComboBox
@@ -982,9 +828,6 @@ inherited LabProcPort: TLabProcPort
               ItemHeight = 15
               TabOrder = 0
               OnExit = DBComboBox3Exit
-              ExplicitLeft = -568
-              ExplicitTop = 27
-              ExplicitWidth = 618
             end
           end
         end
@@ -993,7 +836,7 @@ inherited LabProcPort: TLabProcPort
   end
   inherited ControlBar1: TControlBar
     Width = 880
-    ExplicitWidth = 773
+    ExplicitWidth = 880
     inherited ToolBar1: TToolBar
       Width = 865
       ExplicitWidth = 865
