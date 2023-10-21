@@ -14,7 +14,7 @@
       [*] Trigger passa para o before da tabela   
 */
 CREATE OR REPLACE FUNCTION a_pedido_amostras()
-  RETURNS trigger AS
+RETURNS trigger AS
 $$
 Declare
    pedido_     pedido_serv.recno%type;
@@ -41,17 +41,17 @@ BEGIN
    from 
       pedido_amostras 
    where 
-      pedido = pedido_ and
-      codserv = codserv_;
+      pedido   = pedido_ and
+      codserv  = codserv_;
 
    update 
       pedido_serv
    set 
-      saldo = qtd - qtd_,
+      saldo    = qtd - qtd_,
       amostras = qtd_
    where 
-      pedido = pedido_ and 
-      codserv = codserv_;   
+      pedido   = pedido_ and 
+      codserv  = codserv_;   
 
    -- Atualizando saldo de fluído
    select 
@@ -61,9 +61,9 @@ BEGIN
    from 
       pedido_amostras
    where 
-      pedido = pedido_ and
-      amostra = amostra_ and 
-      codserv = codserv_; 
+      pedido   = pedido_ and
+      amostra  = amostra_ and 
+      codserv  = codserv_; 
 
    update 
       labamostras
@@ -75,4 +75,4 @@ BEGIN
    return null;
 END;
 $$
-  LANGUAGE 'plpgsql' VOLATILE;
+LANGUAGE 'plpgsql' VOLATILE;

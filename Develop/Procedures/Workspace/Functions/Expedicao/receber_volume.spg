@@ -55,7 +55,7 @@ begin
 
    insert into labret 
       (amostra) 
-   values 
+   values   
       (r.amostra);
 end;
 $$  

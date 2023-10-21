@@ -13,7 +13,7 @@
       [+] Cancelamento da remessa quando o pedido é cancelado
 */
 CREATE OR REPLACE FUNCTION public.a_pedido()
-  RETURNS trigger AS
+RETURNS trigger AS
 $$
 Declare
    _O_STATUS_FINALIZADO constant integer := 3;
@@ -55,8 +55,8 @@ BEGIN
          perform atualiza_contatos_pedido(new.recno);
       end if;
 
-      xlog.title := 'Pedido colocado';
-      xlog.status_code := 10;
+      xlog.title        := 'Pedido colocado';
+      xlog.status_code  := 10;
       perform log(xlog);
    else      
       -- Exclui último frete por correio gerado
@@ -67,17 +67,19 @@ BEGIN
 
       if ldelcorreio then
          delete 
-           from correio
-          where recno = old.correio;          
+         from 
+            correio
+         where 
+            recno = old.correio;          
       end if;
    end if;
 
    if tg_op = 'UPDATE' then
 
       if new.status <> old.status then
-         xlog.title := 'Pedido mudou de status';
-         xlog.detail := format('Status mudou de %s - %s para %s - %s', old.status, status(old.status), new.status, status(new.status));
-         xlog.status_code := new.status;
+         xlog.title        := 'Pedido mudou de status';
+         xlog.detail       := format('Status mudou de %s - %s para %s - %s', old.status, status(old.status), new.status, status(new.status));
+         xlog.status_code  := new.status;
          perform log(xlog);
 
          xlog.detail := null;
@@ -86,10 +88,14 @@ BEGIN
       if old.status = 10 and new.status = 20 then ---- Aprovação Financeira
          
          if new.analise is null then            
-            select vlsrvvar + vlsrvfixo + vlmat + vlmobra + vldespe
-              into valor_
-              from markup
-              where recno = new.markup;
+            select
+               vlsrvvar + vlsrvfixo + vlmat + vlmobra + vldespe
+            into
+               valor_
+            from
+               markup
+            where
+               recno = new.markup;
 
             perform fin_ckbloqueio(new.codigo, valor_, 'pedido', new.recno);         
          end if;
@@ -101,17 +107,23 @@ BEGIN
          perform log(xlog);
       elsif old.status = 30 and new.status = 40 then ---- Gerar remessa
          if not exists(
-            select 1
-              from labproc
-             where pedido = new.recno)
+            select
+               1
+            from
+               labproc
+            where
+               pedido = new.recno)
          then
-            insert into labproc
-               (descri,                 codigo,     frascos,     seringas,     envio, 
+            insert into labproc (
+               descri,                 codigo,     frascos,     seringas,     envio, 
                coleta,                 frete,      correio,     pedido)
-            values
-               ('Pedido ' || new.recno, new.codigo, new.frascos, new.seringas, new.envio, 
+            values (
+               'Pedido ' || new.recno, new.codigo, new.frascos, new.seringas, new.envio, 
                new.coleta,             new.frete,  new.correio, new.recno)
-            returning recno into iremessa;
+            returning 
+               recno 
+            into 
+               iremessa;
 
             xlog.title := Format('Remessa número %s com %s frasco(s) e %s seringa(s) gerada.', iremessa, new.frascos, new.seringas);
             perform log(xlog);
@@ -119,18 +131,25 @@ BEGIN
       elsif old.status in (30, 50) and new.status = 60 then ---- Produção
          ---- Gera ordem de serviço
          --------------------------------------------------------------------------------------------------------
-         select coalesce(max(os), 0) + 1
-           into ios
-           from tb_orcamentos;
+         select
+            coalesce(max(os), 0) + 1
+         into
+            ios
+         from
+            tb_orcamentos;
 
          tdescricao := format('OS gerada automaticamente pelo pedido %s as %s ', new.recno, to_char(localtimestamp, 'DD/MM/YYYY HH24:MI:SS'));
 
          if new.laboratorio then
             -- Totalizando amostras
-            select sum(qtd)
-             into iqtd
-             from pedido_serv
-            where pedido = new.recno;
+            select
+               sum(qtd)
+            into
+               iqtd
+            from
+               pedido_serv
+            where
+               pedido = new.recno;
 
             tdescricao := tdescricao || LF || format('Quantidade de amostras do pedido %s.', to_char(iqtd, 'FM999999990'));
          end if;
@@ -147,24 +166,32 @@ BEGIN
          returning recno into irecno;
 
          -- Inserindo materiais
-         insert into orca_mat
-            (codigo,      qtd,    un,         unitario,    icms_compra,    total,     vl_venda,
-             material,    exptot, os)
-         select pm.material, pm.qtd, p.unidade, pm.unitario, pm.picms,       pm.vtotal, pm.vvenda,
-                p.descricao, true,   ios
-           from pedido_mat pm
-                join produtos p
-                  on pm.material = p.codigo
-          where pm.pedido = new.recno;
+         insert into orca_mat (
+            codigo,      qtd,    un,         unitario,    icms_compra,    total,     vl_venda,
+            material,    exptot, os)
+         select 
+            pm.material, pm.qtd, p.unidade, pm.unitario, pm.picms,       pm.vtotal, pm.vvenda,
+            p.descricao, true,   ios
+         from 
+            pedido_mat pm
+         join 
+            produtos p on 
+            pm.material = p.codigo
+         where
+            pm.pedido = new.recno;
 
          -- Inserindo Naturezas
-         insert into servicos_os
-            (os,  codserv, qtd, un,      valor,    vl_venda)
-         select ios, a.codserv, a.qtd, s.un, a.unitario, a.vvenda
-           from pedido_serv a
-                join servicos s
-                  on s.codserv = a.codserv
-          where a.pedido = new.recno;
+         insert into servicos_os (
+            os,  codserv, qtd, un,      valor,    vl_venda)
+         select 
+            ios, a.codserv, a.qtd, s.un, a.unitario, a.vvenda
+         from
+            pedido_serv a
+         join
+            servicos s on
+            s.codserv = a.codserv
+         where 
+            a.pedido = new.recno;
 
          -- Inserindo Mão-de-Obra
          insert into tb_orcamentos_lucratividade_lorencini(
@@ -177,13 +204,18 @@ BEGIN
             uteis_dias,   uteis_hrs_dias,   uteis_vl_hrs,   sabado_dias,   sabado_hrs_dias,   sabado_vl_hrs,
             domingo_dias, domingo_hrs_dias, domingo_vl_hrs, adic_not_dias, adic_not_hrs_dias, adic_not_vl_hrs,
             total
-         FROM pedido_mo
-         where pedido = new.recno;
+         FROM 
+            pedido_mo
+         where
+            pedido = new.recno;
          
          -- Associando despesas com a cobrança gerada
-         update fin_caixa
-            set os = ios
-          where pedido = new.recno;
+         update 
+            fin_caixa
+         set
+            os = ios
+         where 
+            pedido = new.recno;
 
          -- Registrando as amostras para geração de relatórios
          itable_ := sys_origem('pedido');
@@ -195,19 +227,29 @@ BEGIN
             ilastserv := -1;
 
             for r in (
-               select p.amostra, p.codserv,  s.descri
-                 from pedido_amostras p
-                      join servicos s
-                        on s.codserv = p.codserv
-                where p.pedido = new.recno
-                order by p.codserv, p.amostra)
+               select
+                  p.amostra, p.codserv,  s.descri
+               from 
+                  pedido_amostras p
+               join 
+                  servicos s on
+                  s.codserv = p.codserv
+               where
+                  p.pedido = new.recno
+               order by
+                  p.codserv, p.amostra)
             loop
                if ilastserv <> r.codserv then
-                  select relato_recno
-                    into irelato_recno
-                    from labrel_serv
-                   where codserv = r.codserv
-                   limit 1;
+                  select
+                     relato_recno
+                  into
+                     irelato_recno
+                  from
+                     labrel_serv
+                  where
+                     codserv = r.codserv
+                  limit 
+                     1;
 
                   ilastserv := r.codserv;
                end if;
@@ -217,34 +259,44 @@ BEGIN
                end if;
 
                -- Insere laudo em estado de digitação
-               insert into labamostras_rel
-                  (amostra,  codserv,   relato_recno,  pedido,    os,  cliente,    destinatario)
-               values
-                  (r.amostra, r.codserv, irelato_recno, new.recno, ios, new.cliente, new.destinatario);
+               insert into labamostras_rel (
+                  amostra,  codserv,   relato_recno,  pedido,    os,  cliente,    destinatario)
+               values (
+                  r.amostra, r.codserv, irelato_recno, new.recno, ios, new.cliente, new.destinatario);
             end loop;
          end if;
       elsif old.status = 60 and new.status = 70 then -- Executado
          xlog.title := 'Pedido executado';
          perform log(xlog);
 
-         update tb_orcamentos
-            set status = _O_STATUS_FINALIZADO
-          where pedido = new.recno
-            and status < _O_STATUS_FINALIZADO;
+         update 
+            tb_orcamentos
+         set
+            status = _O_STATUS_FINALIZADO
+         where
+            pedido = new.recno and
+            status < _O_STATUS_FINALIZADO;
 
          if new.lote_aprov is not null then            
             -- Executando cotação
-            update cota c
-               set status = 6
-              from cota_aprov ca
-             where ca.cotacao = c.recno
-               and ca.recno = new.lote_aprov
-               and c.status < 6;
+            update
+               cota c
+            set
+               status = 6
+            from
+               cota_aprov ca
+            where
+               ca.cotacao  = c.recno and
+               ca.recno    = new.lote_aprov and
+               c.status    < 6;
          end if;
       elsif old.status in (20, 30, 40) and new.status = 99 then -- cancelamento
-         update labproc
-            set situacao = 7
-          where pedido = new.recno;
+         update
+            labproc
+         set
+            situacao = 7
+         where
+            pedido = new.recno;
             
          xlog.title := 'Pedido cancelado';
          xlog.level := 'warn';
@@ -259,7 +311,7 @@ BEGIN
    return null;
 END;
 $$
-  LANGUAGE 'plpgsql' VOLATILE;
+LANGUAGE 'plpgsql' VOLATILE;
 
 
 create or replace function status(

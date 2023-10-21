@@ -10,19 +10,23 @@
    Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
 */
 CREATE OR REPLACE FUNCTION b_pedido_serv()
-  RETURNS trigger AS
+RETURNS trigger AS
 $$
 BEGIN
    if tg_op <> 'DELETE' then
       if tg_op = 'INSERT' then
          -- Valida inclusão do item
          if not exists(
-            select 1
-              from pedido c
-                   join orca_grupo o
-                     on o.recno = c.grupo
-                    and o.reqsrv
-             where c.recno = new.pedido)
+            select 
+               1
+            from 
+               pedido c
+            join
+               orca_grupo o on 
+               o.recno = c.grupo and 
+               o.reqsrv
+            where 
+               c.recno = new.pedido)
          then
             raise '[[O pedido % não suporta a inclusão de serviços!]]', new.pedido;
          end if;
@@ -37,4 +41,4 @@ BEGIN
    end if;
 END;
 $$
-  LANGUAGE 'plpgsql' VOLATILE;
+LANGUAGE 'plpgsql' VOLATILE;

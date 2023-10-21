@@ -1,12 +1,12 @@
 /**
 	Verifica se a tabela foi marcada por alguma rotina interna
-  	@author 	Ricardo Gonçalves
-  	@date 	06/08/2008 11:47:07
-  	@param 	in_table_ nome da tabela que contém o registro
-  				marcado
+   @author 	Ricardo Gonçalves
+   @date 	06/08/2008 11:47:07
+   @param 	in_table_ nome da tabela que contém o registro
+            marcado
 	@param	in_recno registro da tabela marcado
-  	@return 	retorna verdadeiro caso haja um registo na tabela
-  				Sysflag para in_table_ e in_recno informados
+   @return 	retorna verdadeiro caso haja um registo na tabela
+            Sysflag para in_table_ e in_recno informados
 */
 --- Varchar
 Create or Replace Function sys_param_w(
@@ -158,38 +158,54 @@ Declare
    r  record;
 BEGIN
    if exists(
-      select 1
-        from sys_cfg
-       where pname = lower(in_pname))
+      select 
+         1
+      from 
+         sys_cfg
+      where
+         pname = lower(in_pname))
    then
       if in_ptype = 1 then
-        	update sys_cfg
-   	     set pvalue = in_pvalue
-      	 where pname = lower(in_pname);
+         update 
+            sys_cfg
+         set
+            pvalue = in_pvalue
+         where
+            pname = lower(in_pname);
       end if;
    else
-      insert into sys_cfg (pname, pvalue, ptype)
-           values         (in_pname, in_pvalue, in_pdatatype);
- 	end if;
+      insert into sys_cfg 
+         (pname, pvalue, ptype)
+      values 
+         (in_pname, in_pvalue, in_pdatatype);
+   end if;
 
- 	-- parâmetro de usuário
- 	if in_ptype = 2 then
+   -- parâmetro de usuário
+   if in_ptype = 2 then
       if exists(
-         select 1
-           from sys_cfgusr
-          where pname = lower(in_pname))
+         select
+            1
+         from
+            sys_cfgusr
+         where
+            pname = lower(in_pname))
       then
-         update sys_cfgusr
-            set pvalue = in_pvalue
-          where pname = lower(in_pname)
-            and account = sys_account();
+         update
+            sys_cfgusr
+         set
+            pvalue = in_pvalue
+         where
+            pname = lower(in_pname) and
+            account = sys_account();
       else
-         insert into sys_cfgusr (pname, account, pvalue)
-              values            (in_pname, sys_account(), in_pvalue);
+         insert into sys_cfgusr
+            (pname, account, pvalue)
+         values
+            (in_pname, sys_account(), in_pvalue);
       end if;
- 	end if;
+   end if;
 
- 	return true;
+   return true;
 END;
 $$
 language plpgsql;

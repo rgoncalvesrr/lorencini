@@ -22,7 +22,7 @@
       [+] Verificação de remessa em curso antes do cancelamento do pedido
 */
 CREATE OR REPLACE FUNCTION b_pedido()
-  RETURNS trigger AS
+RETURNS trigger AS
 $$
 Declare
    _STPENDENTE    constant integer := 0; -- Processando pelo sistema
@@ -43,10 +43,11 @@ BEGIN
 
    if tg_op <> 'DELETE' then
       if tg_op = 'INSERT' then
-         new.criado := localtimestamp;
-         new.status := 10; -- força estado de digitação
-         new.frete := coalesce(new.frete, 0);
-         new.dec_conf := coalesce(new.dec_conf, true);
+
+         new.criado        := localtimestamp;
+         new.status        := 10; -- força estado de digitação
+         new.frete         := coalesce(new.frete, 0);
+         new.dec_conf      := coalesce(new.dec_conf, true);
          xlog.source_recno := new.recno;
 
          if new.indice is null then
@@ -87,18 +88,18 @@ BEGIN
             raise '[[Não foi possível localizar um contato ativo, com e-mail cadastrado e possa receber o pedido de venda. Verifique. Pedido %]]', new.recno;
          end if;
 
-         xlog.title := 'Solicitante definido pelo sistema';
+         xlog.title  := 'Solicitante definido pelo sistema';
          xlog.detail := 'Solicitante definido automaticamente pelo sistema';
-         xlog.level := 'warn';
+         xlog.level  := 'warn';
 
          perform log(xlog);
       end if;
 
       if not new.remessa then
-         new.frete := 0;
-         new.frascos := 0;
-         new.seringas := 0;
-         new.correio := null;
+         new.frete      := 0;
+         new.frascos    := 0;
+         new.seringas   := 0;
+         new.correio    := null;
       end if;
 
       new.cliente := coalesce(new.cliente, new.codigo);
@@ -195,23 +196,30 @@ BEGIN
             end if;
 
             if new.remessa and not exists(
-               select 1
-                 from labproc
-                where pedido = new.recno
-                  and situacao = 4)
+               select 
+                  1
+               from 
+                  labproc
+               where 
+                  pedido = new.recno and
+                  situacao = 4)
             then
                raise '[[O pedido % não pode aguardar amostras porque a remessa não foi completada.]]', new.recno;
             end if;
 
             -- Verifica se há algum serviço que possibilite a análise
             if not exists(
-               select 1
-                 from pedido_serv ps
-                      join servicos s
-                        on s.codserv = ps.codserv
-                       and s.vidraria > 0
-                       and s.consumo > 0
-                where ps.pedido = new.recno)
+               select 
+                  1
+               from 
+                  pedido_serv ps
+               join 
+                  servicos s on 
+                  s.codserv = ps.codserv and
+                  s.vidraria > 0 and 
+                  s.consumo > 0
+               where 
+                  ps.pedido = new.recno)
             then
                raise '[[O pedido % não pode aguardar amostras porque os serviços não tem vidraria e consumo.]]', new.recno;
             end if;
@@ -219,11 +227,14 @@ BEGIN
             -- Verificando se o email de autorização foi enviado com sucesso
             if old.status = 30 then
                if exists(
-                  select 1
-                  from sys_email
-                  where table_ = sys_origem('pedido')
-                     and recno_ = new.recno
-                     and status = 2)
+                  select 
+                     1
+                  from 
+                     sys_email
+                  where 
+                     table_ = sys_origem('pedido') and 
+                     recno_ = new.recno and 
+                     status = 2)
                then
                   new.autorizado := localtimestamp;
                else
@@ -240,15 +251,20 @@ BEGIN
                msg := '';
 
                for r in (
-                  select a.codserv, b.descri, a.qtd, a.saldo
-                    from pedido_serv a
-                         join servicos b
-                           on b.codserv = a.codserv
-                         join servicos_grupo c
-                           on c.recno = b.grupo
-                          and c.laboratorio
-                   where a.pedido = new.recno
-                     and a.saldo > 0)
+                  select 
+                     a.codserv, b.descri, a.qtd, a.saldo
+                  from 
+                     pedido_serv a
+                  join 
+                     servicos b on 
+                     b.codserv = a.codserv
+                  join 
+                     servicos_grupo c on 
+                     c.recno = b.grupo and 
+                     c.laboratorio
+                  where 
+                     a.pedido = new.recno and 
+                     a.saldo > 0)
                loop
                   msg := msg || CRLF || format('O serviço %s - %s exige %s amostras. Falta associar %s amostras',
                      r.codserv, r.descri, to_char(r.qtd, 'FM99999990'), to_char(r.saldo, 'FM99999990'));
@@ -264,10 +280,13 @@ BEGIN
          -- Cancelamento do pedido, verificação de remessa em processo
          elsif old.status in (20, 30, 40) and new.status = 99 then
             if exists(
-               select 1
-                 from labproc
-                where pedido = new.recno
-                  and situacao between 1 and 6)
+               select 
+                  1
+               from 
+                  labproc
+               where 
+                  pedido = new.recno and 
+                  situacao between 1 and 6)
             then
                raise '[[O pedido % não pode ser cancelado porque a remessa já foi iniciada!]]', new.recno;
             end if;

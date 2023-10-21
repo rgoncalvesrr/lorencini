@@ -23,7 +23,7 @@
       [+] Implementação da integração com as novas rotinas de controle de amostras.
 */
 CREATE OR REPLACE FUNCTION a_labport()
-  RETURNS trigger AS
+   RETURNS trigger AS
 $$
 Declare
    _OP_REMESSA    constant integer = 1;
@@ -56,11 +56,14 @@ BEGIN
 
          -- Checa se o processo já foi remetido
          if exists(
-            select 1
-              from labport
-             where labproc_recno = new.labproc_recno
-               and operac = new.operac
-               and recno <> new.recno)
+            select 
+               1
+            from 
+               labport
+            where
+               labproc_recno = new.labproc_recno and 
+               operac = new.operac and 
+               recno <> new.recno)
          then
             raise '[[O processo % foi remetido em % e não pode ser remetido novamente.]]',
                new.labproc_recno, to_char(new.emissao, 'DD/MM/YYYY HH24:MI:SS');
@@ -68,22 +71,29 @@ BEGIN
 
          -- Verifica o status do processo
          if exists(
-            select 1
-              from labproc
-             where recno = new.labproc_recno
-               and situacao <> 3)
+            select
+               1
+            from
+               labproc
+            where
+               recno = new.labproc_recno and 
+               situacao <> 3)
          then
             raise '[[Remssa % não pode despachada porque não passou pela montagem de volumes]]',
                new.labproc_recno;
          end if;
 
          -- Verifica se todas as etiquetas do processo foram impressas
-         select sum(sys_iif(c.estado < 10, 1, 0))
-           into icount
-           from labamostras c
-                join labprocxequip e
-                  on e.amostra = c.recno
-                 and e.labproc_recno = new.labproc_recno;
+         select 
+            sum(sys_iif(c.estado < 10, 1, 0))
+         into 
+            icount
+         from
+            labamostras c
+         join
+            labprocxequip e on 
+            e.amostra = c.recno and
+            e.labproc_recno = new.labproc_recno;
 
          if icount > 0 then
             raise '[[Processo % não pode originar remessas porque % etiqueta(s) não foi(ram) emitida(s).]]',
@@ -91,26 +101,37 @@ BEGIN
          end if;
 
          -- Verifica se todas as etiquetas de volume do processo foram impressas
-         select sum(sys_iif(v.imp_dh is null or v.status <> 1, 1, 0))
-           into icount
-           from labvol v
-          where v.labproc_recno = new.labproc_recno;
+         select 
+            sum(sys_iif(v.imp_dh is null or v.status <> 1, 1, 0))
+         into
+            icount
+         from
+            labvol v
+         where
+            v.labproc_recno = new.labproc_recno;
 
          if icount > 0 then
             raise '[[Processo % não pode ser despachado porque % volume(s) não foi(ram) fechado(s) e/ou emitido(s).]]',
                new.labproc_recno, icount;
          end if;
 
-         update labamostras c
-            set estado = 30
-           from labprocxequip e
-          where e.amostra = c.recno
-            and e.labproc_recno = new.labproc_recno;
+         update 
+            labamostras c
+         set 
+            estado = 30
+         from 
+            labprocxequip e
+         where 
+            e.amostra = c.recno and 
+            e.labproc_recno = new.labproc_recno;
 
          -- Atualiza situação do processo
-         update labproc
-            set situacao = 4, remessa = new.emissao
-          where recno = new.labproc_recno;
+         update 
+            labproc
+         set 
+            situacao = 4, remessa = new.emissao
+         where 
+            recno = new.labproc_recno;
       end if;
 
       if tg_op = 'UPDATE' then
@@ -120,29 +141,40 @@ BEGIN
             src_table := sys_origem('labret');
 
             -- Associa todas as amostras marcadas para retorno deste cliente
-            update labret ret
-               set labport_recno = new.recno
-              from sys_flags f, labamostras a
-             where f.session = session_
-               and f.table_ = src_table
-               and f.recno = ret.recno
-               and a.recno = ret.amostra
-               and a.codigo = new.codigo;
+            update 
+               labret ret
+            set 
+               labport_recno = new.recno
+            from 
+               sys_flags f, labamostras a
+            where 
+               f.session = session_ and 
+               f.table_ = src_table and 
+               f.recno = ret.recno and 
+               a.recno = ret.amostra and 
+               a.codigo = new.codigo;
 
             if not exists(
-               select 1
-                 from labret
-                where labport_recno = new.recno)
+               select 
+                  1
+               from 
+                  labret
+               where 
+                  labport_recno = new.recno)
             then
                raise '[[A operação de retorno % não pode ser encerrada porque não contem frascos e/ou seringas.]]', new.recno;
             end if;
 
             -- Registra as baixas
-            update labamostras c
-               set estado = sys_iif(ret.status < 3, 40, 70), qtd = ret.qtd, saldo = ret.qtd
-              from labret ret
-             where ret.amostra = c.recno
-               and ret.labport_recno = new.recno;
+            update 
+               labamostras c
+            set 
+               estado = sys_iif(ret.status < 3, 40, 70), qtd = ret.qtd, saldo = ret.qtd
+            from 
+               labret ret
+            where 
+               ret.amostra = c.recno and 
+               ret.labport_recno = new.recno;
          end if;
       end if;
 
@@ -152,4 +184,4 @@ BEGIN
    end if;
 END;
 $$
-  LANGUAGE 'plpgsql' VOLATILE;
+LANGUAGE 'plpgsql' VOLATILE;
