@@ -8,13 +8,18 @@
    HistÃ³rico
    ---------------------------------------------------------------------------------------------------------------------
    Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+   
+   17/10/2023  Ricardo Gonçalves
+      [+] Adiciona proteção que impede amostras sem saldo ou que não nas depências da Lorencini
 */
 CREATE OR REPLACE FUNCTION b_pedido_amostras()
-  RETURNS trigger AS
+RETURNS trigger AS
 $$
 Declare
    batu     boolean;
    icodigo  pedido.codigo%type;
+   r        record;
+   rcli     record;
 BEGIN
    if tg_op = 'DELETE' then
       return old;
@@ -33,7 +38,7 @@ BEGIN
          new.consumo
       from 
          servicos
-       where 
+      where 
          codserv = new.codserv; 
    end if;
 
@@ -46,20 +51,38 @@ BEGIN
    where 
       recno = new.pedido; 
 
+   select
+      a.estado, a.codigo
+   into
+      r
+   from
+      labamostras a
+   where 
+      recno = new.amostra;
+
    -- Verificando se amostra pertence ao cliente do pedido
-   if not exists(
+   if r.codigo <> icodigo then
       select 
-         1
+         empresa, nome_chave, mask_cnpj_cpf(coalesce(cnpj, cpf)) cnpj 
+      into
+         rcli
       from 
-         labamostras
+         tbclientes 
       where 
-         recno = new.amostra and 
-         codigo = icodigo)
-   then
-      raise '[[A amostra % não pertence ao cliente %]]', new.amostra, icodigo;
+         codigo = icodigo;
+
+      raise '[[A amostra % não pertence ao cliente % - %. Nome curto: %. CNPJ: %]]', new.amostra, icodigo, rcli.empresa, rcli.nome_chave, rcli.cnpj;
+   end if;
+
+   if r.estado < 40 then
+      raise '[[A amostra % não está na Lorencini!]]', new.amostra;
+   end if;
+
+   if r.estado > 50 then
+      raise '[[A amostra % jã foi consumida!]]', new.amostra;
    end if;
 
    return new;
 END;
 $$
-  LANGUAGE 'plpgsql' VOLATILE;
+LANGUAGE 'plpgsql' VOLATILE;
