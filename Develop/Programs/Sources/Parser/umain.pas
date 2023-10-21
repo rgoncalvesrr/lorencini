@@ -61,7 +61,7 @@ begin
   FStmt := TStringList.Create;
   FStmtSanitized := TStringList.Create;
   FStmtApplied := TStringList.Create;
-  SynEdit1.Font.Name := 'Courier New';
+  SynEdit1.Font.Name := 'Fira Code';
 
   shift := False;
   ZConnection1.LibraryLocation := TEnvironment.Lib + 'libpq.dll';

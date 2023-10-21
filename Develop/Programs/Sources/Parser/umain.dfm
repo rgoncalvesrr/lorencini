@@ -30,7 +30,6 @@ object Main: TMain
     TabOrder = 0
     TabStop = False
     OnChange = PageControl1Change
-    ExplicitLeft = 8
     object TabSheet1: TTabSheet
       Caption = 'Rotina Original'
     end
@@ -45,7 +44,7 @@ object Main: TMain
         Align = alClient
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlack
-        Font.Height = -12
+        Font.Height = -13
         Font.Name = 'Consolas'
         Font.Pitch = fpFixed
         Font.Style = []
@@ -67,7 +66,6 @@ object Main: TMain
         Highlighter = SynSQLSyn1
         RightEdge = 120
         FontSmoothing = fsmClearType
-        ExplicitTop = 4
       end
     end
     object TabSheet6: TTabSheet

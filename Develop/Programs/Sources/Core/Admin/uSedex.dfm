@@ -1523,7 +1523,7 @@ inherited Sedex: TSedex
         Width = 623
         Height = 33
         Caption = 'Nesta tela podemos calcular o frete para determinado CEP'
-        ExplicitWidth = 623
+        ExplicitWidth = 324
       end
     end
   end
@@ -2140,6 +2140,8 @@ inherited Sedex: TSedex
       Height = 126
       Align = alClient
       TabOrder = 0
+      ExplicitLeft = 7
+      ExplicitTop = 22
     end
   end
   object Panel21: TPanel [7]

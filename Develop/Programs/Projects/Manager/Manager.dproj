@@ -983,14 +983,5 @@
     </DCCReference>
     <DCCReference Include="..\..\Sources\Packages\CCore\CCore.pas" />
     <DCCReference Include="..\..\Sources\Packages\CCore\CMsg.pas" />
-    <DCCReference Include="..\..\Sources\Package\CCore\CCore.pas" />
-    <DCCReference Include="..\..\Sources\Packag\CCore\CCore.pas" />
-    <DCCReference Include="..\..\Sources\Packa\CCore\CCore.pas" />
-    <DCCReference Include="..\..\Sources\Pack\CCore\CCore.pas" />
-    <DCCReference Include="..\..\Sources\Pacotes\CCore\CCore.pas" />
-    <DCCReference Include="..\..\Sources\Pacotes\CCore\CMsg.pas" />
-    <DCCReference Include="..\..\Sources\Pac\CCore\CCore.pas" />
-    <DCCReference Include="..\..\Sources\Pa\CCore\CCore.pas" />
-    <DCCReference Include="..\..\Sources\P\CCore\CCore.pas" />
   </ItemGroup>
 </Project>
