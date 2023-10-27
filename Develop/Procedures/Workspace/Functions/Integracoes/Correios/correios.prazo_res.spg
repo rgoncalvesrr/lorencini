@@ -1,0 +1,51 @@
+/**
+   Gerar uma requisicao para cálculo do prazo de entrega
+
+	@author    Ricardo Gonçalves
+	@date      26/10/2023
+	@trigger
+
+   @param   requisicao_ recno da tabela correios.precos
+   
+   @return código da requisição gerada
+
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+create or replace function correios.prazo_res(
+   in recno_ bigint)
+returns integer as
+$$
+declare
+   r           record;
+begin
+   select
+      res_body, res_code, source_recno
+   into
+      r
+   from
+      svc_cliapi
+   where
+      recno = recno_;
+
+   if not Found then
+      raise '[[Requisição % não localizada]]', recno_;
+   end if;
+
+   update
+      correios.precos
+   set
+      prazo_entrega              = (r.res_body->>'prazoEntrega')::integer,
+      prazo_data_maxima          = (r.res_body->>'dataMaxima')::timestamp,
+      prazo_entrega_domiciliar   = r.res_body->>'entregaDomiciliar' = 'S',
+      prazo_entrega_sabado       = r.res_body->>'entregaSabado' = 'S',
+      prazo_mensagem             = r.res_body->>'msgPrazo',
+      prazo_processado           = true
+   where
+      recno = r.source_recno;
+
+   return r.source_recno;
+end;
+$$
+language plpgsql;

@@ -1,0 +1,98 @@
+/**
+   Gerar uma requisicao para cálculo do prazo de entrega
+
+	@author    Ricardo Gonçalves
+	@date      26/10/2023
+	@trigger
+
+   @param   requisicao_ recno da tabela correios.precos
+   
+   @return código da requisição gerada
+
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+create or replace function correios.prazo_req(
+   in requisicao_ integer)
+returns integer as
+$$
+declare
+   r        public.svc_cliapi%rowtype;
+   rp       correios.precos%rowtype;
+   token_   correios.tokens.token%type;
+   accept_  text := 'application/json';
+   recno_   public.svc_cliapi.recno%type;
+begin
+   token_   := correios.autentica_req();
+   r.recno  := 0;
+
+   if token_ = '' then
+      return r.recno;
+   end if;
+
+   select
+      *
+   into
+      rp
+   from
+      correios.precos p
+   where
+      recno = requisicao_;
+   
+   if not found then
+      raise '[[Parâmetro para cálculo de frete via Correios não localizado. Paramêtro: %s]]', requisicao_;
+   end if;
+
+   -- Requisita a geração de um novo token
+   r.uri := format('%s/prazo/v1/nacional/%s?cepDestino=%s&cepOrigem=%s', 
+      sys_param('correios_base_url'), 
+      rp.servico,
+      rp.destino,
+      rp.origem);
+
+   r.req_method   := 'GET';
+   r.status       := 'queue';
+   r.res_callback := 'prazo_res';
+   r.env          := 'prod';
+
+   
+   select
+      recno
+   into
+      r.recno
+   from
+      public.svc_cliapi
+   where
+      uri            = r.uri and
+      req_method     = r.req_method and
+      status         = r.status and
+      res_callback   = r.res_callback and
+      env            = r.env;
+
+   if found then
+      return r.recno;
+   end if;
+
+   r.req_headers := format('{
+      "Content-Type" : "application/json; charset=utf-8",
+      "Accept" : "%s",
+      "Accept-Encoding" : "gzip,deflate,br",
+      "Connection" : "keep-alive",
+      "Authorization" : "Bearer %s"}', 
+      accept_, 
+      token_);
+   
+   insert into public.svc_cliapi (
+      uri, req_method, req_headers, res_callback, status, env, source_table, source_recno)
+   values (
+      r.uri, r.req_method, r.req_headers, r.res_callback, r.status, r.env, sys_origem('precos'), requisicao_)
+   returning
+      recno
+   into
+      r.recno;
+
+   return r.recno;
+end;
+$$
+language plpgsql;
