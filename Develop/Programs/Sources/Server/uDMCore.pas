@@ -4,13 +4,14 @@ interface
 
 uses
   SysUtils, Classes, ZConnection, ExtCtrls, DB, ZAbstractRODataset, ZDataset,
-  ServiceBase, ZAbstractConnection;
+  ServiceBase, ZAbstractConnection, IdBaseComponent, IdZLibCompressorBase, IdCompressorZLib;
 
 type
   TdmCore = class(TDataModule)
     pgConn: TZConnection;
     Monitor: TTimer;
     zQry: TZReadOnlyQuery;
+    IdCompressorZLib1: TIdCompressorZLib;
     procedure DataModuleCreate(Sender: TObject);
     procedure MonitorTimer(Sender: TObject);
     procedure DataModuleDestroy(Sender: TObject);
@@ -58,9 +59,9 @@ var
 
 implementation
 
-uses ServiceCFG, ActiveX, ComObj, uIUtils, ServiceSMTP, mcutils, IdSSLOpenSSL,
-  IdExplicitTLSClientServerBase, IdSMTP, ServiceTask, ServiceSpoolReport,
-  uReport, uDM, uDMReport, ServiceHttpClient, uLkJSON;
+uses
+  ServiceCFG, ActiveX, ComObj, uIUtils, ServiceSMTP, mcutils, IdSSLOpenSSL, IdExplicitTLSClientServerBase, IdSMTP,
+  ServiceTask, ServiceSpoolReport, uReport, uDM, uDMReport, ServiceHttpClient, uLkJSON;
 
 {$R *.dfm}
 
@@ -71,9 +72,9 @@ var
   appimage: string;
 begin
   inherited;
-  FFirstExec := True;
-  appname := ParamStr(0);
-  appimage := ExtractFileName(appname);
+  FFirstExec  := True;
+  appname     := ParamStr(0);
+  appimage    := ExtractFileName(appname);
   FMaxThreads := G.GetNumberOfProcessors;
 
   if CoCreateGuid(aGuid) = S_OK then
@@ -86,10 +87,11 @@ begin
   begin
     pgConn.Protocol := Protocol;
     pgConn.HostName := Host;
-    pgConn.Port := Port;
+    pgConn.Port     := Port;
     pgConn.Database := DataBase;
-    pgConn.User := User;
+    pgConn.User     := User;
     pgConn.Password := Pass;
+
     pgConn.Properties.Clear;
     pgConn.Properties.Add('codepage=latin1');
     pgConn.Properties.Add(Format('application_name=Lorencini: %s %s',
@@ -103,12 +105,12 @@ begin
 
     with U.Data.DataInfo do
     begin
-      Protocol := pgConn.Protocol;
-      HostName := pgConn.HostName;
-      Port := pgConn.Port;
-      Database := pgConn.Database;
-      User := pgConn.User;
-      Password := pgConn.Password;
+      Protocol  := pgConn.Protocol;
+      HostName  := pgConn.HostName;
+      Port      := pgConn.Port;
+      Database  := pgConn.Database;
+      User      := pgConn.User;
+      Password  := pgConn.Password;
     end;
 
     U.Data.RefreshConnParams;
@@ -153,12 +155,15 @@ begin
     Exit;
 
   zQry.SQL.Text :=
-  'select sys_paramv(''smtp_server''), sys_parami(''smtp_port''), '+
-         'sys_paramv(''smtp_user''), sys_paramv(''smtp_username''), '+
-         'sys_paramv(''smtp_pass''), sys_paramb(''smtp_tls_enable''), '+
-         'sys_paramv(''smtp_tls_mode''), sys_paramv(''smtp_tls_use''), '+
-         'sys_paramv(''smtp_auth_type'')';
+  'select '+
+    'sys_paramv(''smtp_server''), sys_parami(''smtp_port''), '+
+    'sys_paramv(''smtp_user''), sys_paramv(''smtp_username''), '+
+    'sys_paramv(''smtp_pass''), sys_paramb(''smtp_tls_enable''), '+
+    'sys_paramv(''smtp_tls_mode''), sys_paramv(''smtp_tls_use''), '+
+    'sys_paramv(''smtp_auth_type'')';
+
   zQry.Open;
+
   try
     with TServiceCFG.GetInstance.Smtp do
     begin
@@ -167,14 +172,15 @@ begin
       if zQry.Fields[8].AsString = 'SASL' then
         AuthType := satSASL;
 
-      Server := zQry.Fields[0].AsString;
-      Port := zQry.Fields[1].AsInteger;
-      User := zQry.Fields[2].AsString;
-      UserName := zQry.Fields[3].AsString;
-      Password := zQry.Fields[4].AsString;
+      Server      := zQry.Fields[0].AsString;
+      Port        := zQry.Fields[1].AsInteger;
+      User        := zQry.Fields[2].AsString;
+      UserName    := zQry.Fields[3].AsString;
+      Password    := zQry.Fields[4].AsString;
       SSL_Enabled := zQry.Fields[5].AsBoolean;
-      authTyp := zQry.Fields[6].AsString;
-      tlsTyp := zQry.Fields[7].AsString;
+      authTyp     := zQry.Fields[6].AsString;
+      tlsTyp      := zQry.Fields[7].AsString;
+
       if SSL_Enabled then
       begin
         if authTyp = 'SSLv2' then
@@ -256,20 +262,26 @@ var
   loginEvent, account: Integer;
 begin
   pgConn.AfterConnect := nil;
-  oQry := TZReadOnlyQuery.Create(nil);
+
+  oQry            := TZReadOnlyQuery.Create(nil);
   oQry.Connection := pgConn;
   try
     oQry.SQL.Text := 'select sys_auth(:user, md5(:pass))';
+
     oQry.ParamByName('user').AsString := 'sistema@lorencinibrasil.com.br';
     oQry.ParamByName('pass').AsString := 'm4n4g3r.@';
+
     oQry.Open;
 
     loginEvent := oQry.Fields.Fields[0].AsInteger;
 
     oQry.SQL.Text :=
-      'select event, label, account '+
-        'from vlogin_events '+
-       'where recno = :transaction';
+      'select '+
+        'event, label, account '+
+      'from '+
+        'vlogin_events '+
+      'where '+
+        'recno = :transaction';
 
     oQry.ParamByName('transaction').AsInteger := loginEvent;
     oQry.Open;
@@ -311,22 +323,30 @@ var
   ThreadHttpClient: TServiceHttpClient;
 begin
   zQry.SQL.Text :=
-  'update svc_cliapi '+
-     'set id = :id '+
-   'where id is null '+
-     'and status = ''queue'' ' +
-     'and scheduled <= clock_timestamp() ';
+  'update '+
+    'svc_cliapi '+
+  'set '+
+    'id = :id '+
+  'where '+
+    'id is null and '+
+    'status = ''queue'' and '+
+    'scheduled <= clock_timestamp() ';
 
   zQry.ParamByName('id').AsString := FID;
   zQry.ExecSQL;
 
   zQry.SQL.Text :=
-  'select s.uri, s.req_method, s.req_headers, s.req_body, f.schema_, s.res_callback, s.recno, sys_origem(''svc_cliapi'') table_ '+
-    'from public.svc_cliapi s '+
-         'left join public.sys_fn f '+
-           'on f.fn = s.res_callback '+
-   'where s.id = :id '+
-     'and s.status = ''queue'' ';
+  'select '+
+    's.uri, s.req_method, s.req_headers, s.req_body, f.schema_, s.res_callback, s.recno, '+
+    'sys_origem(''svc_cliapi'') table_ '+
+  'from '+
+    'public.svc_cliapi s '+
+  'left join '+
+    'public.sys_fn f on '+
+    'f.fn = s.res_callback '+
+  'where '+
+    's.id = :id and '+
+    's.status = ''queue'' ';
 
   zQry.ParamByName('id').AsString := FID;
   zQry.Open;
@@ -336,14 +356,14 @@ begin
     begin
       U.ExecuteSQL('update public.svc_cliapi set status = ''running'' where recno = %d;', [zQry.FieldByName('recno').AsInteger]);
 
-      ThreadHttpClient := TServiceHttpClient.Create(TServiceCFG.GetInstance.ConnParams);
-      ThreadHttpClient.Description := 'Serviço de Requisições HTTP';
-      ThreadHttpClient.OnLog := FOnLogHttpClient;
-      ThreadHttpClient.OnTerminate := ProcessFinished;
-      ThreadHttpClient.Method := zQry.FieldByName('req_method').AsString;
-      ThreadHttpClient.Table_ := zQry.FieldByName('table_').AsInteger;
-      ThreadHttpClient.Recno_ := zQry.FieldByName('recno').AsInteger;
-      ThreadHttpClient.URI := zQry.FieldByName('uri').AsString;
+      ThreadHttpClient              := TServiceHttpClient.Create(TServiceCFG.GetInstance.ConnParams);
+      ThreadHttpClient.Description  := 'Serviço de Requisições HTTP';
+      ThreadHttpClient.OnLog        := FOnLogHttpClient;
+      ThreadHttpClient.OnTerminate  := ProcessFinished;
+      ThreadHttpClient.Method       := zQry.FieldByName('req_method').AsString;
+      ThreadHttpClient.Table_       := zQry.FieldByName('table_').AsInteger;
+      ThreadHttpClient.Recno_       := zQry.FieldByName('recno').AsInteger;
+      ThreadHttpClient.URI          := zQry.FieldByName('uri').AsString;
 
       if not zQry.FieldByName('req_headers').IsNull and (zQry.FieldByName('req_headers').AsString <> EmptyStr) then
         ThreadHttpClient.Headers := TlkJSON.ParseText(zQry.FieldByName('req_headers').AsString) as TlkJSONobject;
@@ -371,21 +391,28 @@ begin
   try
     {Marcando mensagens}
     zQry.SQL.Text :=
-    'update sys_email '+
-       'set id = :id '+
-     'where id is null '+
-       'and status = 1 '+
-       'and coalesce(schedule, localtimestamp) <= localtimestamp ';
+    'update '+
+      'sys_email '+
+    'set '+
+      'id = :id '+
+    'where '+
+      'id is null and '+
+      'status = 1 and '+
+      'coalesce(schedule, localtimestamp) <= localtimestamp ';
 
     zQry.Params[0].AsString := FID;
     zQry.ExecSQL;
 
     {Selecionando mensagens}
     zQry.SQL.Text :=
-    'select recno, table_, recno_ '+
-      'from sys_email '+
-     'where id = :id '+
-     'order by entry_';
+    'select '+
+      'recno, table_, recno_ '+
+    'from '+
+      'sys_email '+
+    'where '+
+      'id = :id '+
+    'order by '+
+      'entry_';
 
     zQry.Params[0].AsString := FID;
     zQry.Open;
@@ -398,13 +425,14 @@ begin
 
     while not zQry.Eof do
     begin
-      ThreadMail := TServiceSMTP.Create(TServiceCFG.GetInstance.ConnParams);
-      ThreadMail.Description := 'Serviço de envio de e-mail.';
-      ThreadMail.OnLog := FOnLogSMTP;
-      ThreadMail.OnTerminate := ProcessFinished;
-      ThreadMail.Recno := zQry.Fields[0].AsInteger;
-      ThreadMail.Table_ := zQry.Fields[1].AsInteger;
-      ThreadMail.Recno_ := zQry.Fields[2].AsInteger;
+      ThreadMail              := TServiceSMTP.Create(TServiceCFG.GetInstance.ConnParams);
+      ThreadMail.Description  := 'Serviço de envio de e-mail.';
+      ThreadMail.OnLog        := FOnLogSMTP;
+      ThreadMail.OnTerminate  := ProcessFinished;
+      ThreadMail.Recno        := zQry.Fields[0].AsInteger;
+      ThreadMail.Table_       := zQry.Fields[1].AsInteger;
+      ThreadMail.Recno_       := zQry.Fields[2].AsInteger;
+
       ThreadMail.SMTP.Assign(TServiceCFG.GetInstance.Smtp);
 
       FTasks.Add(ThreadMail);
@@ -445,27 +473,34 @@ var
 begin
   try
     zQry.SQL.Text :=
-    'select ss.descri, ss.recno, x.schedule_recno, x.execucao, ss.fn '+
-      'from sys_schedules_setup ss '+
-           'join (select s.agendamento, min(recno) schedule_recno, min(execucao) execucao '+
-                   'from sys_schedules s '+
-                  'where s.status = 0 '+
-                    'and s.execucao <= now() '+
-                  'group by s.agendamento) x '+
-             'on x.agendamento = ss.recno;';
+    'select '+
+      'ss.descri, ss.recno, x.schedule_recno, x.execucao, ss.fn '+
+    'from '+
+      'sys_schedules_setup ss '+
+    'join ('+
+      'select '+
+        's.agendamento, min(recno) schedule_recno, min(execucao) execucao '+
+      'from '+
+        'sys_schedules s '+
+      'where '+
+        's.status = 0 and '+
+        's.execucao <= now() '+
+      'group by '+
+        's.agendamento) x on '+
+      'x.agendamento = ss.recno;';
 
     zQry.Open;
 
     while not zQry.Eof do
     begin
-      task := TServiceTask.Create(TServiceCFG.GetInstance.ConnParams);
-      task.Description := zQry.FieldByName('descri').AsString;
-      task.Routine := zQry.FieldByName('fn').AsString;
-      task.ScheduledTo := zQry.FieldByName('execucao').AsDateTime;
-      task.OnLog := FOnLogSchedule;
-      task.OnTerminate := ProcessFinished;
-      task.Table_ := SYS_SCHEDULES;
-      task.Recno_ := zQry.FieldByName('schedule_recno').AsInteger;
+      task              := TServiceTask.Create(TServiceCFG.GetInstance.ConnParams);
+      task.Description  := zQry.FieldByName('descri').AsString;
+      task.Routine      := zQry.FieldByName('fn').AsString;
+      task.ScheduledTo  := zQry.FieldByName('execucao').AsDateTime;
+      task.OnLog        := FOnLogSchedule;
+      task.OnTerminate  := ProcessFinished;
+      task.Table_       := SYS_SCHEDULES;
+      task.Recno_       := zQry.FieldByName('schedule_recno').AsInteger;
 
       FTasks.Add(task);
 
@@ -483,13 +518,16 @@ var
 begin
   try
     zQry.SQL.Text :=
-      'select p.recno, p.report, p.print_to_device, p.print_to_file, p.source_table, p.source_recno, p.hash, '+
-             'p.file_name '+
-        'from svc_spool p '+
-       'where print_to_file '+
-         'and status = ''queue'' '+
-       'order by recno '+
-      'limit 10 '; 
+      'select '+
+        'p.recno, p.report, p.print_to_device, p.print_to_file, p.source_table, p.source_recno, p.hash, p.file_name '+
+      'from '+
+        'svc_spool p '+
+      'where '+
+        'print_to_file and '+
+        'status = ''queue'' '+
+      'order by '+
+        'recno '+
+      'limit 10 ';
 
     zQry.Open;
 
@@ -505,16 +543,21 @@ begin
         .Caption(zQry.FieldByName('file_name').AsString)
         .FileName(zQry.FieldByName('file_name').AsString);
 
-      spool := TServiceSpoolReport.Create(TServiceCFG.GetInstance.ConnParams, report);
-      spool.Id := zQry.FieldByName('recno').AsInteger;
-      spool.OnLog := FOnLogPrint;
+      spool             := TServiceSpoolReport.Create(TServiceCFG.GetInstance.ConnParams, report);
+      spool.Id          := zQry.FieldByName('recno').AsInteger;
+      spool.OnLog       := FOnLogPrint;
       spool.OnTerminate := ProcessFinished;
-      spool.Table_ := zQry.FieldByName('source_table').AsInteger;
-      spool.Recno_ := zQry.FieldByName('source_recno').AsInteger;
-      spool.Description := format('%s %s', [zQry.FieldByName('file_name').AsString,
-        zQry.FieldByName('hash').AsString]);
+      spool.Table_      := zQry.FieldByName('source_table').AsInteger;
+      spool.Recno_      := zQry.FieldByName('source_recno').AsInteger;
+      spool.Description := format('%s %s', [zQry.FieldByName('file_name').AsString, zQry.FieldByName('hash').AsString]);
 
-      U.Data.ExecSQL('update svc_spool set status = ''running'' where recno = %d', [spool.Id]);
+      U.Data.ExecSQL(
+      'update '+
+        'svc_spool '+
+      'set '+
+        'status = ''running'' '+
+      'where '+
+        'recno = %d', [spool.Id]);
 
       FTasks.Add(spool);
 

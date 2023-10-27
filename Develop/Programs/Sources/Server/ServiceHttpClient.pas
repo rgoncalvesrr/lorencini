@@ -4,16 +4,17 @@ interface
 
 uses
   ServiceBase, ServiceCFG, IdBaseComponent, IdComponent, IdTCPConnection, IdTCPClient, IdHTTP, IdIOHandler,
-  IdIOHandlerSocket, IdIOHandlerStack, IdSSL, IdSSLOpenSSL, uLkJSON, Classes, 
+  IdIOHandlerSocket, IdIOHandlerStack, IdSSL, IdSSLOpenSSL, IdZLibCompressorBase, IdCompressorZLib, uLkJSON, Classes,
   SysUtils;
 
 type
   EServiceHttpClient = Exception;
-  
+
   TServiceHttpClient = class(TServiceBase)
   private
     FHttpClient: TIdHTTP;
     FHTTPSSL: TIdSSLIOHandlerSocketOpenSSL;
+    FHTTPCompressor: TIdCompressorZLib;
     FHeaders: TlkJSONobject;
     FBody: TlkJSONobject;
     FURI: string;
@@ -47,7 +48,7 @@ type
 implementation
 
 uses
-  IdGlobal, ZDataset;
+  IdGlobal, ZDataset, DB;
 
 { TServiceHttpClient }
 
@@ -55,12 +56,15 @@ constructor TServiceHttpClient.Create(ConnParam: TServiceCFGConnParams);
 begin
   inherited;
   FHTTPSSL := TIdSSLIOHandlerSocketOpenSSL.Create(nil);
+  FHTTPCompressor := TIdCompressorZLib.Create(nil);
   FHttpClient := TIdHTTP.Create(nil);
   FHttpClient.IOHandler := FHTTPSSL;
+  FHttpClient.Compressor := FHTTPCompressor;
   FResponse := TMemoryStream.Create;
 
   Trash.Add(FHttpClient);
   Trash.Add(FHTTPSSL);
+  Trash.Add(FHTTPCompressor);
   Trash.Add(FResponse);
 end;
 
@@ -90,19 +94,6 @@ begin
   finally
     WriteResponse;
   end;
-
-//        Log(URI);
-//        RequestBody.Position := 0;
-//        Log(ReadStringFromStream(RequestBody));
-//
-//        Log('RawHeaders');
-//        for I := 0 to FHttpClient.Request.RawHeaders.Count - 1 do
-//          Log('%s', [FHttpClient.Request.RawHeaders[I]]);
-//
-//        Log('CustomHeaders');
-//        for I := 0 to FHttpClient.Request.CustomHeaders.Count - 1 do
-//          Log('%s', [FHttpClient.Request.CustomHeaders[I]]);
-//
 end;
 
 procedure TServiceHttpClient.DoGet;
@@ -198,7 +189,7 @@ procedure TServiceHttpClient.WriteResponse;
 var
   js: TlkJSONobject;
   I: Integer;
-  HeaderName, HeaderContent: string;
+  HeaderName, HeaderContent, ResponseBody: string;
   WriteJson: boolean;
   Qry: TZReadOnlyQuery;
 begin
@@ -210,17 +201,17 @@ begin
          'res_body_raw = :res_body_raw '+
    'where recno = :recno');
 
-  Qry.ParamByName('recno').AsInteger := Recno_;
+  Qry.ParamByName('recno').AsInteger    := Recno_;
   Qry.ParamByName('res_code').AsInteger := FHttpClient.ResponseCode;
-  Qry.ParamByName('status').AsString := StatusText;
+  Qry.ParamByName('status').AsString    := StatusText;
 
   js := TlkJSONobject.Create;
   try
     for I := 0 to FHttpClient.Response.RawHeaders.Count - 1 do
     begin
-      HeaderName := FHttpClient.Response.RawHeaders.Names[i];
+      HeaderName    := FHttpClient.Response.RawHeaders.Names[i];
       HeaderContent := FHttpClient.Response.RawHeaders.Values[HeaderName];
-      
+
       js.Add(HeaderName, HeaderContent);
 
       if LowerCase(HeaderName) = 'content-type' then
@@ -233,11 +224,12 @@ begin
 
   if FResponse.Size > 0 then
   begin
-    FResponse.Position := 0;
+    FResponse.Seek(0, soBeginning);
+    ResponseBody := UTF8Decode(ReadStringFromStream(FResponse));
     if WriteJson then
-      Qry.ParamByName('res_body').AsString := UTF8Decode(ReadStringFromStream(FResponse))
+      Qry.ParamByName('res_body').AsString := ResponseBody
     else
-      Qry.ParamByName('res_body_raw').AsString := UTF8Decode(ReadStringFromStream(FResponse));
+      Qry.ParamByName('res_body_raw').AsString := ResponseBody;
   end;
 
   try

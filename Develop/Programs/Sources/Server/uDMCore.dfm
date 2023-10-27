@@ -27,4 +27,8 @@ object dmCore: TdmCore
     Left = 72
     Top = 16
   end
+  object IdCompressorZLib1: TIdCompressorZLib
+    Left = 228
+    Top = 64
+  end
 end
