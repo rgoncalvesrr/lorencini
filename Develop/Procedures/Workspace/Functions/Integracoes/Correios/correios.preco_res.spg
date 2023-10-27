@@ -1,0 +1,63 @@
+/**
+   Recupera um token válido para acesso a API dos correios
+
+	@author    Ricardo Gonçalves
+	@date      23/10/2023
+	@trigger
+
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+create or replace function correios.preco_res(
+   in recno_ bigint)
+returns integer as
+$$
+declare
+   r           record;
+   requisicao_ integer;
+begin
+   select
+      res_body, res_code
+   into
+      r
+   from
+      svc_cliapi
+   where
+      recno = recno_;
+
+   if not Found then
+      raise '[[Requisição % não localizada]]', recno_;
+   end if;
+
+   requisicao_ := (r.res_body->>'nuRequisicao')::integer; 
+
+   update
+      correios.precos
+   set
+      preco_base                       = coalesce(replace(r.res_body->>'pcBase', ',', '.')::moeda$, 0),
+      preco_base_geral                 = coalesce(replace(r.res_body->>'pcBaseGeral', ',', '.')::moeda$, 0),
+      variacao                         = coalesce(replace(r.res_body->>'peVariacao', ',', '.')::percent$, 0),
+      preco_referencia                 = coalesce(replace(r.res_body->>'pcReferencia', ',', '.')::moeda$, 0),
+      base_calculo_imposto             = coalesce(replace(r.res_body->>'vlBaseCalculoImposto', ',', '.')::moeda$, 0),
+      in_peso_cubico                   = r.res_body->>'inPesoCubico' = 'S',
+      peso_cobrado                     = (r.res_body->>'psCobrado')::integer,
+      adicional                        = coalesce(replace(r.res_body->>'peAdValorem', ',', '.')::percent$, 0),
+      seguro_automatico                = coalesce(replace(r.res_body->>'vlSeguroAutomatico', ',', '.')::moeda$, 0),
+      qtd_adicionais                   = (r.res_body->>'qtAdicional')::integer,
+      preco_faixa                      = coalesce(replace(r.res_body->>'pcFaixa', ',', '.')::moeda$, 0),
+      preco_cada_adicional             = coalesce(replace(r.res_body->>'pcCadaAdicional', ',', '.')::moeda$, 0),
+      preco_total_adicional            = coalesce(replace(r.res_body->>'pcTotalAdicional', ',', '.')::moeda$, 0),
+      preco_faixaVariacao              = coalesce(replace(r.res_body->>'pcFaixaVariacao', ',', '.')::moeda$, 0),
+      preco_cada_adicional_variacao    = coalesce(replace(r.res_body->>'pcCadaAdicionalVariacao', ',', '.')::moeda$, 0),
+      preco_total_adicional_variacao   = coalesce(replace(r.res_body->>'pcTotalAdicionalVariacao', ',', '.')::moeda$, 0),
+      preco_produto                    = coalesce(replace(r.res_body->>'pcProduto', ',', '.')::moeda$, 0),
+      preco_final                      = coalesce(replace(r.res_body->>'pcFinal', ',', '.')::moeda$, 0),
+      preco_processado                 = true
+   where
+      recno = requisicao_;
+
+   return requisicao_;
+end;
+$$
+language plpgsql;

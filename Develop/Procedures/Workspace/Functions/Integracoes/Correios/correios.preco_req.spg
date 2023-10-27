@@ -1,0 +1,119 @@
+/**
+   Gerar uma requisicao para cálculo de preços dos correios
+
+	@author    Ricardo Gonçalves
+	@date      23/10/2023
+	@trigger
+
+   @param   requisicao_ recno da tabela correios.precos
+   
+   @return código da requisição gerada
+
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+create or replace function correios.preco_req(
+   in requisicao_ integer)
+returns integer as
+$$
+declare
+   r        public.svc_cliapi%rowtype;
+   rp       correios.precos%rowtype;
+   token_   correios.tokens.token%type;
+   accept_  text := 'application/json';
+begin
+   token_ := correios.autentica_req();
+
+   if token_ = '' then
+      return 0;
+   end if;
+
+   select
+      *
+   into
+      rp
+   from
+      correios.precos p
+   where
+      recno = requisicao_;
+   
+   if not found then
+      raise '[[Parâmetro para cálculo de frete via Correios não localizado. Paramêtro: %s]]', requisicao_;
+   end if;
+
+   -- Requisita a geração de um novo token
+   r.uri := format('%s/preco/v1/nacional/%s?cepDestino=%s&nuRequisicao=%s&cepOrigem=%s&psObjeto=%s&tpObjeto=%s&comprimento=%s&largura=%s&altura=%s', 
+      sys_param('correios_base_url'), 
+      rp.servico,
+      rp.destino,
+      rp.recno,
+      rp.origem,
+      rp.peso,
+      rp.tipo,
+      rp.comprimento,
+      rp.largura,
+      rp.altura);
+
+   if rp.contrato is not null then
+      r.uri := format('%s&nuContrato=%s', r.uri, rp.contrato);
+   end if;
+
+   if rp.contrato_dr is not null then
+      r.uri := format('%s&nuDR=%s', r.uri, rp.contrato_dr);
+   end if;
+
+   if rp.diametro is not null then
+      r.uri := format('%s&diametro=%s', r.uri, rp.diametro);
+   end if;
+   
+   if rp.peso_cubico is not null then
+      r.uri := format('%s&psCubico=%s', r.uri, rp.peso_cubico);
+   end if;
+
+   if rp.valor_declarado > 0 then
+      r.uri := format('%s&vlDeclarado=%s', r.uri, rp.valor_declarado);
+   end if;
+
+   r.req_method   := 'GET';
+   r.status       := 'queue';
+   r.res_callback := 'preco_res';
+   r.env          := 'prod';
+
+   if exists(
+      select
+         1
+      from
+         public.svc_cliapi
+      where
+         uri            = r.uri and
+         req_method     = r.req_method and
+         status         = r.status and
+         res_callback   = r.res_callback and
+         env            = r.env)
+   then
+      return 0;
+   end if;
+
+   r.req_headers := format('{
+      "Content-Type" : "application/json; charset=utf-8",
+      "Accept" : "%s",
+      "Accept-Encoding" : "gzip,deflate,br",
+      "Connection" : "keep-alive",
+      "Authorization" : "Bearer %s"}', 
+      accept_, 
+      token_);
+   
+   insert into public.svc_cliapi (
+      uri, req_method, req_headers, res_callback, status, env)
+   values (
+      r.uri, r.req_method, r.req_headers, r.res_callback, r.status, r.env)
+   returning
+      recno
+   into
+      r.recno;
+
+   return r.recno;
+end;
+$$
+language plpgsql;
