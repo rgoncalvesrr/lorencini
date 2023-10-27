@@ -69,12 +69,15 @@ declare
 begin   
    if analise_.serasa is null then
       request_ := tspeed.scc_consultar_documento(analise_.cliente, tipo_, sys_origem('cred_analise'), analise_.recno, producao_);
-
       -- Recupera informações da consulta
-      select consulta
-        into analise_.serasa
-        from tspeed.cred_cliapi
-       where request = request_;
+      select 
+         consulta
+      into
+         analise_.serasa
+      from
+         tspeed.cred_cliapi
+      where
+         request = request_;
    end if;
 
    return analise_.serasa;

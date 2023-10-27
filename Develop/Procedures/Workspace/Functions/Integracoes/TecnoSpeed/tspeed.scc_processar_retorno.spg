@@ -68,7 +68,7 @@ begin
    end if;
 
    if classe_ is null then
-      raise '[[Não foi possível determinar a classe de pessoal para consulta % request %]]', rres.consulta, recno_;
+      raise '[[Não foi possível determinar a classe de pessoa para consulta % request %]]', rres.consulta, recno_;
    end if;
 
    json_ := jsonb_array_elements((r.res_body->'data'->'message'->>'BlocoInformacoesDoConfirmei')::jsonb);
@@ -99,10 +99,10 @@ begin
    -- =====================================================================================================================================================
    json_ := jsonb_array_elements((r.res_body->'data'->'message'->>'TotalProtesto')::jsonb);
    if json_ is not null then
-      rres.tipo := _PROTESTO;
-      rres.qtd := (json_->>'TotalOcorrencia')::integer;
-      rres.total := (json_->>'ValorTotal')::moeda$;
-      rres.ocorrencia_antiga := json_->>'DataOcorrenciaMaisAntiga';
+      rres.tipo               := _PROTESTO;
+      rres.qtd                := (json_->>'TotalOcorrencia')::integer;
+      rres.total              := (json_->>'ValorTotal')::moeda$;
+      rres.ocorrencia_antiga  := json_->>'DataOcorrenciaMaisAntiga';
       rres.ocorrencia_recente := json_->>'DataOcorrenciaMaisRecente';
 
       perform tspeed.criar_resumo(rres);
@@ -125,9 +125,9 @@ begin
          raise '[[Tipo de anotação financeira desconhecida! Tipo %]]', json_->>'TipoAnotacao';
       end if;
 
-      rres.qtd := (json_->>'TotalOcorrencia')::integer;
-      rres.total := (json_->>'ValorTotalPendencias')::moeda$;
-      rres.ocorrencia_antiga := json_->>'DataOcorrenciaMaisAntiga';
+      rres.qtd                := (json_->>'TotalOcorrencia')::integer;
+      rres.total              := (json_->>'ValorTotalPendencias')::moeda$;
+      rres.ocorrencia_antiga  := json_->>'DataOcorrenciaMaisAntiga';
       rres.ocorrencia_recente := json_->>'DataOcorrenciaMaisRecente';
 
       perform tspeed.criar_resumo(rres);
@@ -140,10 +140,10 @@ begin
    -- =====================================================================================================================================================
    json_ := jsonb_array_elements((r.res_body->'data'->'message'->>'TotalPendenciasInternas')::jsonb);
    if json_ is not null then
-      rres.tipo := _PENDENCIAS;
-      rres.qtd := (json_->>'TotalOcorrencia')::integer;
-      rres.total := (json_->>'ValorTotalPendencias')::moeda$;
-      rres.ocorrencia_antiga := json_->>'DataOcorrenciaMaisAntiga';
+      rres.tipo               := _PENDENCIAS;
+      rres.qtd                := (json_->>'TotalOcorrencia')::integer;
+      rres.total              := (json_->>'ValorTotalPendencias')::moeda$;
+      rres.ocorrencia_antiga  := json_->>'DataOcorrenciaMaisAntiga';
       rres.ocorrencia_recente := json_->>'DataOcorrenciaMaisRecente';
 
       perform tspeed.criar_resumo(rres);
@@ -156,10 +156,10 @@ begin
    -- =====================================================================================================================================================
    json_ := jsonb_array_elements((r.res_body->'data'->'message'->>'TotalChequeSemFundoBacen')::jsonb);
    if json_ is not null then
-      rres.tipo := _CHEQUE;
-      rres.qtd := (json_->>'TotalOcorrencia')::integer;
-      rres.total := 0;
-      rres.ocorrencia_antiga := json_->>'DataOcorrenciaMaisAntiga';
+      rres.tipo               := _CHEQUE;
+      rres.qtd                := (json_->>'TotalOcorrencia')::integer;
+      rres.total              := 0;
+      rres.ocorrencia_antiga  := json_->>'DataOcorrenciaMaisAntiga';
       rres.ocorrencia_recente := json_->>'DataOcorrenciaMaisRecente';
 
       perform tspeed.criar_resumo(rres);

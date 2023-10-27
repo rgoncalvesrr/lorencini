@@ -10,7 +10,7 @@
    Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
 */
 CREATE OR REPLACE FUNCTION b_sys_fn()
-  RETURNS trigger AS
+RETURNS trigger AS
 $$
 Declare
    tablename   varchar;
@@ -34,10 +34,14 @@ BEGIN
       if new.table_recno is null then
          tablename := substr(new.fn, 3, length(new.fn) - 2);
 
-         select recno
-           into new.table_recno
-           from sys_tables
-          where tabela = tablename;
+         select 
+            recno
+         into 
+            new.table_recno
+         from
+            sys_tables
+         where
+            tabela = tablename;
 
          -- Registra tabela caso não exista
          if not FOUND then
@@ -48,7 +52,10 @@ BEGIN
                      (schema_, tabela, descri)
                   values
                      (new.schema_, tablename, tablename)
-                  returning recno into new.table_recno;
+                  returning 
+                     recno 
+                  into 
+                     new.table_recno;
 
                   exit;
                exception
@@ -60,9 +67,12 @@ BEGIN
                end;
             end loop;
          else
-            update sys_tables
-               set schema_ = new.schema_
-             where recno = new.table_recno;
+            update 
+               sys_tables
+            set
+               schema_ = new.schema_
+            where
+               recno = new.table_recno;
          end if;
 
          if new.table_recno is null then
