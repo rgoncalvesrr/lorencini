@@ -63,7 +63,7 @@ implementation
 {$R *.dfm}
 
 uses uDM, uIUtils, mcUtils, DB, ZAbstractRODataset, uSysMenuEditorItem, Types,
-  uIForm, uResources, uMenu;
+  uIForm, uResources, uMain;
 
 { TSysMenuEditor }
 

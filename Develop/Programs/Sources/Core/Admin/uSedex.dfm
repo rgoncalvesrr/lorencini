@@ -1729,6 +1729,7 @@ inherited Sedex: TSedex
         TabOrder = 0
         DecimalPlacesAlwaysShown = False
         OnChange = edAltChange
+        ExplicitLeft = 2
       end
     end
     object Panel11: TPanel

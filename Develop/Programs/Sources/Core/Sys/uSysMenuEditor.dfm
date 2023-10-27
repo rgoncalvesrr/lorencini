@@ -52,13 +52,12 @@ inherited SysMenuEditor: TSysMenuEditor
       Width = 594
       ExplicitWidth = 594
       inherited Label1: TLabel
-        Width = 588
+        Width = 115
         Caption = 'Editor de Menu'
         ExplicitWidth = 115
       end
       inherited Label2: TLabel
-        Width = 581
-        Height = 33
+        Width = 295
         Caption = 'Configurador do menu da tela de abertura do sistema'
         ExplicitWidth = 295
       end

@@ -6,7 +6,7 @@ uses
   SysUtils,
   Windows,
   uHelpers in '..\..\Sources\Common\uHelpers.pas',
-  uMenu in '..\..\Sources\Core\Global\uMenu.pas' {Main},
+  uMain in '..\..\Sources\Core\Global\uMain.pas' {Main},
   uFuncoes in '..\..\Sources\Core\Infra\uFuncoes.pas',
   uIExcept in '..\..\Sources\Core\Class\uIExcept.pas',
   uIUtils in '..\..\Sources\Common\uIUtils.pas',
@@ -334,11 +334,11 @@ begin
     Application.Initialize;
     Application.Title := 'Manager';
     Application.CreateForm(TResources, Resources);
-    Application.CreateForm(TDM, DM);
-    Application.CreateForm(TDMReport, DMReport);
-    Application.CreateForm(TMain, Main);
-    Application.CreateForm(TILogin, ILogin);
-    ILogin.ShowModal;
+  Application.CreateForm(TDM, DM);
+  Application.CreateForm(TDMReport, DMReport);
+  Application.CreateForm(TMain, Main);
+  Application.CreateForm(TILogin, ILogin);
+  ILogin.ShowModal;
 
     if ILogin.Execute then
       Application.Run;

@@ -9,20 +9,20 @@ inherited FichaFin: TFichaFin
   inherited StatusBar1: TStatusBar
     Top = 520
     Width = 899
-    ExplicitTop = 452
-    ExplicitWidth = 823
+    ExplicitTop = 520
+    ExplicitWidth = 899
   end
   inherited Panel1: TPanel
     Width = 905
-    ExplicitWidth = 829
+    ExplicitWidth = 905
     inherited pctlFind: TPageControl
       Width = 895
-      ExplicitWidth = 819
+      ExplicitWidth = 895
       inherited tsQuery: TTabSheet
         ExplicitLeft = 4
         ExplicitTop = 6
-        ExplicitWidth = 811
-        ExplicitHeight = 65
+        ExplicitWidth = 887
+        ExplicitHeight = 75
         object Label3: TLabel [0]
           Left = 5
           Top = 3
@@ -43,30 +43,37 @@ inherited FichaFin: TFichaFin
           Top = 48
           Width = 128
           Height = 15
-          Caption = '01/01/2019 a 28/02/2019'
+          Caption = '01/10/2023 a 23/10/2023'
+        end
+        inherited BitBtn2: TBitBtn
+          Left = 786
         end
         inline FrameData1: TFrameData
           Left = 5
           Top = 23
           Width = 156
           Height = 23
+          AutoSize = True
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = 'Segoe UI'
+          Font.Pitch = fpVariable
+          Font.Style = []
+          ParentFont = False
           TabOrder = 1
           ExplicitLeft = 5
           ExplicitTop = 23
           ExplicitWidth = 156
-          ExplicitHeight = 23
           inherited ComboBox1: TComboBox
             Width = 156
-            Height = 23
-            ItemHeight = 15
             ItemIndex = 6
             Text = 'Trimestralmente at'#233' hoje'
             ExplicitWidth = 156
-            ExplicitHeight = 23
           end
           inherited CCalendarDiff1: TCCalendarDiff
             Interval = diQuarterlyToDate
-            Date = 43524.835609409730000000
+            Date = 45222.908569305550000000
             DisplayInterval = Label4
             OnChange = FrameData1CCalendarDiff1Change
           end
@@ -107,24 +114,24 @@ inherited FichaFin: TFichaFin
   end
   inherited Panel2: TPanel
     Width = 905
-    Height = 398
-    ExplicitWidth = 829
-    ExplicitHeight = 330
+    Height = 388
+    ExplicitWidth = 905
+    ExplicitHeight = 388
     inherited PageControl1: TPageControl
       Width = 899
-      Height = 392
-      ExplicitWidth = 823
-      ExplicitHeight = 324
+      Height = 382
+      ExplicitWidth = 899
+      ExplicitHeight = 382
       inherited TabSheet1: TTabSheet
         Caption = 'Extrato Financeiro'
         ExplicitLeft = 4
         ExplicitTop = 26
-        ExplicitWidth = 815
-        ExplicitHeight = 294
+        ExplicitWidth = 891
+        ExplicitHeight = 352
         inherited DBGrid1: TDBGrid
-          Top = 110
-          Width = 891
-          Height = 168
+          Top = 113
+          Width = 885
+          Height = 152
           OnDrawColumnCell = DBGrid1DrawColumnCell
         end
         object Panel3: TPanel
@@ -137,7 +144,6 @@ inherited FichaFin: TFichaFin
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 1
-          ExplicitWidth = 809
           object lbSaldoAntValor: TLabel
             AlignWithMargins = True
             Left = 530
@@ -148,7 +154,6 @@ inherited FichaFin: TFichaFin
             Align = alRight
             Caption = 'R$ 0,00'
             Layout = tlCenter
-            ExplicitLeft = 454
             ExplicitHeight = 15
           end
           object lbSaldoAnt: TLabel
@@ -160,7 +165,6 @@ inherited FichaFin: TFichaFin
             Align = alRight
             Caption = 'Saldo Anterior:'
             Layout = tlCenter
-            ExplicitLeft = 370
             ExplicitHeight = 15
           end
           object lbSaldo: TLabel
@@ -172,7 +176,6 @@ inherited FichaFin: TFichaFin
             Align = alRight
             Caption = 'Saldo em 29/07/2016:'
             Layout = tlCenter
-            ExplicitLeft = 509
             ExplicitHeight = 15
           end
           object lbSaldoValor: TLabel
@@ -185,7 +188,6 @@ inherited FichaFin: TFichaFin
             Align = alRight
             Caption = 'R$ 0,00'
             Layout = tlCenter
-            ExplicitLeft = 628
             ExplicitHeight = 15
           end
           object lbSaldoFut: TLabel
@@ -197,7 +199,6 @@ inherited FichaFin: TFichaFin
             Align = alRight
             Caption = 'Saldo futuro:'
             Layout = tlCenter
-            ExplicitLeft = 683
             ExplicitHeight = 15
           end
           object lbSaldoFutValor: TLabel
@@ -210,7 +211,6 @@ inherited FichaFin: TFichaFin
             Align = alRight
             Caption = 'R$ 0,00'
             Layout = tlCenter
-            ExplicitLeft = 757
             ExplicitHeight = 15
           end
           object lbSaldoCobrar: TLabel
@@ -247,7 +247,6 @@ inherited FichaFin: TFichaFin
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 2
-          ExplicitWidth = 809
           object lbCliente: TLabel
             AlignWithMargins = True
             Left = 3
@@ -292,14 +291,12 @@ inherited FichaFin: TFichaFin
         end
         object GroupBox1: TGroupBox
           Left = 0
-          Top = 278
+          Top = 268
           Width = 891
           Height = 84
           Align = alBottom
           Caption = ' Hist'#243'rico '
           TabOrder = 3
-          ExplicitTop = 210
-          ExplicitWidth = 815
           object DBMemo1: TDBMemo
             AlignWithMargins = True
             Left = 5
@@ -310,7 +307,6 @@ inherited FichaFin: TFichaFin
             DataField = 'historico'
             DataSource = DataSource1
             TabOrder = 0
-            ExplicitWidth = 805
           end
         end
         object ControlBar1: TControlBar
@@ -325,7 +321,6 @@ inherited FichaFin: TFichaFin
           BevelKind = bkNone
           DrawingStyle = dsGradient
           TabOrder = 4
-          ExplicitWidth = 809
           object ToolBar2: TToolBar
             Left = 11
             Top = 2
@@ -358,7 +353,7 @@ inherited FichaFin: TFichaFin
   end
   inherited ctrlBarTop: TControlBar
     Width = 899
-    ExplicitWidth = 823
+    ExplicitWidth = 899
     inherited ToolBar1: TToolBar
       Width = 810
       ExplicitWidth = 810

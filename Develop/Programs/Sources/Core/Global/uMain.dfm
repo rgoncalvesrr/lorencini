@@ -1,125 +1,210 @@
-inherited Main: TMain
-  Left = 712
-  Top = 199
-  Caption = 'Gerenciador Lorencini'
-  ClientHeight = 113
-  ClientWidth = 418
+object Main: TMain
+  Left = 273
+  Top = 112
+  Caption = 'Lorencini Brasil'
+  ClientHeight = 775
+  ClientWidth = 1058
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Segoe UI'
+  Font.Style = []
   Menu = MainMenu1
-  OldCreateOrder = True
+  OldCreateOrder = False
+  Position = poDefault
   OnActivate = FormActivate
-  ExplicitWidth = 426
-  ExplicitHeight = 159
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnResize = FormResize
+  OnShow = FormShow
   PixelsPerInch = 96
-  TextHeight = 14
-  inherited alDef: TActionList
-    inherited actOk: TAction
-      Enabled = False
-    end
-    inherited actCancel: TAction
-      Enabled = False
-    end
-    object actFunc: TAction
-      Caption = 'Funcion'#225'rios...'
-      OnExecute = actFuncExecute
-    end
-    object actCli: TAction
-      Caption = 'Clientes...'
-    end
-    object actForn: TAction
-      Caption = 'Fornecedores...'
-      OnExecute = actFornExecute
-    end
-    object actGrpPro: TAction
-      Caption = 'Grupo de Produtos...'
-      OnExecute = actGrpProExecute
-    end
-    object actPro: TAction
-      Caption = 'Produtos...'
-      OnExecute = actProExecute
-    end
-    object actFuncao: TAction
-      Caption = 'Fun'#231#245'es (M'#227'o-de-Obra)...'
-      OnExecute = actFuncaoExecute
-    end
-    object actEquip: TAction
-      Caption = 'Equipamentos (Loca'#231#245'es)...'
-      OnExecute = actEquipExecute
-    end
-    object actSGrpPro: TAction
-      Caption = 'Subgrupo de Produtos...'
-      OnExecute = actSGrpProExecute
-    end
-    object actVend: TAction
-      Caption = 'Vendedores...'
-      OnExecute = actVendExecute
-    end
-    object actClose: TWindowClose
-      Category = 'Window'
-      Caption = 'Fechar'
-      Hint = 'Close'
-      ShortCut = 32883
-      OnExecute = actCloseExecute
-    end
+  TextHeight = 13
+  object StatusBar1: TStatusBar
+    Left = 0
+    Top = 749
+    Width = 1058
+    Height = 26
+    BorderWidth = 1
+    Panels = <
+      item
+        Alignment = taCenter
+        Bevel = pbNone
+        Text = 'Usu'#225'rio'
+        Width = 50
+      end
+      item
+        Alignment = taCenter
+        Width = 50
+      end
+      item
+        Alignment = taCenter
+        Bevel = pbNone
+        Text = 'Data'
+        Width = 50
+      end
+      item
+        Alignment = taCenter
+        Width = 50
+      end
+      item
+        Alignment = taCenter
+        Bevel = pbNone
+        Text = 'Servidor'
+        Width = 50
+      end
+      item
+        Alignment = taCenter
+        Width = 50
+      end
+      item
+        Alignment = taCenter
+        Bevel = pbNone
+        Text = 'Banco'
+        Width = 50
+      end
+      item
+        Alignment = taCenter
+        Width = 50
+      end
+      item
+        Alignment = taCenter
+        Width = 50
+      end>
   end
-  object MainMenu1: TMainMenu
-    Left = 72
-    Top = 24
-    object Cadastros1: TMenuItem
-      Caption = 'Cadastros'
-      object Funcionrios1: TMenuItem
-        Action = actFunc
+  object ControlBar1: TControlBar
+    AlignWithMargins = True
+    Left = 3
+    Top = 3
+    Width = 1052
+    Height = 46
+    Align = alTop
+    AutoSize = True
+    BevelEdges = []
+    BevelInner = bvNone
+    BevelOuter = bvNone
+    BevelKind = bkNone
+    DrawingStyle = dsGradient
+    TabOrder = 1
+    object ToolBar2: TToolBar
+      Left = 11
+      Top = 2
+      Width = 840
+      Height = 42
+      AutoSize = True
+      BorderWidth = 1
+      ButtonHeight = 38
+      ButtonWidth = 153
+      Caption = 'ToolBar2'
+      DisabledImages = Resources.large_d
+      DrawingStyle = dsGradient
+      HotImages = Resources.large_h
+      Images = Resources.large_n
+      List = True
+      AllowTextButtons = True
+      TabOrder = 0
+      object tbRole: TToolButton
+        Left = 0
+        Top = 0
+        Caption = 'Usu'#225'rio Comun'
+        DropdownMenu = pmRole
+        ImageIndex = 389
+        Style = tbsTextButton
       end
-      object Clientes1: TMenuItem
-        Action = actCli
+      object ToolButton12: TToolButton
+        Left = 127
+        Top = 0
+        Width = 8
+        Caption = 'ToolButton12'
+        ImageIndex = 4
+        Style = tbsSeparator
       end
-      object Fornecedores1: TMenuItem
-        Action = actForn
+      object ToolButton10: TToolButton
+        Left = 135
+        Top = 0
+        Action = actChangePass
+        Style = tbsTextButton
       end
-      object N1: TMenuItem
-        Caption = '-'
+      object ToolButton1: TToolButton
+        Left = 257
+        Top = 0
+        Action = actFichaFinDesp
+        Caption = 'Registro de Despesas'
+        Style = tbsTextButton
       end
-      object GrupodeProdutos1: TMenuItem
-        Action = actGrpPro
+      object ToolButton11: TToolButton
+        Left = 414
+        Top = 0
+        Action = actVersion
       end
-      object SubgrupodeProdutos1: TMenuItem
-        Action = actSGrpPro
+      object ToolButton13: TToolButton
+        Left = 454
+        Top = 0
+        Width = 8
+        Caption = 'ToolButton13'
+        ImageIndex = 191
+        Style = tbsSeparator
       end
-      object Produtos1: TMenuItem
-        Action = actPro
-      end
-      object N2: TMenuItem
-        Caption = '-'
-      end
-      object FunesModeObra1: TMenuItem
-        Action = actFuncao
-      end
-      object EquipamentosLocaes1: TMenuItem
-        Action = actEquip
-      end
-      object Vendedores1: TMenuItem
-        Action = actVend
-      end
-      object N3: TMenuItem
-        Caption = '-'
-      end
-      object Fechar1: TMenuItem
+      object ToolButton14: TToolButton
+        Left = 462
+        Top = 0
         Action = actClose
       end
     end
-    object Apontamento1: TMenuItem
-      Caption = 'Apontamento'
+  end
+  object Timer1: TTimer
+    Enabled = False
+    OnTimer = Timer1Timer
+    Left = 136
+    Top = 88
+  end
+  object ActionList1: TActionList
+    Images = Resources.small_n
+    Left = 80
+    Top = 88
+    object actClose: TAction
+      Caption = 'Encerrar'
+      ImageIndex = 124
+      ShortCut = 32883
+      OnExecute = actCloseExecute
     end
-    object Laboratrio1: TMenuItem
-      Caption = 'Laborat'#243'rio'
+    object actChangePass: TAction
+      Caption = 'Trocar Senha...'
+      Hint = 'Trocar Senha...'
+      ImageIndex = 199
+      OnExecute = actChangePassExecute
     end
-    object Job1: TMenuItem
-      Caption = 'Job'
+    object actVersion: TAction
+      Caption = 'Vers'#227'o...'
+      ImageIndex = 190
+      OnExecute = actVersionExecute
     end
-    object Oramentos1: TMenuItem
-      Caption = 'Or'#231'amentos'
+    object actSysDump: TAction
+      Caption = 'Rotina de Atualiza'#231#227'o'
+      ImageIndex = 138
+      ShortCut = 16497
+      OnExecute = actSysDumpExecute
     end
-    object Relatrios1: TMenuItem
-      Caption = 'Relat'#243'rios'
+    object actFichaFinDesp: TAction
+      Hint = 'Lan'#231'amento de Despesas para Clientes'
+      ImageIndex = 80
+      OnExecute = actFichaFinDespExecute
     end
+  end
+  object MainMenu1: TMainMenu
+    Left = 24
+    Top = 88
+  end
+  object actRunTime: TActionList
+    Images = Resources.small_n
+    Left = 192
+    Top = 88
+    object Action1: TAction
+      Caption = 'Action1'
+    end
+  end
+  object pmRole: TPopupMenu
+    Left = 24
+    Top = 136
   end
 end
