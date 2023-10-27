@@ -1,0 +1,49 @@
+/**
+   Processa retorno da autenticação do correio
+
+	@author    Ricardo Gonçalves
+	@date      23/10/2023
+	@trigger
+
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+create or replace function correios.autentica_res(
+   recno_   bigint)
+returns text as
+$$
+declare
+   r     record;
+   rt    correios.tokens%rowtype;
+begin
+   select
+      res_body, res_code, env
+   into
+      r
+   from
+      svc_cliapi
+   where
+      recno = recno_;
+
+   if not Found then
+      raise '[[Requisição % não localizada]]', recno_;
+   end if;
+
+   rt.id       := r.res_body->>'id';
+   rt.ambiente := r.res_body->>'ambiente';
+   rt.perfil   := r.res_body->>'perfil';
+   rt.cnpj     := r.res_body->>'cnpj';
+   rt.token    := r.res_body->>'token';
+   rt.emissao  := r.res_body->>'emissao';
+   rt.expiracao:= r.res_body->>'expiraEm';
+
+   insert into correios.tokens
+      (token,    ambiente,    id,    perfil,    cnpj,    emissao,    expiracao)
+   values
+      (rt.token, rt.ambiente, rt.id, rt.perfil, rt.cnpj, rt.emissao, rt.expiracao);
+
+   return rt.token;
+end;
+$$
+language plpgsql;

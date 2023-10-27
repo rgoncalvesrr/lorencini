@@ -1,0 +1,87 @@
+/**
+   Recupera um token válido para acesso a API dos correios
+
+	@author    Ricardo Gonçalves
+	@date      23/10/2023
+	@trigger
+
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+create or replace function correios.autentica_req()
+returns text as
+$$
+declare
+   token_      correios.tokens.token%type;
+   r           public.svc_cliapi%rowtype;
+   basic_auth_ text;
+   accept_     text := '*/*';
+begin
+   select 
+      token
+   into
+      token_
+   from
+      correios.tokens
+   where
+      expiracao >= clock_timestamp()
+   order by 
+      expiracao
+   limit
+      1;
+   
+   if found then
+      return token_;
+   end if;
+
+   token_ := '';
+   
+   -- Requisita a geração de um novo token
+   r.uri          := format('%s/token/v1/autentica/cartaopostagem', sys_param('correios_base_url'));
+   r.req_method   := 'POST';
+   r.status       := 'queue';
+   r.res_callback := 'autentica_res';
+   r.env          := 'prod';
+
+   if exists(
+      select
+         1
+      from
+         public.svc_cliapi
+      where
+         uri            = r.uri and
+         req_method     = r.req_method and
+         status         = r.status and
+         res_callback   = r.res_callback and
+         env            = r.env)
+   then
+      return token_;
+   end if;
+
+   basic_auth_ := encode(format('%s:%s', sys_param('correios_id'), sys_param('correios_token_api'))::bytea, 'base64');
+
+   r.req_body := format('{"numero" : "%s"}', sys_param('correios_cartao'));
+
+   r.req_headers := format('{
+      "Content-Type" : "application/json; charset=utf-8",
+      "Accept" : "%s",
+      "Accept-Encoding" : "gzip,deflate,br",
+      "Connection" : "keep-alive",
+      "Authorization" : "Basic %s"}', 
+      accept_, 
+      basic_auth_);
+   
+   insert into public.svc_cliapi (
+      uri, req_method, req_headers, req_body, res_callback, status, env)
+   values (
+      r.uri, r.req_method, r.req_headers, r.req_body, r.res_callback, r.status, r.env)
+   returning
+      recno
+   into
+      r.recno;
+
+   return token_;
+end;
+$$
+language plpgsql;
