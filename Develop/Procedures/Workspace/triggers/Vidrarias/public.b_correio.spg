@@ -1,0 +1,53 @@
+/**
+   Pré-processamento de lançamentos de frete (sedex)
+
+	@author    Ricardo Gonçalves
+	@date      30/09/2016 00:58:39
+	@trigger   correio B IUD
+
+	Histórico
+	---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+   28/10/2023  Ricardo  
+      [+] Adiciona preenchimento da conta que gerou o registro do cálculo
+*/
+CREATE OR REPLACE FUNCTION public.b_correio()
+RETURNS trigger AS
+$$
+declare
+   cep_  varchar;   
+   cepd_ varchar;
+BEGIN
+   if tg_op = 'DELETE' then
+      return old;
+   end if;
+
+   new.account := coalesce(new.account, sys_account());      
+
+   if new.status = 2 then
+      new.valor         := new.valor * new.volumes;
+      new.valorc        := new.valor * (1 + new.fator / 100);
+      new.correiovalor  := new.valorc;
+      new.correiopeso   := new.peso;
+   end if;
+
+   select 
+      replace(trim(coalesce(ent_cep, fat_cep, cep)), '-', '')
+   into
+      cep_
+   from
+      tbclientes
+   where
+      codigo = new.codigo;
+   
+   if new.cepd <> cep_ then
+      cep_  := format('%s-%s', substring(cep_, 1, 5), substring(cep_, 6, 3));
+      cepd_ := format('%s-%s', substring(new.cepd, 1, 5), substring(new.cepd, 6, 3));
+      new.obs := coalesce(new.obs || chr(13) || chr(10), '') || Format('CEP de destino %s difere do CEP do cliente %s', cepd_, cep_);
+   end if;
+
+   return new;
+END;
+$$
+LANGUAGE 'plpgsql';
+
