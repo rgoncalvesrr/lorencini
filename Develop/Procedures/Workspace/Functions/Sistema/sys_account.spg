@@ -10,19 +10,23 @@
    Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
 */
 CREATE OR REPLACE FUNCTION sys_account()
-  RETURNS account$ AS
+RETURNS account$ AS
 $$
 Declare
    account_    sys_accounts.recno%type;
    session_    session$;
 BEGIN
    session_ := sys_session();
-   select account
-     into account_
-     from sys_sessions
-    where session = session_;
+   select
+      account
+   into
+      account_
+   from
+      sys_sessions
+   where
+      session = session_;
 
    return account_;
 END;
 $$
-  LANGUAGE 'plpgsql' VOLATILE;
+LANGUAGE 'plpgsql' VOLATILE;

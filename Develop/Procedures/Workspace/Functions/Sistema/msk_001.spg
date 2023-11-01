@@ -15,7 +15,7 @@ Returns varchar
 As
 $$
 Begin
-   return trim(to_char(coalesce(in_integer, 0), '999999999990'));
+   return to_char(coalesce(in_integer, 0), 'FM999999999990');
 End
 $$
 language plpgsql;

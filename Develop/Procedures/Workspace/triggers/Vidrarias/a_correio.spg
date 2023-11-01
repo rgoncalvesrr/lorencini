@@ -10,51 +10,59 @@
    Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
 */
 CREATE OR REPLACE FUNCTION a_correio()
-  RETURNS trigger AS
+RETURNS trigger AS
 $$
 Declare
    _REMEMSSA   constant integer := 1;
 
-   thistorico  fin_caixa.historico%type;
+   historico_  fin_caixa.historico%type;
+   docto_      fin_caixa.docto%type;
+   valor_      fin_caixa.valor%type;
    fvalor      fin_caixa.valor%type;
+
    r           record;
 BEGIN
    if tg_op = 'UPDATE' then
       if new.status = 3 and (old.status < 3 or new.correiovalor <> old.correiovalor) then
-         select p.frascos, p.seringas, lp.nf, lp.nf_serie, lp.recno
-           into r
-           from labproc p
-                left join labport lp
-                  on lp.labproc_recno = p.recno
-                 and lp.operac = _REMEMSSA
-          where correio = new.recno;
+         select 
+            p.frascos, p.seringas, lp.nf, lp.nf_serie, lp.recno
+         into
+            r
+         from
+            labproc p
+         left join
+            labport lp on 
+            lp.labproc_recno = p.recno and
+            lp.operac = _REMEMSSA
+         where
+            correio = new.recno;
 
-         thistorico := 'Frete referente ao envio de ';
+         historico_ := 'Frete referente ao envio de ';
          if r.frascos > 0 then
-            thistorico := thistorico || r.frascos || ' frasco';
+            historico_ := historico_ || r.frascos || ' frasco';
 
             if r.frascos > 1 then
-               thistorico := thistorico || 's';
+               historico_ := historico_ || 's';
             end if;
 
-            thistorico := thistorico || ' ';
+            historico_ := historico_ || ' ';
 
             if r.seringas > 0 then
-               thistorico := thistorico || 'e ';
+               historico_ := historico_ || 'e ';
             end if;
          end if;
 
          if r.seringas > 0 then
-            thistorico := thistorico || r.seringas || ' seringa';
+            historico_ := historico_ || r.seringas || ' seringa';
 
             if r.seringas > 1 then
-               thistorico := thistorico || 's';
+               historico_ := historico_ || 's';
             end if;
          end if;
 
          if r.nf is not null then
-            thistorico := thistorico || chr(13) || chr(10);
-            thistorico := thistorico || format('Remessa %s. NF: %s Série: %s', to_char(r.recno, 'FM99990'), 
+            historico_ := historico_ || chr(13) || chr(10);
+            historico_ := historico_ || format('Remessa %s. NF: %s Série: %s', to_char(r.recno, 'FM99990'), 
                to_char(r.nf, 'FM999999990'), to_char(r.nf_serie, 'FM990'));
          end if;
 
@@ -63,18 +71,23 @@ BEGIN
             perform fin_caixaEstornar(sys_origem('correio'), old.recno);
          end if;
 
-         thistorico := thistorico || chr(13) || chr(10);
-         thistorico := thistorico || 'Código de rastreamento ' || coalesce(new.rastreio, 'não informado');
+         historico_ := historico_ || chr(13) || chr(10);
+         historico_ := historico_ || 'Código de rastreamento ' || coalesce(new.rastreio, 'não informado');
+
+         docto_ := 'Sedex ' || new.recno;
+         valor_ := -1 * new.correiovalor; 
 
          -- Gerando débito
          insert into fin_caixa
-            (codigo, data, docto, historico, valor, _tabela, _recno)
+            (codigo,     data,         docto,  historico, valor,  _tabela,                _recno)
          values
-            (new.codigo, current_date, 'Sedex ' || new.recno, thistorico,
-             -1 * new.correiovalor, sys_origem('correio'), new.recno);
+            (new.codigo, current_date, docto_, historico_, valor_, sys_origem('correio'), new.recno);
       end if;
 
       if new.status = 4 and old.status <> 4 then
+
+
+      
          -- Gerando estorno
          perform fin_caixaEstornar(sys_origem('correio'), old.recno);
       end if;

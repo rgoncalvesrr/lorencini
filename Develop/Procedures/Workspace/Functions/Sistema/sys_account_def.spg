@@ -10,7 +10,7 @@
    Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
 */
 create or replace function sys_account_def()
-  RETURNS account$ as
+RETURNS account$ as
 $$
 Declare
    role_       constant integer = 1;
@@ -19,10 +19,14 @@ Declare
    password_   varchar = md5(sys_param('smtp_pass'));
    account_    sys_accounts.recno%type;
 BEGIN
-   select account
-     into account_
-     from contatos
-    where email = email_;
+   select 
+      account
+   into
+      account_
+   from
+      contatos
+   where
+      email = email_;
 
    if not found then
       insert into sys_accounts
@@ -43,15 +47,21 @@ BEGIN
    end if;
 
    if not exists(
-      select 1
-        from sys_sessions
-       where account = account_)
+      select
+         1
+      from
+         sys_sessions
+      where
+         account = account_)
    then
       perform sys_session_create(account_);
    else
-      update sys_sessions
-         set heartbeat = clock_timestamp()
-       where account = account_;
+      update 
+         sys_sessions
+      set
+         heartbeat = clock_timestamp()
+      where
+         account = account_;
    end if;
 
    return account_;
