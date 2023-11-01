@@ -28,6 +28,8 @@ alter table correios.tokens owner to lorencini;
 
 create table if not exists correios.precos (
    recno serial not null,
+   cliente integer not null,
+   emissao timestamp default(clock_timestamp()) not null,
    servico varchar(5) not null,
    origem cep$ not null,
    destino cep$ not null,
@@ -67,9 +69,18 @@ create table if not exists correios.precos (
    prazo_mensagem text,
    preco_processado boolean default(false),
    prazo_processado boolean default(false),
+   account account$,
+   obs text,
+   fator percent$ default(48) not null,
    constraint pk_precos primary key(recno),
    constraint fk_precos_1 foreign key (servico) 
       references public.correioserv(servico)
+      on update cascade on delete cascade,
+   constraint fk_precos_2 foreign key (account) 
+      references public.sys_accounts(recno)
+      on update cascade on delete cascade,
+   constraint fk_precos_3 foreign key (cliente) 
+      references public.tbclientes(codigo)
       on update cascade on delete cascade,
    constraint ck_precos_1 check (origem <> destino));
 
@@ -79,3 +90,15 @@ insert into sys_tables
    (schema_, tabela, descri)
 values
    ('correios', 'precos', 'Tabela de requisições de cálculo de frete Correios');
+
+alter table public.correio
+   add calculo integer,
+   add account account$,
+   add constraint fk_correio_3 foreign key(calculo)
+      references correios.precos(recno)
+      on update cascade on delete set null,
+   add constraint fk_correio_4 foreign key(account)
+      references public.sys_accounts(recno)
+      on update cascade on delete set null,
+   add constraint uk_correio_5 unique(calculo);
+

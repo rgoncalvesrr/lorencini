@@ -17,7 +17,6 @@ type
   end;
 
   TSedex = class(TIWizard)
-    ACBrSedex1: TACBrSedex;
     Panel2: TPanel;
     Panel3: TPanel;
     Panel4: TPanel;
@@ -95,7 +94,9 @@ type
     procedure edDestinoChange(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure actOkExecute(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
+    FCalculo: Integer;
     FCorreio: Integer;
     FServicos: TComboList;
     procedure SetAltura(const Value: Double);
@@ -137,17 +138,16 @@ type
     FFrascos: Integer;
     FSeringas: Integer;
     FCalculos: ICalculos;
+    procedure RemoveCalculoAnterior;
     procedure PeencherServicos;
     procedure Log(Message: string);
     procedure LogClear;
-    procedure CalcCorrigido;
 
     procedure SetCorreio(const Value: Integer);
     procedure SetDestinatario(const Value: Integer);
     procedure SetFrascos(const Value: Integer);
     procedure SetSeringas(const Value: Integer);
     procedure SetCalculos(const Value: ICalculos);
-    function CodeToService(Value: string): TACBrTpServico;
   public
     { Public declarations }
     procedure Calcular;
@@ -180,134 +180,144 @@ var
 
 implementation
 
-uses uResources;
+uses uResources, DateUtils;
 
 {$R *.dfm}
 
 { TSedex }
 
 procedure TSedex.actCalcExecute(Sender: TObject);
+var
+  Calculo: Integer;
+  timeout: TDateTime;
+  Cursor: TCursor;
 begin
   inherited;
   actCalc.Enabled := False;
-  actOk.Enabled := False;
-  Application.ProcessMessages;
-
-  if Assigned(FCalculos) then
-  begin
-    FCalculos.CalcularVolume(Self);
-    FCalculos.CalcularPeso(Self);
-  end;
-
-  Valor := 0;
-  Prazo := 0;
-  LogClear;
-  Log('Consultando correios... Aguarde...');
+  actOk.Enabled   := False;
+  actCalc.Enabled := False;
+  Cursor := Screen.Cursor;
+  Screen.Cursor := crHourGlass;
   try
-    with ACBrSedex1 do
+    RemoveCalculoAnterior;
+
+    if Assigned(FCalculos) then
+    begin
+      FCalculos.CalcularVolume(Self);
+      FCalculos.CalcularPeso(Self);
+    end;
+
+    Valor := 0;
+    Prazo := 0;
+
+    LogClear;
+    Log('Consultando correios... Aguarde...');
+
+    with U.Data.Query do
     try
-      CepOrigem := '09890510';
-      CepDestino := Self.Destino;
-      Comprimento := Self.Comprimento;
-      Altura := Self.Altura;
-      Largura := Self.Largura;
-      Diametro := Self.Diametro;
-      Volumes := Self.Volumes;
-      Peso := Self.Peso;
-      Servico := CodeToService(FServicos.Selected.Value);
+      SQL.Text :=
+      'insert into correios.precos ( '+
+        'cliente, servico, origem, destino, peso, tipo, comprimento, largura, altura, diametro, volumes, '+
+        'fator, obs) '+
+      'values ( '+
+        ':cliente, :servico, :origem, :destino, :peso, :tipo, :comprimento, :largura, :altura, :diametro, :volumes, '+
+        ':fator, :obs) '+
+      'returning '+
+	      'recno;';
 
-      Consultar;
+      ParamByName('cliente').AsInteger      := CliCodigo;
+      ParamByName('servico').AsString       := FServicos.Selected.Value;
+
+      if Destino <> EmptyStr then
+        ParamByName('destino').AsString     := Destino;
+
+      ParamByName('Comprimento').AsInteger  := Round(Comprimento);
+      ParamByName('Altura').AsInteger       := Round(Altura);
+      ParamByName('Largura').AsInteger      := Round(Largura);
+      ParamByName('Diametro').AsInteger     := Round(Diametro);
+      ParamByName('Volumes').AsInteger      := Round(Volumes);
+      ParamByName('Peso').AsInteger         := Round(Peso * 1000);
+      ParamByName('fator').AsFloat          := Fator;
+      ParamByName('obs').AsString           := Descri;
+
+      case cbFormato.ItemIndex of
+        0: ParamByName('tipo').AsInteger := 2;
+        1: ParamByName('tipo').AsInteger := 3;
+        2: ParamByName('tipo').AsInteger := 1;
+      end;
+
+      Open;
+
+      Calculo := Fields[0].AsInteger;
+
+      SQL.Text :=
+      'select correios.calcular_frete(:calculo)';
+
+      ParamByName('calculo').AsInteger := Calculo;
+
+      Open;
+
+      timeout := IncSecond(Now, 5);
+
+      while (Fields[0].AsInteger = 0) and (Now <= timeout) do
+      begin
+        Sleep(200);
+        Close;
+        Open;
+      end;
+
+      if Now > timeout then
+      begin
+        Log('Integração com o site dos Correios falhou! Verifique se o monitor está no ar e se há conexão com a internet');
+        Exit;
+      end;
+
+      FCalculo := Fields[0].AsInteger;
+
+      SQL.Text :=
+      'select '+
+        'cepd, valor, valorc, prazo, descri, obs '+
+      'from '+
+        'public.correio '+
+      'where '+
+        'recno = :calculo';
+
+      ParamByName('calculo').AsInteger := FCalculo;
+
+      Open;
+
+      Valor           := FieldByName('valor').AsFloat;
+      Prazo           := FieldByName('prazo').AsInteger;
+      ValorCorrigido  := FieldByName('valorc').AsFloat;
+      Descri          := FieldByName('descri').AsString;
+
+      if Destino = EmptyStr then
+        Destino := FieldByName('cepd').AsString;
+
       LogClear;
+      Log(FieldByName('obs').AsString);
 
-      if retMsgErro <> EmptyStr then
-        Log(retMsgErro);
-
-      // Multiplicação do valor pela quantidade de volumes incluída por solicitação do sr. João
-      // O serviço do correio não está levando em consideração os volumes.
-      Self.Valor := retValor * Volumes;
-      Self.Prazo := retPrazoEntrega;
-      CalcCorrigido;
-      actOk.Enabled := (ValorCorrigido > 0);      
+      Close;
     except
       on E:Exception do
         Log(E.Message);
     end;
   finally
+    Screen.Cursor := Cursor;
     actCalc.Enabled := True;
+    actCancel.Enabled := True;
+    actOk.Enabled := (ValorCorrigido > 0);
+
+    if not actOk.Enabled then
+      Log('O frete não pode ser confirmado porque o valor final está zerado!');
   end;
 end;
 
 procedure TSedex.actOkExecute(Sender: TObject);
-var
-  stmt: string;
 begin
-  // Registrando cálculo
-  with U.Data.Query do
-  try
-    ParamCheck := True;
-    if FCorreio <= 0 then
-    begin
-      SQL.Text := 'select nextval(''correio_recno_seq'')';
-      Open;
-      FCorreio := Fields[0].AsInteger;
-      Close;
-
-      stmt :=
-      'INSERT INTO correio( '+
-        'recno, servico, formato, cepo, cepd, volumes, peso, prazo, '+
-        'diametro, comprimento, altura, largura, fator, valor, valorc, obs, '+
-        'descri, codigo) '+
-      'values ( '+
-        ':recno, :servico, :formato, :cepo, :cepd, :volumes, :peso, :prazo, '+
-        ':diametro, :comprimento, :altura, :largura, :fator, :valor, :valorc, :obs, '+
-        ':descri, :codigo);';
-    end else
-      stmt :=
-      'update correio set '+
-        'servico = :servico, formato = :formato, cepo = :cepo, cepd = :cepd, '+
-        'volumes = :volumes, peso = :peso, diametro = :diametro, prazo = :prazo, '+
-        'comprimento = :comprimento, altura = :altura, largura = :largura, '+
-        'fator = :fator, valor = :valor, valorc = :valorc, obs = :obs,  '+
-        'descri = :descri, codigo = :codigo '+
-       'where recno = :recno; ';
-
-    SQL.Clear;
-    SQL.Add(stmt);
-    
-    ParamByName('recno').AsInteger := FCorreio;
-    ParamByName('servico').AsString := Servico;
-    ParamByName('formato').AsInteger := Formato;
-    ParamByName('cepo').AsString := StringReplace(ACBrSedex1.CepOrigem, '-', EmptyStr, []);
-    ParamByName('cepd').AsString := StringReplace(Destino, '-', EmptyStr, []);
-    ParamByName('volumes').AsFloat := Volumes;
-    ParamByName('peso').AsFloat := Peso;
-    ParamByName('diametro').AsFloat := Diametro;
-    ParamByName('comprimento').AsFloat := Comprimento;
-    ParamByName('altura').AsFloat := Altura;
-    ParamByName('largura').AsFloat := Largura;
-    ParamByName('fator').AsFloat := Fator;
-    ParamByName('valor').AsFloat := Valor;
-    ParamByName('valorc').AsFloat := ValorCorrigido;
-    ParamByName('prazo').AsInteger := Prazo;
-    ParamByName('descri').AsString := Descri;
-    ParamByName('codigo').AsInteger := CliCodigo;
-
-    if mLog.Lines.Count > 0 then
-      ParamByName('obs').AsMemo := mLog.Lines.Text;
-
-    ExecSQL;
-  finally
-    Close;
-  end;
-
   inherited;
-  
+  Correio := FCalculo;
   actCloseExecute(actClose);
-end;
-
-procedure TSedex.CalcCorrigido;
-begin
-  ValorCorrigido := Valor * (1 + Fator / 100);
 end;
 
 procedure TSedex.Calcular;
@@ -321,42 +331,6 @@ procedure TSedex.cbServicosChange(Sender: TObject);
 begin
   inherited;
   Servico := FServicos.Selected.Value;
-end;
-
-function TSedex.CodeToService(Value: string): TACBrTpServico;
-begin
-
-  if Value = '40215' then
-    Result := Tps40215SEDEX10
-  else if Value = '04014' then
-    Result := Tps04014SEDEX
-  else if Value = '40290' then
-    Result := Tps40290SEDEXHOJE
-  else if Value = '81019' then
-    Result := Tps81019eSEDEX
-  else if Value = '44105' then
-    Result := Tps44105MALOTE
-  else if Value = '85480' then
-    Result := Tps85480AEROGRAMA
-  else if Value = '10030' then
-    Result := Tps10030CARTASIMPLES
-  else if Value = '10014' then
-    Result := Tps10014CARTAREGISTRADA
-  else if Value = '16012' then
-    Result := Tps16012CARTAOPOSTAL
-  else if Value = '20010' then
-    Result := Tps20010IMPRESSO
-  else if Value = '14010' then
-    Result := Tps14010MALADIRETA
-  else if Value = '40045' then
-    Result := Tps40045SEDEXaCobrarVarejo
-  else if Value = '40215' then
-    Result := Tps40215SEDEX10Varejo
-  else if Value = '40290' then
-    Result := Tps40290SEDEXHojeVarejo
-  else
-    raise Exception.CreateFmt('Tipo de serviço %s do correio é inválido!', [Value]);
-
 end;
 
 procedure TSedex.edAltChange(Sender: TObject);
@@ -411,6 +385,13 @@ procedure TSedex.edVolChange(Sender: TObject);
 begin
   inherited;
   Volumes := edVol.Value;
+end;
+
+procedure TSedex.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  inherited;
+  if Correio = 0 then
+    RemoveCalculoAnterior;
 end;
 
 procedure TSedex.FormCreate(Sender: TObject);
@@ -517,7 +498,7 @@ end;
 procedure TSedex.Log(Message: string);
 begin
   mLog.Lines.Add(Message);
-  mLog.SelStart := 0; 
+  mLog.SelStart := 0;
 end;
 
 procedure TSedex.LogClear;
@@ -532,6 +513,30 @@ begin
   FServicos.OrderField := 'servico';
   FServicos.UpdateList;
   cbServicosChange(cbServicos);
+end;
+
+procedure TSedex.RemoveCalculoAnterior;
+begin
+  try
+    if FCalculo <= 0 then
+      Exit;
+
+    with U.Data.Query do
+    begin
+      SQL.Text :=
+      'delete '+
+      'from '+
+        'public.correio '+
+      'where '+
+        'recno = :calculo';
+
+      ParamByName('calculo').AsInteger := FCalculo;
+      ExecSQL;
+
+    end;
+  finally
+    FCalculo := 0;
+  end;
 end;
 
 procedure TSedex.SetAltura(const Value: Double);
@@ -656,13 +661,6 @@ end;
 procedure TSedex.SetFormato(const Value: Integer);
 begin
   cbFormato.ItemIndex := Value - 1;
-
-  with ACBrSedex1 do
-    case Value of
-      1: Formato := TpfCaixaPacote;
-      2: Formato := TpfRoloPrisma;
-      3: Formato := TpfEnvelope;
-    end;
 end;
 
 procedure TSedex.SetFrascos(const Value: Integer);
@@ -694,8 +692,6 @@ procedure TSedex.SetServico(const Value: string);
 var
   I: Integer;
 begin
-  ACBrSedex1.Servico := CodeToService(Value);
-
   for I := 0 to FServicos.Count - 1 do
     if FServicos[i].Value = Value then
     begin

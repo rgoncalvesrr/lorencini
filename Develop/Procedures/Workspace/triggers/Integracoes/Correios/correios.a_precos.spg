@@ -1,0 +1,62 @@
+/**
+   Pós processamento de cálculo de preços e prazos
+
+   @author    Ricardo Gonçalves
+   @date      28/10/2023
+   @trigger   correios.b_precos B IUD
+
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+create or replace function correios.a_precos()
+returns trigger as
+$$
+declare
+   _ENVELOPE      constant integer := 1; 
+   _PACOTE        constant integer := 2; 
+   _ROLO          constant integer := 3;
+   _ESTIMADO      constant integer := 2;
+   formato_       public.correio.formato%type;
+   peso_          public.correio.peso%type;
+   diametro_      public.correio.diametro%type;
+   comprimento_   public.correio.comprimento%type;
+   altura_        public.correio.altura%type;
+   largura_       public.correio.largura%type;
+begin
+   if tg_op = 'UPDATE' then
+      -- Cálculo finalizado
+      if new.preco_processado and new.prazo_processado then
+         case
+            when new.tipo = _ENVELOPE then 
+               formato_ := 2;
+            when new.tipo = _PACOTE then 
+               formato_ := 0; 
+            when new.tipo = _ROLO then 
+               formato_ := 1;
+         end case;
+         -- Conversão de gramas para quilo
+         peso_          := new.peso / 1000;
+         diametro_      := coalesce(new.diametro, 0);
+         comprimento_   := coalesce(new.comprimento, 0);
+         altura_        := coalesce(new.altura, 0);
+         largura_       := coalesce(new.largura, 0);
+         insert into public.correio (
+            codigo,       servico,         formato,     cepo,        cepd,            volumes,     peso, 
+            diametro,     comprimento,     altura,      largura,     valor,           descri,      prazo, 
+            status,       calculo,         account,     fator,       obs)
+         values (
+            new.cliente,  new.servico,     formato_,    new.origem,  new.destino,     new.volumes, peso_,
+            diametro_,    comprimento_,    altura_,     largura_,    new.preco_final, new.obs,     new.prazo_entrega,
+            _ESTIMADO,    new.recno,       new.account, new.fator,   new.prazo_mensagem)
+         on conflict (calculo)
+            do update set
+               volumes = excluded.volumes, peso = excluded.peso, diametro = excluded.diametro, comprimento = excluded.comprimento,
+               altura = excluded.altura, largura = excluded.largura, valor = excluded.valor, obs = excluded.obs, prazo = excluded.prazo,
+               status = excluded.status, account = excluded.account, fator = excluded.fator, descri = excluded.descri;
+      end if;
+   end if;
+   return new;
+end;
+$$
+language plpgsql;

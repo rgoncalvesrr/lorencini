@@ -1,0 +1,48 @@
+/**
+   Dispara o cálculo de frete via API
+
+   @author    Ricardo Gonçalves
+   @date      29/10/2023
+   @trigger   correios.calcular_frete B IUD
+
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+create or replace function correios.calcular_frete(
+   in calculo_ integer)
+returns integer as
+$$
+declare
+   recno_ public.correio.recno%type;
+begin
+
+   if not exists(
+      select
+         1
+      from
+         correios.precos
+      where
+         recno = calculo_)
+   then
+      raise '[[Solicitação de cálculo % não localizada na tabela correios.precos. Impossível calcular frete.]]', calculo_;
+   end if;
+
+   select 
+      recno
+   into
+      recno_
+   from
+      public.correio
+   where
+      calculo = calculo_;
+
+   if not found then   
+      perform correios.preco_req(calculo_);
+      perform correios.prazo_req(calculo_);
+   end if;
+
+   return coalesce(recno_, 0);
+end;
+$$
+language plpgsql;

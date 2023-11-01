@@ -1,9 +1,7 @@
 inherited Fretes: TFretes
-  Action = actAgenda
-  Caption = 'Agenda...'
+  Caption = 'Consulta de Fretes'
   ClientHeight = 592
   ClientWidth = 1032
-  OnClick = actAgendaExecute
   ExplicitWidth = 1048
   ExplicitHeight = 631
   PixelsPerInch = 96
@@ -87,23 +85,27 @@ inherited Fretes: TFretes
           Top = 20
           Width = 156
           Height = 23
+          AutoSize = True
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = 'Segoe UI'
+          Font.Pitch = fpVariable
+          Font.Style = []
+          ParentFont = False
           TabOrder = 2
           ExplicitLeft = 431
           ExplicitTop = 20
           ExplicitWidth = 156
-          ExplicitHeight = 23
           inherited ComboBox1: TComboBox
             Width = 156
-            Height = 23
-            ItemHeight = 15
             ItemIndex = 2
             Text = 'Trimestralmente'
             OnChange = FrameData1ComboBox1Change
             ExplicitWidth = 156
-            ExplicitHeight = 23
           end
           inherited CCalendarDiff1: TCCalendarDiff
-            Date = 43853.996374212960000000
+            Date = 45227.726230208330000000
             DisplayInterval = Label20
             OnChange = actQueryProcessExecute
           end
@@ -151,6 +153,7 @@ inherited Fretes: TFretes
     inherited PageControl1: TPageControl
       Width = 679
       Height = 427
+      ActivePage = Estimado
       Images = Resources.medium_h
       ExplicitWidth = 679
       ExplicitHeight = 427
@@ -908,14 +911,27 @@ inherited Fretes: TFretes
     end
   end
   inherited alDef: TActionList
-    Left = 480
+    Left = 516
+    Top = 208
     inherited actNew: TAction
       Visible = False
     end
   end
   inherited pmRel: TPopupMenu
-    Left = 440
-    Top = 56
+    Left = 624
+    Top = 212
+  end
+  inherited pmOrder: TPopupMenu
+    Left = 418
+    Top = 210
+  end
+  inherited alRunTime: TActionList
+    Left = 470
+    Top = 210
+  end
+  inherited DataSource1: TDataSource
+    Left = 352
+    Top = 212
   end
   inherited IBrwSrc: TZQuery
     Connection = DM.Design
@@ -938,6 +954,8 @@ inherited Fretes: TFretes
       '         on cos.servico = co.servico'
       '       join tbclientes c'
       '         on c.codigo = co.codigo')
+    Left = 296
+    Top = 212
     object IBrwSrcstatus: TIntegerField
       DisplayLabel = ' '
       FieldName = 'status'
@@ -1114,6 +1132,10 @@ inherited Fretes: TFretes
       Size = 30
     end
   end
+  inherited pmOpcao: TPopupMenu
+    Left = 568
+    Top = 208
+  end
   inherited zIBrwSrc: TZUpdateSQL
     DeleteSQL.Strings = (
       'DELETE FROM correio'
@@ -1131,6 +1153,8 @@ inherited Fretes: TFretes
       '  correiopeso = :correiopeso'
       'WHERE'
       '  correio.recno = :OLD_recno')
+    Left = 248
+    Top = 212
     ParamData = <
       item
         DataType = ftUnknown

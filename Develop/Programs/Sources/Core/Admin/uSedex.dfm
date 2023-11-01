@@ -8,21 +8,25 @@ inherited Sedex: TSedex
   TextHeight = 15
   inherited bvDiv: TBevel
     Width = 697
+    ExplicitTop = 69
     ExplicitWidth = 697
   end
   inherited Panel1: TPanel
     Width = 697
     ExplicitWidth = 697
     inherited Shape1: TShape
-      Width = 636
+      Left = 73
+      Width = 624
       ExplicitLeft = 46
       ExplicitTop = 0
       ExplicitWidth = 651
       ExplicitHeight = 70
     end
     inherited Image1: TImage
+      Width = 60
       Height = 64
       AutoSize = False
+      IncrementalDisplay = True
       Picture.Data = {
         0A544A504547496D6167652DB90000FFD8FFE000104A46494600010100000100
         010000FFFE003B43524541544F523A2067642D6A7065672076312E3020287573
@@ -1507,23 +1511,24 @@ inherited Sedex: TSedex
         7A0028A5A28012969052D001494502800A29690D001477A5A4EF400514B45002
         51476A5A0029296905001452D140094503A51FE140052D145007FFD9}
       Stretch = True
-      ExplicitLeft = 6
-      ExplicitTop = 2
-      ExplicitHeight = 66
+      ExplicitLeft = 8
+      ExplicitTop = 3
+      ExplicitWidth = 60
     end
     inherited pnTitle: TPanel
-      Width = 636
+      Left = 73
+      Width = 624
       ExplicitWidth = 636
       inherited Label1: TLabel
-        Width = 630
+        Width = 618
         Caption = 'C'#225'lculo de Sedex'
         ExplicitWidth = 133
       end
       inherited Label2: TLabel
-        Width = 623
+        Width = 611
         Height = 33
         Caption = 'Nesta tela podemos calcular o frete para determinado CEP'
-        ExplicitWidth = 324
+        ExplicitWidth = 623
       end
     end
   end
@@ -1729,7 +1734,6 @@ inherited Sedex: TSedex
         TabOrder = 0
         DecimalPlacesAlwaysShown = False
         OnChange = edAltChange
-        ExplicitLeft = 2
       end
     end
     object Panel11: TPanel
@@ -1939,8 +1943,7 @@ inherited Sedex: TSedex
         Items.Strings = (
           'Caixa / Pacote'
           'Rolo / Prisma'
-          'Envelope'
-          '')
+          'Envelope')
       end
     end
     object Panel17: TPanel
@@ -2194,19 +2197,5 @@ inherited Sedex: TSedex
       ImageIndex = 78
       OnExecute = actCalcExecute
     end
-  end
-  object ACBrSedex1: TACBrSedex
-    ProxyPort = '8080'
-    CepOrigem = '09890510'
-    CepDestino = '65057110'
-    Peso = 6.000000000000000000
-    Formato = TpfCaixaPacote
-    Comprimento = 20.000000000000000000
-    Altura = 10.000000000000000000
-    Largura = 30.000000000000000000
-    Servico = Tps10014CARTAREGISTRADA
-    UrlConsulta = 'http://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx?'
-    Left = 384
-    Top = 8
   end
 end

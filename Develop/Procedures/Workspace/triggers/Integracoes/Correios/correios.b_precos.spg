@@ -1,0 +1,48 @@
+/**
+   Prepara dados da tabela para cálculo de preços e prazos
+
+   @author    Ricardo Gonçalves
+   @date      28/10/2023
+   @trigger   correios.b_precos B IUD
+
+   Histórico
+   ---------------------------------------------------------------------------------------------------------------------
+   Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
+*/
+create or replace function correios.b_precos()
+returns trigger as
+$$
+begin
+   if tg_op = 'DELETE' then
+      return old;
+   end if;
+
+   new.account := coalesce(new.account, sys_account());      
+
+   if tg_op = 'INSERT' then
+      new.origem  := coalesce(new.origem, '09890510');
+      new.volumes := coalesce(new.volumes, 1);
+      if new.volumes <= 0 then
+         new.volumes := 1;
+      end if; 
+
+      if new.destino is null then
+         select 
+            replace(trim(coalesce(ent_cep, fat_cep, cep)), '-', '')
+         into
+            new.destino
+         from
+            tbclientes
+         where
+            codigo = new.cliente;
+      end if;
+   end if;
+
+   new.destino := replace(trim(new.destino), '-', '');
+
+   
+
+   return new;
+end;
+$$
+language plpgsql;
