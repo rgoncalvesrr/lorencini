@@ -27,7 +27,6 @@ inherited Clientes: TClientes
         inherited BitBtn2: TBitBtn
           Left = 995
           ExplicitLeft = 995
-          ExplicitTop = 11
         end
         object Panel4: TPanel
           Left = 0
@@ -412,22 +411,30 @@ inherited Clientes: TClientes
     AfterScroll = IBrwSrcAfterScroll
     AfterInsert = IBrwSrcAfterInsert
     SQL.Strings = (
+      'select'
       
-        'select c.codigo, c.empresa, c.nome_chave, c.endereco, c.bairro, ' +
-        'c.cep, c.cidade, c.estado, c.tipo, c.cnpj, c.inscricao, '
+        '  c.codigo, c.empresa, c.nome_chave, c.endereco, c.bairro, c.cep' +
+        ', c.cidade, c.estado, c.tipo,'
       
-        '       c.cpf, c.rg, c.telefone, c.fax, c.website, c.email, c.id_' +
-        'vendedor, v.nome vendedornome, c.situacao, c.fat_ende, '
+        '  c.cnpj, c.inscricao, c.cpf, c.rg, c.telefone, c.fax, c.website' +
+        ', c.email, c.id_vendedor,'
       
-        '       c.fat_bair, c.fat_cep, c.fat_cida, c.fat_esta, c.ent_ende' +
-        ', c.ent_bair, c.ent_cep, c.ent_cida, c.ent_esta, '
+        '  v.nome vendedornome, c.situacao, c.fat_ende, c.fat_bair, c.fat' +
+        '_cep, c.fat_cida, c.fat_esta,'
       
-        '       c.cobra_ende, c.cobra_bairro, c.cobra_cep, c.cobra_cida, ' +
-        'c.cobra_esta, c.observacao, c.restricao, c.restrmotiv,'
-      '       c.dtcadastro, c.senha, c.tag_caption, c.recno, c.logo'
-      '  from tbclientes c'
-      '       left join tb_vendedores v'
-      '         on v.idvendedor = c.id_vendedor')
+        '  c.ent_ende, c.ent_bair, c.ent_cep, c.ent_cida, c.ent_esta, c.c' +
+        'obra_ende, c.cobra_bairro,'
+      
+        '  c.cobra_cep, c.cobra_cida, c.cobra_esta, c.observacao, c.restr' +
+        'icao, c.restrmotiv,'
+      
+        '  c.dtcadastro, c.senha, c.tag_caption, c.recno, c.logo, c.envia' +
+        '_cronograma_coleta'
+      'from'
+      '  tbclientes c'
+      'left join'
+      '  tb_vendedores v on'
+      '  v.idvendedor = c.id_vendedor')
     IndexFieldNames = 'nome_chave Asc'
     Sequence = ZSequence1
     SequenceField = 'recno'
@@ -710,6 +717,14 @@ inherited Clientes: TClientes
       FieldName = 'logo'
       Visible = False
     end
+    object IBrwSrcenvia_cronograma_coleta: TBooleanField
+      DisplayLabel = 'Enviar Cronograma'
+      FieldName = 'envia_cronograma_coleta'
+      Required = True
+      Visible = False
+      OnGetText = IBrwSrcenvia_cronograma_coletaGetText
+      OnSetText = IBrwSrcenvia_cronograma_coletaSetText
+    end
   end
   inherited pmOpcao: TPopupMenu
     Left = 960
@@ -724,30 +739,36 @@ inherited Clientes: TClientes
       'WHERE'
       '  tbclientes.codigo = :OLD_codigo')
     InsertSQL.Strings = (
-      'INSERT INTO tbclientes'
+      'INSERT INTO tbclientes ('
       
-        '  (codigo, empresa, nome_chave, endereco, bairro, cep, cidade, e' +
-        'stado, cnpj, inscricao, telefone, fax, website, email,'
+        '  codigo, empresa, nome_chave, endereco, bairro, cep, cidade, es' +
+        'tado, cnpj, inscricao, telefone,'
       
-        '   id_vendedor, situacao, fat_ende, fat_bair, fat_cep, fat_cida,' +
-        ' fat_esta, ent_ende, ent_bair, ent_cep, ent_cida,'
+        '  fax, website, email, id_vendedor, situacao, fat_ende, fat_bair' +
+        ', fat_cep, fat_cida, fat_esta,'
       
-        '   ent_esta, cobra_ende, cobra_bairro, cobra_cep, cobra_cida, co' +
-        'bra_esta, observacao, restricao, restrmotiv, dtcadastro,'
-      '   senha, tag_caption, recno, cpf, rg, tipo, logo)'
-      'VALUES'
+        '  ent_ende, ent_bair, ent_cep, ent_cida, ent_esta, cobra_ende, c' +
+        'obra_bairro, cobra_cep, cobra_cida,'
       
-        '  (:codigo, :empresa, :nome_chave, :endereco, :bairro, :cep, :ci' +
-        'dade, :estado, :cnpj, :inscricao, :telefone, :fax,'
+        '  cobra_esta, observacao, restricao, restrmotiv, dtcadastro, sen' +
+        'ha, tag_caption, recno, cpf, rg,'
+      '  tipo, logo, envia_cronograma_coleta)'
+      'VALUES ('
       
-        '   :website, :email, :id_vendedor, :situacao, :fat_ende, :fat_ba' +
-        'ir, :fat_cep, :fat_cida, :fat_esta, :ent_ende,'
+        '  :codigo, :empresa, :nome_chave, :endereco, :bairro, :cep, :cid' +
+        'ade, :estado, :cnpj, :inscricao,'
       
-        '   :ent_bair, :ent_cep, :ent_cida, :ent_esta, :cobra_ende, :cobr' +
-        'a_bairro, :cobra_cep, :cobra_cida, :cobra_esta,'
+        '  :telefone, :fax, :website, :email, :id_vendedor, :situacao, :f' +
+        'at_ende, :fat_bair, :fat_cep,'
       
-        '   :observacao, :restricao, :restrmotiv, :dtcadastro, :senha, :t' +
-        'ag_caption, :recno, :cpf, :rg, :tipo, :logo)')
+        '  :fat_cida, :fat_esta, :ent_ende, :ent_bair, :ent_cep, :ent_cid' +
+        'a, :ent_esta, :cobra_ende,'
+      
+        '  :cobra_bairro, :cobra_cep, :cobra_cida, :cobra_esta, :observac' +
+        'ao, :restricao, :restrmotiv,'
+      
+        '  :dtcadastro, :senha, :tag_caption, :recno, :cpf, :rg, :tipo, :' +
+        'logo, :envia_cronograma_coleta)')
     ModifySQL.Strings = (
       'UPDATE tbclientes SET'
       '  codigo = :codigo,'
@@ -791,7 +812,8 @@ inherited Clientes: TClientes
       '  cpf = :cpf,'
       '  rg = :rg,'
       '  tipo = :tipo,'
-      '  logo = :logo'
+      '  logo = :logo,'
+      '  envia_cronograma_coleta = :envia_cronograma_coleta'
       'WHERE'
       '  tbclientes.codigo = :OLD_codigo')
     Left = 464
@@ -1009,6 +1031,11 @@ inherited Clientes: TClientes
       end
       item
         DataType = ftUnknown
+        Name = 'envia_cronograma_coleta'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
         Name = 'OLD_codigo'
         ParamType = ptUnknown
       end>
@@ -1126,15 +1153,16 @@ inherited Clientes: TClientes
       '  tbclientes_finais.cliente = :OLD_cliente')
     InsertSQL.Strings = (
       'INSERT INTO tbclientes_finais'
-      '  (codigo, cliente, logo, recno)'
+      '  (codigo, cliente, logo, recno, envia_cronograma_coleta)'
       'VALUES'
-      '  (:codigo, :cliente, :logo, :recno)')
+      '  (:codigo, :cliente, :logo, :recno, :envia_cronograma_coleta)')
     ModifySQL.Strings = (
       'UPDATE tbclientes_finais SET'
       '  codigo = :codigo,'
       '  cliente = :cliente,'
       '  logo = :logo,'
-      '  recno = :recno'
+      '  recno = :recno,'
+      '  envia_cronograma_coleta = :envia_cronograma_coleta'
       'WHERE'
       '  tbclientes_finais.codigo = :OLD_codigo AND'
       '  tbclientes_finais.cliente = :OLD_cliente')
@@ -1160,6 +1188,11 @@ inherited Clientes: TClientes
       item
         DataType = ftUnknown
         Name = 'recno'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'envia_cronograma_coleta'
         ParamType = ptUnknown
       end
       item
@@ -1196,16 +1229,21 @@ inherited Clientes: TClientes
     AfterInsert = qContatosAfterInsert
     BeforePost = qContatosBeforePost
     SQL.Strings = (
+      'select'
       
-        'select a.cliente, a.contato, c.nome, a.funcao, c.telefone, c.cel' +
-        'ular, c.email, a.situacao, a.recno, a.padrao,'
+        '  a.cliente, a.contato, c.nome, a.funcao, c.telefone, c.celular,' +
+        ' c.email, a.situacao, a.recno,'
       
-        '       a.contato_comercial, a.contato_tecnico, a.contato_finance' +
-        'iro, a.portal_acessivel, a.portal_senha, a.obs, c.ramal'
-      '  from tbclientes_contatos a'
-      '       join contatos c'
-      '         on c.recno = a.contato'
-      ' where a.cliente = :cliente')
+        '  a.padrao, a.contato_comercial, a.contato_tecnico, a.contato_fi' +
+        'nanceiro, a.portal_acessivel,'
+      '  a.portal_senha, a.obs, c.ramal, a.envia_cronograma_coleta'
+      'from'
+      '  tbclientes_contatos a'
+      'join'
+      '  contatos c on'
+      '  c.recno = a.contato'
+      'where'
+      '  a.cliente = :cliente')
     Params = <
       item
         DataType = ftInteger
@@ -1318,6 +1356,11 @@ inherited Clientes: TClientes
       Visible = False
       BlobType = ftMemo
     end
+    object qContatosenvia_cronograma_coleta: TBooleanField
+      DisplayLabel = 'Enviar Cronograma'
+      FieldName = 'envia_cronograma_coleta'
+      Required = True
+    end
   end
   object uContatos: TZUpdateSQL
     DeleteSQL.Strings = (
@@ -1330,12 +1373,14 @@ inherited Clientes: TClientes
       
         '  (cliente, funcao, recno, situacao, contato_comercial, contato_' +
         'tecnico, contato_financeiro, padrao, contato,'
-      '   portal_acessivel, portal_senha, obs)'
+      '   portal_acessivel, portal_senha, obs, envia_cronograma_coleta)'
       'VALUES'
       
         '  (:cliente, :funcao, :recno, :situacao, :contato_comercial, :co' +
         'ntato_tecnico, :contato_financeiro, :padrao, :contato,'
-      '   :portal_acessivel, :portal_senha, :obs)')
+      
+        '   :portal_acessivel, :portal_senha, :obs, :envia_cronograma_col' +
+        'eta)')
     ModifySQL.Strings = (
       'UPDATE tbclientes_contatos SET'
       '  cliente = :cliente,'
@@ -1349,7 +1394,8 @@ inherited Clientes: TClientes
       '  contato = :contato,'
       '  portal_acessivel = :portal_acessivel,'
       '  portal_senha = :portal_senha,'
-      '  obs = :obs'
+      '  obs = :obs,'
+      '  envia_cronograma_coleta = :envia_cronograma_coleta'
       'WHERE'
       '  tbclientes_contatos.cliente = :OLD_cliente AND'
       '  tbclientes_contatos.contato = :OLD_contato')
@@ -1415,6 +1461,11 @@ inherited Clientes: TClientes
       item
         DataType = ftUnknown
         Name = 'obs'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'envia_cronograma_coleta'
         ParamType = ptUnknown
       end
       item

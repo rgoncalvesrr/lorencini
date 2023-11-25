@@ -128,6 +128,8 @@ type
     qContatoscontato_financeiro: TBooleanField;
     qContatoscontato_tecnico: TBooleanField;
     qContatoscontato_comercial: TBooleanField;
+    qContatosenvia_cronograma_coleta: TBooleanField;
+    IBrwSrcenvia_cronograma_coleta: TBooleanField;
     procedure FormCreate(Sender: TObject);
     procedure actOrcaExecute(Sender: TObject);
     procedure DBGrid2DrawColumnCell(Sender: TObject; const Rect: TRect;
@@ -150,6 +152,9 @@ type
     procedure qContatossituacaoSetText(Sender: TField; const Text: string);
     procedure qContatossituacaoChange(Sender: TField);
     procedure IBrwSrcAfterOpen(DataSet: TDataSet);
+    procedure IBrwSrcenvia_cronograma_coletaGetText(Sender: TField; var Text: string;
+      DisplayText: Boolean);
+    procedure IBrwSrcenvia_cronograma_coletaSetText(Sender: TField; const Text: string);
   private
     { Private declarations }
     FSQL : string;
@@ -380,6 +385,23 @@ begin
   qClientesFinais.ParamByName('codigo').AsInteger := IBrwSrccodigo.AsInteger;
   G.RefreshDataSet(qContatos);
   G.RefreshDataSet(qClientesFinais);
+end;
+
+procedure TClientes.IBrwSrcenvia_cronograma_coletaGetText(Sender: TField; var Text: string;
+  DisplayText: Boolean);
+begin
+  inherited;
+  if Sender.AsBoolean then
+    Text := 'Sim'
+  else
+    Text := 'Não';
+end;
+
+procedure TClientes.IBrwSrcenvia_cronograma_coletaSetText(Sender: TField; const Text: string);
+begin
+  inherited;
+  if Sender.DataSet.State in [dsEdit, dsInsert] then
+    Sender.AsBoolean := Text = 'Sim';
 end;
 
 procedure TClientes.IBrwSrctipoGetText(Sender: TField; var Text: string; DisplayText: Boolean);

@@ -7,41 +7,24 @@ inherited ClientesMContatos: TClientesMContatos
   PixelsPerInch = 96
   TextHeight = 15
   inherited Panel1: TPanel
-    Top = 44
     Width = 1160
     Height = 442
-    ExplicitTop = 44
     ExplicitWidth = 1160
     ExplicitHeight = 442
     inherited Panel3: TPanel
       Top = 206
       Align = alNone
+      ExplicitTop = 206
       inherited PageControl3: TPageControl
-        Top = 47
-        Height = 185
-        ExplicitLeft = 3
-        ExplicitTop = 47
-        ExplicitWidth = 633
-        ExplicitHeight = 185
         inherited tsDet: TTabSheet
           ExplicitLeft = 4
           ExplicitTop = 26
           ExplicitWidth = 625
           ExplicitHeight = 155
-          inherited DBGrid1: TDBGrid
-            Width = 625
-            Height = 155
-          end
         end
       end
       inherited ControlBar2: TControlBar
-        Height = 38
-        ExplicitLeft = 3
-        ExplicitTop = 3
-        ExplicitWidth = 633
-        ExplicitHeight = 38
         inherited ToolBar3: TToolBar
-          ButtonWidth = 129
           inherited ToolButton10: TToolButton
             ExplicitWidth = 32
           end
@@ -69,8 +52,6 @@ inherited ClientesMContatos: TClientesMContatos
     inherited PageControl1: TPageControl
       Width = 1154
       Height = 436
-      ExplicitLeft = 3
-      ExplicitTop = 3
       ExplicitWidth = 1154
       ExplicitHeight = 436
       inherited TabSheet1: TTabSheet
@@ -271,41 +252,6 @@ inherited ClientesMContatos: TClientesMContatos
               Margins.Bottom = 2
               Action = actFindContato
               Align = alClient
-              Glyph.Data = {
-                36040000424D3604000000000000360000002800000010000000100000000100
-                2000000000000004000000000000000000000000000000000000FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF000A0A
-                0A000A0A0A000A0A0A000A0A0A000A0A0A000A0A0A00FF00FF00FF00FF000A0A
-                0A000A0A0A000A0A0A000A0A0A000A0A0A000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00A9A9A900C4C4C400696969002C2C2C000A0A0A00FF00FF00FF00FF000A0A
-                0A00121212001E1E1E000B0B0B000A0A0A000A0A0A00FF00FF00FF00FF000A0A
-                0A0015151500222222000B0B0B000A0A0A000A0A0A00FF00FF00FF00FF007549
-                4900A0725E00EFE1D200EBC8A3009F674D0070414000FF00FF00FF00FF007549
-                4900A0725E00EFE1D200EBC8A3009F674D0070414000FF00FF00FF00FF008461
-                610085554C00F5E5D400EAC5A000865043007D565500FF00FF00FF00FF008461
-                610085554C00F5E5D400EAC5A000865043007D565500FF00FF00FF00FF009A82
-                820074444000F5E4D300E1B488007443400093777700FF00FF00FF00FF009A82
-                820074444000F5E4D300E1B488007443400093777700FF00FF00FF00FF00B7AE
-                AE006C3C3C00E9C8A800D19669006C3C3C00B2A7A700FF00FF00FF00FF00B7AE
-                AE006C3C3C00E9C8A800D19669006C3C3C00B2A7A700FF00FF00FF00FF00FF00
-                FF006E3E3E00734444006B3B3B006B3B3B000B0B0B000A0A0A000A0A0A000E0D
-                0D006C3C3C006B3B3B006B3B3B006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF006C3B3B00F1D8BE00E8BF9300C78657000A0A0A00C4C4C400696969001010
-                1000F9DEB700E2B38600BD7B51006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF006C3B3B00F6E6D600E9BF9500C88759000A0A0A00C4C4C400696969000C0C
-                0C00E3C6A900CA9B7600A5694B006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF006D3D3D00724343006B3B3B006B3B3B00141010000A0A0A000A0A0A002416
-                14006C3B3B006C3B3B006C3B3B006C3B3B00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF000A0A0A00C4C4C400696969000A0A0A00FF00FF00FF00FF000A0A
-                0A00C4C4C400696969000A0A0A00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF000A0A0A000A0A0A000A0A0A001D1D1D00FF00FF00FF00FF000A0A
-                0A000A0A0A000A0A0A001D1D1D00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00}
               ExplicitLeft = 16
               ExplicitTop = 16
               ExplicitWidth = 50
@@ -620,7 +566,6 @@ inherited ClientesMContatos: TClientesMContatos
               TabOrder = 0
               ValueChecked = 'True'
               ValueUnchecked = 'False'
-              ExplicitLeft = 0
             end
             object DBCheckBox2: TDBCheckBox
               AlignWithMargins = True
@@ -633,6 +578,21 @@ inherited ClientesMContatos: TClientesMContatos
               DataField = 'portal_acessivel'
               DataSource = Clientes.dsContatos
               TabOrder = 1
+              ValueChecked = 'True'
+              ValueUnchecked = 'False'
+              ExplicitLeft = 0
+            end
+            object DBCheckBox4: TDBCheckBox
+              AlignWithMargins = True
+              Left = 3
+              Top = 49
+              Width = 250
+              Height = 17
+              Align = alTop
+              Caption = 'Enviar Cronograma de Coleta'
+              DataField = 'envia_cronograma_coleta'
+              DataSource = Clientes.dsContatos
+              TabOrder = 2
               ValueChecked = 'True'
               ValueUnchecked = 'False'
               ExplicitLeft = 0
@@ -689,8 +649,6 @@ inherited ClientesMContatos: TClientesMContatos
               TabOrder = 2
               ValueChecked = 'True'
               ValueUnchecked = 'False'
-              ExplicitLeft = -8
-              ExplicitTop = 72
             end
           end
         end
@@ -710,13 +668,8 @@ inherited ClientesMContatos: TClientesMContatos
   end
   inherited ControlBar1: TControlBar
     Width = 1154
-    Height = 38
-    ExplicitLeft = 3
-    ExplicitTop = 3
     ExplicitWidth = 1154
-    ExplicitHeight = 38
     inherited ToolBar1: TToolBar
-      ButtonWidth = 115
       inherited ToolButton6: TToolButton
         ExplicitWidth = 32
       end

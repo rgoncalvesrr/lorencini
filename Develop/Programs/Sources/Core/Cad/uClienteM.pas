@@ -171,6 +171,9 @@ type
     Panel57: TPanel;
     TabSheet3: TTabSheet;
     DBGrid2: TDBGrid;
+    Panel58: TPanel;
+    Label43: TLabel;
+    DBComboBox2: TDBComboBox;
     procedure FormCreate(Sender: TObject);
     procedure DBGrid2DrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn;
       State: TGridDrawState);

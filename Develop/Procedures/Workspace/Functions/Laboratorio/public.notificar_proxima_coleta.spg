@@ -146,7 +146,8 @@ begin
          a.recno = r.amostra
       join
          tbclientes c on
-         c.codigo = a.codigo
+         c.codigo = a.codigo and
+         c.envia_cronograma_coleta
       join
          labequipxcli ec on
          ec.codigo = a.codigo and
@@ -167,6 +168,7 @@ begin
          tbclientes_contatos cc on
          cc.cliente = a.codigo and
          cc.situacao = 1 and
+         cc.envia_cronograma_coleta and
          (cc.contato_tecnico or cc.contato_comercial)
       join
          contatos co on

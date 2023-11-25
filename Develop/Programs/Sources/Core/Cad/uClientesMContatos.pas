@@ -64,6 +64,7 @@ type
     DBMemo1: TDBMemo;
     DBCheckBox8: TDBCheckBox;
     DBCheckBox2: TDBCheckBox;
+    DBCheckBox4: TDBCheckBox;
     procedure actCheckExecute(Sender: TObject);
     procedure DBEdit1Exit(Sender: TObject);
     procedure actFindContatoExecute(Sender: TObject);
@@ -96,6 +97,7 @@ begin
     qContatoscontato_comercial.AsBoolean := bMark;
     qContatoscontato_tecnico.AsBoolean := bMark;
     qContatoscontato_financeiro.AsBoolean := bMark;
+    qContatosenvia_cronograma_coleta.AsBoolean := bMark;
   end;
 
 end;

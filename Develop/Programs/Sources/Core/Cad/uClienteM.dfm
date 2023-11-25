@@ -108,6 +108,7 @@ inherited ClientesM: TClientesM
     inherited PageControl1: TPageControl
       Width = 1231
       Height = 322
+      ExplicitTop = 5
       ExplicitWidth = 1231
       ExplicitHeight = 322
       inherited TabSheet1: TTabSheet
@@ -492,6 +493,7 @@ inherited ClientesM: TClientesM
             Align = alLeft
             BevelOuter = bvNone
             TabOrder = 0
+            ExplicitLeft = 3
             object Label15: TLabel
               AlignWithMargins = True
               Left = 3
@@ -523,16 +525,17 @@ inherited ClientesM: TClientesM
           object Panel19: TPanel
             Left = 122
             Top = 17
-            Width = 774
+            Width = 635
             Height = 49
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 1
+            ExplicitWidth = 774
             object Label17: TLabel
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 768
+              Width = 629
               Height = 15
               Align = alTop
               Caption = 'Vendedor'
@@ -542,7 +545,7 @@ inherited ClientesM: TClientesM
               AlignWithMargins = True
               Left = 3
               Top = 24
-              Width = 768
+              Width = 629
               Height = 23
               Align = alClient
               DataField = 'id_vendedor'
@@ -551,16 +554,18 @@ inherited ClientesM: TClientesM
               ListField = 'nome;cpf;cnpj'
               ListSource = Clientes.dsVendedores
               TabOrder = 0
+              ExplicitWidth = 768
             end
           end
           object Panel20: TPanel
-            Left = 896
+            Left = 757
             Top = 17
             Width = 98
             Height = 49
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 2
+            ExplicitLeft = 896
             object Label16: TLabel
               AlignWithMargins = True
               Left = 3
@@ -594,13 +599,14 @@ inherited ClientesM: TClientesM
             end
           end
           object Panel21: TPanel
-            Left = 994
+            Left = 855
             Top = 17
             Width = 138
             Height = 49
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 3
+            ExplicitLeft = 994
             object Label18: TLabel
               AlignWithMargins = True
               Left = 3
@@ -626,13 +632,14 @@ inherited ClientesM: TClientesM
             end
           end
           object Panel57: TPanel
-            Left = 1132
+            Left = 993
             Top = 17
             Width = 83
             Height = 49
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 4
+            ExplicitLeft = 1132
             object Label19: TLabel
               AlignWithMargins = True
               Left = 3
@@ -656,6 +663,42 @@ inherited ClientesM: TClientesM
               PasswordChar = '*'
               TabOrder = 0
               ExplicitHeight = 23
+            end
+          end
+          object Panel58: TPanel
+            Left = 1076
+            Top = 17
+            Width = 139
+            Height = 49
+            Align = alRight
+            BevelOuter = bvNone
+            TabOrder = 5
+            object Label43: TLabel
+              AlignWithMargins = True
+              Left = 3
+              Top = 3
+              Width = 133
+              Height = 15
+              Align = alTop
+              Caption = 'Cronograma de Coleta'
+              ExplicitWidth = 120
+            end
+            object DBComboBox2: TDBComboBox
+              AlignWithMargins = True
+              Left = 3
+              Top = 24
+              Width = 133
+              Height = 23
+              Style = csDropDownList
+              Align = alClient
+              DataField = 'envia_cronograma_coleta'
+              DataSource = Clientes.DataSource1
+              ItemHeight = 15
+              Items.Strings = (
+                'Sim'
+                'N'#227'o')
+              TabOrder = 0
+              ExplicitWidth = 114
             end
           end
         end
