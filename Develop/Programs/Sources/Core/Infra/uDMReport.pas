@@ -758,15 +758,9 @@ type
     R00017localizacao: TStringField;
     R00014aincerteza: TFloatField;
     R00014dec_conf: TBooleanField;
-    R00014resp_assinatura: TStringField;
-    R00014resp_cargo: TStringField;
     R00014analista_assinatura: TStringField;
     R00014analista_cargo: TStringField;
-    R00014resp_nome: TStringField;
-    R00014resp_crq: TStringField;
     R00014analista_nome: TStringField;
-    R00014analista_crq: TStringField;
-    R00014resp_conselho: TStringField;
     R00014analista_conselho: TStringField;
     R00014nomese: TStringField;
     R00014legendas: TMemoField;
@@ -794,6 +788,12 @@ type
     R00022: TZQuery;
     frxR00022: TfrxDBDataset;
     R00022column: TIntegerField;
+    R00014responsavel_nome: TStringField;
+    R00014responsavel_registro: TStringField;
+    R00014responsavel_assinatura: TStringField;
+    R00014responsavel_cargo: TStringField;
+    R00014analista_registro: TStringField;
+    R00014responsavel_conselho: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure R00011CalcFields(DataSet: TDataSet);
     procedure R00014CalcFields(DataSet: TDataSet);

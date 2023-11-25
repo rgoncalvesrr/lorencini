@@ -41,9 +41,8 @@ object DMReport: TDMReport
     PreviewOptions.Zoom = 1.000000000000000000
     PrintOptions.Printer = 'Padr'#227'o'
     PrintOptions.PrintOnSheet = 0
-    ReportOptions.Compressed = True
     ReportOptions.CreateDate = 39757.585007557900000000
-    ReportOptions.LastChange = 44874.664524293980000000
+    ReportOptions.LastChange = 44300.019422986100000000
     ScriptLanguage = 'PascalScript'
     StoreInDFM = False
     OnReportPrint = 'ReportBaseOnReportPrint'
@@ -1969,7 +1968,7 @@ object DMReport: TDMReport
       
         '  a.amostrador coletor,         cast(initcap(re.descri) as varch' +
         'ar(30)) as laudodesc,'
-      '  a.tamb,       a.toleo,  a.tequip, '
+      '  a.tamb,       a.toleo,  a.tequip,'
       
         '  a.umidade,         a.tensao,        a.local,      a.labsubest_' +
         'recno,'
@@ -1997,14 +1996,19 @@ object DMReport: TDMReport
       
         '  se.sigla,          se.nome nomese,         se.regional,  se.re' +
         'g_nome,'
+      ''
       
-        '  cast(Initcap(f.nome) as varchar(60)) as resp_nome, f.crq resp_' +
-        'crq, f.assinatura resp_assinatura, f.cargo resp_cargo,'
-      '  f.conselho resp_conselho,'
+        '  cast(Initcap(r.responsavel_nome) as varchar(60)) as responsave' +
+        'l_nome, r.responsavel_registro,'
       
-        '  cast(Initcap(an.nome) as varchar(60)) as analista_nome, an.crq' +
-        ' analista_crq, an.assinatura analista_assinatura,'
-      '  an.cargo analista_cargo, an.conselho analista_conselho,'
+        '  r.responsavel_assinatura, r.responsavel_cargo, r.responsavel_c' +
+        'onselho,'
+      ''
+      
+        '  cast(Initcap(r.analista_nome) as varchar(60)) as analista_nome' +
+        ', r.analista_registro, r.analista_assinatura,'
+      '  r.analista_cargo, r.analista_conselho,'
+      ''
       '  o.idos,  p.dec_conf, re.legendas, re.regras'
       'from'
       '  labamostras_rel r'
@@ -2050,12 +2054,6 @@ object DMReport: TDMReport
       '  rec.relato_recno = r.relato_recno and'
       '  rec.labdiag_recno = r.labdiag_recno and'
       '  rec.recno = r.labrec_recno'
-      'left join'
-      '  tbfuncionarios f on'
-      '  f.idcodigo = r.idcodigo'
-      'left join'
-      '  tbfuncionarios an on'
-      '  an.idcodigo = r.analista'
       'where'
       '  r.status >= 4 and'
       '  r.assinatura is not null')
@@ -2398,35 +2396,31 @@ object DMReport: TDMReport
       FieldName = 'dec_conf'
       Required = True
     end
-    object R00014resp_nome: TStringField
-      FieldName = 'resp_nome'
+    object R00014responsavel_nome: TStringField
+      FieldName = 'responsavel_nome'
       ReadOnly = True
       Size = 60
     end
-    object R00014resp_assinatura: TStringField
-      FieldName = 'resp_assinatura'
-      Size = 50
-    end
-    object R00014resp_cargo: TStringField
-      FieldName = 'resp_cargo'
+    object R00014responsavel_cargo: TStringField
+      FieldName = 'responsavel_cargo'
       Size = 60
     end
-    object R00014resp_conselho: TStringField
-      FieldName = 'resp_conselho'
+    object R00014responsavel_conselho: TStringField
+      FieldName = 'responsavel_conselho'
       Size = 5
     end
-    object R00014resp_crq: TStringField
-      FieldName = 'resp_crq'
+    object R00014responsavel_registro: TStringField
+      FieldName = 'responsavel_registro'
       Size = 15
+    end
+    object R00014responsavel_assinatura: TStringField
+      FieldName = 'responsavel_assinatura'
+      Size = 50
     end
     object R00014analista_nome: TStringField
       FieldName = 'analista_nome'
       ReadOnly = True
       Size = 60
-    end
-    object R00014analista_assinatura: TStringField
-      FieldName = 'analista_assinatura'
-      Size = 50
     end
     object R00014analista_cargo: TStringField
       FieldName = 'analista_cargo'
@@ -2436,9 +2430,13 @@ object DMReport: TDMReport
       FieldName = 'analista_conselho'
       Size = 5
     end
-    object R00014analista_crq: TStringField
-      FieldName = 'analista_crq'
+    object R00014analista_registro: TStringField
+      FieldName = 'analista_registro'
       Size = 15
+    end
+    object R00014analista_assinatura: TStringField
+      FieldName = 'analista_assinatura'
+      Size = 50
     end
     object R00014legendas: TMemoField
       FieldName = 'legendas'
@@ -2541,16 +2539,16 @@ object DMReport: TDMReport
       'revisao=revisao'
       'tequip=tequip'
       'dec_conf=dec_conf'
-      'resp_nome=resp_nome'
-      'resp_assinatura=resp_assinatura'
-      'resp_cargo=resp_cargo'
-      'resp_conselho=resp_conselho'
-      'resp_crq=resp_crq'
+      'responsavel_nome=responsavel_nome'
+      'responsavel_cargo=responsavel_cargo'
+      'responsavel_conselho=responsavel_conselho'
+      'responsavel_registro=responsavel_registro'
+      'responsavel_assinatura=responsavel_assinatura'
       'analista_nome=analista_nome'
-      'analista_assinatura=analista_assinatura'
       'analista_cargo=analista_cargo'
       'analista_conselho=analista_conselho'
-      'analista_crq=analista_crq'
+      'analista_registro=analista_registro'
+      'analista_assinatura=analista_assinatura'
       'legendas=legendas'
       'regras=regras')
     DataSet = R00014

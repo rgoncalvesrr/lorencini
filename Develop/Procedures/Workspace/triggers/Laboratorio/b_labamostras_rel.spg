@@ -9,6 +9,9 @@
 	---------------------------------------------------------------------------------------------------------------------
    Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
 
+   25/11/2023  Ricardo Gonçalves.
+      [+] Preenchimento dos dados do responsável técnico e do analista
+
    30/8/2022   Ricardo Gonçalves.
       [*] Preenchimento dos campos com a data de notificação das próximas coletas
       
@@ -78,12 +81,16 @@ BEGIN
    if tg_op <> 'DELETE' then
       xlog.source_table := sys_origem('labamostras_rel');
       xlog.source_recno := new.recno;
-      xlog.account := sys_account();
+      xlog.account      := sys_account();
 
-      select equip_recno, coleta
-        into r
-        from labamostras
-       where recno = new.amostra;
+      select
+         equip_recno, coleta
+      into
+         r
+      from
+         labamostras
+      where
+         recno = new.amostra;
 
       if new.baixado then
          raise '[[O laudo % não pode sofrer alterações porque baixado pelo cliente via internet.]]', new.recno;
@@ -91,15 +98,19 @@ BEGIN
 
       -- Trata inserção
       if tg_op = 'INSERT' then
-         new.status := _SREL_DIGITACAO;
-         new.criacao := clock_timestamp();
-         new.analise_automatica := false;
+         new.status              := _SREL_DIGITACAO;
+         new.criacao             := clock_timestamp();
+         new.analise_automatica  := false;
 
          -- Obtem informações do laudo
-         select descri, ativo
-           into rh
-           from labrel
-          where recno = new.relato_recno;
+         select 
+            descri, ativo
+         into
+            rh
+         from
+            labrel
+         where
+            recno = new.relato_recno;
 
          if not rh.ativo then
             raise '[[O tipo de laudo % - % não está ativo. Verifique!]]', new.relato_recno, rh.descri;
@@ -130,7 +141,7 @@ BEGIN
 
             delete
             from 
-              labamostras_res
+               labamostras_res
             where 
                recno in (
                   select 
@@ -186,8 +197,8 @@ BEGIN
                   labamostras_res rens
                join 
                   labens e on 
-                  e.recno = rens.ensaio_recno and 
-                  e.reftipo <> 1
+                  e.recno     = rens.ensaio_recno and 
+                  e.reftipo   <> 1
                where 
                   rens.laudo = new.recno and 
                   rens.relato_recno = new.relato_recno and 
@@ -250,9 +261,9 @@ BEGIN
                rel.status in (_SREL_ASSINADO, _SREL_LIBERADO) and 
                rel.assinatura is not null and 
                rel.emissao < clock_timestamp()
-             order by 
+            order by 
                rel.emissao desc
-             limit 
+            limit 
                1;
 
             if found then
@@ -367,6 +378,25 @@ BEGIN
                raise '[[Para assinar um laudo é necessário que o código do analista seja informado.]]';
             end if;
 
+            -- Preenchendo informações do analista
+            select
+               Initcap(f.nome),      f.cargo,               f.conselho,               f.crq,                    f.assinatura
+            into
+               new.responsavel_nome, new.responsavel_cargo, new.responsavel_conselho, new.responsavel_registro, new.responsavel_assinatura
+            from
+               tbfuncionarios f
+            where
+               idcodigo = new.idcodigo;
+            
+            select
+               Initcap(f.nome),   f.cargo,            f.conselho,            f.crq,                 f.assinatura
+            into
+               new.analista_nome, new.analista_cargo, new.analista_conselho, new.analista_registro, new.analista_assinatura
+            from
+               tbfuncionarios f
+            where
+               idcodigo = new.analista;
+            
             new.emissao := localtimestamp;            
             iensaio := -1;
 

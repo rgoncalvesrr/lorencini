@@ -10,8 +10,8 @@ inherited ColaboradoresM: TColaboradoresM
   inherited Panel1: TPanel
     Width = 958
     Height = 480
-    ExplicitWidth = 821
-    ExplicitHeight = 474
+    ExplicitWidth = 958
+    ExplicitHeight = 480
     inherited Panel3: TPanel
       Top = 295
       Width = 670
@@ -64,14 +64,14 @@ inherited ColaboradoresM: TColaboradoresM
     inherited PageControl1: TPageControl
       Width = 952
       Height = 474
-      ExplicitWidth = 815
-      ExplicitHeight = 468
+      ExplicitWidth = 952
+      ExplicitHeight = 474
       inherited TabSheet1: TTabSheet
         Caption = 'Colaborador'
         ExplicitLeft = 4
         ExplicitTop = 26
-        ExplicitWidth = 807
-        ExplicitHeight = 438
+        ExplicitWidth = 944
+        ExplicitHeight = 444
         object GroupBox1: TGroupBox
           AlignWithMargins = True
           Left = 3
@@ -81,7 +81,6 @@ inherited ColaboradoresM: TColaboradoresM
           Align = alTop
           Caption = ' Logradouro e Contato '
           TabOrder = 1
-          ExplicitWidth = 801
           object Panel8: TPanel
             Left = 2
             Top = 17
@@ -90,7 +89,6 @@ inherited ColaboradoresM: TColaboradoresM
             Align = alTop
             BevelOuter = bvNone
             TabOrder = 0
-            ExplicitWidth = 797
             object Panel9: TPanel
               Left = 0
               Top = 0
@@ -184,7 +182,6 @@ inherited ColaboradoresM: TColaboradoresM
             Align = alTop
             BevelOuter = bvNone
             TabOrder = 1
-            ExplicitWidth = 797
             object Panel14: TPanel
               Left = 0
               Top = 0
@@ -277,7 +274,6 @@ inherited ColaboradoresM: TColaboradoresM
             Align = alTop
             BevelOuter = bvNone
             TabOrder = 2
-            ExplicitWidth = 797
             object Panel19: TPanel
               Left = 0
               Top = 0
@@ -369,7 +365,6 @@ inherited ColaboradoresM: TColaboradoresM
             Align = alTop
             BevelOuter = bvNone
             TabOrder = 3
-            ExplicitWidth = 797
             object Panel24: TPanel
               Left = 0
               Top = 0
@@ -439,7 +434,6 @@ inherited ColaboradoresM: TColaboradoresM
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 0
-          ExplicitWidth = 807
           object Panel4: TPanel
             Left = 0
             Top = 0
@@ -487,7 +481,6 @@ inherited ColaboradoresM: TColaboradoresM
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 1
-            ExplicitWidth = 496
             object Label2: TLabel
               AlignWithMargins = True
               Left = 3
@@ -517,7 +510,6 @@ inherited ColaboradoresM: TColaboradoresM
               DataField = 'nome'
               DataSource = Colaboradores.DataSource1
               TabOrder = 0
-              ExplicitWidth = 490
             end
           end
           object Panel6: TPanel
@@ -528,7 +520,6 @@ inherited ColaboradoresM: TColaboradoresM
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 2
-            ExplicitLeft = 567
             object Label3: TLabel
               AlignWithMargins = True
               Left = 3
@@ -567,7 +558,6 @@ inherited ColaboradoresM: TColaboradoresM
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 3
-            ExplicitLeft = 687
             object Label4: TLabel
               AlignWithMargins = True
               Left = 3
@@ -607,7 +597,6 @@ inherited ColaboradoresM: TColaboradoresM
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 2
-          ExplicitWidth = 807
           object GroupBox2: TGroupBox
             AlignWithMargins = True
             Left = 3
@@ -720,7 +709,6 @@ inherited ColaboradoresM: TColaboradoresM
             Align = alClient
             Caption = ' Situa'#231#227'o '
             TabOrder = 1
-            ExplicitWidth = 454
             object Panel34: TPanel
               Left = 2
               Top = 17
@@ -803,8 +791,6 @@ inherited ColaboradoresM: TColaboradoresM
               Align = alLeft
               BevelOuter = bvNone
               TabOrder = 2
-              ExplicitLeft = 230
-              ExplicitTop = 19
               object Label37: TLabel
                 AlignWithMargins = True
                 Left = 3
@@ -837,9 +823,6 @@ inherited ColaboradoresM: TColaboradoresM
               Align = alClient
               BevelOuter = bvNone
               TabOrder = 3
-              ExplicitLeft = 470
-              ExplicitTop = 19
-              ExplicitWidth = 120
               object DBCheckBox1: TDBCheckBox
                 AlignWithMargins = True
                 Left = 3
@@ -854,10 +837,6 @@ inherited ColaboradoresM: TColaboradoresM
                 TabOrder = 0
                 ValueChecked = 'True'
                 ValueUnchecked = 'False'
-                ExplicitLeft = 32
-                ExplicitTop = 24
-                ExplicitWidth = 97
-                ExplicitHeight = 17
               end
             end
           end
@@ -871,7 +850,6 @@ inherited ColaboradoresM: TColaboradoresM
           Align = alTop
           Caption = ' Assinatura (180mm X 10mm) '
           TabOrder = 4
-          ExplicitWidth = 801
           object Image1: TImage
             AlignWithMargins = True
             Left = 5
@@ -881,7 +859,6 @@ inherited ColaboradoresM: TColaboradoresM
             Align = alClient
             Center = True
             ExplicitTop = 22
-            ExplicitWidth = 760
           end
           object Panel29: TPanel
             Left = 905
@@ -891,7 +868,6 @@ inherited ColaboradoresM: TColaboradoresM
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 0
-            ExplicitLeft = 768
             object SpeedButton1: TSpeedButton
               AlignWithMargins = True
               Left = 3
@@ -901,41 +877,6 @@ inherited ColaboradoresM: TColaboradoresM
               Margins.Top = 6
               Action = actImgAdd
               Align = alTop
-              Glyph.Data = {
-                36040000424D3604000000000000360000002800000010000000100000000100
-                2000000000000004000000000000000000000000000000000000FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF002788AF000A8BB7000A8AB7002788
-                AF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF000A6B9A000A6B9A00FF00FF00FF00FF002788AF000ADBFC000AD9FC002788
-                AF00FF00FF00FF00FF000A6B9A000A6B9A00FF00FF00FF00FF00FF00FF000A6B
-                9A000AE5FC000AE4FC000A6B9A00FF00FF002788AF000A8CB7000A8BB7002788
-                AF00FF00FF000A6B9A000AD4FC000AD2FC000A6B9A00FF00FF00FF00FF000A6B
-                9A000AE6FC000AE5FC000A6B9A00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF000A6B9A000AD5FC000AD3FC000A6B9A00FF00FF00FF00FF00FF00
-                FF000A6B9A000A6B9A00C3C9C90098B1BD000B9BC1000A79A7000A79A7000B99
-                C10098B1BD00C3C9C9000A6B9A000A6B9A00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF00FF00FF0098B1BD000A89B3000AB3D5000AD3F0000AD1F0000AB0
-                D5000A87B30098B1BD00FF00FF00FF00FF00FF00FF00FF00FF002B8AAE002B8A
-                AE002E8AAD00FF00FF000B9DC1000AB5D5000AE4FC000AE4FC000AE2FC000AE0
-                FC000AB0D5000C98C100FF00FF002E88AD002B88AE002B88AE000A92B7000AEF
-                FC00118FB500FF00FF000A7AA7000AD9F0000AE6FC000AE4FC000AE3FC000AE2
-                FC000AD1F0000A79A700FF00FF00118BB5000AD9FC000A8AB7000A92B7000AF0
-                FC001190B500FF00FF000A7AA7000ADAF0000AE8FC000AE6FC000AE4FC000AE3
-                FC000AD3F0000A79A700FF00FF00118BB5000ADBFC000A8BB7002B8BAE002B8B
-                AE002E8AAD00FF00FF000B9EC1000AB8D5000AE9FC000AE8FC000AE6FC000AE4
-                FC000AB3D5000C9AC100FF00FF002E88AD002B88AE002B88AE00FF00FF00FF00
-                FF00FF00FF00FF00FF0098B1BD000A8BB3000AB8D5000ADAF0000AD8F0000AB5
-                D5000A89B30098B1BD00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF000A6B9A000A6B9A00FF00FF0098B1BD000B9EC1000A7AA7000A7AA7000B9D
-                C10098B1BD00FF00FF000A6B9A000A6B9A00FF00FF00FF00FF00FF00FF000A6B
-                9A000AF6FC000AF4FC000A6B9A00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF000A6B9A000AE4FC000AE3FC000A6B9A00FF00FF00FF00FF000A6B
-                9A000AF7FC000AF6FC000A6B9A00FF00FF00278CAF000A91B7000A90B700278B
-                AF00FF00FF000A6B9A000AE6FC000AE4FC000A6B9A00FF00FF00FF00FF00FF00
-                FF000A6B9A000A6B9A00FF00FF00FF00FF00278CAF000AF0FC000AEEFC00278B
-                AF00FF00FF00FF00FF000A6B9A000A6B9A00FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF00FF00FF00FF00FF00FF00FF00278CAF000A92B7000A92B700278B
-                AF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00}
               ExplicitTop = 3
             end
             object SpeedButton2: TSpeedButton
@@ -947,41 +888,6 @@ inherited ColaboradoresM: TColaboradoresM
               Margins.Bottom = 6
               Action = actImgDel
               Align = alBottom
-              Glyph.Data = {
-                36040000424D3604000000000000360000002800000010000000100000000100
-                2000000000000004000000000000000000000000000000000000FF00FF00FF00
-                FF00FF00FF00FF00FF00A9A9B8004B4E97001B2086000A0E77000A0E74001B1E
-                7700494B8500A6A6B200FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
-                FF00C3C3C6004B50A4000C17A400192CC5002A40D5004258DE004A61E100374F
-                DD002638C6000D128200494A8500C3C3C400FF00FF00FF00FF00FF00FF00C3C3
-                C6002C38AD001022BF00263BD1003A4FD9004359DE004C62E200546BE5005E74
-                E900657CED00546DE8001D29B1002A2B7A00C3C3C400FF00FF00FF00FF004C57
-                BC000F22C2002133CC008891DF00737FDC003C50D900445ADE004E63E300566C
-                E600939CE400AAAFE400697FED001D29B200494A8700FF00FF00A9ABC5000D23
-                C6001022C100747FDA00FCF9F400FCF7F1008893E0003D52DA00465CDE00969E
-                E300FCF1DF00FCEFDB00A9AFE4005870E9000E138800A6A6B3004958CB000E23
-                C5000A19BB005A65D200FCFAF700FCF9F400FCF7F1008A93E0008C96E100FCF4
-                E500FCF2E300FCF1DF00919CE4006A80ED002839C90046488900223AD2000B1C
-                BE000A18B7000B1ABB006F78D800FCFAF700FCF9F400FCF7F100FCF7ED00FCF5
-                E900FCF4E500969EE3005A70E6006379E9003F56DE00181C82001D39D6000A18
-                B5000A17B3000A17B7000D1CBC006F79D700FCFAF700FCF9F400FCF7F100FCF7
-                ED008C96E0004A5FDF005368E3005C72E6004F65E3000D1287002141DB000A17
-                B2000A15AF000A16B3000A17B7007079D600FCFCFB00FCFAF700FCF9F400FCF7
-                F1008C96E0004357DB004C61DF005469E300495FE0000D138E003251DD000C1A
-                B8000A13AC000A15AF006E74D100FCFCFC00FCFCFC00FCFCFB00FCFAF700FCF9
-                F400FCF7F1008D97E0004458DB004D62DF00354AD70018209A005F78DA00132A
-                C8000A11A8005157C300FCFCFC00FCFCFC00FCFCFC006F78D500727CD800FCFA
-                F700FCF9F400FCF7F1007A86DE00465ADB001F32CA00464CAA00B1B7CD002A50
-                E3000B14AC007174CC00FCFCFC00FCFCFC006B72D1000A17B6001321BC00737C
-                D800FCFAF700FCF9F4008A93E0003146D3000E1CBC00A6A8BF00FF00FF006681
-                DE001D3CD5000D13A7007174CC004C51C1000A14AF000A16B2000B18B6001422
-                BD005762D1008189DC002D3ECD00192DC9004953BB00FF00FF00FF00FF00C4C5
-                C9005073E6001E3DD4000B14AC000A10A8000A12AC000A14AE000A16B2000D1A
-                B7001624BD00192AC300182DCB003242C500C3C3C700FF00FF00FF00FF00FF00
-                FF00C4C5C9006B89E200335CE800162CC9000C19B7000B17B5000B18B7000B1C
-                BD001329C9001D36D1005363CC00C3C3C700FF00FF00FF00FF00FF00FF00FF00
-                FF00FF00FF00FF00FF00B2BBD0006C88E1004165E6003157E6002D51E3003653
-                DD005C6FD500ABB0CA00FF00FF00FF00FF00FF00FF00FF00FF00}
               ExplicitTop = 33
             end
           end
@@ -994,7 +900,6 @@ inherited ColaboradoresM: TColaboradoresM
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 3
-          ExplicitWidth = 807
           object GroupBox8: TGroupBox
             AlignWithMargins = True
             Left = 3
@@ -1112,7 +1017,6 @@ inherited ColaboradoresM: TColaboradoresM
             Align = alClient
             Caption = ' Integra'#231#227'o c/ Sistema '
             TabOrder = 1
-            ExplicitWidth = 157
             object Label42: TLabel
               AlignWithMargins = True
               Left = 5
@@ -1139,7 +1043,6 @@ inherited ColaboradoresM: TColaboradoresM
               ListSettings.OutfilteredValueFont.Height = -11
               ListSettings.OutfilteredValueFont.Name = 'Tahoma'
               ListSettings.OutfilteredValueFont.Style = []
-              ExplicitWidth = 147
             end
           end
         end
