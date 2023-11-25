@@ -1998,16 +1998,13 @@ object DMReport: TDMReport
         'g_nome,'
       ''
       
-        '  cast(Initcap(r.responsavel_nome) as varchar(60)) as responsave' +
-        'l_nome, r.responsavel_registro,'
-      
-        '  r.responsavel_assinatura, r.responsavel_cargo, r.responsavel_c' +
-        'onselho,'
+        '  r.responsavel_nome, r.responsavel_registro, r.responsavel_assi' +
+        'natura, r.responsavel_cargo,'
+      '  r.responsavel_conselho,'
       ''
       
-        '  cast(Initcap(r.analista_nome) as varchar(60)) as analista_nome' +
-        ', r.analista_registro, r.analista_assinatura,'
-      '  r.analista_cargo, r.analista_conselho,'
+        '  r.analista_nome, r.analista_registro, r.analista_assinatura, r' +
+        '.analista_cargo, r.analista_conselho,'
       ''
       '  o.idos,  p.dec_conf, re.legendas, re.regras'
       'from'
