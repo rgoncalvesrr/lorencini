@@ -41,7 +41,9 @@ begin
    insert into correios.tokens
       (token,    ambiente,    id,    perfil,    cnpj,    emissao,    expiracao)
    values
-      (rt.token, rt.ambiente, rt.id, rt.perfil, rt.cnpj, rt.emissao, rt.expiracao);
+      (rt.token, rt.ambiente, rt.id, rt.perfil, rt.cnpj, rt.emissao, rt.expiracao)
+   on conflict
+      do nothing;
 
    return rt.token;
 end;
