@@ -28,7 +28,7 @@
 */
 CREATE OR REPLACE FUNCTION labamostras_rel_hatu(
    in in_laudo integer)
-  RETURNS void AS
+RETURNS void AS
 $$
 Declare
    _SREL_ASSINADO    constant integer = 3;
@@ -45,17 +45,25 @@ Declare
    bFound      boolean;
 BEGIN
    delete 
-     from labamostras_hres 
-    where laudo = in_laudo;
+   from
+      labamostras_hres 
+   where
+      laudo = in_laudo;
    
    -- Obtem laudos que terão seus históricos processados   
-   select rel.relato_recno, rel.emissao, a.equip_recno
-     into r
-     from labamostras_rel rel
-          join labamostras a
-            on a.recno = rel.amostra
-    where rel.recno = in_laudo
-    order by rel.emissao;
+   select
+      rel.relato_recno, rel.emissao, a.equip_recno
+   into
+      r
+   from
+      labamostras_rel rel
+   join
+      labamostras a on 
+      a.recno = rel.amostra
+   where
+      rel.recno = in_laudo
+   order by
+      rel.emissao;
    
    if not Found then
       raise '[[Laudo % não localizado no sistema.]]', in_laudo;
@@ -64,32 +72,41 @@ BEGIN
    perform sys_flag_mark('labamostras_rel', in_laudo);
 
    open xcur for 
-      select e.ensaio_recno, rel.recno laudo, rel.emissao, e.valor, e.recno recno_res
-        from labamostras_rel rel
-             join labamostras a
-               on a.recno = rel.amostra
-              and a.equip_recno = r.equip_recno
-             join labamostras_res e
-               on e.laudo = rel.recno
-              and e.relato_recno = rel.relato_recno
-       where rel.recno <> in_laudo
-         and rel.relato_recno = r.relato_recno
-         and rel.status in (_SREL_ASSINADO, _SREL_LIBERADO)
-         and rel.assinatura is not null
-         and rel.emissao < r.emissao
-       order by e.ensaio_recno, rel.emissao desc;
+      select 
+         e.ensaio_recno, rel.recno laudo, rel.emissao, e.valor, e.recno recno_res
+      from 
+         labamostras_rel rel
+      join
+         labamostras a on
+         a.recno = rel.amostra and
+         a.equip_recno = r.equip_recno
+      join
+         labamostras_res e on 
+         e.laudo = rel.recno and
+         e.relato_recno = rel.relato_recno
+      where
+         rel.recno <> in_laudo and 
+         rel.relato_recno = r.relato_recno and 
+         rel.status in (_SREL_ASSINADO, _SREL_LIBERADO) and 
+         rel.assinatura is not null and 
+         rel.emissao < r.emissao
+      order by 
+         e.ensaio_recno, rel.emissao desc;
    
    Fetch xcur into rh;
    bFound := FOUND;
 
-   iensaio := rh.ensaio_recno;
-   irecno_res := rh.recno_res;   
-   emissoes := array[null, null, null, null, null, null];
-   resultados := array[null, null, null, null, null, null];
+   iensaio     := rh.ensaio_recno;
+   irecno_res  := rh.recno_res;   
+   emissoes    := array[null, null, null, null, null, null];
+   resultados  := array[null, null, null, null, null, null];
 
-   update labamostras_rel 
-      set d1 = emissoes[1], d2 = emissoes[2], d3 = emissoes[3], d4 = emissoes[4], d5 = emissoes[5], d6 = emissoes[6] 
-    where recno = in_laudo; 
+   update 
+      labamostras_rel 
+   set 
+      d1 = emissoes[1], d2 = emissoes[2], d3 = emissoes[3], d4 = emissoes[4], d5 = emissoes[5], d6 = emissoes[6] 
+   where 
+      recno = in_laudo; 
 
 
    while bFound loop
@@ -112,21 +129,27 @@ BEGIN
 
       if rh.ensaio_recno <> iensaio or not bFound then
          if emissoes is not null then
-            update labamostras_rel 
-               set d1 = emissoes[1], d2 = emissoes[2], d3 = emissoes[3], d4 = emissoes[4], d5 = emissoes[5], d6 = emissoes[6] 
-             where recno = in_laudo; 
+            update
+               labamostras_rel 
+            set
+               d1 = emissoes[1], d2 = emissoes[2], d3 = emissoes[3], d4 = emissoes[4], d5 = emissoes[5], d6 = emissoes[6] 
+            where
+               recno = in_laudo; 
 
             emissoes := null;
          end if;
 
-         update labamostras_res 
-            set v1 = resultados[1], v2 = resultados[2], v3 = resultados[3], v4 = resultados[4], v5 = resultados[5], v6 = resultados[6]            
-          where recno = irecno_res;            
+         update 
+            labamostras_res 
+         set
+            v1 = resultados[1], v2 = resultados[2], v3 = resultados[3], v4 = resultados[4], v5 = resultados[5], v6 = resultados[6]            
+         where
+            recno = irecno_res;            
          
-         resultados := array[null,null,null,null,null,null];         
-         iensaio := rh.ensaio_recno;
-         irecno_res := rh.recno_res;
-         icol := 1;
+         resultados  := array[null,null,null,null,null,null];         
+         iensaio     := rh.ensaio_recno;
+         irecno_res  := rh.recno_res;
+         icol        := 1;
       end if;
    End Loop;
 
