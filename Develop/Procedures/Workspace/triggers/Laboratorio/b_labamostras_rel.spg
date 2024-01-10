@@ -351,16 +351,16 @@ BEGIN
 
                   -- Recupera informações de diagnóstico e recomendação do laudo anterior
                   if new.analise_automatica then                     
-                     xlog.title := format('Laudo %s qualificado por análise automática.', new.recno);
+                     xlog.title  := format('Laudo %s qualificado por análise automática.', new.recno);
                      xlog.detail := format('Todos os ensaios passaram nos critérios de tolerância.'); 
                      perform log(xlog);
 
                      new.labcrit_recno := la.labcrit_recno;
                      new.labdiag_recno := la.labdiag_recno; 
                      new.labrec_recno  := la.labrec_recno;   
-                     new.diagnostico := la.diagnostico; 
-                     new.recomendacao := la.recomendacao;                     
-                     new.obs := la.obs;
+                     new.diagnostico   := la.diagnostico; 
+                     new.recomendacao  := la.recomendacao;                     
+                     new.obs           := la.obs;
                   end if;
                end if;
             else
@@ -371,11 +371,23 @@ BEGIN
          elsif old.status = _SREL_REVISAO and new.status = _SREL_ASSINADO then -- Assinatura do Laudo
             -- Verifica o codigo
             if new.idcodigo is null then
-               raise '[[Para assinar um laudo é necessário que o código do engenheiro seja informado.]]';
+               raise '[[Para assinar o laudo % é necessário preencher o código do engenheiro.]]', recno;
             end if;
 
             if new.analista is null then
-               raise '[[Para assinar um laudo é necessário que o código do analista seja informado.]]';
+               raise '[[Para assinar o laudo % é necessário preencher o código do analista.]]', recno;
+            end if;
+
+            if new.labcrit_recno is null then
+               raise '[[Para assinar o laudo % é necessário preencher a criticidade.]]', recno;
+            end if;
+
+            if new.labdiag_recno is null or new.diagnostico is null then
+               raise '[[Para assinar o laudo % é necessário preencher o diagnóstico.]]', recno;
+            end if;
+
+            if new.labrec_recno is null or new.recomendacao is null then
+               raise '[[Para assinar o laudo % é necessário preencher a recomendação.]]', recno;
             end if;
 
             -- Preenchendo informações do analista
@@ -398,7 +410,7 @@ BEGIN
                idcodigo = new.analista;
             
             new.emissao := localtimestamp;            
-            iensaio := -1;
+            iensaio     := -1;
 
             -- Gera histórico para amostra atual
             for rh in (
@@ -444,8 +456,8 @@ BEGIN
                   (rh.relato_recno, rh.ensaio_recno, new.recno, rh.recno);               
 
                if rh.ensaio_recno <> iensaio then
-                  iensaio := rh.ensaio_recno;
-                  icol := 1;
+                  iensaio  := rh.ensaio_recno;
+                  icol     := 1;
                end if;
 
                if icol = 1 then
@@ -519,6 +531,10 @@ BEGIN
             vass_p4 := md5(new.diagnostico);
 
             new.assinatura := vass_p1 || vass_p2 || vass_p3 || vass_p4;
+
+            if new.assinatura is null then
+               raise '[[Laudo % não pode ser assinado não foi informado dignóstico]]', new.recno;
+            end if;
 
             -- Preenche data da próxima coleta
             if new.pcoleta is null and new.relato_recno is not null and new.labdiag_recno is not null then

@@ -12,8 +12,8 @@
    17/05/2011 18:06:50  v2    Ricardo Gonçalves.
       [+] Inserção dos parâmetros caso exista cálculos para o ensaio
 */
-CREATE OR REPLACE FUNCTION a_labamostras_res()
-  RETURNS trigger AS
+create or replace function a_labamostras_res()
+returns trigger AS
 $$
 BEGIN
    if tg_op <> 'DELETE' then
@@ -31,10 +31,12 @@ BEGIN
             -- Cria parâmetros na tabela de itens
             INSERT INTO labamostras_res_var(
                relato_recno, ensaio_recno, laudo, proc, param)
-            select new.relato_recno, new.ensaio_recno, new.laudo,
-                   new.proc, param
-              from labcalcvar
-             where proc = new.proc;
+            select 
+               new.relato_recno, new.ensaio_recno, new.laudo, new.proc, param
+            from
+               labcalcvar
+            where
+               proc = new.proc;
          end if;
       end if;
       
@@ -50,4 +52,4 @@ BEGIN
    end if;
 END;
 $$
-  LANGUAGE 'plpgsql' VOLATILE;
+LANGUAGE 'plpgsql' VOLATILE;

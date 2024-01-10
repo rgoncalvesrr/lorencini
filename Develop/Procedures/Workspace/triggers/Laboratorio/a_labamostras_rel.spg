@@ -94,14 +94,14 @@ BEGIN
 
                -- Gera informações para o portal
                delete 
-                 from 
+               from 
                   api.reports_assays
-                where 
+               where 
                   report = new.recno;
                
-               insert into api.reports_assays
-                  (report,                   reporttype,        hash, 
-                   assays,                   titles,            results)
+               insert into api.reports_assays (
+                  report,                   reporttype,        hash, 
+                  assays,                   titles,            results)
                select 
                   new.recno, new.relato_recno, md5(string_agg(g.ensaio_recno::text, '|')), 
                   array_agg(g.ensaio_recno), array_agg(g.nome), array_agg(g.valor)
@@ -177,4 +177,4 @@ BEGIN
    end if;
 END;
 $$
-  LANGUAGE 'plpgsql' VOLATILE;
+LANGUAGE 'plpgsql' VOLATILE;
