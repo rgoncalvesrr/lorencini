@@ -11,9 +11,9 @@ inherited LabApontM: TLabApontM
   PixelsPerInch = 96
   TextHeight = 15
   inherited Panel1: TPanel
-    Top = 164
+    Top = 108
     Width = 998
-    Height = 509
+    Height = 565
     ExplicitTop = 164
     ExplicitWidth = 998
     ExplicitHeight = 509
@@ -55,7 +55,7 @@ inherited LabApontM: TLabApontM
     end
     inherited PageControl1: TPageControl
       Width = 992
-      Height = 503
+      Height = 559
       ExplicitWidth = 992
       ExplicitHeight = 503
       inherited TabSheet1: TTabSheet
@@ -68,18 +68,19 @@ inherited LabApontM: TLabApontM
           Left = 0
           Top = 0
           Width = 984
-          Height = 473
+          Height = 529
           Align = alClient
           BevelOuter = bvNone
           Caption = 'Panel2'
           TabOrder = 0
           OnResize = Panel2Resize
-          ExplicitLeft = 2
+          ExplicitHeight = 473
         end
       end
       object TabSheet2: TTabSheet
         Caption = 'Informa'#231#245'es Adicionais'
         ImageIndex = 1
+        ExplicitHeight = 473
         object Panel27: TPanel
           Left = 0
           Top = 0
@@ -1278,7 +1279,7 @@ inherited LabApontM: TLabApontM
     Left = 3
     Top = 47
     Width = 992
-    Height = 114
+    Height = 58
     Align = alTop
     BevelOuter = bvNone
     TabOrder = 2
@@ -1360,181 +1361,6 @@ inherited LabApontM: TLabApontM
           TabOrder = 0
         end
       end
-      object Panel8: TPanel
-        Left = 440
-        Top = 0
-        Width = 65
-        Height = 50
-        Align = alLeft
-        BevelOuter = bvNone
-        TabOrder = 2
-        object Label3: TLabel
-          AlignWithMargins = True
-          Left = 3
-          Top = 3
-          Width = 59
-          Height = 15
-          Align = alTop
-          Caption = 'Solicitante'
-          FocusControl = DBEdit3
-          ExplicitWidth = 55
-        end
-        object DBEdit3: TDBEdit
-          AlignWithMargins = True
-          Left = 3
-          Top = 24
-          Width = 59
-          Height = 23
-          TabStop = False
-          Align = alClient
-          DataField = 'codigo'
-          DataSource = LabApont.DataSource1
-          ParentShowHint = False
-          ReadOnly = True
-          ShowHint = False
-          TabOrder = 0
-        end
-      end
-      object Panel9: TPanel
-        Left = 505
-        Top = 0
-        Width = 34
-        Height = 50
-        Align = alClient
-        BevelOuter = bvNone
-        TabOrder = 3
-        object Label4: TLabel
-          AlignWithMargins = True
-          Left = 3
-          Top = 3
-          Width = 28
-          Height = 15
-          Align = alTop
-          Caption = 'Raz'#227'o/Nome'
-          FocusControl = DBEdit4
-          ExplicitWidth = 69
-        end
-        object DBEdit4: TDBEdit
-          AlignWithMargins = True
-          Left = 3
-          Top = 24
-          Width = 28
-          Height = 23
-          TabStop = False
-          Align = alClient
-          DataField = 'nome_chave'
-          DataSource = LabApont.DataSource1
-          ParentShowHint = False
-          ReadOnly = True
-          ShowHint = False
-          TabOrder = 0
-        end
-      end
-      object Panel10: TPanel
-        Left = 661
-        Top = 0
-        Width = 120
-        Height = 50
-        Align = alRight
-        BevelOuter = bvNone
-        TabOrder = 4
-        object Label5: TLabel
-          AlignWithMargins = True
-          Left = 3
-          Top = 3
-          Width = 114
-          Height = 15
-          Align = alTop
-          Caption = 'C.N.P.J.'
-          FocusControl = DBEdit5
-          ExplicitWidth = 40
-        end
-        object DBEdit5: TDBEdit
-          AlignWithMargins = True
-          Left = 3
-          Top = 24
-          Width = 114
-          Height = 23
-          TabStop = False
-          Align = alClient
-          DataField = 'cnpj'
-          DataSource = LabApont.DataSource1
-          ParentShowHint = False
-          ReadOnly = True
-          ShowHint = False
-          TabOrder = 0
-        end
-      end
-      object Panel11: TPanel
-        Left = 781
-        Top = 0
-        Width = 110
-        Height = 50
-        Align = alRight
-        BevelOuter = bvNone
-        TabOrder = 5
-        object Label6: TLabel
-          AlignWithMargins = True
-          Left = 3
-          Top = 3
-          Width = 104
-          Height = 15
-          Align = alTop
-          Caption = 'C.P.F.'
-          FocusControl = DBEdit6
-          ExplicitWidth = 30
-        end
-        object DBEdit6: TDBEdit
-          AlignWithMargins = True
-          Left = 3
-          Top = 24
-          Width = 104
-          Height = 23
-          TabStop = False
-          Align = alClient
-          DataField = 'cpf'
-          DataSource = LabApont.DataSource1
-          ParentShowHint = False
-          ReadOnly = True
-          ShowHint = False
-          TabOrder = 0
-        end
-      end
-      object Panel12: TPanel
-        Left = 539
-        Top = 0
-        Width = 122
-        Height = 50
-        Align = alRight
-        BevelOuter = bvNone
-        TabOrder = 6
-        object Label7: TLabel
-          AlignWithMargins = True
-          Left = 3
-          Top = 3
-          Width = 116
-          Height = 15
-          Align = alTop
-          Caption = 'Telefone'
-          FocusControl = DBEdit7
-          ExplicitWidth = 44
-        end
-        object DBEdit7: TDBEdit
-          AlignWithMargins = True
-          Left = 3
-          Top = 24
-          Width = 116
-          Height = 23
-          TabStop = False
-          Align = alClient
-          DataField = 'telefone'
-          DataSource = LabApont.DataSource1
-          ParentShowHint = False
-          ReadOnly = True
-          ShowHint = False
-          TabOrder = 0
-        end
-      end
       object Panel13: TPanel
         Left = 891
         Top = 0
@@ -1542,7 +1368,7 @@ inherited LabApontM: TLabApontM
         Height = 50
         Align = alRight
         BevelOuter = bvNone
-        TabOrder = 7
+        TabOrder = 2
         object Label14: TLabel
           AlignWithMargins = True
           Left = 3
@@ -1578,7 +1404,7 @@ inherited LabApontM: TLabApontM
         Height = 50
         Align = alLeft
         BevelOuter = bvNone
-        TabOrder = 8
+        TabOrder = 3
         object Label2: TLabel
           AlignWithMargins = True
           Left = 3
@@ -1611,7 +1437,7 @@ inherited LabApontM: TLabApontM
         Height = 50
         Align = alLeft
         BevelOuter = bvNone
-        TabOrder = 9
+        TabOrder = 4
         object Label41: TLabel
           AlignWithMargins = True
           Left = 3
@@ -1645,7 +1471,7 @@ inherited LabApontM: TLabApontM
         Height = 50
         Align = alLeft
         BevelOuter = bvNone
-        TabOrder = 10
+        TabOrder = 5
         object Label43: TLabel
           AlignWithMargins = True
           Left = 3
@@ -1665,84 +1491,6 @@ inherited LabApontM: TLabApontM
           TabStop = False
           Align = alClient
           DataField = 'pedido'
-          DataSource = LabApont.DataSource1
-          ParentShowHint = False
-          ReadOnly = True
-          ShowHint = False
-          TabOrder = 0
-        end
-      end
-    end
-    object Panel15: TPanel
-      AlignWithMargins = True
-      Left = 3
-      Top = 59
-      Width = 986
-      Height = 50
-      Align = alTop
-      BevelOuter = bvNone
-      TabOrder = 1
-      object Panel17: TPanel
-        Left = 0
-        Top = 0
-        Width = 57
-        Height = 50
-        Align = alLeft
-        BevelOuter = bvNone
-        TabOrder = 0
-        object Label42: TLabel
-          AlignWithMargins = True
-          Left = 3
-          Top = 3
-          Width = 51
-          Height = 15
-          Align = alTop
-          Caption = 'Pedido'
-          FocusControl = DBEdit38
-          ExplicitWidth = 37
-        end
-        object DBEdit38: TDBEdit
-          AlignWithMargins = True
-          Left = 3
-          Top = 24
-          Width = 51
-          Height = 23
-          TabStop = False
-          Align = alClient
-          DataField = 'pedido'
-          DataSource = LabApont.DataSource1
-          ParentShowHint = False
-          ReadOnly = True
-          ShowHint = False
-          TabOrder = 0
-        end
-      end
-      object Panel21: TPanel
-        Left = 57
-        Top = 0
-        Width = 929
-        Height = 50
-        Align = alClient
-        BevelOuter = bvNone
-        TabOrder = 1
-        object Label40: TLabel
-          AlignWithMargins = True
-          Left = 3
-          Top = 3
-          Width = 923
-          Height = 15
-          Align = alTop
-          Caption = 'Destinat'#225'rio'
-          ExplicitWidth = 63
-        end
-        object DBEdit39: TDBEdit
-          AlignWithMargins = True
-          Left = 3
-          Top = 24
-          Width = 923
-          Height = 23
-          Align = alClient
-          DataField = 'destinatario'
           DataSource = LabApont.DataSource1
           ParentShowHint = False
           ReadOnly = True

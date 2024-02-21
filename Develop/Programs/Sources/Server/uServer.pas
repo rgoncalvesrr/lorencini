@@ -12,9 +12,17 @@ type
     procedure ServiceStart(Sender: TService; var Started: Boolean);
     procedure ServiceAfterUninstall(Sender: TService);
     procedure ServiceStop(Sender: TService; var Stopped: Boolean);
+    procedure ServiceCreate(Sender: TObject);
+    procedure ServiceDestroy(Sender: TObject);
   private
-    { Private declarations }
-    procedure OnLogSMTP(Sender: TObject; const MsgLog: string);
+    FLogger: TEventLogger;
+    FLoggerSchedule: TEventLogger;
+    FLoggerPrint: TEventLogger;
+    FLoggerHttp: TEventLogger;
+    procedure OnLog(Sender: TObject; const MsgLog: string);
+    procedure OnLogSchedule(Sender: TObject; const MsgLog: string);
+    procedure OnLogPrint(Sender: TObject; const MsgLog: string);
+    procedure OnLogHttpClient(Sender: TObject; const MsgLog: string);
   public
     function GetServiceController: TServiceController; override;
     { Public declarations }
@@ -39,9 +47,24 @@ begin
   Result := ServiceController;
 end;
 
-procedure TManagerService.OnLogSMTP(Sender: TObject; const MsgLog: string);
+procedure TManagerService.OnLog(Sender: TObject; const MsgLog: string);
 begin
-  LogMessage(MsgLog, EVENTLOG_INFORMATION_TYPE);
+  FLogger.LogMessage(MsgLog, EVENTLOG_INFORMATION_TYPE, 100);
+end;
+
+procedure TManagerService.OnLogHttpClient(Sender: TObject; const MsgLog: string);
+begin
+  FLoggerHttp.LogMessage(MsgLog, EVENTLOG_INFORMATION_TYPE, 200);
+end;
+
+procedure TManagerService.OnLogPrint(Sender: TObject; const MsgLog: string);
+begin
+  FLoggerPrint.LogMessage(MsgLog, EVENTLOG_INFORMATION_TYPE, 300);
+end;
+
+procedure TManagerService.OnLogSchedule(Sender: TObject; const MsgLog: string);
+begin
+  FLoggerSchedule.LogMessage(MsgLog, EVENTLOG_INFORMATION_TYPE, 400);
 end;
 
 procedure TManagerService.ServiceAfterInstall(Sender: TService);
@@ -96,6 +119,23 @@ begin
   end;
 end;
 
+procedure TManagerService.ServiceCreate(Sender: TObject);
+begin
+  FLogger         := TEventLogger.Create('ManagerGeneral');
+  FLoggerSchedule := TEventLogger.Create('ManagerSchedule');
+  FLoggerPrint    := TEventLogger.Create('ManagerPrint');
+  FLoggerHttp     := TEventLogger.Create('ManagerHTTP');
+end;
+
+procedure TManagerService.ServiceDestroy(Sender: TObject);
+begin
+  FLogger.Free;
+  FLoggerSchedule.Free;
+  FLoggerPrint.Free;
+  FLoggerHttp.Free;
+  inherited;
+end;
+
 procedure TManagerService.ServiceExecute(Sender: TService);
 begin
   while not self.Terminated do
@@ -110,9 +150,11 @@ begin
     Sender.LogMessage(dmCore.DBError)
   else
   begin
-    dmCore.OnLog := OnLogSMTP;
-    dmCore.OnLogSMTP := OnLogSMTP;
-    dmCore.Monitor.Enabled := True;
+    dmCore.OnLog          := OnLog;
+    dmCore.OnLogSchedule  := OnLogSchedule;
+    dmCore.OnLogPrint     := OnLogPrint;
+    dmCore.OnLogHttpClient:= OnLogHttpClient;
+    dmCore.Monitor.Enabled:= True;
     LogMessage('Serviço inicializado com sucesso!', EVENTLOG_SUCCESS);
   end;
 end;

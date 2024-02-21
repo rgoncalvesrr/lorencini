@@ -1,5 +1,7 @@
 object ManagerService: TManagerService
   OldCreateOrder = False
+  OnCreate = ServiceCreate
+  OnDestroy = ServiceDestroy
   DisplayName = 'Lorencini Brasil - Monitor'
   AfterInstall = ServiceAfterInstall
   AfterUninstall = ServiceAfterUninstall

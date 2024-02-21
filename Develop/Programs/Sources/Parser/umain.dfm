@@ -3,7 +3,7 @@ object Main: TMain
   Top = 0
   Caption = 'Aplicador de Procedures'
   ClientHeight = 652
-  ClientWidth = 880
+  ClientWidth = 950
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -23,23 +23,26 @@ object Main: TMain
     AlignWithMargins = True
     Left = 3
     Top = 3
-    Width = 874
+    Width = 944
     Height = 431
     ActivePage = TabSheet5
     Align = alClient
     TabOrder = 0
     TabStop = False
     OnChange = PageControl1Change
+    ExplicitWidth = 874
     object TabSheet1: TTabSheet
       Caption = 'Rotina Original'
+      ExplicitWidth = 866
     end
     object TabSheet5: TTabSheet
       Caption = 'Rotina Saneada'
       ImageIndex = 1
+      ExplicitWidth = 866
       object SynEdit1: TSynEdit
         Left = 0
         Top = 0
-        Width = 866
+        Width = 936
         Height = 403
         Align = alClient
         Font.Charset = DEFAULT_CHARSET
@@ -66,29 +69,33 @@ object Main: TMain
         Highlighter = SynSQLSyn1
         RightEdge = 120
         FontSmoothing = fsmClearType
+        ExplicitWidth = 866
       end
     end
     object TabSheet6: TTabSheet
       Caption = 'Rotina Aplicada'
       ImageIndex = 2
+      ExplicitWidth = 866
     end
   end
   object PageControl2: TPageControl
     AlignWithMargins = True
     Left = 3
     Top = 440
-    Width = 874
+    Width = 944
     Height = 177
     ActivePage = TabSheet2
     Align = alBottom
     TabOrder = 1
+    ExplicitWidth = 874
     object TabSheet2: TTabSheet
       Caption = 'Resultados'
+      ExplicitWidth = 866
       object GroupBox3: TGroupBox
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 860
+        Width = 930
         Height = 143
         Align = alClient
         Caption = ' Resultados '
@@ -96,11 +103,12 @@ object Main: TMain
         Padding.Right = 5
         Padding.Bottom = 5
         TabOrder = 0
+        ExplicitWidth = 860
         object Memo2: TMemo
           AlignWithMargins = True
           Left = 10
           Top = 18
-          Width = 840
+          Width = 910
           Height = 115
           Align = alClient
           BorderStyle = bsNone
@@ -113,17 +121,19 @@ object Main: TMain
           ReadOnly = True
           ScrollBars = ssBoth
           TabOrder = 0
+          ExplicitWidth = 840
         end
       end
     end
     object TabSheet3: TTabSheet
       Caption = 'Par'#226'metros'
       ImageIndex = 1
+      ExplicitWidth = 866
       object GroupBox1: TGroupBox
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 860
+        Width = 930
         Height = 143
         Align = alClient
         Caption = ' Par'#226'metros '
@@ -131,10 +141,11 @@ object Main: TMain
         Padding.Right = 5
         Padding.Bottom = 5
         TabOrder = 0
+        ExplicitWidth = 860
         object ListView1: TListView
           Left = 7
           Top = 15
-          Width = 846
+          Width = 916
           Height = 121
           Align = alClient
           BorderStyle = bsNone
@@ -149,6 +160,9 @@ object Main: TMain
             end>
           TabOrder = 0
           ViewStyle = vsReport
+          ExplicitLeft = 6
+          ExplicitTop = 14
+          ExplicitWidth = 846
         end
       end
     end
@@ -157,7 +171,7 @@ object Main: TMain
     AlignWithMargins = True
     Left = 3
     Top = 623
-    Width = 874
+    Width = 944
     Height = 26
     Panels = <
       item
@@ -200,6 +214,7 @@ object Main: TMain
       item
         Width = 50
       end>
+    ExplicitWidth = 874
   end
   object ZConnection1: TZConnection
     ControlsCodePage = cGET_ACP

@@ -75,7 +75,6 @@ begin
       SvcMgr.Application.Initialize;
 
     SvcMgr.Application.CreateForm(TManagerService, ManagerService);
-    SvcMgr.Application.CreateForm(TSysLog, SysLog);
     SvcMgr.Application.Run;
   end
   else

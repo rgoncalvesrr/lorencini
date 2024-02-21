@@ -27,7 +27,7 @@ inherited LabApont: TLabApont
         inherited BitBtn2: TBitBtn
           Left = 1014
           Anchors = [akTop, akRight]
-          TabOrder = 7
+          TabOrder = 6
           ExplicitLeft = 1014
         end
         object Panel3: TPanel
@@ -197,52 +197,6 @@ inherited LabApont: TLabApont
             OnChange = edPedidoChange
           end
         end
-        object Panel9: TPanel
-          Left = 649
-          Top = 0
-          Width = 264
-          Height = 75
-          Align = alLeft
-          BevelOuter = bvNone
-          TabOrder = 6
-          object Label18: TLabel
-            AlignWithMargins = True
-            Left = 3
-            Top = 3
-            Width = 258
-            Height = 15
-            Align = alTop
-            Caption = 'Cliente'
-            Transparent = True
-            ExplicitWidth = 37
-          end
-          object cbCli: TComboBox
-            AlignWithMargins = True
-            Left = 3
-            Top = 24
-            Width = 258
-            Height = 23
-            Align = alTop
-            DropDownCount = 30
-            ItemHeight = 15
-            TabOrder = 0
-            OnChange = cbCliChange
-            Items.Strings = (
-              '<TODOS>'
-              'JANEIRO'
-              'FEVEREIRO'
-              'MAR'#199'O'
-              'ABRIL'
-              'MAIO'
-              'JUNHO'
-              'JULHO'
-              'AGOSTO'
-              'SETEMBRO'
-              'OUTUBRO'
-              'NOVEMBRO'
-              'DEZEMBRO')
-          end
-        end
         object Panel6: TPanel
           Left = 360
           Top = 0
@@ -374,44 +328,48 @@ inherited LabApont: TLabApont
     AfterScroll = IBrwSrcAfterScroll
     AfterPost = IBrwSrcAfterPost
     SQL.Strings = (
+      'select'
       
-        'select r.status,       r.amostra,  r.relato_recno, re.descri as ' +
-        'laudo_de,'
-      '       a.codigo,       a.umidade,  a.equip_recno,  a.comodato,'
-      '       h.ocorrencia entrada,  a.coleta,   a.tpamostra_recno,'
-      
-        '       a.amostrador,   a.tamb,     a.toleo,    a.labsubest_recno' +
-        ','
-      '       a.tensao,       a.estado,   a.origem,'
-      '       a.tag,          a.local,'
-      '       a.destinatario, r.recno,'
-      '       c.nome_chave,   c.cnpj,     c.cpf,      c.telefone,'
-      '       e.fabricante,   e.serie,    e.tipo,     e.descri,'
-      '       e.potencia,     e.imped,    e.tensao,   e.fases,'
-      '       e.ano,          e.lote,     e.isolante, e.volume,'
-      '       e.drenos,       e.familia,  tp.descri,  tp.inf_te,'
-      '       s.sigla,        s.nome,     s.regional, s.reg_nome,'
-      '       r.pedido,       e.tensao_un, e.potencia_un,'
-      '       r.os'
-      '  from labamostras_rel r'
-      '       join labrel re'
-      '         on re.recno = r.relato_recno'
-      '       join labamostras a'
-      '         on a.recno = r.amostra'
-      '       join labamostras_hist h'
-      '         on h.amostra = r.amostra'
-      '        and h.estado = 40   '
-      '       join tbclientes c'
-      '         on c.codigo = a.cliente'
-      '       left join vequip e'
-      '         on e.recno = a.equip_recno'
-      '       left join vsubest s'
-      '         on s.codigo = a.codigo'
-      '        and s.recno = a.labsubest_recno'
-      '       join labtipo tp'
-      '         on tp.recno = a.tpamostra_recno'
-      ' where r.status = 1'
-      '   and r.revisao is null')
+        '  r.status,       r.amostra,  r.relato_recno, re.descri as laudo' +
+        '_de,'
+      '  a.codigo,       a.umidade,  a.equip_recno,  a.comodato,'
+      '  h.ocorrencia entrada,  a.coleta,   a.tpamostra_recno,'
+      '  a.amostrador,   a.tamb,     a.toleo,    a.labsubest_recno,'
+      '  a.tensao,       a.estado,   a.origem,'
+      '  a.tag,          a.local,'
+      '  a.destinatario, r.recno,'
+      '  e.fabricante,   e.serie,    e.tipo,     e.descri,'
+      '  e.potencia,     e.imped,    e.tensao,   e.fases,'
+      '  e.ano,          e.lote,     e.isolante, e.volume,'
+      '  e.drenos,       e.familia,  tp.descri,  tp.inf_te,'
+      '  s.sigla,        s.nome,     s.regional, s.reg_nome,'
+      '  r.pedido,       e.tensao_un, e.potencia_un,'
+      '  r.os'
+      'from'
+      '  labamostras_rel r'
+      'join'
+      '  labrel re on'
+      '  re.recno = r.relato_recno'
+      'join'
+      '  labamostras a on'
+      '  a.recno = r.amostra'
+      'join'
+      '  labamostras_hist h on'
+      '  h.amostra = r.amostra and'
+      '  h.estado = 40'
+      'left join'
+      '  vequip e on'
+      '  e.recno = a.equip_recno'
+      'left join'
+      '  vsubest s on'
+      '  s.codigo = a.codigo and'
+      '  s.recno = a.labsubest_recno'
+      'join'
+      '  labtipo tp on'
+      '  tp.recno = a.tpamostra_recno'
+      'where'
+      '  r.status = 1 and'
+      '  r.revisao is null')
     Left = 184
     Top = 136
     object IBrwSrcrecno: TIntegerField
@@ -508,34 +466,6 @@ inherited LabApont: TLabApont
       FieldName = 'local'
       Visible = False
       Size = 50
-    end
-    object IBrwSrccodigo: TIntegerField
-      DisplayLabel = 'Cliente'
-      FieldName = 'codigo'
-    end
-    object IBrwSrcnome_chave: TStringField
-      DisplayLabel = 'Nome'
-      DisplayWidth = 20
-      FieldName = 'nome_chave'
-      Size = 45
-    end
-    object IBrwSrccnpj: TStringField
-      DisplayLabel = 'C.N.P.J.'
-      FieldName = 'cnpj'
-      EditMask = '99.999.999/9999-99;0;'
-      Size = 14
-    end
-    object IBrwSrccpf: TStringField
-      DisplayLabel = 'CPF'
-      FieldName = 'cpf'
-      EditMask = '999.999.999-99;0;'
-      Size = 11
-    end
-    object IBrwSrctelefone: TStringField
-      DisplayLabel = 'Telefone'
-      DisplayWidth = 20
-      FieldName = 'telefone'
-      Size = 100
     end
     object IBrwSrcfabricante: TStringField
       FieldName = 'fabricante'

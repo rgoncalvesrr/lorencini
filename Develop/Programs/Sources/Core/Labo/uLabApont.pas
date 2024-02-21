@@ -13,9 +13,6 @@ type
   TLabApont = class(TIDefBrowse)
     Label1: TLabel;
     cbTpLaudo: TComboBox;
-    Label18: TLabel;
-    cbCli: TComboBox;
-    IBrwSrccodigo: TIntegerField;
     IBrwSrcumidade: TIntegerField;
     IBrwSrcequip_recno: TIntegerField;
     IBrwSrcentrada: TDateTimeField;
@@ -30,9 +27,6 @@ type
     IBrwSrcorigem: TIntegerField;
     IBrwSrctag: TStringField;
     IBrwSrclocal: TStringField;
-    IBrwSrcnome_chave: TStringField;
-    IBrwSrccnpj: TStringField;
-    IBrwSrccpf: TStringField;
     IBrwSrcfabricante: TStringField;
     IBrwSrcserie: TStringField;
     IBrwSrctipo: TStringField;
@@ -57,7 +51,6 @@ type
     IBrwSrcrelato_recno: TIntegerField;
     IBrwSrclaudo_de: TStringField;
     IBrwSrcdestinatario: TStringField;
-    IBrwSrctelefone: TStringField;
     IBrwSrcrecno: TIntegerField;
     Label4: TLabel;
     edPedido: TJvCalcEdit;
@@ -76,7 +69,6 @@ type
     Panel8: TPanel;
     Label7: TLabel;
     edEtiqueta: TJvCalcEdit;
-    Panel9: TPanel;
     IBrwSrccomodato: TIntegerField;
     Panel6: TPanel;
     Label6: TLabel;
@@ -97,7 +89,6 @@ type
     procedure edPedidoChange(Sender: TObject);
   private
     { Private declarations }
-    FCBClientes: TComboList;
     FLaudo: TLaudo;
     procedure RefazGuias;
     procedure OnEdit; override;
@@ -129,10 +120,6 @@ begin
   with IBrwSrc do
   begin
     {Aplica filtro por cliente}
-    if Assigned(FCBClientes.Selected) and (FCBClientes.Selected.Value > 0) then
-      swhere := swhere + ' and a.codigo = :codigo';
-
-    {Aplica filtro por cliente}
     if cbTpLaudo.ItemIndex <> 0 then
       swhere := swhere + 'and r.relato_recno = :tipolaudo ';
 
@@ -156,9 +143,6 @@ begin
 
     if Assigned(Params.FindParam('tipolaudo')) then
       Params.ParamByName('tipolaudo').AsInteger := PageControl1.Pages[cbTpLaudo.ItemIndex].Tag;
-
-    if Assigned(Params.FindParam('codigo')) then
-      Params.ParamByName('codigo').AsInteger := FCBClientes.Selected.Value;
 
     if Assigned(Params.FindParam('pedido')) then
       Params.ParamByName('pedido').AsInteger := Round(edPedido.Value);
@@ -209,19 +193,12 @@ begin
   inherited;
   FLaudo := nil;
   
-  FCBClientes := TComboList.Create(cbCli, 'tbclientes', 'codigo', 'nome_chave');
-
-  cbCli.Items.Insert(0, '(Todos)');
-  cbCli.ItemIndex := 0;
-
   RefreshCtrl;
   RefazGuias;
 end;
 
 procedure TLabApont.FormDestroy(Sender: TObject);
 begin
-  FreeAndNil(FCBClientes);
-
   if Assigned(FLaudo) then
     FreeAndNil(FLaudo);
 

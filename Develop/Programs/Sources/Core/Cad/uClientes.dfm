@@ -1153,16 +1153,15 @@ inherited Clientes: TClientes
       '  tbclientes_finais.cliente = :OLD_cliente')
     InsertSQL.Strings = (
       'INSERT INTO tbclientes_finais'
-      '  (codigo, cliente, logo, recno, envia_cronograma_coleta)'
+      '  (codigo, cliente, logo, recno)'
       'VALUES'
-      '  (:codigo, :cliente, :logo, :recno, :envia_cronograma_coleta)')
+      '  (:codigo, :cliente, :logo, :recno)')
     ModifySQL.Strings = (
       'UPDATE tbclientes_finais SET'
       '  codigo = :codigo,'
       '  cliente = :cliente,'
       '  logo = :logo,'
-      '  recno = :recno,'
-      '  envia_cronograma_coleta = :envia_cronograma_coleta'
+      '  recno = :recno'
       'WHERE'
       '  tbclientes_finais.codigo = :OLD_codigo AND'
       '  tbclientes_finais.cliente = :OLD_cliente')
@@ -1188,11 +1187,6 @@ inherited Clientes: TClientes
       item
         DataType = ftUnknown
         Name = 'recno'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'envia_cronograma_coleta'
         ParamType = ptUnknown
       end
       item
