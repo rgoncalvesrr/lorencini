@@ -12,9 +12,9 @@ Create or Replace Function a_pedido_serv()
 Returns trigger As
 $$
 Declare
-   ipedido        pedido.recno%type;
-   irecno         pedido_serv.recno%type;
-   imarkup        pedido.markup%type;
+   pedido_        pedido.recno%type;
+   recno_         pedido_serv.recno%type;
+   markup_        pedido.markup%type;
 
    llaboratorio   boolean;
 Begin
@@ -22,67 +22,91 @@ Begin
       insert into pedido_serv_det
          (pedido,     codserv,     detalhe)
       select
-          new.pedido, new.codserv, recno
-        from servicos_det
-       where codserv = new.codserv;
+         new.pedido, new.codserv, recno
+      from 
+         servicos_det
+      where
+         codserv = new.codserv;
    end if;
    
    if tg_op <> 'DELETE' then
-      ipedido := new.pedido;      
-      irecno := new.recno;
+      pedido_  := new.pedido;      
+      recno_   := new.recno;
    else
-      ipedido := old.pedido;      
-      irecno := old.recno;
+      pedido_  := old.pedido;      
+      recno_   := old.recno;
    end if;
 
-   if not sys_flag('pedido_serv', irecno) then
+   if not sys_flag('pedido_serv', recno_) then
       llaboratorio := exists(
-         select 1
-           from pedido_serv ps
-                join servicos s
-                  on s.codserv = ps.codserv
-                join servicos_grupo sg
-                  on sg.recno = s.grupo
-                 and sg.laboratorio 
-          where ps.pedido = ipedido);
+         select 
+            1
+         from
+            pedido_serv ps
+         join
+            servicos s on 
+            s.codserv = ps.codserv
+         join
+            servicos_grupo sg on 
+            sg.recno = s.grupo and 
+            sg.laboratorio 
+         where 
+            ps.pedido = pedido_
+         limit  
+            1);
 
-      perform sys_flag_mark('pedido', ipedido);
+      perform sys_flag_mark('pedido', pedido_);
 
-      update pedido
-         set laboratorio = llaboratorio, markup = calcula_markup_pedido(ipedido)
-       where recno = ipedido
-         and status = 10;  
+      update 
+         pedido
+      set
+         laboratorio = llaboratorio, markup = calcula_markup_pedido(pedido_)
+      where 
+         recno = pedido_ and 
+         status = 10;  
 
-      perform sys_flag_del('pedido', ipedido);
+      perform sys_flag_del('pedido', pedido_);
    end if;
    
    /* TODO: ELIMINAR A EXECUÇÃO AUTOMÁTICA DO PEDIDO */   
    if tg_op = 'UPDATE' then
       -- Verificando se o serviço refere-se a área de laboratório
       if exists(
-         select 1 
-           from servicos_grupo a
-                join servicos b
-                  on b.grupo = a.recno
-                 and  b.codserv = new.codserv
-          where a.laboratorio)
+         select
+            1 
+         from
+            servicos_grupo a
+         join
+            servicos b on 
+            b.grupo = a.recno and
+            b.codserv = new.codserv
+         where
+            a.laboratorio)
       then
          -- Verificando se todos os serviços da área de laboratório tem amostras associadas
          if not exists(
-            select 1
-              from pedido_serv a
-                   join servicos b
-                     on b.codserv = a.codserv
-                   join servicos_grupo c
-                     on c.recno = b.grupo
-                    and c.laboratorio
-             where a.pedido = new.pedido
-               and a.saldo > 0)
+            select 
+               1
+            from
+               pedido_serv a
+            join 
+               servicos b on
+               b.codserv = a.codserv
+            join 
+               servicos_grupo c on
+               c.recno = b.grupo and
+               c.laboratorio
+            where 
+               a.pedido = new.pedido and 
+               a.saldo > 0)
          then
-            update pedido
-               set status = 60
-             where recno = new.pedido
-               and status = 50;  
+            update 
+               pedido
+            set 
+               status = 60
+            where 
+               recno = new.pedido and
+               status = 50;  
          end if;
       end if;
    end if;

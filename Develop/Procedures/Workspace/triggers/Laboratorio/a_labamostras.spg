@@ -31,7 +31,7 @@ BEGIN
       if tg_op = 'UPDATE' then
          lRegHist := new.estado > old.estado;
 
-          -- Marca processo como emitido e atualiza a data de emissão caso todos os comadatos tenham sido impressos
+         -- Marca processo como emitido e atualiza a data de emissão caso todos os comadatos tenham sido impressos
          if new.estado = _EIMPRESSA and old.estado = _EGERADA then
             if not exists(
                select 

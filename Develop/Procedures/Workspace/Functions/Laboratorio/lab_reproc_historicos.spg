@@ -10,7 +10,7 @@
    Legenda: [-] - Correção / [*] - Recurso modificado/melhorado / [+] - Implementação de recurso
 */
 CREATE OR REPLACE FUNCTION reprocessa()
-  RETURNS void AS
+   RETURNS void AS
 $$
 declare
    _SREL_ASSINADO    constant integer = 3;
@@ -19,10 +19,14 @@ BEGIN
    truncate table labamostras_hres cascade;
    
    -- Obtem laudos que terão seus históricos processados
-   perform labamostras_rel_hatu(rel.recno)
-      from labamostras_rel rel             
-     where rel.status in (_SREL_ASSINADO, _SREL_LIBERADO)
-     order by rel.emissao;   
+   perform 
+      labamostras_rel_hatu(rel.recno)
+   from
+      labamostras_rel rel             
+   where 
+      rel.status in (_SREL_ASSINADO, _SREL_LIBERADO)
+   order by
+      rel.emissao;   
 END;
 $$
-  LANGUAGE 'plpgsql' VOLATILE;
+LANGUAGE 'plpgsql' VOLATILE;

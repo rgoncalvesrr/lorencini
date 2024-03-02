@@ -8,7 +8,8 @@
       "files.defaultLanguage": "oracle",
       "files.encoding": "iso88591",
       "files.associations": {
-         "*.spg": "oracle"
+         "*.spg": "oracle",
+         "*.spt": "oracle"
       },
       "editor.tabSize": 3,
       "editor.detectIndentation": false,
