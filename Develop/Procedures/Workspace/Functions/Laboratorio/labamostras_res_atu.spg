@@ -131,7 +131,6 @@ BEGIN
                tpamostra_recno = rr.tpamostra_recno;
 
             if not Found then
-               -- raise '[[Relato_recno %]]', rr.relato_recno;
                raise '[[Erro ao processar a amostra: "%". Não foi possível localizar as referências para classe de tensão "%", ensaio "% - %" para o tipo de amostra "% - %".]]',
                   rr.amostra, vclasse, r.ensaio_recno, r.nome, rr.tpamostra_recno, rr.descri;
             end if;

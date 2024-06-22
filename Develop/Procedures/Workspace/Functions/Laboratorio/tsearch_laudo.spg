@@ -21,29 +21,40 @@ declare
 begin
    docto := null;
 
-   select l.amostra, l.pedido, a.comodato, l.diagnostico, l.recomendacao, l.obs, l.destinatario, 
+   select 
+      l.amostra, l.pedido, a.comodato, l.diagnostico, l.recomendacao, l.obs, l.destinatario, 
       ls.label status, lr.titulo, lr.descri, lr.sigla, a.amostrador, 
       s.descri servico, e.serie, e.descri equip_nome, sys_iif(ec.status = 1, 'energizado', 'desligado') equip_status,
       e.familia, e.fabricante, e.isolante, e.tipo, ec."local", ec.subest, ec.tag, c.descri crit_desc, c.label crit     
-     into r  
-     from labamostras_rel l
-          join labamostras_rel_status ls
-            on ls.status = l.status
-          join labamostras a
-            on a.recno = l.amostra 
-          join labrel lr
-            on lr.recno = l.relato_recno
-          join servicos s
-            on s.codserv = l.codserv
-          join labequipxcli ec
-            on ec.codigo = a.codigo 
-           and ec.equip = a.equip_recno
-          join vequip e
-            on e.recno = a.equip_recno
-          join vlaudocrit c
-            on c.recno = l.labcrit_recno
-           and c.relato_recno = l.relato_recno
-    where l.recno = in_laudo;
+   into 
+      r  
+   from 
+      labamostras_rel l
+   join 
+      labamostras_rel_status ls on 
+      ls.status = l.status
+   join 
+      labamostras a on 
+      a.recno = l.amostra 
+   join 
+      labrel lr on 
+      lr.recno = l.relato_recno
+   join
+      servicos s on
+      s.codserv = l.codserv
+   join
+      labequipxcli ec on 
+      ec.codigo = a.codigo and
+      ec.equip = a.equip_recno
+   join
+      vequip e on 
+      e.recno = a.equip_recno
+   join
+      vlaudocrit c on 
+      c.recno = l.labcrit_recno and 
+      c.relato_recno = l.relato_recno
+   where
+      l.recno = in_laudo;
 
    if found then      
       docto := sys_fts_compose(docto, in_laudo);
@@ -76,9 +87,12 @@ begin
 
    if docto is not null then
       if in_atualiza then         
-         update api.ftsreports
-            set fts = docto
-         where report = in_laudo;
+         update 
+            api.ftsreports
+         set
+            fts = docto
+         where
+            report = in_laudo;
             
          if not Found then
             insert into api.ftsreports

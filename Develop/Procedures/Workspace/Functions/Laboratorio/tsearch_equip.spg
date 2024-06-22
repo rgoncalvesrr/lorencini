@@ -23,12 +23,16 @@ declare
 begin
    docto := null;
 
-   select serie, devicename, devicetypeabbreviation, devicetypename, manufacturer, insulatorname, volume, familyname, local, substation, 
-          tag, sys_iif(status = 1, 'energizado', 'desligado') status
-     into r     
-     from api.devicesbycustomers 
-    where tenantid = cliente_
-      and device = dispositivo_;
+   select 
+      serie, devicename, devicetypeabbreviation, devicetypename, manufacturer, insulatorname, volume, familyname, local, substation, 
+      tag, sys_iif(status = 1, 'energizado', 'desligado') status
+   into 
+      r     
+   from 
+      api.devicesbycustomers 
+   where 
+      tenantid = cliente_ and 
+      device = dispositivo_;
 
    if found then      
       docto := sys_fts_compose(docto, dispositivo_);
@@ -48,9 +52,11 @@ begin
    if atualiza_ then
       if docto is null then
          delete
-           from api.ftsdevicesbycustomers
-          where tenantid = cliente_
-            and device = dispositivo_;
+         from 
+            api.ftsdevicesbycustomers
+         where 
+            tenantid = cliente_ and 
+            device = dispositivo_;
       else
          insert into api.ftsdevicesbycustomers
             (tenantid, device, fts)

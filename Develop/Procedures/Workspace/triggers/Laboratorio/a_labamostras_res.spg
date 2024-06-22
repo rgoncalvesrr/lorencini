@@ -45,11 +45,11 @@ BEGIN
       exception
          when raise_exception then            
       end;
-      
+
       return new;
-   else
-      return old;
    end if;
+
+   return old;
 END;
 $$
 LANGUAGE 'plpgsql' VOLATILE;

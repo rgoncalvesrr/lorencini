@@ -23,14 +23,20 @@ begin
    docto := null;
 
    for r in (
-      select e.nome, e.unidade, e.metodo, e.descri, i.descri instrumento, i.modelo, i.serie 
-        from vensaios e
-             left join labinst_ens ie
-               on ie.ensaio_recno = e.recno 
-             left join vinst i
-               on i.recno = ie.labinst_recno
-       where e.recno = ensaio_
-       order by e.recno)
+      select
+         e.nome, e.unidade, e.metodo, e.descri, i.descri instrumento, i.modelo, i.serie 
+      from
+         vensaios e
+      left join 
+         labinst_ens ie on
+         ie.ensaio_recno = e.recno 
+      left join 
+         vinst i on 
+         i.recno = ie.labinst_recno
+      where
+         e.recno = ensaio_
+      order by
+         e.recno)
    loop
       if docto is null then         
          docto := sys_fts_compose(docto, ensaio_);
@@ -48,15 +54,17 @@ begin
    if atualiza_ then
       if docto is null then
          delete 
-           from api.ftsassays
-          where assay = ensaio_;
+         from 
+            api.ftsassays
+         where
+            assay = ensaio_;
       else
          insert into api.ftsassays
             (assay, fts)
          values
             (ensaio_, docto)
          on conflict (assay) 
-         do update set fts = excluded.fts;
+            do update set fts = excluded.fts;
       end if;
    end if;
 

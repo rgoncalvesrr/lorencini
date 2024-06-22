@@ -9,8 +9,8 @@
 	-------------------------------------------------------------------------------------------------------------------
  */
 create or replace function sys_fts_compose(
-      in in_docto tsvector,
-      in in_text text)
+   in in_docto tsvector,
+   in in_text text)
 Returns tsvector As
 $$
 declare
@@ -27,8 +27,8 @@ language plpgsql;
 
 
 create or replace function sys_fts_compose(
-      in in_docto tsvector,
-      in in_number int)
+   in in_docto tsvector,
+   in in_number int)
 Returns tsvector As
 $$ 
 begin

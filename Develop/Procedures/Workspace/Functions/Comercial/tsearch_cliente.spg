@@ -23,11 +23,15 @@ declare
 begin
    docto := null;
 
-   select empresa, nome_chave, endereco, bairro, cidade, estado, cnpj, cpf, inscricao, website, email, rg,
-          situacao 
-     into r
-     from tbclientes 
-    where codigo = cliente_; 
+   select 
+      empresa, nome_chave, endereco, bairro, cidade, estado, cnpj, cpf, inscricao, website, email, rg,
+      situacao 
+   into
+      r
+   from
+      tbclientes 
+   where
+      codigo = cliente_; 
    
    if found then      
       docto := sys_fts_compose(docto, cliente_);
@@ -49,8 +53,10 @@ begin
    if atualiza_ then
       if docto is null then
          delete 
-           from api.ftscustomers
-          where tenantid = cliente_;
+         from
+            api.ftscustomers
+         where
+            tenantid = cliente_;
       else
          insert into api.ftscustomers
             (tenantid, fts)

@@ -124,8 +124,8 @@ BEGIN
       end if;
 
       Fetch xcur into rh;
-      bFound := FOUND;      
-      icol := icol + 1;
+      bFound   := FOUND;      
+      icol     := icol + 1;
 
       if rh.ensaio_recno <> iensaio or not bFound then
          if emissoes is not null then

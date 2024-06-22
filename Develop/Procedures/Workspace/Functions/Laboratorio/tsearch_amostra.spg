@@ -22,17 +22,23 @@ declare
 begin
    docto := null;
    
-   select s.ticket, s.status_label, s.status_descri, s.sampler, s."local", c.empresa, c.nome_chave, 
-          c.cidade, c.estado, c.cnpj, c.cpf, d.serie, d.devicename, d.devicetypeabbreviation, d.devicetypename, 
-          d.manufacturer, d.insulatorname, d.familyname, d.substation, d.tag 
-     into r
-     from api.samples s
-          join public.tbclientes c
-            on c.codigo = s.tenantid
-          left join api.devicesbycustomers d
-            on d.tenantid = s.tenantid 
-           and d.device = s.device
-    where s.sample = amostra_;
+   select 
+      s.ticket, s.status_label, s.status_descri, s.sampler, s."local", c.empresa, c.nome_chave, 
+      c.cidade, c.estado, c.cnpj, c.cpf, d.serie, d.devicename, d.devicetypeabbreviation, d.devicetypename, 
+      d.manufacturer, d.insulatorname, d.familyname, d.substation, d.tag 
+   into 
+      r
+   from 
+      api.samples s
+   join
+      public.tbclientes c on 
+      c.codigo = s.tenantid
+   left join
+      api.devicesbycustomers d on
+      d.tenantid = s.tenantid and
+      d.device = s.device
+   where
+      s.sample = amostra_;
    
    if found then      
       docto := sys_fts_compose(docto, amostra_);
@@ -61,8 +67,10 @@ begin
    if atualiza_ then
       if docto is null then
          delete 
-           from api.ftssamples
-          where sample = amostra_;
+         from 
+            api.ftssamples
+         where 
+            sample = amostra_;
       else
          insert into api.ftssamples
             (sample, fts)
