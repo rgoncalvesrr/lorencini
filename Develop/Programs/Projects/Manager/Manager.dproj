@@ -1,986 +1,1111 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup>
-    <ProjectGuid>{54297583-1487-4f1b-8f57-0b8d383bdb4d}</ProjectGuid>
-    <MainSource>Manager.dpr</MainSource>
-    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
-    <DCC_DependencyCheckOutputName>..\..\..\..\_Release\Manager.exe</DCC_DependencyCheckOutputName>
-    <DCC_UsePackage>LMDP;BaseCore</DCC_UsePackage>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <Version>7.0</Version>
-    <DCC_LocalDebugSymbols>False</DCC_LocalDebugSymbols>
-    <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
-    <DCC_Hints>False</DCC_Hints>
-    <DCC_Warnings>False</DCC_Warnings>
-    <DCC_ExeOutput>..\..\..\..\_Release</DCC_ExeOutput>
-    <DCC_DcuOutput>..\..\Output\dcu\release\Core</DCC_DcuOutput>
-    <DCC_ObjOutput>..\..\Output\dcu\release\Core</DCC_ObjOutput>
-    <DCC_HppOutput>..\..\Output\dcu\release\Core</DCC_HppOutput>
-    <DCC_Define>RELEASE;PORTUGUESE</DCC_Define>
-    <DCC_AssertionsAtRuntime>False</DCC_AssertionsAtRuntime>
-    <DCC_UnitSearchPath>..\..\Output\dcp\release</DCC_UnitSearchPath>
-    <DCC_ResourcePath>..\..\Output\dcp\release</DCC_ResourcePath>
-    <DCC_ObjPath>..\..\Output\dcp\release</DCC_ObjPath>
-    <DCC_IncludePath>..\..\Output\dcp\release</DCC_IncludePath>
-    <DCC_DcpOutput>..\..\Output\dcp\release</DCC_DcpOutput>
-    <DCC_DebugInformation>False</DCC_DebugInformation>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <Version>7.0</Version>
-    <DCC_ExeOutput>..\..\..\..\_Debug</DCC_ExeOutput>
-    <DCC_DcuOutput>..\..\Output\DCU\Debug\Core</DCC_DcuOutput>
-    <DCC_ObjOutput>..\..\Output\DCU\Debug\Core</DCC_ObjOutput>
-    <DCC_HppOutput>..\..\Output\DCU\Debug\Core</DCC_HppOutput>
-    <DCC_Define>DEBUG;PORTUGUESE</DCC_Define>
-    <DCC_GenerateStackFrames>True</DCC_GenerateStackFrames>
-    <DCC_UnitSearchPath>..\..\Output\DCP\Debug</DCC_UnitSearchPath>
-    <DCC_ResourcePath>..\..\Output\DCP\Debug</DCC_ResourcePath>
-    <DCC_ObjPath>..\..\Output\DCP\Debug</DCC_ObjPath>
-    <DCC_IncludePath>..\..\Output\DCP\Debug</DCC_IncludePath>
-    <DCC_DcpOutput>..\..\Output\DCP\Debug</DCC_DcpOutput>
-    <DCC_Hints>False</DCC_Hints>
-    <DCC_MapFile>1</DCC_MapFile>
-    <DCC_Optimize>False</DCC_Optimize>
-  </PropertyGroup>
-  <ProjectExtensions>
-    <Borland.Personality>Delphi.Personality</Borland.Personality>
-    <Borland.ProjectType>VCLApplication</Borland.ProjectType>
-    <BorlandProject>
-<BorlandProject><Delphi.Personality><Parameters><Parameters Name="UseLauncher">False</Parameters><Parameters Name="LoadAllSymbols">True</Parameters><Parameters Name="LoadUnspecifiedSymbols">False</Parameters></Parameters><VersionInfo><VersionInfo Name="IncludeVerInfo">True</VersionInfo><VersionInfo Name="AutoIncBuild">True</VersionInfo><VersionInfo Name="MajorVer">24</VersionInfo><VersionInfo Name="MinorVer">2</VersionInfo><VersionInfo Name="Release">20</VersionInfo><VersionInfo Name="Build">2259</VersionInfo><VersionInfo Name="Debug">False</VersionInfo><VersionInfo Name="PreRelease">True</VersionInfo><VersionInfo Name="Special">False</VersionInfo><VersionInfo Name="Private">False</VersionInfo><VersionInfo Name="DLL">False</VersionInfo><VersionInfo Name="Locale">1046</VersionInfo><VersionInfo Name="CodePage">1252</VersionInfo></VersionInfo><VersionInfoKeys><VersionInfoKeys Name="CompanyName">Lorencini Brasil</VersionInfoKeys><VersionInfoKeys Name="FileDescription"></VersionInfoKeys><VersionInfoKeys Name="FileVersion">24.2.20.2259</VersionInfoKeys><VersionInfoKeys Name="InternalName">manager.exe</VersionInfoKeys><VersionInfoKeys Name="LegalCopyright"></VersionInfoKeys><VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys><VersionInfoKeys Name="OriginalFilename"></VersionInfoKeys><VersionInfoKeys Name="ProductName">Manager</VersionInfoKeys><VersionInfoKeys Name="ProductVersion">2020.05</VersionInfoKeys><VersionInfoKeys Name="Comments">Gerenciador de processos Laboratoriais</VersionInfoKeys></VersionInfoKeys><Source><Source Name="MainSource">Manager.dpr</Source></Source><Excluded_Packages /></Delphi.Personality><ModelSupport>False</ModelSupport></BorlandProject></BorlandProject>
-  </ProjectExtensions>
-  <Import Project="$(MSBuildBinPath)\Borland.Delphi.Targets" />
-  <ItemGroup>
-    <DelphiCompile Include="Manager.dpr">
-      <MainSource>MainSource</MainSource>
-    </DelphiCompile>
-    <DCCReference Include="..\..\Sources\Application\uFiscal.pas" />
-    <DCCReference Include="..\..\Sources\Common\uFrameCheckBar.pas">
-      <Form>FrameCheckBar</Form>
-      <DesignClass>TFrame</DesignClass>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Common\uFrameData.pas">
-      <Form>FrameData</Form>
-      <DesignClass>TFrame</DesignClass>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Common\uFrameImage.pas">
-      <Form>FrameImage</Form>
-      <DesignClass>TFrame</DesignClass>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Common\uHelpers.pas" />
-    <DCCReference Include="..\..\Sources\Common\uIConnection.pas">
-      <Form>IConnection</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Common\uIForm.pas">
-      <Form>IForm</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Common\uIFrameCliente.pas">
-      <Form>FrameCliente</Form>
-      <DesignClass>TFrame</DesignClass>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Common\uIGraphicMng.pas">
-      <Form>IGraphicMng</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Common\uIUtils.pas" />
-    <DCCReference Include="..\..\Sources\Common\uIWizard.pas">
-      <Form>IWizard</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Common\uResources.pas">
-      <Form>Resources</Form>
-      <DesignClass>TDataModule</DesignClass>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Admin\uFretes.pas">
-      <Form>Fretes</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Admin\uFretesM.pas">
-      <Form>FretesM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Admin\uSedex.pas">
-      <Form>Sedex</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Admin\uSedexCalculos.pas" />
-    <DCCReference Include="..\..\Sources\Core\Admin\uSedexServicos.pas">
-      <Form>SedexServicos</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Admin\uSedexServicosM.pas">
-      <Form>SedexServicosM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uART.pas">
-      <Form>ART</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uARTM.pas">
-      <Form>ARTM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uAtividades.pas">
-      <Form>Atividades</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uAtividadesM.pas">
-      <Form>AtividadesM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uAtivos.pas">
-      <Form>Ativos</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uAtivosM.pas">
-      <Form>AtivosM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uAtivosTipos.pas">
-      <Form>AtivosTipos</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uAtivosTiposM.pas">
-      <Form>AtivosTiposM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uClienteM.pas">
-      <Form>ClientesM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uClientes.pas">
-      <Form>Clientes</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uClientesF.pas">
-      <Form>ClientesF</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uClientesGrupo.pas">
-      <Form>ClientesGrupo</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uClientesGrupoM.pas">
-      <Form>ClientesGrupoM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uClientesGrupoMClientes.pas">
-      <Form>ClientesGrupoMClientes</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uClientesMContatos.pas">
-      <Form>ClientesMContatos</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uClientesMFinais.pas">
-      <Form>ClientesMFinais</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uContatoF.pas">
-      <Form>ContatoF</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uContatos.pas">
-      <Form>Contatos</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uContatosM.pas">
-      <Form>ContatosM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uContatosMClientes.pas">
-      <Form>ContatosMClientes</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uDeptos.pas">
-      <Form>Deptos</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uDeptosM.pas">
-      <Form>DeptosM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uEntidadesDeClasse.pas">
-      <Form>EntidadesDeClasse</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uEntidadesDeClasseM.pas">
-      <Form>EntidadesDeClasseM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uEstados.pas">
-      <Form>Estados</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uEstadosM.pas">
-      <Form>EstadosM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uFFuncoes.pas">
-      <Form>Funcoes</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uFFuncoesM.pas">
-      <Form>FuncoesM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uFinCC.pas">
-      <Form>FinCC</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uFinCCBancosM.pas">
-      <Form>FinCCBancosM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uFinCCM.pas">
-      <Form>FinCCM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uFinNaturezas.pas">
-      <Form>FinNaturezas</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uFinNaturezasCategM.pas">
-      <Form>FinNaturezasCategM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uFinNaturezasM.pas">
-      <Form>FinNaturezasM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uFornecedores.pas">
-      <Form>Fornecedores</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uFornecedoresM.pas">
-      <Form>FornecedoresM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uIndices.pas">
-      <Form>Indices</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uIndicesM.pas">
-      <Form>IndicesM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uOrcaGrupos.pas">
-      <Form>OrcaGrupos</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uOrcaGruposM.pas">
-      <Form>OrcaGruposM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uOrcaOrigens.pas">
-      <Form>OrcaOrigens</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uOrcaOrigensM.pas">
-      <Form>OrcaOrigensM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uProdutos.pas">
-      <Form>Produtos</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uProdutosF.pas">
-      <Form>ProdutosF</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uProdutosGrupo.pas">
-      <Form>ProdutosGrupo</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uProdutosGrupoM.pas">
-      <Form>ProdutosGrupoM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uProdutosM.pas">
-      <Form>ProdutosM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uProdutosSGrupoM.pas">
-      <Form>ProdutosSGrupoM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uServicos.pas">
-      <Form>Servicos</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uServicosF.pas">
-      <Form>ServicosF</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uServicosM.pas">
-      <Form>ServicosM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uServicosMDet.pas">
-      <Form>ServicosMDet</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uServicos_Grupo.pas">
-      <Form>Servicos_Grupo</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uServicos_GrupoM.pas">
-      <Form>Servicos_GrupoM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uTextos_OS.pas">
-      <Form>Textos_OS</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uTextos_OSM.pas">
-      <Form>Textos_OSM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uUnidades.pas">
-      <Form>Unidades</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uUnidadesM.pas">
-      <Form>UnidadesM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uVendedores.pas">
-      <Form>Vendedores</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Cad\uVendedoresM.pas">
-      <Form>VendedoresM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Class\CoreIntf.pas" />
-    <DCCReference Include="..\..\Sources\Core\Class\iexcept.pas" />
-    <DCCReference Include="..\..\Sources\Core\Class\SecIntf.pas" />
-    <DCCReference Include="..\..\Sources\Core\Class\SecuIntf.pas" />
-    <DCCReference Include="..\..\Sources\Core\Class\SecuriIntf.pas" />
-    <DCCReference Include="..\..\Sources\Core\Class\SecurIntf.pas" />
-    <DCCReference Include="..\..\Sources\Core\Class\SecuritIntf.pas" />
-    <DCCReference Include="..\..\Sources\Core\Class\SecurityIntf.pas" />
-    <DCCReference Include="..\..\Sources\Core\Class\SeIntf.pas" />
-    <DCCReference Include="..\..\Sources\Core\Class\SIntf.pas" />
-    <DCCReference Include="..\..\Sources\Core\Class\uConsts.pas" />
-    <DCCReference Include="..\..\Sources\Core\Class\uDBLog.pas" />
-    <DCCReference Include="..\..\Sources\Core\Class\uIExcept.pas" />
-    <DCCReference Include="..\..\Sources\Core\Class\uPrnTag.pas" />
-    <DCCReference Include="..\..\Sources\Core\Class\uReport.pas" />
-    <DCCReference Include="..\..\Sources\Core\Dash\uGestaoComercial.pas">
-      <Form>GestaoComercial</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Dash\uGestaoEntradas.pas">
-      <Form>GestaoEntradas</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Dash\uGestaoEntradasDocs.pas">
-      <Form>GestaoEntradasDocs</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Dash\uGestaoProducao.pas">
-      <Form>GestaoProducao</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Financ\uAnaliseDeCredito.pas">
-      <Form>AnaliseDeCredito</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Financ\uFichaFin.pas">
-      <Form>FichaFin</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Financ\uFichaFinDespM.pas">
-      <Form>FichaFinDespM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Financ\uFichaFinM.pas">
-      <Form>FichaFinM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Financ\uFichaFinPos.pas">
-      <Form>FichaFinPos</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Financ\uFichaFinPosGrafico.pas">
-      <Form>FichaFinPosGrafico</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Financ\uFichaFinPosM.pas">
-      <Form>FichaFinPosM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Financ\uMovtoBancario.pas">
-      <Form>MovtoBancario</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Financ\uMovtoBancarioM.pas">
-      <Form>MovtoBancarioM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Financ\uPagar.pas">
-      <Form>Pagar</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Financ\uPagarM.pas">
-      <Form>PagarM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Financ\uParcelamento.pas">
-      <Form>Parcelamento</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Financ\uReceber.pas">
-      <Form>Receber</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Financ\uReceberM.pas">
-      <Form>ReceberM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Fiscal\uRecebimentoNFe.pas">
-      <Form>RecebimentoNFe</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Fiscal\uRecebimentoNFeM.pas">
-      <Form>RecebimentoNFeM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Gestao\uChartCotaDesempenho.pas">
-      <Form>ChartCotaDesempenho</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Gestao\uChartCotaEvolucao.pas">
-      <Form>ChartCotaEvolucao</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Gestao\uChartFaturamentoAcumuladoMesCorrente.pas">
-      <Form>ChartFaturamentoAcumuladoMesCorrente</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Gestao\uChartFaturamentoAnoCorrente.pas">
-      <Form>ChartFaturamentoAnoCorrente</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Gestao\uChartFaturamentoHistorico.pas">
-      <Form>ChartFaturamentoHistorico</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Gestao\uChartFaturamentoMesCorrente.pas">
-      <Form>ChartFaturamentoMesCorrente</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Gestao\uChartLabEvolucaoValor.pas">
-      <Form>ChartLabEvolucaoValor</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Gestao\uChartReceberEvolucaoValor.pas">
-      <Form>ChartReceberEvolucaoValor</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Global\ufieldnotnull.pas">
-      <Form>FieldsNotNull</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Global\uMain.pas">
-      <Form>Main</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Infra\iTypes.pas" />
-    <DCCReference Include="..\..\Sources\Core\Infra\uDM.pas">
-      <Form>DM</Form>
-      <DesignClass>TDataModule</DesignClass>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Infra\uDMReport.pas">
-      <Form>DMReport</Form>
-      <DesignClass>TDataModule</DesignClass>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Infra\uFuncoes.pas" />
-    <DCCReference Include="..\..\Sources\Core\Infra\uIBrowse.pas">
-      <Form>IDefBrowse</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Infra\uIBrowseDet.pas">
-      <Form>IDefBrowseEdit</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Infra\uIBrowseQry.pas">
-      <Form>IDefBrowseQry</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Infra\uIBrowseSQL.pas">
-      <Form>IDefBrowseSQL</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Infra\uIChart.pas">
-      <Form>IChart</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Infra\uidefeditform.pas">
-      <Form>IDefEditForm</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Infra\uIDefFind.pas">
-      <Form>IDefFind</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Infra\uIDefReport.pas">
-      <Form>IDefReport</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Infra\uIGrid.pas">
-      <Form>IGrid</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Infra\uilogin.pas">
-      <Form>ILogin</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Infra\uIProgress.pas">
-      <Form>IProgress</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uAmostras.pas">
-      <Form>Amostras</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabAcidez.pas">
-      <Form>LabAcidez</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabAcidezM.pas">
-      <Form>LabAcidezM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabAmostraAss.pas">
-      <Form>LabAmostraAss</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabAmostraAssBloq.pas">
-      <Form>LabAmostraAssBloq</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabAmostraAssM.pas">
-      <Form>LabAmostraAssM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabAmostraPed.pas">
-      <Form>LabAmostraPed</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabAmostraPedM.pas">
-      <Form>LabAmostraPedM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabAmostraPedMAmostra.pas">
-      <Form>LabAmostraPedMAmostra</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabAmostras.pas">
-      <Form>LabAmostras</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabAmostrasM.pas">
-      <Form>LabAmostrasM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabApont.pas">
-      <Form>LabApont</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabApontM.pas">
-      <Form>LabApontM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabCalc.pas">
-      <Form>LabCalc</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabCalcM.pas">
-      <Form>LabCalcM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabCalcMVar.pas">
-      <Form>LabCalcMVar</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabCrit.pas">
-      <Form>LabCrit</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabCritM.pas">
-      <Form>LabCritM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabCritMRel.pas">
-      <Form>LabCritMRel</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabDiag.pas">
-      <Form>LabDiag</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabDiagGrupo.pas">
-      <Form>LabDiagGrupo</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabDiagGrupoM.pas">
-      <Form>LabDiagGrupoM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabDiagM.pas">
-      <Form>LabDiagM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabDiagMRec.pas">
-      <Form>LabDiagMRec</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabDiagMRel.pas">
-      <Form>LabDiagMRel</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabEnsaios.pas">
-      <Form>LabEnsaios</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabEnsaiosM.pas">
-      <Form>LabEnsaiosM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabEnsaiosMComps.pas">
-      <Form>LabEnsaiosMComps</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabEnsaiosMInst.pas">
-      <Form>LabEnsaiosMInst</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabEnsaiosMRef.pas">
-      <Form>LabEnsaiosMRef</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabEnsaiosMRefs.pas">
-      <Form>LabEnsaiosMRefs</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabEquip.pas">
-      <Form>LabEquip</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabEquipCli.pas">
-      <Form>LabEquipCli</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabEquipCliM.pas">
-      <Form>LabEquipCliM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabEquipFam.pas">
-      <Form>LabEquipFam</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabEquipFamM.pas">
-      <Form>LabEquipFamM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabEquipFind.pas">
-      <Form>LabEquipFind</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabEquipM.pas">
-      <Form>LabEquipM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabEquipTipo.pas">
-      <Form>LabEquipTipo</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabEquipTipoM.pas">
-      <Form>LabEquipTipoM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabEquipTipoMClasse.pas">
-      <Form>LabEquipTipoMClasse</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabFabricantes.pas">
-      <Form>LabFabricantes</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabFabricantesM.pas">
-      <Form>LabFabricantesM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabFrete.pas">
-      <Form>LabFrete</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabFreteM.pas">
-      <Form>LabFreteM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabInst.pas">
-      <Form>LabInst</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabInstM.pas">
-      <Form>LabInstM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabInstMCert.pas">
-      <Form>LabInstMCert</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabInstMEns.pas">
-      <Form>LabInstMEns</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabIsolantes.pas">
-      <Form>LabIsolantes</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabIsolantesM.pas">
-      <Form>LabIsolantesM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabLaudo.pas">
-      <Form>LabLaudo</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabLaudoBloq.pas">
-      <Form>LabLaudoBloq</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabLaudoCl.pas" />
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabLaudoUI.pas">
-      <Form>LabLaudoUI</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabLaudoUIAtivos.pas">
-      <Form>LabLaudoUIAtivos</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabLaudoUIParams.pas">
-      <Form>LabLaudoUIParams</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabLaudoUISolucoes.pas">
-      <Form>LabLaudoUISolucoes</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabMetodos.pas">
-      <Form>LabMetodos</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabMetodosM.pas">
-      <Form>LabMetodosM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabProc.pas">
-      <Form>LabProc</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabProcBatch.pas">
-      <Form>LabProcBatch</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabProcDespacho.pas">
-      <Form>LabProcDespacho</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabProcDespachoVol.pas">
-      <Form>LabProcDespachoVol</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabProcM.pas">
-      <Form>LabProcM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabProcMItens.pas">
-      <Form>LabProcMItens</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabProcMonitor.pas">
-      <Form>LabProcMonitor</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabProcPort.pas">
-      <Form>LabProcPort</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabProcPortM.pas">
-      <Form>LabProcPortM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabProcRastreio.pas">
-      <Form>LabProcRastreio</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabProcRastreioM.pas">
-      <Form>LabProcRastreioM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabProcSaldos.pas">
-      <Form>LabProcSaldos</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabProcSol.pas">
-      <Form>LabProcSol</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabProcSolM.pas">
-      <Form>LabProcSolM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabProcVol.pas">
-      <Form>LabProcVol</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabProcVolAddBarcode.pas">
-      <Form>LabProcVolAddBarcode</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabRec.pas">
-      <Form>LabRec</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabRecipientes.pas">
-      <Form>LabRecipientes</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabRecipientesM.pas">
-      <Form>LabRecipientesM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabRecM.pas">
-      <Form>LabRecM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabRef.pas">
-      <Form>LabRef</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabRefM.pas">
-      <Form>LabRefM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabRefs.pas">
-      <Form>LabRefs</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabRefsM.pas">
-      <Form>LabRefsM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabRegionais.pas">
-      <Form>LabRegionais</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabRegionaisM.pas">
-      <Form>LabRegionaisM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabRegionaisMSub.pas">
-      <Form>LabRegionaisMSub</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabRegionaisMSubEquip.pas">
-      <Form>LabRegionaisMSubEquip</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabSol.pas">
-      <Form>LabSol</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabSolM.pas">
-      <Form>LabSolM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabSolTipo.pas">
-      <Form>LabSolTipo</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabSolTipoM.pas">
-      <Form>LabSolTipoM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabTensao.pas">
-      <Form>LabTensao</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabTensaoM.pas">
-      <Form>LabTensaoM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabTipo.pas">
-      <Form>LabTipo</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabTipoM.pas">
-      <Form>LabTipoM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabTiposLaudos.pas">
-      <Form>LabTiposLaudos</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabTiposLaudosM.pas">
-      <Form>LabTiposLaudosM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabTiposLaudosMCrit.pas">
-      <Form>LabTiposLaudosMCrit</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabTiposLaudosMDiag.pas">
-      <Form>LabTiposLaudosMDiag</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabTiposLaudosMEnsaios.pas">
-      <Form>LabTiposLaudosMEnsaios</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabUnidade.pas">
-      <Form>LabUnidade</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLabUnidadeM.pas">
-      <Form>LabUnidadeM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLaudoRev.pas">
-      <Form>LaudoRev</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLaudoRevM.pas">
-      <Form>LaudoRevM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Labo\uLaudoService.pas" />
-    <DCCReference Include="..\..\Sources\Core\Producao\uOP.pas">
-      <Form>OP</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\RBAC\uSecGrants.pas">
-      <Form>SecGrants</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\RBAC\uSysRoles.pas">
-      <Form>SysRoles</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\RBAC\uSysRolesM.pas">
-      <Form>SysRolesM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\RBAC\uSysRolesMGrants.pas">
-      <Form>SysRolesMGrants</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\RBAC\uSysRolesMUsers.pas">
-      <Form>SysRolesMUsers</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Reports\uR00001.pas">
-      <Form>R00001</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Reports\uR00004.pas">
-      <Form>R00004</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Reports\uR00010.pas">
-      <Form>R00010</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Reports\uR00011.pas">
-      <Form>R00011</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Reports\uR00014.pas">
-      <Form>R00014</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\RH\uColaboradores.pas">
-      <Form>Colaboradores</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\RH\uColaboradoresM.pas">
-      <Form>ColaboradoresM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Sys\uSysDump.pas">
-      <Form>SysDump</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Sys\uSysEmail.pas">
-      <Form>SysEmail</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Sys\uSysFn.pas">
-      <Form>SysFn</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Sys\uSysFnLoader.pas" />
-    <DCCReference Include="..\..\Sources\Core\Sys\uSysFnM.pas">
-      <Form>SysFnM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Sys\uSysFnSyncResult.pas">
-      <Form>SysFnSyncResult</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Sys\uSysForms.pas">
-      <Form>SysForms</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Sys\uSysFormsEdit.pas">
-      <Form>SysFormsEdit</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Sys\uSysFormsEditM.pas">
-      <Form>SysFormsEditM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Sys\uSysFormsFind.pas">
-      <Form>SysFormsFind</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Sys\uSysLog.pas">
-      <Form>SysLog</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Sys\uSysMenuComum.pas" />
-    <DCCReference Include="..\..\Sources\Core\Sys\uSysMenuEditor.pas">
-      <Form>SysMenuEditor</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Sys\uSysMenuEditorItem.pas">
-      <Form>SysMenuEditorItem</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Sys\uSysParams.pas">
-      <Form>SysParams</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Sys\uSysReports.pas">
-      <Form>SysReports</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Sys\uSysReportsM.pas">
-      <Form>SysReportsM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Sys\uSysReportsParam.pas">
-      <Form>SysReportsParam</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Sys\uSysScheduler.pas">
-      <Form>SysScheduler</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Sys\uSysSchedulerM.pas">
-      <Form>SysSchedulerM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Sys\uSysSecurityChangePass.pas">
-      <Form>SysSecurityChangePass</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Sys\uSysService.pas">
-      <Form>SysService</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Sys\uSysServiceM.pas">
-      <Form>SysServiceM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Sys\uSysTables.pas">
-      <Form>SysTables</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Sys\uSysVersions.pas">
-      <Form>SysVersions</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Vendas\uBiblioteca.pas">
-      <Form>Biblioteca</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Vendas\uBibliotecaM.pas">
-      <Form>BibliotecaM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Vendas\uClientesInativos.pas">
-      <Form>ClienteInativos</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Vendas\uContratos.pas">
-      <Form>Contratos</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Vendas\uContratosM.pas">
-      <Form>ContratosM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Vendas\uCota.pas">
-      <Form>Cota</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Vendas\uCotaAutorizar.pas">
-      <Form>CotaAutorizar</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Vendas\uCotaCancelar.pas">
-      <Form>CotaCancelar</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Vendas\uCotaM.pas">
-      <Form>CotaM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Vendas\uCotaMMat.pas">
-      <Form>CotaMMat</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Vendas\uCotaMMO.pas">
-      <Form>CotaMMO</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Vendas\uCotaMServ.pas">
-      <Form>CotaMServ</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Vendas\uDoc.pas">
-      <Form>Doc</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Vendas\uDocM.pas">
-      <Form>DocM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Vendas\uDocSelBiblio.pas">
-      <Form>DocSelBiblio</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Vendas\uMarkup.pas">
-      <Form>Markup</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Vendas\uMarkupReprovMot.pas">
-      <Form>MarkupReprovMot</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Vendas\uNFS.pas">
-      <Form>NFS</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Vendas\uNFSm.pas">
-      <Form>NFSM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Vendas\uNFSMItens.pas">
-      <Form>NFSMItens</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Vendas\uNFSSerie.pas">
-      <Form>NFSSerie</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Vendas\uNFSSerieM.pas">
-      <Form>NFSSerieM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Vendas\uOS.pas">
-      <Form>OS</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Vendas\uOSClass.pas" />
-    <DCCReference Include="..\..\Sources\Core\Vendas\uOSM.pas">
-      <Form>OSM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Vendas\uOSMCancelamento.pas">
-      <Form>OSMCancelamento</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Vendas\uOSMMat.pas">
-      <Form>OSMMat</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Vendas\uOSMMO.pas">
-      <Form>OSMMO</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Vendas\uOSMServicos.pas">
-      <Form>OSMServicos</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Vendas\uPed.pas">
-      <Form>Ped</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Vendas\uPedM.pas">
-      <Form>PedM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Vendas\uPedMMat.pas">
-      <Form>PedMMat</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Vendas\uPedMMO.pas">
-      <Form>PedMMO</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Vendas\uPedMServ.pas">
-      <Form>PedMServ</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Vendas\uPedProducao.pas">
-      <Form>PedProducao</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Vendas\uPrecosClientes.pas">
-      <Form>PrecosClientes</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Vendas\uPrecosClientesM.pas">
-      <Form>PrecosClientesM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Volume\uRecebimentoLeitura.pas">
-      <Form>RecebimentoLeitura</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Volume\uRecebimentoLote.pas">
-      <Form>RecebimentoLote</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Volume\uRecebimentoLoteM.pas">
-      <Form>RecebimentoLoteM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Volume\uRecebimentoLotePortador.pas">
-      <Form>RecebimentoLotePortador</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Packages\CCore\CCore.pas" />
-    <DCCReference Include="..\..\Sources\Packages\CCore\CMsg.pas" />
-  </ItemGroup>
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{54297583-1487-4f1b-8f57-0b8d383bdb4d}</ProjectGuid>
+        <MainSource>Manager.dpr</MainSource>
+        <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+        <DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
+        <DCC_DependencyCheckOutputName>..\..\..\..\_Release\Manager.exe</DCC_DependencyCheckOutputName>
+        <FrameworkType>VCL</FrameworkType>
+        <ProjectVersion>20.1</ProjectVersion>
+        <Base>True</Base>
+        <Config Condition="'$(Config)'==''">Release</Config>
+        <Platform Condition="'$(Platform)'==''">Win32</Platform>
+        <TargetedPlatforms>1</TargetedPlatforms>
+        <AppType>Application</AppType>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Base)'=='true') or '$(Base_Win32)'!=''">
+        <Base_Win32>true</Base_Win32>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Base)'=='true') or '$(Base_Win64)'!=''">
+        <Base_Win64>true</Base_Win64>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_1)'!=''">
+        <Cfg_1>true</Cfg_1>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_1)'=='true') or '$(Cfg_1_Win32)'!=''">
+        <Cfg_1_Win32>true</Cfg_1_Win32>
+        <CfgParent>Cfg_1</CfgParent>
+        <Cfg_1>true</Cfg_1>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Debug' or '$(Cfg_2)'!=''">
+        <Cfg_2>true</Cfg_2>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win32)'!=''">
+        <Cfg_2_Win32>true</Cfg_2_Win32>
+        <CfgParent>Cfg_2</CfgParent>
+        <Cfg_2>true</Cfg_2>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base)'!=''">
+        <SanitizedProjectName>Manager</SanitizedProjectName>
+        <DCC_Namespace>Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;System;Xml;Data;Datasnap;Web;Soap;Winapi;VCLTee;System.Win;$(DCC_Namespace)</DCC_Namespace>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_AutoGenVersion>true</VerInfo_AutoGenVersion>
+        <VerInfo_MajorVer>24</VerInfo_MajorVer>
+        <VerInfo_MinorVer>2</VerInfo_MinorVer>
+        <VerInfo_Release>20</VerInfo_Release>
+        <VerInfo_Build>2259</VerInfo_Build>
+        <VerInfo_PreRelease>true</VerInfo_PreRelease>
+        <VerInfo_Locale>1046</VerInfo_Locale>
+        <VerInfo_Keys>CompanyName=Lorencini Brasil;FileDescription=;FileVersion=24.2.20.2259;InternalName=manager.exe;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=Manager;ProductVersion=2020.05;Comments=Gerenciador de processos Laboratoriais</VerInfo_Keys>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base_Win32)'!=''">
+        <DCC_UsePackage>LMDP;BaseCore;$(DCC_UsePackage)</DCC_UsePackage>
+        <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
+        <BT_BuildType>Debug</BT_BuildType>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=;ProgramID=com.embarcadero.$(MSBuildProjectName)</VerInfo_Keys>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
+        <Icon_MainIcon>Manager_Icon2.ico</Icon_MainIcon>
+        <UWP_DelphiLogo44>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_44.png</UWP_DelphiLogo44>
+        <UWP_DelphiLogo150>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_150.png</UWP_DelphiLogo150>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base_Win64)'!=''">
+        <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
+        <Icon_MainIcon>Manager_Icon2.ico</Icon_MainIcon>
+        <UWP_DelphiLogo44>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_44.png</UWP_DelphiLogo44>
+        <UWP_DelphiLogo150>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_150.png</UWP_DelphiLogo150>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_1)'!=''">
+        <Version>7.0</Version>
+        <DCC_LocalDebugSymbols>False</DCC_LocalDebugSymbols>
+        <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
+        <DCC_Hints>False</DCC_Hints>
+        <DCC_Warnings>False</DCC_Warnings>
+        <DCC_ExeOutput>..\..\..\..\_Release</DCC_ExeOutput>
+        <DCC_DcuOutput>..\..\Output\dcu\release\Core</DCC_DcuOutput>
+        <DCC_ObjOutput>..\..\Output\dcu\release\Core</DCC_ObjOutput>
+        <DCC_HppOutput>..\..\Output\dcu\release\Core</DCC_HppOutput>
+        <DCC_Define>RELEASE;PORTUGUESE;$(DCC_Define)</DCC_Define>
+        <DCC_AssertionsAtRuntime>False</DCC_AssertionsAtRuntime>
+        <DCC_UnitSearchPath>..\..\Output\dcp\release;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <DCC_ResourcePath>..\..\Output\dcp\release;$(DCC_ResourcePath)</DCC_ResourcePath>
+        <DCC_ObjPath>..\..\Output\dcp\release;$(DCC_ObjPath)</DCC_ObjPath>
+        <DCC_IncludePath>..\..\Output\dcp\release;$(DCC_IncludePath)</DCC_IncludePath>
+        <DCC_DcpOutput>..\..\Output\dcp\release</DCC_DcpOutput>
+        <DCC_DebugInformation>0</DCC_DebugInformation>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2)'!=''">
+        <Version>7.0</Version>
+        <DCC_ExeOutput>..\..\..\..\_Debug</DCC_ExeOutput>
+        <DCC_DcuOutput>..\..\Output\DCU\Debug\Core</DCC_DcuOutput>
+        <DCC_ObjOutput>..\..\Output\DCU\Debug\Core</DCC_ObjOutput>
+        <DCC_HppOutput>..\..\Output\DCU\Debug\Core</DCC_HppOutput>
+        <DCC_Define>DEBUG;PORTUGUESE;$(DCC_Define)</DCC_Define>
+        <DCC_GenerateStackFrames>True</DCC_GenerateStackFrames>
+        <DCC_UnitSearchPath>..\..\Output\DCP\Debug;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <DCC_ResourcePath>..\..\Output\DCP\Debug;$(DCC_ResourcePath)</DCC_ResourcePath>
+        <DCC_ObjPath>..\..\Output\DCP\Debug;$(DCC_ObjPath)</DCC_ObjPath>
+        <DCC_IncludePath>..\..\Output\DCP\Debug;$(DCC_IncludePath)</DCC_IncludePath>
+        <DCC_DcpOutput>..\..\Output\DCP\Debug</DCC_DcpOutput>
+        <DCC_Hints>False</DCC_Hints>
+        <DCC_MapFile>1</DCC_MapFile>
+        <DCC_Optimize>False</DCC_Optimize>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+        <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
+    </PropertyGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Delphi.Personality.12</Borland.Personality>
+        <Borland.ProjectType>VCLApplication</Borland.ProjectType>
+        <BorlandProject>
+            <Delphi.Personality>
+                <Parameters>
+                    <Parameters Name="UseLauncher">False</Parameters>
+                    <Parameters Name="LoadAllSymbols">True</Parameters>
+                    <Parameters Name="LoadUnspecifiedSymbols">False</Parameters>
+                </Parameters>
+                <VersionInfo>
+                    <VersionInfo Name="IncludeVerInfo">True</VersionInfo>
+                    <VersionInfo Name="AutoIncBuild">True</VersionInfo>
+                    <VersionInfo Name="MajorVer">24</VersionInfo>
+                    <VersionInfo Name="MinorVer">2</VersionInfo>
+                    <VersionInfo Name="Release">20</VersionInfo>
+                    <VersionInfo Name="Build">2259</VersionInfo>
+                    <VersionInfo Name="Debug">False</VersionInfo>
+                    <VersionInfo Name="PreRelease">True</VersionInfo>
+                    <VersionInfo Name="Special">False</VersionInfo>
+                    <VersionInfo Name="Private">False</VersionInfo>
+                    <VersionInfo Name="DLL">False</VersionInfo>
+                    <VersionInfo Name="Locale">1046</VersionInfo>
+                    <VersionInfo Name="CodePage">1252</VersionInfo>
+                </VersionInfo>
+                <VersionInfoKeys>
+                    <VersionInfoKeys Name="CompanyName">Lorencini Brasil</VersionInfoKeys>
+                    <VersionInfoKeys Name="FileDescription"/>
+                    <VersionInfoKeys Name="FileVersion">24.2.20.2259</VersionInfoKeys>
+                    <VersionInfoKeys Name="InternalName">manager.exe</VersionInfoKeys>
+                    <VersionInfoKeys Name="LegalCopyright"/>
+                    <VersionInfoKeys Name="LegalTrademarks"/>
+                    <VersionInfoKeys Name="OriginalFilename"/>
+                    <VersionInfoKeys Name="ProductName">Manager</VersionInfoKeys>
+                    <VersionInfoKeys Name="ProductVersion">2020.05</VersionInfoKeys>
+                    <VersionInfoKeys Name="Comments">Gerenciador de processos Laboratoriais</VersionInfoKeys>
+                </VersionInfoKeys>
+                <Source>
+                    <Source Name="MainSource">Manager.dpr</Source>
+                </Source>
+                <Excluded_Packages/>
+            </Delphi.Personality>
+            <ModelSupport>False</ModelSupport>
+            <Platforms>
+                <Platform value="Win32">True</Platform>
+                <Platform value="Win64">False</Platform>
+            </Platforms>
+        </BorlandProject>
+        <ProjectFileVersion>12</ProjectFileVersion>
+    </ProjectExtensions>
+    <Import Project="$(BDS)\Bin\CodeGear.Delphi.Targets"/>
+    <ItemGroup>
+        <DelphiCompile Include="$(MainSource)">
+            <MainSource>MainSource</MainSource>
+        </DelphiCompile>
+        <DCCReference Include="..\..\Sources\Common\uHelpers.pas"/>
+        <DCCReference Include="..\..\Sources\Core\Global\uMain.pas">
+            <Form>Main</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Infra\uFuncoes.pas"/>
+        <DCCReference Include="..\..\Sources\Core\Class\uIExcept.pas"/>
+        <DCCReference Include="..\..\Sources\Common\uIUtils.pas"/>
+        <DCCReference Include="..\..\Sources\Common\uIForm.pas">
+            <Form>IForm</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Common\uIWizard.pas">
+            <Form>IWizard</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Infra\uilogin.pas">
+            <Form>ILogin</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Class\iexcept.pas"/>
+        <DCCReference Include="..\..\Sources\Core\Infra\uidefeditform.pas">
+            <Form>IDefEditForm</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Infra\uIBrowseDet.pas">
+            <Form>IDefBrowseEdit</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Infra\uIBrowse.pas">
+            <Form>IDefBrowse</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Infra\uIDefFind.pas">
+            <Form>IDefFind</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Infra\uIBrowseQry.pas">
+            <Form>IDefBrowseQry</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uClientes.pas">
+            <Form>Clientes</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uClienteM.pas">
+            <Form>ClientesM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Global\ufieldnotnull.pas">
+            <Form>FieldsNotNull</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Sys\uSysForms.pas">
+            <Form>SysForms</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Sys\uSysFormsEdit.pas">
+            <Form>SysFormsEdit</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Sys\uSysMenuEditor.pas">
+            <Form>SysMenuEditor</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Sys\uSysMenuEditorItem.pas">
+            <Form>SysMenuEditorItem</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Sys\uSysSecurityChangePass.pas">
+            <Form>SysSecurityChangePass</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Vendas\uOSClass.pas"/>
+        <DCCReference Include="..\..\Sources\Core\Vendas\uOS.pas">
+            <Form>OS</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\RH\uColaboradores.pas">
+            <Form>Colaboradores</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\RH\uColaboradoresM.pas">
+            <Form>ColaboradoresM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Sys\uSysVersions.pas">
+            <Form>SysVersions</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uDeptos.pas">
+            <Form>Deptos</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uDeptosM.pas">
+            <Form>DeptosM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uAtivosTipos.pas">
+            <Form>AtivosTipos</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uAtivosTiposM.pas">
+            <Form>AtivosTiposM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uAtivos.pas">
+            <Form>Ativos</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uAtivosM.pas">
+            <Form>AtivosM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Infra\iTypes.pas"/>
+        <DCCReference Include="..\..\Sources\Core\Cad\uVendedores.pas">
+            <Form>Vendedores</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uVendedoresM.pas">
+            <Form>VendedoresM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Vendas\uOSM.pas">
+            <Form>OSM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uProdutos.pas">
+            <Form>Produtos</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uProdutosM.pas">
+            <Form>ProdutosM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uUnidades.pas">
+            <Form>Unidades</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uUnidadesM.pas">
+            <Form>UnidadesM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uServicos.pas">
+            <Form>Servicos</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uServicosM.pas">
+            <Form>ServicosM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Vendas\uOSMServicos.pas">
+            <Form>OSMServicos</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uIndices.pas">
+            <Form>Indices</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uIndicesM.pas">
+            <Form>IndicesM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Vendas\uOSMMat.pas">
+            <Form>OSMMat</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uAtividades.pas">
+            <Form>Atividades</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uAtividadesM.pas">
+            <Form>AtividadesM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uTextos_OS.pas">
+            <Form>Textos_OS</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uTextos_OSM.pas">
+            <Form>Textos_OSM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uServicosMDet.pas">
+            <Form>ServicosMDet</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uServicos_Grupo.pas">
+            <Form>Servicos_Grupo</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uServicos_GrupoM.pas">
+            <Form>Servicos_GrupoM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uART.pas">
+            <Form>ART</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uARTM.pas">
+            <Form>ARTM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Vendas\uOSMMO.pas">
+            <Form>OSMMO</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uFFuncoes.pas">
+            <Form>Funcoes</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uFFuncoesM.pas">
+            <Form>FuncoesM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uProdutosGrupo.pas">
+            <Form>ProdutosGrupo</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uContatoF.pas">
+            <Form>ContatoF</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uProdutosGrupoM.pas">
+            <Form>ProdutosGrupoM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uProdutosSGrupoM.pas">
+            <Form>ProdutosSGrupoM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uProdutosF.pas">
+            <Form>ProdutosF</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Infra\uDMReport.pas">
+            <Form>DMReport</Form>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Infra\uIDefReport.pas">
+            <Form>IDefReport</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Sys\uSysFormsFind.pas">
+            <Form>SysFormsFind</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Sys\uSysReports.pas">
+            <Form>SysReports</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Class\uReport.pas"/>
+        <DCCReference Include="..\..\Sources\Core\Sys\uSysReportsParam.pas">
+            <Form>SysReportsParam</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Reports\uR00001.pas">
+            <Form>R00001</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Reports\uR00004.pas">
+            <Form>R00004</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uFornecedores.pas">
+            <Form>Fornecedores</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uFornecedoresM.pas">
+            <Form>FornecedoresM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Financ\uReceber.pas">
+            <Form>Receber</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Financ\uReceberM.pas">
+            <Form>ReceberM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uServicosF.pas">
+            <Form>ServicosF</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Sys\uSysParams.pas">
+            <Form>SysParams</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uClientesF.pas">
+            <Form>ClientesF</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uFinNaturezas.pas">
+            <Form>FinNaturezas</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uFinNaturezasM.pas">
+            <Form>FinNaturezasM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uFinNaturezasCategM.pas">
+            <Form>FinNaturezasCategM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Financ\uMovtoBancario.pas">
+            <Form>MovtoBancario</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Common\uFrameData.pas">
+            <Form>FrameData</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Infra\uIBrowseSQL.pas">
+            <Form>IDefBrowseSQL</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Financ\uPagar.pas">
+            <Form>Pagar</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uFinCC.pas">
+            <Form>FinCC</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uFinCCBancosM.pas">
+            <Form>FinCCBancosM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uFinCCM.pas">
+            <Form>FinCCM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Financ\uMovtoBancarioM.pas">
+            <Form>MovtoBancarioM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Financ\uPagarM.pas">
+            <Form>PagarM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Vendas\uNFSSerie.pas">
+            <Form>NFSSerie</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Vendas\uNFSSerieM.pas">
+            <Form>NFSSerieM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Class\SecurityIntf.pas"/>
+        <DCCReference Include="..\..\Sources\Core\Vendas\uNFS.pas">
+            <Form>NFS</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Vendas\uNFSm.pas">
+            <Form>NFSM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Vendas\uNFSMItens.pas">
+            <Form>NFSMItens</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uOrcaOrigens.pas">
+            <Form>OrcaOrigens</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uOrcaOrigensM.pas">
+            <Form>OrcaOrigensM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Financ\uParcelamento.pas">
+            <Form>Parcelamento</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uOrcaGrupos.pas">
+            <Form>OrcaGrupos</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uOrcaGruposM.pas">
+            <Form>OrcaGruposM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Vendas\uOSMCancelamento.pas">
+            <Form>OSMCancelamento</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabFabricantes.pas">
+            <Form>LabFabricantes</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabFabricantesM.pas">
+            <Form>LabFabricantesM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabIsolantes.pas">
+            <Form>LabIsolantes</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabIsolantesM.pas">
+            <Form>LabIsolantesM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabEquip.pas">
+            <Form>LabEquip</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabEquipM.pas">
+            <Form>LabEquipM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Sys\uSysDump.pas">
+            <Form>SysDump</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabRegionais.pas">
+            <Form>LabRegionais</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabRegionaisM.pas">
+            <Form>LabRegionaisM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabRegionaisMSub.pas">
+            <Form>LabRegionaisMSub</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Reports\uR00010.pas">
+            <Form>R00010</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabTensao.pas">
+            <Form>LabTensao</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabTensaoM.pas">
+            <Form>LabTensaoM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabTipo.pas">
+            <Form>LabTipo</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabTipoM.pas">
+            <Form>LabTipoM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabUnidade.pas">
+            <Form>LabUnidade</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabUnidadeM.pas">
+            <Form>LabUnidadeM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabMetodos.pas">
+            <Form>LabMetodos</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabMetodosM.pas">
+            <Form>LabMetodosM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabEnsaios.pas">
+            <Form>LabEnsaios</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabEnsaiosM.pas">
+            <Form>LabEnsaiosM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabTiposLaudos.pas">
+            <Form>LabTiposLaudos</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabTiposLaudosM.pas">
+            <Form>LabTiposLaudosM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabTiposLaudosMEnsaios.pas">
+            <Form>LabTiposLaudosMEnsaios</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabRefs.pas">
+            <Form>LabRefs</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabProcM.pas">
+            <Form>LabProcM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabRegionaisMSubEquip.pas">
+            <Form>LabRegionaisMSubEquip</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabEquipCli.pas">
+            <Form>LabEquipCli</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabEquipCliM.pas">
+            <Form>LabEquipCliM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabProcMItens.pas">
+            <Form>LabProcMItens</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabEquipTipo.pas">
+            <Form>LabEquipTipo</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabEquipTipoM.pas">
+            <Form>LabEquipTipoM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabEquipFam.pas">
+            <Form>LabEquipFam</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabEquipFamM.pas">
+            <Form>LabEquipFamM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabAmostras.pas">
+            <Form>LabAmostras</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabRefsM.pas">
+            <Form>LabRefsM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabRef.pas">
+            <Form>LabRef</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabRefM.pas">
+            <Form>LabRefM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Sys\uSysReportsM.pas">
+            <Form>SysReportsM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Sys\uSysFormsEditM.pas">
+            <Form>SysFormsEditM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uEstados.pas">
+            <Form>Estados</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uEstadosM.pas">
+            <Form>EstadosM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabProcBatch.pas">
+            <Form>LabProcBatch</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Reports\uR00011.pas">
+            <Form>R00011</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabProcPort.pas">
+            <Form>LabProcPort</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabProcPortM.pas">
+            <Form>LabProcPortM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabEquipFind.pas">
+            <Form>LabEquipFind</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabDiag.pas">
+            <Form>LabDiag</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabDiagM.pas">
+            <Form>LabDiagM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabDiagGrupo.pas">
+            <Form>LabDiagGrupo</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabDiagGrupoM.pas">
+            <Form>LabDiagGrupoM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Sys\uSysFn.pas">
+            <Form>SysFn</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Sys\uSysTables.pas">
+            <Form>SysTables</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Sys\uSysFnM.pas">
+            <Form>SysFnM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabCrit.pas">
+            <Form>LabCrit</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabCritM.pas">
+            <Form>LabCritM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabCritMRel.pas">
+            <Form>LabCritMRel</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabDiagMRel.pas">
+            <Form>LabDiagMRel</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabTiposLaudosMCrit.pas">
+            <Form>LabTiposLaudosMCrit</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabTiposLaudosMDiag.pas">
+            <Form>LabTiposLaudosMDiag</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabEnsaiosMRef.pas">
+            <Form>LabEnsaiosMRef</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabEnsaiosMRefs.pas">
+            <Form>LabEnsaiosMRefs</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabInst.pas">
+            <Form>LabInst</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabInstM.pas">
+            <Form>LabInstM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabInstMCert.pas">
+            <Form>LabInstMCert</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabInstMEns.pas">
+            <Form>LabInstMEns</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabEnsaiosMInst.pas">
+            <Form>LabEnsaiosMInst</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabAmostrasM.pas">
+            <Form>LabAmostrasM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabEquipTipoMClasse.pas">
+            <Form>LabEquipTipoMClasse</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabApont.pas">
+            <Form>LabApont</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabLaudoCl.pas"/>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabCalc.pas">
+            <Form>LabCalc</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabCalcM.pas">
+            <Form>LabCalcM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabCalcMVar.pas">
+            <Form>LabCalcMVar</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabAcidez.pas">
+            <Form>LabAcidez</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabAcidezM.pas">
+            <Form>LabAcidezM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabApontM.pas">
+            <Form>LabApontM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Infra\uIGrid.pas">
+            <Form>IGrid</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabLaudoUI.pas">
+            <Form>LabLaudoUI</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabLaudoUIParams.pas">
+            <Form>LabLaudoUIParams</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Common\uIConnection.pas">
+            <Form>IConnection</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabProcSaldos.pas">
+            <Form>LabProcSaldos</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabAmostraAss.pas">
+            <Form>LabAmostraAss</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabAmostraAssM.pas">
+            <Form>LabAmostraAssM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabRec.pas">
+            <Form>LabRec</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabRecM.pas">
+            <Form>LabRecM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabDiagMRec.pas">
+            <Form>LabDiagMRec</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Reports\uR00014.pas">
+            <Form>R00014</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uClientesGrupo.pas">
+            <Form>ClientesGrupo</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uClientesGrupoM.pas">
+            <Form>ClientesGrupoM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uClientesGrupoMClientes.pas">
+            <Form>ClientesGrupoMClientes</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabFrete.pas">
+            <Form>LabFrete</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabFreteM.pas">
+            <Form>LabFreteM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Common\uResources.pas">
+            <Form>Resources</Form>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabProcSol.pas">
+            <Form>LabProcSol</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabProcSolM.pas">
+            <Form>LabProcSolM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabProcMonitor.pas">
+            <Form>LabProcMonitor</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabProc.pas">
+            <Form>LabProc</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabProcVol.pas">
+            <Form>LabProcVol</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabProcVolAddBarcode.pas">
+            <Form>LabProcVolAddBarcode</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Class\uPrnTag.pas"/>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabProcDespacho.pas">
+            <Form>LabProcDespacho</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabProcDespachoVol.pas">
+            <Form>LabProcDespachoVol</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabProcRastreio.pas">
+            <Form>LabProcRastreio</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabProcRastreioM.pas">
+            <Form>LabProcRastreioM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Vendas\uPed.pas">
+            <Form>Ped</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Vendas\uPedM.pas">
+            <Form>PedM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Vendas\uPedProducao.pas">
+            <Form>PedProducao</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabSolTipo.pas">
+            <Form>LabSolTipo</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabSolTipoM.pas">
+            <Form>LabSolTipoM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabSol.pas">
+            <Form>LabSol</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabSolM.pas">
+            <Form>LabSolM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabLaudoUIAtivos.pas">
+            <Form>LabLaudoUIAtivos</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabLaudoUISolucoes.pas">
+            <Form>LabLaudoUISolucoes</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabLaudo.pas">
+            <Form>LabLaudo</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Financ\uFichaFinPos.pas">
+            <Form>FichaFinPos</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Financ\uFichaFinPosM.pas">
+            <Form>FichaFinPosM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Financ\uFichaFinPosGrafico.pas">
+            <Form>FichaFinPosGrafico</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Financ\uFichaFin.pas">
+            <Form>FichaFin</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Admin\uSedex.pas">
+            <Form>Sedex</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Admin\uFretes.pas">
+            <Form>Fretes</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Admin\uSedexServicos.pas">
+            <Form>SedexServicos</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Admin\uSedexServicosM.pas">
+            <Form>SedexServicosM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Financ\uFichaFinM.pas">
+            <Form>FichaFinM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Financ\uFichaFinDespM.pas">
+            <Form>FichaFinDespM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Admin\uFretesM.pas">
+            <Form>FretesM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Vendas\uCota.pas">
+            <Form>Cota</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Vendas\uCotaM.pas">
+            <Form>CotaM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Vendas\uCotaMMat.pas">
+            <Form>CotaMMat</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Vendas\uCotaMServ.pas">
+            <Form>CotaMServ</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Vendas\uCotaMMO.pas">
+            <Form>CotaMMO</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Vendas\uMarkup.pas">
+            <Form>Markup</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Vendas\uBiblioteca.pas">
+            <Form>Biblioteca</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Vendas\uBibliotecaM.pas">
+            <Form>BibliotecaM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Vendas\uDoc.pas">
+            <Form>Doc</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Vendas\uDocM.pas">
+            <Form>DocM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Vendas\uDocSelBiblio.pas">
+            <Form>DocSelBiblio</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Common\uIGraphicMng.pas">
+            <Form>IGraphicMng</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Common\uFrameImage.pas">
+            <Form>FrameImage</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Vendas\uMarkupReprovMot.pas">
+            <Form>MarkupReprovMot</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Class\uDBLog.pas"/>
+        <DCCReference Include="..\..\Sources\Core\Admin\uSedexCalculos.pas"/>
+        <DCCReference Include="..\..\Sources\Core\Vendas\uCotaAutorizar.pas">
+            <Form>CotaAutorizar</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Vendas\uCotaCancelar.pas">
+            <Form>CotaCancelar</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Packages\CCore\CCore.pas"/>
+        <DCCReference Include="..\..\Sources\Packages\CCore\CMsg.pas"/>
+        <DCCReference Include="..\..\Sources\Core\RBAC\uSecGrants.pas">
+            <Form>SecGrants</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Vendas\uPrecosClientes.pas">
+            <Form>PrecosClientes</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Vendas\uPrecosClientesM.pas">
+            <Form>PrecosClientesM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uClientesMFinais.pas">
+            <Form>ClientesMFinais</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Common\uIFrameCliente.pas">
+            <Form>FrameCliente</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabEnsaiosMComps.pas">
+            <Form>LabEnsaiosMComps</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\RBAC\uSysRoles.pas">
+            <Form>SysRoles</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\RBAC\uSysRolesM.pas">
+            <Form>SysRolesM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\RBAC\uSysRolesMUsers.pas">
+            <Form>SysRolesMUsers</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\RBAC\uSysRolesMGrants.pas">
+            <Form>SysRolesMGrants</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Vendas\uPedMMat.pas">
+            <Form>PedMMat</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Vendas\uPedMServ.pas">
+            <Form>PedMServ</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Vendas\uPedMMO.pas">
+            <Form>PedMMO</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabAmostraPed.pas">
+            <Form>LabAmostraPed</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabAmostraPedM.pas">
+            <Form>LabAmostraPedM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabAmostraPedMAmostra.pas">
+            <Form>LabAmostraPedMAmostra</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uAmostras.pas">
+            <Form>Amostras</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Sys\uSysMenuComum.pas"/>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLaudoRev.pas">
+            <Form>LaudoRev</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLaudoRevM.pas">
+            <Form>LaudoRevM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Sys\uSysFnLoader.pas"/>
+        <DCCReference Include="..\..\Sources\Core\Infra\uIProgress.pas">
+            <Form>IProgress</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Class\uConsts.pas"/>
+        <DCCReference Include="..\..\Sources\Common\uFrameCheckBar.pas">
+            <Form>FrameCheckBar</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Sys\uSysFnSyncResult.pas">
+            <Form>SysFnSyncResult</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uContatos.pas">
+            <Form>Contatos</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uContatosM.pas">
+            <Form>ContatosM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uContatosMClientes.pas">
+            <Form>ContatosMClientes</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uClientesMContatos.pas">
+            <Form>ClientesMContatos</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Sys\uSysService.pas">
+            <Form>SysService</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Sys\uSysServiceM.pas">
+            <Form>SysServiceM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Sys\uSysEmail.pas">
+            <Form>SysEmail</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Sys\uSysScheduler.pas">
+            <Form>SysScheduler</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Sys\uSysSchedulerM.pas">
+            <Form>SysSchedulerM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Sys\uSysLog.pas">
+            <Form>SysLog</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uEntidadesDeClasse.pas">
+            <Form>EntidadesDeClasse</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Cad\uEntidadesDeClasseM.pas">
+            <Form>EntidadesDeClasseM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Dash\uGestaoEntradas.pas">
+            <Form>GestaoEntradas</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Dash\uGestaoEntradasDocs.pas">
+            <Form>GestaoEntradasDocs</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Volume\uRecebimentoLeitura.pas">
+            <Form>RecebimentoLeitura</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Volume\uRecebimentoLote.pas">
+            <Form>RecebimentoLote</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Infra\uDM.pas">
+            <Form>DM</Form>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Fiscal\uRecebimentoNFe.pas">
+            <Form>RecebimentoNFe</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Fiscal\uRecebimentoNFeM.pas">
+            <Form>RecebimentoNFeM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Volume\uRecebimentoLotePortador.pas">
+            <Form>RecebimentoLotePortador</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Volume\uRecebimentoLoteM.pas">
+            <Form>RecebimentoLoteM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Vendas\uClientesInativos.pas">
+            <Form>ClienteInativos</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Dash\uGestaoProducao.pas">
+            <Form>GestaoProducao</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Application\uFiscal.pas"/>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabLaudoBloq.pas">
+            <Form>LabLaudoBloq</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabAmostraAssBloq.pas">
+            <Form>LabAmostraAssBloq</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLaudoService.pas"/>
+        <DCCReference Include="..\..\Sources\Core\Producao\uOP.pas">
+            <Form>OP</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabRecipientes.pas">
+            <Form>LabRecipientes</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Labo\uLabRecipientesM.pas">
+            <Form>LabRecipientesM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Financ\uAnaliseDeCredito.pas">
+            <Form>AnaliseDeCredito</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Dash\uGestaoComercial.pas">
+            <Form>GestaoComercial</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Infra\uIChart.pas">
+            <Form>IChart</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Gestao\uChartCotaEvolucao.pas">
+            <Form>ChartCotaEvolucao</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Gestao\uChartCotaDesempenho.pas">
+            <Form>ChartCotaDesempenho</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Gestao\uChartLabEvolucaoValor.pas">
+            <Form>ChartLabEvolucaoValor</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Gestao\uChartReceberEvolucaoValor.pas">
+            <Form>ChartReceberEvolucaoValor</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Vendas\uContratos.pas">
+            <Form>Contratos</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Vendas\uContratosM.pas">
+            <Form>ContratosM</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Gestao\uChartFaturamentoMesCorrente.pas">
+            <Form>ChartFaturamentoMesCorrente</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Gestao\uChartFaturamentoAcumuladoMesCorrente.pas">
+            <Form>ChartFaturamentoAcumuladoMesCorrente</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Gestao\uChartFaturamentoAnoCorrente.pas">
+            <Form>ChartFaturamentoAnoCorrente</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\Gestao\uChartFaturamentoHistorico.pas">
+            <Form>ChartFaturamentoHistorico</Form>
+        </DCCReference>
+        <BuildConfiguration Include="Base">
+            <Key>Base</Key>
+        </BuildConfiguration>
+        <BuildConfiguration Include="Release">
+            <Key>Cfg_1</Key>
+            <CfgParent>Base</CfgParent>
+        </BuildConfiguration>
+        <BuildConfiguration Include="Debug">
+            <Key>Cfg_2</Key>
+            <CfgParent>Base</CfgParent>
+        </BuildConfiguration>
+    </ItemGroup>
+    <Import Project="$(BDS)\Bin\CodeGear.Delphi.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')"/>
+    <Import Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj" Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')"/>
 </Project>

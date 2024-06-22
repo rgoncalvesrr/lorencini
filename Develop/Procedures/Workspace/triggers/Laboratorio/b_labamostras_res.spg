@@ -15,7 +15,7 @@
       [+] Arredondamento do valor corrido do ensaio.
 */
 CREATE OR REPLACE FUNCTION b_labamostras_res()
-  RETURNS trigger AS
+RETURNS trigger AS
 $$
 Declare
    xCur     refcursor;
@@ -27,18 +27,26 @@ Declare
 BEGIN
    if tg_op <> 'DELETE' then
       -- Obtem informações do laudo
-      select criacao, status, assinatura
-        into ra
-        from labamostras_rel
-       where recno = new.laudo;
+      select 
+         criacao, status, assinatura
+      into 
+         ra
+      from
+         labamostras_rel
+      where
+         recno = new.laudo;
 
       if tg_op = 'INSERT' then
          -- Obtem quantidade de instrumentos que podem ser utilizados para
          -- realiza o ensaio atual
-         select min(labinst_recno) as inst_id, count(*) as inst_qtd
-           into rinst
-           from labinst_ens
-          where ensaio_recno = new.ensaio_recno;
+         select
+            min(labinst_recno) as inst_id, count(*) as inst_qtd
+         into 
+            rinst
+         from
+            labinst_ens
+         where
+            ensaio_recno = new.ensaio_recno;
 
          if Found and rinst.inst_qtd = 1 then
             new.labinst_recno := rinst.inst_id;
@@ -53,36 +61,44 @@ BEGIN
       if ra.status > 1 and ra.assinatura is not null and not sys_flag('labamostras_rel', new.laudo) then
          raise '[[O laudo % não pode sofrer alterações porque já foi assinado.]]', new.laudo;
       end if;
-       
+
       if ra.assinatura is null then
          new.account := sys_account();
-         new.registro := clock_timestamp();
+         new.registro:= clock_timestamp();
       end if;
 
       -- Seleciona o certificado adequado
       if new.labinst_recno is not null and ra.assinatura is null then
          -- Obtem um certificado de aferição
-         select recno
-           into new.labinstcert_recno
-           from labinstcert
-          where labinst_recno = new.labinst_recno
-            and emissao <= ra.criacao
-            and validade <= ra.criacao;
+         select 
+            recno
+         into
+            new.labinstcert_recno
+         from
+            labinstcert
+         where 
+            labinst_recno = new.labinst_recno and 
+            emissao <= ra.criacao and 
+            validade <= ra.criacao;
 
          -- Verifica se algum certificado foi localizado
          if not FOUND then
             -- recupera informações do instrumento
-            select descri, serie, modelo
-              into r
-              from labinst
-             where recno = new.labinst_recno;
+            select 
+               descri, serie, modelo
+            into 
+               r
+            from 
+               labinst
+            where
+               recno = new.labinst_recno;
 
-            xlog.title := 'Impossível localizar certificado';
-            xlog.detail := format('Não foi possível localizar certificado de aferição para o instrumento %s - %s%s%s para data %s', 
-               new.labinst_recno, r.descri, coalesce(', série '|| r.serie, ''), coalesce(', modelo '||r.modelo, ''), to_char(ra.criacao, 'DD/MM/YYYY'));
+            xlog.title        := 'Impossível localizar certificado';
             xlog.source_table := sys_origem('labamostras_res');
             xlog.source_recno := new.recno;
-            xlog.level := 'warn';
+            xlog.level        := 'warn';
+            xlog.detail       := format('Não foi possível localizar certificado de aferição para o instrumento %s - %s%s%s para data %s', 
+               new.labinst_recno, r.descri, coalesce(', série '|| r.serie, ''), coalesce(', modelo '||r.modelo, ''), to_char(ra.criacao, 'DD/MM/YYYY'));
             perform log(xlog);
          end if;
       end if;
@@ -93,37 +109,62 @@ BEGIN
       end if;
 
       -- Arredondamento do resultado
-      select dec
-        into r
-        from labens
-       where recno = new.ensaio_recno
-         and arred = 2;
+      select 
+         dec, arred, unidade_recno, metodo_recno, sezerotxt, mask
+      into
+         r
+      from
+         labens
+      where 
+         recno = new.ensaio_recno;
 
-      if Found then
+      new.unidade := r.unidade_recno;
+      new.metodo  := r.metodo_recno;
+      if r.arred = 2 then
          new.valor := round(new.valor, r.dec);
       end if;
 
       -- Cálculo da incerteza
       --- Obtendo percentual de certeza
-      select incerteza
-        into new.incerteza
-        from labens 
-       where recno = new.ensaio_recno;
+      select
+         incerteza
+      into
+         new.incerteza
+      from
+         labens 
+      where
+         recno = new.ensaio_recno;
 
       --- Calculando valor da incerteza
       if new.incerteza > 0 then
          new.incerteza := new.incerteza / 100 * new.valor;
-      end if; 
+      end if;
+
+      -- Preenche campos de resultados
+      if not new.resultado_digitado or coalesce(new.resultado, '') = '' then
+         new.resultado           := sys_iif(new.valor = 0 and r.sezerotxt is not null, r.sezerotxt, to_char(new.valor, r.mask));
+         new.resultado_digitado  := false;
+      end if;
+      
+      new.r1         := sys_iif(new.v1 = 0 and r.sezerotxt is not null, r.sezerotxt, to_char(new.v1, r.mask));
+      new.r2         := sys_iif(new.v2 = 0 and r.sezerotxt is not null, r.sezerotxt, to_char(new.v2, r.mask));
+      new.r3         := sys_iif(new.v3 = 0 and r.sezerotxt is not null, r.sezerotxt, to_char(new.v3, r.mask));
+      new.r4         := sys_iif(new.v4 = 0 and r.sezerotxt is not null, r.sezerotxt, to_char(new.v4, r.mask));
+      new.r5         := sys_iif(new.v5 = 0 and r.sezerotxt is not null, r.sezerotxt, to_char(new.v5, r.mask));
+      new.r6         := sys_iif(new.v6 = 0 and r.sezerotxt is not null, r.sezerotxt, to_char(new.v6, r.mask));
 
       return new;
    else      
       -- verifica a integridade do resultado apontado
       if not sys_flag('labamostras_res', old.recno) and 
-         exists(
-         select 1
-           from labamostras_rel
-          where recno = old.laudo
-            and relato_recno = old.relato_recno) and 
+         exists (
+            select 
+               1
+            from
+               labamostras_rel
+            where
+               recno = old.laudo and 
+               relato_recno = old.relato_recno) and 
          not sys_flag('labamostras_rel', old.recno) 
       then
          raise '[[Não é possível excluir ensaios relacionados ao laudo %.]]', old.recno;
@@ -133,4 +174,4 @@ BEGIN
    end if;
 END;
 $$
-  LANGUAGE 'plpgsql' VOLATILE;
+LANGUAGE 'plpgsql' VOLATILE;

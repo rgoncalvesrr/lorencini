@@ -1,90 +1,215 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup>
-    <ProjectGuid>{a850dcfe-362a-47de-ae96-296c36d9505f}</ProjectGuid>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
-    <DCC_DependencyCheckOutputName>..\..\..\..\..\BinDev\MMonitor.exe</DCC_DependencyCheckOutputName>
-    <MainSource>MMonitor.dpr</MainSource>
-    <DCC_UsePackage>LMDP;BaseCore</DCC_UsePackage>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <Version>7.0</Version>
-    <DCC_DebugInformation>False</DCC_DebugInformation>
-    <DCC_LocalDebugSymbols>False</DCC_LocalDebugSymbols>
-    <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
-    <DCC_Define>RELEASE;PORTUGUESE</DCC_Define>
-    <DCC_ExeOutput>..\..\..\..\..\Bin</DCC_ExeOutput>
-    <DCC_DcuOutput>..\..\Output\dcu\Release\Monitor</DCC_DcuOutput>
-    <DCC_ObjOutput>..\..\Output\dcu\Release\Monitor</DCC_ObjOutput>
-    <DCC_HppOutput>..\..\Output\dcu\Release\Monitor</DCC_HppOutput>
-    <DCC_DcpOutput>..\..\Output\DCP\Release</DCC_DcpOutput>
-    <DCC_UnitSearchPath>..\..\Output\DCP\Release</DCC_UnitSearchPath>
-    <DCC_ResourcePath>..\..\Output\DCP\Release</DCC_ResourcePath>
-    <DCC_ObjPath>..\..\Output\DCP\Release</DCC_ObjPath>
-    <DCC_IncludePath>..\..\Output\DCP\Release</DCC_IncludePath>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <Version>7.0</Version>
-    <DCC_Define>DEBUG;PORTUGUESE</DCC_Define>
-    <DCC_ExeOutput>..\..\..\..\..\BinDev</DCC_ExeOutput>
-    <DCC_DcuOutput>..\..\Output\DCU\Debug\Monitor</DCC_DcuOutput>
-    <DCC_ObjOutput>..\..\Output\DCU\Debug\Monitor</DCC_ObjOutput>
-    <DCC_HppOutput>..\..\Output\DCU\Debug\Monitor</DCC_HppOutput>
-    <DCC_DcpOutput>..\..\Output\DCP\Debug</DCC_DcpOutput>
-    <DCC_UnitSearchPath>..\..\Output\DCP\Debug</DCC_UnitSearchPath>
-    <DCC_ResourcePath>..\..\Output\DCP\Debug</DCC_ResourcePath>
-    <DCC_ObjPath>..\..\Output\DCP\Debug</DCC_ObjPath>
-    <DCC_IncludePath>..\..\Output\DCP\Debug</DCC_IncludePath>
-  </PropertyGroup>
-  <ProjectExtensions>
-    <Borland.Personality>Delphi.Personality</Borland.Personality>
-    <Borland.ProjectType />
-    <BorlandProject>
-<BorlandProject><Delphi.Personality><Parameters><Parameters Name="UseLauncher">False</Parameters><Parameters Name="LoadAllSymbols">True</Parameters><Parameters Name="LoadUnspecifiedSymbols">False</Parameters></Parameters><VersionInfo><VersionInfo Name="IncludeVerInfo">True</VersionInfo><VersionInfo Name="AutoIncBuild">True</VersionInfo><VersionInfo Name="MajorVer">19</VersionInfo><VersionInfo Name="MinorVer">10</VersionInfo><VersionInfo Name="Release">1</VersionInfo><VersionInfo Name="Build">40</VersionInfo><VersionInfo Name="Debug">False</VersionInfo><VersionInfo Name="PreRelease">False</VersionInfo><VersionInfo Name="Special">False</VersionInfo><VersionInfo Name="Private">False</VersionInfo><VersionInfo Name="DLL">False</VersionInfo><VersionInfo Name="Locale">1046</VersionInfo><VersionInfo Name="CodePage">1252</VersionInfo></VersionInfo><VersionInfoKeys><VersionInfoKeys Name="CompanyName">Lorencini Brasil</VersionInfoKeys><VersionInfoKeys Name="FileDescription"></VersionInfoKeys><VersionInfoKeys Name="FileVersion">19.10.1.40</VersionInfoKeys><VersionInfoKeys Name="InternalName"></VersionInfoKeys><VersionInfoKeys Name="LegalCopyright"></VersionInfoKeys><VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys><VersionInfoKeys Name="OriginalFilename"></VersionInfoKeys><VersionInfoKeys Name="ProductName">Manager Monitor</VersionInfoKeys><VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys><VersionInfoKeys Name="Comments"></VersionInfoKeys></VersionInfoKeys><Source><Source Name="MainSource">MMonitor.dpr</Source></Source></Delphi.Personality></BorlandProject></BorlandProject>
-  </ProjectExtensions>
-  <Import Project="$(MSBuildBinPath)\Borland.Delphi.Targets" />
-  <ItemGroup>
-    <DelphiCompile Include="MMonitor.dpr">
-      <MainSource>MainSource</MainSource>
-    </DelphiCompile>
-    <DCCReference Include="..\..\Sources\Common\uFrameData.pas">
-      <Form>FrameData</Form>
-      <DesignClass>TFrame</DesignClass>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Common\uHelpers.pas" />
-    <DCCReference Include="..\..\Sources\Common\uIConnection.pas">
-      <Form>IConnection</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Common\uIForm.pas">
-      <Form>IForm</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Common\uIUtils.pas" />
-    <DCCReference Include="..\..\Sources\Common\uIWizard.pas">
-      <Form>IWizard</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Common\uResources.pas">
-      <Form>Resources</Form>
-      <DesignClass>TDataModule</DesignClass>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Core\Class\uDBLog.pas" />
-    <DCCReference Include="..\..\Sources\Core\infra\uDM.pas">
-      <Form>DM</Form>
-      <DesignClass>TDataModule</DesignClass>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Manager\Class\uDBLog.pas" />
-    <DCCReference Include="..\..\Sources\manager\infra\uDM.pas">
-      <DesignClass>TDataModule</DesignClass>
-      <Form>DM</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\MMonitor\Remessa.pas" />
-    <DCCReference Include="..\..\Sources\MMonitor\uFPainel.pas">
-      <Form>FPainel</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\MMonitor\uMain.pas">
-      <Form>Main</Form>
-    </DCCReference>
-    <DCCReference Include="..\..\Sources\Packages\CCore\CCore.pas" />
-  </ItemGroup>
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{a850dcfe-362a-47de-ae96-296c36d9505f}</ProjectGuid>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
+        <DCC_DependencyCheckOutputName>..\..\..\..\..\BinDev\MMonitor.exe</DCC_DependencyCheckOutputName>
+        <MainSource>MMonitor.dpr</MainSource>
+        <FrameworkType>VCL</FrameworkType>
+        <ProjectVersion>20.1</ProjectVersion>
+        <Base>True</Base>
+        <Config Condition="'$(Config)'==''">Debug</Config>
+        <Platform Condition="'$(Platform)'==''">Win32</Platform>
+        <TargetedPlatforms>1</TargetedPlatforms>
+        <AppType>Application</AppType>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Base)'=='true') or '$(Base_Win32)'!=''">
+        <Base_Win32>true</Base_Win32>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Base)'=='true') or '$(Base_Win64)'!=''">
+        <Base_Win64>true</Base_Win64>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_1)'!=''">
+        <Cfg_1>true</Cfg_1>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_1)'=='true') or '$(Cfg_1_Win32)'!=''">
+        <Cfg_1_Win32>true</Cfg_1_Win32>
+        <CfgParent>Cfg_1</CfgParent>
+        <Cfg_1>true</Cfg_1>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Debug' or '$(Cfg_2)'!=''">
+        <Cfg_2>true</Cfg_2>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win32)'!=''">
+        <Cfg_2_Win32>true</Cfg_2_Win32>
+        <CfgParent>Cfg_2</CfgParent>
+        <Cfg_2>true</Cfg_2>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base)'!=''">
+        <SanitizedProjectName>MMonitor</SanitizedProjectName>
+        <DCC_Namespace>Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;System;Xml;Data;Datasnap;Web;Soap;Winapi;Bde;$(DCC_Namespace)</DCC_Namespace>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_AutoGenVersion>true</VerInfo_AutoGenVersion>
+        <VerInfo_MajorVer>19</VerInfo_MajorVer>
+        <VerInfo_MinorVer>10</VerInfo_MinorVer>
+        <VerInfo_Release>1</VerInfo_Release>
+        <VerInfo_Build>40</VerInfo_Build>
+        <VerInfo_Locale>1046</VerInfo_Locale>
+        <VerInfo_Keys>CompanyName=Lorencini Brasil;FileDescription=;FileVersion=19.10.1.40;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=Manager Monitor;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base_Win32)'!=''">
+        <DCC_UsePackage>LMDP;BaseCore;$(DCC_UsePackage)</DCC_UsePackage>
+        <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
+        <BT_BuildType>Debug</BT_BuildType>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=;ProgramID=com.embarcadero.$(MSBuildProjectName)</VerInfo_Keys>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
+        <Icon_MainIcon>MMonitor_Icon1.ico</Icon_MainIcon>
+        <UWP_DelphiLogo44>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_44.png</UWP_DelphiLogo44>
+        <UWP_DelphiLogo150>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_150.png</UWP_DelphiLogo150>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base_Win64)'!=''">
+        <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
+        <Icon_MainIcon>MMonitor_Icon1.ico</Icon_MainIcon>
+        <UWP_DelphiLogo44>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_44.png</UWP_DelphiLogo44>
+        <UWP_DelphiLogo150>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_150.png</UWP_DelphiLogo150>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_1)'!=''">
+        <Version>7.0</Version>
+        <DCC_DebugInformation>0</DCC_DebugInformation>
+        <DCC_LocalDebugSymbols>False</DCC_LocalDebugSymbols>
+        <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
+        <DCC_Define>RELEASE;PORTUGUESE;$(DCC_Define)</DCC_Define>
+        <DCC_ExeOutput>..\..\..\..\..\Bin</DCC_ExeOutput>
+        <DCC_DcuOutput>..\..\Output\dcu\Release\Monitor</DCC_DcuOutput>
+        <DCC_ObjOutput>..\..\Output\dcu\Release\Monitor</DCC_ObjOutput>
+        <DCC_HppOutput>..\..\Output\dcu\Release\Monitor</DCC_HppOutput>
+        <DCC_DcpOutput>..\..\Output\DCP\Release</DCC_DcpOutput>
+        <DCC_UnitSearchPath>..\..\Output\DCP\Release;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <DCC_ResourcePath>..\..\Output\DCP\Release;$(DCC_ResourcePath)</DCC_ResourcePath>
+        <DCC_ObjPath>..\..\Output\DCP\Release;$(DCC_ObjPath)</DCC_ObjPath>
+        <DCC_IncludePath>..\..\Output\DCP\Release;$(DCC_IncludePath)</DCC_IncludePath>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2)'!=''">
+        <Version>7.0</Version>
+        <DCC_Define>DEBUG;PORTUGUESE;$(DCC_Define)</DCC_Define>
+        <DCC_ExeOutput>..\..\..\..\..\BinDev</DCC_ExeOutput>
+        <DCC_DcuOutput>..\..\Output\DCU\Debug\Monitor</DCC_DcuOutput>
+        <DCC_ObjOutput>..\..\Output\DCU\Debug\Monitor</DCC_ObjOutput>
+        <DCC_HppOutput>..\..\Output\DCU\Debug\Monitor</DCC_HppOutput>
+        <DCC_DcpOutput>..\..\Output\DCP\Debug</DCC_DcpOutput>
+        <DCC_UnitSearchPath>..\..\Output\DCP\Debug;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <DCC_ResourcePath>..\..\Output\DCP\Debug;$(DCC_ResourcePath)</DCC_ResourcePath>
+        <DCC_ObjPath>..\..\Output\DCP\Debug;$(DCC_ObjPath)</DCC_ObjPath>
+        <DCC_IncludePath>..\..\Output\DCP\Debug;$(DCC_IncludePath)</DCC_IncludePath>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+        <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
+    </PropertyGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Delphi.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Delphi.Personality>
+                <Parameters>
+                    <Parameters Name="UseLauncher">False</Parameters>
+                    <Parameters Name="LoadAllSymbols">True</Parameters>
+                    <Parameters Name="LoadUnspecifiedSymbols">False</Parameters>
+                </Parameters>
+                <VersionInfo>
+                    <VersionInfo Name="IncludeVerInfo">True</VersionInfo>
+                    <VersionInfo Name="AutoIncBuild">True</VersionInfo>
+                    <VersionInfo Name="MajorVer">19</VersionInfo>
+                    <VersionInfo Name="MinorVer">10</VersionInfo>
+                    <VersionInfo Name="Release">1</VersionInfo>
+                    <VersionInfo Name="Build">40</VersionInfo>
+                    <VersionInfo Name="Debug">False</VersionInfo>
+                    <VersionInfo Name="PreRelease">False</VersionInfo>
+                    <VersionInfo Name="Special">False</VersionInfo>
+                    <VersionInfo Name="Private">False</VersionInfo>
+                    <VersionInfo Name="DLL">False</VersionInfo>
+                    <VersionInfo Name="Locale">1046</VersionInfo>
+                    <VersionInfo Name="CodePage">1252</VersionInfo>
+                </VersionInfo>
+                <VersionInfoKeys>
+                    <VersionInfoKeys Name="CompanyName">Lorencini Brasil</VersionInfoKeys>
+                    <VersionInfoKeys Name="FileDescription"/>
+                    <VersionInfoKeys Name="FileVersion">19.10.1.40</VersionInfoKeys>
+                    <VersionInfoKeys Name="InternalName"/>
+                    <VersionInfoKeys Name="LegalCopyright"/>
+                    <VersionInfoKeys Name="LegalTrademarks"/>
+                    <VersionInfoKeys Name="OriginalFilename"/>
+                    <VersionInfoKeys Name="ProductName">Manager Monitor</VersionInfoKeys>
+                    <VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
+                    <VersionInfoKeys Name="Comments"/>
+                </VersionInfoKeys>
+                <Source>
+                    <Source Name="MainSource">MMonitor.dpr</Source>
+                </Source>
+            </Delphi.Personality>
+            <Platforms>
+                <Platform value="Win32">True</Platform>
+                <Platform value="Win64">False</Platform>
+            </Platforms>
+        </BorlandProject>
+        <ProjectFileVersion>12</ProjectFileVersion>
+    </ProjectExtensions>
+    <Import Project="$(BDS)\Bin\CodeGear.Delphi.Targets"/>
+    <ItemGroup>
+        <DelphiCompile Include="$(MainSource)">
+            <MainSource>MainSource</MainSource>
+        </DelphiCompile>
+        <DCCReference Include="..\..\Sources\Common\uFrameData.pas">
+            <Form>FrameData</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Common\uIConnection.pas">
+            <Form>IConnection</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Common\uIForm.pas">
+            <Form>IForm</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Common\uIUtils.pas"/>
+        <DCCReference Include="..\..\Sources\Common\uIWizard.pas">
+            <Form>IWizard</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Common\uResources.pas">
+            <Form>Resources</Form>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\Core\infra\uDM.pas">
+            <Form>DM</Form>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\MMonitor\uMain.pas">
+            <Form>Main</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\MMonitor\uFPainel.pas">
+            <Form>FPainel</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Sources\MMonitor\Remessa.pas"/>
+        <DCCReference Include="..\..\Sources\Core\Class\uDBLog.pas"/>
+        <DCCReference Include="..\..\Sources\Packages\CCore\CCore.pas"/>
+        <DCCReference Include="..\..\Sources\Common\uHelpers.pas"/>
+        <BuildConfiguration Include="Base">
+            <Key>Base</Key>
+        </BuildConfiguration>
+        <BuildConfiguration Include="Release">
+            <Key>Cfg_1</Key>
+            <CfgParent>Base</CfgParent>
+        </BuildConfiguration>
+        <BuildConfiguration Include="Debug">
+            <Key>Cfg_2</Key>
+            <CfgParent>Base</CfgParent>
+        </BuildConfiguration>
+    </ItemGroup>
+    <Import Project="$(BDS)\Bin\CodeGear.Delphi.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')"/>
+    <Import Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj" Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')"/>
 </Project>
