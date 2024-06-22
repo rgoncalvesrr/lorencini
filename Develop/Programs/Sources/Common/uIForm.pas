@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ActnList, Grids, ZDataSet, ZSequence, ExtCtrls, ToolWin, CCore,
-  uReport;
+  uReport, System.Actions;
 
 type
 
@@ -101,7 +101,8 @@ implementation
 
 {$R *.dfm}
 
-uses StdCtrls, ComCtrls, uIUtils, NetWorks, TypInfo, JvExComCtrls, JvDateTimePicker, JvExMask, JvToolEdit, JvMaskEdit,
+uses
+  StdCtrls, ComCtrls, uIUtils, TypInfo, JvExComCtrls, JvDateTimePicker, JvExMask, JvToolEdit, JvMaskEdit,
   JvCheckedMaskEdit, JvDatePickerEdit, JvBaseEdits, uResources, mcutils, ZSqlProcessor, uDMReport, frxClass;
 
 function TIForm.GetExecute: Boolean;

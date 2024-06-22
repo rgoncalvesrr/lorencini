@@ -17,38 +17,53 @@ create or replace function buscar_nfe_por_amostra(
 returns varchar as 
 $$
 declare
-	r			record;	
-	chave_   fis_nfe.chave%type;
+   r        record;	
+   chave_   fis_nfe.chave%type;
 begin
-	select a.codigo, rem.tipo 
- 	  into r
-	  from labamostras a
-	       join labprocxequip rem
-	         on rem.amostra = a.recno 
-	 where a.recno = amostra_;
+	select 
+      a.codigo, rem.tipo 
+   into 
+      r
+	from 
+      labamostras a
+	join 
+      labprocxequip rem on 
+      rem.amostra = a.recno 
+	where 
+      a.recno = amostra_;
 	
 	if not found then
-       raise '[[Amostra % não localizada]]', amostra_;
+      raise '[[Amostra % não localizada]]', amostra_;
 	end if;
 
    if r.tipo = 1 then
-      select chave
-        into chave_
-        from fis_nfe 
-       where cliente = r.codigo
-         and tipo = 1
-         and status = 1
-         and frascos_saldo > 0
-       limit 1;
+      select 
+         chave
+      into
+         chave_
+      from 
+         fis_nfe 
+      where 
+         cliente = r.codigo and 
+         tipo = 1 and 
+         status = 1 and 
+         frascos_saldo > 0
+      limit 
+         1;
    elsif r.tipo = 2 then
-      select chave
-        into chave_
-        from fis_nfe 
-       where cliente = r.codigo
-         and tipo = 1
-         and status = 1
-         and seringas_saldo > 0
-       limit 1;
+      select 
+         chave
+      into 
+         chave_
+      from
+         fis_nfe 
+      where 
+         cliente = r.codigo and 
+         tipo = 1 and 
+         status = 1 and 
+         seringas_saldo > 0
+      limit 
+         1;
    end if;
 
 	return chave_;

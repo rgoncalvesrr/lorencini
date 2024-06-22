@@ -214,16 +214,15 @@ begin
     1: Stmt := FStmtSanitized;
     2:
       begin
-        Stmt := FStmtApplied;
-        SynEdit1.WordWrap := True;
         SynEdit1.ScrollBars := ssVertical;
+        Stmt := FStmtApplied;
       end;
   end;
 
   SynEdit1.Lines.EndUpdate;
   try
-    SynEdit1.WordWrap := PageControl1.ActivePageIndex = 3;
-    SynEdit1.WantReturns := PageControl1.ActivePageIndex = 3;
+    SynEdit1.WordWrap := PageControl1.ActivePageIndex = 2;
+    SynEdit1.WantReturns := PageControl1.ActivePageIndex = 2;
 
     SynEdit1.Lines.Clear;
     SynEdit1.Lines.AddStrings(Stmt);

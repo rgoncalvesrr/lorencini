@@ -3,12 +3,11 @@ unit uOSM;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, uIBrowseDet, ActnList, Grids, DBGrids, ComCtrls, ExtCtrls, ToolWin,
-  DB, ZAbstractRODataset, ZDataset, StdCtrls, Mask, DBCtrls, ZAbstractDataset,
-  ZSqlUpdate, iTypes, Htmlview, ComObj, Buttons, Menus, JvExStdCtrls,
-  JvDBCombobox, JvExMask, JvToolEdit, JvMaskEdit, JvCheckedMaskEdit,
-  JvDatePickerEdit, JvDBDatePickerEdit, JvCombobox, JvBaseEdits, JvDBControls;
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, Dialogs, uIBrowseDet, ActnList,
+  Grids, DBGrids, ComCtrls, ExtCtrls, ToolWin, DB, ZAbstractRODataset, ZDataset, StdCtrls, Mask, DBCtrls,
+  ZAbstractDataset, ZSqlUpdate, iTypes, ComObj, Buttons, Menus, JvExStdCtrls, JvDBCombobox, JvExMask,
+  JvToolEdit, JvMaskEdit, JvCheckedMaskEdit, JvDatePickerEdit, JvDBDatePickerEdit, JvCombobox, JvBaseEdits,
+  JvDBControls, System.Actions;
 
 type
   TOSM = class(TIDefBrowseEdit)

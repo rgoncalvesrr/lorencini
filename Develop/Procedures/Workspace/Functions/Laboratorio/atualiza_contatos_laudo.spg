@@ -16,20 +16,27 @@ Returns void As
 $$
 begin
    delete 
-     from labamostras_rel_contatos
-    where laudo = in_laudo;
+   from 
+      labamostras_rel_contatos
+   where 
+      laudo = in_laudo;
 
    insert into labamostras_rel_contatos
       (laudo, cliente, contato)      
-   select in_laudo, cc.cliente, cc.contato
-     from clientes_contatos cc          
-          join labamostras a
-            on a.codigo = cc.cliente            
-          join labamostras_rel co
-            on co.amostra = a.recno
-           and co.recno = in_laudo
-    where contato_tecnico
-      and ativo;
+   select 
+      in_laudo, cc.cliente, cc.contato
+   from 
+      clientes_contatos cc          
+   join 
+      labamostras a on 
+      a.codigo = cc.cliente            
+   join 
+      labamostras_rel co on 
+      co.amostra = a.recno and 
+      co.recno = in_laudo
+   where 
+      contato_tecnico and 
+      ativo;
 end
 $$
 language plpgsql;

@@ -1,83 +1,94 @@
 object Main: TMain
   Left = 273
   Top = 112
+  Margins.Left = 4
+  Margins.Top = 4
+  Margins.Right = 4
+  Margins.Bottom = 4
   Caption = 'Lorencini Brasil'
-  ClientHeight = 775
-  ClientWidth = 1058
+  ClientHeight = 969
+  ClientWidth = 1325
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -11
+  Font.Height = -14
   Font.Name = 'Segoe UI'
   Font.Style = []
   Menu = MainMenu1
-  OldCreateOrder = False
   Position = poDefault
   OnActivate = FormActivate
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnResize = FormResize
   OnShow = FormShow
-  PixelsPerInch = 96
-  TextHeight = 13
+  PixelsPerInch = 120
+  TextHeight = 19
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 749
-    Width = 1058
-    Height = 26
+    Top = 936
+    Width = 1325
+    Height = 33
+    Margins.Left = 4
+    Margins.Top = 4
+    Margins.Right = 4
+    Margins.Bottom = 4
     BorderWidth = 1
     Panels = <
       item
         Alignment = taCenter
         Bevel = pbNone
         Text = 'Usu'#225'rio'
-        Width = 50
+        Width = 63
       end
       item
         Alignment = taCenter
-        Width = 50
+        Width = 63
       end
       item
         Alignment = taCenter
         Bevel = pbNone
         Text = 'Data'
-        Width = 50
+        Width = 63
       end
       item
         Alignment = taCenter
-        Width = 50
+        Width = 63
       end
       item
         Alignment = taCenter
         Bevel = pbNone
         Text = 'Servidor'
-        Width = 50
+        Width = 63
       end
       item
         Alignment = taCenter
-        Width = 50
+        Width = 63
       end
       item
         Alignment = taCenter
         Bevel = pbNone
         Text = 'Banco'
-        Width = 50
+        Width = 63
       end
       item
         Alignment = taCenter
-        Width = 50
+        Width = 63
       end
       item
         Alignment = taCenter
-        Width = 50
+        Width = 63
       end>
   end
   object ControlBar1: TControlBar
     AlignWithMargins = True
-    Left = 3
-    Top = 3
-    Width = 1052
+    Left = 4
+    Top = 4
+    Width = 1317
     Height = 46
+    Margins.Left = 4
+    Margins.Top = 4
+    Margins.Right = 4
+    Margins.Bottom = 4
     Align = alTop
     AutoSize = True
     BevelEdges = []
@@ -85,16 +96,21 @@ object Main: TMain
     BevelOuter = bvNone
     BevelKind = bkNone
     DrawingStyle = dsGradient
+    RowSize = 33
     TabOrder = 1
     object ToolBar2: TToolBar
-      Left = 11
+      Left = 14
       Top = 2
-      Width = 840
+      Width = 1036
       Height = 42
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       AutoSize = True
       BorderWidth = 1
       ButtonHeight = 38
-      ButtonWidth = 153
+      ButtonWidth = 173
       Caption = 'ToolBar2'
       DisabledImages = Resources.large_d
       DrawingStyle = dsGradient
@@ -106,48 +122,67 @@ object Main: TMain
       object tbRole: TToolButton
         Left = 0
         Top = 0
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Caption = 'Usu'#225'rio Comun'
         DropdownMenu = pmRole
         ImageIndex = 389
         Style = tbsTextButton
       end
       object ToolButton12: TToolButton
-        Left = 127
+        Left = 143
         Top = 0
-        Width = 8
+        Width = 10
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Caption = 'ToolButton12'
         ImageIndex = 4
         Style = tbsSeparator
       end
       object ToolButton10: TToolButton
-        Left = 135
+        Left = 153
         Top = 0
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Action = actChangePass
         Style = tbsTextButton
       end
       object ToolButton1: TToolButton
-        Left = 257
+        Left = 287
         Top = 0
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Action = actFichaFinDesp
         Caption = 'Registro de Despesas'
         Style = tbsTextButton
       end
-      object ToolButton11: TToolButton
-        Left = 414
-        Top = 0
-        Action = actVersion
-      end
       object ToolButton13: TToolButton
-        Left = 454
+        Left = 464
         Top = 0
-        Width = 8
+        Width = 10
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Caption = 'ToolButton13'
         ImageIndex = 191
         Style = tbsSeparator
       end
       object ToolButton14: TToolButton
-        Left = 462
+        Left = 474
         Top = 0
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Action = actClose
       end
     end
@@ -173,11 +208,6 @@ object Main: TMain
       Hint = 'Trocar Senha...'
       ImageIndex = 199
       OnExecute = actChangePassExecute
-    end
-    object actVersion: TAction
-      Caption = 'Vers'#227'o...'
-      ImageIndex = 190
-      OnExecute = actVersionExecute
     end
     object actSysDump: TAction
       Caption = 'Rotina de Atualiza'#231#227'o'

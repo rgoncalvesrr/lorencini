@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, Dialogs, StdCtrls, ExtCtrls, Buttons,
   ActnList, Menus, ComCtrls, ToolWin, db, uFrameData, JvExStdCtrls, JvCombobox, JvColorCombo, JvExControls, 
-  zdataset;
+  zdataset, System.Actions;
 
 type
   TMain = class(TForm)
@@ -17,12 +17,10 @@ type
     actClose: TAction;
     actChangePass: TAction;
     Action1: TAction;
-    actVersion: TAction;
     actSysDump: TAction;
     ControlBar1: TControlBar;
     ToolBar2: TToolBar;
     ToolButton10: TToolButton;
-    ToolButton11: TToolButton;
     ToolButton12: TToolButton;
     ToolButton13: TToolButton;
     ToolButton14: TToolButton;
@@ -38,7 +36,6 @@ type
     procedure FormCreate(Sender: TObject);
     procedure actCloseExecute(Sender: TObject);
     procedure actChangePassExecute(Sender: TObject);
-    procedure actVersionExecute(Sender: TObject);
     procedure actSysDumpExecute(Sender: TObject);
     procedure actFichaFinDespExecute(Sender: TObject);
   private
@@ -69,9 +66,9 @@ var
 implementation
 
 uses
-  uFuncoes, uIUtils, mcUtils, uSysSecurityChangePass, uSysVersions, uVendedores, uDM,
-  uReceber, uPagar, uMovtoBancario, uSysReports, uIDefReport, uNFS, uSysDump, uReport, uDMReport, frxClass, uResources,
-  uFichaFinPos, uFichaFinDespM, uHelpers;
+  uFuncoes, uIUtils, mcUtils, uSysSecurityChangePass, uVendedores, uDM, uReceber, uPagar, uMovtoBancario,
+  uSysReports, uIDefReport, uNFS, uSysDump, uReport, uDMReport, frxClass, uResources, uFichaFinPos,
+  uFichaFinDespM, uHelpers;
 
 {$R *.dfm}
 
@@ -420,13 +417,6 @@ begin
   finally
     FreeAndNil(SysDump);
   end;
-end;
-
-procedure TMain.actVersionExecute(Sender: TObject);
-begin
-  Application.CreateForm(TSysVersions, SysVersions);
-  SysVersions.ShowModal;
-  SysVersions.Free;
 end;
 
 procedure TMain.BeforeShowForm(Sender: TObject; FormClass: TFormClass;

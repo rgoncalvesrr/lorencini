@@ -2,9 +2,9 @@ unit uIUtils;
 
 interface
 
-uses classes, windows, sysutils, zdataset, zconnection, inifiles, forms, db,
-  dateutils, ZSqlProcessor, ZDbcIntfs, variants, grids, dbgrids, stdctrls,
-  DBCtrls, controls, JvDBControls, JvDBCombobox, Contnrs, uDBLog;
+uses classes, windows, sysutils, zdataset, zconnection, inifiles, forms, db, dateutils, ZSqlProcessor,
+ZDbcIntfs, variants, grids, dbgrids, stdctrls, DBCtrls, controls, JvDBControls, JvDBCombobox, Contnrs, uDBLog,
+IdStackWindows;
 
 type
   TDisplayMode = (dmNormal, dmQuery);
@@ -429,6 +429,8 @@ type
     function Encripta(const Value: string): string;
     function MD5(const Value: string): string; overload;
     function MD5File(const AFileName: string): string;
+    function IpAddress: string;
+    function HostName: string;
 
     property Out: TOut read fOut;
   end;
@@ -500,7 +502,8 @@ Const
 
 implementation
 
-uses ZAbstractRODataset, mcUtils, NetWorks, uIConnection, uHelpers, IdHashMessageDigest;
+uses ZAbstractRODataset, mcUtils, uIConnection, uHelpers, IdHashMessageDigest,
+  ZCompatibility;
 
 { TIUtils }
 
@@ -735,8 +738,8 @@ procedure TIUtils.RestoreGridWidts(AFile: String; ADBGrid: TDBGrid);
 var
   deffile: string;
 begin
-  deffile := LowerCase(LowerCase(U.Path.Temp + GetHostNameByIP(GetIPAdress) +
-    '_' + AFile + '.def'));
+
+  deffile := LowerCase(LowerCase(U.Path.Temp + G.HostName + '_' + AFile + '.def'));
 
   if not FileExists(deffile) then
   begin
@@ -759,7 +762,7 @@ var
   column: TColumn;
   i: integer;
 begin
-  gdSaveFile := LowerCase(U.Path.Temp + GetHostNameByIP(GetIPAdress) + '_' + AFile + '.def');
+  gdSaveFile := LowerCase(U.Path.Temp + G.HostName + '_' + AFile + '.def');
   ADBGrid.Columns.SaveToFile(gdSaveFile);
 end;
 
@@ -1343,23 +1346,22 @@ var
   appname: string;
   appimage: string;
 begin
-  appname := ParamStr(0);
-  appimage := ExtractFileName(appname);
-  
   inherited Create(nil);
-  inherited TransactIsolationLevel:= tiNone;
-  inherited Properties.Add('codepage=latin1');
-  inherited Properties.Add(Format('application_name=Lorencini: %s %s',
+
+  appname               := ParamStr(0);
+  appimage              := ExtractFileName(appname);
+  fQueryPool            := TList.Create;
+  fStmtPool             := TList.Create;
+  FDataInfo             := TDataInfo.Create;
+  ClientCodepage        := 'LATIN1';
+  ControlsCodePage      := cGET_ACP;
+  TransactIsolationLevel:= tiNone;
+  ReadOnly              := False;
+  UseMetadata           := False;
+  LibraryLocation       := TEnvironment.Lib + 'libpq.dll';
+  Properties.Add(Format('application_name=Lorencini: %s %s',
     [StringReplace(appimage, ExtractFileExt(appimage), EmptyStr, [rfReplaceAll, rfIgnoreCase]) ,
      GetBuildInfo(appname)]));
-  inherited ReadOnly := False;
-  inherited UseMetadata := False;
-  inherited LibraryLocation := TEnvironment.Lib + 'libpq.dll';
-
-
-  fQueryPool := TList.Create;
-  fStmtPool := TList.Create;
-  FDataInfo := TDataInfo.Create;
 end;
 
 destructor TData.Destroy;
@@ -1857,6 +1859,28 @@ var
 begin
    GetSystemInfo({var}si);
    Result := si.dwNumberOfProcessors;
+end;
+
+function TIGUtils.HostName: string;
+var
+  ComputerName: Array [0 .. 256] of char;
+  Size: DWORD;
+begin
+  Size := 256;
+  GetComputerName(ComputerName, Size);
+  Result := ComputerName;
+end;
+
+function TIGUtils.IpAddress: string;
+var
+  IdStackWin: TIdStackWindows;
+begin
+  IdStackWin := TIdStackWindows.Create;
+  try
+    Result := IdStackWin.ResolveHost(IdStackWin.HostName);
+  finally
+    IdStackWin.Free;
+  end;
 end;
 
 function TIGUtils.MD5(const Value: string): string;

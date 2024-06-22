@@ -19,16 +19,20 @@ create or replace function ensaio_mascara(
 returns varchar as 
 $$
 declare
-  r      record;  
+   r  record;  
 begin
    if in_resultado is null then
       return null;
    end if;
 
-   select mask, sezerotxt 
-     into r
-     from labens e            
-    where e.recno = in_ensaio;
+   select 
+      mask, sezerotxt 
+   into 
+      r
+   from 
+      labens e            
+   where 
+      e.recno = in_ensaio;
 
    if in_resultado = 0 and r.sezerotxt is not null then
       return r.sezerotxt;

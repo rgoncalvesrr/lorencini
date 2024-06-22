@@ -3,11 +3,10 @@ unit uServicosM;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, uIBrowseDet, ActnList, Grids, DBGrids, ComCtrls, ExtCtrls, ToolWin,
-  StdCtrls, Mask, DBCtrls, ZSqlUpdate, DB, ZAbstractRODataset,
-  ZAbstractDataset, ZDataset, JvExMask, JvToolEdit, JvBaseEdits, JvDBControls,
-  JvExStdCtrls, JvCombobox, JvDBCombobox, CheckLst, Buttons;
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, Dialogs, uIBrowseDet, ActnList,
+  Grids, DBGrids, ComCtrls, ExtCtrls, ToolWin, StdCtrls, Mask, DBCtrls, ZSqlUpdate, DB, ZAbstractRODataset,
+  ZAbstractDataset, ZDataset, JvExMask, JvToolEdit, JvBaseEdits, JvDBControls, JvExStdCtrls, JvCombobox,
+  JvDBCombobox, CheckLst, Buttons, System.Actions, System.Generics.Collections;
 
 type
   TServicosM = class(TIDefBrowseEdit)
@@ -57,8 +56,10 @@ type
     procedure PageControl3Change(Sender: TObject);
     procedure DBEdit8Exit(Sender: TObject);
     procedure actFindRecipienteExecute(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
   private
-    { Private declarations }
+    FBookMarks: TList<TBookmark>;
     procedure RefreshControls; override;
     procedure OnEdit; override;
     procedure OnDataSet; override;
@@ -142,9 +143,20 @@ begin
   end;
 end;
 
+procedure TServicosM.FormCreate(Sender: TObject);
+begin
+  inherited;
+  FBookMarks := TList<TBookmark>.Create;
+end;
+
+procedure TServicosM.FormDestroy(Sender: TObject);
+begin
+  FBookMarks.Free;
+  inherited;
+
+end;
+
 procedure TServicosM.LoadTipoRel;
-var
-  oBM: TBookmark;
 begin
   if not Assigned(DataSet) then
     Exit;
@@ -154,12 +166,13 @@ begin
     qTipoLaudo.First;
     Items.BeginUpdate;
     Items.Clear;
+    FBookMarks.Clear;
 
     while not qTipoLaudo.Eof do
     begin
-      oBM := qTipoLaudo.GetBookmark;
+      FBookMarks.Add(qTipoLaudo.GetBookmark);
       // Adicionando serviço a lista
-      Items.AddObject(Format('%s (%d)', [qTipoLaudodescri.DisplayText, qTipoLaudorecno.AsInteger]), oBM);
+      Items.Add(Format('%s (%d)', [qTipoLaudodescri.DisplayText, qTipoLaudorecno.AsInteger]));
 
       qTipoLaudo.Next;
     end;
@@ -197,17 +210,13 @@ begin
 end;
 
 procedure TServicosM.RefreshTipoRel;
-var
-  oBM: TBookmark;
-  i: Integer;
 begin
   with Servicos, CheckListBox1 do
   try
     Items.BeginUpdate;
-    for i := 0 to Items.Count - 1 do
+    for var i := 0 to Items.Count - 1 do
     begin
-      oBM := Items.Objects[i];
-      qTipoLaudo.GotoBookmark(oBM);
+      qTipoLaudo.GotoBookmark(FBookMarks[i]);
       Checked[i] := Assigned(DataSet) and not (DataSet.State in [dsEdit, dsInsert])
         and qTipoLaudoServ.Locate('relato_recno', qTipoLaudorecno.AsInteger, []);
     end;

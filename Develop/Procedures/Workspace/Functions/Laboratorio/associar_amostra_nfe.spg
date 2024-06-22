@@ -29,23 +29,33 @@ declare
 
    nfe_     labamostras_nfe.nfe%type;
 begin   
-   select nfe
-     into nfe_
-     from labamostras_nfe
-    where amostra = amostra_;
+   select 
+      nfe
+   into 
+      nfe_
+   from 
+      labamostras_nfe
+   where 
+      amostra = amostra_;
 
    if found then
       raise '[[A amostra % já foi associada a NF-e %]]', amostra_, mask_nfe(nfe_);
    end if;
 
-   select a.codigo, c.nome_chave, a.estado, rem.tipo
-     into ra
-     from labamostras a
-          join tbclientes c
-            on c.codigo = a.codigo
-          left join labprocxequip rem
-            on rem.amostra = a.recno
-    where a.recno = amostra_;
+   select 
+      a.codigo, c.nome_chave, a.estado, rem.tipo
+   into 
+      ra
+   from 
+      labamostras a
+   join 
+      tbclientes c on 
+      c.codigo = a.codigo
+   left join 
+      labprocxequip rem on 
+      rem.amostra = a.recno
+   where 
+      a.recno = amostra_;
    
    if not found then
       raise '[[Amostra % não foi localizada!]]', amostra_;
@@ -55,10 +65,14 @@ begin
       raise '[[Amostra % não poder ser associada a NF-e % porque a vidraria não foi enviada ao cliente]]', amostra_, mask_nfe(chave_);
    end if;
 
-   select frascos_saldo, seringas_saldo, tipo, status, cliente, recno 
-     into rn
-     from fis_nfe 
-    where chave = chave_;
+   select 
+      frascos_saldo, seringas_saldo, tipo, status, cliente, recno 
+   into 
+      rn
+   from 
+      fis_nfe 
+   where 
+      chave = chave_;
    
    if not found then
       raise '[[NF-e % não foi localizada!]]', mask_nfe(chave_);
@@ -81,9 +95,12 @@ begin
          raise '[[A NF-e % não possui saldo de frascos para ser associada a amostra %]]', mask_nfe(chave_), amostra_;
       end if;
 
-      update fis_nfe
-         set frascos_saldo = frascos_saldo - 1
-       where chave = chave_;
+      update 
+         fis_nfe
+      set 
+         frascos_saldo = frascos_saldo - 1
+      where 
+         chave = chave_;
    end if;
 
    if ra.tipo = _SERINGA then
@@ -91,9 +108,12 @@ begin
          raise '[[A NF-e % não possui saldo de seringas para ser associada a amostra %]]', mask_nfe(chave_), amostra_;
       end if;
       
-      update fis_nfe
-         set seringas_saldo = seringas_saldo - 1
-       where chave = chave_;  
+      update 
+         fis_nfe
+      set 
+         seringas_saldo = seringas_saldo - 1
+      where 
+         chave = chave_;  
    end if;
 
    insert into labamostras_nfe

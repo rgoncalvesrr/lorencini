@@ -31,7 +31,6 @@ uses
   uOS in '..\..\Sources\Core\Vendas\uOS.pas' {OS},
   uColaboradores in '..\..\Sources\Core\RH\uColaboradores.pas' {Colaboradores},
   uColaboradoresM in '..\..\Sources\Core\RH\uColaboradoresM.pas' {ColaboradoresM},
-  uSysVersions in '..\..\Sources\Core\Sys\uSysVersions.pas' {SysVersions},
   uDeptos in '..\..\Sources\Core\Cad\uDeptos.pas' {Deptos},
   uDeptosM in '..\..\Sources\Core\Cad\uDeptosM.pas' {DeptosM},
   uAtivosTipos in '..\..\Sources\Core\Cad\uAtivosTipos.pas' {AtivosTipos},
