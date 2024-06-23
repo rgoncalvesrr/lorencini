@@ -1,81 +1,104 @@
 inherited IDefBrowse: TIDefBrowse
   Left = 326
   Top = 262
+  Margins.Left = 5
+  Margins.Top = 5
+  Margins.Right = 5
+  Margins.Bottom = 5
   Align = alClient
   Caption = 'Navegador de registros'
-  ClientHeight = 342
-  ClientWidth = 837
-  Constraints.MinWidth = 845
+  ClientHeight = 428
+  ClientWidth = 1046
+  Constraints.MinWidth = 1056
+  Font.Height = -19
   KeyPreview = False
-  OldCreateOrder = True
-  ExplicitWidth = 853
-  ExplicitHeight = 381
-  PixelsPerInch = 96
-  TextHeight = 15
+  StyleElements = [seFont, seClient, seBorder]
+  ExplicitWidth = 1064
+  ExplicitHeight = 475
+  PixelsPerInch = 120
+  TextHeight = 25
   object StatusBar1: TStatusBar [0]
     AlignWithMargins = True
-    Left = 3
-    Top = 315
-    Width = 831
-    Height = 24
+    Left = 4
+    Top = 394
+    Width = 1038
+    Height = 30
+    Margins.Left = 4
+    Margins.Top = 4
+    Margins.Right = 4
+    Margins.Bottom = 4
     Panels = <
       item
         Alignment = taCenter
         Bevel = pbNone
         Text = 'Registro'
-        Width = 50
+        Width = 63
       end
       item
         Alignment = taCenter
-        Width = 60
+        Width = 75
       end
       item
         Alignment = taCenter
         Bevel = pbNone
         Text = 'de'
-        Width = 30
+        Width = 38
       end
       item
         Alignment = taCenter
-        Width = 60
+        Width = 75
       end
       item
-        Width = 50
+        Width = 63
       end>
+    ExplicitWidth = 1039
   end
   object Panel1: TPanel [1]
     Left = 0
-    Top = 44
-    Width = 837
-    Height = 85
+    Top = 46
+    Width = 1046
+    Height = 106
+    Margins.Left = 4
+    Margins.Top = 4
+    Margins.Right = 4
+    Margins.Bottom = 4
     Align = alTop
     BevelOuter = bvNone
-    Padding.Left = 5
-    Padding.Right = 5
+    Padding.Left = 6
+    Padding.Right = 6
     TabOrder = 1
     Visible = False
     OnResize = Panel1Resize
+    ExplicitTop = 55
     object pctlFind: TPageControl
-      Left = 5
+      Left = 6
       Top = 0
-      Width = 827
-      Height = 85
+      Width = 1034
+      Height = 106
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       ActivePage = tsQuery
       Align = alClient
       TabOrder = 0
       object tsQuery: TTabSheet
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Caption = 'Filtrar'
         TabVisible = False
-        ExplicitLeft = 3
-        ExplicitTop = 7
         object BitBtn2: TBitBtn
           AlignWithMargins = True
-          Left = 718
-          Top = 10
-          Width = 98
-          Height = 43
-          Margins.Top = 10
-          Margins.Bottom = 22
+          Left = 898
+          Top = 13
+          Width = 122
+          Height = 53
+          Margins.Left = 4
+          Margins.Top = 13
+          Margins.Right = 4
+          Margins.Bottom = 28
           Action = actQueryProcess
           Align = alRight
           Caption = 'Executar'
@@ -83,27 +106,39 @@ inherited IDefBrowse: TIDefBrowse
         end
       end
       object tsFind: TTabSheet
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Caption = 'Pesquisar'
         ImageIndex = 1
         TabVisible = False
         object Label2: TLabel
-          Left = 3
-          Top = 3
-          Width = 84
-          Height = 15
+          Left = 4
+          Top = 4
+          Width = 137
+          Height = 25
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
           Caption = 'Valor procurado'
           Transparent = True
         end
         object BitBtn1: TBitBtn
-          Left = 520
-          Top = 19
-          Width = 96
-          Height = 32
+          Left = 650
+          Top = 24
+          Width = 120
+          Height = 40
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
           Action = actFind
           Caption = 'Pesquisar'
           Font.Charset = ANSI_CHARSET
           Font.Color = clWindowText
-          Font.Height = -15
+          Font.Height = -19
           Font.Name = 'MS Sans Serif'
           Font.Pitch = fpVariable
           Font.Style = []
@@ -113,18 +148,23 @@ inherited IDefBrowse: TIDefBrowse
           TabOrder = 0
         end
         object edSearch: TMaskEdit
-          Left = 3
-          Top = 24
-          Width = 331
-          Height = 24
+          Left = 4
+          Top = 30
+          Width = 414
+          Height = 32
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
           Font.Charset = ANSI_CHARSET
           Font.Color = clWindowText
-          Font.Height = -15
+          Font.Height = -19
           Font.Name = 'MS Sans Serif'
           Font.Pitch = fpVariable
           Font.Style = []
           ParentFont = False
           TabOrder = 1
+          Text = ''
           OnChange = edSearchChange
           OnKeyPress = edSearchKeyPress
         end
@@ -133,18 +173,28 @@ inherited IDefBrowse: TIDefBrowse
   end
   object Panel2: TPanel [2]
     Left = 0
-    Top = 129
-    Width = 837
-    Height = 183
+    Top = 152
+    Width = 1046
+    Height = 238
+    Margins.Left = 4
+    Margins.Top = 4
+    Margins.Right = 4
+    Margins.Bottom = 4
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 2
+    ExplicitTop = 161
+    ExplicitHeight = 229
     object PageControl1: TPageControl
       AlignWithMargins = True
-      Left = 3
-      Top = 3
-      Width = 831
-      Height = 177
+      Left = 4
+      Top = 4
+      Width = 1038
+      Height = 230
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       ActivePage = TabSheet1
       Align = alClient
       TabOrder = 0
@@ -152,14 +202,22 @@ inherited IDefBrowse: TIDefBrowse
       OnChange = PageControl1Change
       OnMouseDown = PageControl1MouseDown
       object TabSheet1: TTabSheet
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Caption = 'Colaboradores'
         object DBGrid1: TDBGrid
           Tag = 1
           AlignWithMargins = True
-          Left = 3
-          Top = 3
-          Width = 817
-          Height = 141
+          Left = 4
+          Top = 4
+          Width = 1021
+          Height = 176
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
           Align = alClient
           BorderStyle = bsNone
           Ctl3D = False
@@ -172,7 +230,7 @@ inherited IDefBrowse: TIDefBrowse
           TabOrder = 0
           TitleFont.Charset = ANSI_CHARSET
           TitleFont.Color = clWindowText
-          TitleFont.Height = -12
+          TitleFont.Height = -19
           TitleFont.Name = 'Segoe UI'
           TitleFont.Pitch = fpVariable
           TitleFont.Style = []
@@ -186,25 +244,35 @@ inherited IDefBrowse: TIDefBrowse
   end
   object ctrlBarTop: TControlBar [3]
     AlignWithMargins = True
-    Left = 3
-    Top = 3
-    Width = 831
+    Left = 4
+    Top = 4
+    Width = 1038
     Height = 38
+    Margins.Left = 4
+    Margins.Top = 4
+    Margins.Right = 4
+    Margins.Bottom = 4
     Align = alTop
     AutoSize = True
     BevelEdges = []
     BevelKind = bkNone
     DrawingStyle = dsGradient
+    RowSize = 33
     TabOrder = 3
+    ExplicitWidth = 1039
     object ToolBar1: TToolBar
-      Left = 11
+      Left = 14
       Top = 2
-      Width = 818
+      Width = 813
       Height = 34
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       AutoSize = True
       BorderWidth = 1
       ButtonHeight = 30
-      ButtonWidth = 72
+      ButtonWidth = 81
       Caption = 'ToolBar1'
       DisabledImages = Resources.medium_d
       DrawingStyle = dsGradient
@@ -220,66 +288,106 @@ inherited IDefBrowse: TIDefBrowse
       object ToolButton2: TToolButton
         Left = 0
         Top = 0
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Action = actNew
         AutoSize = True
       end
       object ToolButton5: TToolButton
         Left = 32
         Top = 0
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Action = actEdit
         AutoSize = True
       end
       object ToolButton9: TToolButton
         Left = 64
         Top = 0
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Action = actView
         AutoSize = True
       end
       object ToolButton6: TToolButton
         Left = 96
         Top = 0
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Action = actDel
         AutoSize = True
       end
       object ToolButton7: TToolButton
         Left = 128
         Top = 0
-        Width = 8
+        Width = 10
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Caption = 'ToolButton7'
         ImageIndex = 46
         Style = tbsSeparator
       end
       object ToolButton1: TToolButton
         Tag = 1
-        Left = 136
+        Left = 138
         Top = 0
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Action = actLoc
         AutoSize = True
       end
       object ToolButton8: TToolButton
-        Left = 168
+        Left = 170
         Top = 0
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Action = actQuery
         AutoSize = True
         Style = tbsCheck
       end
       object ToolButton3: TToolButton
-        Left = 200
+        Left = 202
         Top = 0
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Action = actRefresh
         AutoSize = True
       end
       object ToolButton4: TToolButton
-        Left = 232
+        Left = 234
         Top = 0
-        Width = 8
+        Width = 10
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Caption = 'ToolButton4'
         ImageIndex = 42
         Style = tbsSeparator
       end
       object tbOrder: TToolButton
-        Left = 240
+        Left = 244
         Top = 0
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         AutoSize = True
         Caption = 'Ordem'
         DropdownMenu = pmOrder
@@ -287,34 +395,50 @@ inherited IDefBrowse: TIDefBrowse
         Style = tbsTextButton
       end
       object tbReport: TToolButton
-        Left = 316
+        Left = 329
         Top = 0
         Hint = 'Relat'#243'rios'
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Caption = 'tbReport'
         DropdownMenu = pmRel
         ImageIndex = 286
       end
       object tbOpcao: TToolButton
-        Left = 348
+        Left = 361
         Top = 0
         Hint = 'Tarefas'
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         AutoSize = True
         Caption = 'Op'#231#245'es'
         DropdownMenu = pmOpcao
         ImageIndex = 153
       end
       object ToolButton11: TToolButton
-        Left = 380
+        Left = 393
         Top = 0
-        Width = 8
+        Width = 10
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Caption = 'ToolButton11'
         ImageIndex = 56
         Style = tbsSeparator
       end
       object ToolButton10: TToolButton
-        Left = 388
+        Left = 403
         Top = 0
         Hint = 'Selecionar'
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Action = actOk
         AutoSize = True
       end
@@ -358,9 +482,9 @@ inherited IDefBrowse: TIDefBrowse
       Tag = 1
       Caption = 'Novo'
       ImageIndex = 2
-      ShortCut = 114
       SecondaryShortCuts.Strings = (
         'Ctrl+n')
+      ShortCut = 114
       OnExecute = actManExecute
     end
     object actEdit: TAction [7]
@@ -373,9 +497,9 @@ inherited IDefBrowse: TIDefBrowse
     object actDel: TAction [8]
       Caption = 'Excluir'
       ImageIndex = 100
-      ShortCut = 46
       SecondaryShortCuts.Strings = (
         'F5')
+      ShortCut = 46
       OnExecute = actDelExecute
     end
     object actQuery: TAction [9]

@@ -1,63 +1,91 @@
 inherited IDefBrowseEdit: TIDefBrowseEdit
   Left = 341
   Top = 154
+  Margins.Left = 5
+  Margins.Top = 5
+  Margins.Right = 5
+  Margins.Bottom = 5
   BorderStyle = bsDialog
   Caption = 'Detalhamento'
-  ClientHeight = 474
-  ClientWidth = 639
-  OldCreateOrder = True
-  ExplicitWidth = 645
-  ExplicitHeight = 503
-  PixelsPerInch = 96
-  TextHeight = 15
+  ClientHeight = 593
+  ClientWidth = 799
+  Font.Height = -19
+  StyleElements = [seFont, seClient, seBorder]
+  ExplicitWidth = 817
+  ExplicitHeight = 640
+  PixelsPerInch = 120
+  TextHeight = 25
   object Panel1: TPanel [0]
     Left = 0
-    Top = 44
-    Width = 639
-    Height = 430
+    Top = 46
+    Width = 799
+    Height = 547
+    Margins.Left = 4
+    Margins.Top = 4
+    Margins.Right = 4
+    Margins.Bottom = 4
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 0
+    ExplicitTop = 55
+    ExplicitHeight = 538
     object pnLookup: TPanel
       Left = 0
       Top = 0
-      Width = 508
-      Height = 54
+      Width = 635
+      Height = 68
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       TabOrder = 2
       Visible = False
     end
     object Panel3: TPanel
       Left = 0
-      Top = 195
-      Width = 639
-      Height = 235
+      Top = 253
+      Width = 799
+      Height = 294
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       Align = alBottom
       BevelOuter = bvNone
       TabOrder = 1
       Visible = False
+      ExplicitTop = 244
       object PageControl3: TPageControl
         AlignWithMargins = True
-        Left = 3
-        Top = 47
-        Width = 633
-        Height = 185
+        Left = 4
+        Top = 50
+        Width = 791
+        Height = 240
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         ActivePage = tsDet
         Align = alClient
         TabOrder = 0
         TabStop = False
         OnChange = PageControl3Change
         object tsDet: TTabSheet
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
           Caption = 'T'#237'tulo do Detalhamento'
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object DBGrid1: TDBGrid
             Tag = 1
             Left = 0
             Top = 0
-            Width = 625
-            Height = 155
+            Width = 781
+            Height = 194
+            Margins.Left = 4
+            Margins.Top = 4
+            Margins.Right = 4
+            Margins.Bottom = 4
             Align = alClient
             BorderStyle = bsNone
             Ctl3D = False
@@ -69,7 +97,7 @@ inherited IDefBrowseEdit: TIDefBrowseEdit
             TabOrder = 0
             TitleFont.Charset = ANSI_CHARSET
             TitleFont.Color = clWindowText
-            TitleFont.Height = -12
+            TitleFont.Height = -19
             TitleFont.Name = 'Segoe UI'
             TitleFont.Pitch = fpVariable
             TitleFont.Style = []
@@ -82,25 +110,34 @@ inherited IDefBrowseEdit: TIDefBrowseEdit
       end
       object ControlBar2: TControlBar
         AlignWithMargins = True
-        Left = 3
-        Top = 3
-        Width = 633
+        Left = 4
+        Top = 4
+        Width = 791
         Height = 38
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Align = alTop
         AutoSize = True
         BevelEdges = []
         BevelKind = bkNone
         DrawingStyle = dsGradient
+        RowSize = 33
         TabOrder = 1
         object ToolBar3: TToolBar
-          Left = 11
+          Left = 14
           Top = 2
-          Width = 620
+          Width = 615
           Height = 34
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
           AutoSize = True
           BorderWidth = 1
           ButtonHeight = 30
-          ButtonWidth = 129
+          ButtonWidth = 150
           Caption = 'ToolBar3'
           DisabledImages = Resources.medium_d
           DrawingStyle = dsGradient
@@ -117,56 +154,92 @@ inherited IDefBrowseEdit: TIDefBrowseEdit
           object ToolButton10: TToolButton
             Left = 0
             Top = 0
+            Margins.Left = 4
+            Margins.Top = 4
+            Margins.Right = 4
+            Margins.Bottom = 4
             Action = actNew
             AutoSize = True
           end
           object ToolButton11: TToolButton
             Left = 32
             Top = 0
+            Margins.Left = 4
+            Margins.Top = 4
+            Margins.Right = 4
+            Margins.Bottom = 4
             Action = actEdit
             AutoSize = True
           end
           object ToolButton17: TToolButton
             Left = 64
             Top = 0
+            Margins.Left = 4
+            Margins.Top = 4
+            Margins.Right = 4
+            Margins.Bottom = 4
             Action = actView
           end
           object ToolButton12: TToolButton
             Left = 96
             Top = 0
+            Margins.Left = 4
+            Margins.Top = 4
+            Margins.Right = 4
+            Margins.Bottom = 4
             Action = actDel
             AutoSize = True
           end
           object tbDivDet: TToolButton
             Left = 128
             Top = 0
-            Width = 8
+            Width = 10
+            Margins.Left = 4
+            Margins.Top = 4
+            Margins.Right = 4
+            Margins.Bottom = 4
             Caption = 'tbDivDet'
             ImageIndex = 6
             Style = tbsSeparator
           end
           object ToolButton13: TToolButton
-            Left = 136
+            Left = 138
             Top = 0
+            Margins.Left = 4
+            Margins.Top = 4
+            Margins.Right = 4
+            Margins.Bottom = 4
             Action = actRefresh
             AutoSize = True
           end
           object ToolButton3: TToolButton
-            Left = 168
+            Left = 170
             Top = 0
-            Width = 8
+            Width = 10
+            Margins.Left = 4
+            Margins.Top = 4
+            Margins.Right = 4
+            Margins.Bottom = 4
             Caption = 'ToolButton3'
             ImageIndex = 42
             Style = tbsSeparator
           end
           object tbSQLDet: TToolButton
-            Left = 176
+            Left = 180
             Top = 0
+            Margins.Left = 4
+            Margins.Top = 4
+            Margins.Right = 4
+            Margins.Bottom = 4
             Action = actShowSQLDet
           end
           object tbRefazGrid: TToolButton
-            Left = 208
+            Left = 212
             Top = 0
+            Margins.Left = 4
+            Margins.Top = 4
+            Margins.Right = 4
+            Margins.Bottom = 4
             Action = actRGrid
           end
         end
@@ -174,44 +247,57 @@ inherited IDefBrowseEdit: TIDefBrowseEdit
     end
     object PageControl1: TPageControl
       AlignWithMargins = True
-      Left = 3
-      Top = 3
-      Width = 633
-      Height = 189
+      Left = 4
+      Top = 4
+      Width = 791
+      Height = 245
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       ActivePage = TabSheet1
       Align = alClient
       TabOrder = 0
       TabStop = False
       object TabSheet1: TTabSheet
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Caption = 'T'#237'tulo do Detalhamento'
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
     end
   end
   object ControlBar1: TControlBar [1]
     AlignWithMargins = True
-    Left = 3
-    Top = 3
-    Width = 633
+    Left = 4
+    Top = 4
+    Width = 791
     Height = 38
+    Margins.Left = 4
+    Margins.Top = 4
+    Margins.Right = 4
+    Margins.Bottom = 4
     Align = alTop
     AutoSize = True
     BevelEdges = []
     BevelKind = bkNone
     DrawingStyle = dsGradient
+    RowSize = 33
     TabOrder = 1
     object ToolBar1: TToolBar
-      Left = 11
+      Left = 14
       Top = 2
-      Width = 620
+      Width = 615
       Height = 34
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       AutoSize = True
       BorderWidth = 1
       ButtonHeight = 30
-      ButtonWidth = 115
+      ButtonWidth = 133
       Caption = 'ToolBar1'
       DisabledImages = Resources.medium_d
       DrawingStyle = dsGradient
@@ -228,101 +314,161 @@ inherited IDefBrowseEdit: TIDefBrowseEdit
       object ToolButton6: TToolButton
         Left = 0
         Top = 0
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Action = actNewMaster
         AutoSize = True
       end
       object ToolButton4: TToolButton
         Left = 32
         Top = 0
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Action = actEditMaster
         AutoSize = True
       end
       object ToolButton7: TToolButton
         Left = 64
         Top = 0
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Action = actDelMaster
         AutoSize = True
       end
       object ToolButtton5: TToolButton
         Left = 96
         Top = 0
-        Width = 8
+        Width = 10
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Caption = 'ToolButtton5'
         Enabled = False
         ImageIndex = 6
         Style = tbsSeparator
       end
       object ToolButton1: TToolButton
-        Left = 104
+        Left = 106
         Top = 0
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Action = actOk
         AutoSize = True
       end
       object ToolButton2: TToolButton
-        Left = 136
+        Left = 138
         Top = 0
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Action = actCancel
         AutoSize = True
         Enabled = False
       end
       object ToolButtton15: TToolButton
-        Left = 168
+        Left = 170
         Top = 0
-        Width = 8
+        Width = 10
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Caption = 'ToolButtton15'
         Enabled = False
         ImageIndex = 10
         Style = tbsSeparator
       end
       object ToolButton8: TToolButton
-        Left = 176
+        Left = 180
         Top = 0
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Action = actFirst
         AutoSize = True
       end
       object ToolButton9: TToolButton
-        Left = 208
+        Left = 212
         Top = 0
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Action = actPrior
         AutoSize = True
       end
       object ToolButton14: TToolButton
-        Left = 240
+        Left = 244
         Top = 0
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Action = actNext
         AutoSize = True
       end
       object ToolButton16: TToolButton
-        Left = 272
+        Left = 276
         Top = 0
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Action = actLast
         AutoSize = True
       end
       object tbDiv: TToolButton
-        Left = 304
+        Left = 308
         Top = 0
-        Width = 8
+        Width = 10
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Caption = 'tbDiv'
         ImageIndex = 37
         Style = tbsSeparator
       end
       object tbSQL: TToolButton
         Tag = 1
-        Left = 312
+        Left = 318
         Top = 0
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Action = actShowSQL
       end
       object tbDiv3: TToolButton
-        Left = 344
+        Left = 350
         Top = 0
-        Width = 8
+        Width = 10
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Caption = 'tbDiv3'
         ImageIndex = 37
         Style = tbsSeparator
       end
       object tbClose: TToolButton
-        Left = 352
+        Left = 360
         Top = 0
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Action = actClose
         AutoSize = True
       end

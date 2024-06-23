@@ -7,7 +7,7 @@ uses
   Dialogs, uIBrowseDet, StdCtrls, Mask, DBCtrls, ActnList, Grids, DBGrids,
   ComCtrls, ExtCtrls, ToolWin, DB, ZAbstractRODataset, ZDataset, JvExStdCtrls,
   JvCombobox, JvDBCombobox, JvExControls, JvDBLookup, Buttons, JvExMask, JvSpin,
-  JvDBSpinEdit, CheckLst;
+  JvDBSpinEdit, CheckLst, System.Actions, System.Generics.Collections;
 
 type
   TLabEnsaiosM = class(TIDefBrowseEdit)
@@ -106,7 +106,10 @@ type
     procedure actCheckAllExecute(Sender: TObject);
     procedure CheckListBox2ClickCheck(Sender: TObject);
     procedure PageControl3Change(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
+    FBookMarksAtivos: TList<TBookmark>;
+    FBookMarksSolucoes: TList<TBookmark>;
     procedure RefreshControls; override;
     procedure OnEdit; override;
     procedure OnDataSet; override;
@@ -165,13 +168,10 @@ begin
 end;
 
 procedure TLabEnsaiosM.CheckListBox1ClickCheck(Sender: TObject);
-var
-  oBM: TBookmark;
 begin
   with CheckListBox1, LabEnsaios do
   begin
-    oBM := Items.Objects[ItemIndex];
-    qAtivoTipos.GotoBookmark(oBM);
+    qAtivoTipos.GotoBookmark(FBookMarksAtivos[ItemIndex]);
     if Checked[ItemIndex] then
        U.Data.ExecSQL(
         'insert into labens_ativo (labens_recno, tipoativo) '+
@@ -184,13 +184,10 @@ begin
 end;
 
 procedure TLabEnsaiosM.CheckListBox2ClickCheck(Sender: TObject);
-var
-  oBM: TBookmark;
 begin
   with CheckListBox2, LabEnsaios do
   begin
-    oBM := Items.Objects[ItemIndex];
-    qSolTipo.GotoBookmark(oBM);
+    qSolTipo.GotoBookmark(FBookMarksSolucoes[ItemIndex]);
     if Checked[ItemIndex] then
        U.Data.ExecSQL(
         'insert into labens_soltipo (labens_recno, labsoltipo_recno) '+
@@ -334,33 +331,32 @@ begin
   end;
 end;
 
-procedure TLabEnsaiosM.FormDestroy(Sender: TObject);
-var
-  oBM: TBookmark;
-  i: Integer;
+procedure TLabEnsaiosM.FormCreate(Sender: TObject);
 begin
-  for I := 0 to CheckListBox1.Count - 1 do
-  begin
-    oBM := CheckListBox1.Items.Objects[i];
-    LabEnsaios.qAtivoTipos.FreeBookmark(oBM);
-  end;
+  inherited;
+  FBookMarksAtivos  := TList<TBookmark>.Create;
+  FBookMarksSolucoes:= TList<TBookmark>.Create;
+end;
 
-  for I := 0 to CheckListBox2.Count - 1 do
-  begin
-    oBM := CheckListBox2.Items.Objects[i];
-    LabEnsaios.qSolTipo.FreeBookmark(oBM);
-  end;
+procedure TLabEnsaiosM.FormDestroy(Sender: TObject);
+begin
+  for var BookMark in FBookMarksAtivos do
+    LabEnsaios.qAtivoTipos.FreeBookmark(BookMark);
+
+  for var BookMark in FBookMarksSolucoes do
+    LabEnsaios.qSolTipo.FreeBookmark(BookMark);
+
+  FBookMarksAtivos.free;
+  FBookMarksSolucoes.free;
 
   inherited;
 end;
 
 procedure TLabEnsaiosM.LoadTipoAtivos;
-var
-  oBM: TBookmark;
 begin
   if not Assigned(DataSet) then
     Exit;
-    
+
   with LabEnsaios, CheckListBox1 do
   try
     qAtivoTipos.First;
@@ -369,9 +365,9 @@ begin
 
     while not qAtivoTipos.Eof do
     begin
-      oBM := qAtivoTipos.GetBookmark;
+      FBookMarksAtivos.Add(qAtivoTipos.GetBookmark);
       // Adicionando serviço a lista
-      Items.AddObject(Format('%d - %s', [qAtivoTipostipo.AsInteger, qAtivoTiposdescri.DisplayText]), oBM);
+      Items.Add(Format('%d - %s', [qAtivoTipostipo.AsInteger, qAtivoTiposdescri.DisplayText]));
 
       qAtivoTipos.Next;
     end;
@@ -381,8 +377,6 @@ begin
 end;
 
 procedure TLabEnsaiosM.LoadTipoSolucoes;
-var
-  oBM: TBookmark;
 begin
   if not Assigned(DataSet) then
     Exit;
@@ -395,9 +389,9 @@ begin
 
     while not qSolTipo.Eof do
     begin
-      oBM := qSolTipo.GetBookmark;
+      FBookMarksSolucoes.Add(qSolTipo.GetBookmark);
       // Adicionando serviço a lista
-      Items.AddObject(Format('%d - %s', [qSolTiporecno.AsInteger, qSolTipodescri.DisplayText]), oBM);
+      Items.Add(Format('%d - %s', [qSolTiporecno.AsInteger, qSolTipodescri.DisplayText]));
 
       qSolTipo.Next;
     end;
@@ -444,17 +438,13 @@ begin
 end;
 
 procedure TLabEnsaiosM.RefreshAtivos;
-var
-  oBM: TBookmark;
-  i: Integer;
 begin
   with LabEnsaios, CheckListBox1 do
   try
     Items.BeginUpdate;
-    for i := 0 to Items.Count - 1 do
+    for var i := 0 to Items.Count - 1 do
     begin
-      oBM := Items.Objects[i];
-      qAtivoTipos.GotoBookmark(oBM);
+      qAtivoTipos.GotoBookmark(FBookMarksAtivos[i]);
       Checked[i] := Assigned(DataSet) and not (DataSet.State in [dsEdit, dsInsert])
         and qLabEnsAtivo.Locate('tipoativo', qAtivoTipostipo.AsInteger, []);
     end;
@@ -485,17 +475,13 @@ begin
 end;
 
 procedure TLabEnsaiosM.RefreshSolucoes;
-var
-  oBM: TBookmark;
-  i: Integer;
 begin
   with LabEnsaios, CheckListBox2 do
   try
     Items.BeginUpdate;
-    for i := 0 to Items.Count - 1 do
+    for var i := 0 to Items.Count - 1 do
     begin
-      oBM := Items.Objects[i];
-      qSolTipo.GotoBookmark(oBM);
+      qSolTipo.GotoBookmark(FBookMarksSolucoes[i]);
       Checked[i] := Assigned(DataSet) and not (DataSet.State in [dsEdit, dsInsert])
         and qLabensSolucao.Locate('labsoltipo_recno', qSolTiporecno.AsInteger, []);
     end;

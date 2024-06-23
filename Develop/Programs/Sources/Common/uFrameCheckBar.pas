@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, 
-  Dialogs, ComCtrls, ToolWin, ExtCtrls, ActnList, db;
+  Dialogs, ComCtrls, ToolWin, ExtCtrls, ActnList, db, System.Actions;
 
 type
   TMarkType = (mtInvert, mtInvertAll, mtCheckAll, mtUnCheckAll);

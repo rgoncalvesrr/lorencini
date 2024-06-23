@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uIBrowse, DB, ZAbstractRODataset, ZAbstractDataset, ZDataset, Menus,
   ActnList, Grids, DBGrids, ComCtrls, StdCtrls, Buttons, Mask, ExtCtrls, ToolWin,
-  ZSqlUpdate, ZSequence;
+  ZSqlUpdate, ZSequence, System.Actions;
 
 type
   TAtivosTipos = class(TIDefBrowse)

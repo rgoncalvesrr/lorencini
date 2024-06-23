@@ -7,7 +7,7 @@ uses
   Dialogs, uIForm, Grids, DBGrids, DB, ZAbstractRODataset, iTypes,
   ZAbstractDataset, ZDataset, Menus, ComCtrls, StdCtrls, Buttons, Mask,
   ExtCtrls, ToolWin, ActnList, Inifiles, uIUtils, SecurityIntf, ZSequence,
-  ZSqlUpdate, uReport;
+  ZSqlUpdate, uReport, System.Actions;
 
 type
   TIDefBrowse = class(TIForm, ISecurityForm)

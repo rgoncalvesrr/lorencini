@@ -1,76 +1,181 @@
 inherited Servicos: TServicos
+  Margins.Left = 6
+  Margins.Top = 6
+  Margins.Right = 6
+  Margins.Bottom = 6
   Caption = 'Cadastro de Servi'#231'os'
-  ClientHeight = 569
-  Constraints.MinWidth = 851
-  ExplicitHeight = 608
-  PixelsPerInch = 96
-  TextHeight = 15
+  ClientHeight = 711
+  ClientWidth = 1308
+  Constraints.MinWidth = 1064
+  Font.Height = -24
+  StyleElements = [seFont, seClient, seBorder]
+  ExplicitWidth = 1326
+  ExplicitHeight = 758
+  PixelsPerInch = 120
+  TextHeight = 32
   inherited StatusBar1: TStatusBar
-    Top = 542
-    ExplicitTop = 542
+    Left = 5
+    Top = 669
+    Width = 1298
+    Height = 37
+    Margins.Left = 5
+    Margins.Top = 5
+    Margins.Right = 5
+    Margins.Bottom = 5
+    Panels = <
+      item
+        Alignment = taCenter
+        Bevel = pbNone
+        Text = 'Registro'
+        Width = 79
+      end
+      item
+        Alignment = taCenter
+        Width = 94
+      end
+      item
+        Alignment = taCenter
+        Bevel = pbNone
+        Text = 'de'
+        Width = 48
+      end
+      item
+        Alignment = taCenter
+        Width = 94
+      end
+      item
+        Width = 79
+      end>
+    ExplicitLeft = 5
+    ExplicitTop = 669
+    ExplicitWidth = 1298
+    ExplicitHeight = 37
   end
   inherited Panel1: TPanel
+    Top = 49
+    Width = 1308
+    Height = 132
+    Margins.Left = 5
+    Margins.Top = 5
+    Margins.Right = 5
+    Margins.Bottom = 5
+    Padding.Left = 8
+    Padding.Right = 8
+    StyleElements = [seFont, seClient, seBorder]
+    ExplicitTop = 58
+    ExplicitWidth = 1308
+    ExplicitHeight = 132
     inherited pctlFind: TPageControl
+      Left = 8
+      Width = 1292
+      Height = 132
+      Margins.Left = 5
+      Margins.Top = 5
+      Margins.Right = 5
+      Margins.Bottom = 5
+      ExplicitLeft = 8
+      ExplicitWidth = 1292
+      ExplicitHeight = 132
       inherited tsQuery: TTabSheet
-        ExplicitLeft = 4
-        ExplicitTop = 6
-        ExplicitWidth = 819
-        ExplicitHeight = 75
+        Margins.Left = 5
+        Margins.Top = 5
+        Margins.Right = 5
+        Margins.Bottom = 5
+        ExplicitWidth = 1284
+        ExplicitHeight = 122
+        inherited BitBtn2: TBitBtn
+          Left = 1126
+          Top = 16
+          Width = 153
+          Height = 71
+          Margins.Left = 5
+          Margins.Top = 16
+          Margins.Right = 5
+          Margins.Bottom = 35
+          ExplicitLeft = 1125
+          ExplicitTop = 16
+          ExplicitWidth = 153
+          ExplicitHeight = 69
+        end
         object Panel3: TPanel
           Left = 0
           Top = 0
-          Width = 283
-          Height = 75
+          Width = 354
+          Height = 122
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 1
+          ExplicitHeight = 120
           object Label1: TLabel
             AlignWithMargins = True
-            Left = 3
-            Top = 3
-            Width = 277
-            Height = 15
+            Left = 4
+            Top = 4
+            Width = 102
+            Height = 32
+            Margins.Left = 4
+            Margins.Top = 4
+            Margins.Right = 4
+            Margins.Bottom = 4
             Align = alTop
             Caption = 'Categoria'
-            ExplicitWidth = 51
           end
           object cbCat: TComboBox
             AlignWithMargins = True
-            Left = 3
-            Top = 24
-            Width = 277
+            Left = 4
+            Top = 30
+            Width = 346
             Height = 23
+            Margins.Left = 4
+            Margins.Top = 4
+            Margins.Right = 4
+            Margins.Bottom = 4
             Align = alTop
             Style = csDropDownList
-            ItemHeight = 15
             TabOrder = 0
             OnChange = cbCatChange
           end
         end
         object Panel4: TPanel
-          Left = 283
+          Left = 354
           Top = 0
-          Width = 110
-          Height = 75
+          Width = 137
+          Height = 122
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 2
+          ExplicitHeight = 120
           object Label3: TLabel
             AlignWithMargins = True
-            Left = 3
-            Top = 3
-            Width = 104
-            Height = 15
+            Left = 4
+            Top = 4
+            Width = 129
+            Height = 32
+            Margins.Left = 4
+            Margins.Top = 4
+            Margins.Right = 4
+            Margins.Bottom = 4
             Align = alTop
             Caption = 'Servi'#231'o'
-            ExplicitWidth = 38
+            ExplicitWidth = 77
           end
           object edServico: TJvCalcEdit
             AlignWithMargins = True
-            Left = 3
-            Top = 24
-            Width = 104
-            Height = 23
+            Left = 4
+            Top = 44
+            Width = 129
+            Height = 40
+            Margins.Left = 4
+            Margins.Top = 4
+            Margins.Right = 4
+            Margins.Bottom = 4
             Align = alTop
             DisplayFormat = '#'
             ShowButton = False
@@ -80,32 +185,45 @@ inherited Servicos: TServicos
           end
         end
         object Panel5: TPanel
-          Left = 571
+          Left = 941
           Top = 0
-          Width = 144
-          Height = 75
+          Width = 180
+          Height = 122
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
           Align = alRight
           BevelOuter = bvNone
           TabOrder = 3
+          ExplicitLeft = 940
+          ExplicitHeight = 120
           object Label4: TLabel
             AlignWithMargins = True
-            Left = 3
-            Top = 3
-            Width = 138
-            Height = 15
+            Left = 4
+            Top = 4
+            Width = 172
+            Height = 32
+            Margins.Left = 4
+            Margins.Top = 4
+            Margins.Right = 4
+            Margins.Bottom = 4
             Align = alTop
             Caption = 'Recipiente'
-            ExplicitWidth = 55
+            ExplicitWidth = 111
           end
           object cbVidraria: TComboBox
             AlignWithMargins = True
-            Left = 3
-            Top = 24
-            Width = 138
-            Height = 23
+            Left = 4
+            Top = 44
+            Width = 172
+            Height = 33
+            Margins.Left = 4
+            Margins.Top = 4
+            Margins.Right = 4
+            Margins.Bottom = 4
             Align = alTop
             Style = csDropDownList
-            ItemHeight = 15
             ItemIndex = 3
             TabOrder = 0
             Text = 'Sem Filtro'
@@ -118,29 +236,42 @@ inherited Servicos: TServicos
           end
         end
         object Panel6: TPanel
-          Left = 393
+          Left = 491
           Top = 0
-          Width = 178
-          Height = 75
+          Width = 450
+          Height = 122
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
           Align = alClient
           BevelOuter = bvNone
           TabOrder = 4
+          ExplicitWidth = 449
+          ExplicitHeight = 120
           object Label5: TLabel
             AlignWithMargins = True
-            Left = 3
-            Top = 3
-            Width = 172
-            Height = 15
+            Left = 4
+            Top = 4
+            Width = 102
+            Height = 32
+            Margins.Left = 4
+            Margins.Top = 4
+            Margins.Right = 4
+            Margins.Bottom = 4
             Align = alTop
             Caption = 'Descri'#231#227'o'
-            ExplicitWidth = 51
           end
           object edDescri: TEdit
             AlignWithMargins = True
-            Left = 3
-            Top = 24
-            Width = 172
-            Height = 23
+            Left = 4
+            Top = 30
+            Width = 215
+            Height = 40
+            Margins.Left = 4
+            Margins.Top = 4
+            Margins.Right = 4
+            Margins.Bottom = 4
             Align = alTop
             TabOrder = 0
             OnChange = edServicoChange
@@ -148,66 +279,131 @@ inherited Servicos: TServicos
         end
       end
       inherited tsFind: TTabSheet
-        ExplicitLeft = 4
-        ExplicitTop = 6
-        ExplicitWidth = 819
-        ExplicitHeight = 75
+        Margins.Left = 5
+        Margins.Top = 5
+        Margins.Right = 5
+        Margins.Bottom = 5
+        ExplicitWidth = 1284
+        ExplicitHeight = 122
+        inherited Label2: TLabel
+          Left = 5
+          Top = 5
+          Width = 169
+          Height = 32
+          Margins.Left = 5
+          Margins.Top = 5
+          Margins.Right = 5
+          Margins.Bottom = 5
+          StyleElements = [seFont, seClient, seBorder]
+          ExplicitLeft = 5
+          ExplicitTop = 5
+          ExplicitWidth = 169
+          ExplicitHeight = 32
+        end
+        inherited BitBtn1: TBitBtn
+          Left = 813
+          Top = 30
+          Width = 150
+          Height = 50
+          Margins.Left = 5
+          Margins.Top = 5
+          Margins.Right = 5
+          Margins.Bottom = 5
+          Font.Height = -24
+          ExplicitLeft = 813
+          ExplicitTop = 30
+          ExplicitWidth = 150
+          ExplicitHeight = 50
+        end
+        inherited edSearch: TMaskEdit
+          Left = 5
+          Top = 38
+          Width = 518
+          Height = 37
+          Margins.Left = 5
+          Margins.Top = 5
+          Margins.Right = 5
+          Margins.Bottom = 5
+          Font.Height = -24
+          StyleElements = [seFont, seClient, seBorder]
+          ExplicitLeft = 5
+          ExplicitTop = 38
+          ExplicitWidth = 518
+          ExplicitHeight = 37
+        end
       end
     end
   end
   inherited Panel2: TPanel
-    Height = 410
-    ExplicitHeight = 410
+    Top = 181
+    Width = 1308
+    Height = 483
+    Margins.Left = 5
+    Margins.Top = 5
+    Margins.Right = 5
+    Margins.Bottom = 5
+    StyleElements = [seFont, seClient, seBorder]
+    ExplicitTop = 190
+    ExplicitWidth = 1308
+    ExplicitHeight = 474
     inherited PageControl1: TPageControl
-      Height = 404
+      Left = 5
+      Top = 5
+      Width = 1298
+      Height = 473
+      Margins.Left = 5
+      Margins.Top = 5
+      Margins.Right = 5
+      Margins.Bottom = 5
       Images = Resources.medium_n
-      ExplicitHeight = 404
+      ExplicitLeft = 5
+      ExplicitTop = 5
+      ExplicitWidth = 1298
+      ExplicitHeight = 473
       inherited TabSheet1: TTabSheet
+        Margins.Left = 5
+        Margins.Top = 5
+        Margins.Right = 5
+        Margins.Bottom = 5
         Caption = 'Servi'#231'os Ativos'
         ImageIndex = 208
-        ExplicitLeft = 4
-        ExplicitTop = 33
-        ExplicitWidth = 823
-        ExplicitHeight = 367
+        ExplicitTop = 43
+        ExplicitWidth = 1290
+        ExplicitHeight = 426
         inherited DBGrid1: TDBGrid
-          Top = 47
-          Height = 317
+          Left = 5
+          Top = 51
+          Width = 1280
+          Height = 370
+          Margins.Left = 5
+          Margins.Top = 5
+          Margins.Right = 5
+          Margins.Bottom = 5
+          TitleFont.Height = -24
         end
         inline FrameCheckBar1: TFrameCheckBar
           Left = 0
           Top = 0
-          Width = 823
-          Height = 44
+          Width = 1290
+          Height = 46
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
           Align = alTop
           AutoSize = True
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -15
+          Font.Name = 'Segoe UI'
+          Font.Pitch = fpVariable
+          Font.Style = []
+          ParentFont = False
           TabOrder = 1
-          ExplicitWidth = 823
+          ExplicitWidth = 1030
           inherited ControlBar1: TControlBar
-            Width = 817
-            ExplicitWidth = 817
-            inherited ToolBar2: TToolBar
-              ButtonWidth = 109
-              inherited ToolButton13: TToolButton
-                ExplicitWidth = 79
-              end
-              inherited ToolButton12: TToolButton
-                ExplicitWidth = 113
-              end
-              inherited ToolButton17: TToolButton
-                Left = 192
-                ExplicitLeft = 192
-                ExplicitWidth = 70
-              end
-              inherited ToolButton16: TToolButton
-                Left = 262
-                ExplicitLeft = 262
-                ExplicitWidth = 86
-              end
-              inherited ToolButton1: TToolButton
-                Left = 348
-                ExplicitLeft = 348
-              end
-            end
+            Width = 1282
+            ExplicitWidth = 1022
           end
           inherited dsMark: TDataSource
             DataSet = IBrwSrc
@@ -215,45 +411,164 @@ inherited Servicos: TServicos
         end
       end
       object TabSheet2: TTabSheet
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Caption = 'Servi'#231'os Inativos'
         ImageIndex = 209
       end
     end
   end
   inherited ctrlBarTop: TControlBar
+    Left = 5
+    Top = 5
+    Width = 1298
+    Height = 39
+    Margins.Left = 5
+    Margins.Top = 5
+    Margins.Right = 5
+    Margins.Bottom = 5
+    RowSize = 41
+    ExplicitLeft = 5
+    ExplicitTop = 5
+    ExplicitWidth = 1298
+    ExplicitHeight = 39
     inherited ToolBar1: TToolBar
+      Left = 18
+      Width = 1016
+      Height = 35
+      Margins.Left = 5
+      Margins.Top = 5
+      Margins.Right = 5
+      Margins.Bottom = 5
+      ButtonHeight = 31
+      ButtonWidth = 93
+      ExplicitLeft = 18
+      ExplicitWidth = 1016
+      ExplicitHeight = 35
       inherited ToolButton2: TToolButton
-        ExplicitWidth = 32
+        Margins.Left = 5
+        Margins.Top = 5
+        Margins.Right = 5
+        Margins.Bottom = 5
+        ExplicitHeight = 31
       end
       inherited ToolButton5: TToolButton
-        ExplicitWidth = 32
+        Margins.Left = 5
+        Margins.Top = 5
+        Margins.Right = 5
+        Margins.Bottom = 5
+        ExplicitHeight = 31
       end
       inherited ToolButton9: TToolButton
-        ExplicitWidth = 32
+        Margins.Left = 5
+        Margins.Top = 5
+        Margins.Right = 5
+        Margins.Bottom = 5
+        ExplicitHeight = 31
       end
       inherited ToolButton6: TToolButton
-        ExplicitWidth = 32
+        Margins.Left = 5
+        Margins.Top = 5
+        Margins.Right = 5
+        Margins.Bottom = 5
+        ExplicitHeight = 31
+      end
+      inherited ToolButton7: TToolButton
+        Width = 13
+        Margins.Left = 5
+        Margins.Top = 5
+        Margins.Right = 5
+        Margins.Bottom = 5
+        ExplicitWidth = 13
+        ExplicitHeight = 31
       end
       inherited ToolButton1: TToolButton
-        ExplicitWidth = 32
+        Left = 141
+        Margins.Left = 5
+        Margins.Top = 5
+        Margins.Right = 5
+        Margins.Bottom = 5
+        ExplicitLeft = 141
+        ExplicitHeight = 31
       end
       inherited ToolButton8: TToolButton
-        ExplicitWidth = 32
+        Left = 173
+        Margins.Left = 5
+        Margins.Top = 5
+        Margins.Right = 5
+        Margins.Bottom = 5
+        ExplicitLeft = 173
+        ExplicitHeight = 31
       end
       inherited ToolButton3: TToolButton
-        ExplicitWidth = 32
+        Left = 205
+        Margins.Left = 5
+        Margins.Top = 5
+        Margins.Right = 5
+        Margins.Bottom = 5
+        ExplicitLeft = 205
+        ExplicitHeight = 31
+      end
+      inherited ToolButton4: TToolButton
+        Left = 237
+        Width = 12
+        Margins.Left = 5
+        Margins.Top = 5
+        Margins.Right = 5
+        Margins.Bottom = 5
+        ExplicitLeft = 237
+        ExplicitWidth = 12
+        ExplicitHeight = 31
       end
       inherited tbOrder: TToolButton
-        ExplicitWidth = 76
+        Left = 249
+        Margins.Left = 5
+        Margins.Top = 5
+        Margins.Right = 5
+        Margins.Bottom = 5
+        ExplicitLeft = 249
+        ExplicitWidth = 97
+        ExplicitHeight = 31
       end
       inherited tbReport: TToolButton
-        ExplicitWidth = 32
+        Left = 346
+        Margins.Left = 5
+        Margins.Top = 5
+        Margins.Right = 5
+        Margins.Bottom = 5
+        ExplicitLeft = 346
+        ExplicitHeight = 31
       end
       inherited tbOpcao: TToolButton
-        ExplicitWidth = 32
+        Left = 378
+        Margins.Left = 5
+        Margins.Top = 5
+        Margins.Right = 5
+        Margins.Bottom = 5
+        ExplicitLeft = 378
+        ExplicitHeight = 31
+      end
+      inherited ToolButton11: TToolButton
+        Left = 410
+        Width = 13
+        Margins.Left = 5
+        Margins.Top = 5
+        Margins.Right = 5
+        Margins.Bottom = 5
+        ExplicitLeft = 410
+        ExplicitWidth = 13
+        ExplicitHeight = 31
       end
       inherited ToolButton10: TToolButton
-        ExplicitWidth = 32
+        Left = 423
+        Margins.Left = 5
+        Margins.Top = 5
+        Margins.Right = 5
+        Margins.Bottom = 5
+        ExplicitLeft = 423
+        ExplicitHeight = 31
       end
     end
   end

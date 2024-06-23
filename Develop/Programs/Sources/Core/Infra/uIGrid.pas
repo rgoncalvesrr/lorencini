@@ -3,8 +3,8 @@ unit uIGrid;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, uIForm, ActnList, Grids, JvExGrids, JvStringGrid, PngImage1, PNGZLIB1;
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, Dialogs, uIForm, ActnList, Grids,
+  JvExGrids, JvStringGrid, System.Actions;
 
 type
   TIGrid = class(TIForm)

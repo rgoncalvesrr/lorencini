@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uIBrowse, DB, ZAbstractRODataset, ZAbstractDataset, ZDataset, Menus,
   XPMan, ActnList, Grids, DBGrids, ComCtrls, StdCtrls, Buttons, Mask, ExtCtrls,
-  ToolWin, ZSqlUpdate, ZSequence, JvExMask, JvToolEdit, JvBaseEdits;
+  ToolWin, ZSqlUpdate, ZSequence, JvExMask, JvToolEdit, JvBaseEdits, System.Actions;
 
 type
   TColaboradores = class(TIDefBrowse)

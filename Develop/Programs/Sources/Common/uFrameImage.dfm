@@ -1,27 +1,36 @@
 object FrameImage: TFrameImage
   Left = 0
   Top = 0
-  Width = 451
-  Height = 304
+  Width = 564
+  Height = 380
+  Margins.Left = 4
+  Margins.Top = 4
+  Margins.Right = 4
+  Margins.Bottom = 4
   Align = alClient
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -12
+  Font.Height = -15
   Font.Name = 'Segoe UI'
   Font.Style = []
   ParentFont = False
   TabOrder = 0
+  PixelsPerInch = 120
   object FrameImage: TJvDBImage
     Left = 0
     Top = 0
-    Width = 451
-    Height = 304
+    Width = 564
+    Height = 380
+    Margins.Left = 4
+    Margins.Top = 4
+    Margins.Right = 4
+    Margins.Bottom = 4
     Align = alClient
     BorderStyle = bsNone
     PopupMenu = PopupMenu1
+    Proportional = True
     Stretch = True
     TabOrder = 0
-    Proportional = True
   end
   object ActionList1: TActionList
     Images = Resources.small_n

@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uIForm, ActnList, ExtCtrls, JvExStdCtrls, JvEdit, StdCtrls,
   uLabLaudoCl, DB, ZAbstractRODataset, ZAbstractDataset, ZDataset, CheckLst,
-  ComCtrls, Buttons;
+  ComCtrls, Buttons, System.Actions, System.Generics.Collections;
 
 type
   TLabLaudoUIAtivos = class(TIForm)
@@ -37,7 +37,9 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure CheckListBox1ClickCheck(Sender: TObject);
     procedure actOkExecute(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
+    FBookMarks: TList<TBookmark>;
     FEnsaio: TEnsaio;
     procedure SetEnsaio(const Value: TEnsaio);
     procedure LoadTabs;
@@ -66,13 +68,10 @@ begin
 end;
 
 procedure TLabLaudoUIAtivos.CheckListBox1ClickCheck(Sender: TObject);
-var
-  oBM: TBookmark;
 begin
   with CheckListBox1 do
   begin
-    oBM := Items.Objects[ItemIndex];
-    qAtivos.GotoBookmark(oBM);
+    qAtivos.GotoBookmark(FBookMarks[ItemIndex]);
     if Checked[ItemIndex] then
        U.Data.ExecSQL(
         'insert into labamostras_res_ativos (laudo, relato_recno, ensaio_recno, ativo) '+
@@ -86,15 +85,21 @@ begin
            'and relato_recno = %d '+
            'and ensaio_recno = %d '+
            'and ativo = %d ',
-        [Ensaio.Laudo.Laudo, Ensaio.Laudo.TipoLaudo, 
+        [Ensaio.Laudo.Laudo, Ensaio.Laudo.TipoLaudo,
           Ensaio.Ensaio, qAtivosid.AsInteger]);
   end;
+end;
+
+procedure TLabLaudoUIAtivos.FormCreate(Sender: TObject);
+begin
+  inherited;
+  FBookMarks := TList<TBookmark>.Create;
 end;
 
 procedure TLabLaudoUIAtivos.FormDestroy(Sender: TObject);
 begin
   UnLoadAtivos;
-  
+  FBookMarks.Free;
   inherited;
 end;
 
@@ -123,8 +128,8 @@ begin
 
       while not Eof do
       begin
-        oBM := GetBookmark;
-        Items.AddObject(Format('%d - %s', [qAtivosid.AsInteger, qAtivosdescri.AsString]), oBM);
+        FBookMarks.Add(GetBookmark);
+        Items.Add(Format('%d - %s', [qAtivosid.AsInteger, qAtivosdescri.AsString]));
         Checked[Items.Count - 1] := not qAtivosativo.IsNull;
         Next;
       end;
@@ -188,14 +193,12 @@ begin
 end;
 
 procedure TLabLaudoUIAtivos.UnLoadAtivos;
-var
-  I: Integer;
 begin
   with CheckListBox1 do
   begin
-    for I := 0 to Items.Count - 1 do
-      qAtivos.FreeBookmark(Items.Objects[i]);
-      
+    for var I := 0 to Items.Count - 1 do
+      qAtivos.FreeBookmark(FBookMarks[i]);
+
     Clear;
   end;
 end;

@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, uIForm, ActnList, ExtCtrls, StdCtrls;
+  Dialogs, uIForm, ActnList, ExtCtrls, StdCtrls, System.Actions;
 
 type
   TIWizard = class(TIForm)

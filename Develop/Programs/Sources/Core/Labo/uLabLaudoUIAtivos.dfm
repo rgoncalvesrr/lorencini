@@ -2,8 +2,9 @@ inherited LabLaudoUIAtivos: TLabLaudoUIAtivos
   Caption = 'Sele'#231#227'o de Ativos'
   ClientHeight = 501
   ClientWidth = 855
-  ExplicitWidth = 657
-  ExplicitHeight = 415
+  StyleElements = [seFont, seClient, seBorder]
+  ExplicitWidth = 873
+  ExplicitHeight = 548
   PixelsPerInch = 120
   TextHeight = 20
   object GroupBox1: TGroupBox [0]
@@ -32,26 +33,29 @@ inherited LabLaudoUIAtivos: TLabLaudoUIAtivos
         Align = alLeft
         BevelOuter = bvNone
         TabOrder = 0
-        ExplicitHeight = 67
         object Label1: TLabel
           AlignWithMargins = True
-          Left = 4
-          Top = 4
-          Width = 43
+          Left = 3
+          Top = 3
+          Width = 102
           Height = 20
           Align = alTop
           Caption = 'Ensaio'
+          ExplicitLeft = 4
+          ExplicitTop = 4
+          ExplicitWidth = 43
         end
         object edEnsaio: TEdit
           AlignWithMargins = True
-          Left = 4
-          Top = 32
-          Width = 100
-          Height = 23
+          Left = 3
+          Top = 29
+          Width = 102
+          Height = 38
           TabStop = False
           Align = alClient
           ReadOnly = True
           TabOrder = 0
+          ExplicitHeight = 28
         end
       end
       object Panel3: TPanel
@@ -70,8 +74,6 @@ inherited LabLaudoUIAtivos: TLabLaudoUIAtivos
           Height = 20
           Align = alTop
           Caption = 'Valor'
-          ExplicitLeft = 4
-          ExplicitTop = 4
           ExplicitWidth = 34
         end
         object edValor: TJvEdit
@@ -85,6 +87,7 @@ inherited LabLaudoUIAtivos: TLabLaudoUIAtivos
           Alignment = taRightJustify
           ReadOnly = True
           TabOrder = 0
+          Text = ''
           ExplicitHeight = 28
         end
       end
@@ -96,27 +99,29 @@ inherited LabLaudoUIAtivos: TLabLaudoUIAtivos
         Align = alClient
         BevelOuter = bvNone
         TabOrder = 2
-        ExplicitWidth = 565
-        ExplicitHeight = 67
         object Label2: TLabel
           AlignWithMargins = True
-          Left = 4
-          Top = 4
-          Width = 41
+          Left = 3
+          Top = 3
+          Width = 565
           Height = 20
           Align = alTop
           Caption = 'Nome'
+          ExplicitLeft = 4
+          ExplicitTop = 4
+          ExplicitWidth = 41
         end
         object edNome: TEdit
           AlignWithMargins = True
-          Left = 4
-          Top = 32
-          Width = 557
-          Height = 23
+          Left = 3
+          Top = 29
+          Width = 565
+          Height = 38
           TabStop = False
           Align = alClient
           ReadOnly = True
           TabOrder = 0
+          ExplicitHeight = 28
         end
       end
     end
@@ -130,19 +135,16 @@ inherited LabLaudoUIAtivos: TLabLaudoUIAtivos
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 1
-    ExplicitLeft = 4
-    ExplicitTop = 447
-    ExplicitWidth = 847
     object BitBtn1: TBitBtn
       AlignWithMargins = True
-      Left = 696
-      Top = 4
+      Left = 699
+      Top = 3
       Width = 147
-      Height = 43
+      Height = 44
       Action = actOk
       Align = alRight
       Caption = 'Confirmar'
-      TabOrder = 0
+      ImageIndex = 166
       Glyph.Data = {
         36040000424D3604000000000000360000002800000010000000100000000100
         2000000000000004000000000000000000000000000000000000FF00FF00FF00
@@ -178,6 +180,7 @@ inherited LabLaudoUIAtivos: TLabLaudoUIAtivos
         FF00FF00FF00FF00FF00267B2600108F1500107D11006F9C6F00FF00FF00FF00
         FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
         FF00FF00FF00FF00FF00A4B6A40017731700277C2700B4BEB400}
+      TabOrder = 0
     end
   end
   object PageControl1: TPageControl [2]
@@ -191,26 +194,18 @@ inherited LabLaudoUIAtivos: TLabLaudoUIAtivos
     TabOrder = 2
     TabStop = False
     OnChange = PageControl1Change
-    ExplicitLeft = 4
-    ExplicitTop = 112
-    ExplicitWidth = 847
-    ExplicitHeight = 327
     object TabSheet1: TTabSheet
       Caption = 'TabSheet1'
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object CheckListBox1: TCheckListBox
         AlignWithMargins = True
-        Left = 4
-        Top = 4
-        Width = 828
-        Height = 279
-        OnClickCheck = CheckListBox1ClickCheck
+        Left = 3
+        Top = 3
+        Width = 835
+        Height = 292
         Align = alClient
-        ItemHeight = 15
+        ItemHeight = 21
         TabOrder = 0
+        OnClickCheck = CheckListBox1ClickCheck
       end
     end
   end

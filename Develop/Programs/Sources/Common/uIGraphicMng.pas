@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uIWizard, ActnList, StdCtrls, ExtCtrls, ComCtrls, ToolWin,
-  ExtDlgs;
+  ExtDlgs, System.Actions;
 
 type
   TIGraphicMng = class(TIWizard)
@@ -33,7 +33,8 @@ var
 
 implementation
 
-uses uResources, PngImage1, PNGZLIB1, uIUtils, DB;
+uses
+  uResources, uIUtils, DB;
 
 {$R *.dfm}
 

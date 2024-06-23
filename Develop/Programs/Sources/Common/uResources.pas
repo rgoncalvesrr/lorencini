@@ -3,7 +3,7 @@ unit uResources;
 interface
 
 uses
-  SysUtils, Classes, ImgList, Controls;
+  SysUtils, Classes, ImgList, Controls, System.ImageList;
 
 type
   TResources = class(TDataModule)

@@ -3,10 +3,10 @@ unit uGestaoProducao;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, uIForm, ActnList, DB, ZAbstractRODataset, ZAbstractDataset, ZDataset, TeEngine, Series, TeeProcs, Chart,
-  DBChart, ExtCtrls, ComCtrls, ToolWin, Grids, DBGrids, JvExDBGrids, JvDBGrid, OleCtrls, SHDocVw, Readhtml, FramView,
-  FramBrwz, Htmlview;
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, Dialogs, uIForm, ActnList, DB,
+  ZAbstractRODataset, ZAbstractDataset, ZDataset, TeEngine, Series, TeeProcs, Chart, DBChart, ExtCtrls,
+  ComCtrls, ToolWin, Grids, DBGrids, JvExDBGrids, JvDBGrid, OleCtrls, SHDocVw, VclTee.TeeGDIPlus,
+  System.Actions;
 
 type
   TGestaoProducao = class(TIForm)
@@ -29,7 +29,6 @@ type
     Series3: TFastLineSeries;
     Series1: TLineSeries;
     Series2: TLineSeries;
-    HTMLViewer1: THTMLViewer;
     procedure FormActivate(Sender: TObject);
     procedure pnChartsResize(Sender: TObject);
     procedure actRefreshExecute(Sender: TObject);
@@ -46,7 +45,8 @@ var
 
 implementation
 
-uses uDM, uResources, uIUtils;
+uses
+  uDM, uResources, uIUtils;
 
 {$R *.dfm}
 
@@ -54,7 +54,6 @@ procedure TGestaoProducao.actRefreshExecute(Sender: TObject);
 begin
   inherited;
   G.RefreshDataSet(qProducao);
-  HTMLViewer1.LoadFromFile(U.Path.Temp + 'grafico1.html');
 end;
 
 procedure TGestaoProducao.FormActivate(Sender: TObject);

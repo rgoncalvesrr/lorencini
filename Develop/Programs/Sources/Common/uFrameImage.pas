@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, 
-  Dialogs, DBCtrls, JvDBImage, Menus, ActnList, ExtDlgs;
+  Dialogs, DBCtrls, JvDBImage, Menus, ActnList, ExtDlgs, System.Actions;
 
 type
   TFrameImage = class(TFrame)

@@ -1,16 +1,26 @@
 inherited GestaoProducao: TGestaoProducao
+  Margins.Left = 5
+  Margins.Top = 5
+  Margins.Right = 5
+  Margins.Bottom = 5
   Caption = 'Indicadores de Produ'#231#227'o'
-  ClientHeight = 863
-  ClientWidth = 1122
-  ExplicitWidth = 1138
-  ExplicitHeight = 902
-  PixelsPerInch = 96
-  TextHeight = 15
+  ClientHeight = 1079
+  ClientWidth = 1405
+  Font.Height = -19
+  StyleElements = [seFont, seClient, seBorder]
+  ExplicitWidth = 1423
+  ExplicitHeight = 1126
+  PixelsPerInch = 120
+  TextHeight = 25
   object pnCharts: TPanel [0]
     Left = 0
-    Top = 44
-    Width = 1122
-    Height = 819
+    Top = 54
+    Width = 1405
+    Height = 1025
+    Margins.Left = 4
+    Margins.Top = 4
+    Margins.Right = 4
+    Margins.Bottom = 4
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 0
@@ -18,36 +28,45 @@ inherited GestaoProducao: TGestaoProducao
     object Panel4: TPanel
       Left = 0
       Top = 0
-      Width = 1122
-      Height = 337
+      Width = 1405
+      Height = 421
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       Align = alTop
       BevelOuter = bvNone
       TabOrder = 0
       object DBChart1: TDBChart
         AlignWithMargins = True
-        Left = 3
-        Top = 3
-        Width = 566
-        Height = 331
+        Left = 4
+        Top = 4
+        Width = 707
+        Height = 413
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Title.Text.Strings = (
           'Produ'#231#227'o Quinzenal')
         Legend.Alignment = laBottom
         View3D = False
+        View3DOptions.FontZoom = 125
         Align = alLeft
         BevelOuter = bvNone
         TabOrder = 0
-        ExplicitLeft = 0
+        DefaultCanvas = 'TGDIPlusCanvas'
         PrintMargins = (
           15
           26
           15
           26)
+        ColorPaletteIndex = 13
         object Series3: TFastLineSeries
-          Marks.Callout.Brush.Color = clBlack
-          Marks.Callout.Length = 20
-          Marks.ShapeStyle = fosRoundRectangle
-          Marks.Style = smsValue
+          HoverElement = []
           Marks.Visible = True
+          Marks.Style = smsValue
+          Marks.Callout.Length = 20
           DataSource = qProducao
           SeriesColor = clTeal
           Title = 'Laudos Criados'
@@ -62,19 +81,18 @@ inherited GestaoProducao: TGestaoProducao
           YValues.ValueSource = 'criado'
         end
         object Series1: TLineSeries
-          Marks.Callout.Brush.Color = clBlack
-          Marks.Callout.Length = 20
-          Marks.ShapeStyle = fosRoundRectangle
-          Marks.Style = smsValue
+          HoverElement = [heCurrent]
           Marks.Visible = True
+          Marks.Style = smsValue
+          Marks.Callout.Length = 20
           DataSource = qProducao
           Title = 'Resultados Apontados'
           XLabelsSource = 'data'
+          Brush.BackColor = clDefault
           LinePen.Color = clRed
           LinePen.Width = 2
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
-          Pointer.Visible = False
           XValues.Name = 'X'
           XValues.Order = loNone
           XValues.ValueSource = 'data'
@@ -83,20 +101,19 @@ inherited GestaoProducao: TGestaoProducao
           YValues.ValueSource = 'apontado'
         end
         object Series2: TLineSeries
-          Marks.Callout.Brush.Color = clBlack
-          Marks.Callout.Length = 20
-          Marks.ShapeStyle = fosRoundRectangle
-          Marks.Style = smsValue
+          HoverElement = [heCurrent]
           Marks.Visible = True
+          Marks.Style = smsValue
+          Marks.Callout.Length = 20
           DataSource = qProducao
           SeriesColor = 12615680
           Title = 'Laudos Emitidos'
           XLabelsSource = 'data'
+          Brush.BackColor = clDefault
           LinePen.Color = 12615680
           LinePen.Width = 2
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
-          Pointer.Visible = False
           XValues.Name = 'X'
           XValues.Order = loAscending
           XValues.ValueSource = 'data'
@@ -105,77 +122,85 @@ inherited GestaoProducao: TGestaoProducao
           YValues.ValueSource = 'emitido'
         end
       end
-      object HTMLViewer1: THTMLViewer
-        Left = 572
-        Top = 0
-        Width = 550
-        Height = 337
-        TabOrder = 1
-        Align = alClient
-        BorderStyle = htFocused
-        HistoryMaxCount = 0
-        DefFontName = 'Times New Roman'
-        DefPreFontName = 'Courier New'
-        NoSelect = False
-        CharSet = DEFAULT_CHARSET
-        PrintMarginLeft = 2.000000000000000000
-        PrintMarginRight = 2.000000000000000000
-        PrintMarginTop = 2.000000000000000000
-        PrintMarginBottom = 2.000000000000000000
-        PrintScale = 1.000000000000000000
-      end
     end
     object Panel7: TPanel
       Left = 0
-      Top = 337
-      Width = 1122
-      Height = 482
+      Top = 421
+      Width = 1405
+      Height = 604
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       Align = alClient
       BevelOuter = bvNone
       TabOrder = 1
       object DBChart3: TDBChart
         AlignWithMargins = True
-        Left = 3
-        Top = 3
-        Width = 400
-        Height = 476
+        Left = 4
+        Top = 4
+        Width = 500
+        Height = 596
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Title.Text.Strings = (
           'TDBChart')
+        View3DOptions.FontZoom = 125
         Align = alLeft
         BevelOuter = bvNone
         TabOrder = 0
+        DefaultCanvas = 'TGDIPlusCanvas'
+        ColorPaletteIndex = 13
       end
       object DBChart4: TDBChart
         AlignWithMargins = True
-        Left = 409
-        Top = 3
-        Width = 710
-        Height = 476
+        Left = 512
+        Top = 4
+        Width = 889
+        Height = 596
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Title.Text.Strings = (
           'TDBChart')
+        View3DOptions.FontZoom = 125
         Align = alClient
         BevelOuter = bvNone
         TabOrder = 1
+        DefaultCanvas = 'TGDIPlusCanvas'
+        ColorPaletteIndex = 13
       end
     end
   end
   object ControlBar1: TControlBar [1]
     AlignWithMargins = True
-    Left = 3
-    Top = 3
-    Width = 1116
-    Height = 38
+    Left = 4
+    Top = 4
+    Width = 1397
+    Height = 46
+    Margins.Left = 4
+    Margins.Top = 4
+    Margins.Right = 4
+    Margins.Bottom = 4
     Align = alTop
     AutoSize = True
+    RowSize = 33
     TabOrder = 1
     object ToolBar1: TToolBar
-      Left = 11
+      Left = 14
       Top = 2
-      Width = 150
-      Height = 30
+      Width = 187
+      Height = 38
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       AutoSize = True
-      ButtonHeight = 30
-      ButtonWidth = 31
+      ButtonHeight = 38
+      ButtonWidth = 39
       Caption = 'ToolBar1'
       DisabledImages = Resources.medium_d
       HotImages = Resources.medium_h
@@ -184,6 +209,10 @@ inherited GestaoProducao: TGestaoProducao
       object ToolButton1: TToolButton
         Left = 0
         Top = 0
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Action = actRefresh
       end
     end

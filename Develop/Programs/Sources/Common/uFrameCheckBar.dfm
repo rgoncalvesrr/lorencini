@@ -2,29 +2,44 @@ object FrameCheckBar: TFrameCheckBar
   Left = 0
   Top = 0
   Width = 819
-  Height = 44
+  Height = 46
+  Margins.Left = 4
+  Margins.Top = 4
+  Margins.Right = 4
+  Margins.Bottom = 4
   AutoSize = True
   TabOrder = 0
+  PixelsPerInch = 120
   object ControlBar1: TControlBar
     AlignWithMargins = True
-    Left = 3
-    Top = 3
-    Width = 813
+    Left = 4
+    Top = 4
+    Width = 811
     Height = 38
+    Margins.Left = 4
+    Margins.Top = 4
+    Margins.Right = 4
+    Margins.Bottom = 4
     Align = alTop
     AutoSize = True
     BevelKind = bkNone
     DrawingStyle = dsGradient
+    RowSize = 33
     TabOrder = 0
+    ExplicitWidth = 1016
     object ToolBar2: TToolBar
-      Left = 11
+      Left = 14
       Top = 2
-      Width = 800
+      Width = 795
       Height = 34
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       AutoSize = True
       BorderWidth = 1
       ButtonHeight = 30
-      ButtonWidth = 107
+      ButtonWidth = 129
       Caption = 'ToolBar2'
       DisabledImages = Resources.medium_d
       DrawingStyle = dsGradient
@@ -36,31 +51,51 @@ object FrameCheckBar: TFrameCheckBar
       object ToolButton13: TToolButton
         Left = 0
         Top = 0
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Action = actInverse
         Style = tbsTextButton
       end
       object ToolButton12: TToolButton
-        Left = 79
+        Left = 89
         Top = 0
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Action = actInverseAll
         Style = tbsTextButton
       end
       object ToolButton17: TToolButton
-        Left = 190
+        Left = 222
         Top = 0
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Action = actCkAll
         Style = tbsTextButton
       end
       object ToolButton16: TToolButton
-        Left = 258
+        Left = 301
         Top = 0
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Action = actUCkAll
         Style = tbsTextButton
       end
       object ToolButton1: TToolButton
-        Left = 336
+        Left = 396
         Top = 0
-        Width = 8
+        Width = 10
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Caption = 'ToolButton1'
         ImageIndex = 70
         Style = tbsSeparator

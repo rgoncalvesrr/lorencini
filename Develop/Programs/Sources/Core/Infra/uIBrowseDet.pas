@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uIForm, ActnList, DB, ToolWin, ComCtrls, ExtCtrls, ZDbcIntfs,
   ZAbstractRODataset, ZAbstractDataset, ZDataset, iTypes, Grids, DBGrids,
-  SecurityIntf;
+  SecurityIntf, System.Actions;
 
 type
   TIDefBrowseEdit = class(TIForm, ISecurityForm)

@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uIBrowse, ZSqlUpdate, Menus, DB, ZAbstractRODataset,
   ZAbstractDataset, ZDataset, ActnList, Grids, DBGrids, StdCtrls, Mask, Buttons,
-  ComCtrls, ExtCtrls, ToolWin, ZSequence;
+  ComCtrls, ExtCtrls, ToolWin, ZSequence, System.Actions;
 
 type
   TLabEnsaios = class(TIDefBrowse)

@@ -98,13 +98,10 @@ begin
 end;
 
 procedure TServicosM.CheckListBox1ClickCheck(Sender: TObject);
-var
-  oBM: TBookmark;
 begin
   with CheckListBox1, Servicos do
   begin
-    oBM := Items.Objects[ItemIndex];
-    qTipoLaudo.GotoBookmark(oBM);
+    qTipoLaudo.GotoBookmark(FBookMarks[ItemIndex]);
     if Checked[ItemIndex] then
        U.Data.ExecSQL(
         'insert into labrel_serv (codserv, relato_recno) values (%d, %d)',

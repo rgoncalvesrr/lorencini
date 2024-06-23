@@ -200,9 +200,9 @@ implementation
 
 {$R *.dfm}
 
-uses uDM, uIUtils, uOS, uOSMServicos, uOSMMat, uOSMMO, DateUtils, mcUtils,
-  uContatoF, FileWorks, ShellApi, uOrcaOrigens, uClientes, uMarkup, uOrcaGrupos,
-  uResources;
+uses
+  uDM, uIUtils, uOS, uOSMServicos, uOSMMat, uOSMMO, DateUtils, mcUtils, uContatoF, ShellApi, uOrcaOrigens,
+  uClientes, uMarkup, uOrcaGrupos, uResources;
 
 { TOrcamentosM }
 

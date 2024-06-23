@@ -9,7 +9,7 @@ uses
   ToolWin, DBCtrls, TeEngine, Series, TeeProcs, Chart, DBChart, iTypes,
   uIUtils, uFrameData, JvExMask, JvToolEdit, JvBaseEdits, JvDBControls,
   ZSqlUpdate, JvExDBGrids, JvDBGrid, JvExStdCtrls, JvCombobox, JvDBCombobox,
-  uReport, ZSequence;
+  uReport, ZSequence, System.Actions;
 
 type
   TOS = class(TIDefBrowse)

@@ -1,53 +1,68 @@
 inherited IWizard: TIWizard
   Left = 262
   Top = 184
+  Margins.Left = 5
+  Margins.Top = 5
+  Margins.Right = 5
+  Margins.Bottom = 5
   BorderStyle = bsSingle
   Caption = 'Assistente'
-  ClientHeight = 213
-  ClientWidth = 347
-  OldCreateOrder = True
-  ExplicitWidth = 353
-  ExplicitHeight = 242
-  PixelsPerInch = 96
-  TextHeight = 15
+  ClientHeight = 266
+  ClientWidth = 434
+  Font.Height = -19
+  StyleElements = [seFont, seClient, seBorder]
+  ExplicitWidth = 452
+  ExplicitHeight = 313
+  PixelsPerInch = 120
+  TextHeight = 25
   object bvDiv: TBevel [0]
     Left = 0
-    Top = 70
-    Width = 347
-    Height = 5
+    Top = 88
+    Width = 434
+    Height = 6
+    Margins.Left = 4
+    Margins.Top = 4
+    Margins.Right = 4
+    Margins.Bottom = 4
     Align = alTop
     Shape = bsSpacer
   end
   object Panel1: TPanel [1]
     Left = 0
     Top = 0
-    Width = 347
-    Height = 70
+    Width = 434
+    Height = 88
+    Margins.Left = 4
+    Margins.Top = 4
+    Margins.Right = 4
+    Margins.Bottom = 4
     Align = alTop
     BevelOuter = bvNone
     Color = clWhite
     ParentBackground = False
     TabOrder = 0
     object Shape1: TShape
-      Left = 61
+      Left = 76
       Top = 0
-      Width = 286
-      Height = 70
+      Width = 358
+      Height = 88
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       Align = alClient
       Pen.Style = psClear
-      ExplicitLeft = 2
-      ExplicitTop = 2
-      ExplicitWidth = 343
-      ExplicitHeight = 66
     end
     object Image1: TImage
       AlignWithMargins = True
-      Left = 8
-      Top = 3
+      Left = 10
+      Top = 4
       Width = 48
-      Height = 48
-      Margins.Left = 8
-      Margins.Right = 5
+      Height = 60
+      Margins.Left = 10
+      Margins.Top = 4
+      Margins.Right = 6
+      Margins.Bottom = 4
       Align = alLeft
       AutoSize = True
       Center = True
@@ -272,31 +287,34 @@ inherited IWizard: TIWizard
         FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
         00FF}
       Transparent = True
-      ExplicitLeft = 3
-      ExplicitTop = 0
-      ExplicitHeight = 64
     end
     object pnTitle: TPanel
-      Left = 61
+      Left = 76
       Top = 0
-      Width = 286
-      Height = 70
+      Width = 358
+      Height = 88
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       Align = alClient
       BevelOuter = bvNone
       TabOrder = 0
       object Label1: TLabel
         AlignWithMargins = True
-        Left = 3
-        Top = 10
-        Width = 150
-        Height = 19
-        Margins.Top = 10
+        Left = 4
+        Top = 13
+        Width = 189
+        Height = 24
+        Margins.Left = 4
+        Margins.Top = 13
+        Margins.Right = 4
         Margins.Bottom = 0
         Align = alTop
         Caption = 'T'#237'tulo do Assistente'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
-        Font.Height = -16
+        Font.Height = -20
         Font.Name = 'Arial'
         Font.Pitch = fpVariable
         Font.Style = [fsBold]
@@ -305,17 +323,19 @@ inherited IWizard: TIWizard
       end
       object Label2: TLabel
         AlignWithMargins = True
-        Left = 10
-        Top = 34
-        Width = 134
-        Height = 15
-        Margins.Left = 10
-        Margins.Top = 5
+        Left = 13
+        Top = 43
+        Width = 158
+        Height = 17
+        Margins.Left = 13
+        Margins.Top = 6
+        Margins.Right = 4
+        Margins.Bottom = 4
         Align = alClient
         Caption = 'Descri'#231#227'o do assistente'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clGray
-        Font.Height = -12
+        Font.Height = -15
         Font.Name = 'Arial'
         Font.Pitch = fpVariable
         Font.Style = []

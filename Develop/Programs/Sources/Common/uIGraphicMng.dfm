@@ -1,79 +1,154 @@
 inherited IGraphicMng: TIGraphicMng
+  Margins.Left = 6
+  Margins.Top = 6
+  Margins.Right = 6
+  Margins.Bottom = 6
   Caption = 'Gerenciador de Imagem'
-  ClientHeight = 328
-  ClientWidth = 576
-  ExplicitWidth = 582
-  ExplicitHeight = 357
-  PixelsPerInch = 96
-  TextHeight = 15
+  ClientHeight = 410
+  ClientWidth = 723
+  Font.Height = -24
+  StyleElements = [seFont, seClient, seBorder]
+  ExplicitWidth = 741
+  ExplicitHeight = 457
+  PixelsPerInch = 120
+  TextHeight = 32
   inherited bvDiv: TBevel
-    Width = 576
-    ExplicitWidth = 576
+    Top = 157
+    Width = 723
+    Height = 8
+    Margins.Left = 5
+    Margins.Top = 5
+    Margins.Right = 5
+    Margins.Bottom = 5
+    ExplicitTop = 165
+    ExplicitWidth = 723
+    ExplicitHeight = 8
   end
   object Image2: TImage [1]
     AlignWithMargins = True
-    Left = 3
-    Top = 122
-    Width = 570
-    Height = 203
+    Left = 4
+    Top = 169
+    Width = 715
+    Height = 237
+    Margins.Left = 4
+    Margins.Top = 4
+    Margins.Right = 4
+    Margins.Bottom = 4
     Align = alClient
     Center = True
-    ExplicitLeft = 88
-    ExplicitTop = 192
-    ExplicitWidth = 105
-    ExplicitHeight = 105
+    ExplicitTop = 176
+    ExplicitHeight = 230
   end
   inherited Panel1: TPanel
-    Width = 576
-    ExplicitWidth = 576
+    Width = 723
+    Height = 110
+    Margins.Left = 5
+    Margins.Top = 5
+    Margins.Right = 5
+    Margins.Bottom = 5
+    StyleElements = [seFont, seClient, seBorder]
+    ExplicitWidth = 723
+    ExplicitHeight = 110
     inherited Shape1: TShape
-      Width = 522
-      ExplicitWidth = 522
+      Left = 95
+      Width = 653
+      Height = 110
+      Margins.Left = 5
+      Margins.Top = 5
+      Margins.Right = 5
+      Margins.Bottom = 5
+      ExplicitLeft = 95
+      ExplicitWidth = 653
+      ExplicitHeight = 110
     end
     inherited Image1: TImage
-      Height = 64
-      ExplicitHeight = 64
+      Left = 13
+      Top = 5
+      Margins.Left = 13
+      Margins.Top = 5
+      Margins.Right = 8
+      Margins.Bottom = 5
+      ExplicitLeft = 13
+      ExplicitTop = 5
+      ExplicitHeight = 48
     end
     inherited pnTitle: TPanel
-      Width = 522
-      ExplicitLeft = 54
-      ExplicitTop = 0
-      ExplicitWidth = 522
-      ExplicitHeight = 70
+      Left = 95
+      Width = 653
+      Height = 110
+      Margins.Left = 5
+      Margins.Top = 5
+      Margins.Right = 5
+      Margins.Bottom = 5
+      StyleElements = [seFont, seClient, seBorder]
+      ExplicitLeft = 95
+      ExplicitWidth = 653
+      ExplicitHeight = 110
       inherited Label1: TLabel
-        Width = 516
+        Left = 5
+        Top = 16
+        Width = 290
+        Height = 30
+        Margins.Left = 5
+        Margins.Top = 16
+        Margins.Right = 5
         Caption = 'Gerenciador de imagens'
-        ExplicitWidth = 186
+        Font.Height = -25
+        StyleElements = [seFont, seClient, seBorder]
+        ExplicitLeft = 5
+        ExplicitTop = 16
+        ExplicitWidth = 290
+        ExplicitHeight = 30
       end
       inherited Label2: TLabel
-        Width = 509
-        Height = 33
+        Left = 16
+        Top = 54
+        Width = 462
+        Height = 44
+        Margins.Left = 16
+        Margins.Top = 8
+        Margins.Right = 5
+        Margins.Bottom = 5
         Caption = 'Esta rotina permite o manuteio de imagens no sistema Manager'
-        ExplicitWidth = 354
+        Font.Height = -19
+        StyleElements = [seFont, seClient, seBorder]
+        ExplicitLeft = 16
+        ExplicitTop = 54
+        ExplicitWidth = 462
+        ExplicitHeight = 44
       end
     end
   end
   object ControlBar1: TControlBar [3]
     AlignWithMargins = True
-    Left = 3
-    Top = 78
-    Width = 570
-    Height = 38
+    Left = 4
+    Top = 114
+    Width = 715
+    Height = 39
+    Margins.Left = 4
+    Margins.Top = 4
+    Margins.Right = 4
+    Margins.Bottom = 4
     Align = alTop
     AutoSize = True
     BevelEdges = []
     BevelKind = bkNone
     DrawingStyle = dsGradient
+    RowSize = 33
     TabOrder = 1
     object ToolBar1: TToolBar
-      Left = 11
+      Left = 14
       Top = 2
-      Width = 557
-      Height = 34
+      Width = 554
+      Height = 35
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       AutoSize = True
       BorderWidth = 1
-      ButtonHeight = 30
-      ButtonWidth = 89
+      ButtonHeight = 31
+      ButtonWidth = 121
       Caption = 'ToolBar1'
       DisabledImages = Resources.medium_d
       DrawingStyle = dsGradient
@@ -87,31 +162,51 @@ inherited IGraphicMng: TIGraphicMng
       object ToolButton1: TToolButton
         Left = 0
         Top = 0
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Action = actLoad
         Style = tbsTextButton
       end
       object ToolButton2: TToolButton
-        Left = 93
+        Left = 125
         Top = 0
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Action = actClean
         Style = tbsTextButton
       end
       object ToolButton3: TToolButton
-        Left = 169
+        Left = 222
         Top = 0
-        Width = 8
+        Width = 10
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Caption = 'ToolButton3'
         ImageIndex = 105
         Style = tbsSeparator
       end
       object ToolButton4: TToolButton
-        Left = 177
+        Left = 232
         Top = 0
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Action = actOk
       end
       object ToolButton5: TToolButton
-        Left = 209
+        Left = 264
         Top = 0
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Action = actCancel
       end
     end
